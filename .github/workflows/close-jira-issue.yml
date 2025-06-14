@@ -1,0 +1,32 @@
+name: Close Jira issue
+
+on:
+  issues:
+    types:
+      - closed
+
+jobs:
+  close-issue:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login to Jira
+        uses: atlassian/gajira-login@v3
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+
+      - name: Extract Jira issue key from GitHub issue title
+        id: extract-key
+        run: |
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          JIRA_KEY=$(echo "$ISSUE_TITLE" | grep -oE '[A-Z]+-[0-9]+' || true)
+          echo "JIRA_KEY=$JIRA_KEY" >> $GITHUB_ENV
+
+      - name: Close Jira issue
+        if: ${{ env.JIRA_KEY != '' }}
+        uses: atlassian/gajira-transition@v3
+        with:
+          issue: ${{ env.JIRA_KEY }}
+          transition: DONE

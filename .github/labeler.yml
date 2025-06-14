@@ -1,0 +1,28 @@
+enable:
+  issues: false
+  prs: true
+
+labels:
+  '✨ feat':
+    include:
+      - '\bfeat\b'
+
+  '🐞 fix':
+    include:
+      - '\bfix\b'
+
+  '🔨 refactor':
+    include:
+      - '\brefactor\b'
+
+  '📃 docs':
+    include:
+      - '\bdocs\b'
+
+  '⚙️ chore':
+    include:
+      - '\bchore\b'
+
+  '✅ test':
+    include:
+      - '\btest\b'

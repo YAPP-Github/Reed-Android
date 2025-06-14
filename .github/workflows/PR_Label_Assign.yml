@@ -1,0 +1,15 @@
+name: PR Title Labeler
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Label PR by title
+        uses: jimschubert/labeler-action@v2
+        with:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}

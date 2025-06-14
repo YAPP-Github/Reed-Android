@@ -1,0 +1,42 @@
+name: Docs Task
+description: 문서 작성 및 수정을 위한 템플릿입니다.(JIRA와 연동됩니다)
+title: "docs] "
+labels: ["📃 docs"]
+
+body:
+  - type: input
+    id: parentKey
+    attributes:
+      label: '🎟️ 상위 작업 (Ticket Number)'
+      description: '상위 작업의 Ticket Number를 기입해주세요'
+      placeholder: 'BOOK-00'
+    validations:
+      required: true
+
+  - type: input
+    id: description
+    attributes:
+      label: "📘 문서 설명"
+      description: "작성/수정할 문서의 내용을 설명해주세요"
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: "📝 문서 작업 목록"
+      description: "진행할 문서 작업들을 작성해주세요"
+      value: |
+        - [ ] 문서 초안 작성
+        - [ ] 코드 예시 추가
+    validations:
+      required: true
+
+  - type: input
+    id: links
+    attributes:
+      label: "🔗 참고 링크"
+      description: "기존 문서, 규칙, 외부 링크 등이 있다면 첨부해주세요 (선택)"
+      placeholder: "https://..."
+    validations:
+      required: false
