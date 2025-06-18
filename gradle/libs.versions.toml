@@ -38,7 +38,7 @@ retrofit = "2.11.0"
 ## Logging
 logger = "2.2.0"
 
-## Extenstion
+## Extension
 # https://github.com/jisungbin/dependency-handler-extensions
 gradle-dependency-handler-extensions = "1.1.0"
 # https://github.com/taehwandev/ComposeExtensions
