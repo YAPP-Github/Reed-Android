@@ -35,6 +35,9 @@ hilt-navigation-compose = "1.2.0"
 okhttp = "4.12.0"
 retrofit = "2.11.0"
 
+## Circuit
+circuit = "0.28.1"
+
 ## Logging
 logger = "2.2.0"
 
@@ -90,6 +93,13 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
 
+circuit-foundation = { group = "com.slack.circuit", name = "circuit-foundation", version.ref = "circuit" }
+circuitx-android = { group = "com.slack.circuit", name = "circuitx-android", version.ref = "circuit" }
+circuitx-overlays = { group = "com.slack.circuit", name = "circuitx-overlays", version.ref = "circuit" }
+circuitx-gesture-navigation = { group = "com.slack.circuit", name = "circuitx-gesture-navigation", version.ref = "circuit" }
+circuit-codegen-annotation = { group = "com.slack.circuit", name = "circuit-codegen-annotations", version.ref = "circuit" }
+circuit-codegen-ksp = { group = "com.slack.circuit", name = "circuit-codegen", version.ref = "circuit" }
+
 orhanobut-logger = { module = "com.orhanobut:logger", version.ref = "logger" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "kotlin-detekt" }
 
@@ -130,4 +140,11 @@ androidx-compose = [
     "androidx-compose-ui",
     "androidx-compose-ui-graphics",
     "androidx-compose-ui-tooling-preview",
+]
+
+circuit = [
+    "circuit-foundation",
+    "circuitx-android",
+    "circuitx-overlays",
+    "circuitx-gesture-navigation",
 ]
