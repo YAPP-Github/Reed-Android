@@ -1,4 +1,7 @@
+rootProject.name = "Booket-Android"
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 pluginManagement {
     includeBuild("build-logic")
@@ -17,5 +20,10 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Booket-Android"
-include(":app")
+include(
+    ":app",
+
+    ":core:designsystem",
+
+    ":feature:main",
+)
