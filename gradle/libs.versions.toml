@@ -91,7 +91,7 @@ okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor",
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
-kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
+kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
 
 circuit-foundation = { group = "com.slack.circuit", name = "circuit-foundation", version.ref = "circuit" }
 circuitx-android = { group = "com.slack.circuit", name = "circuitx-android", version.ref = "circuit" }
@@ -100,7 +100,7 @@ circuitx-gesture-navigation = { group = "com.slack.circuit", name = "circuitx-ge
 circuit-codegen-annotation = { group = "com.slack.circuit", name = "circuit-codegen-annotations", version.ref = "circuit" }
 circuit-codegen-ksp = { group = "com.slack.circuit", name = "circuit-codegen", version.ref = "circuit" }
 
-orhanobut-logger = { module = "com.orhanobut:logger", version.ref = "logger" }
+logger = { group = "com.orhanobut", name = "logger", version.ref = "logger" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "kotlin-detekt" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
