@@ -24,7 +24,7 @@ internal class JvmLibraryConventionPlugin : Plugin<Project> {
             }
 
             extensions.configure<KotlinProjectExtension> {
-                jvmToolchain(ApplicationConstants.javaVersionInt)
+                jvmToolchain(ApplicationConstants.JAVA_VERSION_INT)
             }
 
             dependencies {

@@ -19,9 +19,9 @@ internal class AndroidApplicationConventionPlugin : Plugin<Project> {
                 configureAndroid(this)
 
                 defaultConfig {
-                    targetSdk = ApplicationConstants.targetSdk
-                    versionName = ApplicationConstants.versionName
-                    versionCode = ApplicationConstants.versionCode
+                    targetSdk = ApplicationConstants.TARGET_SDK
+                    versionName = ApplicationConstants.VERSION_NAME
+                    versionCode = ApplicationConstants.VERSION_CODE
                 }
             }
         }
