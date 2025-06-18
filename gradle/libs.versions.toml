@@ -13,7 +13,7 @@ androidx-datastore = "1.1.7"
 
 ## Compose
 androidx-compose-bom = "2025.06.00"
-androidx-compose-material3 = "1.3.2"
+androidx-compose-material3 = "1.4.0-alpha15"
 
 coil-compose = "2.7.0"
 
