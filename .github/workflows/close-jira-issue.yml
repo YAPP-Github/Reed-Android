@@ -27,7 +27,7 @@ jobs:
           echo "JIRA_KEY=$JIRA_KEY" >> $GITHUB_ENV
 
       - name: Print final JIRA_KEY (debug)
-        run: echo "> Final JIRA_KEY = ${{ env.JIRA_KEY }}"
+        run: echo "Final JIRA_KEY = ${{ env.JIRA_KEY }}"
 
       - name: Close Jira issue
         if: ${{ env.JIRA_KEY != '' }}
