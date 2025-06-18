@@ -5,24 +5,30 @@ enable:
 labels:
   '✨ feat':
     include:
-      - '\bfeat\b'
+      - pattern: '^feat:'
+        scope: title
 
   '🐞 fix':
     include:
-      - '\bfix\b'
+      - pattern: '^fix:'
+        scope: title
 
   '🔨 refactor':
     include:
-      - '\brefactor\b'
+      - pattern: '^refactor:'
+        scope: title
 
   '📃 docs':
     include:
-      - '\bdocs\b'
+      - pattern: '^docs:'
+        scope: title
 
   '⚙️ chore':
     include:
-      - '\bchore\b'
+      - pattern: '^chore:'
+        scope: title
 
   '✅ test':
     include:
-      - '\btest\b'
+      - pattern: '^test:'
+        scope: title
