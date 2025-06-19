@@ -1,15 +1,14 @@
-@Suppress("DSL_SCOPE_VIOLATION")
+@Suppress("DSL_SCOPE_VIOLATION", "INLINE_FROM_HIGHER_PLATFORM")
 
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.gradle.dependency.handler.extensions)
 }
 
-group = "com.ninecraft.booket.buildlogic"
-
 dependencies {
     compileOnly(libs.android.gradle.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
+    compileOnly(libs.compose.compiler.gradle.plugin)
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
 
@@ -30,16 +29,6 @@ gradlePlugin {
             pluginRegister(pluginClass)
         }
     }
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
-kotlin {
-    jvmToolchain(17)
 }
 
 // Pair<PluginName, ClassName>

@@ -11,6 +11,7 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
         with(target) {
             applyPlugins(
                 Plugins.ANDROID_LIBRARY,
+                Plugins.KOTLIN_COMPOSE,
             )
 
             extensions.configure<LibraryExtension> {

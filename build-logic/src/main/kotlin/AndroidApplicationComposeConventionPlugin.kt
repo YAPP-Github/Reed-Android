@@ -11,6 +11,7 @@ internal class AndroidApplicationComposeConventionPlugin : Plugin<Project> {
         with(target) {
             applyPlugins(
                 Plugins.ANDROID_APPLICATION,
+                Plugins.KOTLIN_COMPOSE,
             )
 
             extensions.configure<ApplicationExtension> {

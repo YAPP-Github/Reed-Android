@@ -13,8 +13,8 @@ internal class AndroidFeatureConventionPlugin : Plugin<Project> {
         with(target) {
             applyPlugins(
                 "booket.android.library",
-                "booket.android.hilt",
                 "booket.android.library.compose",
+                "booket.android.hilt",
             )
 
             dependencies {
