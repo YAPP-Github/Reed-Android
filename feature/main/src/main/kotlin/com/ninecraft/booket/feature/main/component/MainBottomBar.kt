@@ -164,10 +164,12 @@ fun Navigator.popUntilOrGoTo(screen: Screen) {
     }
 }
 
+private val mainBottomBarScreens = setOf(HomeScreen, SearchScreen, LibraryScreen)
+
 @Composable
 private fun shouldShowBottomBar(backStack: SaveableBackStack): Boolean {
     val currentScreen = backStack.topRecord?.screen
-    return currentScreen is HomeScreen || currentScreen is SearchScreen || currentScreen is LibraryScreen
+    return currentScreen in mainBottomBarScreens
 }
 
 @Composable
