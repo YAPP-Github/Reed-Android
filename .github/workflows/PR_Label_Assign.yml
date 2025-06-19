@@ -5,11 +5,41 @@ on:
     types: [opened, edited, reopened]
 
 jobs:
-  label:
+  label-pr:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      pull-requests: write
+
     steps:
-      - name: Label PR by title
-        uses: jimschubert/labeler-action@v2
+      - name: Label PR based on title
+        uses: actions/github-script@v6
         with:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          script: |
+            const prTitle = context.payload.pull_request.title;
+
+            const labelMap = [
+              { pattern: /^feat:/i, label: '✨ feat' },
+              { pattern: /^fix:/i, label: '🐞 fix' },
+              { pattern: /^chore:/i, label: '⚙️ chore' },
+              { pattern: /^docs:/i, label: '📃 docs' },
+              { pattern: /^refactor:/i, label: '🔨 refactor' },
+              { pattern: /^test:/i, label: '✅ test' }
+            ];
+
+            const labelsToAdd = labelMap
+              .filter(entry => entry.pattern.test(prTitle))
+              .map(entry => entry.label);
+
+            if (labelsToAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: labelsToAdd
+              });
+              core.info(`Added labels: ${labelsToAdd.join(', ')}`);
+            } else {
+              core.info('No matching labels found for PR title.');
+            }
