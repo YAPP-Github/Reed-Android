@@ -25,5 +25,8 @@ include(
 
     ":core:designsystem",
 
+    ":feature:home",
+    ":feature:library",
     ":feature:main",
+    ":feature:search",
 )

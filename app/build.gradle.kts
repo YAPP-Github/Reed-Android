@@ -2,8 +2,8 @@
 
 plugins {
     alias(libs.plugins.booket.android.application)
-    alias(libs.plugins.booket.android.hilt)
     alias(libs.plugins.booket.android.application.compose)
+    alias(libs.plugins.booket.android.hilt)
 }
 
 android {
@@ -32,7 +32,10 @@ dependencies {
     implementations(
         projects.core.designsystem,
 
+        projects.feature.home,
+        projects.feature.library,
         projects.feature.main,
+        projects.feature.search,
 
         libs.androidx.activity.compose,
         libs.androidx.startup,

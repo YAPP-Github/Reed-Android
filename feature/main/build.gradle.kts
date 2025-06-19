@@ -15,6 +15,10 @@ ksp {
 
 dependencies {
     implementations(
+        projects.feature.home,
+        projects.feature.library,
+        projects.feature.search,
+
         libs.kotlinx.collections.immutable,
 
         libs.androidx.activity.compose,

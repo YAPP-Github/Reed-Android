@@ -1,41 +1,16 @@
+@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
+
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.booket.android.library)
+    alias(libs.plugins.booket.android.library.compose)
 }
 
 android {
-    namespace = "com.ninecraft.booket.core.ui"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 28
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+    namespace = "com.ninecraft.booket.core.designsystem"
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+    implementations(
+        libs.logger,
+    )
 }
