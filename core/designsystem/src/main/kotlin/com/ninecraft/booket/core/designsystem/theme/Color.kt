@@ -1,4 +1,4 @@
-package com.ninecraft.booket.ui.theme
+package com.ninecraft.booket.core.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 

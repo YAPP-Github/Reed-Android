@@ -35,7 +35,7 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.feature.home.HomeScreen
 import com.ninecraft.booket.feature.library.LibraryScreen
 import com.ninecraft.booket.feature.search.SearchScreen
-import com.ninecraft.booket.ui.theme.BooketTheme
+import com.ninecraft.booket.core.designsystem.theme.BooketTheme
 import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.popUntil

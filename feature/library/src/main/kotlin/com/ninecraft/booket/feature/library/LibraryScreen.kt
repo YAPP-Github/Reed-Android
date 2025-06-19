@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.ui.theme.BooketTheme
+import com.ninecraft.booket.core.designsystem.theme.BooketTheme
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -34,7 +34,7 @@ internal fun Library(
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         LibraryContent(
             state = state,
@@ -43,6 +43,7 @@ internal fun Library(
     }
 }
 
+@Suppress("unused")
 @Composable
 internal fun LibraryContent(
     state: LibraryScreen.State,

@@ -1,4 +1,4 @@
-package com.easyhooon.pokedex.di
+package com.ninecraft.booket.di
 
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.runtime.presenter.Presenter
