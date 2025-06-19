@@ -1,6 +1,11 @@
 package com.ninecraft.booket.feature.home
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.ui.theme.BooketTheme
@@ -26,6 +31,16 @@ internal fun Home(
     state: HomeScreen.State,
     modifier: Modifier = Modifier,
 ) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        HomeContent(
+            state = state,
+            modifier = modifier,
+        )
+    }
 }
 
 @Composable
@@ -33,6 +48,7 @@ internal fun HomeContent(
     state: HomeScreen.State,
     modifier: Modifier = Modifier,
 ) {
+    Text(text = "홈")
 }
 
 @DevicePreview

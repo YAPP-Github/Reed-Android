@@ -1,8 +1,12 @@
 package com.ninecraft.booket.feature.search
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.Key.Companion.Home
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.ui.theme.BooketTheme
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -27,6 +31,16 @@ internal fun Search(
     state: SearchScreen.State,
     modifier: Modifier = Modifier,
 ) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        SearchContent(
+            state = state,
+            modifier = modifier,
+        )
+    }
 }
 
 @Composable
@@ -34,6 +48,7 @@ internal fun SearchContent(
     state: SearchScreen.State,
     modifier: Modifier = Modifier,
 ) {
+    Text(text = "도서 검색")
 }
 
 @DevicePreview
