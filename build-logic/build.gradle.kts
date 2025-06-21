@@ -20,8 +20,9 @@ gradlePlugin {
         "android.library.compose" to "AndroidLibraryComposeConventionPlugin",
         "android.feature" to "AndroidFeatureConventionPlugin",
         "android.hilt" to "AndroidHiltConventionPlugin",
-        "jvm-library" to "JvmLibraryConventionPlugin",
-        "kotlin-library-serialization" to "KotlinLibrarySerializationConventionPlugin",
+        "android.retrofit" to "AndroidRetrofitConventionPlugin",
+        "jvm.library" to "JvmLibraryConventionPlugin",
+        "kotlin.library.serialization" to "KotlinLibrarySerializationConventionPlugin",
     )
 
     plugins {
