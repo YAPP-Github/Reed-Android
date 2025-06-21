@@ -42,7 +42,7 @@ circuit = "0.28.1"
 logger = "2.2.0"
 
 ## Kakao Login
-kakao-core = "2.21.3"
+kakao-core = "2.21.4"
 
 ## Extension
 # https://github.com/jisungbin/dependency-handler-extensions
