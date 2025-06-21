@@ -27,6 +27,7 @@ include(
 
     ":feature:home",
     ":feature:library",
+    ":feature:login",
     ":feature:main",
     ":feature:search",
 )

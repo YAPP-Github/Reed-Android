@@ -17,6 +17,7 @@ dependencies {
     implementations(
         projects.feature.home,
         projects.feature.library,
+        projects.feature.login,
         projects.feature.search,
 
         libs.kotlinx.collections.immutable,

@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
-            val backStack = rememberSaveableBackStack(root = HomeScreen)
+            val backStack = rememberSaveableBackStack(root = LoginScreen)
             val navigator = rememberCircuitNavigator(backStack)
 
             CircuitCompositionLocals(circuit) {
