@@ -24,6 +24,7 @@ include(
     ":app",
 
     ":core:designsystem",
+    ":core:network",
 
     ":feature:home",
     ":feature:library",
