@@ -48,7 +48,7 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    internal fun providePokemonOkHttpClient(
+    internal fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
@@ -61,7 +61,7 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    internal fun providePokemonApiRetrofit(
+    internal fun provideRetrofit(
         okHttpClient: OkHttpClient,
     ): Retrofit {
         return Retrofit.Builder()
