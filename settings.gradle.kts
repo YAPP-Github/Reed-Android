@@ -31,3 +31,4 @@ include(
     ":feature:main",
     ":feature:search",
 )
+include(":core:datastore")
