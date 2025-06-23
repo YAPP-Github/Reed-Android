@@ -10,16 +10,12 @@ plugins {
     alias(libs.plugins.booket.android.hilt)
 }
 
-val localPropertiesFile = rootProject.file("local.properties")
-val localProperties = Properties()
-localProperties.load(FileInputStream(localPropertiesFile))
-
 android {
     namespace = "com.ninecraft.booket"
 
     defaultConfig {
         buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getApiKey("KAKAO_NATIVE_APP_KEY"))
-        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = (localProperties["KAKAO_NATIVE_APP_KEY"] as String).trim('"')
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getApiKey("KAKAO_NATIVE_APP_KEY").trim('"')
     }
 
     buildTypes {
