@@ -8,7 +8,7 @@ import com.ninecraft.booket.core.designsystem.R as designR
 import javax.inject.Inject
 import com.orhanobut.logger.Logger
 
-internal class KakaoAuthClient @Inject constructor() {
+internal class KakaoLoginClient @Inject constructor() {
     fun loginWithKakao(
         context: Context,
         onSuccess: (String) -> Unit,
@@ -55,6 +55,7 @@ internal class KakaoAuthClient @Inject constructor() {
     ) {
         UserApiClient.instance.me { user, _ ->
             user?.let {
+                // TODO: 서버 API 연동 완료 후 민감 정보 로깅 제거
                 Logger.d("로그인 성공: ${token.accessToken}, ${"${it.id}"} ${it.kakaoAccount?.profile?.nickname}, ${it.kakaoAccount?.profile?.profileImageUrl}")
                 onSuccess(token.accessToken)
                 // TODO: 서버 로그인 로직 추가

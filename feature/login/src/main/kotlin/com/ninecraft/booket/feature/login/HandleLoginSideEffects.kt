@@ -12,12 +12,12 @@ internal fun HandleLoginEffects(
     eventSink: (LoginScreen.Event) -> Unit,
 ) {
     val context = LocalContext.current
-    val kakaoAuthClient = remember { KakaoAuthClient() }
+    val kakaoLoginClient = remember { KakaoLoginClient() }
 
     LaunchedEffect(state.sideEffect) {
         when (state.sideEffect) {
             is LoginScreen.SideEffect.KakaoLogin -> {
-                kakaoAuthClient.loginWithKakao(
+                kakaoLoginClient.loginWithKakao(
                     context = context,
                     onSuccess = { token ->
                         eventSink(LoginScreen.Event.LoginSuccess(token))
