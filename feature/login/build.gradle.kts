@@ -20,6 +20,9 @@ ksp {
 
 dependencies {
     implementations(
+        projects.feature.home,
+
         libs.logger,
+        libs.kakao.auth,
     )
 }

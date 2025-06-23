@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,10 +35,22 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data object LoginScreen : Screen {
     data class State(
+        val isLoading: Boolean = false,
+        val sideEffect: SideEffect? = null,
         val eventSink: (Event) -> Unit,
     ) : CircuitUiState
 
-    sealed interface Event : CircuitUiEvent
+    sealed interface SideEffect {
+        data object KakaoLogin : SideEffect
+        data class ShowToast(val message: String) : SideEffect
+    }
+
+    sealed interface Event : CircuitUiEvent {
+        data object InitSideEffect : Event
+        data object OnKakaoLoginButtonClick : Event
+        data class LoginSuccess(val accessToken: String) : Event
+        data class LoginFailure(val message: String) : Event
+    }
 }
 
 @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
@@ -46,63 +59,62 @@ internal fun Login(
     state: LoginScreen.State,
     modifier: Modifier = Modifier,
 ) {
+    HandleLoginEffects(
+        state = state,
+        eventSink = state.eventSink,
+    )
+
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        LoginContent(
-            state = state,
-            modifier = modifier,
-        )
-    }
-}
-
-@Suppress("unused")
-@Composable
-internal fun LoginContent(
-    state: LoginScreen.State,
-    modifier: Modifier = Modifier,
-) {
-    Box(modifier = modifier.fillMaxSize()) {
-        Text(
-            text = "로그인",
-            modifier = Modifier.align(Alignment.Center),
-        )
-        BooketButton(
-            onClick = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 32.dp, end = 32.dp, bottom = 32.dp)
-                .height(56.dp)
-                .align(Alignment.BottomCenter),
-            containerColor = Kakao,
-            contentColor = Color(0xFF121212),
-            text = {
-                Text(
-                    text = stringResource(id = R.string.kakao_login),
-                    fontSize = 18.sp,
-                    style = TextStyle(
-                        fontWeight = FontWeight.SemiBold,
+        Box(modifier = modifier.fillMaxSize()) {
+            Text(
+                text = "로그인",
+                modifier = Modifier.align(Alignment.Center),
+            )
+            BooketButton(
+                onClick = {
+                    state.eventSink(LoginScreen.Event.OnKakaoLoginButtonClick)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 32.dp, end = 32.dp, bottom = 32.dp)
+                    .height(56.dp)
+                    .align(Alignment.BottomCenter),
+                containerColor = Kakao,
+                contentColor = Color(0xFF121212),
+                text = {
+                    Text(
+                        text = stringResource(id = R.string.kakao_login),
                         fontSize = 18.sp,
-                        lineHeight = 25.sp,
-                    ),
-                )
-            },
-            leadingIcon = {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
-                    contentDescription = "Kakao Icon",
-                    tint = Color.Unspecified,
-                )
-            },
-        )
+                        style = TextStyle(
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp,
+                            lineHeight = 25.sp,
+                        ),
+                    )
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
+                        contentDescription = "Kakao Icon",
+                        tint = Color.Unspecified,
+                    )
+                },
+            )
+
+            if (state.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
+        }
     }
 }
 
 @DevicePreview
 @Composable
-private fun LibraryPreview() {
+private fun LoginPreview() {
     BooketTheme {
         Login(
             state = LoginScreen.State(
