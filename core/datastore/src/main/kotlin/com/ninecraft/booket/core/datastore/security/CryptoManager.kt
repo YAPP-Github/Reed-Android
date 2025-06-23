@@ -56,8 +56,8 @@ class CryptoManager @Inject constructor() {
 
     fun decrypt(encodedText: String): String {
         val combined = Base64.decode(encodedText, Base64.NO_WRAP)
-        val iv = combined.copyOfRange(0, cipher.blockSize)
-        val encrypted = combined.copyOfRange(cipher.blockSize, combined.size)
+        val iv = combined.copyOfRange(0, IV_SIZE)
+        val encrypted = combined.copyOfRange(IV_SIZE, combined.size)
         cipher.init(Cipher.DECRYPT_MODE, getKey(), IvParameterSpec(iv))
         val decryptedString = String(cipher.doFinal(encrypted))
         return decryptedString
@@ -69,5 +69,6 @@ class CryptoManager @Inject constructor() {
         private const val BLOCK_MODE = KeyProperties.BLOCK_MODE_CBC
         private const val PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
         private const val TRANSFORMATION = "$ALGORITHM/$BLOCK_MODE/$PADDING"
+        private const val IV_SIZE = 16 // AES IV는 항상 16바이트
     }
 }
