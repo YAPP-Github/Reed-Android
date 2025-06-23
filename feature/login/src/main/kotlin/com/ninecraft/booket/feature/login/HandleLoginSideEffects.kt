@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.login
 
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -27,7 +28,11 @@ internal fun HandleLoginEffects(
                 )
             }
 
-            else -> {}
+            is LoginScreen.SideEffect.ShowToast -> {
+                Toast.makeText(context, state.sideEffect.message, Toast.LENGTH_SHORT).show()
+            }
+
+            null -> {}
         }
     }
 
