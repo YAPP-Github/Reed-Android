@@ -25,10 +25,10 @@ include(
 
     ":core:designsystem",
     ":core:network",
+    ":core:datastore",
 
     ":feature:home",
     ":feature:library",
     ":feature:main",
     ":feature:search",
 )
-include(":core:datastore")
