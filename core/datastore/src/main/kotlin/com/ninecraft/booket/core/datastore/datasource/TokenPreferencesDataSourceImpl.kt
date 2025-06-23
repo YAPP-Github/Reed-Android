@@ -9,6 +9,7 @@ import com.ninecraft.booket.core.datastore.util.handleIOException
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.security.GeneralSecurityException
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -46,7 +47,7 @@ class TokenPreferencesDataSourceImpl @Inject constructor(
             prefs[key]?.let {
                 try {
                     cryptoManager.decrypt(it)
-                } catch (e: Exception) {
+                } catch (e: GeneralSecurityException) {
                     Logger.e(e, "Failed to decrypt token")
                     ""
                 }
