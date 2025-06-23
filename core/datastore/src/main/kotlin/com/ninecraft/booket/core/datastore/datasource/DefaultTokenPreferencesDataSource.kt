@@ -13,7 +13,7 @@ import java.security.GeneralSecurityException
 import javax.inject.Inject
 import javax.inject.Named
 
-class TokenPreferencesDataSourceImpl @Inject constructor(
+class DefaultTokenPreferencesDataSource @Inject constructor(
     @Named("token") private val dataStore: DataStore<Preferences>,
     private val cryptoManager: CryptoManager,
 ) : TokenPreferencesDataSource {

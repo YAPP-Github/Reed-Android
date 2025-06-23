@@ -5,7 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.ninecraft.booket.core.datastore.datasource.TokenPreferencesDataSource
-import com.ninecraft.booket.core.datastore.datasource.TokenPreferencesDataSourceImpl
+import com.ninecraft.booket.core.datastore.datasource.DefaultTokenPreferencesDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -36,6 +36,6 @@ abstract class DataStoreBindModule {
     @Binds
     @Singleton
     abstract fun bindTokenPreferencesDataSource(
-        tokenPreferencesDataSourceImpl: TokenPreferencesDataSourceImpl,
+        tokenPreferencesDataSourceImpl: DefaultTokenPreferencesDataSource,
     ): TokenPreferencesDataSource
 }
