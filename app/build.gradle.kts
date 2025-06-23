@@ -1,8 +1,6 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import java.io.FileInputStream
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.booket.android.application)
