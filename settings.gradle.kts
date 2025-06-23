@@ -33,3 +33,4 @@ include(
     ":feature:main",
     ":feature:search",
 )
+include(":core:ui")
