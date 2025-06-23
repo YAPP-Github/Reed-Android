@@ -15,7 +15,7 @@ android {
 
 dependencies {
     implementations(
-        libs.androidx.datastore,
+        libs.androidx.datastore.preferences,
 
         libs.logger,
     )
