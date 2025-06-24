@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.security.GeneralSecurityException
 import javax.inject.Inject
-import javax.inject.Named
 
 class DefaultTokenPreferencesDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>,

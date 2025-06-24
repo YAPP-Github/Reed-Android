@@ -4,15 +4,14 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.ninecraft.booket.core.datastore.datasource.TokenPreferencesDataSource
 import com.ninecraft.booket.core.datastore.datasource.DefaultTokenPreferencesDataSource
+import com.ninecraft.booket.core.datastore.datasource.TokenPreferencesDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
