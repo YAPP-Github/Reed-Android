@@ -14,7 +14,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class DefaultTokenPreferencesDataSource @Inject constructor(
-    @Named("token") private val dataStore: DataStore<Preferences>,
+    private val dataStore: DataStore<Preferences>,
     private val cryptoManager: CryptoManager,
 ) : TokenPreferencesDataSource {
     override val accessToken: Flow<String> = decryptStringFlow(ACCESS_TOKEN)
