@@ -3,10 +3,15 @@
 plugins {
     alias(libs.plugins.booket.android.feature)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
-    namespace = "com.ninecraft.booket.feature.main"
+    namespace = "com.ninecraft.booket.feature.login"
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 ksp {
@@ -16,14 +21,6 @@ ksp {
 dependencies {
     implementations(
         projects.feature.home,
-        projects.feature.library,
-        projects.feature.login,
-        projects.feature.search,
-
-        libs.kotlinx.collections.immutable,
-
-        libs.androidx.activity.compose,
-        libs.androidx.splash,
 
         libs.logger,
         libs.kakao.auth,

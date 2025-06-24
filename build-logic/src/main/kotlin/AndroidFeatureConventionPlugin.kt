@@ -19,6 +19,7 @@ internal class AndroidFeatureConventionPlugin : Plugin<Project> {
 
             dependencies {
                 implementation(project(path = ":core:designsystem"))
+                implementation(project(path = ":core:ui"))
 
                 implementation(libs.bundles.circuit)
 
