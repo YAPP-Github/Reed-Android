@@ -26,6 +26,7 @@ include(
 
     ":core:designsystem",
     ":core:network",
+    ":core:ui",
 
     ":feature:home",
     ":feature:library",
@@ -33,4 +34,3 @@ include(
     ":feature:main",
     ":feature:search",
 )
-include(":core:ui")
