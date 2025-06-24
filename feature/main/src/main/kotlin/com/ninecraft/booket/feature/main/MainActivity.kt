@@ -9,9 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.ninecraft.booket.feature.home.HomeScreen
+import com.ninecraft.booket.feature.login.LoginScreen
 import com.ninecraft.booket.feature.main.component.MainBottomBar
-import com.orhanobut.logger.Logger
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
@@ -30,10 +29,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        Logger.d("MainActivity onCreate()")
 
         setContent {
-            val backStack = rememberSaveableBackStack(root = HomeScreen)
+            val backStack = rememberSaveableBackStack(root = LoginScreen)
             val navigator = rememberCircuitNavigator(backStack)
 
             CircuitCompositionLocals(circuit) {
