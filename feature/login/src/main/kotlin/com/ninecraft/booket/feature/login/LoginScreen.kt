@@ -59,7 +59,7 @@ internal fun Login(
     state: LoginScreen.State,
     modifier: Modifier = Modifier,
 ) {
-    HandleLoginEffects(
+    HandleLoginSideEffects(
         state = state,
         eventSink = state.eventSink,
     )

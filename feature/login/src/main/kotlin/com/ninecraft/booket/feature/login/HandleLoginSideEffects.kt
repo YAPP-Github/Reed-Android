@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-internal fun HandleLoginEffects(
+internal fun HandleLoginSideEffects(
     state: LoginScreen.State,
     eventSink: (LoginScreen.Event) -> Unit,
 ) {
@@ -34,9 +34,9 @@ internal fun HandleLoginEffects(
 
             null -> {}
         }
-    }
 
-    if (state.sideEffect != null) {
-        eventSink(LoginScreen.Event.InitSideEffect)
+        if (state.sideEffect != null) {
+            eventSink(LoginScreen.Event.InitSideEffect)
+        }
     }
 }
