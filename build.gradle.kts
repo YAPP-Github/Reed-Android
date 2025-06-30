@@ -25,6 +25,21 @@ allprojects {
             plugin(rootProject.libs.plugins.gradle.dependency.handler.extensions.get().pluginId)
         }
 
+        allprojects {
+            configurations.all {
+                resolutionStrategy {
+                    // ktlint 관련 의존성 충돌 강제 해결
+                    force("com.pinterest.ktlint:ktlint-rule-engine-core:0.50.0")
+                    force("com.pinterest.ktlint:ktlint-ruleset-standard:0.50.0")
+                    force("com.pinterest.ktlint:ktlint-cli-ruleset-core:0.50.0")
+                    force("com.pinterest.ktlint:ktlint-logger:0.50.0")
+
+                    // 또는 모든 ktlint를 exclusion
+                    exclude(group = "com.pinterest.ktlint")
+                }
+            }
+        }
+
         afterEvaluate {
             extensions.configure<DetektExtension> {
                 parallel = true

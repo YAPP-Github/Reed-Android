@@ -7,6 +7,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.feature.home.HomeScreen
+import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -51,6 +52,7 @@ class LoginPresenter @AssistedInject constructor(
                                 // TODO Token 저장
                                 navigator.resetRoot(HomeScreen)
                             }.onFailure { exception ->
+                                exception.message?.let { Logger.e(it) }
                                 sideEffect = exception.message?.let {
                                     LoginScreen.SideEffect.ShowToast(it)
                                 }
