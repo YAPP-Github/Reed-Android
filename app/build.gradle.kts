@@ -49,6 +49,7 @@ dependencies {
         projects.feature.home,
         projects.feature.library,
         projects.feature.main,
+        projects.feature.login,
         projects.feature.search,
 
         libs.androidx.activity.compose,
