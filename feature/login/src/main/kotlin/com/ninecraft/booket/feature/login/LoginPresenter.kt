@@ -47,17 +47,20 @@ class LoginPresenter @AssistedInject constructor(
 
                 is LoginScreen.Event.Login -> {
                     scope.launch {
-                        repository.login(event.accessToken)
-                            .onSuccess {
-                                // TODO Token 저장
-                                navigator.resetRoot(HomeScreen)
-                            }.onFailure { exception ->
-                                exception.message?.let { Logger.e(it) }
-                                sideEffect = exception.message?.let {
-                                    LoginScreen.SideEffect.ShowToast(it)
+                        try {
+                            repository.login(event.accessToken)
+                                .onSuccess {
+                                    // TODO Token 저장
+                                    navigator.resetRoot(HomeScreen)
+                                }.onFailure { exception ->
+                                    exception.message?.let { Logger.e(it) }
+                                    sideEffect = exception.message?.let {
+                                        LoginScreen.SideEffect.ShowToast(it)
+                                    }
                                 }
-                            }
-                        isLoading = false
+                        } finally {
+                            isLoading = false
+                        }
                     }
                 }
             }
