@@ -2,16 +2,15 @@
 
 plugins {
     alias(libs.plugins.booket.android.library)
-    alias(libs.plugins.booket.android.library.compose)
 }
 
 android {
-    namespace = "com.ninecraft.booket.core.designsystem"
+    namespace = "com.ninecraft.booket.core.data.api"
 }
 
 dependencies {
     implementations(
-        projects.core.common,
+        projects.core.model,
 
         libs.logger,
     )

@@ -24,9 +24,13 @@ dependencyResolutionManagement {
 include(
     ":app",
 
-    ":core:designsystem",
-    ":core:network",
+    ":core:common",
+    ":core:data:api",
+    ":core:data:impl",
     ":core:datastore",
+    ":core:designsystem",
+    ":core:model",
+    ":core:network",
     ":core:ui",
 
     ":feature:home",
