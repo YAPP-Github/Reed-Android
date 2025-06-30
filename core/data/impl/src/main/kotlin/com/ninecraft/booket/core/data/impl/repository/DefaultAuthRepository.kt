@@ -16,9 +16,8 @@ internal class DefaultAuthRepository @Inject constructor(
         service.login(
             LoginRequest(
                 providerType = KAKAO_PROVIDER_TYPE,
-                oauthToken = accessToken
-            )
+                oauthToken = accessToken,
+            ),
         ).toModel()
     }
 }
-

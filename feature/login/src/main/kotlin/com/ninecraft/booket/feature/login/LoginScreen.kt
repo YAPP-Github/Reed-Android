@@ -48,7 +48,7 @@ data object LoginScreen : Screen {
     sealed interface Event : CircuitUiEvent {
         data object InitSideEffect : Event
         data object OnKakaoLoginButtonClick : Event
-        data class Login(val accessToken: String): Event
+        data class Login(val accessToken: String) : Event
         data class LoginFailure(val message: String) : Event
     }
 }
