@@ -1,7 +1,7 @@
 import com.ninecraft.booket.convention.ApplicationConstants
 import com.ninecraft.booket.convention.Plugins
 import com.ninecraft.booket.convention.applyPlugins
-import com.ninecraft.booket.convention.implementation
+import com.ninecraft.booket.convention.detektPlugins
 import com.ninecraft.booket.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -28,7 +28,7 @@ internal class JvmLibraryConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                implementation(libs.detekt.formatting)
+                detektPlugins(libs.detekt.formatting)
             }
         }
     }

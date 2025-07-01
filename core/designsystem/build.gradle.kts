@@ -11,6 +11,8 @@ android {
 
 dependencies {
     implementations(
+        projects.core.common,
+
         libs.logger,
     )
 }

@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.ui.component
+package com.ninecraft.booket.core.designsystem.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -12,9 +12,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.utils.MultipleEventsCutter
+import com.ninecraft.booket.core.common.utils.get
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.BooketTheme
 
@@ -30,8 +33,10 @@ fun BooketButton(
     text: @Composable () -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
 ) {
+    val multipleEventsCutter = remember { MultipleEventsCutter.get() }
+
     Button(
-        onClick = onClick,
+        onClick = { multipleEventsCutter.processEvent { onClick() } },
         modifier = modifier,
         enabled = enabled,
         shape = RoundedCornerShape(12.dp),
@@ -47,7 +52,7 @@ fun BooketButton(
             ButtonDefaults.ContentPadding
         },
     ) {
-        TogetherButtonContent(
+        BooketButtonContent(
             text = text,
             leadingIcon = leadingIcon,
         )
@@ -55,7 +60,7 @@ fun BooketButton(
 }
 
 @Composable
-private fun TogetherButtonContent(
+private fun BooketButtonContent(
     text: @Composable () -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
 ) {
@@ -79,7 +84,7 @@ private fun TogetherButtonContent(
 
 @ComponentPreview
 @Composable
-private fun TogetherButtonPreview() {
+private fun BooketButtonPreview() {
     BooketTheme {
         BooketButton(
             onClick = {},
@@ -92,7 +97,7 @@ private fun TogetherButtonPreview() {
 
 @ComponentPreview
 @Composable
-private fun TogetherButtonWithLeadingIconPreview() {
+private fun BooketButtonWithLeadingIconPreview() {
     BooketTheme {
         BooketButton(
             onClick = {},

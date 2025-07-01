@@ -37,11 +37,19 @@ ksp {
 
 dependencies {
     implementations(
+        projects.core.common,
+        projects.core.data.api,
+        projects.core.data.impl,
+        projects.core.datastore,
         projects.core.designsystem,
+        projects.core.model,
+        projects.core.network,
+        projects.core.ui,
 
         projects.feature.home,
         projects.feature.library,
         projects.feature.main,
+        projects.feature.login,
         projects.feature.search,
 
         libs.androidx.activity.compose,

@@ -8,10 +8,6 @@ plugins {
 
 android {
     namespace = "com.ninecraft.booket.feature.login"
-
-    buildFeatures {
-        buildConfig = true
-    }
 }
 
 ksp {

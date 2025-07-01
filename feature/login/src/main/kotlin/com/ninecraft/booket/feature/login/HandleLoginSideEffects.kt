@@ -20,7 +20,7 @@ internal fun HandleLoginSideEffects(
                 kakaoLoginClient.loginWithKakao(
                     context = context,
                     onSuccess = { token ->
-                        eventSink(LoginScreen.Event.LoginSuccess(token))
+                        eventSink(LoginScreen.Event.Login(token))
                     },
                     onFailure = { errorMessage ->
                         eventSink(LoginScreen.Event.LoginFailure(errorMessage))

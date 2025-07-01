@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.BooketTheme
 import com.ninecraft.booket.core.designsystem.theme.Kakao
-import com.ninecraft.booket.core.ui.component.BooketButton
+import com.ninecraft.booket.core.designsystem.component.BooketButton
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -48,7 +48,7 @@ data object LoginScreen : Screen {
     sealed interface Event : CircuitUiEvent {
         data object InitSideEffect : Event
         data object OnKakaoLoginButtonClick : Event
-        data class LoginSuccess(val accessToken: String) : Event
+        data class Login(val accessToken: String) : Event
         data class LoginFailure(val message: String) : Event
     }
 }

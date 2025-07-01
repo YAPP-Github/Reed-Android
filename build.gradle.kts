@@ -22,6 +22,7 @@ allprojects {
         apply {
             plugin(rootProject.libs.plugins.kotlin.detekt.get().pluginId)
             plugin(rootProject.libs.plugins.kotlin.ktlint.get().pluginId)
+            plugin(rootProject.libs.plugins.gradle.dependency.handler.extensions.get().pluginId)
         }
 
         afterEvaluate {

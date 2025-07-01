@@ -26,6 +26,5 @@ dependencies {
         libs.androidx.splash,
 
         libs.logger,
-        libs.kakao.auth,
     )
 }
