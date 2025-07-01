@@ -16,6 +16,8 @@ ksp {
 
 dependencies {
     implementations(
+        projects.feature.login,
+
         libs.logger,
     )
 }
