@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.ninecraft.booket.core.datastore.api"
 }
+
+dependencies {
+    implementation(libs.kotlinx.coroutines.core)
+}
