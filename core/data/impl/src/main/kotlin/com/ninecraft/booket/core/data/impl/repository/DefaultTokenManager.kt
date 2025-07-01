@@ -5,15 +5,15 @@ import com.ninecraft.booket.core.datastore.api.datasource.TokenPreferencesDataSo
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-class DefaultTokenManager @Inject constructor(
-    private val tokenPreferencesDataSource: TokenPreferencesDataSource
+internal class DefaultTokenManager @Inject constructor(
+    private val tokenPreferencesDataSource: TokenPreferencesDataSource,
 ) : TokenManager {
     override suspend fun getAccessToken(): String = tokenPreferencesDataSource.accessToken.first()
 
     override suspend fun getRefreshToken(): String = tokenPreferencesDataSource.refreshToken.first()
 
     override suspend fun setAccessToken(token: String) {
-       tokenPreferencesDataSource.setRefreshToken(token)
+        tokenPreferencesDataSource.setRefreshToken(token)
     }
 
     override suspend fun setRefreshToken(token: String) {

@@ -37,7 +37,7 @@ class TokenPreferenceDataSourceTest {
 
         dataStore = PreferenceDataStoreFactory.create(
             scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
-            produceFile = { tempFile }
+            produceFile = { tempFile },
         )
 
         cryptoManager = CryptoManager()
@@ -63,7 +63,6 @@ class TokenPreferenceDataSourceTest {
         assertNotEquals(plainToken, storedToken)
         assertTrue(storedToken!!.isNotEmpty())
     }
-
 
     @Test
     fun 암호화된_토큰은_복호화되어_반환된다() = runTest {

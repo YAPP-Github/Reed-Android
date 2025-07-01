@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.datastore.impl.datasource.di
+package com.ninecraft.booket.core.datastore.impl.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
