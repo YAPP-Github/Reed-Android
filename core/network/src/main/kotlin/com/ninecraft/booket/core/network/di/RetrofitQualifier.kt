@@ -1,6 +1,5 @@
 package com.ninecraft.booket.core.network.di
 
-
 import javax.inject.Qualifier
 
 @Qualifier
