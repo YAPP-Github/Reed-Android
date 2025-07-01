@@ -34,6 +34,6 @@ abstract class DataStoreBindModule {
     @Binds
     @Singleton
     abstract fun bindTokenPreferencesDataSource(
-        tokenPreferencesDataSourceImpl: DefaultTokenPreferencesDataSource,
+        defaultTokenPreferencesDataSource: DefaultTokenPreferencesDataSource,
     ): TokenPreferencesDataSource
 }
