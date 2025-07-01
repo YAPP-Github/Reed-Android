@@ -13,7 +13,7 @@ internal class DefaultTokenManager @Inject constructor(
     override suspend fun getRefreshToken(): String = tokenPreferencesDataSource.refreshToken.first()
 
     override suspend fun setAccessToken(token: String) {
-        tokenPreferencesDataSource.setRefreshToken(token)
+        tokenPreferencesDataSource.setAccessToken(token)
     }
 
     override suspend fun setRefreshToken(token: String) {
