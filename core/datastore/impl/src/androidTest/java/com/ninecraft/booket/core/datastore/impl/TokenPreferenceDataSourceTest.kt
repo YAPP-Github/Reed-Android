@@ -50,7 +50,7 @@ class TokenPreferenceDataSourceTest {
     }
 
     @Test
-    fun tokenIsEncryptedWhenStored() = runTest {
+    fun 토큰은_암호화되어_저장된다() = runTest {
         // Given
         val plainToken = "plain_access_token"
         dataSource.setAccessToken(plainToken)
@@ -66,7 +66,7 @@ class TokenPreferenceDataSourceTest {
 
 
     @Test
-    fun storedTokenIsDecryptedWhenRetrieved() = runTest {
+    fun 암호화된_토큰은_복호화되어_반환된다() = runTest {
         // Given
         val plainToken = "plain_access_token"
         dataSource.setAccessToken(plainToken)
