@@ -13,12 +13,13 @@ import javax.inject.Singleton
 
 @Singleton
 class CryptoManager @Inject constructor() {
-    private val cipher = Cipher.getInstance(TRANSFORMATION)
     private val keyStore = KeyStore
         .getInstance("AndroidKeyStore")
         .apply {
             load(null)
         }
+
+    private fun newCipher() = Cipher.getInstance(TRANSFORMATION)
 
     private fun getKey(): SecretKey {
         val existingKey = keyStore
@@ -47,6 +48,7 @@ class CryptoManager @Inject constructor() {
     }
 
     fun encrypt(plainText: String): String {
+        val cipher = newCipher()
         cipher.init(Cipher.ENCRYPT_MODE, getKey())
         val iv = cipher.iv
         val encryptedBytes = cipher.doFinal(plainText.toByteArray())
@@ -58,6 +60,7 @@ class CryptoManager @Inject constructor() {
         val combined = Base64.decode(encodedText, Base64.NO_WRAP)
         val iv = combined.copyOfRange(0, IV_SIZE)
         val encrypted = combined.copyOfRange(IV_SIZE, combined.size)
+        val cipher = newCipher()
         cipher.init(Cipher.DECRYPT_MODE, getKey(), IvParameterSpec(iv))
         val decryptedString = String(cipher.doFinal(encrypted))
         return decryptedString
