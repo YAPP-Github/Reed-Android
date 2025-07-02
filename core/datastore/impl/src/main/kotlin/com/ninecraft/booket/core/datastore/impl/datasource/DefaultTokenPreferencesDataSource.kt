@@ -9,6 +9,7 @@ import com.ninecraft.booket.core.datastore.impl.security.CryptoManager
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.security.GeneralSecurityException
 import javax.inject.Inject
@@ -19,6 +20,10 @@ class DefaultTokenPreferencesDataSource @Inject constructor(
 ) : TokenPreferencesDataSource {
     override val accessToken: Flow<String> = decryptStringFlow(ACCESS_TOKEN)
     override val refreshToken: Flow<String> = decryptStringFlow(REFRESH_TOKEN)
+
+    override suspend fun getAccessToken(): String = accessToken.first()
+
+    override suspend fun getRefreshToken(): String = refreshToken.first()
 
     override suspend fun setAccessToken(accessToken: String) {
         dataStore.edit { prefs ->
