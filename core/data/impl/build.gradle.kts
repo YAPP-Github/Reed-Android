@@ -14,7 +14,7 @@ dependencies {
     implementations(
         projects.core.common,
         projects.core.data.api,
-        projects.core.datastore,
+        projects.core.datastore.api,
         projects.core.model,
         projects.core.network,
 
