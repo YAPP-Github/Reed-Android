@@ -13,6 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.ninecraft.booket.core.network.BuildConfig
 import com.ninecraft.booket.core.network.TokenInterceptor
+import com.ninecraft.booket.core.network.TokenAuthenticator
 import com.ninecraft.booket.core.network.service.AuthService
 import com.ninecraft.booket.core.network.service.NoAuthService
 import com.orhanobut.logger.AndroidLogAdapter
@@ -73,12 +74,14 @@ internal object NetworkModule {
     internal fun provideAuthOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         tokenInterceptor: TokenInterceptor,
+        tokenAuthenticator: TokenAuthenticator,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(MaxTimeoutMillis, TimeUnit.MILLISECONDS)
             .readTimeout(MaxTimeoutMillis, TimeUnit.MILLISECONDS)
             .writeTimeout(MaxTimeoutMillis, TimeUnit.MILLISECONDS)
             .addInterceptor(tokenInterceptor)
+            .authenticator(tokenAuthenticator)
             .addInterceptor(httpLoggingInterceptor)
             .build()
     }
