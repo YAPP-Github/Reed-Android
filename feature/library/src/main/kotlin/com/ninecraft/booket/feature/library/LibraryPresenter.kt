@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.ninecraft.booket.core.common.utils.handleAuthError
+import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.feature.login.LoginScreen
 import com.orhanobut.logger.Logger
@@ -46,12 +46,15 @@ class LibraryPresenter @AssistedInject constructor(
                                     navigator.resetRoot(LoginScreen)
                                 }
                                 .onFailure { exception ->
-                                    handleAuthError(
+                                    val handleErrorMessage = { message: String ->
+                                        Logger.e(message)
+                                        sideEffect = LibraryScreen.SideEffect.ShowToast(message)
+                                    }
+
+                                    handleException(
                                         exception = exception,
-                                        onGeneralError = { message ->
-                                            Logger.e(message)
-                                            sideEffect = LibraryScreen.SideEffect.ShowToast(message)
-                                        },
+                                        onServerError = handleErrorMessage,
+                                        onNetworkError = handleErrorMessage,
                                         onLoginRequired = {
                                             navigator.resetRoot(LoginScreen)
                                         },
