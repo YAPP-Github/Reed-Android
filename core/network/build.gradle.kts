@@ -29,7 +29,7 @@ android {
 
 dependencies {
     implementations(
-        projects.core.datastore,
+        projects.core.datastore.api,
 
         libs.logger,
     )

@@ -41,7 +41,7 @@ class LibraryPresenter @AssistedInject constructor(
                             isLoading = true
                             repository.logout()
                                 .onSuccess {
-                                    // TODO Token 삭제
+                                    repository.clearTokens()
                                     navigator.resetRoot(LoginScreen)
                                 }.onFailure { exception ->
                                     exception.message?.let { Logger.e(it) }
