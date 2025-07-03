@@ -1,7 +1,6 @@
 package com.ninecraft.booket.core.network.di
 
 import android.util.Log
-import com.orhanobut.logger.Logger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,8 +13,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.ninecraft.booket.core.network.BuildConfig
 import com.ninecraft.booket.core.network.TokenInterceptor
-import com.ninecraft.booket.core.network.service.BooketService
-import com.ninecraft.booket.core.network.service.LoginService
+import com.ninecraft.booket.core.network.service.AuthService
+import com.ninecraft.booket.core.network.service.NoAuthService
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.PrettyFormatStrategy
 import retrofit2.create
@@ -53,7 +52,7 @@ internal object NetworkModule {
     @Singleton
     @Provides
     internal fun provideHttpLoggingInterceptor(
-        networkLogAdapter: AndroidLogAdapter
+        networkLogAdapter: AndroidLogAdapter,
     ): HttpLoggingInterceptor {
         return HttpLoggingInterceptor { message ->
             if (message.isNotBlank()) {
@@ -68,10 +67,10 @@ internal object NetworkModule {
         }
     }
 
-    @TokenOkHttpClient
+    @AuthOkHttpClient
     @Singleton
     @Provides
-    internal fun provideTokenOkHttpClient(
+    internal fun provideAuthOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         tokenInterceptor: TokenInterceptor,
     ): OkHttpClient {
@@ -84,10 +83,10 @@ internal object NetworkModule {
             .build()
     }
 
-    @DefaultOkHttpClient
+    @NoAuthOkHttpClient
     @Singleton
     @Provides
-    internal fun provideDefaultOkHttpClient(
+    internal fun provideNoAuthOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
@@ -98,11 +97,11 @@ internal object NetworkModule {
             .build()
     }
 
-    @TokenRetrofit
+    @AuthRetrofit
     @Singleton
     @Provides
-    internal fun provideTokenRetrofit(
-        @TokenOkHttpClient okHttpClient: OkHttpClient,
+    internal fun provideAuthRetrofit(
+        @AuthOkHttpClient okHttpClient: OkHttpClient,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.SERVER_BASE_URL)
@@ -111,11 +110,11 @@ internal object NetworkModule {
             .build()
     }
 
-    @DefaultRetrofit
+    @NoAuthRetrofit
     @Singleton
     @Provides
-    internal fun provideDefaultRetrofit(
-        @DefaultOkHttpClient okHttpClient: OkHttpClient,
+    internal fun provideNoAuthRetrofit(
+        @NoAuthOkHttpClient okHttpClient: OkHttpClient,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.SERVER_BASE_URL)
@@ -126,17 +125,17 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    internal fun provideBooketService(
-        @TokenRetrofit retrofit: Retrofit,
-    ): BooketService {
+    internal fun provideAuthService(
+        @AuthRetrofit retrofit: Retrofit,
+    ): AuthService {
         return retrofit.create()
     }
 
     @Singleton
     @Provides
-    internal fun provideLoginService(
-        @DefaultRetrofit retrofit: Retrofit,
-    ): LoginService {
+    internal fun provideNoAuthService(
+        @NoAuthRetrofit retrofit: Retrofit,
+    ): NoAuthService {
         return retrofit.create()
     }
 }

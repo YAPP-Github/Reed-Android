@@ -5,7 +5,7 @@ import com.ninecraft.booket.core.network.response.LoginResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface LoginService {
+interface NoAuthService {
     @POST("api/v1/auth/signin")
     suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
 }
