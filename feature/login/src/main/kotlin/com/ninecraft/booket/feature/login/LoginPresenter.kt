@@ -49,8 +49,8 @@ class LoginPresenter @AssistedInject constructor(
                     scope.launch {
                         try {
                             repository.login(event.accessToken)
-                                .onSuccess {
-                                    // TODO Token 저장
+                                .onSuccess { result ->
+                                    repository.saveTokens(result.accessToken, result.refreshToken)
                                     navigator.resetRoot(HomeScreen)
                                 }.onFailure { exception ->
                                     exception.message?.let { Logger.e(it) }
