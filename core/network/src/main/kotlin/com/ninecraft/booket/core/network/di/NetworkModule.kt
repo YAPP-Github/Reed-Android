@@ -33,6 +33,20 @@ private val jsonRule = Json {
 
 private val jsonConverterFactory = jsonRule.asConverterFactory("application/json".toMediaType())
 
+private val FILTERED_HEADERS = setOf(
+    "transfer-encoding",
+    "connection",
+    "x-content-type-options",
+    "x-xss-protection",
+    "cache-control",
+    "pragma",
+    "expires",
+    "x-frame-options",
+    "keep-alive",
+    "server",
+    "content-length",
+)
+
 @Module
 @InstallIn(SingletonComponent::class)
 internal object NetworkModule {
@@ -56,7 +70,14 @@ internal object NetworkModule {
         networkLogAdapter: AndroidLogAdapter,
     ): HttpLoggingInterceptor {
         return HttpLoggingInterceptor { message ->
-            if (message.isNotBlank()) {
+            val shouldFilter = FILTERED_HEADERS.any { header ->
+                message.lowercase().contains("$header:")
+            }
+
+            val isDuplicateContentType = message.lowercase().contains("content-type: application/json") &&
+                !message.contains("charset")
+
+            if (!shouldFilter && !isDuplicateContentType && message.isNotBlank()) {
                 networkLogAdapter.log(Log.DEBUG, null, message)
             }
         }.apply {
