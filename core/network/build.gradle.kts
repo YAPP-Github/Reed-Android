@@ -29,6 +29,8 @@ android {
 
 dependencies {
     implementations(
+        projects.core.datastore.api,
+
         libs.logger,
     )
 }
