@@ -13,6 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.ninecraft.booket.core.network.BuildConfig
 import com.ninecraft.booket.core.network.TokenInterceptor
+import com.ninecraft.booket.core.network.TokenAuthenticator
 import com.ninecraft.booket.core.network.service.AuthService
 import com.ninecraft.booket.core.network.service.NoAuthService
 import com.orhanobut.logger.AndroidLogAdapter
@@ -31,6 +32,20 @@ private val jsonRule = Json {
 }
 
 private val jsonConverterFactory = jsonRule.asConverterFactory("application/json".toMediaType())
+
+private val FILTERED_HEADERS = setOf(
+    "transfer-encoding",
+    "connection",
+    "x-content-type-options",
+    "x-xss-protection",
+    "cache-control",
+    "pragma",
+    "expires",
+    "x-frame-options",
+    "keep-alive",
+    "server",
+    "content-length",
+)
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -55,7 +70,14 @@ internal object NetworkModule {
         networkLogAdapter: AndroidLogAdapter,
     ): HttpLoggingInterceptor {
         return HttpLoggingInterceptor { message ->
-            if (message.isNotBlank()) {
+            val shouldFilter = FILTERED_HEADERS.any { header ->
+                message.lowercase().contains("$header:")
+            }
+
+            val isDuplicateContentType = message.lowercase().contains("content-type: application/json") &&
+                !message.contains("charset")
+
+            if (!shouldFilter && !isDuplicateContentType && message.isNotBlank()) {
                 networkLogAdapter.log(Log.DEBUG, null, message)
             }
         }.apply {
@@ -73,12 +95,14 @@ internal object NetworkModule {
     internal fun provideAuthOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         tokenInterceptor: TokenInterceptor,
+        tokenAuthenticator: TokenAuthenticator,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(MaxTimeoutMillis, TimeUnit.MILLISECONDS)
             .readTimeout(MaxTimeoutMillis, TimeUnit.MILLISECONDS)
             .writeTimeout(MaxTimeoutMillis, TimeUnit.MILLISECONDS)
             .addInterceptor(tokenInterceptor)
+            .authenticator(tokenAuthenticator)
             .addInterceptor(httpLoggingInterceptor)
             .build()
     }
