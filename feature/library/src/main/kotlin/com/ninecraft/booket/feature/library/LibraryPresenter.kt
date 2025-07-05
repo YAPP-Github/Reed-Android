@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.library
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -11,6 +10,7 @@ import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.feature.login.LoginScreen
 import com.orhanobut.logger.Logger
+import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -35,7 +35,7 @@ class LibraryPresenter @AssistedInject constructor(
         var nickname by rememberRetained { mutableStateOf("") }
         var email by rememberRetained { mutableStateOf("") }
 
-        LaunchedEffect(Unit) {
+        fun getUserProfile() {
             scope.launch {
                 try {
                     isLoading = true
@@ -63,6 +63,10 @@ class LibraryPresenter @AssistedInject constructor(
                     isLoading = false
                 }
             }
+        }
+
+        RememberedEffect(Unit) {
+            getUserProfile()
         }
 
         fun handleEvent(event: LibraryScreen.Event) {
