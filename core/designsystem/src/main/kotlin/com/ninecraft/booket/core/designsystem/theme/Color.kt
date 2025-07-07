@@ -1,7 +1,6 @@
 package com.ninecraft.booket.core.designsystem.theme
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 // Atomic Color
@@ -69,36 +68,36 @@ val Kakao = Color(0xFFFBD300)
 @Immutable
 data class ReedColorScheme(
     // Base
-    val basePrimary: Color,
-    val baseSecondary: Color,
+    val basePrimary: Color = White,
+    val baseSecondary: Color = Neutral50,
 
     // Background
-    val bgPrimary: Color,
-    val bgPrimaryPressed: Color,
-    val bgSecondary: Color,
-    val bgSecondaryPressed: Color,
-    val bgTertiary: Color,
-    val bgTertiaryPressed: Color,
-    val bgDisabled: Color,
+    val bgPrimary: Color = Green500,
+    val bgPrimaryPressed: Color = Green600,
+    val bgSecondary: Color = Neutral100,
+    val bgSecondaryPressed: Color = Neutral200,
+    val bgTertiary: Color = Green100,
+    val bgTertiaryPressed: Color = Green200,
+    val bgDisabled: Color = Neutral200,
 
     // Content
-    val contentPrimary: Color,
-    val contentSecondary: Color,
-    val contentTertiary: Color,
-    val contentBrand: Color,
-    val contentDisabled: Color,
-    val contentInverse: Color,
-    val contentError: Color,
-    val contentInfo: Color,
-    val contentSuccess: Color,
-    val contentWarning: Color,
+    val contentPrimary: Color = Neutral800,
+    val contentSecondary: Color = Neutral500,
+    val contentTertiary: Color = Neutral400,
+    val contentBrand: Color = Green500,
+    val contentDisabled: Color = Neutral400,
+    val contentInverse: Color = White,
+    val contentError: Color = Red500,
+    val contentInfo: Color = Blue500,
+    val contentSuccess: Color = Green400,
+    val contentWarning: Color = Yellow300,
 
     // Border
-    val borderPrimary: Color,
-    val borderBrand: Color,
-    val borderError: Color,
+    val borderPrimary: Color = Neutral200,
+    val borderBrand: Color = Green500,
+    val borderError: Color = Red500,
 
     // Divider
-    val dividerSm: Color,
-    val dividerMd: Color,
+    val dividerSm: Color = Neutral200,
+    val dividerMd: Color = Neutral100,
 )
