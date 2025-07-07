@@ -33,10 +33,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
+import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.feature.home.HomeScreen
 import com.ninecraft.booket.feature.library.LibraryScreen
 import com.ninecraft.booket.feature.search.SearchScreen
-import com.ninecraft.booket.core.designsystem.theme.BooketTheme
 import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.popUntil
@@ -147,7 +147,7 @@ private fun RowScope.MainBottomBarItem(
 @ComponentPreview
 @Composable
 private fun MainBottomBarPreview() {
-    BooketTheme {
+    ReedTheme {
         MainBottomBar(
             visible = true,
             tabs = MainTab.entries.toImmutableList(),

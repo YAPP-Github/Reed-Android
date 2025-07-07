@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.BooketButton
-import com.ninecraft.booket.core.designsystem.theme.BooketTheme
+import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -115,7 +115,7 @@ internal fun LibraryContent(
 @DevicePreview
 @Composable
 private fun LibraryPreview() {
-    BooketTheme {
+    ReedTheme {
         Library(
             state = LibraryScreen.State(
                 eventSink = {},

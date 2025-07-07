@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.utils.MultipleEventsCutter
 import com.ninecraft.booket.core.common.utils.get
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.theme.BooketTheme
+import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
 @Composable
 fun BooketButton(
@@ -85,7 +85,7 @@ private fun BooketButtonContent(
 @ComponentPreview
 @Composable
 private fun BooketButtonPreview() {
-    BooketTheme {
+    ReedTheme {
         BooketButton(
             onClick = {},
             text = {
@@ -98,7 +98,7 @@ private fun BooketButtonPreview() {
 @ComponentPreview
 @Composable
 private fun BooketButtonWithLeadingIconPreview() {
-    BooketTheme {
+    ReedTheme {
         BooketButton(
             onClick = {},
             text = {
