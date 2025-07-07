@@ -24,7 +24,8 @@ private val defaultLineHeightStyle = LineHeightStyle(
 
 private val baseTextStyle = TextStyle(
     fontFamily = pretendardFamily,
-    lineHeightStyle = defaultLineHeightStyle
+    lineHeightStyle = defaultLineHeightStyle,
+    color = Neutral800
 )
 
 private fun style(
