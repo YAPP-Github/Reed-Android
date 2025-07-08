@@ -14,12 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.component.button.BooketButton
+import com.ninecraft.booket.core.designsystem.component.button.ReedButton
+import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
+import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.CircuitUiEvent
@@ -93,7 +92,7 @@ internal fun LibraryContent(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = state.email)
             }
-            BooketButton(
+            ReedButton(
                 onClick = {
                     state.eventSink(LibraryScreen.Event.OnLogoutButtonClick)
                 },
@@ -102,17 +101,9 @@ internal fun LibraryContent(
                     .padding(start = 32.dp, end = 32.dp, bottom = 32.dp)
                     .height(56.dp)
                     .align(Alignment.BottomCenter),
-                text = {
-                    Text(
-                        text = stringResource(id = R.string.logout),
-                        fontSize = 18.sp,
-                        style = TextStyle(
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 18.sp,
-                            lineHeight = 25.sp,
-                        ),
-                    )
-                },
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = largeButtonStyle,
+                text = stringResource(id = R.string.logout)
             )
 
             if (state.isLoading) {
