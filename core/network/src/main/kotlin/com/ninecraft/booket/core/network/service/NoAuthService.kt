@@ -28,7 +28,7 @@ interface NoAuthService {
         @Query("sort") sort: String = "Accuracy",
         @Query("cover") cover: String? = null,
         @Query("categoryId") categoryId: Int? = null,
-    )
+    ): BookSearchResponse
 
     @GET("api/v1/books/detail")
     suspend fun getBookDetail(
