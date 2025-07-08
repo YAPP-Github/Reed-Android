@@ -108,8 +108,8 @@ fun ReedCloseTopAppBar(
         modifier = modifier,
         title = title,
         endIconRes = R.drawable.ic_close,
-        startIconDescription = "Close",
-        startIconOnClick = onClose,
+        endIconDescription = "Close",
+        endIconOnClick = onClose,
     )
 }
 
