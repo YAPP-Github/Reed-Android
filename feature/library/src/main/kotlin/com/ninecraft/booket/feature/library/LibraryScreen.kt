@@ -3,6 +3,7 @@ package com.ninecraft.booket.feature.library
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,13 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.component.BooketButton
-import com.ninecraft.booket.core.designsystem.theme.BooketTheme
+import com.ninecraft.booket.core.designsystem.component.button.ReedButton
+import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
+import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
+import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -31,6 +31,8 @@ import kotlinx.parcelize.Parcelize
 data object LibraryScreen : Screen {
     data class State(
         val isLoading: Boolean = false,
+        val nickname: String = "",
+        val email: String = "",
         val sideEffect: SideEffect? = null,
         val eventSink: (Event) -> Unit,
     ) : CircuitUiState
@@ -51,6 +53,11 @@ internal fun Library(
     state: LibraryScreen.State,
     modifier: Modifier = Modifier,
 ) {
+    HandleLibrarySideEffects(
+        state = state,
+        eventSink = state.eventSink,
+    )
+
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -68,22 +75,24 @@ internal fun LibraryContent(
     state: LibraryScreen.State,
     modifier: Modifier = Modifier,
 ) {
-    HandleLibrarySideEffects(
-        state = state,
-        eventSink = state.eventSink,
-    )
-
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         Box(modifier = modifier.fillMaxSize()) {
-            Text(
-                text = "내 서재",
-                modifier = Modifier.align(Alignment.Center),
-            )
-            BooketButton(
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Text(text = "내 서재")
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = state.nickname)
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = state.email)
+            }
+            ReedButton(
                 onClick = {
                     state.eventSink(LibraryScreen.Event.OnLogoutButtonClick)
                 },
@@ -92,17 +101,9 @@ internal fun LibraryContent(
                     .padding(start = 32.dp, end = 32.dp, bottom = 32.dp)
                     .height(56.dp)
                     .align(Alignment.BottomCenter),
-                text = {
-                    Text(
-                        text = stringResource(id = R.string.logout),
-                        fontSize = 18.sp,
-                        style = TextStyle(
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 18.sp,
-                            lineHeight = 25.sp,
-                        ),
-                    )
-                },
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = largeButtonStyle,
+                text = stringResource(id = R.string.logout),
             )
 
             if (state.isLoading) {
@@ -115,9 +116,11 @@ internal fun LibraryContent(
 @DevicePreview
 @Composable
 private fun LibraryPreview() {
-    BooketTheme {
+    ReedTheme {
         Library(
             state = LibraryScreen.State(
+                nickname = "홍길동",
+                email = "test@test.com",
                 eventSink = {},
             ),
         )
