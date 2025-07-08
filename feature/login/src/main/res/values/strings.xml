@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="kakao_login">카카오 로그인</string>
+    <string name="terms_agreement_title">약관 동의 후\n독서 기록을 남겨보세요</string>
+    <string name="terms_agreement_all">약관 전체 동의</string>
+    <string name="terms_agreement_button_start">시작하기</string>
+    <string-array name="terms_agreement_items">
+        <item>(필수)서비스 이용약관</item>
+        <item>(필수)개인정보처리방침</item>
+        <item>(필수)만 14세 이상입니다</item>
+    </string-array>
 </resources>
