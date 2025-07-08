@@ -41,8 +41,8 @@ fun TickOnlyCheckBoxPreview() {
 
             TickOnlyCheckBox(
                 checked = isChecked,
-                onCheckedChange = {
-                    isChecked = !isChecked
+                onCheckedChange = { checked ->
+                    isChecked = checked
                 },
             )
         }

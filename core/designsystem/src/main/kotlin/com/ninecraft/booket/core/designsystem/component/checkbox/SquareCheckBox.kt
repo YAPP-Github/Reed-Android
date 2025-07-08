@@ -60,8 +60,8 @@ fun SquareCheckboxPreview() {
 
         SquareCheckBox(
             checked = isChecked,
-            onCheckedChange = {
-                isChecked = !isChecked
+            onCheckedChange = { checked ->
+                isChecked = checked
             },
         )
     }
