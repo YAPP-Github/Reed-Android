@@ -40,14 +40,14 @@ fun ReedTopAppBar(
             .height(56.dp)
             .background(color = White),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
+        horizontalArrangement = Arrangement.Start,
     ) {
         if (startIconRes != null) {
             IconButton(
                 onClick = { startIconOnClick() },
                 modifier = Modifier
                     .fillMaxHeight()
-                    .width(72.dp)
+                    .width(72.dp),
             ) {
                 Icon(
                     painter = painterResource(id = startIconRes),
@@ -70,7 +70,7 @@ fun ReedTopAppBar(
                 onClick = { endIconOnClick() },
                 modifier = Modifier
                     .fillMaxHeight()
-                    .width(72.dp)
+                    .width(72.dp),
             ) {
                 Icon(
                     painter = painterResource(id = endIconRes),
@@ -112,7 +112,6 @@ fun ReedCloseTopAppBar(
         startIconOnClick = onClose,
     )
 }
-
 
 @Preview
 @Composable

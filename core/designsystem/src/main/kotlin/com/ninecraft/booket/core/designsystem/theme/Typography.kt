@@ -19,25 +19,25 @@ val pretendardFamily = FontFamily(
 
 private val defaultLineHeightStyle = LineHeightStyle(
     alignment = LineHeightStyle.Alignment.Center,
-    trim = LineHeightStyle.Trim.None
+    trim = LineHeightStyle.Trim.None,
 )
 
 private val baseTextStyle = TextStyle(
     fontFamily = pretendardFamily,
     lineHeightStyle = defaultLineHeightStyle,
-    color = Neutral800
+    color = Neutral800,
 )
 
 private fun style(
     fontSize: Int,
     lineHeight: Int,
     letterSpacing: Float,
-    fontWeight: FontWeight
+    fontWeight: FontWeight,
 ) = baseTextStyle.copy(
     fontSize = fontSize.sp,
     lineHeight = lineHeight.sp,
     letterSpacing = letterSpacing.sp,
-    fontWeight = fontWeight
+    fontWeight = fontWeight,
 )
 
 @Immutable

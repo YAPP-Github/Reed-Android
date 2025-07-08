@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.component.button.BooketButton
+import com.ninecraft.booket.core.designsystem.component.BooketButton
 import com.ninecraft.booket.core.designsystem.theme.Kakao
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.slack.circuit.codegen.annotations.CircuitInject

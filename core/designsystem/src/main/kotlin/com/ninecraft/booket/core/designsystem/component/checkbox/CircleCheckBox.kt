@@ -26,7 +26,7 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 fun CircleCheckBox(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val bgColor = if (checked) ReedTheme.colors.bgPrimary else ReedTheme.colors.basePrimary
     val borderColor = if (checked) Color.Transparent else ReedTheme.colors.borderPrimary
@@ -37,17 +37,17 @@ fun CircleCheckBox(
             .size(24.dp)
             .background(
                 color = bgColor,
-                shape = CircleShape
+                shape = CircleShape,
             )
             .border(1.dp, borderColor, CircleShape)
             .noRippleClickable { onCheckedChange(!checked) }
             .padding(2.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_check),
             contentDescription = "Circle Checkbox",
-            tint = iconTint
+            tint = iconTint,
         )
     }
 }
@@ -62,7 +62,7 @@ fun CircleCheckboxPreview() {
             checked = isChecked,
             onCheckedChange = {
                 isChecked = !isChecked
-            }
+            },
         )
     }
 }

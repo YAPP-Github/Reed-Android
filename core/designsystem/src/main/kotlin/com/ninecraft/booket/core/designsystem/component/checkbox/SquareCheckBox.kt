@@ -26,28 +26,28 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 fun SquareCheckBox(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val bgColor = if (checked) ReedTheme.colors.bgPrimary else ReedTheme.colors.basePrimary
     val borderColor = if (checked) Color.Transparent else ReedTheme.colors.borderPrimary
     val iconTint = if (checked) ReedTheme.colors.contentInverse else ReedTheme.colors.contentTertiary
 
     Box(
-      modifier = modifier
-          .size(24.dp)
-          .background(
-              color = bgColor,
-              shape = RoundedCornerShape(ReedTheme.radius.xs)
-          )
-          .border(1.dp, borderColor, RoundedCornerShape(ReedTheme.radius.xs))
-          .noRippleClickable { onCheckedChange(!checked) }
-          .padding(2.dp),
-        contentAlignment = Alignment.Center
+        modifier = modifier
+            .size(24.dp)
+            .background(
+                color = bgColor,
+                shape = RoundedCornerShape(ReedTheme.radius.xs),
+            )
+            .border(1.dp, borderColor, RoundedCornerShape(ReedTheme.radius.xs))
+            .noRippleClickable { onCheckedChange(!checked) }
+            .padding(2.dp),
+        contentAlignment = Alignment.Center,
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_check),
             contentDescription = "Square Checkbox",
-            tint = iconTint
+            tint = iconTint,
         )
     }
 }

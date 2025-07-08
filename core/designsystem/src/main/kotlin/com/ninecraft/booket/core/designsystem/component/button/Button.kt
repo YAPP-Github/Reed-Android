@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.designsystem.component
+package com.ninecraft.booket.core.designsystem.component.button
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding

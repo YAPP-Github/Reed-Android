@@ -1,6 +1,5 @@
 package com.ninecraft.booket.core.designsystem.component.button
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.interaction.MutableInteractionSource

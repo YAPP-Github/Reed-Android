@@ -20,16 +20,15 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 fun TickOnlyCheckBox(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Icon(
         modifier = modifier
             .size(24.dp)
-            .noRippleClickable { onCheckedChange(!checked) }
-        ,
+            .noRippleClickable { onCheckedChange(!checked) },
         painter = painterResource(id = R.drawable.ic_check),
         contentDescription = "TickOnly Checkbox",
-        tint = if(checked) ReedTheme.colors.contentBrand else ReedTheme.colors.contentTertiary,
+        tint = if (checked) ReedTheme.colors.contentBrand else ReedTheme.colors.contentTertiary,
     )
 }
 
@@ -44,7 +43,7 @@ fun TickOnlyCheckBoxPreview() {
                 checked = isChecked,
                 onCheckedChange = {
                     isChecked = !isChecked
-                }
+                },
             )
         }
     }
