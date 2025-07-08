@@ -32,9 +32,9 @@ fun TickOnlyCheckBox(
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun TickOnlyCheckBoxPreview() {
+private fun TickOnlyCheckBoxPreview() {
     ReedTheme {
         Row {
             var isChecked by remember { mutableStateOf(false) }

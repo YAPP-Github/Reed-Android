@@ -115,24 +115,30 @@ fun ReedCloseTopAppBar(
 
 @Preview
 @Composable
-fun ReedTopAppBarPreview() {
-    ReedTopAppBar(
-        title = "title",
-    )
+private fun ReedTopAppBarPreview() {
+    ReedTheme {
+        ReedTopAppBar(
+            title = "title",
+        )
+    }
 }
 
 @Preview
 @Composable
-fun ReedBackTopAppBarPreview() {
-    ReedBackTopAppBar(
-        title = "title",
-    )
+private fun ReedBackTopAppBarPreview() {
+    ReedTheme {
+        ReedBackTopAppBar(
+            title = "title",
+        )
+    }
 }
 
 @Preview
 @Composable
-fun ReedCloseTopAppBarPreview() {
-    ReedCloseTopAppBar(
-        title = "title",
-    )
+private fun ReedCloseTopAppBarPreview() {
+    ReedTheme {
+        ReedCloseTopAppBar(
+            title = "title",
+        )
+    }
 }

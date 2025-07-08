@@ -52,9 +52,9 @@ fun CircleCheckBox(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun CircleCheckboxPreview() {
+private fun CircleCheckboxPreview() {
     ReedTheme {
         var isChecked by remember { mutableStateOf(false) }
 

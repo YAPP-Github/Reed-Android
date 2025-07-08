@@ -54,7 +54,7 @@ fun SquareCheckBox(
 
 @Preview(showBackground = true)
 @Composable
-fun SquareCheckboxPreview() {
+private fun SquareCheckboxPreview() {
     ReedTheme {
         var isChecked by remember { mutableStateOf(false) }
 
