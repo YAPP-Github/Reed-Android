@@ -13,6 +13,9 @@ dependencies {
     implementations(
         projects.core.common,
 
+        libs.coil.compose,
         libs.logger,
+
+        libs.bundles.landscapist,
     )
 }
