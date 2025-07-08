@@ -1,6 +1,6 @@
 package com.ninecraft.booket.core.designsystem.component.appbar
 
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
