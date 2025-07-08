@@ -52,14 +52,14 @@ private fun ReedBottomSheetPreview() {
     ReedTheme {
         ReedBottomSheet(
             sheetState = sheetState,
-            onDismissRequest = {}
+            onDismissRequest = {},
         ) {
             ReedButton(
                 onClick = {},
                 modifier = Modifier.padding(10.dp).fillMaxWidth(),
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 sizeStyle = largeButtonStyle,
-                text = "확인"
+                text = "확인",
             )
         }
     }

@@ -103,7 +103,7 @@ internal fun LibraryContent(
                     .align(Alignment.BottomCenter),
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 sizeStyle = largeButtonStyle,
-                text = stringResource(id = R.string.logout)
+                text = stringResource(id = R.string.logout),
             )
 
             if (state.isLoading) {
