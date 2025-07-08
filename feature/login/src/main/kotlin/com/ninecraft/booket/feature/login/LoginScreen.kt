@@ -17,14 +17,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.theme.BooketTheme
-import com.ninecraft.booket.core.designsystem.theme.Kakao
-import com.ninecraft.booket.core.designsystem.component.BooketButton
+import com.ninecraft.booket.core.designsystem.component.button.ReedButton
+import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
+import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
+import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -74,7 +72,7 @@ internal fun Login(
                 text = "로그인",
                 modifier = Modifier.align(Alignment.Center),
             )
-            BooketButton(
+            ReedButton(
                 onClick = {
                     state.eventSink(LoginScreen.Event.OnKakaoLoginButtonClick)
                 },
@@ -83,19 +81,9 @@ internal fun Login(
                     .padding(start = 32.dp, end = 32.dp, bottom = 32.dp)
                     .height(56.dp)
                     .align(Alignment.BottomCenter),
-                containerColor = Kakao,
-                contentColor = Color(0xFF121212),
-                text = {
-                    Text(
-                        text = stringResource(id = R.string.kakao_login),
-                        fontSize = 18.sp,
-                        style = TextStyle(
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 18.sp,
-                            lineHeight = 25.sp,
-                        ),
-                    )
-                },
+                colorStyle = ReedButtonColorStyle.KAKAO,
+                sizeStyle = largeButtonStyle,
+                text = stringResource(id = R.string.kakao_login),
                 leadingIcon = {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
@@ -115,7 +103,7 @@ internal fun Login(
 @DevicePreview
 @Composable
 private fun LoginPreview() {
-    BooketTheme {
+    ReedTheme {
         Login(
             state = LoginScreen.State(
                 eventSink = {},

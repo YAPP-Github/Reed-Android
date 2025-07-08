@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.theme.BooketTheme
+import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -55,7 +55,7 @@ internal fun SearchContent(
 @DevicePreview
 @Composable
 private fun SearchPreview() {
-    BooketTheme {
+    ReedTheme {
         Search(
             state = SearchScreen.State(
                 eventSink = {},
