@@ -18,3 +18,6 @@ data object LoginScreen : ReedScreen(name = "Login()")
 
 @Parcelize
 data object SearchScreen : ReedScreen(name = "Search()")
+
+@Parcelize
+data object TermsAgreementScreen : ReedScreen(name = "TermsAgreement()")

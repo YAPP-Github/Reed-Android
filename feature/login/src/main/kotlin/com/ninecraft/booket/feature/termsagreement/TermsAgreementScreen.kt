@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.login
+package com.ninecraft.booket.feature.termsagreement
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,36 +32,16 @@ import com.ninecraft.booket.core.designsystem.component.checkbox.SquareCheckBox
 import com.ninecraft.booket.core.designsystem.component.checkbox.TickOnlyCheckBox
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.feature.login.R
+import com.ninecraft.booket.screens.TermsAgreementScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.screen.Screen
 import dagger.hilt.android.components.ActivityRetainedComponent
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
-data object TermsAgreementScreen : Screen {
-    data class State(
-        val isAllAgreed: Boolean,
-        val agreedTerms: ImmutableList<Boolean>,
-        val eventSink: (Event) -> Unit,
-    ) : CircuitUiState
-
-    sealed interface Event : CircuitUiEvent {
-        data object OnAllTermsAgreedClick : Event
-        data class OnTermItemClick(val index: Int) : Event
-        data object OnBackClick : Event
-        data class OnTermDetailClick(val url: String) : Event
-        data object OnStartButtonClick : Event
-    }
-}
 
 @CircuitInject(TermsAgreementScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun TermsAgreement(
-    state: TermsAgreementScreen.State,
+    state: TermsAgreementUiState,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -71,7 +51,7 @@ internal fun TermsAgreement(
     ) {
         ReedBackTopAppBar(
             onNavigateBack = {
-                state.eventSink(TermsAgreementScreen.Event.OnBackClick)
+                state.eventSink(TermsAgreementUiEvent.OnBackClick)
             },
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
@@ -103,7 +83,7 @@ internal fun TermsAgreement(
                 SquareCheckBox(
                     checked = state.isAllAgreed,
                     onCheckedChange = {
-                        state.eventSink(TermsAgreementScreen.Event.OnAllTermsAgreedClick)
+                        state.eventSink(TermsAgreementUiEvent.OnAllTermsAgreedClick)
                     },
                 )
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
@@ -122,17 +102,17 @@ internal fun TermsAgreement(
                     title = title,
                     checked = state.agreedTerms[index],
                     onCheckClick = {
-                        state.eventSink(TermsAgreementScreen.Event.OnTermItemClick(index))
+                        state.eventSink(TermsAgreementUiEvent.OnTermItemClick(index))
                     },
                     onDetailClick = {
-                        state.eventSink(TermsAgreementScreen.Event.OnTermDetailClick(""))
+                        state.eventSink(TermsAgreementUiEvent.OnTermDetailClick(""))
                     },
                 )
             }
         }
         ReedButton(
             onClick = {
-                state.eventSink(TermsAgreementScreen.Event.OnStartButtonClick)
+                state.eventSink(TermsAgreementUiEvent.OnStartButtonClick)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -195,7 +175,7 @@ private fun TermItem(
 private fun TermsAgreementPreview() {
     ReedTheme {
         TermsAgreement(
-            state = TermsAgreementScreen.State(
+            state = TermsAgreementUiState(
                 isAllAgreed = false,
                 agreedTerms = persistentListOf(false, false, false),
                 eventSink = {},
