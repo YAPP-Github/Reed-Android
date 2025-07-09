@@ -46,7 +46,6 @@ data object TermsAgreementScreen : Screen {
     data class State(
         val isAllAgreed: Boolean,
         val agreedTerms: ImmutableList<Boolean>,
-        val isStartButtonEnabled: Boolean,
         val eventSink: (Event) -> Unit,
     ) : CircuitUiState
 
@@ -144,7 +143,7 @@ internal fun TermsAgreement(
                 ),
             colorStyle = ReedButtonColorStyle.PRIMARY,
             sizeStyle = largeButtonStyle,
-            enabled = state.isStartButtonEnabled,
+            enabled = state.isAllAgreed,
             text = stringResource(R.string.terms_agreement_button_start),
         )
     }
@@ -199,7 +198,6 @@ private fun TermsAgreementPreview() {
             state = TermsAgreementScreen.State(
                 isAllAgreed = false,
                 agreedTerms = persistentListOf(false, false, false),
-                isStartButtonEnabled = false,
                 eventSink = {},
             ),
         )

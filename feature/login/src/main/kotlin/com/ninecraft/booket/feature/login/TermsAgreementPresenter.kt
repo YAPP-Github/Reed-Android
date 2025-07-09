@@ -34,12 +34,6 @@ class TermsAgreementPresenter @AssistedInject constructor(
             }
         }
 
-        val isStartButtonEnabled by remember {
-            derivedStateOf {
-                isAllAgreed
-            }
-        }
-
         fun handleEvent(event: TermsAgreementScreen.Event) {
             when (event) {
                 is TermsAgreementScreen.Event.OnAllTermsAgreedClick -> {
@@ -68,7 +62,6 @@ class TermsAgreementPresenter @AssistedInject constructor(
         return TermsAgreementScreen.State(
             isAllAgreed = isAllAgreed,
             agreedTerms = agreedTerms,
-            isStartButtonEnabled = isStartButtonEnabled,
             eventSink = ::handleEvent,
         )
     }
