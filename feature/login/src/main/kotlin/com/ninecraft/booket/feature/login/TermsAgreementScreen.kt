@@ -81,8 +81,8 @@ internal fun TermsAgreement(
         ) {
             Text(
                 text = stringResource(R.string.terms_agreement_title),
-                style = ReedTheme.typography.title2SemiBold,
                 color = ReedTheme.colors.contentPrimary,
+                style = ReedTheme.typography.title2SemiBold,
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
             Row(
@@ -108,8 +108,8 @@ internal fun TermsAgreement(
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
                 Text(
                     text = stringResource(R.string.terms_agreement_all),
-                    style = ReedTheme.typography.headline1SemiBold,
                     color = ReedTheme.colors.contentPrimary,
+                    style = ReedTheme.typography.headline1SemiBold,
                 )
             }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
@@ -176,10 +176,10 @@ private fun TermItem(
         )
         Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
         Text(
-            modifier = Modifier.weight(1f),
             text = title,
-            style = ReedTheme.typography.body1Medium,
+            modifier = Modifier.weight(1f),
             color = ReedTheme.colors.contentPrimary,
+            style = ReedTheme.typography.body1Medium,
         )
         Icon(
             imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
