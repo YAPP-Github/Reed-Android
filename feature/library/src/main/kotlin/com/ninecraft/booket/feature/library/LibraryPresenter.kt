@@ -9,6 +9,7 @@ import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.feature.login.LoginScreen
+import com.ninecraft.booket.feature.settings.SettingsScreen
 import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -73,6 +74,10 @@ class LibraryPresenter @AssistedInject constructor(
             when (event) {
                 is LibraryScreen.Event.InitSideEffect -> {
                     sideEffect = null
+                }
+
+                is LibraryScreen.Event.OnSettingsButtonClick -> {
+                    navigator.goTo(SettingsScreen)
                 }
 
                 is LibraryScreen.Event.OnLogoutButtonClick -> {
