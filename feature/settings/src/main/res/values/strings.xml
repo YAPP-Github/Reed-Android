@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">설정</string>
+    <string name="settings_privacy_policy">개인정보 처리방침</string>
+    <string name="settings_terms_of_service">이용약관</string>
+    <string name="settings_open_source_license">오픈소스 라이선스</string>
+    <string name="settings_app_verision">앱 버전</string>
+    <string name="settings_logout">로그아웃</string>
+    <string name="settings_withdraw">회원탈퇴</string>
+</resources>
