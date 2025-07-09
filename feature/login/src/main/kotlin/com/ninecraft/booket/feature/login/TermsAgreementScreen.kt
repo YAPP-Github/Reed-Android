@@ -151,12 +151,13 @@ internal fun TermsAgreement(
 @Composable
 private fun TermItem(
     title: String,
+    modifier: Modifier = Modifier,
     checked: Boolean = false,
     onCheckClick: () -> Unit = {},
     onDetailClick: () -> Unit = {},
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickableSingle {
                 onDetailClick()
