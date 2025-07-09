@@ -37,13 +37,15 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data object TermsAgreementScreen : Screen {
     data class State(
         val isAllAgreed: Boolean,
-        val agreedTerms: List<Boolean>,
+        val agreedTerms: ImmutableList<Boolean>,
         val isStartButtonEnabled: Boolean,
         val eventSink: (Event) -> Unit,
     ) : CircuitUiState
@@ -196,7 +198,7 @@ private fun TermsAgreementPreview() {
         TermsAgreement(
             state = TermsAgreementScreen.State(
                 isAllAgreed = false,
-                agreedTerms = listOf(false, false, false),
+                agreedTerms = persistentListOf(false, false, false),
                 isStartButtonEnabled = false,
                 eventSink = {},
             ),
