@@ -2,10 +2,10 @@ package com.ninecraft.booket.feature.main.component
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.ninecraft.booket.feature.home.HomeScreen
-import com.ninecraft.booket.feature.library.LibraryScreen
 import com.ninecraft.booket.feature.main.R
-import com.ninecraft.booket.feature.search.SearchScreen
+import com.ninecraft.booket.screens.HomeScreen
+import com.ninecraft.booket.screens.LibraryScreen
+import com.ninecraft.booket.screens.SearchScreen
 import com.slack.circuit.runtime.screen.Screen
 
 internal enum class MainTab(
