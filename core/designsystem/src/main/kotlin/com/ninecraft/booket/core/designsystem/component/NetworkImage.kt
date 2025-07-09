@@ -34,7 +34,7 @@ fun NetworkImage(
             alignment = Alignment.Center,
             contentDescription = contentDescription,
         ),
-        previewPlaceholder = placeholder
+        previewPlaceholder = placeholder,
     )
 }
 
