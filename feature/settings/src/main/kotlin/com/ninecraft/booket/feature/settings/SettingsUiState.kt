@@ -4,8 +4,8 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 
 data class SettingsUiState(
-    val isLogoutSheetVisible: Boolean,
-    val isWithdrawSheetVisible: Boolean,
+    val isLogoutBottomSheetVisible: Boolean,
+    val isWithdrawBottomSheetVisible: Boolean,
     val isWithdrawConfirmed: Boolean,
     val eventSink: (SettingsUiEvent) -> Unit,
 ) : CircuitUiState

@@ -144,7 +144,7 @@ internal fun Settings(
         )
     }
 
-    if (state.isLogoutSheetVisible) {
+    if (state.isLogoutBottomSheetVisible) {
         LogoutConfirmationBottomSheet(
             onDismissRequest = {
                 coroutineScope.launch {
@@ -159,7 +159,7 @@ internal fun Settings(
         )
     }
 
-    if (state.isWithdrawSheetVisible) {
+    if (state.isWithdrawBottomSheetVisible) {
         WithdrawConfirmationBottomSheet(
             onDismissRequest = {
                 coroutineScope.launch {
@@ -368,8 +368,8 @@ private fun SettingsScreenPreview() {
     ReedTheme {
         Settings(
             state = SettingsUiState(
-                isLogoutSheetVisible = false,
-                isWithdrawSheetVisible = false,
+                isLogoutBottomSheetVisible = false,
+                isWithdrawBottomSheetVisible = false,
                 isWithdrawConfirmed = false,
                 eventSink = {},
             ),

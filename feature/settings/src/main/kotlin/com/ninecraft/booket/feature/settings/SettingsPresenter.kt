@@ -20,8 +20,8 @@ class SettingsPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): SettingsUiState {
-        var isLogoutSheetVisible by rememberRetained { mutableStateOf(false) }
-        var isWithdrawSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isLogoutBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isWithdrawBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isWithdrawConfirmed by rememberRetained { mutableStateOf(false) }
 
         fun handleEvent(event: SettingsUiEvent) {
@@ -35,16 +35,16 @@ class SettingsPresenter @AssistedInject constructor(
                 }
 
                 is SettingsUiEvent.OnLogoutClick -> {
-                    isLogoutSheetVisible = true
+                    isLogoutBottomSheetVisible = true
                 }
 
                 is SettingsUiEvent.OnWithdrawClick -> {
-                    isWithdrawSheetVisible = true
+                    isWithdrawBottomSheetVisible = true
                 }
 
                 is SettingsUiEvent.OnBottomSheetDismissed -> {
-                    isLogoutSheetVisible = false
-                    isWithdrawSheetVisible = false
+                    isLogoutBottomSheetVisible = false
+                    isWithdrawBottomSheetVisible = false
                     isWithdrawConfirmed = false
                 }
 
@@ -62,8 +62,8 @@ class SettingsPresenter @AssistedInject constructor(
             }
         }
         return SettingsUiState(
-            isLogoutSheetVisible = isLogoutSheetVisible,
-            isWithdrawSheetVisible = isWithdrawSheetVisible,
+            isLogoutBottomSheetVisible = isLogoutBottomSheetVisible,
+            isWithdrawBottomSheetVisible = isWithdrawBottomSheetVisible,
             isWithdrawConfirmed = isWithdrawConfirmed,
             eventSink = ::handleEvent,
         )
