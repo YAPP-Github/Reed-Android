@@ -52,40 +52,6 @@ internal fun Settings(
     val withDrawSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
 
-    if (state.isLogoutSheetVisible) {
-        LogoutConfirmationBottomSheet(
-            onDismissRequest = {
-                coroutineScope.launch {
-                    logoutSheetState.hide()
-                    state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
-                }
-            },
-            sheetState = logoutSheetState,
-            onLogoutButtonClick = {
-                state.eventSink(SettingsUiEvent.Logout)
-            },
-        )
-    }
-
-    if (state.isWithdrawSheetVisible) {
-        WithdrawConfirmationBottomSheet(
-            onDismissRequest = {
-                coroutineScope.launch {
-                    withDrawSheetState.hide()
-                    state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
-                }
-            },
-            sheetState = withDrawSheetState,
-            isCheckBoxChecked = state.isWithdrawConfirmed,
-            onCheckBoxCheckedChange = {
-                state.eventSink(SettingsUiEvent.OnWithdrawConfirmationToggled)
-            },
-            onWithdrawButtonClick = {
-                state.eventSink(SettingsUiEvent.Withdraw)
-            },
-        )
-    }
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -142,7 +108,7 @@ internal fun Settings(
             title = stringResource(R.string.settings_app_verision),
             action = {
                 Text(
-                    text = "1.0.1", // Presenter에 context 주입해서 버전 정보 가져오는 로직을 구현 해야할지 고민
+                    text = state.appVersion,
                     style = ReedTheme.typography.body1Medium,
                     color = ReedTheme.colors.contentSecondary,
                 )
@@ -159,6 +125,40 @@ internal fun Settings(
             title = stringResource(R.string.settings_withdraw),
             onItemClick = {
                 state.eventSink(SettingsUiEvent.OnWithdrawClick)
+            },
+        )
+    }
+
+    if (state.isLogoutSheetVisible) {
+        LogoutConfirmationBottomSheet(
+            onDismissRequest = {
+                coroutineScope.launch {
+                    logoutSheetState.hide()
+                    state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
+                }
+            },
+            sheetState = logoutSheetState,
+            onLogoutButtonClick = {
+                state.eventSink(SettingsUiEvent.Logout)
+            },
+        )
+    }
+
+    if (state.isWithdrawSheetVisible) {
+        WithdrawConfirmationBottomSheet(
+            onDismissRequest = {
+                coroutineScope.launch {
+                    withDrawSheetState.hide()
+                    state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
+                }
+            },
+            sheetState = withDrawSheetState,
+            isCheckBoxChecked = state.isWithdrawConfirmed,
+            onCheckBoxCheckedChange = {
+                state.eventSink(SettingsUiEvent.OnWithdrawConfirmationToggled)
+            },
+            onWithdrawButtonClick = {
+                state.eventSink(SettingsUiEvent.Withdraw)
             },
         )
     }
@@ -347,6 +347,7 @@ private fun SettingsScreenPreview() {
     ReedTheme {
         Settings(
             state = SettingsUiState(
+                appVersion = "1.0",
                 isLogoutSheetVisible = false,
                 isWithdrawSheetVisible = false,
                 isWithdrawConfirmed = false,

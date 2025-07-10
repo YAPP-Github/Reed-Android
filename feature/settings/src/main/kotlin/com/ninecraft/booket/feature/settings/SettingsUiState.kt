@@ -4,6 +4,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 
 data class SettingsUiState(
+    val appVersion: String,
     val isLogoutSheetVisible: Boolean,
     val isWithdrawSheetVisible: Boolean,
     val isWithdrawConfirmed: Boolean,
