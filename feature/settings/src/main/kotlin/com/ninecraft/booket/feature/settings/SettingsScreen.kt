@@ -33,51 +33,27 @@ import com.ninecraft.booket.core.designsystem.component.checkbox.SquareCheckBox
 import com.ninecraft.booket.core.designsystem.component.divider.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.screens.SettingsScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.screen.Screen
 import dagger.hilt.android.components.ActivityRetainedComponent
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
-data object SettingsScreen : Screen {
-    data class State(
-        val isLogoutSheetVisible: Boolean,
-        val isWithdrawSheetVisible: Boolean,
-        val isWithdrawConfirmed: Boolean,
-        val eventSink: (Event) -> Unit,
-    ) : CircuitUiState
-
-    sealed interface Event : CircuitUiEvent {
-        data object OnBackClick : Event
-        data class OnTermDetailClick(val title: String) : Event
-        data object OnLogoutClick : Event
-        data object OnWithdrawClick : Event
-        data object OnBottomSheetDismissed : Event
-        data object OnWithdrawConfirmationToggled : Event
-        data object Logout : Event
-        data object Withdraw : Event
-    }
-}
 
 @CircuitInject(SettingsScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun Settings(
-    state: SettingsScreen.State,
+    state: SettingsUiState,
     modifier: Modifier = Modifier,
 ) {
 
     if (state.isLogoutSheetVisible) {
         LogoutConfirmationBottomSheet(
             onDismissRequest = {
-                state.eventSink(SettingsScreen.Event.OnBottomSheetDismissed)
+                state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
             },
             onCancelButtonClick = {
-                state.eventSink(SettingsScreen.Event.OnBottomSheetDismissed)
+                state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
             },
             onLogoutButtonClick = {
-                state.eventSink(SettingsScreen.Event.Logout)
+                state.eventSink(SettingsUiEvent.Logout)
             },
         )
     }
@@ -85,17 +61,17 @@ internal fun Settings(
     if (state.isWithdrawSheetVisible) {
         WithdrawConfirmationBottomSheet(
             onDismissRequest = {
-                state.eventSink(SettingsScreen.Event.OnBottomSheetDismissed)
+                state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
             },
             isCheckBoxChecked = state.isWithdrawConfirmed,
             onCheckBoxCheckedChange = {
-                state.eventSink(SettingsScreen.Event.OnWithdrawConfirmationToggled)
+                state.eventSink(SettingsUiEvent.OnWithdrawConfirmationToggled)
             },
             onCancelButtonClick = {
-                state.eventSink(SettingsScreen.Event.OnBottomSheetDismissed)
+                state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
             },
             onWithdrawButtonClick = {
-                state.eventSink(SettingsScreen.Event.Withdraw)
+                state.eventSink(SettingsUiEvent.Withdraw)
             },
         )
     }
@@ -108,7 +84,7 @@ internal fun Settings(
         ReedBackTopAppBar(
             title = stringResource(R.string.settings_title),
             onNavigateBack = {
-                state.eventSink(SettingsScreen.Event.OnBackClick)
+                state.eventSink(SettingsUiEvent.OnBackClick)
             },
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
@@ -116,7 +92,7 @@ internal fun Settings(
         SettingItem(
             title = stringResource(R.string.settings_privacy_policy),
             onItemClick = {
-                state.eventSink(SettingsScreen.Event.OnTermDetailClick(""))
+                state.eventSink(SettingsUiEvent.OnTermDetailClick(""))
             },
             action = {
                 Icon(
@@ -129,7 +105,7 @@ internal fun Settings(
         SettingItem(
             title = stringResource(R.string.settings_terms_of_service),
             onItemClick = {
-                state.eventSink(SettingsScreen.Event.OnTermDetailClick(""))
+                state.eventSink(SettingsUiEvent.OnTermDetailClick(""))
             },
             action = {
                 Icon(
@@ -142,7 +118,7 @@ internal fun Settings(
         SettingItem(
             title = stringResource(R.string.settings_open_source_license),
             onItemClick = {
-                state.eventSink(SettingsScreen.Event.OnTermDetailClick(""))
+                state.eventSink(SettingsUiEvent.OnTermDetailClick(""))
             },
             action = {
                 Icon(
@@ -166,13 +142,13 @@ internal fun Settings(
         SettingItem(
             title = stringResource(R.string.settings_logout),
             onItemClick = {
-                state.eventSink(SettingsScreen.Event.OnLogoutClick)
+                state.eventSink(SettingsUiEvent.OnLogoutClick)
             },
         )
         SettingItem(
             title = stringResource(R.string.settings_withdraw),
             onItemClick = {
-                state.eventSink(SettingsScreen.Event.OnWithdrawClick)
+                state.eventSink(SettingsUiEvent.OnWithdrawClick)
             },
         )
     }
@@ -358,7 +334,7 @@ private fun WithdrawConfirmationBottomSheet(
 private fun SettingsScreenPreview() {
     ReedTheme {
         Settings(
-            state = SettingsScreen.State(
+            state = SettingsUiState(
                 isLogoutSheetVisible = false,
                 isWithdrawSheetVisible = false,
                 isWithdrawConfirmed = false,

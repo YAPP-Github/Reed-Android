@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.screens.SettingsScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -15,51 +16,51 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 
 class SettingsPresenter @AssistedInject constructor(
     @Assisted val navigator: Navigator,
-) : Presenter<SettingsScreen.State> {
+) : Presenter<SettingsUiState> {
 
     @Composable
-    override fun present(): SettingsScreen.State {
+    override fun present(): SettingsUiState {
         var isLogoutSheetVisible by rememberRetained { mutableStateOf(false) }
         var isWithdrawSheetVisible by rememberRetained { mutableStateOf(false) }
         var isWithdrawConfirmed by rememberRetained { mutableStateOf(false) }
 
-        fun handleEvent(event: SettingsScreen.Event) {
+        fun handleEvent(event: SettingsUiEvent) {
             when (event) {
-                is SettingsScreen.Event.OnBackClick -> {
+                is SettingsUiEvent.OnBackClick -> {
                     navigator.pop()
                 }
 
-                is SettingsScreen.Event.OnTermDetailClick -> {
+                is SettingsUiEvent.OnTermDetailClick -> {
                     // TODO: 웹뷰 화면으로 이동
                 }
 
-                is SettingsScreen.Event.OnLogoutClick -> {
+                is SettingsUiEvent.OnLogoutClick -> {
                     isLogoutSheetVisible = true
                 }
 
-                is SettingsScreen.Event.OnWithdrawClick -> {
+                is SettingsUiEvent.OnWithdrawClick -> {
                     isWithdrawSheetVisible = true
                 }
 
-                is SettingsScreen.Event.OnBottomSheetDismissed -> {
+                is SettingsUiEvent.OnBottomSheetDismissed -> {
                     isLogoutSheetVisible = false
                     isWithdrawSheetVisible = false
                 }
 
-                is SettingsScreen.Event.OnWithdrawConfirmationToggled -> {
+                is SettingsUiEvent.OnWithdrawConfirmationToggled -> {
                     isWithdrawConfirmed = !isWithdrawConfirmed
                 }
 
-                is SettingsScreen.Event.Logout -> {
+                is SettingsUiEvent.Logout -> {
                     // TODO: 로그아웃 처리 -> 성공 시 로그인 화면으로 이동
                 }
 
-                is SettingsScreen.Event.Withdraw -> {
+                is SettingsUiEvent.Withdraw -> {
                     // TODO: 회원탈퇴 처리 -> 성공 시 로그인 화면으로 이동
                 }
             }
         }
-        return SettingsScreen.State(
+        return SettingsUiState(
             isLogoutSheetVisible = isLogoutSheetVisible,
             isWithdrawSheetVisible = isWithdrawSheetVisible,
             isWithdrawConfirmed = isWithdrawConfirmed,

@@ -39,7 +39,7 @@ include(
     ":feature:login",
     ":feature:main",
     ":feature:search",
-    ":feature:settings"
+    ":feature:settings",
 
     ":screens",
 )
