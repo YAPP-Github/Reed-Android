@@ -105,7 +105,7 @@ internal fun Settings(
             },
         )
         SettingItem(
-            title = stringResource(R.string.settings_app_verision),
+            title = stringResource(R.string.settings_app_version),
             isClickable = false,
             action = {
                 Text(
@@ -178,7 +178,7 @@ private fun SettingItem(
             .fillMaxWidth()
             .clickableSingle { onItemClick() }
     } else {
-        Modifier.fillMaxWidth()
+        modifier.fillMaxWidth()
     }
 
     Row(
@@ -201,7 +201,7 @@ private fun SettingItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LogoutConfirmationBottomSheet(
+private fun LogoutConfirmationBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
     onLogoutButtonClick: () -> Unit,
