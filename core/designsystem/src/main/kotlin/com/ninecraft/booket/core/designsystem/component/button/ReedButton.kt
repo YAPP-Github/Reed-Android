@@ -31,10 +31,10 @@ import com.ninecraft.booket.core.common.utils.get
 @Composable
 fun ReedButton(
     onClick: () -> Unit,
+    sizeStyle: ButtonSizeStyle,
+    colorStyle: ReedButtonColorStyle,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    colorStyle: ReedButtonColorStyle,
-    sizeStyle: ButtonSizeStyle,
     text: String = "",
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -47,7 +47,7 @@ fun ReedButton(
     val scale by animateFloatAsState(
         targetValue = if (isPressed) 0.96f else 1f,
         animationSpec = tween(durationMillis = 100),
-        label = "ScaleAnimation",
+        label = "Scale Animation",
     )
 
     Button(
@@ -57,15 +57,15 @@ fun ReedButton(
             scaleY = scale
         },
         enabled = enabled,
-        interactionSource = interactionSource,
         shape = RoundedCornerShape(sizeStyle.radius),
-        contentPadding = sizeStyle.paddingValues,
         colors = ButtonDefaults.buttonColors(
             containerColor = colorStyle.containerColor(isPressed),
             contentColor = colorStyle.contentColor(),
             disabledContentColor = colorStyle.disabledContentColor(),
             disabledContainerColor = colorStyle.disabledContainerColor(),
         ),
+        contentPadding = sizeStyle.paddingValues,
+        interactionSource = interactionSource,
     ) {
         if (leadingIcon != null) {
             Box(Modifier.sizeIn(maxHeight = 24.dp)) {
