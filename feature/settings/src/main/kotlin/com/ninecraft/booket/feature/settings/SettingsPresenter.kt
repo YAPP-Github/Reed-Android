@@ -1,13 +1,10 @@
 package com.ninecraft.booket.feature.settings
 
-import android.content.Context
-import android.content.pm.PackageManager
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.screens.SettingsScreen
-import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -16,16 +13,13 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
 
 class SettingsPresenter @AssistedInject constructor(
     @Assisted val navigator: Navigator,
-    @ApplicationContext private val context: Context,
 ) : Presenter<SettingsUiState> {
 
     @Composable
     override fun present(): SettingsUiState {
-        val appVersion = rememberRetained { getAppVersion(context) }
         var isLogoutSheetVisible by rememberRetained { mutableStateOf(false) }
         var isWithdrawSheetVisible by rememberRetained { mutableStateOf(false) }
         var isWithdrawConfirmed by rememberRetained { mutableStateOf(false) }
@@ -68,7 +62,6 @@ class SettingsPresenter @AssistedInject constructor(
             }
         }
         return SettingsUiState(
-            appVersion = appVersion,
             isLogoutSheetVisible = isLogoutSheetVisible,
             isWithdrawSheetVisible = isWithdrawSheetVisible,
             isWithdrawConfirmed = isWithdrawConfirmed,
@@ -80,15 +73,5 @@ class SettingsPresenter @AssistedInject constructor(
     @AssistedFactory
     fun interface Factory {
         fun create(navigator: Navigator): SettingsPresenter
-    }
-
-    private fun getAppVersion(context: Context): String {
-        return try {
-            val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            packageInfo.versionName ?: ""
-        } catch (e: PackageManager.NameNotFoundException) {
-            Logger.e(e, "Failed to get app version")
-            ""
-        }
     }
 }

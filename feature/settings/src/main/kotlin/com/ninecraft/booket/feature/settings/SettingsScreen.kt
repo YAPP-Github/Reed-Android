@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.settings
 
+import android.content.pm.PackageManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,11 +17,13 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -37,6 +40,7 @@ import com.ninecraft.booket.core.designsystem.component.divider.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.screens.SettingsScreen
+import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.launch
@@ -51,6 +55,16 @@ internal fun Settings(
     val logoutSheetState = rememberModalBottomSheetState()
     val withDrawSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
+
+    val context = LocalContext.current
+    val appVersion = remember {
+        try {
+            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "Unknown"
+        } catch (e: PackageManager.NameNotFoundException) {
+            Logger.e(e, "Failed to get app version")
+            "Unknown"
+        }
+    }
 
     Column(
         modifier = modifier
@@ -109,7 +123,7 @@ internal fun Settings(
             isClickable = false,
             action = {
                 Text(
-                    text = state.appVersion,
+                    text = appVersion,
                     style = ReedTheme.typography.body1Medium,
                     color = ReedTheme.colors.contentSecondary,
                 )
@@ -354,7 +368,6 @@ private fun SettingsScreenPreview() {
     ReedTheme {
         Settings(
             state = SettingsUiState(
-                appVersion = "1.0",
                 isLogoutSheetVisible = false,
                 isWithdrawSheetVisible = false,
                 isWithdrawConfirmed = false,
