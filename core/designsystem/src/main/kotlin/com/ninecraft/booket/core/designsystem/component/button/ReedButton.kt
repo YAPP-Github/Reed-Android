@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -68,7 +69,7 @@ fun ReedButton(
         interactionSource = interactionSource,
     ) {
         if (leadingIcon != null) {
-            Box(Modifier.sizeIn(maxHeight = 24.dp)) {
+            Box(Modifier.size(sizeStyle.iconSize)) {
                 leadingIcon()
             }
         }
@@ -89,7 +90,7 @@ fun ReedButton(
         }
 
         if (trailingIcon != null) {
-            Box(Modifier.sizeIn(maxHeight = 24.dp)) {
+            Box(Modifier.size(sizeStyle.iconSize)) {
                 trailingIcon()
             }
         }

@@ -12,6 +12,7 @@ data class ButtonSizeStyle(
     val radius: Dp = 0.dp,
     val textStyle: TextStyle,
     val iconSpacing: Dp = 0.dp,
+    val iconSize: Dp = 24.dp,
 )
 
 val largeButtonStyle: ButtonSizeStyle
@@ -23,6 +24,7 @@ val largeButtonStyle: ButtonSizeStyle
         radius = ReedTheme.radius.sm,
         textStyle = ReedTheme.typography.body1Medium,
         iconSpacing = ReedTheme.spacing.spacing2,
+        iconSize = 24.dp,
     )
 
 val mediumButtonStyle: ButtonSizeStyle
@@ -34,6 +36,7 @@ val mediumButtonStyle: ButtonSizeStyle
         radius = ReedTheme.radius.sm,
         textStyle = ReedTheme.typography.label1Medium,
         iconSpacing = ReedTheme.spacing.spacing1,
+        iconSize = 24.dp,
     )
 
 val smallButtonStyle: ButtonSizeStyle
@@ -45,4 +48,5 @@ val smallButtonStyle: ButtonSizeStyle
         radius = ReedTheme.radius.xs,
         textStyle = ReedTheme.typography.label1Medium,
         iconSpacing = ReedTheme.spacing.spacing1,
+        iconSize = 22.dp,
     )
