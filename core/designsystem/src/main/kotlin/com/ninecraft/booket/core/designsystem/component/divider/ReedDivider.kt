@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
 @Composable
-fun ReedDivider(modifier: Modifier = Modifier,) {
+fun ReedDivider(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxWidth()

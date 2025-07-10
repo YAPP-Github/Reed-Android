@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.screens.SettingsScreen
+import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -86,7 +87,7 @@ class SettingsPresenter @AssistedInject constructor(
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
             packageInfo.versionName ?: ""
         } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
+            Logger.e(e, "Failed to get app version")
             ""
         }
     }

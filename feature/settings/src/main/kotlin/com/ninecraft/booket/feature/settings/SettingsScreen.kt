@@ -272,7 +272,7 @@ private fun WithdrawConfirmationBottomSheet(
         onDismissRequest = {
             onDismissRequest()
         },
-        sheetState = sheetState
+        sheetState = sheetState,
     ) {
         Column(
             modifier = Modifier
