@@ -45,6 +45,7 @@ class SettingsPresenter @AssistedInject constructor(
                 is SettingsUiEvent.OnBottomSheetDismissed -> {
                     isLogoutSheetVisible = false
                     isWithdrawSheetVisible = false
+                    isWithdrawConfirmed = false
                 }
 
                 is SettingsUiEvent.OnWithdrawConfirmationToggled -> {
