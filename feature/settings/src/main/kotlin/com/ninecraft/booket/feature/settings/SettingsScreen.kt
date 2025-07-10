@@ -2,7 +2,6 @@ package com.ninecraft.booket.feature.settings
 
 import android.content.pm.PackageManager
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,10 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -26,19 +23,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
-import com.ninecraft.booket.core.designsystem.component.bottomsheet.ReedBottomSheet
-import com.ninecraft.booket.core.designsystem.component.button.ReedButton
-import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
-import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
-import com.ninecraft.booket.core.designsystem.component.checkbox.SquareCheckBox
 import com.ninecraft.booket.core.designsystem.component.divider.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.feature.settings.component.LogoutConfirmationBottomSheet
+import com.ninecraft.booket.feature.settings.component.WithdrawConfirmationBottomSheet
 import com.ninecraft.booket.screens.SettingsScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -147,12 +139,15 @@ internal fun Settings(
     if (state.isLogoutBottomSheetVisible) {
         LogoutConfirmationBottomSheet(
             onDismissRequest = {
+                state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
+            },
+            sheetState = logoutSheetState,
+            onCancelButtonClick = {
                 coroutineScope.launch {
                     logoutSheetState.hide()
                     state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
                 }
             },
-            sheetState = logoutSheetState,
             onLogoutButtonClick = {
                 state.eventSink(SettingsUiEvent.Logout)
             },
@@ -162,15 +157,18 @@ internal fun Settings(
     if (state.isWithdrawBottomSheetVisible) {
         WithdrawConfirmationBottomSheet(
             onDismissRequest = {
-                coroutineScope.launch {
-                    withDrawSheetState.hide()
-                    state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
-                }
+                state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
             },
             sheetState = withDrawSheetState,
             isCheckBoxChecked = state.isWithdrawConfirmed,
             onCheckBoxCheckedChange = {
                 state.eventSink(SettingsUiEvent.OnWithdrawConfirmationToggled)
+            },
+            onCancelButtonClick = {
+                coroutineScope.launch {
+                    withDrawSheetState.hide()
+                    state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
+                }
             },
             onWithdrawButtonClick = {
                 state.eventSink(SettingsUiEvent.Withdraw)
@@ -210,155 +208,6 @@ private fun SettingItem(
             color = ReedTheme.colors.contentPrimary,
         )
         action()
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun LogoutConfirmationBottomSheet(
-    onDismissRequest: () -> Unit,
-    sheetState: SheetState,
-    onLogoutButtonClick: () -> Unit,
-) {
-    ReedBottomSheet(
-        onDismissRequest = {
-            onDismissRequest()
-        },
-        sheetState = sheetState,
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(
-                    start = ReedTheme.spacing.spacing5,
-                    top = ReedTheme.spacing.spacing5,
-                    end = ReedTheme.spacing.spacing5,
-                ),
-        ) {
-            Text(
-                text = stringResource(R.string.settings_logout_title),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = ReedTheme.spacing.spacing3),
-                color = ReedTheme.colors.contentPrimary,
-                textAlign = TextAlign.Center,
-                style = ReedTheme.typography.heading2SemiBold,
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                ReedButton(
-                    onClick = {
-                        onDismissRequest()
-                    },
-                    sizeStyle = largeButtonStyle,
-                    colorStyle = ReedButtonColorStyle.SECONDARY,
-                    modifier = Modifier.weight(1f),
-                    text = stringResource(R.string.settings_cancel),
-                )
-                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-                ReedButton(
-                    onClick = {
-                        onLogoutButtonClick()
-                    },
-                    sizeStyle = largeButtonStyle,
-                    colorStyle = ReedButtonColorStyle.PRIMARY,
-                    modifier = Modifier.weight(1f),
-                    text = stringResource(R.string.settings_logout),
-                )
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun WithdrawConfirmationBottomSheet(
-    onDismissRequest: () -> Unit,
-    sheetState: SheetState,
-    isCheckBoxChecked: Boolean,
-    onCheckBoxCheckedChange: () -> Unit,
-    onWithdrawButtonClick: () -> Unit,
-) {
-    ReedBottomSheet(
-        onDismissRequest = {
-            onDismissRequest()
-        },
-        sheetState = sheetState,
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(
-                    start = ReedTheme.spacing.spacing5,
-                    top = ReedTheme.spacing.spacing5,
-                    end = ReedTheme.spacing.spacing5,
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                text = stringResource(R.string.settings_withdraw_title),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = ReedTheme.spacing.spacing3),
-                color = ReedTheme.colors.contentPrimary,
-                textAlign = TextAlign.Center,
-                style = ReedTheme.typography.heading2SemiBold,
-            )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
-            Text(
-                text = stringResource(R.string.settings_withdraw_detail),
-                modifier = Modifier.fillMaxWidth(),
-                color = ReedTheme.colors.contentSecondary,
-                textAlign = TextAlign.Center,
-                style = ReedTheme.typography.body1Medium,
-            )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-            Row {
-                SquareCheckBox(
-                    checked = isCheckBoxChecked,
-                    onCheckedChange = {
-                        onCheckBoxCheckedChange()
-                    },
-                )
-                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-                Text(
-                    text = stringResource(R.string.settings_withdraw_agreement),
-                    color = ReedTheme.colors.contentPrimary,
-                    textAlign = TextAlign.Center,
-                    style = ReedTheme.typography.body1Medium,
-                )
-            }
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                ReedButton(
-                    onClick = {
-                        onDismissRequest()
-                    },
-                    sizeStyle = largeButtonStyle,
-                    colorStyle = ReedButtonColorStyle.SECONDARY,
-                    modifier = Modifier.weight(1f),
-                    text = stringResource(R.string.settings_cancel),
-                )
-                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-                ReedButton(
-                    onClick = {
-                        onWithdrawButtonClick()
-                    },
-                    sizeStyle = largeButtonStyle,
-                    colorStyle = ReedButtonColorStyle.PRIMARY,
-                    modifier = Modifier.weight(1f),
-                    enabled = isCheckBoxChecked,
-                    text = stringResource(R.string.settings_withdraw_action),
-                )
-            }
-        }
     }
 }
 
