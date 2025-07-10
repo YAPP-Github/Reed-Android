@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.settings
 
-import android.content.pm.PackageManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,7 +31,6 @@ import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.settings.component.LogoutConfirmationBottomSheet
 import com.ninecraft.booket.feature.settings.component.WithdrawConfirmationBottomSheet
 import com.ninecraft.booket.screens.SettingsScreen
-import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.launch
@@ -50,12 +48,9 @@ internal fun Settings(
 
     val context = LocalContext.current
     val appVersion = remember {
-        try {
-            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "Unknown"
-        } catch (e: PackageManager.NameNotFoundException) {
-            Logger.e(e, "Failed to get app version")
-            "Unknown"
-        }
+        runCatching {
+            context.packageManager.getPackageInfo(context.packageName, 0)?.versionName
+        }.getOrNull() ?: "Unknown"
     }
 
     Column(
