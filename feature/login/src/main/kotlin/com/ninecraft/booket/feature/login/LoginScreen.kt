@@ -22,39 +22,15 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.screens.LoginScreen
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.screen.Screen
 import dagger.hilt.android.components.ActivityRetainedComponent
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
-data object LoginScreen : Screen {
-    data class State(
-        val isLoading: Boolean = false,
-        val sideEffect: SideEffect? = null,
-        val eventSink: (Event) -> Unit,
-    ) : CircuitUiState
-
-    sealed interface SideEffect {
-        data object KakaoLogin : SideEffect
-        data class ShowToast(val message: String) : SideEffect
-    }
-
-    sealed interface Event : CircuitUiEvent {
-        data object InitSideEffect : Event
-        data object OnKakaoLoginButtonClick : Event
-        data class Login(val accessToken: String) : Event
-        data class LoginFailure(val message: String) : Event
-    }
-}
 
 @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun Login(
-    state: LoginScreen.State,
+    state: LoginUiState,
     modifier: Modifier = Modifier,
 ) {
     HandleLoginSideEffects(
@@ -76,7 +52,7 @@ internal fun Login(
             )
             ReedButton(
                 onClick = {
-                    state.eventSink(LoginScreen.Event.OnKakaoLoginButtonClick)
+                    state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,7 +86,7 @@ internal fun Login(
 private fun LoginPreview() {
     ReedTheme {
         Login(
-            state = LoginScreen.State(
+            state = LoginUiState(
                 eventSink = {},
             ),
         )

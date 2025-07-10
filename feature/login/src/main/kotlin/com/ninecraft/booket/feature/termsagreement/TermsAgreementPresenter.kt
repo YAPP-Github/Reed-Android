@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.login
+package com.ninecraft.booket.feature.termsagreement
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -6,7 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.ninecraft.booket.feature.home.HomeScreen
+import com.ninecraft.booket.screens.HomeScreen
+import com.ninecraft.booket.screens.TermsAgreementScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -20,10 +21,10 @@ import kotlinx.collections.immutable.toPersistentList
 
 class TermsAgreementPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-) : Presenter<TermsAgreementScreen.State> {
+) : Presenter<TermsAgreementUiState> {
 
     @Composable
-    override fun present(): TermsAgreementScreen.State {
+    override fun present(): TermsAgreementUiState {
         var agreedTerms by rememberRetained {
             mutableStateOf(persistentListOf(false, false, false))
         }
@@ -34,32 +35,32 @@ class TermsAgreementPresenter @AssistedInject constructor(
             }
         }
 
-        fun handleEvent(event: TermsAgreementScreen.Event) {
+        fun handleEvent(event: TermsAgreementUiEvent) {
             when (event) {
-                is TermsAgreementScreen.Event.OnAllTermsAgreedClick -> {
+                is TermsAgreementUiEvent.OnAllTermsAgreedClick -> {
                     val toggleAgreed = !isAllAgreed
                     agreedTerms = agreedTerms.map { toggleAgreed }.toPersistentList()
                 }
 
-                is TermsAgreementScreen.Event.OnTermItemClick -> {
+                is TermsAgreementUiEvent.OnTermItemClick -> {
                     agreedTerms = agreedTerms.set(event.index, !agreedTerms[event.index])
                 }
 
-                is TermsAgreementScreen.Event.OnBackClick -> {
+                is TermsAgreementUiEvent.OnBackClick -> {
                     navigator.pop()
                 }
 
-                is TermsAgreementScreen.Event.OnTermDetailClick -> {
+                is TermsAgreementUiEvent.OnTermDetailClick -> {
                     // TODO: 웹뷰 화면으로 이동
                 }
 
-                is TermsAgreementScreen.Event.OnStartButtonClick -> {
+                is TermsAgreementUiEvent.OnStartButtonClick -> {
                     navigator.resetRoot(HomeScreen)
                 }
             }
         }
 
-        return TermsAgreementScreen.State(
+        return TermsAgreementUiState(
             isAllAgreed = isAllAgreed,
             agreedTerms = agreedTerms,
             eventSink = ::handleEvent,
