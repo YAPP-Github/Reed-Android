@@ -50,3 +50,39 @@ val smallButtonStyle: ButtonSizeStyle
         iconSpacing = ReedTheme.spacing.spacing1,
         iconSize = 22.dp,
     )
+
+val largeRoundedButtonStyle: ButtonSizeStyle
+    @Composable get() = ButtonSizeStyle(
+        paddingValues = PaddingValues(
+            horizontal = ReedTheme.spacing.spacing5,
+            vertical = ReedTheme.spacing.spacing3,
+        ),
+        radius = ReedTheme.radius.full,
+        textStyle = ReedTheme.typography.body1Medium,
+        iconSpacing = ReedTheme.spacing.spacing2,
+        iconSize = 24.dp,
+    )
+
+val mediumRoundedButtonStyle: ButtonSizeStyle
+    @Composable get() = ButtonSizeStyle(
+        paddingValues = PaddingValues(
+            horizontal = ReedTheme.spacing.spacing4,
+            vertical = ReedTheme.spacing.spacing3,
+        ),
+        radius = ReedTheme.radius.full,
+        textStyle = ReedTheme.typography.label1Medium,
+        iconSpacing = ReedTheme.spacing.spacing1,
+        iconSize = 24.dp,
+    )
+
+val smallRoundedButtonStyle: ButtonSizeStyle
+    @Composable get() = ButtonSizeStyle(
+        paddingValues = PaddingValues(
+            horizontal = ReedTheme.spacing.spacing3,
+            vertical = ReedTheme.spacing.spacing2,
+        ),
+        radius = ReedTheme.radius.full,
+        textStyle = ReedTheme.typography.label1Medium,
+        iconSpacing = ReedTheme.spacing.spacing1,
+        iconSize = 22.dp,
+    )
