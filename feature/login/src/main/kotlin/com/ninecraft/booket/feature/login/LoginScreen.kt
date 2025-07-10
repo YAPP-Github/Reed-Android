@@ -54,6 +54,8 @@ internal fun Login(
                 onClick = {
                     state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
                 },
+                sizeStyle = largeButtonStyle,
+                colorStyle = ReedButtonColorStyle.KAKAO,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
@@ -62,8 +64,6 @@ internal fun Login(
                         bottom = ReedTheme.spacing.spacing8,
                     )
                     .align(Alignment.BottomCenter),
-                colorStyle = ReedButtonColorStyle.KAKAO,
-                sizeStyle = largeButtonStyle,
                 text = stringResource(id = R.string.kakao_login),
                 leadingIcon = {
                     Icon(

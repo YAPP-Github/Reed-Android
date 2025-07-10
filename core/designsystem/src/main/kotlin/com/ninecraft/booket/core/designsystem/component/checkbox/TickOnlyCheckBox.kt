@@ -9,7 +9,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
@@ -23,11 +24,11 @@ fun TickOnlyCheckBox(
     modifier: Modifier = Modifier,
 ) {
     Icon(
+        imageVector = ImageVector.vectorResource(id = R.drawable.ic_check),
+        contentDescription = "TickOnly Checkbox",
         modifier = modifier
             .size(24.dp)
             .noRippleClickable { onCheckedChange(!checked) },
-        painter = painterResource(id = R.drawable.ic_check),
-        contentDescription = "TickOnly Checkbox",
         tint = if (checked) ReedTheme.colors.contentBrand else ReedTheme.colors.contentTertiary,
     )
 }

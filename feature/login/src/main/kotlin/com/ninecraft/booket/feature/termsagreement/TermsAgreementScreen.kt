@@ -114,6 +114,8 @@ internal fun TermsAgreement(
             onClick = {
                 state.eventSink(TermsAgreementUiEvent.OnStartButtonClick)
             },
+            sizeStyle = largeButtonStyle,
+            colorStyle = ReedButtonColorStyle.PRIMARY,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -121,8 +123,6 @@ internal fun TermsAgreement(
                     end = ReedTheme.spacing.spacing5,
                     bottom = ReedTheme.spacing.spacing4,
                 ),
-            colorStyle = ReedButtonColorStyle.PRIMARY,
-            sizeStyle = largeButtonStyle,
             enabled = state.isAllAgreed,
             text = stringResource(R.string.terms_agreement_button_start),
         )
