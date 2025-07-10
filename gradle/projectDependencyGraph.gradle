@@ -10,7 +10,7 @@ tasks.register('projectDependencyGraph') {
         dot << '  node [style=filled, fillcolor="#bbbbbb"];\n'
         dot << '  rankdir=TB;\n'
 
-        def rootProjects = []
+        def rootProjects = new LinkedHashSet<Project>()
         def queue = [rootProject]
         while (!queue.isEmpty()) {
             def project = queue.remove(0)
@@ -44,7 +44,7 @@ tasks.register('projectDependencyGraph') {
             if (project.plugins.hasPlugin('com.android.library')) {
                 androidLibraryProjects.add(project)
             }
-            if (project.plugins.hasPlugin('com.android.dynamic-core')) {
+            if (project.plugins.hasPlugin('com.android.dynamic-feature')) {
                 androidDynamicFeatureProjects.add(project)
             }
             if (project.plugins.hasPlugin('java-library') || project.plugins.hasPlugin('java')) {
