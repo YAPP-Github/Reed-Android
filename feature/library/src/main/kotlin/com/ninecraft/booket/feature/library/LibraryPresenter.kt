@@ -8,8 +8,8 @@ import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
-import com.ninecraft.booket.feature.login.LoginScreen
-import com.ninecraft.booket.feature.settings.SettingsScreen
+import com.ninecraft.booket.screens.LibraryScreen
+import com.ninecraft.booket.screens.LoginScreen
 import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -26,13 +26,13 @@ class LibraryPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
-) : Presenter<LibraryScreen.State> {
+) : Presenter<LibraryUiState> {
 
     @Composable
-    override fun present(): LibraryScreen.State {
+    override fun present(): LibraryUiState {
         val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
-        var sideEffect by rememberRetained { mutableStateOf<LibraryScreen.SideEffect?>(null) }
+        var sideEffect by rememberRetained { mutableStateOf<LibrarySideEffect?>(null) }
         var nickname by rememberRetained { mutableStateOf("") }
         var email by rememberRetained { mutableStateOf("") }
 
@@ -48,7 +48,7 @@ class LibraryPresenter @AssistedInject constructor(
                         .onFailure { exception ->
                             val handleErrorMessage = { message: String ->
                                 Logger.e(message)
-                                sideEffect = LibraryScreen.SideEffect.ShowToast(message)
+                                sideEffect = LibrarySideEffect.ShowToast(message)
                             }
 
                             handleException(
@@ -70,17 +70,13 @@ class LibraryPresenter @AssistedInject constructor(
             getUserProfile()
         }
 
-        fun handleEvent(event: LibraryScreen.Event) {
+        fun handleEvent(event: LibraryUiEvent) {
             when (event) {
-                is LibraryScreen.Event.InitSideEffect -> {
+                is LibraryUiEvent.InitSideEffect -> {
                     sideEffect = null
                 }
 
-                is LibraryScreen.Event.OnSettingsButtonClick -> {
-                    navigator.goTo(SettingsScreen)
-                }
-
-                is LibraryScreen.Event.OnLogoutButtonClick -> {
+                is LibraryUiEvent.OnLogoutButtonClick -> {
                     scope.launch {
                         try {
                             isLoading = true
@@ -92,7 +88,7 @@ class LibraryPresenter @AssistedInject constructor(
                                 .onFailure { exception ->
                                     val handleErrorMessage = { message: String ->
                                         Logger.e(message)
-                                        sideEffect = LibraryScreen.SideEffect.ShowToast(message)
+                                        sideEffect = LibrarySideEffect.ShowToast(message)
                                     }
 
                                     handleException(
@@ -112,7 +108,7 @@ class LibraryPresenter @AssistedInject constructor(
             }
         }
 
-        return LibraryScreen.State(
+        return LibraryUiState(
             isLoading = isLoading,
             nickname = nickname,
             email = email,

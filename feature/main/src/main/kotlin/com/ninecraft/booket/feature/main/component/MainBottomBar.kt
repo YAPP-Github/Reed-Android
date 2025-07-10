@@ -34,9 +34,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.feature.home.HomeScreen
-import com.ninecraft.booket.feature.library.LibraryScreen
-import com.ninecraft.booket.feature.search.SearchScreen
+import com.ninecraft.booket.screens.HomeScreen
+import com.ninecraft.booket.screens.LibraryScreen
+import com.ninecraft.booket.screens.SearchScreen
 import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.popUntil

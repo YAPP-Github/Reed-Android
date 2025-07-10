@@ -40,4 +40,6 @@ include(
     ":feature:main",
     ":feature:search",
     ":feature:settings"
+
+    ":screens",
 )

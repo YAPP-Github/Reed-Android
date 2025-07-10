@@ -7,14 +7,14 @@ import androidx.compose.ui.platform.LocalContext
 
 @Composable
 internal fun HandleLibrarySideEffects(
-    state: LibraryScreen.State,
-    eventSink: (LibraryScreen.Event) -> Unit,
+    state: LibraryUiState,
+    eventSink: (LibraryUiEvent) -> Unit,
 ) {
     val context = LocalContext.current
 
     LaunchedEffect(state.sideEffect) {
         when (state.sideEffect) {
-            is LibraryScreen.SideEffect.ShowToast -> {
+            is LibrarySideEffect.ShowToast -> {
                 Toast.makeText(context, state.sideEffect.message, Toast.LENGTH_SHORT).show()
             }
 
@@ -22,7 +22,7 @@ internal fun HandleLibrarySideEffects(
         }
 
         if (state.sideEffect != null) {
-            eventSink(LibraryScreen.Event.InitSideEffect)
+            eventSink(LibraryUiEvent.InitSideEffect)
         }
     }
 }

@@ -6,7 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
-import com.ninecraft.booket.feature.home.HomeScreen
+import com.ninecraft.booket.screens.LoginScreen
+import com.ninecraft.booket.screens.TermsAgreementScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -21,41 +22,41 @@ import kotlinx.coroutines.launch
 class LoginPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val repository: AuthRepository,
-) : Presenter<LoginScreen.State> {
+) : Presenter<LoginUiState> {
 
     @Composable
-    override fun present(): LoginScreen.State {
+    override fun present(): LoginUiState {
         val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
-        var sideEffect by rememberRetained { mutableStateOf<LoginScreen.SideEffect?>(null) }
+        var sideEffect by rememberRetained { mutableStateOf<LoginSideEffect?>(null) }
 
-        fun handleEvent(event: LoginScreen.Event) {
+        fun handleEvent(event: LoginUiEvent) {
             when (event) {
-                is LoginScreen.Event.InitSideEffect -> {
+                is LoginUiEvent.InitSideEffect -> {
                     sideEffect = null
                 }
 
-                is LoginScreen.Event.OnKakaoLoginButtonClick -> {
+                is LoginUiEvent.OnKakaoLoginButtonClick -> {
                     isLoading = true
-                    sideEffect = LoginScreen.SideEffect.KakaoLogin
+                    sideEffect = LoginSideEffect.KakaoLogin
                 }
 
-                is LoginScreen.Event.LoginFailure -> {
+                is LoginUiEvent.LoginFailure -> {
                     isLoading = false
-                    sideEffect = LoginScreen.SideEffect.ShowToast(event.message)
+                    sideEffect = LoginSideEffect.ShowToast(event.message)
                 }
 
-                is LoginScreen.Event.Login -> {
+                is LoginUiEvent.Login -> {
                     scope.launch {
                         try {
                             repository.login(event.accessToken)
                                 .onSuccess { result ->
                                     repository.saveTokens(result.accessToken, result.refreshToken)
-                                    navigator.resetRoot(HomeScreen)
+                                    navigator.goTo(TermsAgreementScreen)
                                 }.onFailure { exception ->
                                     exception.message?.let { Logger.e(it) }
                                     sideEffect = exception.message?.let {
-                                        LoginScreen.SideEffect.ShowToast(it)
+                                        LoginSideEffect.ShowToast(it)
                                     }
                                 }
                         } finally {
@@ -66,7 +67,7 @@ class LoginPresenter @AssistedInject constructor(
             }
         }
 
-        return LoginScreen.State(
+        return LoginUiState(
             isLoading = isLoading,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,

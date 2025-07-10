@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import com.ninecraft.booket.screens.HomeScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -13,13 +14,13 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 @Suppress("unused")
 class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-) : Presenter<HomeScreen.State> {
+) : Presenter<HomeUiState> {
 
     @Composable
-    override fun present(): HomeScreen.State {
+    override fun present(): HomeUiState {
         val scope = rememberCoroutineScope()
 
-        return HomeScreen.State {}
+        return HomeUiState {}
     }
 
     @CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)
