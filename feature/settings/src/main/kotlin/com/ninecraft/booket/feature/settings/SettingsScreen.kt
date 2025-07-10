@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,22 +39,28 @@ import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.screens.SettingsScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(SettingsScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun Settings(
     state: SettingsUiState,
     modifier: Modifier = Modifier,
 ) {
+    val logoutSheetState = rememberModalBottomSheetState()
+    val withDrawSheetState = rememberModalBottomSheetState()
+    val coroutineScope = rememberCoroutineScope()
 
     if (state.isLogoutSheetVisible) {
         LogoutConfirmationBottomSheet(
             onDismissRequest = {
-                state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
+                coroutineScope.launch {
+                    logoutSheetState.hide()
+                    state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
+                }
             },
-            onCancelButtonClick = {
-                state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
-            },
+            sheetState = logoutSheetState,
             onLogoutButtonClick = {
                 state.eventSink(SettingsUiEvent.Logout)
             },
@@ -61,14 +70,15 @@ internal fun Settings(
     if (state.isWithdrawSheetVisible) {
         WithdrawConfirmationBottomSheet(
             onDismissRequest = {
-                state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
+                coroutineScope.launch {
+                    withDrawSheetState.hide()
+                    state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
+                }
             },
+            sheetState = withDrawSheetState,
             isCheckBoxChecked = state.isWithdrawConfirmed,
             onCheckBoxCheckedChange = {
                 state.eventSink(SettingsUiEvent.OnWithdrawConfirmationToggled)
-            },
-            onCancelButtonClick = {
-                state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
             },
             onWithdrawButtonClick = {
                 state.eventSink(SettingsUiEvent.Withdraw)
@@ -186,13 +196,14 @@ private fun SettingItem(
 @Composable
 fun LogoutConfirmationBottomSheet(
     onDismissRequest: () -> Unit,
-    onCancelButtonClick: () -> Unit,
+    sheetState: SheetState,
     onLogoutButtonClick: () -> Unit,
 ) {
     ReedBottomSheet(
         onDismissRequest = {
             onDismissRequest()
         },
+        sheetState = sheetState,
     ) {
         Column(
             modifier = Modifier
@@ -219,7 +230,7 @@ fun LogoutConfirmationBottomSheet(
             ) {
                 ReedButton(
                     onClick = {
-                        onCancelButtonClick()
+                        onDismissRequest()
                     },
                     sizeStyle = largeButtonStyle,
                     colorStyle = ReedButtonColorStyle.SECONDARY,
@@ -245,15 +256,16 @@ fun LogoutConfirmationBottomSheet(
 @Composable
 private fun WithdrawConfirmationBottomSheet(
     onDismissRequest: () -> Unit,
+    sheetState: SheetState,
     isCheckBoxChecked: Boolean,
     onCheckBoxCheckedChange: () -> Unit,
-    onCancelButtonClick: () -> Unit,
     onWithdrawButtonClick: () -> Unit,
 ) {
     ReedBottomSheet(
         onDismissRequest = {
             onDismissRequest()
         },
+        sheetState = sheetState
     ) {
         Column(
             modifier = Modifier
@@ -306,7 +318,7 @@ private fun WithdrawConfirmationBottomSheet(
             ) {
                 ReedButton(
                     onClick = {
-                        onCancelButtonClick()
+                        onDismissRequest()
                     },
                     sizeStyle = largeButtonStyle,
                     colorStyle = ReedButtonColorStyle.SECONDARY,
