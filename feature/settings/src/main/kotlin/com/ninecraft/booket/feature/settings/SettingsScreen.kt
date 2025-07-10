@@ -106,6 +106,7 @@ internal fun Settings(
         )
         SettingItem(
             title = stringResource(R.string.settings_app_verision),
+            isClickable = false,
             action = {
                 Text(
                     text = state.appVersion,
@@ -167,15 +168,21 @@ internal fun Settings(
 @Composable
 private fun SettingItem(
     title: String,
+    modifier: Modifier = Modifier,
+    isClickable: Boolean = true,
     onItemClick: () -> Unit = {},
     action: @Composable () -> Unit = {},
 ) {
-    Row(
-        modifier = Modifier
+    val combinedModifier = if (isClickable) {
+        modifier
             .fillMaxWidth()
-            .clickableSingle {
-                onItemClick()
-            }
+            .clickableSingle { onItemClick() }
+    } else {
+        Modifier.fillMaxWidth()
+    }
+
+    Row(
+        modifier = combinedModifier
             .padding(
                 horizontal = ReedTheme.spacing.spacing5,
                 vertical = ReedTheme.spacing.spacing4,
