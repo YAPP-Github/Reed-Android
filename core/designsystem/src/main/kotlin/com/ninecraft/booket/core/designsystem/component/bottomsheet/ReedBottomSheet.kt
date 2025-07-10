@@ -32,8 +32,8 @@ fun ReedBottomSheet(
         sheetState = sheetState,
         sheetGesturesEnabled = false,
         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
-        dragHandle = null,
         containerColor = White,
+        dragHandle = null,
     ) {
         content()
     }
@@ -51,14 +51,14 @@ private fun ReedBottomSheetPreview() {
     )
     ReedTheme {
         ReedBottomSheet(
-            sheetState = sheetState,
             onDismissRequest = {},
+            sheetState = sheetState,
         ) {
             ReedButton(
                 onClick = {},
                 modifier = Modifier.padding(10.dp).fillMaxWidth(),
-                colorStyle = ReedButtonColorStyle.PRIMARY,
                 sizeStyle = largeButtonStyle,
+                colorStyle = ReedButtonColorStyle.PRIMARY,
                 text = "확인",
             )
         }
