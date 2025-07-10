@@ -221,7 +221,7 @@ private fun LogoutConfirmationBottomSheet(
                 ),
         ) {
             Text(
-                text = stringResource(R.string.setting_logout_title),
+                text = stringResource(R.string.settings_logout_title),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = ReedTheme.spacing.spacing3),
