@@ -52,6 +52,7 @@ dependencies {
         projects.feature.main,
         projects.feature.login,
         projects.feature.search,
+        projects.feature.settings,
 
         libs.androidx.activity.compose,
         libs.androidx.startup,
