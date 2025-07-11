@@ -1,0 +1,42 @@
+[
+    {
+        "name": "Circuit",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/slackhq/circuit"
+    },
+    {
+        "name": "Compose Effects",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/skydoves/compose-effects"
+    },
+    {
+        "name": "Compose Stable Marker",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/skydoves/compose-stable-marker"
+    },
+    {
+        "name": "Hilt",
+        "license": "Apache License 2.0",
+        "url": "https://dagger.dev/hilt/"
+    },
+    {
+        "name": "Kakao SDK",
+        "license": "Apache License 2.0",
+        "url": "https://developers.kakao.com/sdk/reference/android"
+    },
+    {
+        "name": "Logger",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/orhanobut/logger"
+    },
+    {
+        "name": "OkHttp",
+        "license": "Apache License 2.0",
+        "url": "https://square.github.io/okhttp/"
+    },
+    {
+        "name": "Retrofit",
+        "license": "Apache License 2.0",
+        "url": "https://square.github.io/retrofit/"
+    }
+]
