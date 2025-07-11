@@ -95,7 +95,7 @@ internal fun Settings(
         SettingItem(
             title = stringResource(R.string.settings_open_source_license),
             onItemClick = {
-                state.eventSink(SettingsUiEvent.OnTermDetailClick(""))
+                state.eventSink(SettingsUiEvent.OnOssLicensesClick)
             },
             action = {
                 Icon(

@@ -13,6 +13,7 @@ data class SettingsUiState(
 sealed interface SettingsUiEvent : CircuitUiEvent {
     data object OnBackClick : SettingsUiEvent
     data class OnTermDetailClick(val title: String) : SettingsUiEvent
+    data object OnOssLicensesClick : SettingsUiEvent
     data object OnLogoutClick : SettingsUiEvent
     data object OnWithdrawClick : SettingsUiEvent
     data object OnBottomSheetDismissed : SettingsUiEvent

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.screens.OssLicensesScreen
 import com.ninecraft.booket.screens.SettingsScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -32,6 +33,10 @@ class SettingsPresenter @AssistedInject constructor(
 
                 is SettingsUiEvent.OnTermDetailClick -> {
                     // TODO: 웹뷰 화면으로 이동
+                }
+
+                is SettingsUiEvent.OnOssLicensesClick -> {
+                    navigator.goTo(OssLicensesScreen)
                 }
 
                 is SettingsUiEvent.OnLogoutClick -> {

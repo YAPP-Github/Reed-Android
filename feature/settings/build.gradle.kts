@@ -17,5 +17,6 @@ ksp {
 dependencies {
     implementations(
         libs.logger,
+        libs.kotlinx.serialization.json,
     )
 }
