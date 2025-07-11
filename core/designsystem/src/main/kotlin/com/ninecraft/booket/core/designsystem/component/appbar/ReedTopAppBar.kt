@@ -62,7 +62,7 @@ fun ReedTopAppBar(
             text = title,
             modifier = Modifier.weight(1f),
             textAlign = TextAlign.Center,
-            style = ReedTheme.typography.heading2SemiBold,
+            style = ReedTheme.typography.headline2SemiBold,
         )
 
         if (endIconRes != null) {
