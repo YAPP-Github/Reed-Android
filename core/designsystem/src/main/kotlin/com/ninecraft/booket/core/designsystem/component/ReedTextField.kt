@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.R
@@ -58,13 +59,16 @@ fun ReedTextField(
         BasicTextField(
             state = searchTextState,
             modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            textStyle = ReedTheme.typography.body2Regular.copy(color = textColor),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Search,
+            ),
             onKeyboardAction = {
                 onSearch(searchTextState.text.toString())
                 keyboardController?.hide()
             },
             lineLimits = TextFieldLineLimits.SingleLine,
-            textStyle = ReedTheme.typography.body2Regular.copy(color = textColor),
             decorator = { innerTextField ->
                 Row(
                     modifier = modifier
