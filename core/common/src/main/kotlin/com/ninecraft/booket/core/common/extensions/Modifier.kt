@@ -1,9 +1,9 @@
 package com.ninecraft.booket.core.common.extensions
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -44,7 +44,7 @@ fun Modifier.clickableSingle(
         onClickLabel = onClickLabel,
         onClick = { multipleEventsCutter.processEvent { onClick() } },
         role = role,
-        indication = LocalIndication.current,
+        indication = ripple(),
         interactionSource = remember { MutableInteractionSource() },
     )
 }

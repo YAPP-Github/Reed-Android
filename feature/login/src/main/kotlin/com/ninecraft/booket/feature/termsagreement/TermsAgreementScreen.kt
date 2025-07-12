@@ -50,7 +50,7 @@ internal fun TermsAgreement(
             .background(White),
     ) {
         ReedBackTopAppBar(
-            onNavigateBack = {
+            onBackClick = {
                 state.eventSink(TermsAgreementUiEvent.OnBackClick)
             },
         )

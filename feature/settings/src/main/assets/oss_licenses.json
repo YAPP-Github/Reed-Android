@@ -1,0 +1,57 @@
+[
+    {
+        "name": "Circuit",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/slackhq/circuit"
+    },
+    {
+        "name": "Compose Effects",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/skydoves/compose-effects"
+    },
+    {
+        "name": "Compose Stable Marker",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/skydoves/compose-stable-marker"
+    },
+    {
+        "name": "Hilt",
+        "license": "Apache License 2.0",
+        "url": "https://dagger.dev/hilt/"
+    },
+    {
+        "name": "Logger",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/orhanobut/logger"
+    },
+    {
+        "name": "OkHttp",
+        "license": "Apache License 2.0",
+        "url": "https://square.github.io/okhttp/"
+    },
+    {
+        "name": "Retrofit",
+        "license": "Apache License 2.0",
+        "url": "https://square.github.io/retrofit/"
+    },
+    {
+        "name": "OkHttp Logging Interceptor",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor"
+    },
+    {
+        "name": "Coil",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/coil-kt/coil"
+    },
+    {
+        "name": "Detekt",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/detekt/detekt"
+    },
+    {
+        "name": "ktlint",
+        "license": "MIT License",
+        "url": "https://github.com/pinterest/ktlint"
+    }
+]

@@ -24,3 +24,6 @@ data object TermsAgreementScreen : ReedScreen(name = "TermsAgreement()")
 
 @Parcelize
 data object SettingsScreen : ReedScreen(name = "Settings()")
+
+@Parcelize
+data object OssLicensesScreen : ReedScreen(name = "OssLicenses()")

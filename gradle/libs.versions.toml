@@ -116,12 +116,8 @@ detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-form
 
 kakao-auth = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-core" }
 
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx-test-runner" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
