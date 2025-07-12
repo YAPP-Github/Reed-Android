@@ -25,14 +25,13 @@ import com.ninecraft.booket.core.model.BookSummaryModel
 @Composable
 fun BookItem(
     book: BookSummaryModel,
-    itemId: String,
-    onBookClick: (String) -> Unit,
+    onBookClick: (BookSummaryModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onBookClick(itemId) },
+            .clickable { onBookClick(book) },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         NetworkImage(
@@ -73,13 +72,13 @@ fun BookItem(
                     maxLines = 1,
                     style = ReedTheme.typography.label1Medium,
                 )
-                Spacer(Modifier.height(ReedTheme.spacing.spacing1))
+                Spacer(Modifier.height(ReedTheme.spacing.spacing2))
                 VerticalDivider(
                     modifier = Modifier.height(14.dp),
                     thickness = 1.dp,
                     color = ReedTheme.colors.contentTertiary,
                 )
-                Spacer(Modifier.height(ReedTheme.spacing.spacing1))
+                Spacer(Modifier.height(ReedTheme.spacing.spacing2))
                 Text(
                     text = book.publisher,
                     color = ReedTheme.colors.contentTertiary,
@@ -104,7 +103,6 @@ private fun BookItemPreview() {
                 coverImageUrl = "https://example.com/sample-book-cover.jpg",
                 isbn = "",
             ),
-            itemId = "1",
             onBookClick = {},
         )
     }
