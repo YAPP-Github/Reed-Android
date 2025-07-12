@@ -16,9 +16,12 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,7 +33,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.R
+import com.ninecraft.booket.core.designsystem.theme.Green500
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+
+val reedTextSelectionColors = TextSelectionColors(
+    handleColor = Green500,
+    backgroundColor = Green500,
+)
 
 @Composable
 fun ReedTextField(
@@ -45,48 +54,50 @@ fun ReedTextField(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    BasicTextField(
-        state = searchTextState,
-        modifier = Modifier.fillMaxWidth(),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        onKeyboardAction = {
-            onSearch(searchTextState.text.toString())
-            keyboardController?.hide()
-        },
-        lineLimits = TextFieldLineLimits.SingleLine,
-        textStyle = ReedTheme.typography.body2Regular.copy(color = textColor),
-        decorator = { innerTextField ->
-            Row(
-                modifier = modifier
-                    .background(color = backgroundColor, shape = cornerShape)
-                    .border(
-                        border = borderStroke,
-                        shape = cornerShape,
-                    )
-                    .padding(vertical = ReedTheme.spacing.spacing3),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
-                Box {
-                    if (searchTextState.text.isEmpty()) {
-                        Text(
-                            text = stringResource(id = searchTextHintRes),
-                            color = ReedTheme.colors.contentTertiary,
-                            style = ReedTheme.typography.body2Regular,
+    CompositionLocalProvider(LocalTextSelectionColors provides reedTextSelectionColors) {
+        BasicTextField(
+            state = searchTextState,
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            onKeyboardAction = {
+                onSearch(searchTextState.text.toString())
+                keyboardController?.hide()
+            },
+            lineLimits = TextFieldLineLimits.SingleLine,
+            textStyle = ReedTheme.typography.body2Regular.copy(color = textColor),
+            decorator = { innerTextField ->
+                Row(
+                    modifier = modifier
+                        .background(color = backgroundColor, shape = cornerShape)
+                        .border(
+                            border = borderStroke,
+                            shape = cornerShape,
                         )
+                        .padding(vertical = ReedTheme.spacing.spacing3),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
+                    Box {
+                        if (searchTextState.text.isEmpty()) {
+                            Text(
+                                text = stringResource(id = searchTextHintRes),
+                                color = ReedTheme.colors.contentTertiary,
+                                style = ReedTheme.typography.body2Regular,
+                            )
+                        }
+                        innerTextField()
                     }
-                    innerTextField()
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_search),
+                        contentDescription = "Search Icon",
+                        tint = ReedTheme.colors.contentBrand,
+                    )
+                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
                 }
-                Spacer(modifier = Modifier.weight(1f))
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_search),
-                    contentDescription = "Search Icon",
-                    tint = ReedTheme.colors.contentBrand,
-                )
-                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
-            }
-        },
-    )
+            },
+        )
+    }
 }
 
 @ComponentPreview
