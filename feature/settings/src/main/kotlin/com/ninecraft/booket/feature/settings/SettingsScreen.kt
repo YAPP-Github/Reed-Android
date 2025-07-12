@@ -60,7 +60,7 @@ internal fun Settings(
     ) {
         ReedBackTopAppBar(
             title = stringResource(R.string.settings_title),
-            onNavigateBack = {
+            onBackClick = {
                 state.eventSink(SettingsUiEvent.OnBackClick)
             },
         )

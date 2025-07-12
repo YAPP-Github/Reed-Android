@@ -87,14 +87,14 @@ fun ReedTopAppBar(
 fun ReedBackTopAppBar(
     modifier: Modifier = Modifier,
     title: String = "",
-    onNavigateBack: () -> Unit = {},
+    onBackClick: () -> Unit = {},
 ) {
     ReedTopAppBar(
         modifier = modifier,
         title = title,
         startIconRes = R.drawable.ic_chevron_left,
         startIconDescription = "Back",
-        startIconOnClick = onNavigateBack,
+        startIconOnClick = onBackClick,
     )
 }
 

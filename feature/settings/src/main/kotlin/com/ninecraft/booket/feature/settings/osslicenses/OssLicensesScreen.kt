@@ -65,7 +65,7 @@ internal fun OssLicenses(
     ) {
         ReedBackTopAppBar(
             title = stringResource(R.string.oss_licenses_title),
-            onNavigateBack = {
+            onBackClick = {
                 state.eventSink(OssLicensesUiEvent.OnBackClicked)
             },
         )
