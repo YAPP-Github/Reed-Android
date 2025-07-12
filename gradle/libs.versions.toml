@@ -45,6 +45,9 @@ logger = "2.2.0"
 ## Kakao Login
 kakao-core = "2.21.4"
 
+## OCR
+mlkit-text = "16.0.1"
+
 ## Extension
 # https://github.com/jisungbin/dependency-handler-extensions
 gradle-dependency-handler-extensions = "1.1.0"
@@ -115,6 +118,9 @@ logger = { group = "com.orhanobut", name = "logger", version.ref = "logger" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "kotlin-detekt" }
 
 kakao-auth = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-core" }
+
+google-mlkit-text-recognition = { group = "com.google.mlkit", name = "text-recognition", version.ref = "mlkit-text" }
+google-mlkit-text-recognition-korean = { group = "com.google.mlkit", name = "text-recognition-korean", version.ref = "mlkit-text" }
 
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx-test-runner" }
