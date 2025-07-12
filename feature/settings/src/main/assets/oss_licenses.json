@@ -20,11 +20,6 @@
         "url": "https://dagger.dev/hilt/"
     },
     {
-        "name": "Kakao SDK",
-        "license": "Apache License 2.0",
-        "url": "https://developers.kakao.com/sdk/reference/android"
-    },
-    {
         "name": "Logger",
         "license": "Apache License 2.0",
         "url": "https://github.com/orhanobut/logger"
@@ -38,5 +33,25 @@
         "name": "Retrofit",
         "license": "Apache License 2.0",
         "url": "https://square.github.io/retrofit/"
+    },
+    {
+        "name": "OkHttp Logging Interceptor",
+        "license": "Apache License 2.0",
+        "url": "https://square.github.io/okhttp/"
+    },
+    {
+        "name": "Coil",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/coil-kt/coil"
+    },
+    {
+        "name": "Detekt",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/detekt/detekt"
+    },
+    {
+        "name": "ktlint",
+        "license": "MIT License",
+        "url": "https://github.com/pinterest/ktlint"
     }
 ]
