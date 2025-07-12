@@ -39,8 +39,8 @@ fun ReedTopAppBar(
             .fillMaxWidth()
             .height(56.dp)
             .background(color = White),
-        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (startIconRes != null) {
             IconButton(
@@ -60,9 +60,9 @@ fun ReedTopAppBar(
 
         Text(
             text = title,
-            style = ReedTheme.typography.heading2SemiBold,
             modifier = Modifier.weight(1f),
             textAlign = TextAlign.Center,
+            style = ReedTheme.typography.headline2SemiBold,
         )
 
         if (endIconRes != null) {
@@ -87,14 +87,14 @@ fun ReedTopAppBar(
 fun ReedBackTopAppBar(
     modifier: Modifier = Modifier,
     title: String = "",
-    onNavigateBack: () -> Unit = {},
+    onBackClick: () -> Unit = {},
 ) {
     ReedTopAppBar(
         modifier = modifier,
         title = title,
         startIconRes = R.drawable.ic_chevron_left,
         startIconDescription = "Back",
-        startIconOnClick = onNavigateBack,
+        startIconOnClick = onBackClick,
     )
 }
 

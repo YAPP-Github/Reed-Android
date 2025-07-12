@@ -8,27 +8,27 @@ import androidx.compose.ui.platform.LocalContext
 
 @Composable
 internal fun HandleLoginSideEffects(
-    state: LoginScreen.State,
-    eventSink: (LoginScreen.Event) -> Unit,
+    state: LoginUiState,
+    eventSink: (LoginUiEvent) -> Unit,
 ) {
     val context = LocalContext.current
     val kakaoLoginClient = remember { KakaoLoginClient() }
 
     LaunchedEffect(state.sideEffect) {
         when (state.sideEffect) {
-            is LoginScreen.SideEffect.KakaoLogin -> {
+            is LoginSideEffect.KakaoLogin -> {
                 kakaoLoginClient.loginWithKakao(
                     context = context,
                     onSuccess = { token ->
-                        eventSink(LoginScreen.Event.Login(token))
+                        eventSink(LoginUiEvent.Login(token))
                     },
                     onFailure = { errorMessage ->
-                        eventSink(LoginScreen.Event.LoginFailure(errorMessage))
+                        eventSink(LoginUiEvent.LoginFailure(errorMessage))
                     },
                 )
             }
 
-            is LoginScreen.SideEffect.ShowToast -> {
+            is LoginSideEffect.ShowToast -> {
                 Toast.makeText(context, state.sideEffect.message, Toast.LENGTH_SHORT).show()
             }
 
@@ -36,7 +36,7 @@ internal fun HandleLoginSideEffects(
         }
 
         if (state.sideEffect != null) {
-            eventSink(LoginScreen.Event.InitSideEffect)
+            eventSink(LoginUiEvent.InitSideEffect)
         }
     }
 }

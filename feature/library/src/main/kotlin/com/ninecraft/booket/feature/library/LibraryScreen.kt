@@ -9,48 +9,30 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.screens.LibraryScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.runtime.CircuitUiEvent
-import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.screen.Screen
 import dagger.hilt.android.components.ActivityRetainedComponent
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
-data object LibraryScreen : Screen {
-    data class State(
-        val isLoading: Boolean = false,
-        val nickname: String = "",
-        val email: String = "",
-        val sideEffect: SideEffect? = null,
-        val eventSink: (Event) -> Unit,
-    ) : CircuitUiState
-
-    sealed interface SideEffect {
-        data class ShowToast(val message: String) : SideEffect
-    }
-
-    sealed interface Event : CircuitUiEvent {
-        data object InitSideEffect : Event
-        data object OnLogoutButtonClick : Event
-    }
-}
 
 @CircuitInject(LibraryScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun Library(
-    state: LibraryScreen.State,
+    state: LibraryUiState,
     modifier: Modifier = Modifier,
 ) {
     HandleLibrarySideEffects(
@@ -72,7 +54,7 @@ internal fun Library(
 
 @Composable
 internal fun LibraryContent(
-    state: LibraryScreen.State,
+    state: LibraryUiState,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -81,6 +63,18 @@ internal fun LibraryContent(
         verticalArrangement = Arrangement.Center,
     ) {
         Box(modifier = modifier.fillMaxSize()) {
+            IconButton(
+                modifier = Modifier.align(Alignment.TopEnd),
+                onClick = {
+                    state.eventSink(LibraryUiEvent.OnSettingsClick)
+                },
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_settings),
+                    contentDescription = "Settings Icon",
+                    tint = Color.Unspecified,
+                )
+            }
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -94,7 +88,7 @@ internal fun LibraryContent(
             }
             ReedButton(
                 onClick = {
-                    state.eventSink(LibraryScreen.Event.OnLogoutButtonClick)
+                    state.eventSink(LibraryUiEvent.OnLogoutButtonClick)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -118,7 +112,7 @@ internal fun LibraryContent(
 private fun LibraryPreview() {
     ReedTheme {
         Library(
-            state = LibraryScreen.State(
+            state = LibraryUiState(
                 nickname = "홍길동",
                 email = "test@test.com",
                 eventSink = {},

@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.search
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import com.ninecraft.booket.screens.SearchScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -13,13 +14,13 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 @Suppress("unused")
 class SearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-) : Presenter<SearchScreen.State> {
+) : Presenter<SearchUiState> {
 
     @Composable
-    override fun present(): SearchScreen.State {
+    override fun present(): SearchUiState {
         val scope = rememberCoroutineScope()
 
-        return SearchScreen.State {}
+        return SearchUiState {}
     }
 
     @CircuitInject(SearchScreen::class, ActivityRetainedComponent::class)
