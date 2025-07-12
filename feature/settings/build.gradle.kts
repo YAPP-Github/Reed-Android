@@ -2,7 +2,7 @@
 
 plugins {
     alias(libs.plugins.booket.android.feature)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.booket.kotlin.library.serialization)
     alias(libs.plugins.kotlin.parcelize)
 }
 
@@ -17,6 +17,5 @@ ksp {
 dependencies {
     implementations(
         libs.logger,
-        libs.kotlinx.serialization.json,
     )
 }
