@@ -83,10 +83,10 @@ internal fun OssLicenses(
 
 @Composable
 private fun OssLicenseItem(
+    name: String,
+    license: String,
+    url: String,
     modifier: Modifier = Modifier,
-    name: String = "",
-    license: String = "",
-    url: String = "",
 ) {
     Column(
         modifier = modifier
