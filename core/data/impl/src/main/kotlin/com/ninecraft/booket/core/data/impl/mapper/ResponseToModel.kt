@@ -1,5 +1,6 @@
 package com.ninecraft.booket.core.data.impl.mapper
 
+import com.ninecraft.booket.core.common.extensions.decodeHtmlEntities
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
@@ -46,7 +47,7 @@ internal fun BookSearchResponse.toModel(): BookSearchModel {
 internal fun BookSummary.toModel(): BookSummaryModel {
     return BookSummaryModel(
         isbn = isbn,
-        title = title,
+        title = title.decodeHtmlEntities(),
         author = author,
         publisher = publisher,
         coverImageUrl = coverImageUrl,

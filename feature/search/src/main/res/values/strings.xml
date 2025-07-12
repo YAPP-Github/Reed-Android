@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_title">도서 검색</string>
+    <string name="search_result_prefix">총&#160;</string>
+    <string name="search_result_suffix">개</string>
+    <string name="retry">다시 시도</string>
+    <string name="no_more_results">더 이상 결과가 없습니다</string>
+    <string name="error_message">오류가 발생했습니다</string>
+</resources>

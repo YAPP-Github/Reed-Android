@@ -16,6 +16,8 @@ ksp {
 
 dependencies {
     implementations(
+        libs.kotlinx.collections.immutable,
+
         libs.logger,
     )
 }

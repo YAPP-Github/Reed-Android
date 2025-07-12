@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -107,7 +106,7 @@ private fun InfinityLazyColumnPreview() {
                 Text(
                     modifier = Modifier.padding(16.dp),
                     text = "Loaded Page: $page",
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = ReedTheme.typography.label1Medium,
                 )
                 InfinityLazyColumn(
                     loadMore = {
@@ -124,9 +123,8 @@ private fun InfinityLazyColumnPreview() {
                                     author = "마쓰이에 마사시",
                                     publisher = "비채",
                                     coverImageUrl = "https://example.com/sample-book-cover.jpg",
-                                    isbn = "",
+                                    isbn = "978-89-7337-932-5",
                                 ),
-                                itemId = "1",
                                 onBookClick = {},
                             )
                         }

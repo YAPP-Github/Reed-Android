@@ -15,12 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.BookSummaryModel
+import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
 fun BookItem(
@@ -47,6 +49,7 @@ fun BookItem(
                     bottom = ReedTheme.spacing.spacing4,
                 )
                 .clip(RoundedCornerShape(size = ReedTheme.radius.sm)),
+            placeholder = painterResource(designR.drawable.ic_placeholder),
         )
         Column(
             modifier = Modifier
