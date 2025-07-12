@@ -7,13 +7,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.ninecraft.booket.core.designsystem.component.ReedScaffold
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.main.component.MainBottomBar
-import com.ninecraft.booket.screens.LoginScreen
+import com.ninecraft.booket.screens.HomeScreen
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val systemUiController = rememberSystemUiController()
-            val backStack = rememberSaveableBackStack(root = LoginScreen)
+            val backStack = rememberSaveableBackStack(root = HomeScreen)
             val navigator = rememberCircuitNavigator(backStack)
             val isDarkTheme = isSystemInDarkTheme()
 
@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
             }
 
             CircuitCompositionLocals(circuit) {
-                Scaffold(
+                ReedScaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
                         MainBottomBar(
