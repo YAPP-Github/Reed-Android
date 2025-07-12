@@ -16,7 +16,6 @@ androidx-compose-bom = "2025.06.00"
 androidx-compose-material3 = "1.4.0-alpha15"
 compose-stable-marker = "1.0.6"
 compose-effects = "0.1.1"
-coil-compose = "2.7.0"
 
 ## Kotlin Symbol Processing
 ksp = "2.1.21-2.0.1"
@@ -53,7 +52,7 @@ landscapist = "2.5.1"
 # https://github.com/jisungbin/dependency-handler-extensions
 gradle-dependency-handler-extensions = "1.1.0"
 # https://github.com/taehwandev/ComposeExtensions
-compose-extensions = "25.1.0"
+compose-extensions = "25.5.1"
 
 ## Static Analysis
 kotlin-detekt = "1.23.8"
@@ -61,10 +60,8 @@ kotlin-ktlint-gradle = "11.6.1"
 kotlin-ktlint-source = "0.50.0"
 
 ## Test
-junit = "4.13.2"
 androidx-test-ext-junit = "1.2.1"
 androidx-test-runner = "1.6.2"
-espresso-core = "3.6.1"
 
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
@@ -91,6 +88,8 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended"}
 compose-stable-marker = { group = "com.github.skydoves", name = "compose-stable-marker", version.ref = "compose-stable-marker" }
 compose-effects = { group = "com.github.skydoves", name = "compose-effects", version.ref = "compose-effects" }
+compose-system-ui-controller = { group = "tech.thdev", name = "extensions-compose-system-ui-controller", version.ref = "compose-extensions" }
+compose-keyboard-state = { group = "tech.thdev", name = "extensions-compose-keyboard-state", version.ref = "compose-extensions" }
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
@@ -126,7 +125,6 @@ kakao-auth = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-c
 
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx-test-runner" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 
 [plugins]
 gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
