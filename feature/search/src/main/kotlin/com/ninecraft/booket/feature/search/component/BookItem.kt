@@ -40,14 +40,13 @@ fun BookItem(
             imageUrl = book.coverImageUrl,
             contentDescription = "Book CoverImage",
             modifier = Modifier
-                .width(68.dp)
-                .height(100.dp)
                 .padding(
-                    start = ReedTheme.spacing.spacing5,
                     top = ReedTheme.spacing.spacing4,
                     end = ReedTheme.spacing.spacing4,
                     bottom = ReedTheme.spacing.spacing4,
                 )
+                .width(68.dp)
+                .height(100.dp)
                 .clip(RoundedCornerShape(size = ReedTheme.radius.sm)),
             placeholder = painterResource(designR.drawable.ic_placeholder),
         )
@@ -74,20 +73,22 @@ fun BookItem(
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = ReedTheme.typography.label1Medium,
+                    modifier = Modifier.weight(1f, fill = false),
                 )
-                Spacer(Modifier.height(ReedTheme.spacing.spacing2))
+                Spacer(Modifier.width(ReedTheme.spacing.spacing1))
                 VerticalDivider(
                     modifier = Modifier.height(14.dp),
                     thickness = 1.dp,
                     color = ReedTheme.colors.contentTertiary,
                 )
-                Spacer(Modifier.height(ReedTheme.spacing.spacing2))
+                Spacer(Modifier.width(ReedTheme.spacing.spacing1))
                 Text(
                     text = book.publisher,
                     color = ReedTheme.colors.contentTertiary,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = ReedTheme.typography.label1Medium,
+                    modifier = Modifier.weight(1f, fill = false),
                 )
             }
         }
@@ -101,7 +102,7 @@ private fun BookItemPreview() {
         BookItem(
             book = BookSummaryModel(
                 title = "여름은 오래 그곳에 남아",
-                author = "마쓰이에 마사시",
+                author = "마쓰이에 마사시 마쓰이에 마사시",
                 publisher = "비채",
                 coverImageUrl = "https://example.com/sample-book-cover.jpg",
                 isbn = "",

@@ -12,11 +12,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.ReedTextField
 import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
@@ -62,8 +64,7 @@ internal fun SearchContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(White)
-            .padding(horizontal = ReedTheme.spacing.spacing5),
+            .background(White),
     ) {
         ReedTextField(
             searchTextState = state.searchText,
@@ -71,7 +72,11 @@ internal fun SearchContent(
                 state.eventSink(SearchUiEvent.OnSearch(text))
             },
             searchTextHintRes = designR.string.search_book_hint,
-            modifier = modifier.padding(vertical = ReedTheme.spacing.spacing3),
+            modifier = modifier
+                .padding(
+                    vertical = ReedTheme.spacing.spacing3,
+                    horizontal = ReedTheme.spacing.spacing5,
+                ),
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
 
@@ -109,7 +114,12 @@ internal fun SearchContent(
                     // TODO 최근 검색어 노출
                 } else {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = ReedTheme.spacing.spacing5,
+                                vertical = ReedTheme.spacing.spacing2,
+                            ),
                     ) {
                         Text(
                             text = stringResource(R.string.search_result_prefix),
@@ -121,7 +131,7 @@ internal fun SearchContent(
                             color = ReedTheme.colors.contentBrand,
                             style = ReedTheme.typography.label1Medium,
 
-                        )
+                            )
                         Text(
                             text = stringResource(R.string.search_result_suffix),
                             color = ReedTheme.colors.contentPrimary,
@@ -138,12 +148,20 @@ internal fun SearchContent(
                             count = state.books.size,
                             key = { index -> state.books[index].isbn },
                         ) { index ->
-                            BookItem(
-                                book = state.books[index],
-                                onBookClick = { book ->
-                                    state.eventSink(SearchUiEvent.OnBookClick(book))
-                                },
-                            )
+                            Column {
+                                BookItem(
+                                    book = state.books[index],
+                                    onBookClick = { book ->
+                                        state.eventSink(SearchUiEvent.OnBookClick(book))
+                                    },
+                                    modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+                                )
+                                HorizontalDivider(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    thickness = 1.dp,
+                                    color = ReedTheme.colors.borderPrimary,
+                                )
+                            }
                         }
 
                         item {
