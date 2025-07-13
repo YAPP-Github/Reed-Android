@@ -13,7 +13,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.ninecraft.booket.core.designsystem.component.ReedScaffold
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.main.component.MainBottomBar
-import com.ninecraft.booket.screens.HomeScreen
+import com.ninecraft.booket.screens.LoginScreen
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val systemUiController = rememberSystemUiController()
-            val backStack = rememberSaveableBackStack(root = HomeScreen)
+            val backStack = rememberSaveableBackStack(root = LoginScreen)
             val navigator = rememberCircuitNavigator(backStack)
             val isDarkTheme = isSystemInDarkTheme()
 

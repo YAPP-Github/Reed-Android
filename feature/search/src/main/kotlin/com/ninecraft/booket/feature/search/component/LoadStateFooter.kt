@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,7 +34,7 @@ internal fun LoadStateFooter(
             is FooterState.Loading -> {
                 CircularProgressIndicator(
                     modifier = Modifier.size(24.dp),
-                    color = MaterialTheme.colorScheme.primary,
+                    color = ReedTheme.colors.contentBrand,
                 )
             }
 
@@ -46,8 +45,8 @@ internal fun LoadStateFooter(
                 ) {
                     Text(
                         text = footerState.message,
+                        color = ReedTheme.colors.contentError,
                         style = ReedTheme.typography.body2Regular,
-                        color = MaterialTheme.colorScheme.error,
                     )
                     Button(onClick = onRetryClick) {
                         Text(text = stringResource(R.string.retry))
@@ -58,8 +57,8 @@ internal fun LoadStateFooter(
             is FooterState.End -> {
                 Text(
                     text = stringResource(R.string.no_more_results),
+                    color = ReedTheme.colors.contentSecondary,
                     style = ReedTheme.typography.body2Regular,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
 

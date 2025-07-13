@@ -11,6 +11,7 @@ import kotlinx.collections.immutable.persistentListOf
 sealed interface UiState {
     data object Idle : UiState
     data object Loading : UiState
+    data object Success : UiState
     data class Error(val message: String) : UiState
 }
 
@@ -24,14 +25,14 @@ sealed interface FooterState {
 data class SearchUiState(
     val uiState: UiState = UiState.Idle,
     val footerState: FooterState = FooterState.Idle,
-    val searchText: TextFieldState = TextFieldState(""),
+    val queryState: TextFieldState = TextFieldState(""),
     val searchResult: BookSearchModel = BookSearchModel(),
     val books: ImmutableList<BookSummaryModel> = persistentListOf(),
-    val offset: Int = 0,
+    val startIndex: Int = 0,
     val isLastPage: Boolean = false,
     val eventSink: (SearchUiEvent) -> Unit,
 ) : CircuitUiState {
-    val isEmpty: Boolean get() = searchResult.books.isEmpty()
+    val isEmptyResult: Boolean get() = uiState is UiState.Success && searchResult.totalResults == 0
 }
 
 sealed interface SearchUiEvent : CircuitUiEvent {

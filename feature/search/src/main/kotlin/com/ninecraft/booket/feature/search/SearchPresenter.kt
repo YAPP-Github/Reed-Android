@@ -28,57 +28,56 @@ class SearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val bookRepository: BookRepository,
 ) : Presenter<SearchUiState> {
+    companion object {
+        private const val PAGE_SIZE = 20
+    }
 
     @Composable
     override fun present(): SearchUiState {
         val scope = rememberCoroutineScope()
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
-        val searchText = rememberTextFieldState()
+        val queryState = rememberTextFieldState()
         var searchResult by rememberRetained { mutableStateOf(BookSearchModel()) }
         var books by rememberRetained { mutableStateOf(persistentListOf<BookSummaryModel>()) }
-        var currentPage by rememberRetained { mutableStateOf(0) }
+        var currentStartIndex by rememberRetained { mutableStateOf(0) }
         var isLastPage by rememberRetained { mutableStateOf(false) }
 
-        fun searchBooks(query: String, currentOffset: Int = 0) {
+        fun searchBooks(query: String, startIndex: Int = 0) {
             scope.launch {
-                try {
-                    if (currentOffset == 0) {
-                        uiState = UiState.Loading
-                    } else {
-                        footerState = FooterState.Loading
-                    }
+                if (startIndex == 0) {
+                    uiState = UiState.Loading
+                } else {
+                    footerState = FooterState.Loading
+                }
 
-                    bookRepository.searchBook(query = query, start = currentOffset)
-                        .onSuccess { result ->
-                            searchResult = result
-                            books = if (currentOffset == 0) {
-                                result.books.toPersistentList()
-                            } else {
-                                (books + result.books).toPersistentList()
-                            }
+                bookRepository.searchBook(query = query, start = startIndex)
+                    .onSuccess { result ->
+                        searchResult = result
+                        books = if (startIndex == 0) {
+                            result.books.toPersistentList()
+                        } else {
+                            (books + result.books).toPersistentList()
+                        }
 
-                            currentPage = currentOffset
-                            isLastPage = result.books.size < 20
-                            uiState = UiState.Idle
+                        currentStartIndex = startIndex
+                        isLastPage = result.books.size < PAGE_SIZE
+
+                        if (startIndex == 0) {
+                            uiState = UiState.Success
+                        } else {
                             footerState = if (isLastPage) FooterState.End else FooterState.Idle
                         }
-                        .onFailure { exception ->
-                            Logger.d(exception)
-                            if (currentOffset == 0) {
-                                uiState = UiState.Error(exception.message ?: "알 수 없는 오류가 발생했습니다.")
-                            } else {
-                                footerState = FooterState.Error(exception.message ?: "알 수 없는 오류가 발생했습니다.")
-                            }
-                        }
-                } catch (e: Exception) {
-                    Logger.d(e)
-                    if (currentOffset == 0) {
-                        uiState = UiState.Error(e.message ?: "알 수 없는 오류가 발생했습니다.")
-                    } else {
-                        footerState = FooterState.Error(e.message ?: "알 수 없는 오류가 발생했습니다.")
                     }
-                }
+                    .onFailure { exception ->
+                        Logger.d(exception)
+                        val errorMessage = exception.message ?: "알 수 없는 오류가 발생했습니다."
+                        if (startIndex == 0) {
+                            uiState = UiState.Error(errorMessage)
+                        } else {
+                            footerState = FooterState.Error(errorMessage)
+                        }
+                    }
             }
         }
 
@@ -89,18 +88,18 @@ class SearchPresenter @AssistedInject constructor(
                 }
 
                 is SearchUiEvent.OnSearch -> {
-                    searchBooks(query = event.text, currentOffset = 0)
+                    searchBooks(query = event.text, startIndex = 0)
                 }
 
                 is SearchUiEvent.OnLoadMore -> {
-                    if (footerState !is FooterState.Loading && !isLastPage && searchText.text.toString().isNotEmpty()) {
-                        searchBooks(query = searchText.text.toString(), currentOffset = currentPage + 1)
+                    if (footerState !is FooterState.Loading && !isLastPage && queryState.text.toString().isNotEmpty()) {
+                        searchBooks(query = queryState.text.toString(), startIndex = currentStartIndex + 1)
                     }
                 }
 
                 is SearchUiEvent.OnRetryClick -> {
-                    if (searchText.text.toString().isNotEmpty()) {
-                        searchBooks(query = searchText.text.toString(), currentOffset = 0)
+                    if (queryState.text.toString().isNotEmpty()) {
+                        searchBooks(query = queryState.text.toString(), startIndex = 0)
                     }
                 }
 
@@ -111,10 +110,10 @@ class SearchPresenter @AssistedInject constructor(
         return SearchUiState(
             uiState = uiState,
             footerState = footerState,
-            searchText = searchText,
+            queryState = queryState,
             searchResult = searchResult,
             books = books,
-            offset = currentPage,
+            startIndex = currentStartIndex,
             isLastPage = isLastPage,
             eventSink = ::handleEvent,
         )

@@ -67,11 +67,11 @@ internal fun SearchContent(
             .background(White),
     ) {
         ReedTextField(
-            searchTextState = state.searchText,
+            queryState = state.queryState,
+            queryHintRes = designR.string.search_book_hint,
             onSearch = { text ->
                 state.eventSink(SearchUiEvent.OnSearch(text))
             },
-            searchTextHintRes = designR.string.search_book_hint,
             modifier = modifier
                 .padding(
                     vertical = ReedTheme.spacing.spacing3,
@@ -110,8 +110,21 @@ internal fun SearchContent(
             }
 
             is UiState.Idle -> {
-                if (state.isEmpty) {
-                    // TODO 최근 검색어 노출
+                // TODO: 최근 검색어 노출
+            }
+
+            is UiState.Success -> {
+                if (state.isEmptyResult) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = stringResource(R.string.empty_results),
+                            color = ReedTheme.colors.contentSecondary,
+                            style = ReedTheme.typography.body1Medium,
+                        )
+                    }
                 } else {
                     Row(
                         modifier = Modifier
@@ -130,8 +143,7 @@ internal fun SearchContent(
                             text = "${state.searchResult.totalResults}",
                             color = ReedTheme.colors.contentBrand,
                             style = ReedTheme.typography.label1Medium,
-
-                            )
+                        )
                         Text(
                             text = stringResource(R.string.search_result_suffix),
                             color = ReedTheme.colors.contentPrimary,

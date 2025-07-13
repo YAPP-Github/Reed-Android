@@ -44,8 +44,8 @@ val reedTextSelectionColors = TextSelectionColors(
 
 @Composable
 fun ReedTextField(
-    searchTextState: TextFieldState,
-    @StringRes searchTextHintRes: Int,
+    queryState: TextFieldState,
+    @StringRes queryHintRes: Int,
     onSearch: (String) -> Unit,
     modifier: Modifier = Modifier,
     backgroundColor: Color = ReedTheme.colors.baseSecondary,
@@ -57,7 +57,7 @@ fun ReedTextField(
 
     CompositionLocalProvider(LocalTextSelectionColors provides reedTextSelectionColors) {
         BasicTextField(
-            state = searchTextState,
+            state = queryState,
             modifier = Modifier.fillMaxWidth(),
             textStyle = ReedTheme.typography.body2Regular.copy(color = textColor),
             keyboardOptions = KeyboardOptions(
@@ -65,7 +65,7 @@ fun ReedTextField(
                 imeAction = ImeAction.Search,
             ),
             onKeyboardAction = {
-                onSearch(searchTextState.text.toString())
+                onSearch(queryState.text.toString())
                 keyboardController?.hide()
             },
             lineLimits = TextFieldLineLimits.SingleLine,
@@ -82,9 +82,9 @@ fun ReedTextField(
                 ) {
                     Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
                     Box {
-                        if (searchTextState.text.isEmpty()) {
+                        if (queryState.text.isEmpty()) {
                             Text(
-                                text = stringResource(id = searchTextHintRes),
+                                text = stringResource(id = queryHintRes),
                                 color = ReedTheme.colors.contentTertiary,
                                 style = ReedTheme.typography.body2Regular,
                             )
@@ -109,8 +109,8 @@ fun ReedTextField(
 private fun ReedTextFieldPreview() {
     ReedTheme {
         ReedTextField(
-            searchTextState = TextFieldState(),
-            searchTextHintRes = R.string.search_book_hint,
+            queryState = TextFieldState(),
+            queryHintRes = R.string.search_book_hint,
             onSearch = {},
             modifier = Modifier
                 .height(46.dp)
