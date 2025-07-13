@@ -86,7 +86,7 @@ internal fun SearchContent(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center,
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(color = ReedTheme.colors.contentBrand)
                 }
             }
 

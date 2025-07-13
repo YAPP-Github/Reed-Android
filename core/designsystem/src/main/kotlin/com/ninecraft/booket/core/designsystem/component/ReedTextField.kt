@@ -59,7 +59,7 @@ fun ReedTextField(
         BasicTextField(
             state = queryState,
             modifier = Modifier.fillMaxWidth(),
-            textStyle = ReedTheme.typography.body2Regular.copy(color = textColor),
+            textStyle = ReedTheme.typography.body2Medium.copy(color = textColor),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Search,
@@ -109,7 +109,7 @@ fun ReedTextField(
 private fun ReedTextFieldPreview() {
     ReedTheme {
         ReedTextField(
-            queryState = TextFieldState(),
+            queryState = TextFieldState("검색"),
             queryHintRes = R.string.search_book_hint,
             onSearch = {},
             modifier = Modifier
