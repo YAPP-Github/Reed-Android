@@ -3,6 +3,7 @@ package com.ninecraft.booket.feature.search
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -30,6 +31,7 @@ class SearchPresenter @AssistedInject constructor(
 ) : Presenter<SearchUiState> {
     companion object {
         private const val PAGE_SIZE = 20
+        private const val START_INDEX = 1
     }
 
     @Composable
@@ -40,12 +42,12 @@ class SearchPresenter @AssistedInject constructor(
         val queryState = rememberTextFieldState()
         var searchResult by rememberRetained { mutableStateOf(BookSearchModel()) }
         var books by rememberRetained { mutableStateOf(persistentListOf<BookSummaryModel>()) }
-        var currentStartIndex by rememberRetained { mutableStateOf(0) }
+        var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
         var isLastPage by rememberRetained { mutableStateOf(false) }
 
-        fun searchBooks(query: String, startIndex: Int = 0) {
+        fun searchBooks(query: String, startIndex: Int = START_INDEX) {
             scope.launch {
-                if (startIndex == 0) {
+                if (startIndex == START_INDEX) {
                     uiState = UiState.Loading
                 } else {
                     footerState = FooterState.Loading
@@ -54,7 +56,7 @@ class SearchPresenter @AssistedInject constructor(
                 bookRepository.searchBook(query = query, start = startIndex)
                     .onSuccess { result ->
                         searchResult = result
-                        books = if (startIndex == 0) {
+                        books = if (startIndex == START_INDEX) {
                             result.books.toPersistentList()
                         } else {
                             (books + result.books).toPersistentList()
@@ -63,7 +65,7 @@ class SearchPresenter @AssistedInject constructor(
                         currentStartIndex = startIndex
                         isLastPage = result.books.size < PAGE_SIZE
 
-                        if (startIndex == 0) {
+                        if (startIndex == START_INDEX) {
                             uiState = UiState.Success
                         } else {
                             footerState = if (isLastPage) FooterState.End else FooterState.Idle
@@ -72,7 +74,7 @@ class SearchPresenter @AssistedInject constructor(
                     .onFailure { exception ->
                         Logger.d(exception)
                         val errorMessage = exception.message ?: "알 수 없는 오류가 발생했습니다."
-                        if (startIndex == 0) {
+                        if (startIndex == START_INDEX) {
                             uiState = UiState.Error(errorMessage)
                         } else {
                             footerState = FooterState.Error(errorMessage)
@@ -88,18 +90,18 @@ class SearchPresenter @AssistedInject constructor(
                 }
 
                 is SearchUiEvent.OnSearch -> {
-                    searchBooks(query = event.text, startIndex = 0)
+                    searchBooks(query = event.text, startIndex = START_INDEX)
                 }
 
                 is SearchUiEvent.OnLoadMore -> {
                     if (footerState !is FooterState.Loading && !isLastPage && queryState.text.toString().isNotEmpty()) {
-                        searchBooks(query = queryState.text.toString(), startIndex = currentStartIndex + 1)
+                        searchBooks(query = queryState.text.toString(), startIndex = currentStartIndex + PAGE_SIZE)
                     }
                 }
 
                 is SearchUiEvent.OnRetryClick -> {
                     if (queryState.text.toString().isNotEmpty()) {
-                        searchBooks(query = queryState.text.toString(), startIndex = 0)
+                        searchBooks(query = queryState.text.toString(), startIndex = START_INDEX)
                     }
                 }
 

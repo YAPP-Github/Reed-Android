@@ -24,7 +24,7 @@ interface NoAuthService {
         @Query("queryType") queryType: String = "All",
         @Query("searchTarget") searchTarget: String? = null,
         @Query("maxResults") maxResults: Int = 20,
-        @Query("start") start: Int = 0,
+        @Query("start") start: Int = 1,
         @Query("sort") sort: String = "Accuracy",
         @Query("cover") cover: String? = null,
         @Query("categoryId") categoryId: Int? = null,
