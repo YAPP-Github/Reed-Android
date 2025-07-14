@@ -95,7 +95,7 @@ class SearchPresenter @AssistedInject constructor(
 
                 is SearchUiEvent.OnLoadMore -> {
                     if (footerState !is FooterState.Loading && !isLastPage && queryState.text.toString().isNotEmpty()) {
-                        searchBooks(query = queryState.text.toString(), startIndex = currentStartIndex + PAGE_SIZE)
+                        searchBooks(query = queryState.text.toString(), startIndex = currentStartIndex + 1)
                     }
                 }
 
