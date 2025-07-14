@@ -33,7 +33,8 @@ fun BookItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onBookClick(book) },
+            .clickable { onBookClick(book) }
+            .padding(horizontal = ReedTheme.spacing.spacing5),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         NetworkImage(

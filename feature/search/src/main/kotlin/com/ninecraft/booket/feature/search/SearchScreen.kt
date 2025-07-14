@@ -166,7 +166,6 @@ internal fun SearchContent(
                                     onBookClick = { book ->
                                         state.eventSink(SearchUiEvent.OnBookClick(book))
                                     },
-                                    modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
                                 )
                                 HorizontalDivider(
                                     modifier = Modifier.fillMaxWidth(),
