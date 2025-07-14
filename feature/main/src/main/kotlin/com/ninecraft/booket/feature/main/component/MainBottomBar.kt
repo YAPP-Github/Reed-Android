@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -33,7 +32,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
+import com.ninecraft.booket.core.designsystem.theme.Black
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.screens.HomeScreen
 import com.ninecraft.booket.screens.LibraryScreen
 import com.ninecraft.booket.screens.SearchScreen
@@ -79,9 +80,9 @@ internal fun MainBottomBar(
         exit = fadeOut() + slideOut { IntOffset(0, it.height) },
         modifier = modifier,
     ) {
-        Box(modifier = Modifier.background(MaterialTheme.colorScheme.surface)) {
+        Box(modifier = Modifier.background(White)) {
             Column {
-                HorizontalDivider(color = MaterialTheme.colorScheme.outline)
+                HorizontalDivider(color = Black)
                 Row(
                     modifier = Modifier
                         .navigationBarsPadding()

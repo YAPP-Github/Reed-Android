@@ -16,22 +16,22 @@ internal enum class MainTab(
     val screen: Screen,
 ) {
     HOME(
-        iconResId = R.drawable.ic_home,
-        selectedIconResId = R.drawable.ic_selected_home,
+        iconResId = R.drawable.ic_home_tab,
+        selectedIconResId = R.drawable.ic_selected_home_tab,
         labelResId = R.string.home_label,
         contentDescription = "Home Icon",
         screen = HomeScreen,
     ),
     SEARCH(
-        iconResId = R.drawable.ic_search,
-        selectedIconResId = R.drawable.ic_selected_search,
+        iconResId = R.drawable.ic_search_tab,
+        selectedIconResId = R.drawable.ic_selected_search_tab,
         labelResId = R.string.search_label,
         contentDescription = "Search Icon",
         screen = SearchScreen,
     ),
     LIBRARY(
-        iconResId = R.drawable.ic_library,
-        selectedIconResId = R.drawable.ic_selected_library,
+        iconResId = R.drawable.ic_library_tab,
+        selectedIconResId = R.drawable.ic_selected_library_tab,
         labelResId = R.string.library_label,
         contentDescription = "Library Icon",
         screen = LibraryScreen,

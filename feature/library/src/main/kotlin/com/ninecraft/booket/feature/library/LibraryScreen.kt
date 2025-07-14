@@ -101,7 +101,10 @@ internal fun LibraryContent(
             )
 
             if (state.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = ReedTheme.colors.contentBrand,
+                )
             }
         }
     }

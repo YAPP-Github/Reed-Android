@@ -22,8 +22,8 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.screens.LoginScreen
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.screens.LoginScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 
@@ -75,7 +75,10 @@ internal fun Login(
             )
 
             if (state.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = ReedTheme.colors.contentBrand,
+                )
             }
         }
     }

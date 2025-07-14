@@ -20,6 +20,8 @@ dependencies {
         libs.androidx.activity.compose,
         libs.androidx.splash,
 
+        libs.compose.system.ui.controller,
+
         libs.logger,
     )
 }
