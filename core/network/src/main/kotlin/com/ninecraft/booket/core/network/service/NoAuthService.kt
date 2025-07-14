@@ -21,7 +21,7 @@ interface NoAuthService {
     @GET("api/v1/books/search")
     suspend fun searchBook(
         @Query("query") query: String,
-        @Query("queryType") queryType: String = "All",
+        @Query("queryType") queryType: String = "Title",
         @Query("searchTarget") searchTarget: String? = null,
         @Query("maxResults") maxResults: Int = 20,
         @Query("start") start: Int = 1,
