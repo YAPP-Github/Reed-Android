@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -95,6 +96,10 @@ fun ReedTextField(
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_search),
                         contentDescription = "Search Icon",
+                        modifier = Modifier.clickable {
+                            onSearch(queryState.text.toString())
+                            keyboardController?.hide()
+                        },
                         tint = ReedTheme.colors.contentBrand,
                     )
                     Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
