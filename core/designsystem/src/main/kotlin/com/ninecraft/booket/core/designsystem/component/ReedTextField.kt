@@ -48,6 +48,7 @@ fun ReedTextField(
     queryState: TextFieldState,
     @StringRes queryHintRes: Int,
     onSearch: (String) -> Unit,
+    onClear: () -> Unit,
     modifier: Modifier = Modifier,
     backgroundColor: Color = ReedTheme.colors.baseSecondary,
     textColor: Color = ReedTheme.colors.contentPrimary,
@@ -82,7 +83,7 @@ fun ReedTextField(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
-                    Box {
+                    Box(modifier = Modifier.weight(1f)) {
                         if (queryState.text.isEmpty()) {
                             Text(
                                 text = stringResource(id = queryHintRes),
@@ -92,7 +93,18 @@ fun ReedTextField(
                         }
                         innerTextField()
                     }
-                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
+                    if (queryState.text.toString().isNotEmpty()) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_x_circle),
+                            contentDescription = "Search Icon",
+                            modifier = Modifier.clickable {
+                                onClear()
+                            },
+                            tint = Color.Unspecified,
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_search),
                         contentDescription = "Search Icon",
@@ -117,6 +129,7 @@ private fun ReedTextFieldPreview() {
             queryState = TextFieldState("검색"),
             queryHintRes = R.string.search_book_hint,
             onSearch = {},
+            onClear = {},
             modifier = Modifier
                 .height(46.dp)
                 .fillMaxWidth()

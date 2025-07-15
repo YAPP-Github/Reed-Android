@@ -70,7 +70,10 @@ internal fun SearchContent(
             queryState = state.queryState,
             queryHintRes = designR.string.search_book_hint,
             onSearch = { text ->
-                state.eventSink(SearchUiEvent.OnSearch(text))
+                state.eventSink(SearchUiEvent.OnSearchClick(text))
+            },
+            onClear = {
+                state.eventSink(SearchUiEvent.OnClearClick)
             },
             modifier = modifier
                 .padding(

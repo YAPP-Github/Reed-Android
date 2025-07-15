@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.search
 
+import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,7 +41,7 @@ class SearchPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
-        val queryState = rememberTextFieldState()
+        var queryState = rememberTextFieldState()
         var searchResult by rememberRetained { mutableStateOf(BookSearchModel()) }
         var books by rememberRetained { mutableStateOf(persistentListOf<BookSummaryModel>()) }
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
@@ -115,8 +116,12 @@ class SearchPresenter @AssistedInject constructor(
                     navigator.pop()
                 }
 
-                is SearchUiEvent.OnSearch -> {
+                is SearchUiEvent.OnSearchClick -> {
                     searchBooks(query = event.text, startIndex = START_INDEX)
+                }
+
+                is SearchUiEvent.OnClearClick -> {
+                    queryState.clearText()
                 }
 
                 is SearchUiEvent.OnLoadMore -> {
