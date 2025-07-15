@@ -4,10 +4,12 @@ import com.ninecraft.booket.core.common.extensions.decodeHtmlEntities
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
+import com.ninecraft.booket.core.model.BookUpsertModel
 import com.ninecraft.booket.core.model.UserProfileModel
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookSummary
+import com.ninecraft.booket.core.network.response.BookUpsertResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
 
 internal fun UserProfileResponse.toModel(): UserProfileModel {
@@ -65,5 +67,20 @@ internal fun BookDetailResponse.toModel(): BookDetailModel {
         categoryId = categoryId,
         categoryName = categoryName,
         publisher = publisher,
+    )
+}
+
+internal fun BookUpsertResponse.toModel(): BookUpsertModel {
+    return BookUpsertModel(
+        userBookId = userBookId,
+        userId = userId,
+        bookIsbn = bookIsbn,
+        bookTitle = bookTitle,
+        bookAuthor = bookAuthor,
+        status = status,
+        coverImageUrl = coverImageUrl,
+        publisher = publisher,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
     )
 }
