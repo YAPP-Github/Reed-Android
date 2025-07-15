@@ -87,7 +87,6 @@ class LibraryPresenter @AssistedInject constructor(
                             isLoading = true
                             authRepository.logout()
                                 .onSuccess {
-                                    authRepository.clearTokens()
                                     navigator.resetRoot(LoginScreen)
                                 }
                                 .onFailure { exception ->

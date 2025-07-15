@@ -49,9 +49,9 @@ class LoginPresenter @AssistedInject constructor(
                 is LoginUiEvent.Login -> {
                     scope.launch {
                         try {
+                            isLoading = true
                             repository.login(event.accessToken)
-                                .onSuccess { result ->
-                                    repository.saveTokens(result.accessToken, result.refreshToken)
+                                .onSuccess {
                                     navigator.goTo(TermsAgreementScreen)
                                 }.onFailure { exception ->
                                     exception.message?.let { Logger.e(it) }
