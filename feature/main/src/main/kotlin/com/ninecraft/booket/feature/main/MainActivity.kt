@@ -11,6 +11,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.ninecraft.booket.core.designsystem.component.ReedScaffold
+import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.main.component.MainBottomBar
 import com.ninecraft.booket.screens.LoginScreen
@@ -36,8 +37,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val systemUiController = rememberSystemUiController()
-            val backStack = rememberSaveableBackStack(root = LoginScreen)
-            val navigator = rememberCircuitNavigator(backStack)
             val isDarkTheme = isSystemInDarkTheme()
 
             DisposableEffect(systemUiController) {
@@ -50,24 +49,29 @@ class MainActivity : ComponentActivity() {
                 onDispose {}
             }
 
-            CircuitCompositionLocals(circuit) {
-                ReedScaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    bottomBar = {
-                        MainBottomBar(
-                            navigator = navigator,
-                            backStack = backStack,
-                        )
-                    },
-                ) { innerPadding ->
-                    ContentWithOverlays {
-                        NavigableCircuitContent(
-                            navigator = navigator,
-                            backStack = backStack,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(innerPadding),
-                        )
+            ReedTheme {
+                val backStack = rememberSaveableBackStack(root = LoginScreen)
+                val navigator = rememberCircuitNavigator(backStack)
+
+                CircuitCompositionLocals(circuit) {
+                    ReedScaffold(
+                        modifier = Modifier.fillMaxSize(),
+                        bottomBar = {
+                            MainBottomBar(
+                                navigator = navigator,
+                                backStack = backStack,
+                            )
+                        },
+                    ) { innerPadding ->
+                        ContentWithOverlays {
+                            NavigableCircuitContent(
+                                navigator = navigator,
+                                backStack = backStack,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(innerPadding),
+                            )
+                        }
                     }
                 }
             }
