@@ -8,7 +8,6 @@ import com.ninecraft.booket.core.model.UserProfileModel
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookSummary
-import com.ninecraft.booket.core.network.response.LoginResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
 
 internal fun UserProfileResponse.toModel(): UserProfileModel {
