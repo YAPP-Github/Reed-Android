@@ -5,9 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,17 +37,15 @@ fun ReedTopAppBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp)
-            .background(color = White),
+            .height(60.dp)
+            .background(color = White)
+            .padding(horizontal = ReedTheme.spacing.spacing2),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (startIconRes != null) {
             IconButton(
                 onClick = { startIconOnClick() },
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(72.dp),
             ) {
                 Icon(
                     painter = painterResource(id = startIconRes),
@@ -55,7 +53,7 @@ fun ReedTopAppBar(
                 )
             }
         } else {
-            Spacer(modifier = Modifier.width(72.dp))
+            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing12))
         }
 
         Text(
@@ -68,9 +66,6 @@ fun ReedTopAppBar(
         if (endIconRes != null) {
             IconButton(
                 onClick = { endIconOnClick() },
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(72.dp),
             ) {
                 Icon(
                     painter = painterResource(id = endIconRes),
@@ -78,7 +73,7 @@ fun ReedTopAppBar(
                 )
             }
         } else {
-            Spacer(modifier = Modifier.width(72.dp))
+            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing12))
         }
     }
 }
