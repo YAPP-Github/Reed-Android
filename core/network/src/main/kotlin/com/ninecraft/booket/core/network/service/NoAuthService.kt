@@ -26,7 +26,7 @@ interface NoAuthService {
         @Query("maxResults") maxResults: Int = 20,
         @Query("start") start: Int = 1,
         @Query("sort") sort: String = "Accuracy",
-        @Query("cover") cover: String? = null,
+        @Query("cover") cover: String? = "Big",
         @Query("categoryId") categoryId: Int? = null,
     ): BookSearchResponse
 
