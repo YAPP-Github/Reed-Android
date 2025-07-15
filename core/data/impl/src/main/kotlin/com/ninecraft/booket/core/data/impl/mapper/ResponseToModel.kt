@@ -4,20 +4,12 @@ import com.ninecraft.booket.core.common.extensions.decodeHtmlEntities
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
-import com.ninecraft.booket.core.model.LoginModel
 import com.ninecraft.booket.core.model.UserProfileModel
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookSummary
 import com.ninecraft.booket.core.network.response.LoginResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
-
-internal fun LoginResponse.toModel(): LoginModel {
-    return LoginModel(
-        accessToken = accessToken,
-        refreshToken = refreshToken,
-    )
-}
 
 internal fun UserProfileResponse.toModel(): UserProfileModel {
     return UserProfileModel(
