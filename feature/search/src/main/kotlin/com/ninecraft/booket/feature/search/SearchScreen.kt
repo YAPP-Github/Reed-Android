@@ -164,7 +164,7 @@ internal fun SearchContent(
                                 BookItem(
                                     book = state.books[index],
                                     onBookClick = { book ->
-                                        state.eventSink(SearchUiEvent.OnBookClick(book))
+                                        state.eventSink(SearchUiEvent.OnBookClick(book.isbn))
                                     },
                                 )
                                 HorizontalDivider(

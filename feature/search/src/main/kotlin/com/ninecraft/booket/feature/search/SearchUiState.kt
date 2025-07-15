@@ -30,15 +30,20 @@ data class SearchUiState(
     val books: ImmutableList<BookSummaryModel> = persistentListOf(),
     val startIndex: Int = 0,
     val isLastPage: Boolean = false,
+    val sideEffect: SearchSideEffect? = null,
     val eventSink: (SearchUiEvent) -> Unit,
 ) : CircuitUiState {
     val isEmptyResult: Boolean get() = uiState is UiState.Success && searchResult.totalResults == 0
 }
 
+sealed interface SearchSideEffect {
+    data class ShowToast(val message: String) : SearchSideEffect
+}
+
 sealed interface SearchUiEvent : CircuitUiEvent {
     data object OnBackClick : SearchUiEvent
     data class OnSearch(val text: String) : SearchUiEvent
-    data class OnBookClick(val book: BookSummaryModel) : SearchUiEvent
+    data class OnBookClick(val bookIsbn: String) : SearchUiEvent
     data object OnLoadMore : SearchUiEvent
     data object OnRetryClick : SearchUiEvent
 }

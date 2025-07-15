@@ -7,9 +7,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
+import com.ninecraft.booket.screens.LoginScreen
 import com.ninecraft.booket.screens.SearchScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -24,7 +26,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
-@Suppress("unused")
 class SearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val bookRepository: BookRepository,
@@ -44,6 +45,7 @@ class SearchPresenter @AssistedInject constructor(
         var books by rememberRetained { mutableStateOf(persistentListOf<BookSummaryModel>()) }
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
         var isLastPage by rememberRetained { mutableStateOf(false) }
+        var sideEffect by rememberRetained { mutableStateOf<SearchSideEffect?>(null) }
 
         fun searchBooks(query: String, startIndex: Int = START_INDEX) {
             scope.launch {
@@ -83,6 +85,30 @@ class SearchPresenter @AssistedInject constructor(
             }
         }
 
+        fun upsertBook(bookIsbn: String, bookStatus: String = "BEFORE_READING") {
+            scope.launch {
+                bookRepository.upsertBook(bookIsbn, bookStatus)
+                    .onSuccess {
+
+                    }
+                    .onFailure { exception ->
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = SearchSideEffect.ShowToast(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onServerError = handleErrorMessage,
+                            onNetworkError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen)
+                            },
+                        )
+                    }
+            }
+        }
+
         fun handleEvent(event: SearchUiEvent) {
             when (event) {
                 is SearchUiEvent.OnBackClick -> {
@@ -105,7 +131,9 @@ class SearchPresenter @AssistedInject constructor(
                     }
                 }
 
-                is SearchUiEvent.OnBookClick -> {}
+                is SearchUiEvent.OnBookClick -> {
+                    upsertBook(event.bookIsbn)
+                }
             }
         }
 
