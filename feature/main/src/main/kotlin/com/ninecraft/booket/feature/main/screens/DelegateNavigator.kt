@@ -10,10 +10,9 @@ class DelegateNavigator(
     private val childNavigator: Navigator,
     private val rootNavigator: Navigator,
 ) : Navigator {
-
     private val bottomNavigationScreenClasses = MainTab.entries.map { it.screen::class }.toSet()
-    
-    private fun Screen.isBottomNavigationScreen(): Boolean = 
+
+    private fun Screen.isBottomNavigationScreen(): Boolean =
         this::class in bottomNavigationScreenClasses
 
     override fun goTo(screen: Screen): Boolean {
