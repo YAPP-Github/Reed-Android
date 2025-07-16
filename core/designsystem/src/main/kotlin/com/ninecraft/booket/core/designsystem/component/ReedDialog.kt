@@ -23,11 +23,12 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
 @Composable
 fun ReedDialog(
-    title: String = "",
-    subtext: String? = null,
-    confirmButtonText: String = "",
+    title: String,
+    confirmButtonText: String,
+    onConfirmRequest: () -> Unit,
+    modifier: Modifier = Modifier,
+    description: String? = null,
     dismissButtonText: String? = null,
-    onConfirmRequest: () -> Unit = {},
     onDismissRequest: () -> Unit = {},
 ) {
     Dialog(
@@ -36,7 +37,7 @@ fun ReedDialog(
         },
     ) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .background(
                     color = ReedTheme.colors.basePrimary,
@@ -58,10 +59,10 @@ fun ReedDialog(
                 textAlign = TextAlign.Center,
                 style = ReedTheme.typography.headline1SemiBold,
             )
-            subtext?.let {
+            description?.let {
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
                 Text(
-                    text = subtext,
+                    text = description,
                     color = ReedTheme.colors.contentSecondary,
                     textAlign = TextAlign.Center,
                     style = ReedTheme.typography.body2Medium,
@@ -99,24 +100,26 @@ fun ReedDialog(
 
 @Preview
 @Composable
-fun ReedConfirmDialogPreview() {
+private fun ReedConfirmDialogPreview() {
     ReedTheme {
         ReedDialog(
             title = "Title",
-            subtext = "subtext",
             confirmButtonText = "확인",
+            onConfirmRequest = {},
+            description = "subtext",
         )
     }
 }
 
 @Preview
 @Composable
-fun ReedChoiceDialogPreview() {
+private fun ReedChoiceDialogPreview() {
     ReedTheme {
         ReedDialog(
             title = "Title",
-            subtext = "subtext",
             confirmButtonText = "확인",
+            onConfirmRequest = {},
+            description = "subtext",
             dismissButtonText = "취소",
         )
     }
