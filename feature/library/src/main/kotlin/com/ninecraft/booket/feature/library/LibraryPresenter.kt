@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.utils.handleException
-import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.screens.LibraryScreen
 import com.ninecraft.booket.screens.LoginScreen
@@ -25,7 +24,6 @@ import kotlinx.coroutines.launch
 
 class LibraryPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
 ) : Presenter<LibraryUiState> {
 
@@ -79,35 +77,6 @@ class LibraryPresenter @AssistedInject constructor(
 
                 is LibraryUiEvent.OnSettingsClick -> {
                     navigator.goTo(SettingsScreen)
-                }
-
-                is LibraryUiEvent.OnLogoutButtonClick -> {
-                    scope.launch {
-                        try {
-                            isLoading = true
-                            authRepository.logout()
-                                .onSuccess {
-                                    navigator.resetRoot(LoginScreen)
-                                }
-                                .onFailure { exception ->
-                                    val handleErrorMessage = { message: String ->
-                                        Logger.e(message)
-                                        sideEffect = LibrarySideEffect.ShowToast(message)
-                                    }
-
-                                    handleException(
-                                        exception = exception,
-                                        onServerError = handleErrorMessage,
-                                        onNetworkError = handleErrorMessage,
-                                        onLoginRequired = {
-                                            navigator.resetRoot(LoginScreen)
-                                        },
-                                    )
-                                }
-                        } finally {
-                            isLoading = false
-                        }
-                    }
                 }
             }
         }
