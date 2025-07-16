@@ -32,8 +32,8 @@ fun BottomNavigation(
         },
     ) { innerPadding ->
         NavigableCircuitContent(
-            navigator = state.childNavigator,
-            backStack = state.childBackStack,
+            navigator = state.navigator,
+            backStack = state.backStack,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),

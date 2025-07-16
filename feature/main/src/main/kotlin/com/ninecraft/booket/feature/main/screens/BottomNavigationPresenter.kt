@@ -43,8 +43,8 @@ class BottomNavigationPresenter @AssistedInject constructor(
         }
 
         return BottomNavigationUiState(
-            childBackStack = childBackStack,
-            childNavigator = delegateNavigator,
+            backStack = childBackStack,
+            navigator = delegateNavigator,
             currentTab = currentTab,
             eventSink = ::handleEvent,
         )

@@ -6,8 +6,8 @@ import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
 
 data class BottomNavigationUiState(
-    val childBackStack: SaveableBackStack,
-    val childNavigator: Navigator,
+    val backStack: SaveableBackStack,
+    val navigator: Navigator,
     val currentTab: MainTab?,
     val eventSink: (BottomNavigationUiEvent) -> Unit,
 ) : CircuitUiState
