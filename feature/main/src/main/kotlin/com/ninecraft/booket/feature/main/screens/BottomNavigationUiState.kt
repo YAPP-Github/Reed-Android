@@ -14,6 +14,4 @@ data class BottomNavigationUiState(
 
 sealed interface BottomNavigationUiEvent {
     data class OnTabSelected(val tab: MainTab) : BottomNavigationUiEvent
-    data class NavigateToFullScreen(val screen: com.slack.circuit.runtime.screen.Screen) :
-        BottomNavigationUiEvent
 }
