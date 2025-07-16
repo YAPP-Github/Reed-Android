@@ -34,7 +34,7 @@ fun BottomNavigation(
     ) { innerPadding ->
         ContentWithOverlays {
             NavigableCircuitContent(
-                navigator = state.navigator,
+                navigator = state.childNavigator,
                 backStack = state.childBackStack,
                 modifier = Modifier
                     .fillMaxSize()

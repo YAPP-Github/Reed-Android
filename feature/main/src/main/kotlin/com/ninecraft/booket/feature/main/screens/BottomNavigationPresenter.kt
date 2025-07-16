@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.main.screens
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import com.ninecraft.booket.feature.main.component.MainTab
 import com.ninecraft.booket.screens.BottomNavigationScreen
 import com.ninecraft.booket.screens.HomeScreen
@@ -24,9 +23,6 @@ class BottomNavigationPresenter @AssistedInject constructor(
     override fun present(): BottomNavigationUiState {
         val childBackStack = rememberSaveableBackStack(root = HomeScreen)
         val childNavigator = rememberCircuitNavigator(childBackStack)
-        val delegatingNavigator = remember(childNavigator, rootNavigator) {
-            DelegatingNavigator(childNavigator, rootNavigator)
-        }
 
         val currentTab = getCurrentTab(childBackStack)
 
@@ -41,14 +37,14 @@ class BottomNavigationPresenter @AssistedInject constructor(
                 }
 
                 is BottomNavigationUiEvent.NavigateToFullScreen -> {
-                    delegatingNavigator.goTo(event.screen)
+                    rootNavigator.goTo(event.screen)
                 }
             }
         }
 
         return BottomNavigationUiState(
             childBackStack = childBackStack,
-            navigator = delegatingNavigator,
+            childNavigator = childNavigator,
             currentTab = currentTab,
             eventSink = ::handleEvent,
         )
