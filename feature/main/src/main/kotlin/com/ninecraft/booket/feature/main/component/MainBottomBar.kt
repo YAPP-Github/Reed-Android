@@ -146,7 +146,6 @@ fun Navigator.popUntilOrGoTo(screen: Screen) {
     }
 }
 
-
 @Composable
 private fun getCurrentTab(backStack: SaveableBackStack): MainTab? {
     val currentScreen = backStack.topRecord?.screen

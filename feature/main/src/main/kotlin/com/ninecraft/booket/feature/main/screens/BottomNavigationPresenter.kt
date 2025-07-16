@@ -3,32 +3,18 @@ package com.ninecraft.booket.feature.main.screens
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.ninecraft.booket.feature.main.component.MainTab
-import com.ninecraft.booket.screens.HomeScreen
 import com.ninecraft.booket.screens.BottomNavigationScreen
+import com.ninecraft.booket.screens.HomeScreen
 import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.rememberCircuitNavigator
-import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
-
-data class BottomNavigationUiState(
-    val childBackStack: SaveableBackStack,
-    val childNavigator: Navigator,
-    val rootNavigator: Navigator,
-    val currentTab: MainTab?,
-    val eventSink: (BottomNavigationUiEvent) -> Unit,
-) : CircuitUiState
-
-sealed interface BottomNavigationUiEvent {
-    data class OnTabSelected(val tab: MainTab) : BottomNavigationUiEvent
-    data class NavigateToFullScreen(val screen: com.slack.circuit.runtime.screen.Screen) : BottomNavigationUiEvent
-}
 
 class BottomNavigationPresenter @AssistedInject constructor(
     @Assisted private val rootNavigator: Navigator,

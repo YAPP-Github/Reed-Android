@@ -12,20 +12,21 @@ import androidx.compose.ui.graphics.Color
 /**
  * systemBarsPadding() 이 자동으로 적용되는 전체 화면 컨테이너
  * Scaffold 밖에 있는 화면에서 사용
- * 
+ *
  * @param backgroundColor 화면 배경 색상
  */
 @Composable
 fun ReedFullScreen(
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.White,
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(backgroundColor)
             .systemBarsPadding(),
-        content = content
-    )
+    ) {
+        content()
+    }
 }

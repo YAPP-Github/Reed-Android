@@ -26,7 +26,7 @@ class DelegatingNavigator(
     override fun resetRoot(
         newRoot: Screen,
         saveState: Boolean,
-        restoreState: Boolean
+        restoreState: Boolean,
     ): ImmutableList<Screen> = childNavigator.resetRoot(newRoot, saveState, restoreState)
 
     override fun peekBackStack(): ImmutableList<Screen> = childNavigator.peekBackStack()
