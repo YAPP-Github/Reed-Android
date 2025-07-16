@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.ninecraft.booket.screens.HomeScreen
+import com.ninecraft.booket.screens.BottomNavigationScreen
 import com.ninecraft.booket.screens.TermsAgreementScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -55,7 +55,7 @@ class TermsAgreementPresenter @AssistedInject constructor(
                 }
 
                 is TermsAgreementUiEvent.OnStartButtonClick -> {
-                    navigator.resetRoot(HomeScreen)
+                    navigator.resetRoot(BottomNavigationScreen)
                 }
             }
         }

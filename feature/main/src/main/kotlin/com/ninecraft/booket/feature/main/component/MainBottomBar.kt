@@ -1,10 +1,5 @@
 package com.ninecraft.booket.feature.main.component
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideIn
-import androidx.compose.animation.slideOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -29,15 +24,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.Black
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.screens.HomeScreen
-import com.ninecraft.booket.screens.LibraryScreen
-import com.ninecraft.booket.screens.SearchScreen
 import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.popUntil
@@ -51,12 +42,10 @@ internal fun MainBottomBar(
     backStack: SaveableBackStack,
     modifier: Modifier = Modifier,
 ) {
-    val visible = shouldShowBottomBar(backStack)
     val currentTab = getCurrentTab(backStack)
     val tabs = MainTab.entries.toImmutableList()
 
     MainBottomBar(
-        visible = visible,
         tabs = tabs,
         currentTab = currentTab,
         onTabSelected = { tab ->
@@ -68,39 +57,31 @@ internal fun MainBottomBar(
 
 @Composable
 internal fun MainBottomBar(
-    visible: Boolean,
     tabs: ImmutableList<MainTab>,
     currentTab: MainTab?,
     onTabSelected: (MainTab) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    AnimatedVisibility(
-        visible = visible,
-        enter = fadeIn() + slideIn { IntOffset(0, it.height) },
-        exit = fadeOut() + slideOut { IntOffset(0, it.height) },
-        modifier = modifier,
-    ) {
-        Box(modifier = Modifier.background(White)) {
-            Column {
-                HorizontalDivider(color = Black)
-                Row(
-                    modifier = Modifier
-                        .navigationBarsPadding()
-                        .fillMaxWidth()
-                        .height(64.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    tabs.forEach { tab ->
-                        MainBottomBarItem(
-                            tab = tab,
-                            selected = tab == currentTab,
-                            onClick = {
-                                if (tab != currentTab) {
-                                    onTabSelected(tab)
-                                }
-                            },
-                        )
-                    }
+    Box(modifier = modifier.background(White)) {
+        Column {
+            HorizontalDivider(color = Black)
+            Row(
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .fillMaxWidth()
+                    .height(64.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                tabs.forEach { tab ->
+                    MainBottomBarItem(
+                        tab = tab,
+                        selected = tab == currentTab,
+                        onClick = {
+                            if (tab != currentTab) {
+                                onTabSelected(tab)
+                            }
+                        },
+                    )
                 }
             }
         }
@@ -150,7 +131,6 @@ private fun RowScope.MainBottomBarItem(
 private fun MainBottomBarPreview() {
     ReedTheme {
         MainBottomBar(
-            visible = true,
             tabs = MainTab.entries.toImmutableList(),
             currentTab = MainTab.HOME,
             onTabSelected = {},
@@ -166,13 +146,6 @@ fun Navigator.popUntilOrGoTo(screen: Screen) {
     }
 }
 
-private val mainBottomBarScreens = setOf(HomeScreen, SearchScreen, LibraryScreen)
-
-@Composable
-private fun shouldShowBottomBar(backStack: SaveableBackStack): Boolean {
-    val currentScreen = backStack.topRecord?.screen
-    return currentScreen in mainBottomBarScreens
-}
 
 @Composable
 private fun getCurrentTab(backStack: SaveableBackStack): MainTab? {

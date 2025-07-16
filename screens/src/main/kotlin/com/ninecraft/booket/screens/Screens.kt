@@ -8,6 +8,9 @@ abstract class ReedScreen(val name: String) : Screen {
 }
 
 @Parcelize
+data object BottomNavigationScreen : ReedScreen(name = "BottomNavigation()")
+
+@Parcelize
 data object HomeScreen : ReedScreen(name = "Home()")
 
 @Parcelize
