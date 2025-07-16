@@ -10,7 +10,6 @@ import com.ninecraft.booket.feature.main.component.MainTab
 import com.ninecraft.booket.screens.BottomNavigationScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.NavigableCircuitContent
-import com.slack.circuit.overlay.ContentWithOverlays
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
 
@@ -32,14 +31,12 @@ fun BottomNavigation(
             )
         },
     ) { innerPadding ->
-        ContentWithOverlays {
-            NavigableCircuitContent(
-                navigator = state.childNavigator,
-                backStack = state.childBackStack,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-            )
-        }
+        NavigableCircuitContent(
+            navigator = state.childNavigator,
+            backStack = state.childBackStack,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+        )
     }
 }
