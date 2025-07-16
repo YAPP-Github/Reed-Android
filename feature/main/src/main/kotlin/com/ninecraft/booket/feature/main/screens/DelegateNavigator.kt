@@ -10,13 +10,12 @@ class DelegateNavigator(
     private val childNavigator: Navigator,
     private val rootNavigator: Navigator,
 ) : Navigator {
-    private val bottomNavigationScreenClasses = MainTab.entries.map { it.screen::class }.toSet()
-
-    private fun Screen.isBottomNavigationScreen(): Boolean =
-        this::class in bottomNavigationScreenClasses
+    private fun isMainTabScreen(screen: Screen): Boolean {
+        return MainTab.entries.any { it.screen::class == screen::class }
+    }
 
     override fun goTo(screen: Screen): Boolean {
-        return if (screen.isBottomNavigationScreen()) {
+        return if (isMainTabScreen(screen)) {
             childNavigator.goTo(screen)
         } else {
             rootNavigator.goTo(screen)
@@ -24,21 +23,11 @@ class DelegateNavigator(
     }
 
     override fun pop(result: PopResult?): Screen? {
-        val currentScreen = childNavigator.peek()
-        return if (currentScreen?.isBottomNavigationScreen() == true) {
-            childNavigator.pop(result)
-        } else {
-            rootNavigator.pop(result)
-        }
+        return childNavigator.pop(result)
     }
 
     override fun peek(): Screen? {
-        val childScreen = childNavigator.peek()
-        return if (childScreen?.isBottomNavigationScreen() == true) {
-            childScreen
-        } else {
-            rootNavigator.peek()
-        }
+        return childNavigator.peek()
     }
 
     override fun resetRoot(
@@ -46,7 +35,7 @@ class DelegateNavigator(
         saveState: Boolean,
         restoreState: Boolean,
     ): ImmutableList<Screen> {
-        return if (newRoot.isBottomNavigationScreen()) {
+        return if (isMainTabScreen(newRoot)) {
             childNavigator.resetRoot(newRoot, saveState, restoreState)
         } else {
             rootNavigator.resetRoot(newRoot, saveState, restoreState)
@@ -54,11 +43,6 @@ class DelegateNavigator(
     }
 
     override fun peekBackStack(): ImmutableList<Screen> {
-        val childScreen = childNavigator.peek()
-        return if (childScreen?.isBottomNavigationScreen() == true) {
-            childNavigator.peekBackStack()
-        } else {
-            rootNavigator.peekBackStack()
-        }
+        return childNavigator.peekBackStack()
     }
 }
