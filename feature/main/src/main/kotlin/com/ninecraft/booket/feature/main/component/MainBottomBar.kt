@@ -126,18 +126,6 @@ private fun RowScope.MainBottomBarItem(
     }
 }
 
-@ComponentPreview
-@Composable
-private fun MainBottomBarPreview() {
-    ReedTheme {
-        MainBottomBar(
-            tabs = MainTab.entries.toImmutableList(),
-            currentTab = MainTab.HOME,
-            onTabSelected = {},
-        )
-    }
-}
-
 fun Navigator.popUntilOrGoTo(screen: Screen) {
     if (screen in peekBackStack()) {
         popUntil { it == screen }
@@ -147,9 +135,21 @@ fun Navigator.popUntilOrGoTo(screen: Screen) {
 }
 
 @Composable
-private fun getCurrentTab(backStack: SaveableBackStack): MainTab? {
+fun getCurrentTab(backStack: SaveableBackStack): MainTab? {
     val currentScreen = backStack.topRecord?.screen
     return currentScreen?.let { screen ->
         MainTab.entries.find { it.screen::class == currentScreen::class }
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun MainBottomBarPreview() {
+    ReedTheme {
+        MainBottomBar(
+            tabs = MainTab.entries.toImmutableList(),
+            currentTab = MainTab.HOME,
+            onTabSelected = {},
+        )
     }
 }

@@ -2,10 +2,9 @@ package com.ninecraft.booket.feature.main.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.ninecraft.booket.feature.main.component.MainTab
+import com.ninecraft.booket.feature.main.component.getCurrentTab
 import com.ninecraft.booket.screens.BottomNavigationScreen
 import com.ninecraft.booket.screens.HomeScreen
-import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.rememberCircuitNavigator
@@ -27,7 +26,6 @@ class BottomNavigationPresenter @AssistedInject constructor(
         val delegateNavigator = remember(childNavigator, rootNavigator) {
             DelegateNavigator(childNavigator, rootNavigator)
         }
-
         val currentTab = getCurrentTab(childBackStack)
 
         fun handleEvent(event: BottomNavigationUiEvent) {
@@ -54,13 +52,5 @@ class BottomNavigationPresenter @AssistedInject constructor(
     @AssistedFactory
     fun interface Factory {
         fun create(rootNavigator: Navigator): BottomNavigationPresenter
-    }
-}
-
-@Composable
-private fun getCurrentTab(backStack: SaveableBackStack): MainTab? {
-    val currentScreen = backStack.topRecord?.screen
-    return currentScreen?.let { screen ->
-        MainTab.entries.find { it.screen::class == currentScreen::class }
     }
 }
