@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.settings
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -24,11 +26,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.DevicePreview
+import com.ninecraft.booket.core.designsystem.component.ReedDialog
 import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.component.divider.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.feature.settings.component.LogoutConfirmationBottomSheet
 import com.ninecraft.booket.feature.settings.component.WithdrawConfirmationBottomSheet
 import com.ninecraft.booket.screens.SettingsScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -42,7 +44,11 @@ internal fun Settings(
     state: SettingsUiState,
     modifier: Modifier = Modifier,
 ) {
-    val logoutSheetState = rememberModalBottomSheetState()
+    HandleSettingsSideEffects(
+        state = state,
+        eventSink = state.eventSink,
+    )
+
     val withDrawSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
 
@@ -131,20 +137,27 @@ internal fun Settings(
         )
     }
 
-    if (state.isLogoutBottomSheetVisible) {
-        LogoutConfirmationBottomSheet(
+    if (state.isLoading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center),
+                color = ReedTheme.colors.contentBrand,
+            )
+        }
+    }
+
+    if (state.isLogoutDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.settings_logout_title),
+            confirmButtonText = stringResource(R.string.settings_logout),
+            dismissButtonText = stringResource(R.string.settings_cancel),
+            onConfirmRequest = {
+                state.eventSink(SettingsUiEvent.Logout)
+            },
             onDismissRequest = {
                 state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
-            },
-            sheetState = logoutSheetState,
-            onCancelButtonClick = {
-                coroutineScope.launch {
-                    logoutSheetState.hide()
-                    state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
-                }
-            },
-            onLogoutButtonClick = {
-                state.eventSink(SettingsUiEvent.Logout)
             },
         )
     }
@@ -212,9 +225,11 @@ private fun SettingsScreenPreview() {
     ReedTheme {
         Settings(
             state = SettingsUiState(
-                isLogoutBottomSheetVisible = false,
+                isLoading = false,
+                isLogoutDialogVisible = false,
                 isWithdrawBottomSheetVisible = false,
                 isWithdrawConfirmed = false,
+                sideEffect = null,
                 eventSink = {},
             ),
         )

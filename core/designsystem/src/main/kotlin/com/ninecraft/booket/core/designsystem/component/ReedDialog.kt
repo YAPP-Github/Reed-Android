@@ -58,8 +58,8 @@ fun ReedDialog(
                 textAlign = TextAlign.Center,
                 style = ReedTheme.typography.headline1SemiBold,
             )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
             subtext?.let {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
                 Text(
                     text = subtext,
                     color = ReedTheme.colors.contentSecondary,
