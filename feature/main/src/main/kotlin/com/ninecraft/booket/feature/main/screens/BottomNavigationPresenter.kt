@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.main.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import com.ninecraft.booket.feature.main.component.MainTab
 import com.ninecraft.booket.screens.BottomNavigationScreen
 import com.ninecraft.booket.screens.HomeScreen
@@ -8,17 +9,24 @@ import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.rememberCircuitNavigator
+import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 
-class BottomNavigationPresenter @AssistedInject constructor() : Presenter<BottomNavigationUiState> {
+class BottomNavigationPresenter @AssistedInject constructor(
+    @Assisted private val rootNavigator: Navigator,
+) : Presenter<BottomNavigationUiState> {
 
     @Composable
     override fun present(): BottomNavigationUiState {
         val childBackStack = rememberSaveableBackStack(root = HomeScreen)
         val childNavigator = rememberCircuitNavigator(childBackStack)
+        val delegateNavigator = remember(childNavigator, rootNavigator) {
+            DelegateNavigator(childNavigator, rootNavigator)
+        }
 
         val currentTab = getCurrentTab(childBackStack)
 
@@ -36,7 +44,7 @@ class BottomNavigationPresenter @AssistedInject constructor() : Presenter<Bottom
 
         return BottomNavigationUiState(
             childBackStack = childBackStack,
-            childNavigator = childNavigator,
+            childNavigator = delegateNavigator,
             currentTab = currentTab,
             eventSink = ::handleEvent,
         )
@@ -45,7 +53,7 @@ class BottomNavigationPresenter @AssistedInject constructor() : Presenter<Bottom
     @CircuitInject(BottomNavigationScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(): BottomNavigationPresenter
+        fun create(rootNavigator: Navigator): BottomNavigationPresenter
     }
 }
 
