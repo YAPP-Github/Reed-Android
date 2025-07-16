@@ -10,13 +10,27 @@ internal class TokenInterceptor @Inject constructor(
     @Suppress("unused")
     private val tokenDataSource: TokenPreferencesDataSource,
 ) : Interceptor {
+    
+    private val noAuthEndpoints = setOf(
+        "api/v1/auth/signin",
+        "api/v1/auth/refresh"
+    )
+    
     override fun intercept(chain: Interceptor.Chain): Response {
-        val accessToken = runBlocking { tokenDataSource.getAccessToken() }
-
-        return chain.proceed(
-            chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer $accessToken")
-                .build(),
-        )
+        val request = chain.request()
+        val url = request.url.toString()
+        
+        val isNoAuthEndpoint = noAuthEndpoints.any { url.contains(it) }
+        
+        return if (isNoAuthEndpoint) {
+            chain.proceed(request)
+        } else {
+            val accessToken = runBlocking { tokenDataSource.getAccessToken() }
+            chain.proceed(
+                request.newBuilder()
+                    .addHeader("Authorization", "Bearer $accessToken")
+                    .build(),
+            )
+        }
     }
 }

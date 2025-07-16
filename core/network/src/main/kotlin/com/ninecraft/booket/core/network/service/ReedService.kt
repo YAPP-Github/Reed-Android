@@ -1,9 +1,13 @@
 package com.ninecraft.booket.core.network.service
 
 import com.ninecraft.booket.core.network.request.BookUpsertRequest
+import com.ninecraft.booket.core.network.request.LoginRequest
+import com.ninecraft.booket.core.network.request.RefreshTokenRequest
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
+import com.ninecraft.booket.core.network.response.LoginResponse
+import com.ninecraft.booket.core.network.response.RefreshTokenResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -11,13 +15,22 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Query
 
-interface AuthService {
+interface ReedService {
+    // Auth endpoints (no auth required)
+    @POST("api/v1/auth/signin")
+    suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
+
+    @POST("api/v1/auth/refresh")
+    suspend fun refreshToken(@Body refreshTokenRequest: RefreshTokenRequest): RefreshTokenResponse
+
+    // Auth endpoints (auth required)
     @POST("api/v1/auth/signout")
     suspend fun logout()
 
     @GET("api/v1/auth/me")
     suspend fun getUserProfile(): UserProfileResponse
 
+    // Book endpoints (auth required)
     @GET("api/v1/books/search")
     suspend fun searchBook(
         @Query("query") query: String,
