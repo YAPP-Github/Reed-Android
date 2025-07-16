@@ -38,25 +38,6 @@ import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 internal fun MainBottomBar(
-    navigator: Navigator,
-    backStack: SaveableBackStack,
-    modifier: Modifier = Modifier,
-) {
-    val currentTab = getCurrentTab(backStack)
-    val tabs = MainTab.entries.toImmutableList()
-
-    MainBottomBar(
-        tabs = tabs,
-        currentTab = currentTab,
-        onTabSelected = { tab ->
-            navigator.popUntilOrGoTo(tab.screen)
-        },
-        modifier = modifier,
-    )
-}
-
-@Composable
-internal fun MainBottomBar(
     tabs: ImmutableList<MainTab>,
     currentTab: MainTab?,
     onTabSelected: (MainTab) -> Unit,
@@ -126,6 +107,7 @@ private fun RowScope.MainBottomBarItem(
     }
 }
 
+@Suppress("unused")
 fun Navigator.popUntilOrGoTo(screen: Screen) {
     if (screen in peekBackStack()) {
         popUntil { it == screen }
