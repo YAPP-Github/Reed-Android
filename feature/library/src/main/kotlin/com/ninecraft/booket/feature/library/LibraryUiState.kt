@@ -18,5 +18,4 @@ sealed interface LibrarySideEffect {
 sealed interface LibraryUiEvent : CircuitUiEvent {
     data object InitSideEffect : LibraryUiEvent
     data object OnSettingsClick : LibraryUiEvent
-    data object OnLogoutButtonClick : LibraryUiEvent
 }
