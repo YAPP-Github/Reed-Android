@@ -225,11 +225,6 @@ private fun SettingsScreenPreview() {
     ReedTheme {
         Settings(
             state = SettingsUiState(
-                isLoading = false,
-                isLogoutDialogVisible = false,
-                isWithdrawBottomSheetVisible = false,
-                isWithdrawConfirmed = false,
-                sideEffect = null,
                 eventSink = {},
             ),
         )
