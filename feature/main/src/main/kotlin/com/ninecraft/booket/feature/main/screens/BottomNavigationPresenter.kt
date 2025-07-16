@@ -41,15 +41,14 @@ class BottomNavigationPresenter @AssistedInject constructor(
                 }
 
                 is BottomNavigationUiEvent.NavigateToFullScreen -> {
-                    rootNavigator.goTo(event.screen)
+                    delegatingNavigator.goTo(event.screen)
                 }
             }
         }
 
         return BottomNavigationUiState(
             childBackStack = childBackStack,
-            childNavigator = delegatingNavigator,
-            rootNavigator = rootNavigator,
+            navigator = delegatingNavigator,
             currentTab = currentTab,
             eventSink = ::handleEvent,
         )
