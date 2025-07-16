@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.main.screens
+package com.ninecraft.booket.feature.main.bottomnavigation
 
 import com.ninecraft.booket.feature.main.component.MainTab
 import com.slack.circuit.runtime.Navigator

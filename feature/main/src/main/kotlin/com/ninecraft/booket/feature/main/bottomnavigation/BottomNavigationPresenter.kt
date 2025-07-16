@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.main.screens
+package com.ninecraft.booket.feature.main.bottomnavigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
