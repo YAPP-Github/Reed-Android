@@ -52,7 +52,7 @@ class LoginPresenter @AssistedInject constructor(
                             isLoading = true
                             repository.login(event.accessToken)
                                 .onSuccess {
-                                    navigator.goTo(TermsAgreementScreen)
+                                    navigator.resetRoot(TermsAgreementScreen)
                                 }.onFailure { exception ->
                                     exception.message?.let { Logger.e(it) }
                                     sideEffect = exception.message?.let {
