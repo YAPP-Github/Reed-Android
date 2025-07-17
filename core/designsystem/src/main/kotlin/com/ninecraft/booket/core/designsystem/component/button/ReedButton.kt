@@ -24,10 +24,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.utils.MultipleEventsCutter
 import com.ninecraft.booket.core.common.utils.get
+import com.ninecraft.booket.core.designsystem.ComponentPreview
 
 @Composable
 fun ReedButton(
@@ -97,7 +97,7 @@ fun ReedButton(
     }
 }
 
-@Preview(showBackground = true)
+@ComponentPreview
 @Composable
 private fun ReedLargeButtonPreview() {
     Column(
@@ -271,7 +271,7 @@ private fun ReedLargeButtonPreview() {
     }
 }
 
-@Preview(showBackground = true)
+@ComponentPreview
 @Composable
 private fun ReedMediumButtonPreview() {
     Column(
@@ -445,7 +445,7 @@ private fun ReedMediumButtonPreview() {
     }
 }
 
-@Preview(showBackground = true)
+@ComponentPreview
 @Composable
 private fun ReedSmallButtonPreview() {
     Column(
@@ -619,7 +619,7 @@ private fun ReedSmallButtonPreview() {
     }
 }
 
-@Preview(showBackground = true)
+@ComponentPreview
 @Composable
 private fun ReedButtonDisabledPreview() {
     Column(

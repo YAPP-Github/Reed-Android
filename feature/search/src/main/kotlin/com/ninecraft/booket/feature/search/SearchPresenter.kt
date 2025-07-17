@@ -145,8 +145,7 @@ class SearchPresenter @AssistedInject constructor(
 
                 is SearchUiEvent.OnBookClick -> {
                     selectedBookIsbn = event.bookIsbn
-                    // isBookRegisterBottomSheetVisible = true
-                    isBookRegisterSuccessBottomSheetVisible = true
+                    isBookRegisterBottomSheetVisible = true
                 }
 
                 is SearchUiEvent.OnBookRegisterBottomSheetDismiss -> {
