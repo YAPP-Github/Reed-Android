@@ -10,18 +10,18 @@ internal class TokenInterceptor @Inject constructor(
     @Suppress("unused")
     private val tokenDataSource: TokenPreferencesDataSource,
 ) : Interceptor {
-    
+
     private val noAuthEndpoints = setOf(
         "api/v1/auth/signin",
-        "api/v1/auth/refresh"
+        "api/v1/auth/refresh",
     )
-    
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val url = request.url.toString()
-        
+
         val isNoAuthEndpoint = noAuthEndpoints.any { url.contains(it) }
-        
+
         return if (isNoAuthEndpoint) {
             chain.proceed(request)
         } else {

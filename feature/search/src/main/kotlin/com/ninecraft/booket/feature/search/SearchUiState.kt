@@ -62,7 +62,8 @@ sealed interface SearchUiEvent : CircuitUiEvent {
 enum class BookStatus(val value: String) {
     BEFORE_READING("BEFORE_READING"),
     READING("READING"),
-    COMPLETED("COMPLETED");
+    COMPLETED("COMPLETED"),
+    ;
 
     fun getDisplayNameRes(): Int {
         return when (this) {
@@ -71,7 +72,6 @@ enum class BookStatus(val value: String) {
             COMPLETED -> R.string.book_status_completed
         }
     }
-
 
     companion object Companion {
         fun fromValue(value: String): BookStatus? {
