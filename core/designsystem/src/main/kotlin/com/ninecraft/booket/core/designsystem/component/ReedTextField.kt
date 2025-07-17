@@ -97,7 +97,7 @@ fun ReedTextField(
                     if (queryState.text.toString().isNotEmpty()) {
                         Icon(
                             imageVector = ImageVector.vectorResource(R.drawable.ic_x_circle),
-                            contentDescription = "Search Icon",
+                            contentDescription = "Clear Icon",
                             modifier = Modifier.clickable {
                                 onClear()
                             },
