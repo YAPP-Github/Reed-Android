@@ -8,7 +8,7 @@ import com.ninecraft.booket.screens.LibraryScreen
 import com.ninecraft.booket.screens.SearchScreen
 import com.slack.circuit.runtime.screen.Screen
 
-internal enum class MainTab(
+enum class MainTab(
     @DrawableRes val iconResId: Int,
     @DrawableRes val selectedIconResId: Int,
     @StringRes val labelResId: Int,
