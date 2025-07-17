@@ -208,8 +208,8 @@ internal fun SearchContent(
                 sheetState = bookRegisterBottomSheetState,
                 onCloseButtonClick = {
                     coroutineScope.launch {
-                        state.eventSink(SearchUiEvent.OnBookRegisterBottomSheetDismiss)
                         bookRegisterBottomSheetState.hide()
+                        state.eventSink(SearchUiEvent.OnBookRegisterBottomSheetDismiss)
                     }
                 },
                 bookStatuses = BookStatus.entries.toTypedArray().toImmutableList(),
@@ -225,8 +225,8 @@ internal fun SearchContent(
                 sheetState = bookRegisterSuccessBottomSheetState,
                 onCancelButtonClick = {
                     coroutineScope.launch {
-                        state.eventSink(SearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss)
                         bookRegisterSuccessBottomSheetState.hide()
+                        state.eventSink(SearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss)
                     }
                 },
                 onOKButtonClick = { state.eventSink(SearchUiEvent.OnBookRegisterSuccessOkButtonClick) },
