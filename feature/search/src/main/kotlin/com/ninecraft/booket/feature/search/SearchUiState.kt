@@ -30,6 +30,10 @@ data class SearchUiState(
     val books: ImmutableList<BookSummaryModel> = persistentListOf(),
     val startIndex: Int = 0,
     val isLastPage: Boolean = false,
+    val selectedBookIsbn: String = "",
+    val isBookRegisterBottomSheetVisible: Boolean = false,
+    val selectedBookStatus: BookStatus? = null,
+    val isBookRegisterSuccessBottomSheetVisible: Boolean = false,
     val sideEffect: SearchSideEffect? = null,
     val eventSink: (SearchUiEvent) -> Unit,
 ) : CircuitUiState {
@@ -47,4 +51,31 @@ sealed interface SearchUiEvent : CircuitUiEvent {
     data class OnBookClick(val bookIsbn: String) : SearchUiEvent
     data object OnLoadMore : SearchUiEvent
     data object OnRetryClick : SearchUiEvent
+    data object OnBookRegisterBottomSheetDismiss : SearchUiEvent
+    data class OnBookStatusSelect(val bookStatus: BookStatus) : SearchUiEvent
+    data object OnBookRegisterSuccessBottomSheetDismiss : SearchUiEvent
+    data object OnBookRegisterButtonClick : SearchUiEvent
+    data object OnBookRegisterSuccessOkButtonClick : SearchUiEvent
+    data object OnBookRegisterSuccessCancelButtonClick : SearchUiEvent
+}
+
+enum class BookStatus(val value: String) {
+    BEFORE_READING("BEFORE_READING"),
+    READING("READING"),
+    COMPLETED("COMPLETED");
+
+    fun getDisplayNameRes(): Int {
+        return when (this) {
+            BEFORE_READING -> R.string.book_status_before
+            READING -> R.string.book_status_reading
+            COMPLETED -> R.string.book_status_completed
+        }
+    }
+
+
+    companion object Companion {
+        fun fromValue(value: String): BookStatus? {
+            return entries.find { it.value == value }
+        }
+    }
 }

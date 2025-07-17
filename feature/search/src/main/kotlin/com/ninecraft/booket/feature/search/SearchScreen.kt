@@ -12,9 +12,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,11 +28,15 @@ import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.search.component.BookItem
+import com.ninecraft.booket.feature.search.component.BookRegisterBottomSheet
+import com.ninecraft.booket.feature.search.component.BookRegisterSuccessBottomSheet
 import com.ninecraft.booket.feature.search.component.InfinityLazyColumn
 import com.ninecraft.booket.feature.search.component.LoadStateFooter
 import com.ninecraft.booket.screens.SearchScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @CircuitInject(SearchScreen::class, ActivityRetainedComponent::class)
@@ -56,11 +63,16 @@ internal fun Search(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SearchContent(
     state: SearchUiState,
     modifier: Modifier = Modifier,
 ) {
+    val bookRegisterBottomSheetState = rememberModalBottomSheetState()
+    val bookRegisterSuccessBottomSheetState = rememberModalBottomSheetState()
+    val coroutineScope = rememberCoroutineScope()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -81,6 +93,7 @@ internal fun SearchContent(
                     horizontal = ReedTheme.spacing.spacing5,
                 ),
         )
+
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
 
         when (state.uiState) {
@@ -187,6 +200,37 @@ internal fun SearchContent(
                     }
                 }
             }
+        }
+
+        if (state.isBookRegisterBottomSheetVisible) {
+            BookRegisterBottomSheet(
+                onDismissRequest = { state.eventSink(SearchUiEvent.OnBookRegisterBottomSheetDismiss) },
+                sheetState = bookRegisterBottomSheetState,
+                onCloseButtonClick = {
+                    coroutineScope.launch {
+                        state.eventSink(SearchUiEvent.OnBookRegisterBottomSheetDismiss)
+                        bookRegisterBottomSheetState.hide()
+                    }
+                },
+                bookStatuses = BookStatus.entries.toTypedArray().toImmutableList(),
+                currentBookStatus = state.selectedBookStatus,
+                onItemSelected = { bookStatus -> state.eventSink(SearchUiEvent.OnBookStatusSelect(bookStatus)) },
+                onBookRegisterButtonClick = { state.eventSink(SearchUiEvent.OnBookRegisterButtonClick) },
+            )
+        }
+
+        if (state.isBookRegisterSuccessBottomSheetVisible) {
+            BookRegisterSuccessBottomSheet(
+                onDismissRequest = { state.eventSink(SearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss) },
+                sheetState = bookRegisterSuccessBottomSheetState,
+                onCancelButtonClick = {
+                    coroutineScope.launch {
+                        state.eventSink(SearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss)
+                        bookRegisterSuccessBottomSheetState.hide()
+                    }
+                },
+                onOKButtonClick = { state.eventSink(SearchUiEvent.OnBookRegisterSuccessOkButtonClick) },
+            )
         }
     }
 }
