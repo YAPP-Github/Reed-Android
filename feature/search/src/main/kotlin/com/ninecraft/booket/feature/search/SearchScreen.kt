@@ -80,6 +80,7 @@ internal fun SearchContent(
             .fillMaxSize()
             .background(White),
     ) {
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         ReedTextField(
             queryState = state.queryState,
             queryHintRes = designR.string.search_book_hint,
@@ -89,13 +90,9 @@ internal fun SearchContent(
             onClear = {
                 state.eventSink(SearchUiEvent.OnClearClick)
             },
-            modifier = modifier
-                .padding(
-                    vertical = ReedTheme.spacing.spacing3,
-                    horizontal = ReedTheme.spacing.spacing5,
-                ),
+            modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
         )
-
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
 
         when (state.uiState) {
