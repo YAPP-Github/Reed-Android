@@ -8,5 +8,5 @@ data class HomeUiState(
 ) : CircuitUiState
 
 sealed interface HomeUiEvent : CircuitUiEvent {
-    data object OnButtonClick: HomeUiEvent
+    data object OnButtonClick : HomeUiEvent
 }
