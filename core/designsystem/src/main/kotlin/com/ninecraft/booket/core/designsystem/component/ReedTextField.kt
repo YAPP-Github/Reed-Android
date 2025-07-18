@@ -60,7 +60,9 @@ fun ReedTextField(
     CompositionLocalProvider(LocalTextSelectionColors provides reedTextSelectionColors) {
         BasicTextField(
             state = queryState,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
             textStyle = ReedTheme.typography.body2Medium.copy(color = textColor),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
