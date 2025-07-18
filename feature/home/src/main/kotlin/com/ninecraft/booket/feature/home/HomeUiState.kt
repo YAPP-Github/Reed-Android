@@ -7,4 +7,6 @@ data class HomeUiState(
     val eventSink: (HomeUiEvent) -> Unit,
 ) : CircuitUiState
 
-sealed interface HomeUiEvent : CircuitUiEvent
+sealed interface HomeUiEvent : CircuitUiEvent {
+    data object OnButtonClick: HomeUiEvent
+}
