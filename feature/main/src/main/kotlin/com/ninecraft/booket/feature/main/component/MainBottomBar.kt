@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.main.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,12 +51,20 @@ internal fun MainBottomBar(
                     topStart = ReedTheme.spacing.spacing3,
                     topEnd = ReedTheme.spacing.spacing3,
                 ),
-                color = ReedTheme.colors.borderPrimary,
+                color = ReedTheme.colors.borderPrimary.copy(alpha = 0.05f),
                 offsetY = (-4).dp,
                 blur = 20.dp,
             )
             .clip(
                 RoundedCornerShape(
+                    topStart = ReedTheme.spacing.spacing3,
+                    topEnd = ReedTheme.spacing.spacing3,
+                ),
+            )
+            .border(
+                width = 1.dp,
+                color = ReedTheme.colors.borderPrimary,
+                shape = RoundedCornerShape(
                     topStart = ReedTheme.spacing.spacing3,
                     topEnd = ReedTheme.spacing.spacing3,
                 ),
