@@ -30,7 +30,9 @@ fun handleException(
         }
 
         else -> {
-            Logger.e(exception.message ?: "알 수 없는 오류가 발생했습니다.")
+            val errorMessage = exception.message ?: "알 수 없는 오류가 발생했습니다."
+            Logger.e(errorMessage)
+            onServerError(errorMessage)
         }
     }
 }

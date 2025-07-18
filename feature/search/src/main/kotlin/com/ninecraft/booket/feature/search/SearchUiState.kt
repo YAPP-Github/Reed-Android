@@ -7,6 +7,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import java.util.UUID
 
 sealed interface UiState {
     data object Idle : UiState
@@ -41,10 +42,14 @@ data class SearchUiState(
 }
 
 sealed interface SearchSideEffect {
-    data class ShowToast(val message: String) : SearchSideEffect
+    data class ShowToast(
+        val message: String,
+        private val key: String = UUID.randomUUID().toString()
+    ) : SearchSideEffect
 }
 
 sealed interface SearchUiEvent : CircuitUiEvent {
+    data object InitSideEffect: SearchUiEvent
     data object OnBackClick : SearchUiEvent
     data class OnSearchClick(val text: String) : SearchUiEvent
     data object OnClearClick : SearchUiEvent

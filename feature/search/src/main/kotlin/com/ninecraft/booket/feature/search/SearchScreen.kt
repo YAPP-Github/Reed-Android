@@ -45,6 +45,8 @@ internal fun Search(
     state: SearchUiState,
     modifier: Modifier = Modifier,
 ) {
+    HandleSearchSideEffects(state = state)
+
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,

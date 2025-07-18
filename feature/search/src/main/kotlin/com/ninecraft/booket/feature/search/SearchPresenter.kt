@@ -41,7 +41,7 @@ class SearchPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
-        var queryState = rememberTextFieldState()
+        val queryState = rememberTextFieldState()
         var searchResult by rememberRetained { mutableStateOf(BookSearchModel()) }
         var books by rememberRetained { mutableStateOf(persistentListOf<BookSummaryModel>()) }
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
@@ -119,6 +119,10 @@ class SearchPresenter @AssistedInject constructor(
 
         fun handleEvent(event: SearchUiEvent) {
             when (event) {
+                is SearchUiEvent.InitSideEffect -> {
+                    sideEffect = null
+                }
+
                 is SearchUiEvent.OnBackClick -> {
                     navigator.pop()
                 }
