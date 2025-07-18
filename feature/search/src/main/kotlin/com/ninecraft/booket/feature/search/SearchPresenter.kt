@@ -107,8 +107,7 @@ class SearchPresenter @AssistedInject constructor(
 
                         handleException(
                             exception = exception,
-                            onServerError = handleErrorMessage,
-                            onNetworkError = handleErrorMessage,
+                            onError = handleErrorMessage,
                             onLoginRequired = {
                                 navigator.resetRoot(LoginScreen)
                             },
