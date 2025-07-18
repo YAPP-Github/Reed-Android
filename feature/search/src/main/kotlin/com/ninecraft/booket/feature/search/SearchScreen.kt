@@ -28,7 +28,7 @@ import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.search.component.BookItem
 import com.ninecraft.booket.feature.search.component.InfinityLazyColumn
 import com.ninecraft.booket.feature.search.component.LoadStateFooter
-import com.ninecraft.booket.screens.SearchScreen
+import com.ninecraft.booket.feature.screens.SearchScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import com.ninecraft.booket.core.designsystem.R as designR

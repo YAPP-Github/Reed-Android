@@ -1,4 +1,4 @@
-package com.ninecraft.booket.screens
+package com.ninecraft.booket.feature.screens
 
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize

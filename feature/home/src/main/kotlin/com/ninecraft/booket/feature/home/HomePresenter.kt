@@ -2,8 +2,8 @@ package com.ninecraft.booket.feature.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import com.ninecraft.booket.screens.HomeScreen
-import com.ninecraft.booket.screens.SearchScreen
+import com.ninecraft.booket.feature.screens.HomeScreen
+import com.ninecraft.booket.feature.screens.SearchScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter

@@ -24,7 +24,7 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorSt
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.LoginScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 

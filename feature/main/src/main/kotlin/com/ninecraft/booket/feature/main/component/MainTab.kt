@@ -3,8 +3,8 @@ package com.ninecraft.booket.feature.main.component
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.ninecraft.booket.feature.main.R
-import com.ninecraft.booket.screens.HomeScreen
-import com.ninecraft.booket.screens.LibraryScreen
+import com.ninecraft.booket.feature.screens.HomeScreen
+import com.ninecraft.booket.feature.screens.LibraryScreen
 import com.slack.circuit.runtime.screen.Screen
 
 enum class MainTab(
