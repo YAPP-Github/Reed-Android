@@ -119,10 +119,6 @@ class SearchPresenter @AssistedInject constructor(
 
         fun handleEvent(event: SearchUiEvent) {
             when (event) {
-                is SearchUiEvent.InitSideEffect -> {
-                    sideEffect = null
-                }
-
                 is SearchUiEvent.OnBackClick -> {
                     navigator.pop()
                 }

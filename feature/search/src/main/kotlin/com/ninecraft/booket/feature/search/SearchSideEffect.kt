@@ -4,7 +4,6 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.skydoves.compose.effects.RememberedEffect
-import com.orhanobut.logger.Logger
 
 @Composable
 internal fun HandleSearchSideEffects(

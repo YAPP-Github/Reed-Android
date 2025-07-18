@@ -44,12 +44,11 @@ data class SearchUiState(
 sealed interface SearchSideEffect {
     data class ShowToast(
         val message: String,
-        private val key: String = UUID.randomUUID().toString()
+        private val key: String = UUID.randomUUID().toString(),
     ) : SearchSideEffect
 }
 
 sealed interface SearchUiEvent : CircuitUiEvent {
-    data object InitSideEffect: SearchUiEvent
     data object OnBackClick : SearchUiEvent
     data class OnSearchClick(val text: String) : SearchUiEvent
     data object OnClearClick : SearchUiEvent
