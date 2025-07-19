@@ -1,6 +1,7 @@
-package com.ninecraft.booket.feature.settings.component
+package com.ninecraft.booket.feature.search.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,19 +24,16 @@ import com.ninecraft.booket.core.designsystem.component.bottomsheet.ReedBottomSh
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
-import com.ninecraft.booket.core.designsystem.component.checkbox.SquareCheckBox
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.feature.settings.R
+import com.ninecraft.booket.feature.search.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WithdrawConfirmationBottomSheet(
+fun BookRegisterSuccessBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
-    isCheckBoxChecked: Boolean,
-    onCheckBoxCheckedChange: () -> Unit,
     onCancelButtonClick: () -> Unit,
-    onWithdrawButtonClick: () -> Unit,
+    onOKButtonClick: () -> Unit,
 ) {
     ReedBottomSheet(
         onDismissRequest = {
@@ -52,44 +50,32 @@ fun WithdrawConfirmationBottomSheet(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(
-                text = stringResource(R.string.settings_withdraw_title),
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = ReedTheme.spacing.spacing3),
+                    .height(120.dp),
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
+            Text(
+                text = stringResource(R.string.book_register_success_title),
+                modifier = Modifier.fillMaxWidth(),
                 color = ReedTheme.colors.contentPrimary,
                 textAlign = TextAlign.Center,
                 style = ReedTheme.typography.heading2SemiBold,
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
             Text(
-                text = stringResource(R.string.settings_withdraw_detail),
+                text = stringResource(R.string.book_register_success_description),
                 modifier = Modifier.fillMaxWidth(),
                 color = ReedTheme.colors.contentSecondary,
                 textAlign = TextAlign.Center,
                 style = ReedTheme.typography.body1Medium,
             )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-            Row {
-                SquareCheckBox(
-                    checked = isCheckBoxChecked,
-                    onCheckedChange = {
-                        onCheckBoxCheckedChange()
-                    },
-                )
-                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-                Text(
-                    text = stringResource(R.string.settings_withdraw_agreement),
-                    color = ReedTheme.colors.contentPrimary,
-                    textAlign = TextAlign.Center,
-                    style = ReedTheme.typography.body1Medium,
-                )
-            }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp),
+                    .padding(vertical = ReedTheme.spacing.spacing4),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 ReedButton(
@@ -99,18 +85,17 @@ fun WithdrawConfirmationBottomSheet(
                     sizeStyle = largeButtonStyle,
                     colorStyle = ReedButtonColorStyle.SECONDARY,
                     modifier = Modifier.weight(1f),
-                    text = stringResource(R.string.settings_cancel),
+                    text = stringResource(R.string.book_register_success_cancel),
                 )
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
                 ReedButton(
                     onClick = {
-                        onWithdrawButtonClick()
+                        onOKButtonClick()
                     },
                     sizeStyle = largeButtonStyle,
                     colorStyle = ReedButtonColorStyle.PRIMARY,
                     modifier = Modifier.weight(1f),
-                    enabled = isCheckBoxChecked,
-                    text = stringResource(R.string.settings_withdraw_action),
+                    text = stringResource(R.string.book_register_success_ok),
                 )
             }
         }
@@ -120,7 +105,7 @@ fun WithdrawConfirmationBottomSheet(
 @OptIn(ExperimentalMaterial3Api::class)
 @ComponentPreview
 @Composable
-private fun WithdrawConfirmationBottomSheetPreview() {
+private fun BookRegisterSuccessBottomSheetPreview() {
     val sheetState = SheetState(
         skipPartiallyExpanded = true,
         initialValue = SheetValue.Expanded,
@@ -128,13 +113,11 @@ private fun WithdrawConfirmationBottomSheetPreview() {
         velocityThreshold = { 0f },
     )
     ReedTheme {
-        WithdrawConfirmationBottomSheet(
+        BookRegisterSuccessBottomSheet(
             onDismissRequest = {},
             sheetState = sheetState,
-            isCheckBoxChecked = true,
-            onCheckBoxCheckedChange = {},
             onCancelButtonClick = {},
-            onWithdrawButtonClick = {},
+            onOKButtonClick = {},
         )
     }
 }

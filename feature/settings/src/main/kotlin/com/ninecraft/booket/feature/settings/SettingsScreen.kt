@@ -33,7 +33,7 @@ import com.ninecraft.booket.core.designsystem.component.divider.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.settings.component.WithdrawConfirmationBottomSheet
-import com.ninecraft.booket.screens.SettingsScreen
+import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.launch

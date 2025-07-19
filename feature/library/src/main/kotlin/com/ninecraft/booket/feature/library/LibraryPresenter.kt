@@ -7,9 +7,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.UserRepository
-import com.ninecraft.booket.screens.LibraryScreen
-import com.ninecraft.booket.screens.LoginScreen
-import com.ninecraft.booket.screens.SettingsScreen
+import com.ninecraft.booket.feature.screens.LibraryScreen
+import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -52,8 +52,7 @@ class LibraryPresenter @AssistedInject constructor(
 
                             handleException(
                                 exception = exception,
-                                onServerError = handleErrorMessage,
-                                onNetworkError = handleErrorMessage,
+                                onError = handleErrorMessage,
                                 onLoginRequired = {
                                     navigator.resetRoot(LoginScreen)
                                 },

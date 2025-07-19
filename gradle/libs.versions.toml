@@ -16,6 +16,7 @@ androidx-compose-bom = "2025.06.00"
 androidx-compose-material3 = "1.4.0-alpha15"
 compose-stable-marker = "1.0.6"
 compose-effects = "0.1.1"
+compose-shadow = "2.0.4"
 
 ## Kotlin Symbol Processing
 ksp = "2.1.21-2.0.1"
@@ -90,6 +91,7 @@ compose-stable-marker = { group = "com.github.skydoves", name = "compose-stable-
 compose-effects = { group = "com.github.skydoves", name = "compose-effects", version.ref = "compose-effects" }
 compose-system-ui-controller = { group = "tech.thdev", name = "extensions-compose-system-ui-controller", version.ref = "compose-extensions" }
 compose-keyboard-state = { group = "tech.thdev", name = "extensions-compose-keyboard-state", version.ref = "compose-extensions" }
+compose-shadow = { group = "com.adamglin", name = "compose-shadow", version.ref = "compose-shadow"}
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }

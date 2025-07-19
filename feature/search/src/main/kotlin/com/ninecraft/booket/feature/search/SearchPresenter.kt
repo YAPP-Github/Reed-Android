@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.search
 
+import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -7,10 +8,12 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
-import com.ninecraft.booket.screens.SearchScreen
+import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.SearchScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -24,7 +27,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
-@Suppress("unused")
 class SearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val bookRepository: BookRepository,
@@ -44,6 +46,11 @@ class SearchPresenter @AssistedInject constructor(
         var books by rememberRetained { mutableStateOf(persistentListOf<BookSummaryModel>()) }
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
         var isLastPage by rememberRetained { mutableStateOf(false) }
+        var selectedBookIsbn by rememberRetained { mutableStateOf("") }
+        var isBookRegisterBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var selectedBookStatus by rememberRetained { mutableStateOf<BookStatus?>(null) }
+        var isBookRegisterSuccessBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var sideEffect by rememberRetained { mutableStateOf<SearchSideEffect?>(null) }
 
         fun searchBooks(query: String, startIndex: Int = START_INDEX) {
             scope.launch {
@@ -83,14 +90,44 @@ class SearchPresenter @AssistedInject constructor(
             }
         }
 
+        fun upsertBook(bookIsbn: String, bookStatus: String) {
+            scope.launch {
+                bookRepository.upsertBook(bookIsbn, bookStatus)
+                    .onSuccess {
+                        selectedBookIsbn = ""
+                        selectedBookStatus = null
+                        isBookRegisterBottomSheetVisible = false
+                        isBookRegisterSuccessBottomSheetVisible = true
+                    }
+                    .onFailure { exception ->
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = SearchSideEffect.ShowToast(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen)
+                            },
+                        )
+                    }
+            }
+        }
+
         fun handleEvent(event: SearchUiEvent) {
             when (event) {
                 is SearchUiEvent.OnBackClick -> {
                     navigator.pop()
                 }
 
-                is SearchUiEvent.OnSearch -> {
+                is SearchUiEvent.OnSearchClick -> {
                     searchBooks(query = event.text, startIndex = START_INDEX)
+                }
+
+                is SearchUiEvent.OnClearClick -> {
+                    queryState.clearText()
                 }
 
                 is SearchUiEvent.OnLoadMore -> {
@@ -105,7 +142,36 @@ class SearchPresenter @AssistedInject constructor(
                     }
                 }
 
-                is SearchUiEvent.OnBookClick -> {}
+                is SearchUiEvent.OnBookClick -> {
+                    selectedBookIsbn = event.bookIsbn
+                    isBookRegisterBottomSheetVisible = true
+                }
+
+                is SearchUiEvent.OnBookRegisterBottomSheetDismiss -> {
+                    isBookRegisterBottomSheetVisible = false
+                    selectedBookIsbn = ""
+                    selectedBookStatus = null
+                }
+
+                is SearchUiEvent.OnBookStatusSelect -> {
+                    selectedBookStatus = event.bookStatus
+                }
+
+                is SearchUiEvent.OnBookRegisterButtonClick -> {
+                    selectedBookStatus?.let { bookStatus -> upsertBook(selectedBookIsbn, bookStatus.value) }
+                }
+
+                is SearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss -> {
+                    isBookRegisterSuccessBottomSheetVisible = false
+                }
+
+                is SearchUiEvent.OnBookRegisterSuccessOkButtonClick -> {
+                    isBookRegisterSuccessBottomSheetVisible = false
+                }
+
+                is SearchUiEvent.OnBookRegisterSuccessCancelButtonClick -> {
+                    isBookRegisterSuccessBottomSheetVisible = false
+                }
             }
         }
 
@@ -117,6 +183,11 @@ class SearchPresenter @AssistedInject constructor(
             books = books,
             startIndex = currentStartIndex,
             isLastPage = isLastPage,
+            selectedBookIsbn = selectedBookIsbn,
+            isBookRegisterBottomSheetVisible = isBookRegisterBottomSheetVisible,
+            selectedBookStatus = selectedBookStatus,
+            isBookRegisterSuccessBottomSheetVisible = isBookRegisterSuccessBottomSheetVisible,
+            sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
     }
