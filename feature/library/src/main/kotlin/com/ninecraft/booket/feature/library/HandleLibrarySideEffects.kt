@@ -8,6 +8,7 @@ import com.skydoves.compose.effects.RememberedEffect
 @Composable
 internal fun HandleLibrarySideEffects(
     state: LibraryUiState,
+    eventSink: (LibraryUiEvent) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -18,6 +19,10 @@ internal fun HandleLibrarySideEffects(
             }
 
             null -> {}
+        }
+
+        if (state.sideEffect != null) {
+            eventSink(LibraryUiEvent.InitSideEffect)
         }
     }
 }
