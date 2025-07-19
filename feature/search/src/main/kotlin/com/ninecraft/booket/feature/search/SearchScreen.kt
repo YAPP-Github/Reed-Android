@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,12 +29,13 @@ import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
+import com.ninecraft.booket.feature.screens.SearchScreen
 import com.ninecraft.booket.feature.search.component.BookItem
 import com.ninecraft.booket.feature.search.component.BookRegisterBottomSheet
 import com.ninecraft.booket.feature.search.component.BookRegisterSuccessBottomSheet
 import com.ninecraft.booket.feature.search.component.InfinityLazyColumn
 import com.ninecraft.booket.feature.search.component.LoadStateFooter
-import com.ninecraft.booket.feature.screens.SearchScreen
+import com.ninecraft.booket.feature.search.component.SearchItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
@@ -122,7 +124,29 @@ internal fun SearchContent(
             }
 
             is UiState.Idle -> {
-                // TODO: 최근 검색어 노출
+                LazyColumn {
+                    items(
+                        count = state.recentSearches.size,
+                        key = { index -> state.recentSearches[index] },
+                    ) { index ->
+                        Column {
+                            SearchItem(
+                                query = state.recentSearches[index],
+                                onQueryClick = { keyword ->
+                                    state.eventSink(SearchUiEvent.OnRecentSearchClick(keyword))
+                                },
+                                onRemoveIconClick = { keyword ->
+                                    state.eventSink(SearchUiEvent.OnRemoveSearchRemoveClick(keyword))
+                                }
+                            )
+                            HorizontalDivider(
+                                modifier = Modifier.fillMaxWidth(),
+                                thickness = 1.dp,
+                                color = ReedTheme.colors.borderPrimary,
+                            )
+                        }
+                    }
+                }
             }
 
             is UiState.Success -> {

@@ -27,6 +27,7 @@ data class SearchUiState(
     val uiState: UiState = UiState.Idle,
     val footerState: FooterState = FooterState.Idle,
     val queryState: TextFieldState = TextFieldState(""),
+    val recentSearches: ImmutableList<String> = persistentListOf(),
     val searchResult: BookSearchModel = BookSearchModel(),
     val books: ImmutableList<BookSummaryModel> = persistentListOf(),
     val startIndex: Int = 0,
@@ -50,6 +51,8 @@ sealed interface SearchSideEffect {
 
 sealed interface SearchUiEvent : CircuitUiEvent {
     data object OnBackClick : SearchUiEvent
+    data class OnRecentSearchClick(val query: String) : SearchUiEvent
+    data class OnRemoveSearchRemoveClick(val query: String) : SearchUiEvent
     data class OnSearchClick(val text: String) : SearchUiEvent
     data object OnClearClick : SearchUiEvent
     data class OnBookClick(val bookIsbn: String) : SearchUiEvent

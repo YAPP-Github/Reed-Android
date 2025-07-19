@@ -16,6 +16,7 @@ import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.SearchScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -24,12 +25,13 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
 class SearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val bookRepository: BookRepository,
+    private val repository: BookRepository,
 ) : Presenter<SearchUiState> {
     companion object {
         private const val PAGE_SIZE = 20
@@ -42,6 +44,7 @@ class SearchPresenter @AssistedInject constructor(
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
         val queryState = rememberTextFieldState()
+        val recentSearches by repository.recentSearches.collectAsRetainedState(initial = emptyList())
         var searchResult by rememberRetained { mutableStateOf(BookSearchModel()) }
         var books by rememberRetained { mutableStateOf(persistentListOf<BookSummaryModel>()) }
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
@@ -60,7 +63,7 @@ class SearchPresenter @AssistedInject constructor(
                     footerState = FooterState.Loading
                 }
 
-                bookRepository.searchBook(query = query, start = startIndex)
+                repository.searchBook(query = query, start = startIndex)
                     .onSuccess { result ->
                         searchResult = result
                         books = if (startIndex == START_INDEX) {
@@ -92,7 +95,7 @@ class SearchPresenter @AssistedInject constructor(
 
         fun upsertBook(bookIsbn: String, bookStatus: String) {
             scope.launch {
-                bookRepository.upsertBook(bookIsbn, bookStatus)
+                repository.upsertBook(bookIsbn, bookStatus)
                     .onSuccess {
                         selectedBookIsbn = ""
                         selectedBookStatus = null
@@ -120,6 +123,16 @@ class SearchPresenter @AssistedInject constructor(
             when (event) {
                 is SearchUiEvent.OnBackClick -> {
                     navigator.pop()
+                }
+
+                is SearchUiEvent.OnRecentSearchClick -> {
+                    searchBooks(query = event.query, startIndex = START_INDEX)
+                }
+
+                is SearchUiEvent.OnRemoveSearchRemoveClick -> {
+                    scope.launch {
+                        repository.removeRecentSearch(query = event.query)
+                    }
                 }
 
                 is SearchUiEvent.OnSearchClick -> {
@@ -179,6 +192,7 @@ class SearchPresenter @AssistedInject constructor(
             uiState = uiState,
             footerState = footerState,
             queryState = queryState,
+            recentSearches = recentSearches.toImmutableList(),
             searchResult = searchResult,
             books = books,
             startIndex = currentStartIndex,

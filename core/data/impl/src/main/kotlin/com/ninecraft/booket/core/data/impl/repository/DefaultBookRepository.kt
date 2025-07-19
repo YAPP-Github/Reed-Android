@@ -12,6 +12,8 @@ internal class DefaultBookRepository @Inject constructor(
     private val service: ReedService,
     private val dataSource: RecentSearchDataSource,
 ) : BookRepository {
+    override val recentSearches = dataSource.recentSearches
+
     override suspend fun searchBook(
         query: String,
         start: Int,
@@ -24,6 +26,11 @@ internal class DefaultBookRepository @Inject constructor(
         dataSource.addRecentSearch(query)
         result
     }
+
+    override suspend fun removeRecentSearch(query: String) {
+        dataSource.removeRecentSearch(query)
+    }
+
 
     override suspend fun getBookDetail(itemId: String) = runSuspendCatching {
         service.getBookDetail(itemId).toModel()
