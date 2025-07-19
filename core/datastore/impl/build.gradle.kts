@@ -3,6 +3,7 @@
 plugins {
     alias(libs.plugins.booket.android.library)
     alias(libs.plugins.booket.android.hilt)
+    alias(libs.plugins.booket.kotlin.library.serialization)
 }
 
 android {
