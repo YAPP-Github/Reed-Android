@@ -2,7 +2,7 @@ package com.ninecraft.booket.core.network
 
 import com.ninecraft.booket.core.datastore.api.datasource.TokenPreferencesDataSource
 import com.ninecraft.booket.core.network.request.RefreshTokenRequest
-import com.ninecraft.booket.core.network.service.NoAuthService
+import com.ninecraft.booket.core.network.service.ReedService
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -10,11 +10,12 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 import javax.inject.Inject
+import javax.inject.Provider
 
 @Suppress("TooGenericExceptionCaught")
 class TokenAuthenticator @Inject constructor(
     private val tokenDataSource: TokenPreferencesDataSource,
-    private val noAuthService: NoAuthService,
+    private val serviceProvider: Provider<ReedService>,
 ) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
         return runBlocking {
@@ -28,7 +29,7 @@ class TokenAuthenticator @Inject constructor(
                 }
 
                 val refreshTokenRequest = RefreshTokenRequest(refreshToken)
-                val refreshResponse = noAuthService.refreshToken(refreshTokenRequest)
+                val refreshResponse = serviceProvider.get().refreshToken(refreshTokenRequest)
 
                 tokenDataSource.apply {
                     setAccessToken(refreshResponse.accessToken)

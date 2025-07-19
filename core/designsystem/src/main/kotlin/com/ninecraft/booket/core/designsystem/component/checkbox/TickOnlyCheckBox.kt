@@ -11,9 +11,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
+import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.R
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
@@ -33,7 +33,7 @@ fun TickOnlyCheckBox(
     )
 }
 
-@Preview(showBackground = true)
+@ComponentPreview
 @Composable
 private fun TickOnlyCheckBoxPreview() {
     ReedTheme {

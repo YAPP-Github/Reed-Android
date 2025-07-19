@@ -10,8 +10,8 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
@@ -40,7 +40,7 @@ fun ReedBottomSheet(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
+@ComponentPreview
 @Composable
 private fun ReedBottomSheetPreview() {
     val sheetState = SheetState(

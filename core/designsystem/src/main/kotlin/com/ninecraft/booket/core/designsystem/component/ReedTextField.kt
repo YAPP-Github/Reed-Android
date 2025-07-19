@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -47,6 +48,7 @@ fun ReedTextField(
     queryState: TextFieldState,
     @StringRes queryHintRes: Int,
     onSearch: (String) -> Unit,
+    onClear: () -> Unit,
     modifier: Modifier = Modifier,
     backgroundColor: Color = ReedTheme.colors.baseSecondary,
     textColor: Color = ReedTheme.colors.contentPrimary,
@@ -58,7 +60,9 @@ fun ReedTextField(
     CompositionLocalProvider(LocalTextSelectionColors provides reedTextSelectionColors) {
         BasicTextField(
             state = queryState,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
             textStyle = ReedTheme.typography.body2Medium.copy(color = textColor),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -81,7 +85,7 @@ fun ReedTextField(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
-                    Box {
+                    Box(modifier = Modifier.weight(1f)) {
                         if (queryState.text.isEmpty()) {
                             Text(
                                 text = stringResource(id = queryHintRes),
@@ -91,10 +95,25 @@ fun ReedTextField(
                         }
                         innerTextField()
                     }
-                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
+                    if (queryState.text.toString().isNotEmpty()) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_x_circle),
+                            contentDescription = "Clear Icon",
+                            modifier = Modifier.clickable {
+                                onClear()
+                            },
+                            tint = Color.Unspecified,
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_search),
                         contentDescription = "Search Icon",
+                        modifier = Modifier.clickable {
+                            onSearch(queryState.text.toString())
+                            keyboardController?.hide()
+                        },
                         tint = ReedTheme.colors.contentBrand,
                     )
                     Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
@@ -112,6 +131,7 @@ private fun ReedTextFieldPreview() {
             queryState = TextFieldState("검색"),
             queryHintRes = R.string.search_book_hint,
             onSearch = {},
+            onClear = {},
             modifier = Modifier
                 .height(46.dp)
                 .fillMaxWidth()
