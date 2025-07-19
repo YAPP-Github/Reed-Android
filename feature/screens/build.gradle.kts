@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ninecraft.booket.screens"
+    namespace = "com.ninecraft.booket.feature.screens"
 }
 
 dependencies {

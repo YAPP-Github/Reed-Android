@@ -7,9 +7,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
-import com.ninecraft.booket.screens.LoginScreen
-import com.ninecraft.booket.screens.OssLicensesScreen
-import com.ninecraft.booket.screens.SettingsScreen
+import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.OssLicensesScreen
+import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
