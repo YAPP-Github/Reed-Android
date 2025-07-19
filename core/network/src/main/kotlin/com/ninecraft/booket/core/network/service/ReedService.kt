@@ -6,6 +6,7 @@ import com.ninecraft.booket.core.network.request.RefreshTokenRequest
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
+import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
 import com.ninecraft.booket.core.network.response.RefreshTokenResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
@@ -52,4 +53,7 @@ interface ReedService {
 
     @PUT("api/v1/books/upsert")
     suspend fun upsertBook(@Body bookUpsertRequest: BookUpsertRequest): BookUpsertResponse
+
+    @GET("api/v1/books/my-library")
+    suspend fun getLibrary(): LibraryResponse
 }
