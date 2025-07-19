@@ -23,7 +23,6 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.R
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.model.LibraryModel
 
 @Composable
@@ -95,9 +94,7 @@ fun LibraryBookItem(
                 )
             }
             Spacer(Modifier.height(ReedTheme.spacing.spacing4))
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = stringResource(com.ninecraft.booket.feature.library.R.string.library_records),
                     color = ReedTheme.colors.contentPrimary,
