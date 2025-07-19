@@ -45,10 +45,7 @@ internal fun Settings(
     state: SettingsUiState,
     modifier: Modifier = Modifier,
 ) {
-    HandleSettingsSideEffects(
-        state = state,
-        eventSink = state.eventSink,
-    )
+    HandleSettingsSideEffects(state = state)
 
     val withDrawSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()

@@ -29,10 +29,7 @@ internal fun Library(
     state: LibraryUiState,
     modifier: Modifier = Modifier,
 ) {
-    HandleLibrarySideEffects(
-        state = state,
-        eventSink = state.eventSink,
-    )
+    HandleLibrarySideEffects(state = state)
 
     Column(
         modifier = modifier.fillMaxSize(),

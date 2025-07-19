@@ -70,10 +70,6 @@ class LibraryPresenter @AssistedInject constructor(
 
         fun handleEvent(event: LibraryUiEvent) {
             when (event) {
-                is LibraryUiEvent.InitSideEffect -> {
-                    sideEffect = null
-                }
-
                 is LibraryUiEvent.OnSettingsClick -> {
                     navigator.goTo(SettingsScreen)
                 }
