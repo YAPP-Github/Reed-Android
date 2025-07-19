@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.ninecraft.booket.core.datastore.api.datasource.RecentSearchDataSource
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
+import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class DefaultRecentSearchDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>,
 ) : RecentSearchDataSource {
+    @Suppress("TooGenericExceptionCaught")
     override val recentSearches: Flow<List<String>> = dataStore.data
         .handleIOException()
         .map { prefs ->
@@ -21,11 +23,13 @@ class DefaultRecentSearchDataSource @Inject constructor(
                 try {
                     Json.decodeFromString<List<String>>(jsonString)
                 } catch (e: Exception) {
+                    Logger.e(e.toString())
                     emptyList()
                 }
             } ?: emptyList()
         }
 
+    @Suppress("TooGenericExceptionCaught")
     override suspend fun addRecentSearch(query: String) {
         if (query.isBlank()) return
 
@@ -34,6 +38,7 @@ class DefaultRecentSearchDataSource @Inject constructor(
                 try {
                     Json.decodeFromString<List<String>>(jsonString).toMutableList()
                 } catch (e: Exception) {
+                    Logger.e(e.toString())
                     mutableListOf()
                 }
             } ?: mutableListOf()
@@ -49,12 +54,14 @@ class DefaultRecentSearchDataSource @Inject constructor(
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     override suspend fun removeRecentSearch(query: String) {
         dataStore.edit { prefs ->
             val currentSearches = prefs[RECENT_SEARCHES]?.let { jsonString ->
                 try {
                     Json.decodeFromString<List<String>>(jsonString).toMutableList()
                 } catch (e: Exception) {
+                    Logger.e(e.toString())
                     mutableListOf()
                 }
             } ?: mutableListOf()

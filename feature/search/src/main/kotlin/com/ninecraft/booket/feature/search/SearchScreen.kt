@@ -137,7 +137,7 @@ internal fun SearchContent(
                                 },
                                 onRemoveIconClick = { keyword ->
                                     state.eventSink(SearchUiEvent.OnRemoveSearchRemoveClick(keyword))
-                                }
+                                },
                             )
                             HorizontalDivider(
                                 modifier = Modifier.fillMaxWidth(),
