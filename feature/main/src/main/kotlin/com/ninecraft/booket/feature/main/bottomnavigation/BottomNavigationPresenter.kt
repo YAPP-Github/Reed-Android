@@ -3,8 +3,8 @@ package com.ninecraft.booket.feature.main.bottomnavigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.ninecraft.booket.feature.main.component.getCurrentTab
-import com.ninecraft.booket.screens.BottomNavigationScreen
-import com.ninecraft.booket.screens.HomeScreen
+import com.ninecraft.booket.feature.screens.BottomNavigationScreen
+import com.ninecraft.booket.feature.screens.HomeScreen
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.rememberCircuitNavigator

@@ -34,7 +34,7 @@ import com.ninecraft.booket.core.designsystem.component.checkbox.TickOnlyCheckBo
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.login.R
-import com.ninecraft.booket.screens.TermsAgreementScreen
+import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf

@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.main.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,21 +13,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.adamglin.composeshadow.dropShadow
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.theme.Black
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.slack.circuit.backstack.SaveableBackStack
@@ -43,27 +44,50 @@ internal fun MainBottomBar(
     onTabSelected: (MainTab) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier.background(White)) {
-        Column {
-            HorizontalDivider(color = Black)
-            Row(
-                modifier = Modifier
-                    .navigationBarsPadding()
-                    .fillMaxWidth()
-                    .height(64.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                tabs.forEach { tab ->
-                    MainBottomBarItem(
-                        tab = tab,
-                        selected = tab == currentTab,
-                        onClick = {
-                            if (tab != currentTab) {
-                                onTabSelected(tab)
-                            }
-                        },
-                    )
-                }
+    Box(
+        modifier = modifier
+            .dropShadow(
+                shape = RoundedCornerShape(
+                    topStart = ReedTheme.spacing.spacing3,
+                    topEnd = ReedTheme.spacing.spacing3,
+                ),
+                color = ReedTheme.colors.borderPrimary.copy(alpha = 0.05f),
+                offsetY = (-4).dp,
+                blur = 20.dp,
+            )
+            .clip(
+                RoundedCornerShape(
+                    topStart = ReedTheme.spacing.spacing3,
+                    topEnd = ReedTheme.spacing.spacing3,
+                ),
+            )
+            .border(
+                width = 1.dp,
+                color = ReedTheme.colors.borderPrimary,
+                shape = RoundedCornerShape(
+                    topStart = ReedTheme.spacing.spacing3,
+                    topEnd = ReedTheme.spacing.spacing3,
+                ),
+            )
+            .background(White),
+    ) {
+        Row(
+            modifier = Modifier
+                .navigationBarsPadding()
+                .fillMaxWidth()
+                .height(58.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            tabs.forEach { tab ->
+                MainBottomBarItem(
+                    tab = tab,
+                    selected = tab == currentTab,
+                    onClick = {
+                        if (tab != currentTab) {
+                            onTabSelected(tab)
+                        }
+                    },
+                )
             }
         }
     }
@@ -91,17 +115,18 @@ private fun RowScope.MainBottomBarItem(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
             Icon(
                 imageVector = if (selected) ImageVector.vectorResource(tab.selectedIconResId)
                 else ImageVector.vectorResource(tab.iconResId),
                 contentDescription = tab.contentDescription,
                 tint = Color.Unspecified,
             )
-            Spacer(modifier = Modifier.height(5.dp))
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
             Text(
                 text = stringResource(tab.labelResId),
-                color = if (selected) Color(0xFF1F1F1F) else Color(0xFF9E9E9E),
-                fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
+                color = if (selected) ReedTheme.colors.contentPrimary else ReedTheme.colors.contentSecondary,
+                style = ReedTheme.typography.caption2Regular,
             )
         }
     }

@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import com.ninecraft.booket.core.designsystem.component.ReedScaffold
 import com.ninecraft.booket.feature.main.component.MainBottomBar
 import com.ninecraft.booket.feature.main.component.MainTab
-import com.ninecraft.booket.screens.BottomNavigationScreen
+import com.ninecraft.booket.feature.screens.BottomNavigationScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.NavigableCircuitContent
 import dagger.hilt.android.components.ActivityRetainedComponent

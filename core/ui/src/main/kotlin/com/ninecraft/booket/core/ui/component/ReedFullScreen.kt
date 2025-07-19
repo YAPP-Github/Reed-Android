@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.ninecraft.booket.core.designsystem.theme.White
 
 /**
  * systemBarsPadding() 이 자동으로 적용되는 전체 화면 컨테이너
@@ -18,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun ReedFullScreen(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = Color.White,
+    backgroundColor: Color = White,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(

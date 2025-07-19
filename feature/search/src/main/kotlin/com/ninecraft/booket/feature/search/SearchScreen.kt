@@ -27,12 +27,13 @@ import com.ninecraft.booket.core.designsystem.component.ReedTextField
 import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.search.component.BookItem
 import com.ninecraft.booket.feature.search.component.BookRegisterBottomSheet
 import com.ninecraft.booket.feature.search.component.BookRegisterSuccessBottomSheet
 import com.ninecraft.booket.feature.search.component.InfinityLazyColumn
 import com.ninecraft.booket.feature.search.component.LoadStateFooter
-import com.ninecraft.booket.screens.SearchScreen
+import com.ninecraft.booket.feature.screens.SearchScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
@@ -47,11 +48,7 @@ internal fun Search(
 ) {
     HandleSearchSideEffects(state = state)
 
-    Column(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
+    ReedFullScreen(modifier = modifier) {
         ReedBackTopAppBar(
             title = stringResource(R.string.search_title),
             onBackClick = {

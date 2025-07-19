@@ -21,6 +21,7 @@ dependencies {
         libs.androidx.splash,
 
         libs.compose.system.ui.controller,
+        libs.compose.shadow,
 
         libs.logger,
     )

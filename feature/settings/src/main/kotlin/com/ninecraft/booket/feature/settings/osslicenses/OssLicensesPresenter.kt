@@ -1,7 +1,7 @@
 package com.ninecraft.booket.feature.settings.osslicenses
 
 import androidx.compose.runtime.Composable
-import com.ninecraft.booket.screens.OssLicensesScreen
+import com.ninecraft.booket.feature.screens.OssLicensesScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
