@@ -9,6 +9,7 @@ import com.ninecraft.booket.core.datastore.impl.util.handleIOException
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
@@ -22,8 +23,11 @@ class DefaultRecentSearchDataSource @Inject constructor(
             prefs[RECENT_SEARCHES]?.let { jsonString ->
                 try {
                     Json.decodeFromString<List<String>>(jsonString)
+                } catch (e: SerializationException) {
+                    Logger.e(e, "Failed to deserialize recent searches")
+                    emptyList()
                 } catch (e: Exception) {
-                    Logger.e(e.toString())
+                    Logger.e(e, "Unexpected error while reading recent searches")
                     emptyList()
                 }
             } ?: emptyList()
@@ -37,8 +41,11 @@ class DefaultRecentSearchDataSource @Inject constructor(
             val currentSearches = prefs[RECENT_SEARCHES]?.let { jsonString ->
                 try {
                     Json.decodeFromString<List<String>>(jsonString).toMutableList()
+                } catch (e: SerializationException) {
+                    Logger.e(e, "Failed to deserialize recent searches for adding")
+                    mutableListOf()
                 } catch (e: Exception) {
-                    Logger.e(e.toString())
+                    Logger.e(e, "Unexpected error while adding recent search")
                     mutableListOf()
                 }
             } ?: mutableListOf()
@@ -50,7 +57,11 @@ class DefaultRecentSearchDataSource @Inject constructor(
 
             // 최근 10개만 유지
             val limitedSearches = currentSearches.take(MAX_SEARCH_COUNT)
-            prefs[RECENT_SEARCHES] = Json.encodeToString(limitedSearches)
+            try {
+                prefs[RECENT_SEARCHES] = Json.encodeToString(limitedSearches)
+            } catch (e: SerializationException) {
+                Logger.e(e, "Failed to serialize recent searches")
+            }
         }
     }
 
@@ -60,14 +71,21 @@ class DefaultRecentSearchDataSource @Inject constructor(
             val currentSearches = prefs[RECENT_SEARCHES]?.let { jsonString ->
                 try {
                     Json.decodeFromString<List<String>>(jsonString).toMutableList()
+                } catch (e: SerializationException) {
+                    Logger.e(e, "Failed to deserialize recent searches for adding")
+                    mutableListOf()
                 } catch (e: Exception) {
-                    Logger.e(e.toString())
+                    Logger.e(e, "Unexpected error while adding recent search")
                     mutableListOf()
                 }
             } ?: mutableListOf()
 
             currentSearches.remove(query)
-            prefs[RECENT_SEARCHES] = Json.encodeToString(currentSearches)
+            try {
+                prefs[RECENT_SEARCHES] = Json.encodeToString(currentSearches)
+            } catch (e: SerializationException) {
+                Logger.e(e, "Failed to serialize recent searches after removal")
+            }
         }
     }
 
