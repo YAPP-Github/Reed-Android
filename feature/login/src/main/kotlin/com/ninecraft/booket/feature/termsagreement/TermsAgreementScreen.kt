@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.ninecraft.booket.core.common.extensions.clickableSingle
+import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
@@ -38,6 +38,7 @@ import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
+import com.ninecraft.booket.core.designsystem.R as DesignR
 
 @CircuitInject(TermsAgreementScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -97,7 +98,7 @@ internal fun TermsAgreement(
                     style = ReedTheme.typography.headline1SemiBold,
                 )
             }
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
             TermItem(
                 title = termsTitles[0],
                 checked = state.agreedTerms[0],
@@ -108,6 +109,7 @@ internal fun TermsAgreement(
                     state.eventSink(TermsAgreementUiEvent.OnPolicyClick)
                 },
             )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
             TermItem(
                 title = termsTitles[1],
                 checked = state.agreedTerms[1],
@@ -118,12 +120,13 @@ internal fun TermsAgreement(
                     state.eventSink(TermsAgreementUiEvent.OnTermClick)
                 },
             )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
             TermItem(
                 title = termsTitles[2],
                 checked = state.agreedTerms[2],
                 hasDetailAction = false,
                 onCheckClick = {
-                    state.eventSink(TermsAgreementUiEvent.OnTermItemClick(1))
+                    state.eventSink(TermsAgreementUiEvent.OnTermItemClick(2))
                 },
             )
         }
@@ -158,9 +161,9 @@ private fun TermItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickableSingle { onDetailClick() }
+            .noRippleClickable { onDetailClick() }
             .padding(
-                start = ReedTheme.spacing.spacing5,
+                start = ReedTheme.spacing.spacing4 + ReedTheme.spacing.spacing05,
                 end = ReedTheme.spacing.spacing3,
                 top = ReedTheme.spacing.spacing2,
                 bottom = ReedTheme.spacing.spacing2,
@@ -171,17 +174,17 @@ private fun TermItem(
             checked = checked,
             onCheckedChange = { onCheckClick() },
         )
-        Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
+        Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing3 + ReedTheme.spacing.spacing05))
         Text(
             text = title,
             modifier = Modifier.weight(1f),
             color = ReedTheme.colors.contentPrimary,
             style = ReedTheme.typography.body1Medium,
         )
-        
+
         if (hasDetailAction) {
             Icon(
-                imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
+                imageVector = ImageVector.vectorResource(id = DesignR.drawable.ic_chevron_right),
                 contentDescription = "Navigation Icon",
                 tint = Color.Unspecified,
             )
