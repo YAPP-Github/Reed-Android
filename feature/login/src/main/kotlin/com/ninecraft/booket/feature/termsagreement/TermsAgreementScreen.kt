@@ -45,6 +45,8 @@ internal fun TermsAgreement(
     state: TermsAgreementUiState,
     modifier: Modifier = Modifier,
 ) {
+    val termsTitles = stringArrayResource(id = R.array.terms_agreement_items)
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -96,21 +98,34 @@ internal fun TermsAgreement(
                 )
             }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
-
-            val termsTitles = stringArrayResource(id = R.array.terms_agreement_items)
-
-            termsTitles.forEachIndexed { index, title ->
-                TermItem(
-                    title = title,
-                    checked = state.agreedTerms[index],
-                    onCheckClick = {
-                        state.eventSink(TermsAgreementUiEvent.OnTermItemClick(index))
-                    },
-                    onDetailClick = {
-                        state.eventSink(TermsAgreementUiEvent.OnTermDetailClick(""))
-                    },
-                )
-            }
+            TermItem(
+                title = termsTitles[0],
+                checked = state.agreedTerms[0],
+                onCheckClick = {
+                    state.eventSink(TermsAgreementUiEvent.OnTermItemClick(0))
+                },
+                onDetailClick = {
+                    state.eventSink(TermsAgreementUiEvent.OnPolicyClick)
+                },
+            )
+            TermItem(
+                title = termsTitles[1],
+                checked = state.agreedTerms[1],
+                onCheckClick = {
+                    state.eventSink(TermsAgreementUiEvent.OnTermItemClick(1))
+                },
+                onDetailClick = {
+                    state.eventSink(TermsAgreementUiEvent.OnTermClick)
+                },
+            )
+            TermItem(
+                title = termsTitles[2],
+                checked = state.agreedTerms[2],
+                hasDetailAction = false,
+                onCheckClick = {
+                    state.eventSink(TermsAgreementUiEvent.OnTermItemClick(1))
+                },
+            )
         }
         ReedButton(
             onClick = {
@@ -134,17 +149,16 @@ internal fun TermsAgreement(
 @Composable
 private fun TermItem(
     title: String,
+    onCheckClick: () -> Unit,
     modifier: Modifier = Modifier,
     checked: Boolean = false,
-    onCheckClick: () -> Unit = {},
+    hasDetailAction: Boolean = true,
     onDetailClick: () -> Unit = {},
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickableSingle {
-                onDetailClick()
-            }
+            .clickableSingle { onDetailClick() }
             .padding(
                 start = ReedTheme.spacing.spacing5,
                 end = ReedTheme.spacing.spacing3,
@@ -164,11 +178,14 @@ private fun TermItem(
             color = ReedTheme.colors.contentPrimary,
             style = ReedTheme.typography.body1Medium,
         )
-        Icon(
-            imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
-            contentDescription = "Navigation Icon",
-            tint = Color.Unspecified,
-        )
+        
+        if (hasDetailAction) {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
+                contentDescription = "Navigation Icon",
+                tint = Color.Unspecified,
+            )
+        }
     }
 }
 

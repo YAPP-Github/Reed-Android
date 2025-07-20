@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -32,8 +32,8 @@ import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.component.divider.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.feature.settings.component.WithdrawConfirmationBottomSheet
 import com.ninecraft.booket.feature.screens.SettingsScreen
+import com.ninecraft.booket.feature.settings.component.WithdrawConfirmationBottomSheet
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.launch
@@ -77,7 +77,7 @@ internal fun Settings(
         SettingItem(
             title = stringResource(R.string.settings_privacy_policy),
             onItemClick = {
-                state.eventSink(SettingsUiEvent.OnTermDetailClick(""))
+                state.eventSink(SettingsUiEvent.OnPolicyClick)
             },
             action = {
                 Icon(
@@ -90,7 +90,7 @@ internal fun Settings(
         SettingItem(
             title = stringResource(R.string.settings_terms_of_service),
             onItemClick = {
-                state.eventSink(SettingsUiEvent.OnTermDetailClick(""))
+                state.eventSink(SettingsUiEvent.OnTermClick)
             },
             action = {
                 Icon(
