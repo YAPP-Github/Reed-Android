@@ -38,7 +38,7 @@ import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
-import com.ninecraft.booket.core.designsystem.R as DesignR
+import com.ninecraft.booket.core.designsystem.R as designR
 
 @CircuitInject(TermsAgreementScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -184,7 +184,7 @@ private fun TermItem(
 
         if (hasDetailAction) {
             Icon(
-                imageVector = ImageVector.vectorResource(id = DesignR.drawable.ic_chevron_right),
+                imageVector = ImageVector.vectorResource(id = designR.drawable.ic_chevron_right),
                 contentDescription = "Navigation Icon",
                 tint = Color.Unspecified,
             )
