@@ -48,7 +48,15 @@ internal fun HomeContent(
             state.eventSink(HomeUiEvent.OnButtonClick)
         },
     ) {
-        Text(text = "Navigate To Search")
+        Text(text = "도서 검색 이동")
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+    Button(
+        onClick = {
+            state.eventSink(HomeUiEvent.OnRecordButtonClick)
+        },
+    ) {
+        Text(text = "독서 기록 작성")
     }
 }
 
