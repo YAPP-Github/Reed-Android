@@ -3,6 +3,7 @@ package com.ninecraft.booket.feature.home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import com.ninecraft.booket.feature.screens.HomeScreen
+import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.SearchScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
@@ -25,6 +26,9 @@ class HomePresenter @AssistedInject constructor(
             when (event) {
                 is HomeUiEvent.OnButtonClick -> {
                     navigator.goTo(SearchScreen)
+                }
+                is HomeUiEvent.OnRecordButtonClick -> {
+                    navigator.goTo(RecordScreen)
                 }
             }
         }

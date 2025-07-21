@@ -30,3 +30,6 @@ data object SettingsScreen : ReedScreen(name = "Settings()")
 
 @Parcelize
 data object OssLicensesScreen : ReedScreen(name = "OssLicenses()")
+
+@Parcelize
+data object RecordScreen : ReedScreen(name = "Record()")
