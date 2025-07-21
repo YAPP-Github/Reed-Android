@@ -8,7 +8,7 @@ import coil.util.DebugLogger
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class BooketApplication : Application() , ImageLoaderFactory {
+class BooketApplication : Application(), ImageLoaderFactory {
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(this)
             .diskCache {
