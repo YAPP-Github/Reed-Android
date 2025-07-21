@@ -57,10 +57,8 @@ internal fun WebViewContent(
                     // 브라우저 기능 지원
                     webChromeClient = WebChromeClient()
                     settings.apply {
-                        // JavaScript 실행 허용 - 노션 SPA 동작에 필수
+                        // JavaScript 실행 허용
                         javaScriptEnabled = true
-                        // DOM 스토리지 허용 - 사용자 설정/세션 정보 저장
-                        domStorageEnabled = true
                         // 뷰포트 메타태그 지원 - 반응형 레이아웃 조정
                         useWideViewPort = true
                         // 화면에 맞게 조정 - 모바일 최적화
