@@ -2,7 +2,6 @@ package com.ninecraft.booket.feature.webview
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
-import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Box
@@ -54,8 +53,6 @@ internal fun WebViewContent(
                     )
                     // 기본 웹뷰 클라이언트
                     webViewClient = WebViewClient()
-                    // 브라우저 기능 지원
-                    webChromeClient = WebChromeClient()
                     settings.apply {
                         // JavaScript 실행 허용
                         javaScriptEnabled = true
