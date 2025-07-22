@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.record
+package com.ninecraft.booket.feature.record.register
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,7 +14,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 
-class RecordPresenter @AssistedInject constructor(
+class RecordRegisterPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
 ) : Presenter<RecordUiState> {
 
@@ -22,9 +22,10 @@ class RecordPresenter @AssistedInject constructor(
     override fun present(): RecordUiState {
         var isLoading by rememberRetained { mutableStateOf(false) }
 
-        fun handleEvent(event: RecordUiEvent) {
+        fun handleEvent(event: RecordRegisterUiEvent) {
             when (event) {
-                is RecordUiEvent.OnBackButtonClick -> navigator.pop()
+                is RecordRegisterUiEvent.OnBackButtonClick -> navigator.pop()
+                is RecordRegisterUiEvent.OnNextButtonClick -> {}
             }
         }
 
@@ -37,6 +38,6 @@ class RecordPresenter @AssistedInject constructor(
     @CircuitInject(RecordScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(navigator: Navigator): RecordPresenter
+        fun create(navigator: Navigator): RecordRegisterPresenter
     }
 }

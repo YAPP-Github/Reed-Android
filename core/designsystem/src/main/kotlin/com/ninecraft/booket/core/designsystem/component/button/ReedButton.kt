@@ -125,6 +125,12 @@ private fun ReedLargeButtonPreview() {
                 sizeStyle = largeButtonStyle,
                 text = "button",
             )
+            ReedButton(
+                onClick = {},
+                colorStyle = ReedButtonColorStyle.STROKE,
+                sizeStyle = largeButtonStyle,
+                text = "button",
+            )
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(20.dp),
@@ -144,6 +150,12 @@ private fun ReedLargeButtonPreview() {
             ReedButton(
                 onClick = {},
                 colorStyle = ReedButtonColorStyle.TERTIARY,
+                sizeStyle = largeRoundedButtonStyle,
+                text = "button",
+            )
+            ReedButton(
+                onClick = {},
+                colorStyle = ReedButtonColorStyle.STROKE,
                 sizeStyle = largeRoundedButtonStyle,
                 text = "button",
             )
