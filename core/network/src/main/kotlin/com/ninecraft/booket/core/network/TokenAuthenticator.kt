@@ -1,6 +1,6 @@
 package com.ninecraft.booket.core.network
 
-import com.ninecraft.booket.core.datastore.api.datasource.TokenPreferencesDataSource
+import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
 import com.ninecraft.booket.core.network.request.RefreshTokenRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import com.orhanobut.logger.Logger
@@ -14,7 +14,7 @@ import javax.inject.Provider
 
 @Suppress("TooGenericExceptionCaught")
 class TokenAuthenticator @Inject constructor(
-    private val tokenDataSource: TokenPreferencesDataSource,
+    private val tokenDataSource: TokenDataSource,
     private val serviceProvider: Provider<ReedService>,
 ) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {

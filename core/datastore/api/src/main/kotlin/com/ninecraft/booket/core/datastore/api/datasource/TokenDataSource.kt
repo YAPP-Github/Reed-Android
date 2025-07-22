@@ -2,7 +2,7 @@ package com.ninecraft.booket.core.datastore.api.datasource
 
 import kotlinx.coroutines.flow.Flow
 
-interface TokenPreferencesDataSource {
+interface TokenDataSource {
     val accessToken: Flow<String>
     val refreshToken: Flow<String>
     suspend fun getAccessToken(): String

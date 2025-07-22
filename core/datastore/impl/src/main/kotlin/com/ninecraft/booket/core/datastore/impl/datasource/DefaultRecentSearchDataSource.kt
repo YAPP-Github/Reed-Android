@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.ninecraft.booket.core.datastore.api.datasource.RecentSearchDataSource
+import com.ninecraft.booket.core.datastore.impl.di.RecentSearchDataStore
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +15,7 @@ import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class DefaultRecentSearchDataSource @Inject constructor(
-    private val dataStore: DataStore<Preferences>,
+    @RecentSearchDataStore private val dataStore: DataStore<Preferences>,
 ) : RecentSearchDataSource {
     @Suppress("TooGenericExceptionCaught")
     override val recentSearches: Flow<List<String>> = dataStore.data
