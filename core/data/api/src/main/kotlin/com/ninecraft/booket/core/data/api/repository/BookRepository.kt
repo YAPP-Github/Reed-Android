@@ -4,6 +4,7 @@ import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookUpsertModel
 import kotlinx.coroutines.flow.Flow
+import com.ninecraft.booket.core.model.LibraryModel
 
 interface BookRepository {
     val recentSearches: Flow<List<String>>
@@ -21,4 +22,6 @@ interface BookRepository {
         bookIsbn: String,
         bookStatus: String,
     ): Result<BookUpsertModel>
+
+    suspend fun getLibrary(): Result<LibraryModel>
 }

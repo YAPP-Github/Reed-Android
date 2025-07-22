@@ -38,4 +38,8 @@ internal class DefaultBookRepository @Inject constructor(
     override suspend fun upsertBook(bookIsbn: String, bookStatus: String) = runSuspendCatching {
         service.upsertBook(BookUpsertRequest(bookIsbn, bookStatus)).toModel()
     }
+
+    override suspend fun getLibrary() = runSuspendCatching {
+        service.getLibrary().toModel()
+    }
 }

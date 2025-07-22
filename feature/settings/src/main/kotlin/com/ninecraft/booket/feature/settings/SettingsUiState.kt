@@ -22,7 +22,8 @@ sealed interface SettingsSideEffect {
 
 sealed interface SettingsUiEvent : CircuitUiEvent {
     data object OnBackClick : SettingsUiEvent
-    data class OnTermDetailClick(val title: String) : SettingsUiEvent
+    data object OnPolicyClick : SettingsUiEvent
+    data object OnTermClick : SettingsUiEvent
     data object OnOssLicensesClick : SettingsUiEvent
     data object OnLogoutClick : SettingsUiEvent
     data object OnWithdrawClick : SettingsUiEvent

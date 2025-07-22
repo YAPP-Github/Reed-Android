@@ -5,11 +5,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.constants.WebViewConstants
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OssLicensesScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
+import com.ninecraft.booket.feature.screens.WebViewScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -41,8 +43,14 @@ class SettingsPresenter @AssistedInject constructor(
                     navigator.pop()
                 }
 
-                is SettingsUiEvent.OnTermDetailClick -> {
-                    // TODO: 웹뷰 화면으로 이동
+                is SettingsUiEvent.OnPolicyClick -> {
+                    val policy = WebViewConstants.PRIVACY_POLICY
+                    navigator.goTo(WebViewScreen(url = policy.url, title = policy.title))
+                }
+
+                is SettingsUiEvent.OnTermClick -> {
+                    val terms = WebViewConstants.TERMS_OF_SERVICE
+                    navigator.goTo(WebViewScreen(url = terms.url, title = terms.title))
                 }
 
                 is SettingsUiEvent.OnOssLicensesClick -> {
