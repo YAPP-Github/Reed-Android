@@ -20,10 +20,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.R
+import com.ninecraft.booket.core.designsystem.R as designR
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.LibraryModel
+import com.ninecraft.booket.feature.library.R
 
 @Composable
 fun LibraryBookItem(
@@ -50,7 +51,7 @@ fun LibraryBookItem(
                 .width(68.dp)
                 .height(100.dp)
                 .clip(RoundedCornerShape(size = ReedTheme.radius.sm)),
-            placeholder = painterResource(R.drawable.ic_placeholder),
+            placeholder = painterResource(designR.drawable.ic_placeholder),
         )
         Column(
             modifier = Modifier
@@ -96,7 +97,7 @@ fun LibraryBookItem(
             Spacer(Modifier.height(ReedTheme.spacing.spacing4))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = stringResource(com.ninecraft.booket.feature.library.R.string.library_records),
+                    text = stringResource(R.string.library_records),
                     color = ReedTheme.colors.contentPrimary,
                     style = ReedTheme.typography.label2Regular,
                 )

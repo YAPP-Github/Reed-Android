@@ -74,7 +74,7 @@ fun FilterChip(
 
 @ComponentPreview
 @Composable
-fun ChipPreview() {
+private fun ChipPreview() {
     ReedTheme {
         FilterChip(
             status = BookStatus.TOTAL,

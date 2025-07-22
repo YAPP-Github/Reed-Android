@@ -15,11 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ninecraft.booket.core.designsystem.R
+import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
 fun LibraryHeader(
@@ -45,7 +45,7 @@ fun LibraryHeader(
             onClick = { onSearchClick() },
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_search),
+                imageVector = ImageVector.vectorResource(id = designR.drawable.ic_search),
                 contentDescription = "Search Icon",
             )
         }
@@ -53,7 +53,7 @@ fun LibraryHeader(
             onClick = { onSettingClick() },
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_settings),
+                imageVector = ImageVector.vectorResource(id = designR.drawable.ic_settings),
                 contentDescription = "Settings Icon",
             )
         }
@@ -61,7 +61,7 @@ fun LibraryHeader(
     }
 }
 
-@Preview
+@ComponentPreview
 @Composable
 private fun LibraryHeaderPreview() {
     ReedTheme {
