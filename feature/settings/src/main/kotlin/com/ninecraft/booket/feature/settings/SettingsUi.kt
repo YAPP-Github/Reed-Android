@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(SettingsScreen::class, ActivityRetainedComponent::class)
 @Composable
-internal fun Settings(
+internal fun SettingsUi(
     state: SettingsUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -225,7 +225,7 @@ private fun SettingItem(
 @Composable
 private fun SettingsScreenPreview() {
     ReedTheme {
-        Settings(
+        SettingsUi(
             state = SettingsUiState(
                 eventSink = {},
             ),

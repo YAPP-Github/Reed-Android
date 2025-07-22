@@ -19,7 +19,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 
 @CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)
 @Composable
-internal fun Home(
+internal fun HomeUi(
     state: HomeUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -56,7 +56,7 @@ internal fun HomeContent(
 @Composable
 private fun HomePreview() {
     ReedTheme {
-        Home(
+        HomeUi(
             state = HomeUiState(
                 eventSink = {},
             ),

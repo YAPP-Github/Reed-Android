@@ -42,7 +42,7 @@ import com.ninecraft.booket.core.designsystem.R as designR
 
 @CircuitInject(TermsAgreementScreen::class, ActivityRetainedComponent::class)
 @Composable
-internal fun TermsAgreement(
+internal fun TermsAgreementUi(
     state: TermsAgreementUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -196,7 +196,7 @@ private fun TermItem(
 @Composable
 private fun TermsAgreementPreview() {
     ReedTheme {
-        TermsAgreement(
+        TermsAgreementUi(
             state = TermsAgreementUiState(
                 isAllAgreed = false,
                 agreedTerms = persistentListOf(false, false, false),
