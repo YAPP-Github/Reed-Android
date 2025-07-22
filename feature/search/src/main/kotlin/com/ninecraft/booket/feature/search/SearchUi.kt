@@ -155,7 +155,7 @@ internal fun SearchContent(
                                         state.eventSink(SearchUiEvent.OnRecentSearchClick(keyword))
                                     },
                                     onRemoveIconClick = { keyword ->
-                                        state.eventSink(SearchUiEvent.OnRemoveSearchRemoveClick(keyword))
+                                        state.eventSink(SearchUiEvent.OnRecentSearchRemoveClick(keyword))
                                     },
                                 )
                                 HorizontalDivider(

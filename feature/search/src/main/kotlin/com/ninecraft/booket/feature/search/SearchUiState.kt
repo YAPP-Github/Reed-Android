@@ -52,7 +52,7 @@ sealed interface SearchSideEffect {
 sealed interface SearchUiEvent : CircuitUiEvent {
     data object OnBackClick : SearchUiEvent
     data class OnRecentSearchClick(val query: String) : SearchUiEvent
-    data class OnRemoveSearchRemoveClick(val query: String) : SearchUiEvent
+    data class OnRecentSearchRemoveClick(val query: String) : SearchUiEvent
     data class OnSearchClick(val text: String) : SearchUiEvent
     data object OnClearClick : SearchUiEvent
     data class OnBookClick(val bookIsbn: String) : SearchUiEvent
