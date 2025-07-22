@@ -25,7 +25,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 
 @CircuitInject(LibraryScreen::class, ActivityRetainedComponent::class)
 @Composable
-internal fun Library(
+internal fun LibraryUi(
     state: LibraryUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -95,7 +95,7 @@ internal fun LibraryContent(
 @Composable
 private fun LibraryPreview() {
     ReedTheme {
-        Library(
+        LibraryUi(
             state = LibraryUiState(
                 nickname = "홍길동",
                 email = "test@test.com",
