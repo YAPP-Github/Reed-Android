@@ -25,7 +25,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
@@ -54,12 +53,8 @@ internal fun TermsAgreementUi(
             .background(White)
             .systemBarsPadding(),
     ) {
-        ReedBackTopAppBar(
-            onBackClick = {
-                state.eventSink(TermsAgreementUiEvent.OnBackClick)
-            },
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing16))
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         Column(
             modifier = Modifier
                 .weight(1f)
