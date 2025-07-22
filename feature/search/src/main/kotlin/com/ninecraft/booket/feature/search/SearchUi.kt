@@ -42,7 +42,7 @@ import com.ninecraft.booket.core.designsystem.R as designR
 
 @CircuitInject(SearchScreen::class, ActivityRetainedComponent::class)
 @Composable
-internal fun Search(
+internal fun SearchUi(
     state: SearchUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -235,7 +235,7 @@ internal fun SearchContent(
 @Composable
 private fun SearchPreview() {
     ReedTheme {
-        Search(
+        SearchUi(
             state = SearchUiState(
                 eventSink = {},
             ),

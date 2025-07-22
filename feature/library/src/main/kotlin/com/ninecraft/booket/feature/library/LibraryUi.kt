@@ -22,7 +22,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 @CircuitInject(LibraryScreen::class, ActivityRetainedComponent::class)
 @Composable
-internal fun Library(
+internal fun LibraryUi(
     state: LibraryUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -121,7 +121,7 @@ private fun LibraryPreview() {
                 isSelected = false,
             ),
         )
-        Library(
+        LibraryUi(
             state = LibraryUiState(
                 filterElements = filterList,
                 eventSink = {},
