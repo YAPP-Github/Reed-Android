@@ -39,7 +39,7 @@ data class SearchUiState(
     val sideEffect: SearchSideEffect? = null,
     val eventSink: (SearchUiEvent) -> Unit,
 ) : CircuitUiState {
-    val isEmptyResult: Boolean get() = uiState is UiState.Success && searchResult.totalResults == 0
+    val isEmptySearchResult: Boolean get() = uiState is UiState.Success && searchResult.totalResults == 0
 }
 
 sealed interface SearchSideEffect {

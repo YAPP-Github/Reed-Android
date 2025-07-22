@@ -35,6 +35,7 @@ import com.ninecraft.booket.feature.search.component.BookRegisterBottomSheet
 import com.ninecraft.booket.feature.search.component.BookRegisterSuccessBottomSheet
 import com.ninecraft.booket.feature.search.component.InfinityLazyColumn
 import com.ninecraft.booket.feature.search.component.LoadStateFooter
+import com.ninecraft.booket.feature.search.component.RecentSearchTitle
 import com.ninecraft.booket.feature.search.component.SearchItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -124,48 +125,52 @@ internal fun SearchContent(
             }
 
             is UiState.Idle -> {
-                LazyColumn {
-                    item {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = ReedTheme.spacing.spacing5, vertical = ReedTheme.spacing.spacing2),
-                        ) {
-                            Text(
-                                text = stringResource(R.string.recent_search),
-                                color = ReedTheme.colors.contentPrimary,
-                                style = ReedTheme.typography.body1SemiBold,
-                            )
-                            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
-                        }
+                if (state.recentSearches.isEmpty()) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        RecentSearchTitle(modifier = Modifier.align(Alignment.TopCenter))
+                        Text(
+                            text = stringResource(R.string.empty_recent_searches),
+                            modifier = Modifier.align(Alignment.Center),
+                            color = ReedTheme.colors.contentSecondary,
+                            style = ReedTheme.typography.body1Medium,
+                        )
                     }
+                } else {
+                    LazyColumn {
+                        item {
+                            RecentSearchTitle()
+                        }
 
-                    items(
-                        count = state.recentSearches.size,
-                        key = { index -> state.recentSearches[index] },
-                    ) { index ->
-                        Column {
-                            SearchItem(
-                                query = state.recentSearches[index],
-                                onQueryClick = { keyword ->
-                                    state.eventSink(SearchUiEvent.OnRecentSearchClick(keyword))
-                                },
-                                onRemoveIconClick = { keyword ->
-                                    state.eventSink(SearchUiEvent.OnRemoveSearchRemoveClick(keyword))
-                                },
-                            )
-                            HorizontalDivider(
-                                modifier = Modifier.fillMaxWidth(),
-                                thickness = 1.dp,
-                                color = ReedTheme.colors.borderPrimary,
-                            )
+                        items(
+                            count = state.recentSearches.size,
+                            key = { index -> state.recentSearches[index] },
+                        ) { index ->
+                            Column {
+                                SearchItem(
+                                    query = state.recentSearches[index],
+                                    onQueryClick = { keyword ->
+                                        state.eventSink(SearchUiEvent.OnRecentSearchClick(keyword))
+                                    },
+                                    onRemoveIconClick = { keyword ->
+                                        state.eventSink(SearchUiEvent.OnRemoveSearchRemoveClick(keyword))
+                                    },
+                                )
+                                HorizontalDivider(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    thickness = 1.dp,
+                                    color = ReedTheme.colors.borderPrimary,
+                                )
+                            }
                         }
                     }
                 }
             }
 
             is UiState.Success -> {
-                if (state.isEmptyResult) {
+                if (state.isEmptySearchResult) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
