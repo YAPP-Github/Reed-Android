@@ -5,13 +5,19 @@ import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.model.BookUpsertModel
+import com.ninecraft.booket.core.model.LibraryBookContentModel
+import com.ninecraft.booket.core.model.LibraryBooksModel
 import com.ninecraft.booket.core.model.LibraryModel
+import com.ninecraft.booket.core.model.PageInfoModel
 import com.ninecraft.booket.core.model.UserProfileModel
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookSummary
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
+import com.ninecraft.booket.core.network.response.LibraryBookContent
+import com.ninecraft.booket.core.network.response.LibraryBooks
 import com.ninecraft.booket.core.network.response.LibraryResponse
+import com.ninecraft.booket.core.network.response.PageInfo
 import com.ninecraft.booket.core.network.response.UserProfileResponse
 
 internal fun UserProfileResponse.toModel(): UserProfileModel {
@@ -89,15 +95,42 @@ internal fun BookUpsertResponse.toModel(): BookUpsertModel {
 
 internal fun LibraryResponse.toModel(): LibraryModel {
     return LibraryModel(
+        books = books.toModel(),
+        totalCount = totalCount,
+        beforeReadingCount = beforeReadingCount,
+        readingCount = readingCount,
+        completedCount = completedCount
+    )
+}
+
+internal fun LibraryBooks.toModel(): LibraryBooksModel {
+    return LibraryBooksModel(
+        content = content.map { it.toModel() },
+        page = page.toModel()
+    )
+}
+
+internal fun LibraryBookContent.toModel(): LibraryBookContentModel {
+    return LibraryBookContentModel(
         userBookId = userBookId,
         userId = userId,
         bookIsbn = bookIsbn,
         bookTitle = bookTitle,
         bookAuthor = bookAuthor,
         status = status,
+        recordCount = recordCount,
         coverImageUrl = coverImageUrl,
         publisher = publisher,
         createdAt = createdAt,
-        updatedAt = updatedAt,
+        updatedAt = updatedAt
+    )
+}
+
+internal fun PageInfo.toModel(): PageInfoModel {
+    return PageInfoModel(
+        size = size,
+        number = number,
+        totalElements = totalElements,
+        totalPages = totalPages
     )
 }

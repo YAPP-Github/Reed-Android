@@ -3,6 +3,7 @@ package com.ninecraft.booket.core.data.impl.repository
 import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.impl.mapper.toModel
+import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.network.request.BookUpsertRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import javax.inject.Inject
@@ -28,7 +29,7 @@ internal class DefaultBookRepository @Inject constructor(
         service.upsertBook(BookUpsertRequest(bookIsbn, bookStatus)).toModel()
     }
 
-    override suspend fun getLibrary() = runSuspendCatching {
-        service.getLibrary().toModel()
+    override suspend fun getLibrary(status: String?, page: Int, size: Int) = runSuspendCatching {
+        service.getLibrary(status, page, size).toModel()
     }
 }

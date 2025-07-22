@@ -18,5 +18,9 @@ interface BookRepository {
         bookStatus: String,
     ): Result<BookUpsertModel>
 
-    suspend fun getLibrary(): Result<LibraryModel>
+    suspend fun getLibrary(
+        status: String?,
+        page: Int,
+        size: Int,
+    ): Result<LibraryModel>
 }
