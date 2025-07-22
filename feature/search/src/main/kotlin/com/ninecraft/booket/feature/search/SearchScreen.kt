@@ -125,6 +125,21 @@ internal fun SearchContent(
 
             is UiState.Idle -> {
                 LazyColumn {
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = ReedTheme.spacing.spacing5, vertical = ReedTheme.spacing.spacing2),
+                        ) {
+                            Text(
+                                text = stringResource(R.string.recent_search),
+                                color = ReedTheme.colors.contentPrimary,
+                                style = ReedTheme.typography.body1SemiBold,
+                            )
+                            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
+                        }
+                    }
+
                     items(
                         count = state.recentSearches.size,
                         key = { index -> state.recentSearches[index] },
