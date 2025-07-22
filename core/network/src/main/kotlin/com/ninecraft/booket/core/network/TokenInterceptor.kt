@@ -1,6 +1,6 @@
 package com.ninecraft.booket.core.network
 
-import com.ninecraft.booket.core.datastore.api.datasource.TokenPreferencesDataSource
+import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 internal class TokenInterceptor @Inject constructor(
     @Suppress("unused")
-    private val tokenDataSource: TokenPreferencesDataSource,
+    private val tokenDataSource: TokenDataSource,
 ) : Interceptor {
 
     private val noAuthEndpoints = setOf(

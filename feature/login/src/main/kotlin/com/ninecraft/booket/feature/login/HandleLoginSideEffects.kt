@@ -2,9 +2,9 @@ package com.ninecraft.booket.feature.login
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import com.skydoves.compose.effects.RememberedEffect
 
 @Composable
 internal fun HandleLoginSideEffects(
@@ -14,7 +14,7 @@ internal fun HandleLoginSideEffects(
     val context = LocalContext.current
     val kakaoLoginClient = remember { KakaoLoginClient() }
 
-    LaunchedEffect(state.sideEffect) {
+    RememberedEffect(state.sideEffect) {
         when (state.sideEffect) {
             is LoginSideEffect.KakaoLogin -> {
                 kakaoLoginClient.loginWithKakao(
@@ -33,10 +33,6 @@ internal fun HandleLoginSideEffects(
             }
 
             null -> {}
-        }
-
-        if (state.sideEffect != null) {
-            eventSink(LoginUiEvent.InitSideEffect)
         }
     }
 }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,15 +26,18 @@ import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.ReedTextField
 import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
+import com.ninecraft.booket.core.designsystem.component.divider.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
+import com.ninecraft.booket.feature.screens.SearchScreen
 import com.ninecraft.booket.feature.search.component.BookItem
 import com.ninecraft.booket.feature.search.component.BookRegisterBottomSheet
 import com.ninecraft.booket.feature.search.component.BookRegisterSuccessBottomSheet
 import com.ninecraft.booket.feature.search.component.InfinityLazyColumn
 import com.ninecraft.booket.feature.search.component.LoadStateFooter
-import com.ninecraft.booket.feature.screens.SearchScreen
+import com.ninecraft.booket.feature.search.component.RecentSearchTitle
+import com.ninecraft.booket.feature.search.component.SearchItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
@@ -89,8 +93,15 @@ internal fun SearchContent(
             },
             modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
         )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
+
+        ReedDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(ReedTheme.spacing.spacing2),
+        )
+
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
 
         when (state.uiState) {
             is UiState.Loading -> {
@@ -122,11 +133,54 @@ internal fun SearchContent(
             }
 
             is UiState.Idle -> {
-                // TODO: 최근 검색어 노출
+                if (state.recentSearches.isEmpty()) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        RecentSearchTitle(modifier = Modifier.align(Alignment.TopCenter))
+                        Text(
+                            text = stringResource(R.string.empty_recent_searches),
+                            modifier = Modifier.align(Alignment.Center),
+                            color = ReedTheme.colors.contentSecondary,
+                            style = ReedTheme.typography.body1Medium,
+                        )
+                    }
+                } else {
+                    LazyColumn {
+                        item {
+                            RecentSearchTitle()
+                        }
+
+                        items(
+                            count = state.recentSearches.size,
+                            key = { index -> state.recentSearches[index] },
+                        ) { index ->
+                            Column {
+                                SearchItem(
+                                    query = state.recentSearches[index],
+                                    onQueryClick = { keyword ->
+                                        state.eventSink(SearchUiEvent.OnRecentSearchClick(keyword))
+                                    },
+                                    onRemoveIconClick = { keyword ->
+                                        state.eventSink(
+                                            SearchUiEvent.OnRecentSearchRemoveClick(keyword),
+                                        )
+                                    },
+                                )
+                                HorizontalDivider(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    thickness = 1.dp,
+                                    color = ReedTheme.colors.borderPrimary,
+                                )
+                            }
+                        }
+                    }
+                }
             }
 
             is UiState.Success -> {
-                if (state.isEmptyResult) {
+                if (state.isEmptySearchResult) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
@@ -210,7 +264,11 @@ internal fun SearchContent(
                 },
                 bookStatuses = BookStatus.entries.toTypedArray().toImmutableList(),
                 currentBookStatus = state.selectedBookStatus,
-                onItemSelected = { bookStatus -> state.eventSink(SearchUiEvent.OnBookStatusSelect(bookStatus)) },
+                onItemSelected = { bookStatus ->
+                    state.eventSink(
+                        SearchUiEvent.OnBookStatusSelect(bookStatus),
+                    )
+                },
                 onBookRegisterButtonClick = { state.eventSink(SearchUiEvent.OnBookRegisterButtonClick) },
             )
         }
