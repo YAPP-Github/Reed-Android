@@ -3,6 +3,7 @@ package com.ninecraft.booket.core.data.api.repository
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookUpsertModel
+import com.ninecraft.booket.core.model.LibraryModel
 
 interface BookRepository {
     suspend fun searchBook(
@@ -16,4 +17,6 @@ interface BookRepository {
         bookIsbn: String,
         bookStatus: String,
     ): Result<BookUpsertModel>
+
+    suspend fun getLibrary(): Result<LibraryModel>
 }
