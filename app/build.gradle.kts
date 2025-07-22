@@ -54,6 +54,7 @@ dependencies {
         projects.feature.record,
         projects.feature.search,
         projects.feature.settings,
+        projects.feature.webview,
 
         libs.androidx.activity.compose,
         libs.androidx.startup,

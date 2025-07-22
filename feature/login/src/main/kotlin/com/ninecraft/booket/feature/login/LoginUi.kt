@@ -30,7 +30,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 
 @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
 @Composable
-internal fun Login(
+internal fun LoginUi(
     state: LoginUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -90,7 +90,7 @@ internal fun Login(
 @Composable
 private fun LoginPreview() {
     ReedTheme {
-        Login(
+        LoginUi(
             state = LoginUiState(
                 eventSink = {},
             ),

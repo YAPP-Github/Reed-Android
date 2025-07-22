@@ -33,3 +33,9 @@ data object OssLicensesScreen : ReedScreen(name = "OssLicenses()")
 
 @Parcelize
 data object RecordScreen : ReedScreen(name = "Record()")
+
+@Parcelize
+data class WebViewScreen(
+    val url: String,
+    val title: String,
+) : ReedScreen(name = "WebView()")

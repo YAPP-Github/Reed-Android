@@ -1,43 +1,42 @@
 [versions]
 ## Android gradle plugin
-android-gradle-plugin = "8.9.1"
+android-gradle-plugin = "8.9.3"
 
 ## AndroidX
 androidx-core = "1.16.0"
-androidx-lifecycle = "2.9.1"
-appcompat = "1.7.1"
+androidx-lifecycle = "2.9.2"
 androidx-activity-compose = "1.10.1"
 androidx-startup = "1.2.0"
 androidx-splash = "1.0.1"
 androidx-datastore = "1.1.7"
 
 ## Compose
-androidx-compose-bom = "2025.06.00"
-androidx-compose-material3 = "1.4.0-alpha15"
+androidx-compose-bom = "2025.07.00"
+androidx-compose-material3 = "1.4.0-alpha18"
 compose-stable-marker = "1.0.6"
 compose-effects = "0.1.1"
 compose-shadow = "2.0.4"
 
 ## Kotlin Symbol Processing
-ksp = "2.1.21-2.0.1"
+ksp = "2.2.0-2.0.2"
 
 ## Kotlin
-kotlin = "2.1.21"
+kotlin = "2.2.0"
 kotlinx-coroutines = "1.10.2"
-kotlinx-serialization-json = "1.8.1"
-kotlinx-datetime = "0.6.2"
+kotlinx-serialization-json = "1.9.0"
+kotlinx-datetime = "0.7.1"
 kotlinx-collections-immutable = "0.4.0"
 
 ## Hilt
-hilt = "2.56.2"
+hilt = "2.57"
 hilt-navigation-compose = "1.2.0"
 
 ## Network
-okhttp = "4.12.0"
-retrofit = "2.11.0"
+okhttp = "5.1.0"
+retrofit = "3.0.0"
 
 ## Circuit
-circuit = "0.28.1"
+circuit = "0.29.1"
 
 ## Logging
 logger = "2.2.0"
@@ -72,7 +71,6 @@ compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compo
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-splash" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "androidx-startup" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidx-datastore" }
