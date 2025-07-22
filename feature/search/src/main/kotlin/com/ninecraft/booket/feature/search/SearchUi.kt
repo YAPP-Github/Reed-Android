@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.ReedTextField
 import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
+import com.ninecraft.booket.core.designsystem.component.divider.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
@@ -92,8 +93,15 @@ internal fun SearchContent(
             },
             modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
         )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
+
+        ReedDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(ReedTheme.spacing.spacing2),
+        )
+
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
 
         when (state.uiState) {
             is UiState.Loading -> {
@@ -155,7 +163,9 @@ internal fun SearchContent(
                                         state.eventSink(SearchUiEvent.OnRecentSearchClick(keyword))
                                     },
                                     onRemoveIconClick = { keyword ->
-                                        state.eventSink(SearchUiEvent.OnRecentSearchRemoveClick(keyword))
+                                        state.eventSink(
+                                            SearchUiEvent.OnRecentSearchRemoveClick(keyword),
+                                        )
                                     },
                                 )
                                 HorizontalDivider(
@@ -254,7 +264,11 @@ internal fun SearchContent(
                 },
                 bookStatuses = BookStatus.entries.toTypedArray().toImmutableList(),
                 currentBookStatus = state.selectedBookStatus,
-                onItemSelected = { bookStatus -> state.eventSink(SearchUiEvent.OnBookStatusSelect(bookStatus)) },
+                onItemSelected = { bookStatus ->
+                    state.eventSink(
+                        SearchUiEvent.OnBookStatusSelect(bookStatus),
+                    )
+                },
                 onBookRegisterButtonClick = { state.eventSink(SearchUiEvent.OnBookRegisterButtonClick) },
             )
         }
