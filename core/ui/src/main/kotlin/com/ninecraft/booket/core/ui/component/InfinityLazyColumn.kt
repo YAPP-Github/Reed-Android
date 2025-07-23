@@ -129,7 +129,7 @@ private fun InfinityLazyColumnPreview() {
                                     .fillMaxWidth()
                                     .padding(
                                         horizontal = ReedTheme.spacing.spacing5,
-                                        vertical = ReedTheme.spacing.spacing4
+                                        vertical = ReedTheme.spacing.spacing4,
                                     ),
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
