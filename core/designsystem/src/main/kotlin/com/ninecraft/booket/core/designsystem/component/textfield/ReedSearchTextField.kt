@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.designsystem.component
+package com.ninecraft.booket.core.designsystem.component.textfield
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke

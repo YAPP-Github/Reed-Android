@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.component.ReedTextField
+import com.ninecraft.booket.core.designsystem.component.textfield.ReedTextField
 import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.component.divider.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme

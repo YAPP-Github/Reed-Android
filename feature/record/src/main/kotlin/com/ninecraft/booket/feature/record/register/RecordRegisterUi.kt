@@ -27,7 +27,7 @@ import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.core.designsystem.component.RecordProgressBar
 import com.ninecraft.booket.core.designsystem.component.ReedDialog
-import com.ninecraft.booket.core.designsystem.component.ReedRecordTextField
+import com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordTextField
 import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
