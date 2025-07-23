@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.search.component
+package com.ninecraft.booket.core.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,11 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.feature.search.FooterState
-import com.ninecraft.booket.feature.search.R
+import com.ninecraft.booket.core.ui.R
 
 @Composable
-internal fun LoadStateFooter(
+fun LoadStateFooter(
     footerState: FooterState,
     onRetryClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -56,7 +55,7 @@ internal fun LoadStateFooter(
 
             is FooterState.End -> {
                 Text(
-                    text = stringResource(R.string.no_more_results),
+                    text = stringResource(R.string.no_more_result),
                     color = ReedTheme.colors.contentSecondary,
                     style = ReedTheme.typography.body2Regular,
                 )
@@ -67,4 +66,11 @@ internal fun LoadStateFooter(
             }
         }
     }
+}
+
+sealed interface FooterState {
+    data object Idle : FooterState
+    data object Loading : FooterState
+    data object End : FooterState
+    data class Error(val message: String) : FooterState
 }

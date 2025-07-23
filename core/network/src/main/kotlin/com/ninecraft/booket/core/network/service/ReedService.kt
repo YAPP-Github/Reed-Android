@@ -55,5 +55,10 @@ interface ReedService {
     suspend fun upsertBook(@Body bookUpsertRequest: BookUpsertRequest): BookUpsertResponse
 
     @GET("api/v1/books/my-library")
-    suspend fun getLibrary(): LibraryResponse
+    suspend fun getLibrary(
+        @Query("status") status: String? = null,
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("sort") sort: String = "date_desc",
+    ): LibraryResponse
 }
