@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.library
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -124,6 +125,16 @@ class LibraryPresenter @AssistedInject constructor(
                 is LibraryUiEvent.OnRetryClick -> {
                     getLibraryBooks(status = currentFilter.getApiValue(), page = currentPage, size = PAGE_SIZE)
                 }
+            }
+        }
+
+        LaunchedEffect(Unit) {
+            if (uiState == UiState.Idle || uiState is UiState.Error) {
+                getLibraryBooks(
+                    status = currentFilter.getApiValue(),
+                    page = START_INDEX,
+                    size = PAGE_SIZE
+                )
             }
         }
 
