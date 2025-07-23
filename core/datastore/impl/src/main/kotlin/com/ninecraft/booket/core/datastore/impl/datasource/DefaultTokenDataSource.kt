@@ -4,7 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.ninecraft.booket.core.datastore.api.datasource.TokenPreferencesDataSource
+import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
+import com.ninecraft.booket.core.datastore.impl.di.TokenDataStore
 import com.ninecraft.booket.core.datastore.impl.security.CryptoManager
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
 import com.orhanobut.logger.Logger
@@ -14,10 +15,10 @@ import kotlinx.coroutines.flow.map
 import java.security.GeneralSecurityException
 import javax.inject.Inject
 
-class DefaultTokenPreferencesDataSource @Inject constructor(
-    private val dataStore: DataStore<Preferences>,
+class DefaultTokenDataSource @Inject constructor(
+    @TokenDataStore private val dataStore: DataStore<Preferences>,
     private val cryptoManager: CryptoManager,
-) : TokenPreferencesDataSource {
+) : TokenDataSource {
     override val accessToken: Flow<String> = decryptStringFlow(ACCESS_TOKEN)
     override val refreshToken: Flow<String> = decryptStringFlow(REFRESH_TOKEN)
 
@@ -59,7 +60,7 @@ class DefaultTokenPreferencesDataSource @Inject constructor(
             }.orEmpty()
         }
 
-    companion object {
+    companion object Companion {
         private val ACCESS_TOKEN = stringPreferencesKey("ACCESS_TOKEN")
         private val REFRESH_TOKEN = stringPreferencesKey("REFRESH_TOKEN")
     }

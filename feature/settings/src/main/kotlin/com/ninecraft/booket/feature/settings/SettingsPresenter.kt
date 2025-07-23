@@ -39,10 +39,6 @@ class SettingsPresenter @AssistedInject constructor(
 
         fun handleEvent(event: SettingsUiEvent) {
             when (event) {
-                is SettingsUiEvent.InitSideEffect -> {
-                    sideEffect = null
-                }
-
                 is SettingsUiEvent.OnBackClick -> {
                     navigator.pop()
                 }

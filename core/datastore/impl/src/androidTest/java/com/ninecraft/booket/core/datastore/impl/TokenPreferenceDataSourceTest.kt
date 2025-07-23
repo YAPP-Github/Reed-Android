@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.ninecraft.booket.core.datastore.impl.datasource.DefaultTokenPreferencesDataSource
+import com.ninecraft.booket.core.datastore.impl.datasource.DefaultTokenDataSource
 import com.ninecraft.booket.core.datastore.impl.security.CryptoManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +26,7 @@ import kotlin.io.path.createTempDirectory
 @RunWith(AndroidJUnit4::class)
 class TokenPreferenceDataSourceTest {
     private lateinit var dataStore: DataStore<Preferences>
-    private lateinit var dataSource: DefaultTokenPreferencesDataSource
+    private lateinit var dataSource: DefaultTokenDataSource
     private lateinit var cryptoManager: CryptoManager
     private lateinit var tempFile: File
 
@@ -41,7 +41,7 @@ class TokenPreferenceDataSourceTest {
         )
 
         cryptoManager = CryptoManager()
-        dataSource = DefaultTokenPreferencesDataSource(dataStore, cryptoManager)
+        dataSource = DefaultTokenDataSource(dataStore, cryptoManager)
     }
 
     @After
