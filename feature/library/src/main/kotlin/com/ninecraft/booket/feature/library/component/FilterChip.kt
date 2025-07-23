@@ -19,14 +19,14 @@ import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.feature.library.BookStatus
+import com.ninecraft.booket.feature.library.LibraryFilterOption
 
 @Composable
 fun FilterChip(
-    status: BookStatus,
+    option: LibraryFilterOption,
     count: Int,
     isSelected: Boolean,
-    onChipClick: (BookStatus) -> Unit,
+    onChipClick: (LibraryFilterOption) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val chipColor = if (isSelected) ReedTheme.colors.bgPrimary else ReedTheme.colors.basePrimary
@@ -40,7 +40,7 @@ fun FilterChip(
             )
             .clip(shape = RoundedCornerShape(ReedTheme.radius.full))
             .noRippleClickable {
-                onChipClick(status)
+                onChipClick(option)
             }
             .then(
                 if (isSelected) {
@@ -58,7 +58,7 @@ fun FilterChip(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = stringResource(status.getDisplayNameRes()),
+                text = stringResource(option.getDisplayNameRes()),
                 color = textColor,
                 style = ReedTheme.typography.label1SemiBold,
             )
@@ -77,7 +77,7 @@ fun FilterChip(
 private fun ChipPreview() {
     ReedTheme {
         FilterChip(
-            status = BookStatus.TOTAL,
+            option = LibraryFilterOption.TOTAL,
             count = 10,
             isSelected = true,
             onChipClick = {},

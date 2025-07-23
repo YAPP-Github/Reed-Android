@@ -1,12 +1,27 @@
 package com.ninecraft.booket.feature.library
 
+import com.ninecraft.booket.core.model.LibraryBookSummaryModel
+import com.ninecraft.booket.core.ui.component.FooterState
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
+
+sealed interface UiState {
+    data object Idle : UiState
+    data object Loading : UiState
+    data object Success : UiState
+    data class Error(val message: String) : UiState
+}
 
 data class LibraryUiState(
-    val isLoading: Boolean = false,
-    val filterElements: ImmutableList<FilterChipState>,
+    val uiState: UiState = UiState.Idle,
+    val footerState: FooterState = FooterState.Idle,
+    val filterChips: ImmutableList<LibraryFilterChip> =
+        LibraryFilterOption.entries.map { LibraryFilterChip(option = it, count = 0) }.toPersistentList(),
+    val currentFilter: LibraryFilterOption = LibraryFilterOption.TOTAL,
+    val books: ImmutableList<LibraryBookSummaryModel> = persistentListOf(),
     val sideEffect: LibrarySideEffect? = null,
     val eventSink: (LibraryUiEvent) -> Unit,
 ) : CircuitUiState
@@ -18,16 +33,18 @@ sealed interface LibrarySideEffect {
 sealed interface LibraryUiEvent : CircuitUiEvent {
     data object InitSideEffect : LibraryUiEvent
     data object OnSettingsClick : LibraryUiEvent
-    data class OnFilterClick(val bookStatus: BookStatus) : LibraryUiEvent
+    data class OnBookClick(val isbn: String) : LibraryUiEvent
+    data object OnLoadMore : LibraryUiEvent
+    data object OnRetryClick : LibraryUiEvent
+    data class OnFilterClick(val filterOption: LibraryFilterOption) : LibraryUiEvent
 }
 
-data class FilterChipState(
-    val title: BookStatus,
+data class LibraryFilterChip(
+    val option: LibraryFilterOption,
     val count: Int,
-    val isSelected: Boolean = false,
 )
 
-enum class BookStatus(val value: String) {
+enum class LibraryFilterOption(val value: String) {
     TOTAL("TOTAL"),
     BEFORE_READING("BEFORE_READING"),
     READING("READING"),
@@ -43,8 +60,16 @@ enum class BookStatus(val value: String) {
         }
     }
 
+    fun getApiValue(): String? {
+        return if (this == TOTAL) {
+            null
+        } else {
+            this.value
+        }
+    }
+
     companion object Companion {
-        fun fromValue(value: String): BookStatus? {
+        fun fromValue(value: String): LibraryFilterOption? {
             return entries.find { it.value == value }
         }
     }
