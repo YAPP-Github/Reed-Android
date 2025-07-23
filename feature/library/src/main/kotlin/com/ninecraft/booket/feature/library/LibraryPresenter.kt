@@ -2,10 +2,16 @@ package com.ninecraft.booket.feature.library
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.data.api.repository.BookRepository
+import com.ninecraft.booket.core.model.LibraryBookContentModel
+import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.LibraryScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
+import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -16,40 +22,77 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.launch
 
 class LibraryPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
+    private val repository: BookRepository,
 ) : Presenter<LibraryUiState> {
+    companion object {
+        private const val PAGE_SIZE = 10
+        private const val START_INDEX = 0
+    }
 
     @Composable
     override fun present(): LibraryUiState {
-        var isLoading by rememberRetained { mutableStateOf(false) }
+        val scope = rememberCoroutineScope()
+
+        var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
+        var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
+        var filterChips by rememberRetained {
+            mutableStateOf(LibraryFilterOption.entries.map { LibraryFilterChip(option = it, count = 0) }.toPersistentList())
+        }
+        var currentFilter by rememberRetained { mutableStateOf(LibraryFilterOption.TOTAL) }
+        var books by rememberRetained { mutableStateOf(persistentListOf<LibraryBookContentModel>()) }
         var sideEffect by rememberRetained { mutableStateOf<LibrarySideEffect?>(null) }
-        var chipElements by rememberRetained {
-            mutableStateOf(
-                persistentListOf(
-                    FilterChipState(
-                        title = BookStatus.TOTAL,
-                        count = 10,
-                        isSelected = true,
-                    ),
-                    FilterChipState(
-                        title = BookStatus.BEFORE_READING,
-                        count = 15,
-                        isSelected = false,
-                    ),
-                    FilterChipState(
-                        title = BookStatus.READING,
-                        count = 2,
-                        isSelected = false,
-                    ),
-                    FilterChipState(
-                        title = BookStatus.COMPLETED,
-                        count = 5,
-                        isSelected = false,
-                    ),
-                ),
-            )
+
+        var currentPage by rememberRetained { mutableIntStateOf(START_INDEX) }
+        var isLastPage by rememberRetained { mutableStateOf(false) }
+
+        fun getLibraryBooks(status: String?, page: Int, size: Int) {
+            scope.launch {
+                if (page == START_INDEX) {
+                    uiState = UiState.Loading
+                } else {
+                    footerState = FooterState.Loading
+                }
+
+                repository.getLibrary(status = status, page = page, size = size)
+                    .onSuccess { result ->
+                        filterChips = filterChips.map { chip ->
+                            when (chip.option) {
+                                LibraryFilterOption.TOTAL -> chip.copy(count = result.totalCount)
+                                LibraryFilterOption.BEFORE_READING -> chip.copy(count = result.beforeReadingCount)
+                                LibraryFilterOption.READING -> chip.copy(count = result.readingCount)
+                                LibraryFilterOption.COMPLETED -> chip.copy(count = result.completedCount)
+                            }
+                        }.toPersistentList()
+
+                        books = if (result.books.page.number == START_INDEX) {
+                            result.books.content.toPersistentList()
+                        } else {
+                            (books + result.books.content).toPersistentList()
+                        }
+
+                        currentPage = page
+                        isLastPage = result.books.page.number == result.books.page.totalPages - 1
+
+                        if (page == START_INDEX) {
+                            uiState = UiState.Success
+                        } else {
+                            footerState = if (isLastPage) FooterState.End else FooterState.Idle
+                        }
+                    }
+                    .onFailure { exception ->
+                        Logger.d(exception)
+                        val errorMessage = exception.message ?: "알 수 없는 오류가 발생했습니다."
+                        if (page == START_INDEX) {
+                            uiState = UiState.Error(errorMessage)
+                        } else {
+                            footerState = FooterState.Error(errorMessage)
+                        }
+                    }
+            }
         }
 
         fun handleEvent(event: LibraryUiEvent) {
@@ -63,21 +106,36 @@ class LibraryPresenter @AssistedInject constructor(
                 }
 
                 is LibraryUiEvent.OnFilterClick -> {
-                    chipElements = chipElements.map {
-                        if (it.title == event.bookStatus) {
-                            it.copy(isSelected = true)
-                        } else {
-                            it.copy(isSelected = false)
-                        }
-                    }.toPersistentList()
-                    // TODO: 필터에 해당하는 도서 목록을 불러오는 로직이 들어가야 함
+                    currentFilter = event.filterOption
+                    getLibraryBooks(status = currentFilter.getApiValue(), page = START_INDEX, size = PAGE_SIZE)
+                }
+
+                is LibraryUiEvent.OnBookClick -> {
+                    // TODO: 상세 화면으로 이동
+                }
+
+                is LibraryUiEvent.OnLoadMore -> {
+                    if (footerState !is FooterState.Loading && !isLastPage) {
+                        getLibraryBooks(status = currentFilter.getApiValue(), page = currentPage + 1, size = PAGE_SIZE)
+                    }
+                }
+
+                is LibraryUiEvent.OnRetryClick -> {
+                    if (currentPage == START_INDEX) {
+                        getLibraryBooks(status = currentFilter.getApiValue(), page = currentPage, size = PAGE_SIZE)
+                    } else {
+                        getLibraryBooks(status = currentFilter.getApiValue(), page = currentPage + 1, size = PAGE_SIZE)
+                    }
                 }
             }
         }
 
         return LibraryUiState(
-            isLoading = isLoading,
-            filterElements = chipElements,
+            uiState = uiState,
+            footerState = footerState,
+            filterChips = filterChips,
+            currentFilter = currentFilter,
+            books = books,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
