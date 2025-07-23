@@ -79,6 +79,7 @@ class LibraryPresenter @AssistedInject constructor(
 
                         if (page == START_INDEX) {
                             uiState = UiState.Success
+                            footerState = FooterState.Idle
                         } else {
                             footerState = if (isLastPage) FooterState.End else FooterState.Idle
                         }
@@ -121,11 +122,7 @@ class LibraryPresenter @AssistedInject constructor(
                 }
 
                 is LibraryUiEvent.OnRetryClick -> {
-                    if (currentPage == START_INDEX) {
-                        getLibraryBooks(status = currentFilter.getApiValue(), page = currentPage, size = PAGE_SIZE)
-                    } else {
-                        getLibraryBooks(status = currentFilter.getApiValue(), page = currentPage + 1, size = PAGE_SIZE)
-                    }
+                    getLibraryBooks(status = currentFilter.getApiValue(), page = currentPage, size = PAGE_SIZE)
                 }
             }
         }

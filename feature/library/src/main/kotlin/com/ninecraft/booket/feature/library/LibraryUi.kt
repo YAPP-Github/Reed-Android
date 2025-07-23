@@ -128,7 +128,7 @@ internal fun LibraryContent(
             }
 
             is UiState.Error -> {
-                ErrorResult(state.uiState)
+                ErrorResult(state = state, errorMessage = state.uiState.message)
             }
         }
     }
@@ -159,7 +159,7 @@ private fun EmptyResult() {
 }
 
 @Composable
-private fun ErrorResult(uiState: UiState.Error) {
+private fun ErrorResult(state: LibraryUiState, errorMessage: String) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
@@ -174,14 +174,14 @@ private fun ErrorResult(uiState: UiState.Error) {
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
             Text(
-                text = uiState.message,
+                text = errorMessage,
                 color = ReedTheme.colors.contentSecondary,
                 style = ReedTheme.typography.body1Medium,
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
             ReedButton(
                 onClick = {
-                    // TODO: 다시 시도
+                    state.eventSink(LibraryUiEvent.OnRetryClick)
                 },
                 sizeStyle = largeButtonStyle,
                 colorStyle = ReedButtonColorStyle.PRIMARY,
