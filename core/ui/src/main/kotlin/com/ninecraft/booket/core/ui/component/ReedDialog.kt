@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.designsystem.component
+package com.ninecraft.booket.core.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

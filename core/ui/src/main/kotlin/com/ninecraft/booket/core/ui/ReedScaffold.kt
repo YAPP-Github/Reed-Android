@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.designsystem.component
+package com.ninecraft.booket.core.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
