@@ -36,3 +36,6 @@ data class WebViewScreen(
     val url: String,
     val title: String,
 ) : ReedScreen(name = "WebView()")
+
+@Parcelize
+data class BookDetailScreen(val isbn: String) : ReedScreen(name = "BookDetail()")

@@ -74,7 +74,7 @@ fun BookItem(
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = ReedTheme.typography.label1Medium,
-                    modifier = Modifier.weight(1f, fill = false),
+                    modifier = Modifier.weight(0.7f, fill = false),
                 )
                 Spacer(Modifier.width(ReedTheme.spacing.spacing1))
                 VerticalDivider(
@@ -89,7 +89,7 @@ fun BookItem(
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = ReedTheme.typography.label1Medium,
-                    modifier = Modifier.weight(1f, fill = false),
+                    modifier = Modifier.weight(0.3f, fill = false),
                 )
             }
         }

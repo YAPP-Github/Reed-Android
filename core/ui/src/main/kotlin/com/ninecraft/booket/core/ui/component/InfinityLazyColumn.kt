@@ -1,17 +1,25 @@
-package com.ninecraft.booket.feature.search.component
+package com.ninecraft.booket.core.ui.component
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,13 +35,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.model.BookSummaryModel
 
 // 기기에서 평균적으로 한 화면에 보이는 아이템 개수
 private const val LIMIT_COUNT = 6
 
 @Composable
-internal fun InfinityLazyColumn(
+fun InfinityLazyColumn(
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
     contentPadding: PaddingValues = PaddingValues(0.dp),
@@ -117,16 +124,39 @@ private fun InfinityLazyColumnPreview() {
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     content = {
                         items(contents, key = { it }) {
-                            BookItem(
-                                book = BookSummaryModel(
-                                    title = "여름은 오래 그곳에 남아",
-                                    author = "마쓰이에 마사시",
-                                    publisher = "비채",
-                                    coverImageUrl = "https://example.com/sample-book-cover.jpg",
-                                    isbn = "978-89-7337-932-5",
-                                ),
-                                onBookClick = {},
-                            )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        horizontal = ReedTheme.spacing.spacing5,
+                                        vertical = ReedTheme.spacing.spacing4,
+                                    ),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .width(68.dp)
+                                        .height(100.dp)
+                                        .background(
+                                            color = ReedTheme.colors.contentTertiary,
+                                            shape = RoundedCornerShape(ReedTheme.radius.sm),
+                                        ),
+                                )
+                                Spacer(Modifier.width(ReedTheme.spacing.spacing4))
+                                Column {
+                                    Text(
+                                        text = "Title",
+                                        color = ReedTheme.colors.contentPrimary,
+                                        style = ReedTheme.typography.body1SemiBold,
+                                    )
+                                    Spacer(Modifier.height(ReedTheme.spacing.spacing1))
+                                    Text(
+                                        text = "Description",
+                                        color = ReedTheme.colors.contentTertiary,
+                                        style = ReedTheme.typography.label1Medium,
+                                    )
+                                }
+                            }
                         }
                     },
                 )

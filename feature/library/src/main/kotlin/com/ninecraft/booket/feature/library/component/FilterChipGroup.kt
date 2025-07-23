@@ -9,15 +9,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.feature.library.BookStatus
-import com.ninecraft.booket.feature.library.FilterChipState
+import com.ninecraft.booket.feature.library.LibraryFilterOption
+import com.ninecraft.booket.feature.library.LibraryFilterChip
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 
 @Composable
 fun FilterChipGroup(
-    filterList: ImmutableList<FilterChipState>,
-    onChipClick: (BookStatus) -> Unit,
+    filterList: ImmutableList<LibraryFilterChip>,
+    selectedChipOption: LibraryFilterOption,
+    onChipClick: (LibraryFilterOption) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -34,9 +35,9 @@ fun FilterChipGroup(
     ) {
         filterList.forEach { item ->
             FilterChip(
-                status = item.title,
+                option = item.option,
                 count = item.count,
-                isSelected = item.isSelected,
+                isSelected = selectedChipOption == item.option,
                 onChipClick = { status ->
                     onChipClick(status)
                 },
@@ -48,31 +49,11 @@ fun FilterChipGroup(
 @ComponentPreview
 @Composable
 private fun FilterChipGroupPreview() {
-    val filterList = persistentListOf(
-        FilterChipState(
-            title = BookStatus.TOTAL,
-            count = 10,
-            isSelected = true,
-        ),
-        FilterChipState(
-            title = BookStatus.BEFORE_READING,
-            count = 15,
-            isSelected = false,
-        ),
-        FilterChipState(
-            title = BookStatus.READING,
-            count = 2,
-            isSelected = false,
-        ),
-        FilterChipState(
-            title = BookStatus.COMPLETED,
-            count = 5,
-            isSelected = false,
-        ),
-    )
+    val filterList = LibraryFilterOption.entries.map { LibraryFilterChip(option = it, count = 0) }.toPersistentList()
     ReedTheme {
         FilterChipGroup(
             filterList = filterList,
+            selectedChipOption = LibraryFilterOption.TOTAL,
             onChipClick = {},
         )
     }

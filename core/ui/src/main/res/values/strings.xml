@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_more_result">더 이상 결과가 없습니다</string>
+    <string name="retry">다시 시도</string>
+</resources>

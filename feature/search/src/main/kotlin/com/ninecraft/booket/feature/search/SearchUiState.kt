@@ -3,6 +3,7 @@ package com.ninecraft.booket.feature.search
 import androidx.compose.foundation.text.input.TextFieldState
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
+import com.ninecraft.booket.core.ui.component.FooterState
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
@@ -14,13 +15,6 @@ sealed interface UiState {
     data object Loading : UiState
     data object Success : UiState
     data class Error(val message: String) : UiState
-}
-
-sealed interface FooterState {
-    data object Idle : FooterState
-    data object Loading : FooterState
-    data object End : FooterState
-    data class Error(val message: String) : FooterState
 }
 
 data class SearchUiState(
