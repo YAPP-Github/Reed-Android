@@ -108,7 +108,9 @@ internal fun LibraryContent(
                         items(state.books) {
                             LibraryBookItem(
                                 book = it,
-                                onBookClick = {},
+                                onBookClick = {
+                                    state.eventSink(LibraryUiEvent.OnBookClick(it.bookIsbn))
+                                },
                             )
                             Box(
                                 modifier = modifier

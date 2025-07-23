@@ -10,6 +10,7 @@ import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
+import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LibraryScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.orhanobut.logger.Logger
@@ -113,7 +114,7 @@ class LibraryPresenter @AssistedInject constructor(
                 }
 
                 is LibraryUiEvent.OnBookClick -> {
-                    // TODO: 상세 화면으로 이동
+                    navigator.goTo(BookDetailScreen(isbn = event.isbn))
                 }
 
                 is LibraryUiEvent.OnLoadMore -> {
