@@ -42,4 +42,5 @@ include(
     ":feature:search",
     ":feature:settings",
     ":feature:webview",
+    ":feature:detail"
 )
