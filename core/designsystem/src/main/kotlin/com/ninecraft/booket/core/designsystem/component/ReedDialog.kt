@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
@@ -35,10 +36,14 @@ fun ReedDialog(
         onDismissRequest = {
             onDismissRequest()
         },
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+        ),
     ) {
         Column(
             modifier = modifier
                 .fillMaxWidth()
+                .padding(horizontal = ReedTheme.spacing.spacing5)
                 .background(
                     color = ReedTheme.colors.basePrimary,
                     shape = RoundedCornerShape(

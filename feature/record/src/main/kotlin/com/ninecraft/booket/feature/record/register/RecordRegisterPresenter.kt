@@ -1,5 +1,7 @@
 package com.ninecraft.booket.feature.record.register
 
+import androidx.compose.foundation.text.input.clearText
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,17 +22,37 @@ class RecordRegisterPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): RecordUiState {
-        var isLoading by rememberRetained { mutableStateOf(false) }
+        val recordPageState = rememberTextFieldState()
+        val recordSentenceState = rememberTextFieldState()
+        var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
 
         fun handleEvent(event: RecordRegisterUiEvent) {
             when (event) {
-                is RecordRegisterUiEvent.OnBackButtonClick -> navigator.pop()
+                is RecordRegisterUiEvent.OnBackButtonClick -> {
+                    isExitDialogVisible = true
+                }
+
+                is RecordRegisterUiEvent.OnClearClick -> {
+                    recordPageState.clearText()
+                }
+
+                is RecordRegisterUiEvent.OnExitDialogConfirm -> {
+                    navigator.pop()
+                }
+
+                is RecordRegisterUiEvent.OnExitDialogDismiss -> {
+                    isExitDialogVisible = false
+                }
+
+                is RecordRegisterUiEvent.OnSentenceScanButtonClick -> {}
                 is RecordRegisterUiEvent.OnNextButtonClick -> {}
             }
         }
 
         return RecordUiState(
-            isLoading = isLoading,
+            recordPageState = recordPageState,
+            recordSentenceState = recordSentenceState,
+            isExitDialogVisible = isExitDialogVisible,
             eventSink = ::handleEvent,
         )
     }

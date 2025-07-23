@@ -20,7 +20,7 @@ sealed interface UiState {
 data class SearchUiState(
     val uiState: UiState = UiState.Idle,
     val footerState: FooterState = FooterState.Idle,
-    val queryState: TextFieldState = TextFieldState(""),
+    val queryState: TextFieldState = TextFieldState(),
     val recentSearches: ImmutableList<String> = persistentListOf(),
     val searchResult: BookSearchModel = BookSearchModel(),
     val books: ImmutableList<BookSummaryModel> = persistentListOf(),
