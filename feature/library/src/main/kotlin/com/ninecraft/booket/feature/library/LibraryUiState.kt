@@ -1,6 +1,6 @@
 package com.ninecraft.booket.feature.library
 
-import com.ninecraft.booket.core.model.LibraryBookContentModel
+import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -21,7 +21,7 @@ data class LibraryUiState(
     val filterChips: ImmutableList<LibraryFilterChip> =
         LibraryFilterOption.entries.map { LibraryFilterChip(option = it, count = 0) }.toPersistentList(),
     val currentFilter: LibraryFilterOption = LibraryFilterOption.TOTAL,
-    val books: ImmutableList<LibraryBookContentModel> = persistentListOf(),
+    val books: ImmutableList<LibraryBookSummaryModel> = persistentListOf(),
     val sideEffect: LibrarySideEffect? = null,
     val eventSink: (LibraryUiEvent) -> Unit,
 ) : CircuitUiState

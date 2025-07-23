@@ -8,7 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.data.api.repository.BookRepository
-import com.ninecraft.booket.core.model.LibraryBookContentModel
+import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.LibraryScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
@@ -44,7 +44,7 @@ class LibraryPresenter @AssistedInject constructor(
             mutableStateOf(LibraryFilterOption.entries.map { LibraryFilterChip(option = it, count = 0) }.toPersistentList())
         }
         var currentFilter by rememberRetained { mutableStateOf(LibraryFilterOption.TOTAL) }
-        var books by rememberRetained { mutableStateOf(persistentListOf<LibraryBookContentModel>()) }
+        var books by rememberRetained { mutableStateOf(persistentListOf<LibraryBookSummaryModel>()) }
         var sideEffect by rememberRetained { mutableStateOf<LibrarySideEffect?>(null) }
 
         var currentPage by rememberRetained { mutableIntStateOf(START_INDEX) }

@@ -13,12 +13,12 @@ data class LibraryModel(
 
 @Stable
 data class LibraryBooksModel(
-    val content: List<LibraryBookContentModel> = emptyList(),
+    val content: List<LibraryBookSummaryModel> = emptyList(),
     val page: PageInfoModel = PageInfoModel()
 )
 
 @Stable
-data class LibraryBookContentModel(
+data class LibraryBookSummaryModel(
     val userBookId: String = "",
     val userId: String = "",
     val bookIsbn: String = "",

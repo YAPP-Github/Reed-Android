@@ -5,7 +5,7 @@ import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.model.BookUpsertModel
-import com.ninecraft.booket.core.model.LibraryBookContentModel
+import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.model.LibraryBooksModel
 import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.PageInfoModel
@@ -14,7 +14,7 @@ import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookSummary
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
-import com.ninecraft.booket.core.network.response.LibraryBookContent
+import com.ninecraft.booket.core.network.response.LibraryBookSummary
 import com.ninecraft.booket.core.network.response.LibraryBooks
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.PageInfo
@@ -110,8 +110,8 @@ internal fun LibraryBooks.toModel(): LibraryBooksModel {
     )
 }
 
-internal fun LibraryBookContent.toModel(): LibraryBookContentModel {
-    return LibraryBookContentModel(
+internal fun LibraryBookSummary.toModel(): LibraryBookSummaryModel {
+    return LibraryBookSummaryModel(
         userBookId = userBookId,
         userId = userId,
         bookIsbn = bookIsbn,

@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.library.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,14 +22,14 @@ import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.model.LibraryBookContentModel
+import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.feature.library.R
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
 fun LibraryBookItem(
-    book: LibraryBookContentModel,
-    onBookClick: (LibraryBookContentModel) -> Unit,
+    book: LibraryBookSummaryModel,
+    onBookClick: (LibraryBookSummaryModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -118,7 +117,7 @@ fun LibraryBookItem(
 private fun LibraryBookItemPreview() {
     ReedTheme {
         LibraryBookItem(
-            book = LibraryBookContentModel(
+            book = LibraryBookSummaryModel(
                 bookTitle = "여름은 오래 그곳에 남아",
                 bookAuthor = "마쓰이에 마사시 마쓰이에 마사시",
                 publisher = "비채",

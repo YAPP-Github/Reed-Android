@@ -20,13 +20,13 @@ data class LibraryResponse(
 @Serializable
 data class LibraryBooks(
     @SerialName("content")
-    val content: List<LibraryBookContent>,
+    val content: List<LibraryBookSummary>,
     @SerialName("page")
     val page: PageInfo
 )
 
 @Serializable
-data class LibraryBookContent(
+data class LibraryBookSummary(
     @SerialName("userBookId")
     val userBookId: String,
     @SerialName("userId")

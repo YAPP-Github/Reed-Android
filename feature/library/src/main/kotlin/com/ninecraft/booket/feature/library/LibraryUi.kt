@@ -21,7 +21,7 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.model.LibraryBookContentModel
+import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.feature.library.component.FilterChipGroup
@@ -199,7 +199,7 @@ private fun LibraryPreview() {
             state = LibraryUiState(
                 uiState = UiState.Success,
                 books = persistentListOf(
-                    LibraryBookContentModel(
+                    LibraryBookSummaryModel(
                         bookTitle = "코틀린을 활용한 안드로이드 프로그래밍",
                         bookAuthor = "우재남, 유혜림",
                         coverImageUrl = "https://image.aladin.co.kr/product/24342/42/coversum/k542630705_1.jpg",
