@@ -12,8 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.ui.R
 
 @Composable
 fun LoadStateFooter(
@@ -46,14 +48,14 @@ fun LoadStateFooter(
                         style = ReedTheme.typography.body2Regular,
                     )
                     Button(onClick = onRetryClick) {
-                        Text(text = "다시 시도")
+                        Text(text = stringResource(R.string.retry))
                     }
                 }
             }
 
             is FooterState.End -> {
                 Text(
-                    text = "더 이상 결과가 없습니다",
+                    text = stringResource(R.string.no_more_result),
                     color = ReedTheme.colors.contentSecondary,
                     style = ReedTheme.typography.body2Regular,
                 )

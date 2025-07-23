@@ -1,23 +1,42 @@
 package com.ninecraft.booket.core.ui.component
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
+// 기기에서 평균적으로 한 화면에 보이는 아이템 개수
 private const val LIMIT_COUNT = 6
 
 @Composable
@@ -80,4 +99,68 @@ private fun LazyListState.reachedBottom(
 ): Boolean {
     val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()
     return (triggerOnEnd && lastVisibleItem?.index == layoutInfo.totalItemsCount - 1) || lastVisibleItem?.index != 0 && lastVisibleItem?.index == layoutInfo.totalItemsCount - (limitCount + 1)
+}
+
+@Preview
+@Composable
+private fun InfinityLazyColumnPreview() {
+    ReedTheme {
+        Surface {
+            var page by remember { mutableIntStateOf(1) }
+            val contents = remember { mutableStateListOf(*Array(10) { it }) }
+
+            Column {
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    text = "Loaded Page: $page",
+                    style = ReedTheme.typography.label1Medium,
+                )
+                InfinityLazyColumn(
+                    loadMore = {
+                        contents.addAll(page * 10 until (page + 1) * 10)
+                        page++
+                    },
+                    contentPadding = PaddingValues(vertical = 16.dp, horizontal = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    content = {
+                        items(contents, key = { it }) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        horizontal = ReedTheme.spacing.spacing5,
+                                        vertical = ReedTheme.spacing.spacing4
+                                    ),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .width(68.dp)
+                                        .height(100.dp)
+                                        .background(
+                                            color = ReedTheme.colors.contentTertiary,
+                                            shape = RoundedCornerShape(ReedTheme.radius.sm),
+                                        ),
+                                )
+                                Spacer(Modifier.width(ReedTheme.spacing.spacing4))
+                                Column {
+                                    Text(
+                                        text = "Title",
+                                        color = ReedTheme.colors.contentPrimary,
+                                        style = ReedTheme.typography.body1SemiBold,
+                                    )
+                                    Spacer(Modifier.height(ReedTheme.spacing.spacing1))
+                                    Text(
+                                        text = "Description",
+                                        color = ReedTheme.colors.contentTertiary,
+                                        style = ReedTheme.typography.label1Medium,
+                                    )
+                                }
+                            }
+                        }
+                    },
+                )
+            }
+        }
+    }
 }
