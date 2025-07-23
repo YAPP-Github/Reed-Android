@@ -14,6 +14,7 @@ sealed interface TermsAgreementUiEvent : CircuitUiEvent {
     data object OnAllTermsAgreedClick : TermsAgreementUiEvent
     data class OnTermItemClick(val index: Int) : TermsAgreementUiEvent
     data object OnBackClick : TermsAgreementUiEvent
-    data class OnTermDetailClick(val url: String) : TermsAgreementUiEvent
+    data object OnPolicyClick : TermsAgreementUiEvent
+    data object OnTermClick : TermsAgreementUiEvent
     data object OnStartButtonClick : TermsAgreementUiEvent
 }

@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
-import com.ninecraft.booket.screens.LoginScreen
-import com.ninecraft.booket.screens.TermsAgreementScreen
+import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -32,10 +32,6 @@ class LoginPresenter @AssistedInject constructor(
 
         fun handleEvent(event: LoginUiEvent) {
             when (event) {
-                is LoginUiEvent.InitSideEffect -> {
-                    sideEffect = null
-                }
-
                 is LoginUiEvent.OnKakaoLoginButtonClick -> {
                     isLoading = true
                     sideEffect = LoginSideEffect.KakaoLogin
@@ -49,10 +45,10 @@ class LoginPresenter @AssistedInject constructor(
                 is LoginUiEvent.Login -> {
                     scope.launch {
                         try {
+                            isLoading = true
                             repository.login(event.accessToken)
-                                .onSuccess { result ->
-                                    repository.saveTokens(result.accessToken, result.refreshToken)
-                                    navigator.goTo(TermsAgreementScreen)
+                                .onSuccess {
+                                    navigator.resetRoot(TermsAgreementScreen)
                                 }.onFailure { exception ->
                                     exception.message?.let { Logger.e(it) }
                                     sideEffect = exception.message?.let {

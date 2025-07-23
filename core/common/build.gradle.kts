@@ -14,6 +14,7 @@ android {
 dependencies {
     implementations(
         projects.core.model,
+        projects.core.network,
 
         libs.logger,
     )

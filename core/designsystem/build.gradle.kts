@@ -13,6 +13,10 @@ dependencies {
     implementations(
         projects.core.common,
 
+        libs.compose.keyboard.state,
+        libs.coil.compose,
         libs.logger,
+
+        libs.bundles.landscapist,
     )
 }

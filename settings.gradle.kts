@@ -39,8 +39,8 @@ include(
     ":feature:library",
     ":feature:login",
     ":feature:main",
+    ":feature:screens",
     ":feature:search",
     ":feature:settings",
-
-    ":screens",
+    ":feature:webview",
 )

@@ -1,6 +1,5 @@
 package com.ninecraft.booket.core.common.extensions
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.ripple
@@ -13,7 +12,6 @@ import com.ninecraft.booket.core.common.utils.MultipleEventsCutter
 import com.ninecraft.booket.core.common.utils.get
 
 // https://stackoverflow.com/questions/66703448/how-to-disable-ripple-effect-when-clicking-in-jetpack-compose
-@SuppressLint("ModifierFactoryUnreferencedReceiver")
 inline fun Modifier.noRippleClickable(crossinline onClick: () -> Unit): Modifier = composed {
     clickable(
         indication = null,
@@ -23,7 +21,6 @@ inline fun Modifier.noRippleClickable(crossinline onClick: () -> Unit): Modifier
     }
 }
 
-@Suppress("ModifierFactoryUnreferencedReceiver")
 fun Modifier.clickableSingle(
     enabled: Boolean = true,
     onClickLabel: String? = null,

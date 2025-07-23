@@ -6,8 +6,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.ninecraft.booket.screens.HomeScreen
-import com.ninecraft.booket.screens.TermsAgreementScreen
+import com.ninecraft.booket.core.common.constants.WebViewConstants
+import com.ninecraft.booket.feature.screens.BottomNavigationScreen
+import com.ninecraft.booket.feature.screens.TermsAgreementScreen
+import com.ninecraft.booket.feature.screens.WebViewScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -50,12 +52,18 @@ class TermsAgreementPresenter @AssistedInject constructor(
                     navigator.pop()
                 }
 
-                is TermsAgreementUiEvent.OnTermDetailClick -> {
-                    // TODO: 웹뷰 화면으로 이동
+                is TermsAgreementUiEvent.OnPolicyClick -> {
+                    val policy = WebViewConstants.PRIVACY_POLICY
+                    navigator.goTo(WebViewScreen(url = policy.url, title = policy.title))
+                }
+
+                is TermsAgreementUiEvent.OnTermClick -> {
+                    val terms = WebViewConstants.TERMS_OF_SERVICE
+                    navigator.goTo(WebViewScreen(url = terms.url, title = terms.title))
                 }
 
                 is TermsAgreementUiEvent.OnStartButtonClick -> {
-                    navigator.resetRoot(HomeScreen)
+                    navigator.resetRoot(BottomNavigationScreen)
                 }
             }
         }

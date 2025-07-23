@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.ninecraft.booket.core.datastore.api.datasource.TokenPreferencesDataSource
-import com.ninecraft.booket.core.datastore.impl.datasource.DefaultTokenPreferencesDataSource
+import com.ninecraft.booket.core.datastore.api.datasource.RecentSearchDataSource
+import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
+import com.ninecraft.booket.core.datastore.impl.datasource.DefaultRecentSearchDataSource
+import com.ninecraft.booket.core.datastore.impl.datasource.DefaultTokenDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -17,14 +19,25 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
-    private const val TOKEN_DATASTORE_NAME = "TOKENS_PREFERENCES"
-    private val Context.dataStore by preferencesDataStore(name = TOKEN_DATASTORE_NAME)
+    private const val TOKEN_DATASTORE_NAME = "TOKENS_DATASTORE"
+    private const val RECENT_SEARCH_DATASTORE_NAME = "RECENT_SEARCH_DATASTORE"
 
+    private val Context.tokenDataStore by preferencesDataStore(name = TOKEN_DATASTORE_NAME)
+    private val Context.recentSearchDataStore by preferencesDataStore(name = RECENT_SEARCH_DATASTORE_NAME)
+
+    @TokenDataStore
     @Provides
     @Singleton
     fun provideTokenDataStore(
         @ApplicationContext context: Context,
-    ): DataStore<Preferences> = context.dataStore
+    ): DataStore<Preferences> = context.tokenDataStore
+
+    @RecentSearchDataStore
+    @Provides
+    @Singleton
+    fun provideRecentSearchDataStore(
+        @ApplicationContext context: Context,
+    ): DataStore<Preferences> = context.recentSearchDataStore
 }
 
 @Module
@@ -33,7 +46,13 @@ abstract class DataStoreBindModule {
 
     @Binds
     @Singleton
-    abstract fun bindTokenPreferencesDataSource(
-        defaultTokenPreferencesDataSource: DefaultTokenPreferencesDataSource,
-    ): TokenPreferencesDataSource
+    abstract fun bindTokenDataSource(
+        defaultTokenDataSource: DefaultTokenDataSource,
+    ): TokenDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindRecentSearchDataSource(
+        defaultRecentSearchDataSource: DefaultRecentSearchDataSource,
+    ): RecentSearchDataSource
 }

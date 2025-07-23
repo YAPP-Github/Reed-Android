@@ -2,7 +2,8 @@ package com.ninecraft.booket.feature.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import com.ninecraft.booket.screens.HomeScreen
+import com.ninecraft.booket.feature.screens.HomeScreen
+import com.ninecraft.booket.feature.screens.SearchScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -20,7 +21,17 @@ class HomePresenter @AssistedInject constructor(
     override fun present(): HomeUiState {
         val scope = rememberCoroutineScope()
 
-        return HomeUiState {}
+        fun handleEvent(event: HomeUiEvent) {
+            when (event) {
+                is HomeUiEvent.OnButtonClick -> {
+                    navigator.goTo(SearchScreen)
+                }
+            }
+        }
+
+        return HomeUiState(
+            eventSink = ::handleEvent,
+        )
     }
 
     @CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)

@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="logout">로그아웃</string>
+    <string name="library_title">내 서재</string>
+    <string name="library_records">남긴 기록</string>
+    <string name="library_filter_total">전체</string>
+    <string name="library_filter_before_reading">읽기 전</string>
+    <string name="library_filter_reading">읽는 중</string>
+    <string name="library_filter_completed">완독</string>
+    <string name="library_empty_book_title">아직 등록된 책이 없어요</string>
+    <string name="library_empty_book_description">도서 등록 후 나만의 아카이브를 만들어보세요</string>
 </resources>

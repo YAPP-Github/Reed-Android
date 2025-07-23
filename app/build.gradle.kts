@@ -49,15 +49,18 @@ dependencies {
 
         projects.feature.home,
         projects.feature.library,
-        projects.feature.main,
         projects.feature.login,
+        projects.feature.main,
+        projects.feature.screens,
         projects.feature.search,
         projects.feature.settings,
+        projects.feature.webview,
 
         libs.androidx.activity.compose,
         libs.androidx.startup,
-        libs.logger,
+        libs.coil.compose,
         libs.kakao.auth,
+        libs.logger,
 
         libs.bundles.circuit,
     )

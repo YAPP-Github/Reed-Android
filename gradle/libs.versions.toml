@@ -1,49 +1,52 @@
 [versions]
 ## Android gradle plugin
-android-gradle-plugin = "8.9.1"
+android-gradle-plugin = "8.9.3"
 
 ## AndroidX
 androidx-core = "1.16.0"
-androidx-lifecycle = "2.9.1"
-appcompat = "1.7.1"
+androidx-lifecycle = "2.9.2"
 androidx-activity-compose = "1.10.1"
 androidx-startup = "1.2.0"
 androidx-splash = "1.0.1"
 androidx-datastore = "1.1.7"
 
 ## Compose
-androidx-compose-bom = "2025.06.00"
-androidx-compose-material3 = "1.4.0-alpha15"
+androidx-compose-bom = "2025.07.00"
+androidx-compose-material3 = "1.4.0-alpha18"
 compose-stable-marker = "1.0.6"
 compose-effects = "0.1.1"
-coil-compose = "2.7.0"
+compose-shadow = "2.0.4"
 
 ## Kotlin Symbol Processing
-ksp = "2.1.21-2.0.1"
+ksp = "2.2.0-2.0.2"
 
 ## Kotlin
-kotlin = "2.1.21"
+kotlin = "2.2.0"
 kotlinx-coroutines = "1.10.2"
-kotlinx-serialization-json = "1.8.1"
-kotlinx-datetime = "0.6.2"
+kotlinx-serialization-json = "1.9.0"
+kotlinx-datetime = "0.7.1"
 kotlinx-collections-immutable = "0.4.0"
 
 ## Hilt
-hilt = "2.56.2"
+hilt = "2.57"
 hilt-navigation-compose = "1.2.0"
 
 ## Network
-okhttp = "4.12.0"
-retrofit = "2.11.0"
+okhttp = "5.1.0"
+retrofit = "3.0.0"
 
 ## Circuit
-circuit = "0.28.1"
+circuit = "0.29.1"
 
 ## Logging
 logger = "2.2.0"
 
 ## Kakao Login
 kakao-core = "2.21.4"
+
+## Image Load
+coil-compose = "2.7.0"
+landscapist = "2.5.1"
 
 ## OCR
 mlkit-text = "16.0.1"
@@ -52,7 +55,7 @@ mlkit-text = "16.0.1"
 # https://github.com/jisungbin/dependency-handler-extensions
 gradle-dependency-handler-extensions = "1.1.0"
 # https://github.com/taehwandev/ComposeExtensions
-compose-extensions = "25.1.0"
+compose-extensions = "25.5.1"
 
 ## Static Analysis
 kotlin-detekt = "1.23.8"
@@ -60,11 +63,8 @@ kotlin-ktlint-gradle = "11.6.1"
 kotlin-ktlint-source = "0.50.0"
 
 ## Test
-junit = "4.13.2"
 androidx-test-ext-junit = "1.2.1"
 androidx-test-runner = "1.6.2"
-espresso-core = "3.6.1"
-material = "1.12.0"
 
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
@@ -74,7 +74,6 @@ compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compo
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-splash" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "androidx-startup" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidx-datastore" }
@@ -91,6 +90,9 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended"}
 compose-stable-marker = { group = "com.github.skydoves", name = "compose-stable-marker", version.ref = "compose-stable-marker" }
 compose-effects = { group = "com.github.skydoves", name = "compose-effects", version.ref = "compose-effects" }
+compose-system-ui-controller = { group = "tech.thdev", name = "extensions-compose-system-ui-controller", version.ref = "compose-extensions" }
+compose-keyboard-state = { group = "tech.thdev", name = "extensions-compose-keyboard-state", version.ref = "compose-extensions" }
+compose-shadow = { group = "com.adamglin", name = "compose-shadow", version.ref = "compose-shadow"}
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
@@ -99,6 +101,11 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlinx-serialization-converter = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose" }
+landscapist-bom = { group = "com.github.skydoves", name = "landscapist-bom", version.ref = "landscapist" }
+landscapist-coil = { group = "com.github.skydoves", name = "landscapist-coil" }
+landscapist-placeholder = { group = "com.github.skydoves", name = "landscapist-placeholder" }
 
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
@@ -169,4 +176,10 @@ circuit = [
     "circuitx-android",
     "circuitx-overlays",
     "circuitx-gesture-navigation",
+]
+
+landscapist = [
+    "landscapist-bom",
+    "landscapist-coil",
+    "landscapist-placeholder",
 ]
