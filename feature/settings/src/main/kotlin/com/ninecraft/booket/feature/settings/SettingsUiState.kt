@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.settings
 
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import java.util.UUID
 
 data class SettingsUiState(
     val isLoading: Boolean = false,
@@ -13,11 +14,13 @@ data class SettingsUiState(
 ) : CircuitUiState
 
 sealed interface SettingsSideEffect {
-    data class ShowToast(val message: String) : SettingsSideEffect
+    data class ShowToast(
+        val message: String,
+        private val key: String = UUID.randomUUID().toString(),
+    ) : SettingsSideEffect
 }
 
 sealed interface SettingsUiEvent : CircuitUiEvent {
-    data object InitSideEffect : SettingsUiEvent
     data object OnBackClick : SettingsUiEvent
     data object OnPolicyClick : SettingsUiEvent
     data object OnTermClick : SettingsUiEvent

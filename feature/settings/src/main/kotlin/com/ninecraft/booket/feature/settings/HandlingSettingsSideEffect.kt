@@ -8,7 +8,6 @@ import com.skydoves.compose.effects.RememberedEffect
 @Composable
 internal fun HandleSettingsSideEffects(
     state: SettingsUiState,
-    eventSink: (SettingsUiEvent) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -18,10 +17,6 @@ internal fun HandleSettingsSideEffects(
                 Toast.makeText(context, state.sideEffect.message, Toast.LENGTH_SHORT).show()
             }
             null -> {}
-        }
-
-        if (state.sideEffect != null) {
-            eventSink(SettingsUiEvent.InitSideEffect)
         }
     }
 }
