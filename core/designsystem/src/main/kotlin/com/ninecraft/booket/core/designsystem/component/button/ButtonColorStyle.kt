@@ -1,6 +1,8 @@
 package com.ninecraft.booket.core.designsystem.component.button
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.theme.Kakao
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
@@ -30,4 +32,10 @@ enum class ReedButtonColorStyle {
 
     @Composable
     fun disabledContentColor() = ReedTheme.colors.contentDisabled
+
+    @Composable
+    fun borderStroke() = when (this) {
+        STROKE -> BorderStroke(1.dp, ReedTheme.colors.borderBrand)
+        else -> null
+    }
 }
