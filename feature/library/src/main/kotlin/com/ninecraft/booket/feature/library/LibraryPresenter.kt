@@ -134,7 +134,7 @@ class LibraryPresenter @AssistedInject constructor(
                 getLibraryBooks(
                     status = currentFilter.getApiValue(),
                     page = START_INDEX,
-                    size = PAGE_SIZE
+                    size = PAGE_SIZE,
                 )
             }
         }

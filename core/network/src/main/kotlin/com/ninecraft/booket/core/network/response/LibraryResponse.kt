@@ -14,7 +14,7 @@ data class LibraryResponse(
     @SerialName("readingCount")
     val readingCount: Int,
     @SerialName("completedCount")
-    val completedCount: Int
+    val completedCount: Int,
 )
 
 @Serializable
@@ -22,7 +22,7 @@ data class LibraryBooks(
     @SerialName("content")
     val content: List<LibraryBookSummary>,
     @SerialName("page")
-    val page: PageInfo
+    val page: PageInfo,
 )
 
 @Serializable
@@ -48,7 +48,7 @@ data class LibraryBookSummary(
     @SerialName("createdAt")
     val createdAt: String,
     @SerialName("updatedAt")
-    val updatedAt: String
+    val updatedAt: String,
 )
 
 @Serializable
@@ -60,5 +60,5 @@ data class PageInfo(
     @SerialName("totalElements")
     val totalElements: Int,
     @SerialName("totalPages")
-    val totalPages: Int
+    val totalPages: Int,
 )

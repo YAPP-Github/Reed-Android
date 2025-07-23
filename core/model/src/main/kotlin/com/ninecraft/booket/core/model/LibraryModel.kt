@@ -8,13 +8,13 @@ data class LibraryModel(
     val totalCount: Int = 0,
     val beforeReadingCount: Int = 0,
     val readingCount: Int = 0,
-    val completedCount: Int = 0
+    val completedCount: Int = 0,
 )
 
 @Stable
 data class LibraryBooksModel(
     val content: List<LibraryBookSummaryModel> = emptyList(),
-    val page: PageInfoModel = PageInfoModel()
+    val page: PageInfoModel = PageInfoModel(),
 )
 
 @Stable
@@ -29,7 +29,7 @@ data class LibraryBookSummaryModel(
     val coverImageUrl: String = "",
     val publisher: String = "",
     val createdAt: String = "",
-    val updatedAt: String = ""
+    val updatedAt: String = "",
 )
 
 @Stable
@@ -37,5 +37,5 @@ data class PageInfoModel(
     val size: Int = 0,
     val number: Int = 0,
     val totalElements: Int = 0,
-    val totalPages: Int = 0
+    val totalPages: Int = 0,
 )

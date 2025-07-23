@@ -59,6 +59,6 @@ interface ReedService {
         @Query("status") status: String? = null,
         @Query("page") page: Int,
         @Query("size") size: Int,
-        @Query("sort") sort: String = "date_desc"
+        @Query("sort") sort: String = "date_desc",
     ): LibraryResponse
 }

@@ -99,14 +99,14 @@ internal fun LibraryResponse.toModel(): LibraryModel {
         totalCount = totalCount,
         beforeReadingCount = beforeReadingCount,
         readingCount = readingCount,
-        completedCount = completedCount
+        completedCount = completedCount,
     )
 }
 
 internal fun LibraryBooks.toModel(): LibraryBooksModel {
     return LibraryBooksModel(
         content = content.map { it.toModel() },
-        page = page.toModel()
+        page = page.toModel(),
     )
 }
 
@@ -122,7 +122,7 @@ internal fun LibraryBookSummary.toModel(): LibraryBookSummaryModel {
         coverImageUrl = coverImageUrl,
         publisher = publisher,
         createdAt = createdAt,
-        updatedAt = updatedAt
+        updatedAt = updatedAt,
     )
 }
 
@@ -131,6 +131,6 @@ internal fun PageInfo.toModel(): PageInfoModel {
         size = size,
         number = number,
         totalElements = totalElements,
-        totalPages = totalPages
+        totalPages = totalPages,
     )
 }

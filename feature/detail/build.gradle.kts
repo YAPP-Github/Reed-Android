@@ -16,6 +16,6 @@ ksp {
 
 dependencies {
     implementations(
-        libs.logger
+        libs.logger,
     )
 }

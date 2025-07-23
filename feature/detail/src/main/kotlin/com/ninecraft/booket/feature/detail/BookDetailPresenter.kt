@@ -94,5 +94,3 @@ class BookDetailPresenter @AssistedInject constructor(
         ): BookDetailPresenter
     }
 }
-
-
