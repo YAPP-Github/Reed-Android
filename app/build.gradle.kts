@@ -51,6 +51,7 @@ dependencies {
         projects.feature.library,
         projects.feature.login,
         projects.feature.main,
+        projects.feature.record,
         projects.feature.screens,
         projects.feature.search,
         projects.feature.settings,

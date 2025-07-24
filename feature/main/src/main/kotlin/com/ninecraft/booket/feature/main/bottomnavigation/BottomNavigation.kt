@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.ninecraft.booket.core.designsystem.component.ReedScaffold
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.feature.main.component.MainBottomBar
 import com.ninecraft.booket.feature.main.component.MainTab
 import com.ninecraft.booket.feature.screens.BottomNavigationScreen

@@ -13,6 +13,7 @@ dependencies {
     implementations(
         projects.core.designsystem,
 
+        libs.compose.keyboard.state,
         libs.logger,
     )
 }

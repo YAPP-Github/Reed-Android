@@ -27,9 +27,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.component.ReedDialog
-import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
-import com.ninecraft.booket.core.designsystem.component.divider.ReedDivider
+import com.ninecraft.booket.core.ui.component.ReedDialog
+import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
+import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.screens.SettingsScreen

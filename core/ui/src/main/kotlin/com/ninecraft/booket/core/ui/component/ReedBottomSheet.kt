@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.designsystem.component.bottomsheet
+package com.ninecraft.booket.core.ui.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

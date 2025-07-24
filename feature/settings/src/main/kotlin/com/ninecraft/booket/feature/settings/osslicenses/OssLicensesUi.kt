@@ -31,7 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
+import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.settings.R
