@@ -39,6 +39,7 @@ include(
     ":feature:library",
     ":feature:login",
     ":feature:main",
+    ":feature:record",
     ":feature:screens",
     ":feature:search",
     ":feature:settings",

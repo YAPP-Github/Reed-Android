@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.component.appbar.ReedBackTopAppBar
+import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.screens.WebViewScreen

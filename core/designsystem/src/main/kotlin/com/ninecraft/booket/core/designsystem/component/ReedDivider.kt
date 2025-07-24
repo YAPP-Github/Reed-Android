@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.designsystem.component.divider
+package com.ninecraft.booket.core.designsystem.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

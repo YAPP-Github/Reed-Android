@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.designsystem.component.appbar
+package com.ninecraft.booket.core.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background

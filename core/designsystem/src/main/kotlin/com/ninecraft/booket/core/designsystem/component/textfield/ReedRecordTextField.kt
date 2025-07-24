@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.designsystem.component
+package com.ninecraft.booket.core.designsystem.component.textfield
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
@@ -18,7 +18,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
-import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,44 +34,41 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.R
-import com.ninecraft.booket.core.designsystem.theme.Green500
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
-val reedTextSelectionColors = TextSelectionColors(
-    handleColor = Green500,
-    backgroundColor = Green500,
-)
-
 @Composable
-fun ReedTextField(
-    queryState: TextFieldState,
-    @StringRes queryHintRes: Int,
-    onSearch: (String) -> Unit,
-    onClear: () -> Unit,
+fun ReedRecordTextField(
+    recordState: TextFieldState,
+    @StringRes recordHintRes: Int,
     modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        keyboardType = KeyboardType.Text,
+        imeAction = ImeAction.Done,
+    ),
+    lineLimits: TextFieldLineLimits = TextFieldLineLimits.MultiLine(),
+    onClear: (() -> Unit)? = null,
+    onNext: () -> Unit = {},
     backgroundColor: Color = ReedTheme.colors.baseSecondary,
     textColor: Color = ReedTheme.colors.contentPrimary,
     cornerShape: RoundedCornerShape = RoundedCornerShape(ReedTheme.radius.sm),
-    borderStroke: BorderStroke = BorderStroke(width = 1.dp, color = ReedTheme.colors.borderBrand),
+    borderStroke: BorderStroke = BorderStroke(width = 1.dp, color = ReedTheme.colors.baseSecondary),
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
     CompositionLocalProvider(LocalTextSelectionColors provides reedTextSelectionColors) {
         BasicTextField(
-            state = queryState,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
+            state = recordState,
+            modifier = Modifier.fillMaxWidth(),
             textStyle = ReedTheme.typography.body2Medium.copy(color = textColor),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Search,
-            ),
+            keyboardOptions = keyboardOptions,
             onKeyboardAction = {
-                onSearch(queryState.text.toString())
-                keyboardController?.hide()
+                if (keyboardOptions.imeAction == ImeAction.Next) {
+                    onNext()
+                } else {
+                    keyboardController?.hide()
+                }
             },
-            lineLimits = TextFieldLineLimits.SingleLine,
+            lineLimits = lineLimits,
             decorator = { innerTextField ->
                 Row(
                     modifier = modifier
@@ -82,13 +78,13 @@ fun ReedTextField(
                             shape = cornerShape,
                         )
                         .padding(vertical = ReedTheme.spacing.spacing3),
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = if (lineLimits is TextFieldLineLimits.MultiLine) Alignment.Top else Alignment.CenterVertically,
                 ) {
                     Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
                     Box(modifier = Modifier.weight(1f)) {
-                        if (queryState.text.isEmpty()) {
+                        if (recordState.text.isEmpty()) {
                             Text(
-                                text = stringResource(id = queryHintRes),
+                                text = stringResource(id = recordHintRes),
                                 color = ReedTheme.colors.contentTertiary,
                                 style = ReedTheme.typography.body2Regular,
                             )
@@ -96,7 +92,7 @@ fun ReedTextField(
                         innerTextField()
                     }
                     Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-                    if (queryState.text.toString().isNotEmpty()) {
+                    if (recordState.text.toString().isNotEmpty() && onClear != null) {
                         Icon(
                             imageVector = ImageVector.vectorResource(R.drawable.ic_x_circle),
                             contentDescription = "Clear Icon",
@@ -106,16 +102,6 @@ fun ReedTextField(
                             tint = Color.Unspecified,
                         )
                     }
-                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_search),
-                        contentDescription = "Search Icon",
-                        modifier = Modifier.clickable {
-                            onSearch(queryState.text.toString())
-                            keyboardController?.hide()
-                        },
-                        tint = ReedTheme.colors.contentBrand,
-                    )
                     Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
                 }
             },
@@ -125,12 +111,15 @@ fun ReedTextField(
 
 @ComponentPreview
 @Composable
-private fun ReedTextFieldPreview() {
+private fun ReedRecordTextFieldPreview() {
     ReedTheme {
-        ReedTextField(
-            queryState = TextFieldState("검색"),
-            queryHintRes = R.string.search_book_hint,
-            onSearch = {},
+        ReedRecordTextField(
+            recordState = TextFieldState("검색"),
+            recordHintRes = R.string.search_book_hint,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next,
+            ),
             onClear = {},
             modifier = Modifier
                 .height(46.dp)
