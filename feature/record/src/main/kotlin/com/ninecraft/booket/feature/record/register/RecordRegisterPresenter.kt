@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.feature.screens.OcrScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -44,7 +45,9 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     isExitDialogVisible = false
                 }
 
-                is RecordRegisterUiEvent.OnSentenceScanButtonClick -> {}
+                is RecordRegisterUiEvent.OnSentenceScanButtonClick -> {
+                    navigator.goTo(OcrScreen)
+                }
                 is RecordRegisterUiEvent.OnNextButtonClick -> {}
             }
         }

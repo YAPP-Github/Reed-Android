@@ -12,4 +12,7 @@
     <string name="record_exit_dialog_description">지금까지 기록한 내용은 저장되지 않습니다.</string>
     <string name="record_exit_dialog_confirm">확인</string>
     <string name="record_exit_dialog_dismiss">취소</string>
+    <string name="ocr_guide">수집할 문장을 중앙에 맞춘 뒤\n캡처 버튼을 눌러주세요</string>
+    <string name="ocr_sentence_selection">기록할 문장 선택</string>
+    <string name="ocr_selection_complete">선택 완료</string>
 </resources>

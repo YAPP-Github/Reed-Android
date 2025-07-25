@@ -15,17 +15,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.R
+import com.ninecraft.booket.core.designsystem.theme.Neutral950
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 
 @Composable
 fun ReedTopAppBar(
     modifier: Modifier = Modifier,
+    isDark: Boolean = false,
     title: String = "",
     @DrawableRes startIconRes: Int? = null,
     startIconDescription: String = "",
@@ -38,7 +41,7 @@ fun ReedTopAppBar(
         modifier = modifier
             .fillMaxWidth()
             .height(60.dp)
-            .background(color = White)
+            .background(color = if (isDark) Neutral950 else White)
             .padding(horizontal = ReedTheme.spacing.spacing2),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
@@ -50,6 +53,7 @@ fun ReedTopAppBar(
                 Icon(
                     painter = painterResource(id = startIconRes),
                     contentDescription = startIconDescription,
+                    tint = if (isDark) White else Color.Unspecified,
                 )
             }
         } else {
@@ -70,6 +74,7 @@ fun ReedTopAppBar(
                 Icon(
                     painter = painterResource(id = endIconRes),
                     contentDescription = endIconDescription,
+                    tint = if (isDark) White else Color.Unspecified,
                 )
             }
         } else {
@@ -81,11 +86,13 @@ fun ReedTopAppBar(
 @Composable
 fun ReedBackTopAppBar(
     modifier: Modifier = Modifier,
+    isDark: Boolean = false,
     title: String = "",
     onBackClick: () -> Unit = {},
 ) {
     ReedTopAppBar(
         modifier = modifier,
+        isDark = isDark,
         title = title,
         startIconRes = R.drawable.ic_chevron_left,
         startIconDescription = "Back",
@@ -96,11 +103,13 @@ fun ReedBackTopAppBar(
 @Composable
 fun ReedCloseTopAppBar(
     modifier: Modifier = Modifier,
+    isDark: Boolean = false,
     title: String = "",
     onClose: () -> Unit = {},
 ) {
     ReedTopAppBar(
         modifier = modifier,
+        isDark = isDark,
         title = title,
         endIconRes = R.drawable.ic_close,
         endIconDescription = "Close",

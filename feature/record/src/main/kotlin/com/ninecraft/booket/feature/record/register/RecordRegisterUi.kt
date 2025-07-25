@@ -148,7 +148,9 @@ internal fun RecordRegisterContent(
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         ReedButton(
-            onClick = {},
+            onClick = {
+                state.eventSink(RecordRegisterUiEvent.OnSentenceScanButtonClick)
+            },
             colorStyle = ReedButtonColorStyle.STROKE,
             sizeStyle = smallRoundedButtonStyle,
             modifier = Modifier.align(Alignment.End),
