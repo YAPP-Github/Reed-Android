@@ -8,33 +8,29 @@ import com.google.mlkit.vision.text.TextRecognizer
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 /**
- * 실시간 카메라 스트림에서 프레임 단위로 텍스트 분석하는 Analyzer 클래스
+ * 정적인 카메라 이미지에서 텍스트를 분석하는 클래스
  *
- * ML Kit의 TextRecognizer를 사용하여 `ImageProxy` 객체로부터 텍스트를 추출하고
- * 성공 시 [onTextDetected], 실패 시 [onFailure], 분석 완료 후 공통적으로 [onRecognitionCompleted] 콜백을 호출
+ * CameraX의 단일 ImageProxy 프레임을 받아 ML Kit을 통해 텍스트를 추출하고 결과를 콜백으로 전달한다.
  *
- * 안정적인 연속 프레임 분석을 위해 CoroutineScope에 [SupervisorJob]을 사용하여
- * 한 프레임 분석에서 예외가 발생해도 다음 프레임 분석에 영향을 주지 않도록 설계
+ * @param textRecognizer ML Kit의 TextRecognizer 인스턴스
+ * @param onTextDetected 텍스트 인식 성공 시 호출되는 콜백 (인식된 전체 텍스트 전달)
+ * @param onFailure 인식 실패 시 호출되는 콜백
+ *
+ * 분석이 끝난 후 반드시 imageProxy.close() 호출하여 리소스 해제
  */
-class LiveTextAnalyzer @Inject constructor(
+class StillTextAnalyzer @Inject constructor(
     private val textRecognizer: TextRecognizer,
     private val onTextDetected: (String) -> Unit,
     private val onFailure: () -> Unit,
 ) : TextAnalyzer {
 
-    companion object {
-        const val THROTTLE_TIMEOUT_MS = 1_000L // 프레임 처리 간 인터벌
-    }
-
-    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    val scope = CoroutineScope(Dispatchers.IO)
 
     @OptIn(ExperimentalGetImage::class)
     override fun analyze(imageProxy: ImageProxy) {
@@ -54,7 +50,6 @@ class LiveTextAnalyzer @Inject constructor(
                         continuation.resume(Unit)
                     }
             }
-            delay(THROTTLE_TIMEOUT_MS)
         }.invokeOnCompletion { exception ->
             Logger.e(exception?.message ?: "Unknown error")
             imageProxy.close()

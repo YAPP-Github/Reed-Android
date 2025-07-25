@@ -2,6 +2,7 @@
 
 plugins {
     alias(libs.plugins.booket.android.library)
+    alias(libs.plugins.booket.android.hilt)
 }
 
 android {
@@ -10,6 +11,8 @@ android {
 
 dependencies {
     implementations(
+        libs.logger,
+        libs.androidx.camera.core,
         libs.google.mlkit.text.recognition,
         libs.google.mlkit.text.recognition.korean
     )

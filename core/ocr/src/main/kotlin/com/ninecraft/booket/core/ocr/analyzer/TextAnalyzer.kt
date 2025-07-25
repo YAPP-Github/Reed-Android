@@ -1,7 +1,7 @@
 package com.ninecraft.booket.core.ocr.analyzer
 
-import com.google.mlkit.vision.common.InputImage
+import androidx.camera.core.ImageProxy
 
 interface TextAnalyzer {
-    fun analyze(inputImage: InputImage)
+    fun analyze(imageProxy: ImageProxy)
 }
