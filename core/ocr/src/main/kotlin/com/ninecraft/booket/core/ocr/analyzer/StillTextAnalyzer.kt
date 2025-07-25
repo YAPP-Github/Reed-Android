@@ -6,10 +6,12 @@ import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognizer
 import com.orhanobut.logger.Logger
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -24,10 +26,10 @@ import kotlin.coroutines.suspendCoroutine
  *
  * 분석이 끝난 후 반드시 imageProxy.close() 호출하여 리소스 해제
  */
-class StillTextAnalyzer @Inject constructor(
+class StillTextAnalyzer @AssistedInject constructor(
     private val textRecognizer: TextRecognizer,
-    private val onTextDetected: (String) -> Unit,
-    private val onFailure: () -> Unit,
+    @Assisted private val onTextDetected: (String) -> Unit,
+    @Assisted private val onFailure: () -> Unit,
 ) : TextAnalyzer {
 
     val scope = CoroutineScope(Dispatchers.IO)
@@ -54,5 +56,13 @@ class StillTextAnalyzer @Inject constructor(
             Logger.e(exception?.message ?: "Unknown error")
             imageProxy.close()
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            onTextDetected: (String) -> Unit,
+            onFailure: () -> Unit
+        ): StillTextAnalyzer
     }
 }

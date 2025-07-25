@@ -6,12 +6,14 @@ import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognizer
 import com.orhanobut.logger.Logger
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -24,10 +26,10 @@ import kotlin.coroutines.suspendCoroutine
  * 안정적인 연속 프레임 분석을 위해 CoroutineScope에 [SupervisorJob]을 사용하여
  * 한 프레임 분석에서 예외가 발생해도 다음 프레임 분석에 영향을 주지 않도록 설계
  */
-class LiveTextAnalyzer @Inject constructor(
+class LiveTextAnalyzer @AssistedInject constructor(
     private val textRecognizer: TextRecognizer,
-    private val onTextDetected: (String) -> Unit,
-    private val onFailure: () -> Unit,
+    @Assisted private val onTextDetected: (String) -> Unit,
+    @Assisted private val onFailure: () -> Unit,
 ) : TextAnalyzer {
 
     companion object {
@@ -59,5 +61,13 @@ class LiveTextAnalyzer @Inject constructor(
             Logger.e(exception?.message ?: "Unknown error")
             imageProxy.close()
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            onTextDetected: (String) -> Unit,
+            onFailure: () -> Unit
+        ): LiveTextAnalyzer
     }
 }
