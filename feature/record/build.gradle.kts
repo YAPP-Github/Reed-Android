@@ -18,5 +18,9 @@ dependencies {
     implementations(
         libs.androidx.activity.compose,
         libs.logger,
+
+        libs.androidx.camera.camera2,
+        libs.androidx.camera.lifecycle,
+        libs.androidx.camera.view
     )
 }

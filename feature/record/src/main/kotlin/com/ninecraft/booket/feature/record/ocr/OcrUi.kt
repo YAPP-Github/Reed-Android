@@ -1,5 +1,12 @@
 package com.ninecraft.booket.feature.record.ocr
 
+import android.content.pm.PackageManager
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.view.LifecycleCameraController
+import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,14 +29,24 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.R as designR
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
@@ -65,7 +82,28 @@ private fun CameraPreview(
     state: OcrUiState,
     modifier: Modifier = Modifier,
 ) {
-    // TODO: Permission Request
+    val context = LocalContext.current
+    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    val cameraController = remember { LifecycleCameraController(context) }
+    val permission = android.Manifest.permission.CAMERA
+
+    var hasPermission by remember { mutableStateOf(false) }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+    ) { isGranted ->
+        hasPermission = isGranted
+    }
+
+    LaunchedEffect(Unit) {
+        val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+        if (!granted) {
+            launcher.launch(permission)
+        } else {
+            hasPermission = true
+        }
+    }
+
     Box(
         modifier = modifier.fillMaxSize(),
     ) {
@@ -95,7 +133,27 @@ private fun CameraPreview(
                 .background(White)
                 .aspectRatio(1f)
                 .align(Alignment.Center),
-        )
+        ) {
+            if (hasPermission)
+                AndroidView(
+                    modifier = Modifier.fillMaxSize(),
+                    factory = { context ->
+                        PreviewView(context).apply {
+                            layoutParams = LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                            )
+                            clipToOutline = true
+                            // setBackgroundColor(Color.BLACK)
+                            implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+                            scaleType = PreviewView.ScaleType.FILL_CENTER
+                        }.also { previewView ->
+                            cameraController.bindToLifecycle(lifecycleOwner)
+                            previewView.controller = cameraController
+                        }
+                    },
+                )
+        }
         Column(modifier = Modifier.align(Alignment.BottomCenter)) {
             Button(
                 onClick = {
