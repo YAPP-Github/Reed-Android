@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.ImageAnalysis
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
@@ -95,6 +96,12 @@ private fun CameraPreview(
         hasPermission = isGranted
     }
 
+    val analyzer = remember {
+        ImageAnalysis.Analyzer { imageProxy ->
+            state.eventSink(OcrUiEvent.OnImageCaptured(imageProxy))
+        }
+    }
+
     LaunchedEffect(Unit) {
         val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
         if (!granted) {
@@ -148,6 +155,10 @@ private fun CameraPreview(
                             implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                             scaleType = PreviewView.ScaleType.FILL_CENTER
                         }.also { previewView ->
+                            cameraController.setImageAnalysisAnalyzer(
+                                ContextCompat.getMainExecutor(context),
+                                analyzer
+                            )
                             cameraController.bindToLifecycle(lifecycleOwner)
                             previewView.controller = cameraController
                         }

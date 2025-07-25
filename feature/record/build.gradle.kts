@@ -16,9 +16,10 @@ ksp {
 
 dependencies {
     implementations(
+        projects.core.ocr,
+
         libs.androidx.activity.compose,
         libs.logger,
-
         libs.androidx.camera.camera2,
         libs.androidx.camera.lifecycle,
         libs.androidx.camera.view
