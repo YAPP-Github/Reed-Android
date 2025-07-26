@@ -232,7 +232,7 @@ private fun TextScanResult(
         ) {
             items(state.sentenceList.size) { index ->
                 SentenceBox(
-                    onClick = { sentence ->
+                    onClick = {
                         state.eventSink(OcrUiEvent.OnSentenceSelected(index))
                     },
                     sentence = state.sentenceList[index],
