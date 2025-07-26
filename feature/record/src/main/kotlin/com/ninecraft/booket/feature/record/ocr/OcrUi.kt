@@ -60,6 +60,7 @@ import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.record.R
+import com.ninecraft.booket.feature.record.ocr.component.CameraFrame
 import com.ninecraft.booket.feature.record.ocr.component.SentenceBox
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -170,7 +171,6 @@ private fun CameraPreview(
                                 ViewGroup.LayoutParams.MATCH_PARENT,
                             )
                             clipToOutline = true
-                            // setBackgroundColor(Color.BLACK)
                             implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                             scaleType = PreviewView.ScaleType.FILL_CENTER
                         }.also { previewView ->
@@ -184,6 +184,7 @@ private fun CameraPreview(
                     },
                 )
         }
+        CameraFrame(modifier = Modifier.align(Alignment.Center))
         Column(modifier = Modifier.align(Alignment.BottomCenter)) {
             Button(
                 onClick = {
@@ -255,7 +256,7 @@ private fun TextScanResult(
                 sizeStyle = largeButtonStyle,
                 colorStyle = ReedButtonColorStyle.SECONDARY,
                 modifier = Modifier.weight(1f),
-                text = "다시 촬영하기",
+                text = stringResource(R.string.ocr_recapture),
             )
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
             ReedButton(
@@ -266,7 +267,7 @@ private fun TextScanResult(
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 enabled = state.selectedIndices.isNotEmpty(),
                 modifier = Modifier.weight(1f),
-                text = stringResource(R.string.ocr_selection_complete),
+                text = stringResource(R.string.ocr_selection_confirm),
             )
         }
     }
