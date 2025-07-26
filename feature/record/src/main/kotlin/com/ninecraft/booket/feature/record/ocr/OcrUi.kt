@@ -9,6 +9,7 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -62,6 +64,7 @@ import com.ninecraft.booket.feature.record.ocr.component.SentenceBox
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
 
 @CircuitInject(OcrScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -98,6 +101,23 @@ private fun CameraPreview(
     val analyzer = remember {
         ImageAnalysis.Analyzer { imageProxy ->
             state.eventSink(OcrUiEvent.OnFrameReceived(imageProxy))
+        }
+    }
+
+    val systemUiController = rememberSystemUiController()
+    val isDarkTheme = isSystemInDarkTheme()
+
+    DisposableEffect(systemUiController) {
+        systemUiController.setSystemBarsColor(
+            color = Neutral950,
+            isNavigationBarContrastEnforced = false,
+        )
+        onDispose {
+            systemUiController.setSystemBarsColor(
+                color = White,
+                darkIcons = !isDarkTheme,
+                isNavigationBarContrastEnforced = false,
+            )
         }
     }
 

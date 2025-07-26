@@ -18,10 +18,13 @@ dependencies {
     implementations(
         projects.core.ocr,
 
+        libs.compose.system.ui.controller,
+
         libs.androidx.activity.compose,
-        libs.logger,
         libs.androidx.camera.camera2,
         libs.androidx.camera.lifecycle,
-        libs.androidx.camera.view
+        libs.androidx.camera.view,
+
+        libs.logger,
     )
 }
