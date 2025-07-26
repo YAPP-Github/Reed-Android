@@ -64,7 +64,7 @@ class StillTextAnalyzer @AssistedInject constructor(
     interface Factory {
         fun create(
             onTextDetected: (String) -> Unit,
-            onFailure: () -> Unit
+            onFailure: () -> Unit,
         ): StillTextAnalyzer
     }
 }
