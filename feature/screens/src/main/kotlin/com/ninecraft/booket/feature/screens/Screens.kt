@@ -32,7 +32,9 @@ data object SettingsScreen : ReedScreen(name = "Settings()")
 data object OssLicensesScreen : ReedScreen(name = "OssLicenses()")
 
 @Parcelize
-data object RecordScreen : ReedScreen(name = "Record()")
+data class RecordScreen(
+    val sentence: String = "",
+) : ReedScreen(name = "Record()")
 
 @Parcelize
 data object OcrScreen : ReedScreen(name = "Ocr()")

@@ -18,7 +18,7 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
 @Composable
 fun SentenceBox(
-    onClick: () -> Unit,
+    onClick: (String) -> Unit,
     sentence: String,
     modifier: Modifier = Modifier,
     isSelected: Boolean = false,
@@ -41,7 +41,7 @@ fun SentenceBox(
             )
             .clip(RoundedCornerShape(ReedTheme.radius.sm))
             .clickableSingle {
-                onClick()
+                onClick(sentence)
             }
             .padding(
                 horizontal = ReedTheme.spacing.spacing4,

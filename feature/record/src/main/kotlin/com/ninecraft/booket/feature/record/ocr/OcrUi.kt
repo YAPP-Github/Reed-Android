@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -98,7 +97,7 @@ private fun CameraPreview(
 
     val analyzer = remember {
         ImageAnalysis.Analyzer { imageProxy ->
-            state.eventSink(OcrUiEvent.OnImageCaptured(imageProxy))
+            state.eventSink(OcrUiEvent.OnFrameReceived(imageProxy))
         }
     }
 
@@ -157,7 +156,7 @@ private fun CameraPreview(
                         }.also { previewView ->
                             cameraController.setImageAnalysisAnalyzer(
                                 ContextCompat.getMainExecutor(context),
-                                analyzer
+                                analyzer,
                             )
                             cameraController.bindToLifecycle(lifecycleOwner)
                             previewView.controller = cameraController
@@ -168,7 +167,7 @@ private fun CameraPreview(
         Column(modifier = Modifier.align(Alignment.BottomCenter)) {
             Button(
                 onClick = {
-                    state.eventSink(OcrUiEvent.OnCapture)
+                    state.eventSink(OcrUiEvent.OnCaptureButtonClick)
                 },
                 modifier = Modifier.size(72.dp),
                 shape = CircleShape,
@@ -205,23 +204,22 @@ private fun TextScanResult(
                 state.eventSink(OcrUiEvent.OnCloseClick)
             },
         )
-        Column {
-            LazyColumn(
-                modifier = Modifier.padding(
-                    vertical = ReedTheme.spacing.spacing3,
-                    horizontal = ReedTheme.spacing.spacing3,
-                ),
-                verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
-            ) {
-                items(state.sentenceList) {
-                    SentenceBox(
-                        onClick = {},
-                        sentence = it,
-                    )
-                }
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = ReedTheme.spacing.spacing3),
+            verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
+        ) {
+            items(state.sentenceList.size) { index ->
+                SentenceBox(
+                    onClick = { sentence ->
+                        state.eventSink(OcrUiEvent.OnSentenceSelected(index))
+                    },
+                    sentence = state.sentenceList[index],
+                    isSelected = state.selectedIndices.contains(index),
+                )
             }
         }
-        Spacer(modifier = Modifier.weight(1f))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -232,7 +230,7 @@ private fun TextScanResult(
         ) {
             ReedButton(
                 onClick = {
-                    state.eventSink(OcrUiEvent.OnReCapture)
+                    state.eventSink(OcrUiEvent.OnReCaptureButtonClick)
                 },
                 sizeStyle = largeButtonStyle,
                 colorStyle = ReedButtonColorStyle.SECONDARY,
@@ -242,11 +240,11 @@ private fun TextScanResult(
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
             ReedButton(
                 onClick = {
-                    // TODO: 감정 선택 화면으로 이동
+                    state.eventSink(OcrUiEvent.OnSelectionConfirmed)
                 },
                 sizeStyle = largeButtonStyle,
                 colorStyle = ReedButtonColorStyle.PRIMARY,
-                enabled = false,
+                enabled = state.selectedIndices.isNotEmpty(),
                 modifier = Modifier.weight(1f),
                 text = stringResource(R.string.ocr_selection_complete),
             )

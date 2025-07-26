@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
+import com.ninecraft.booket.feature.screens.WebViewScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -18,13 +19,14 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 
 class RecordRegisterPresenter @AssistedInject constructor(
+    @Assisted private val screen: RecordScreen,
     @Assisted private val navigator: Navigator,
 ) : Presenter<RecordUiState> {
 
     @Composable
     override fun present(): RecordUiState {
         val recordPageState = rememberTextFieldState()
-        val recordSentenceState = rememberTextFieldState()
+        val recordSentenceState = rememberTextFieldState(screen.sentence)
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
 
         fun handleEvent(event: RecordRegisterUiEvent) {
@@ -48,6 +50,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 is RecordRegisterUiEvent.OnSentenceScanButtonClick -> {
                     navigator.goTo(OcrScreen)
                 }
+
                 is RecordRegisterUiEvent.OnNextButtonClick -> {}
             }
         }
@@ -63,6 +66,9 @@ class RecordRegisterPresenter @AssistedInject constructor(
     @CircuitInject(RecordScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(navigator: Navigator): RecordRegisterPresenter
+        fun create(
+            screen: RecordScreen,
+            navigator: Navigator,
+        ): RecordRegisterPresenter
     }
 }

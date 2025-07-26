@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.ocr.analyzer.LiveTextAnalyzer
 import com.ninecraft.booket.feature.screens.OcrScreen
+import com.ninecraft.booket.feature.screens.RecordScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -15,6 +16,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 
 class OcrPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -24,15 +26,10 @@ class OcrPresenter @AssistedInject constructor(
     @Composable
     override fun present(): OcrUiState {
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
-        var sentenceList by rememberRetained {
-            mutableStateOf(
-                persistentListOf(
-                    "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
-                    "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
-                ),
-            )
-        }
+        var sentenceList by rememberRetained { mutableStateOf(emptyList<String>().toPersistentList()) }
         var recognizedText by rememberRetained { mutableStateOf("") }
+        var selectedIndices by rememberRetained { mutableStateOf(setOf<Int>()) }
+        var mergedSentence by rememberRetained { mutableStateOf("") }
 
         fun handleEvent(event: OcrUiEvent) {
             when (event) {
@@ -40,7 +37,7 @@ class OcrPresenter @AssistedInject constructor(
                     navigator.pop()
                 }
 
-                is OcrUiEvent.OnImageCaptured -> {
+                is OcrUiEvent.OnFrameReceived -> {
                     val analyzer = liveTextAnalyzer.create(
                         onTextDetected = { text ->
                             recognizedText = text
@@ -52,7 +49,7 @@ class OcrPresenter @AssistedInject constructor(
                     analyzer.analyze(event.imageProxy)
                 }
 
-                is OcrUiEvent.OnCapture -> {
+                is OcrUiEvent.OnCaptureButtonClick -> {
                     // 눌렀을 때, 해당 문자 수집
                     val sentences = recognizedText
                         .split("\n")
@@ -62,8 +59,23 @@ class OcrPresenter @AssistedInject constructor(
                     currentUi = OcrUi.RESULT
                 }
 
-                is OcrUiEvent.OnReCapture -> {
+                is OcrUiEvent.OnReCaptureButtonClick -> {
                     currentUi = OcrUi.CAMERA
+                }
+
+                is OcrUiEvent.OnSelectionConfirmed -> {
+                    mergedSentence = selectedIndices
+                        .sorted().joinToString(" ") { sentenceList[it] }
+
+                    navigator.goTo(RecordScreen(mergedSentence))
+                }
+
+                is OcrUiEvent.OnSentenceSelected -> {
+                    selectedIndices = if (selectedIndices.contains(event.index)) {
+                        selectedIndices - event.index
+                    } else {
+                        selectedIndices + event.index
+                    }
                 }
             }
         }
@@ -71,6 +83,7 @@ class OcrPresenter @AssistedInject constructor(
         return OcrUiState(
             currentUi = currentUi,
             sentenceList = sentenceList,
+            selectedIndices = selectedIndices,
             eventSink = ::handleEvent,
         )
     }
