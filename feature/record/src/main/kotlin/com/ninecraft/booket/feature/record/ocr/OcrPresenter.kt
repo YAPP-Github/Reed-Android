@@ -50,7 +50,6 @@ class OcrPresenter @AssistedInject constructor(
                 }
 
                 is OcrUiEvent.OnCaptureButtonClick -> {
-                    // 눌렀을 때, 해당 문자 수집
                     val sentences = recognizedText
                         .split("\n")
                         .map { it.trim() }
@@ -66,8 +65,7 @@ class OcrPresenter @AssistedInject constructor(
                 is OcrUiEvent.OnSelectionConfirmed -> {
                     mergedSentence = selectedIndices
                         .sorted().joinToString(" ") { sentenceList[it] }
-
-                    navigator.goTo(RecordScreen(mergedSentence))
+                    navigator.pop(result = OcrScreen.OcrResult(mergedSentence))
                 }
 
                 is OcrUiEvent.OnSentenceSelected -> {

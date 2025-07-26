@@ -28,7 +28,7 @@ class HomePresenter @AssistedInject constructor(
                     navigator.goTo(SearchScreen)
                 }
                 is HomeUiEvent.OnRecordButtonClick -> {
-                    navigator.goTo(RecordScreen())
+                    navigator.goTo(RecordScreen)
                 }
             }
         }

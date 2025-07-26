@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.screens
 
+import com.slack.circuit.runtime.screen.PopResult
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize
 
@@ -32,12 +33,13 @@ data object SettingsScreen : ReedScreen(name = "Settings()")
 data object OssLicensesScreen : ReedScreen(name = "OssLicenses()")
 
 @Parcelize
-data class RecordScreen(
-    val sentence: String = "",
-) : ReedScreen(name = "Record()")
+data object RecordScreen : ReedScreen(name = "Record")
 
 @Parcelize
-data object OcrScreen : ReedScreen(name = "Ocr()")
+data object OcrScreen : ReedScreen(name = "Ocr()") {
+    @Parcelize
+    data class OcrResult(val sentence: String) : PopResult
+}
 
 @Parcelize
 data class WebViewScreen(
