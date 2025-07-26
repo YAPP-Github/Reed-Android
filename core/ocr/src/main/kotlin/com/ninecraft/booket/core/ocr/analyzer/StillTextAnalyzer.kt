@@ -53,7 +53,9 @@ class StillTextAnalyzer @AssistedInject constructor(
                     }
             }
         }.invokeOnCompletion { exception ->
-            Logger.e(exception?.message ?: "Unknown error")
+            if (exception != null) {
+                Logger.e(exception.message ?: "Unknown error")
+            }
             imageProxy.close()
         }
     }

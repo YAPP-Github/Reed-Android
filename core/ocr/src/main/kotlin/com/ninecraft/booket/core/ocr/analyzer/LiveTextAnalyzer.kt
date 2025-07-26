@@ -58,7 +58,9 @@ class LiveTextAnalyzer @AssistedInject constructor(
             }
             delay(THROTTLE_TIMEOUT_MS)
         }.invokeOnCompletion { exception ->
-            Logger.e(exception?.message ?: "Unknown error")
+            if (exception != null) {
+                Logger.e(exception.message ?: "Unknown error")
+            }
             imageProxy.close()
         }
     }
