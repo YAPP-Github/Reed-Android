@@ -13,7 +13,7 @@ dependencies {
     implementations(
         libs.logger,
         libs.androidx.camera.core,
-        libs.google.mlkit.text.recognition,
+
         libs.google.mlkit.text.recognition.korean,
     )
 }
