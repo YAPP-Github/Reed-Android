@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -18,18 +19,32 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 
 class RecordRegisterPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-) : Presenter<RecordUiState> {
+) : Presenter<RecordRegisterUiState> {
 
     @Composable
-    override fun present(): RecordUiState {
+    override fun present(): RecordRegisterUiState {
+        var currentStep by rememberRetained { mutableStateOf(RecordStep.QUOTE) }
         val recordPageState = rememberTextFieldState()
         val recordSentenceState = rememberTextFieldState()
+        val impressionState = rememberTextFieldState()
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
 
         fun handleEvent(event: RecordRegisterUiEvent) {
             when (event) {
                 is RecordRegisterUiEvent.OnBackButtonClick -> {
-                    isExitDialogVisible = true
+                    when (currentStep) {
+                        RecordStep.QUOTE -> {
+                            isExitDialogVisible = true
+                        }
+
+                        RecordStep.EMOTION -> {
+                            currentStep = RecordStep.QUOTE
+                        }
+
+                        RecordStep.IMPRESSION -> {
+                            currentStep = RecordStep.EMOTION
+                        }
+                    }
                 }
 
                 is RecordRegisterUiEvent.OnClearClick -> {
@@ -45,13 +60,29 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
 
                 is RecordRegisterUiEvent.OnSentenceScanButtonClick -> {}
-                is RecordRegisterUiEvent.OnNextButtonClick -> {}
+                is RecordRegisterUiEvent.OnNextButtonClick -> {
+                    when (currentStep) {
+                        RecordStep.QUOTE -> {
+                            currentStep = RecordStep.EMOTION
+                        }
+
+                        RecordStep.EMOTION -> {
+                            currentStep = RecordStep.IMPRESSION
+                        }
+
+                        RecordStep.IMPRESSION -> {
+                            // TODO: (기록 완료 API 성공 시) 기록 상세 화면 이동
+                        }
+                    }
+                }
             }
         }
 
-        return RecordUiState(
+        return RecordRegisterUiState(
+            currentStep = currentStep,
             recordPageState = recordPageState,
             recordSentenceState = recordSentenceState,
+            impressionState = impressionState,
             isExitDialogVisible = isExitDialogVisible,
             eventSink = ::handleEvent,
         )

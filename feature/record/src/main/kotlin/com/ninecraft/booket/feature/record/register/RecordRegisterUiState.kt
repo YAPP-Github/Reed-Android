@@ -1,12 +1,15 @@
 package com.ninecraft.booket.feature.record.register
 
 import androidx.compose.foundation.text.input.TextFieldState
+import com.ninecraft.booket.core.designsystem.RecordStep
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 
-data class RecordUiState(
+data class RecordRegisterUiState(
+    val currentStep: RecordStep = RecordStep.QUOTE,
     val recordPageState: TextFieldState = TextFieldState(),
     val recordSentenceState: TextFieldState = TextFieldState(),
+    val impressionState: TextFieldState = TextFieldState(),
     val isExitDialogVisible: Boolean = false,
     val eventSink: (RecordRegisterUiEvent) -> Unit,
 ) : CircuitUiState
