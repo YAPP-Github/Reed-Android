@@ -1,9 +1,9 @@
 package com.ninecraft.booket.core.designsystem
 
 enum class RecordStep {
-    REGISTER,
-    APPRECIATION,
+    QUOTE,
     EMOTION,
+    IMPRESSION,
     ;
 
     val value: Int get() = ordinal
