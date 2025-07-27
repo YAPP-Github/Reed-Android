@@ -17,4 +17,8 @@
     <string name="ocr_selection_confirm">선택 완료</string>
     <string name="ocr_recapture">다시 촬영하기</string>
     <string name="ocr_error_text_detection_failed">문장을 인식하지 못했어요\n다시 한 번 촬영해주세요</string>
+    <string name="recapture_dialog_title">다시 촬영하시겠어요?</string>
+    <string name="recapture_dialog_description">선택한 문장은 삭제될 예정입니다.</string>
+    <string name="recapture_dialog_confirm">확인</string>
+    <string name="recapture_dialog_cancel">취소</string>
 </resources>

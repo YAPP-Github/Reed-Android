@@ -58,6 +58,7 @@ import com.ninecraft.booket.core.designsystem.theme.Neutral950
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar
+import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.ocr.component.CameraFrame
@@ -283,6 +284,22 @@ private fun TextScanResult(
                 text = stringResource(R.string.ocr_selection_confirm),
             )
         }
+    }
+
+    if (state.isRecaptureDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.recapture_dialog_title),
+            description = stringResource(R.string.recapture_dialog_description),
+            confirmButtonText = stringResource(R.string.recapture_dialog_confirm),
+            onConfirmRequest = {
+                state.eventSink(OcrUiEvent.OnRecaptureDialogConfirmed)
+            },
+            dismissButtonText = stringResource(R.string.recapture_dialog_cancel),
+            onDismissRequest = {
+                state.eventSink(OcrUiEvent.OnRecaptureDialogDismissed)
+
+            },
+        )
     }
 }
 

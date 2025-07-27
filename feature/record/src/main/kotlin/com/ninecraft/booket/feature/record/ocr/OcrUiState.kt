@@ -11,6 +11,7 @@ data class OcrUiState(
     val sentenceList: ImmutableList<String> = emptyList<String>().toPersistentList(),
     val selectedIndices: Set<Int> = emptySet(),
     var isTextDetectionFailed: Boolean = false,
+    var isRecaptureDialogVisible: Boolean = false,
     val eventSink: (OcrUiEvent) -> Unit,
 ) : CircuitUiState
 
@@ -20,6 +21,8 @@ sealed interface OcrUiEvent : CircuitUiEvent {
     data object OnCaptureButtonClick : OcrUiEvent
     data object OnReCaptureButtonClick : OcrUiEvent
     data object OnSelectionConfirmed : OcrUiEvent
+    data object OnRecaptureDialogConfirmed : OcrUiEvent
+    data object OnRecaptureDialogDismissed : OcrUiEvent
     data class OnSentenceSelected(val index: Int) : OcrUiEvent
 }
 

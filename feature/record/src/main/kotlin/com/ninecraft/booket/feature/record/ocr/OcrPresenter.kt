@@ -30,6 +30,7 @@ class OcrPresenter @AssistedInject constructor(
         var selectedIndices by rememberRetained { mutableStateOf(setOf<Int>()) }
         var mergedSentence by rememberRetained { mutableStateOf("") }
         var isTextDetectionFailed by rememberRetained { mutableStateOf(false) }
+        var isRecaptureDialogVisible by rememberRetained { mutableStateOf(false) }
 
         fun handleEvent(event: OcrUiEvent) {
             when (event) {
@@ -61,7 +62,7 @@ class OcrPresenter @AssistedInject constructor(
                 }
 
                 is OcrUiEvent.OnReCaptureButtonClick -> {
-                    currentUi = OcrUi.CAMERA
+                    isRecaptureDialogVisible = true
                 }
 
                 is OcrUiEvent.OnSelectionConfirmed -> {
@@ -77,6 +78,16 @@ class OcrPresenter @AssistedInject constructor(
                         selectedIndices + event.index
                     }
                 }
+
+                is OcrUiEvent.OnRecaptureDialogConfirmed -> {
+                    selectedIndices = emptySet()
+                    isRecaptureDialogVisible = false
+                    currentUi = OcrUi.CAMERA
+                }
+
+                is OcrUiEvent.OnRecaptureDialogDismissed -> {
+                    isRecaptureDialogVisible = false
+                }
             }
         }
 
@@ -85,6 +96,7 @@ class OcrPresenter @AssistedInject constructor(
             sentenceList = sentenceList,
             selectedIndices = selectedIndices,
             isTextDetectionFailed = isTextDetectionFailed,
+            isRecaptureDialogVisible = isRecaptureDialogVisible,
             eventSink = ::handleEvent,
         )
     }
