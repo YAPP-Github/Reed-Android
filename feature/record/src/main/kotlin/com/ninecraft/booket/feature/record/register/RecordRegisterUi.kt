@@ -56,7 +56,7 @@ internal fun RecordRegister(
             }
 
             RecordStep.EMOTION -> {
-                EmotionStep(state = state)
+                EmotionStep()
             }
 
             RecordStep.IMPRESSION -> {
