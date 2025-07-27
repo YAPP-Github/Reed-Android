@@ -16,4 +16,9 @@
     <string name="impression_step_title">문장에 대한 감상을 남겨주세요</string>
     <string name="impression_step_description">감상평 가이드로 쉽게 남길 수 있어요</string>
     <string name="impression_step_hint">내용을 입력해주세요.</string>
+    <string name="impression_step_guide">감상평 가이드</string>
+    <string name="impression_guide_bottomsheet_title">감상평 가이드</string>
+    <string name="impression_guide_bottomsheet_description">아래 문장 중 하나를 선택해 이어서 감상을 적어보세요</string>
+    <string name="impression_guide_bottomsheet_selection_confirm">선택 완료</string>
+    <string name="impression_guide_blank">______</string>
 </resources>

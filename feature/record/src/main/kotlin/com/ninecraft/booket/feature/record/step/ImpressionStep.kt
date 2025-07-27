@@ -6,9 +6,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -23,13 +26,21 @@ import com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordText
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
+import com.ninecraft.booket.feature.record.component.ImpressionGuideBottomSheet
+import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImpressionStep(
     state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val impressionGuideBottomSheetState =
+        rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
     Column(
         modifier = modifier
             .background(White)
@@ -56,16 +67,44 @@ fun ImpressionStep(
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         ReedButton(
-            onClick = {},
+            onClick = {
+                state.eventSink(RecordRegisterUiEvent.OnImpressionGuideButtonClick)
+            },
             colorStyle = ReedButtonColorStyle.STROKE,
             sizeStyle = smallRoundedButtonStyle,
             modifier = Modifier.align(Alignment.End),
-            text = "감상평 가이드",
+            text = stringResource(R.string.impression_step_guide),
             leadingIcon = {
                 Icon(
                     imageVector = ImageVector.vectorResource(com.ninecraft.booket.core.designsystem.R.drawable.ic_book_open),
-                    contentDescription = "Open Book Icon",
+                    contentDescription = "Impression Guide Icon",
                 )
+            },
+        )
+    }
+
+    if (state.isImpressionGuideBottomSheetVisible) {
+        ImpressionGuideBottomSheet(
+            onDismissRequest = {
+                state.eventSink(RecordRegisterUiEvent.OnImpressionGuideBottomSheetDismiss)
+            },
+            sheetState = impressionGuideBottomSheetState,
+            impressionGuideList = state.impressionGuideList,
+            selectedImpressionGuide = state.selectedImpressionGuide,
+            onGuideClick = {
+                state.eventSink(RecordRegisterUiEvent.OnSelectImpressionGuide(it))
+            },
+            onCloseButtonClick = {
+                coroutineScope.launch {
+                    impressionGuideBottomSheetState.hide()
+                    state.eventSink(RecordRegisterUiEvent.OnImpressionGuideBottomSheetDismiss)
+                }
+            },
+            onSelectionConfirmButtonClick = {
+                coroutineScope.launch {
+                    impressionGuideBottomSheetState.hide()
+                    state.eventSink(RecordRegisterUiEvent.OnImpressionGuideBottomSheetDismiss)
+                }
             },
         )
     }
