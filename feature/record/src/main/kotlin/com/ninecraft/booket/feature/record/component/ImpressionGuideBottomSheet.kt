@@ -93,7 +93,7 @@ fun ImpressionGuideBottomSheet(
                             onGuideClick(index)
                         },
                         impressionText = guide,
-                        isSelected = selectedImpressionGuide == guide
+                        isSelected = selectedImpressionGuide == guide,
                     )
                 }
             }

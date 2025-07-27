@@ -21,11 +21,9 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
-import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
 
 @Composable
 fun EmotionStep(
-    state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
     val emotionList = listOf("기쁨", "슬픔", "분노", "놀람")
@@ -78,10 +76,6 @@ private fun EmotionItem(title: String) {
 @Composable
 private fun RecordRegisterPreview() {
     ReedTheme {
-        EmotionStep(
-            state = RecordRegisterUiState(
-                eventSink = {},
-            ),
-        )
+        EmotionStep()
     }
 }

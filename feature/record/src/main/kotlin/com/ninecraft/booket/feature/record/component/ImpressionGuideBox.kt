@@ -52,9 +52,7 @@ fun ImpressionGuideBox(
                 vertical = ReedTheme.spacing.spacing4,
             ),
     ) {
-        Row(
-            verticalAlignment = Alignment.Bottom
-        ) {
+        Row(verticalAlignment = Alignment.Bottom) {
             Text(
                 text = stringResource(R.string.impression_guide_blank),
                 color = Color(0xFFD6D6D6),

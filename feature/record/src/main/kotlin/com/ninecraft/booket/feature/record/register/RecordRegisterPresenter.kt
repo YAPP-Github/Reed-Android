@@ -77,9 +77,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
 
                 is RecordRegisterUiEvent.OnSentenceScanButtonClick -> {}
 
-                is RecordRegisterUiEvent.OnSelectEmotion -> {
-
-                }
+                is RecordRegisterUiEvent.OnSelectEmotion -> {}
 
                 is RecordRegisterUiEvent.OnImpressionGuideButtonClick -> {
                     selectedImpressionGuide = ""
@@ -100,9 +98,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     }
                 }
 
-                is RecordRegisterUiEvent.OnSelectionConfirmed -> {
-
-                }
+                is RecordRegisterUiEvent.OnSelectionConfirmed -> {}
 
                 is RecordRegisterUiEvent.OnImpressionGuideBottomSheetDismiss -> {
                     isImpressionGuideBottomSheetVisible = false
