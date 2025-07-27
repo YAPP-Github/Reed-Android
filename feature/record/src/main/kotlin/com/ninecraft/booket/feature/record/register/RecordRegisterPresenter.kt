@@ -8,7 +8,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
-import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.rememberAnsweringNavigator
 import com.slack.circuit.retained.rememberRetained

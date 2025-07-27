@@ -14,7 +14,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 
 class OcrPresenter @AssistedInject constructor(
@@ -42,7 +41,7 @@ class OcrPresenter @AssistedInject constructor(
                     val analyzer = liveTextAnalyzer.create(
                         onTextDetected = { text ->
                             recognizedText = text
-                        }
+                        },
                     )
                     analyzer.analyze(event.imageProxy)
                 }

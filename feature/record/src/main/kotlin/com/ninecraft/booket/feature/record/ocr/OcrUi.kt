@@ -297,7 +297,6 @@ private fun TextScanResult(
             dismissButtonText = stringResource(R.string.recapture_dialog_cancel),
             onDismissRequest = {
                 state.eventSink(OcrUiEvent.OnRecaptureDialogDismissed)
-
             },
         )
     }
