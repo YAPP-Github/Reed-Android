@@ -16,4 +16,5 @@
     <string name="ocr_sentence_selection">기록할 문장 선택</string>
     <string name="ocr_selection_confirm">선택 완료</string>
     <string name="ocr_recapture">다시 촬영하기</string>
+    <string name="ocr_error_text_detection_failed">문장을 인식하지 못했어요\n다시 한 번 촬영해주세요</string>
 </resources>

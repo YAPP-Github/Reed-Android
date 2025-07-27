@@ -185,7 +185,20 @@ private fun CameraPreview(
                 )
         }
         CameraFrame(modifier = Modifier.align(Alignment.Center))
-        Column(modifier = Modifier.align(Alignment.BottomCenter)) {
+        Column(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            if (state.isTextDetectionFailed) {
+                Text(
+                    text = stringResource(R.string.ocr_error_text_detection_failed),
+                    color = ReedTheme.colors.contentError,
+                    textAlign = TextAlign.Center,
+                    style = ReedTheme.typography.label2Regular,
+                )
+                Spacer(modifier = Modifier.height(22.dp))
+            }
+
             Button(
                 onClick = {
                     state.eventSink(OcrUiEvent.OnCaptureButtonClick)
@@ -196,12 +209,12 @@ private fun CameraPreview(
                     containerColor = ReedTheme.colors.bgPrimary,
                     contentColor = White,
                 ),
-                contentPadding = PaddingValues(0.dp),
+                contentPadding = PaddingValues(ReedTheme.spacing.spacing0),
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(designR.drawable.ic_maximize),
                     contentDescription = "Scan Icon",
-                    modifier = Modifier.size(32.dp),
+                    modifier = Modifier.size(ReedTheme.spacing.spacing8),
                 )
             }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))

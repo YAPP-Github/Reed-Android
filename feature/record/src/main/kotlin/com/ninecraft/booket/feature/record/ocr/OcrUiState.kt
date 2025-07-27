@@ -10,6 +10,7 @@ data class OcrUiState(
     val currentUi: OcrUi = OcrUi.CAMERA,
     val sentenceList: ImmutableList<String> = emptyList<String>().toPersistentList(),
     val selectedIndices: Set<Int> = emptySet(),
+    var isTextDetectionFailed: Boolean = false,
     val eventSink: (OcrUiEvent) -> Unit,
 ) : CircuitUiState
 

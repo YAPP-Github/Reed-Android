@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.ocr.analyzer.LiveTextAnalyzer
 import com.ninecraft.booket.feature.screens.OcrScreen
-import com.ninecraft.booket.feature.screens.RecordScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -30,6 +29,7 @@ class OcrPresenter @AssistedInject constructor(
         var recognizedText by rememberRetained { mutableStateOf("") }
         var selectedIndices by rememberRetained { mutableStateOf(setOf<Int>()) }
         var mergedSentence by rememberRetained { mutableStateOf("") }
+        var isTextDetectionFailed by rememberRetained { mutableStateOf(false) }
 
         fun handleEvent(event: OcrUiEvent) {
             when (event) {
@@ -41,21 +41,23 @@ class OcrPresenter @AssistedInject constructor(
                     val analyzer = liveTextAnalyzer.create(
                         onTextDetected = { text ->
                             recognizedText = text
-                        },
-                        onFailure = {
-                            // 실시간 인지는 프레임 단위로 실패 콜백을 전달하는데, UI 상태에 반영하기에는 애매함
-                        },
+                        }
                     )
                     analyzer.analyze(event.imageProxy)
                 }
 
                 is OcrUiEvent.OnCaptureButtonClick -> {
-                    val sentences = recognizedText
-                        .split("\n")
-                        .map { it.trim() }
-                        .filter { it.isNotEmpty() }
-                    sentenceList = persistentListOf(*sentences.toTypedArray())
-                    currentUi = OcrUi.RESULT
+                    if (recognizedText.isEmpty()) {
+                        isTextDetectionFailed = true
+                    } else {
+                        isTextDetectionFailed = false
+                        val sentences = recognizedText
+                            .split("\n")
+                            .map { it.trim() }
+                            .filter { it.isNotEmpty() }
+                        sentenceList = persistentListOf(*sentences.toTypedArray())
+                        currentUi = OcrUi.RESULT
+                    }
                 }
 
                 is OcrUiEvent.OnReCaptureButtonClick -> {
@@ -82,6 +84,7 @@ class OcrPresenter @AssistedInject constructor(
             currentUi = currentUi,
             sentenceList = sentenceList,
             selectedIndices = selectedIndices,
+            isTextDetectionFailed = isTextDetectionFailed,
             eventSink = ::handleEvent,
         )
     }

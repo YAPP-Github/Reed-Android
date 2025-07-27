@@ -20,8 +20,10 @@ import kotlin.coroutines.suspendCoroutine
 /**
  * 실시간 카메라 스트림에서 프레임 단위로 텍스트 분석하는 Analyzer 클래스
  *
- * ML Kit의 TextRecognizer를 사용하여 `ImageProxy` 객체로부터 텍스트를 추출하고
- * 성공 시 [onTextDetected], 실패 시 [onFailure], 분석 완료 후 공통적으로 [onRecognitionCompleted] 콜백을 호출
+ * ML Kit의 TextRecognizer를 사용하여 `ImageProxy` 객체로부터 텍스트를 추출한다
+ *
+ * @param textRecognizer ML Kit의 TextRecognizer 인스턴스
+ * @param onTextDetected 텍스트 인식 성공 시 호출되는 콜백 (인식된 전체 텍스트 전달)
  *
  * 안정적인 연속 프레임 분석을 위해 CoroutineScope에 [SupervisorJob]을 사용하여
  * 한 프레임 분석에서 예외가 발생해도 다음 프레임 분석에 영향을 주지 않도록 설계
@@ -29,7 +31,6 @@ import kotlin.coroutines.suspendCoroutine
 class LiveTextAnalyzer @AssistedInject constructor(
     private val textRecognizer: TextRecognizer,
     @Assisted private val onTextDetected: (String) -> Unit,
-    @Assisted private val onFailure: () -> Unit,
 ) : TextAnalyzer {
 
     companion object {
@@ -49,8 +50,8 @@ class LiveTextAnalyzer @AssistedInject constructor(
                     .addOnCompleteListener { visionText ->
                         onTextDetected(visionText.result.text)
                     }
-                    .addOnFailureListener {
-                        onFailure()
+                    .addOnFailureListener { exception ->
+                        Logger.e(exception.message ?: "Unknown error")
                     }
                     .addOnCompleteListener {
                         continuation.resume(Unit)
@@ -69,7 +70,6 @@ class LiveTextAnalyzer @AssistedInject constructor(
     interface Factory {
         fun create(
             onTextDetected: (String) -> Unit,
-            onFailure: () -> Unit,
         ): LiveTextAnalyzer
     }
 }
