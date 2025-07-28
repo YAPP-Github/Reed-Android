@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.detail
+package com.ninecraft.booket.feature.detail.book
 
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
