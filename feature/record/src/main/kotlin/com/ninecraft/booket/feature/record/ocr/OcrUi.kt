@@ -47,7 +47,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.R as designR
@@ -88,19 +87,18 @@ private fun CameraPreview(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
-    val cameraController = remember { LifecycleCameraController(context) }
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     val permission = android.Manifest.permission.CAMERA
-
     var hasPermission by remember { mutableStateOf(false) }
-
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
     ) { isGranted ->
         hasPermission = isGranted
     }
 
-    val analyzer = remember {
+    val cameraController = remember { LifecycleCameraController(context) }
+    val imageAnalyzer = remember {
         ImageAnalysis.Analyzer { imageProxy ->
             state.eventSink(OcrUiEvent.OnFrameReceived(imageProxy))
         }
@@ -108,6 +106,18 @@ private fun CameraPreview(
 
     val systemUiController = rememberSystemUiController()
     val isDarkTheme = isSystemInDarkTheme()
+
+    DisposableEffect(lifecycleOwner, cameraController) {
+        cameraController.bindToLifecycle(lifecycleOwner)
+        cameraController.setImageAnalysisAnalyzer(
+            ContextCompat.getMainExecutor(context),
+            imageAnalyzer,
+        )
+        onDispose {
+            cameraController.unbind()
+            cameraController.clearImageAnalysisAnalyzer()
+        }
+    }
 
     DisposableEffect(systemUiController) {
         systemUiController.setSystemBarsColor(
@@ -174,13 +184,7 @@ private fun CameraPreview(
                             clipToOutline = true
                             implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                             scaleType = PreviewView.ScaleType.FILL_CENTER
-                        }.also { previewView ->
-                            cameraController.setImageAnalysisAnalyzer(
-                                ContextCompat.getMainExecutor(context),
-                                analyzer,
-                            )
-                            cameraController.bindToLifecycle(lifecycleOwner)
-                            previewView.controller = cameraController
+                            controller = cameraController
                         }
                     },
                 )
