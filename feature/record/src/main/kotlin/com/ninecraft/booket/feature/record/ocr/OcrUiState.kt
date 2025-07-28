@@ -12,8 +12,8 @@ data class OcrUiState(
     val isPermissionDialogVisible: Boolean = false,
     val sentenceList: ImmutableList<String> = emptyList<String>().toPersistentList(),
     val selectedIndices: Set<Int> = emptySet(),
-    var isTextDetectionFailed: Boolean = false,
-    var isRecaptureDialogVisible: Boolean = false,
+    val isTextDetectionFailed: Boolean = false,
+    val isRecaptureDialogVisible: Boolean = false,
     val eventSink: (OcrUiEvent) -> Unit,
 ) : CircuitUiState
 
