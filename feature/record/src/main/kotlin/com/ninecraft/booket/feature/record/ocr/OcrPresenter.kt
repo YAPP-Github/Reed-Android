@@ -21,6 +21,7 @@ class OcrPresenter @AssistedInject constructor(
     private val liveTextAnalyzer: LiveTextAnalyzer.Factory,
 ) : Presenter<OcrUiState> {
 
+
     @Composable
     override fun present(): OcrUiState {
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
@@ -31,6 +32,14 @@ class OcrPresenter @AssistedInject constructor(
         var isTextDetectionFailed by rememberRetained { mutableStateOf(false) }
         var isRecaptureDialogVisible by rememberRetained { mutableStateOf(false) }
 
+        val analyzer = rememberRetained {
+            liveTextAnalyzer.create(
+                onTextDetected = { text ->
+                    recognizedText = text
+                },
+            )
+        }
+
         fun handleEvent(event: OcrUiEvent) {
             when (event) {
                 is OcrUiEvent.OnCloseClick -> {
@@ -38,11 +47,6 @@ class OcrPresenter @AssistedInject constructor(
                 }
 
                 is OcrUiEvent.OnFrameReceived -> {
-                    val analyzer = liveTextAnalyzer.create(
-                        onTextDetected = { text ->
-                            recognizedText = text
-                        },
-                    )
                     analyzer.analyze(event.imageProxy)
                 }
 
