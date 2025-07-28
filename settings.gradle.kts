@@ -45,3 +45,4 @@ include(
     ":feature:webview",
     ":feature:detail",
 )
+include(":feature:onboarding")

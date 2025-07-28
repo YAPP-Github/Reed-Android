@@ -42,3 +42,6 @@ data class WebViewScreen(
 
 @Parcelize
 data class BookDetailScreen(val isbn: String) : ReedScreen(name = "BookDetail()")
+
+@Parcelize
+data object OnboardingScreen : ReedScreen(name = "Onboarding()")
