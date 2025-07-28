@@ -64,6 +64,7 @@ val Blue800 = Color(0xFF1269EC)
 val Blue900 = Color(0xFF1F47CD)
 
 val Kakao = Color(0xFFFBD300)
+val HomeBg = Color(0xFFF0F9E8)
 
 @Immutable
 data class ReedColorScheme(
@@ -94,6 +95,7 @@ data class ReedColorScheme(
 
     // Border
     val borderPrimary: Color = Neutral200,
+    val borderSecondary: Color = Neutral100,
     val borderBrand: Color = Green500,
     val borderError: Color = Red500,
 
