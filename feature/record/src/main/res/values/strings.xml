@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="record_register_title1">기록하고 싶은 페이지와</string>
-    <string name="record_register_title2">문장을 등록해보세요</string>
-    <string name="record_page_label">책 페이지</string>
-    <string name="record_sentence_label">문장 기록</string>
-    <string name="record_scan_sentence">문장 스캔하기</string>
-    <string name="record_next_button">다음</string>
-    <string name="record_page_hint">기록하고 싶은 페이지를 작성해보세요</string>
-    <string name="record_sentence_hint">기록하고 싶은 문장을 작성해보세요</string>
     <string name="record_exit_dialog_title">기록을 그만하고 나가시겠어요?</string>
     <string name="record_exit_dialog_description">지금까지 기록한 내용은 저장되지 않습니다.</string>
     <string name="record_exit_dialog_confirm">확인</string>
@@ -24,4 +16,21 @@
     <string name="permission_dialog_title">카메라 권한이 필요해요</string>
     <string name="permission_dialog_description">문장 인식을 위해 설정에서 권한을 허용해주세요.</string>
     <string name="permission_dialog_move_to_settings">설정으로 이동하기</string>
+    <string name="record_next_button">다음</string>
+    <string name="quote_step_title">기록하고 싶은 페이지와\n문장을 등록해보세요</string>
+    <string name="quote_step_page_label">책 페이지</string>
+    <string name="quote_step_sentence_label">문장 기록</string>
+    <string name="quote_step_scan_sentence">문장 스캔하기</string>
+    <string name="quote_step_page_hint">기록하고 싶은 페이지를 작성해보세요</string>
+    <string name="quote_step_sentence_hint">기록하고 싶은 문장을 작성해보세요</string>
+    <string name="emotion_step_title">문장에 대해 어떤 감정이 드셨나요?</string>
+    <string name="emotion_step_description">대표 감정을 한 가지 선택해주세요</string>
+    <string name="impression_step_title">문장에 대한 감상을 남겨주세요</string>
+    <string name="impression_step_description">감상평 가이드로 쉽게 남길 수 있어요</string>
+    <string name="impression_step_hint">내용을 입력해주세요.</string>
+    <string name="impression_step_guide">감상평 가이드</string>
+    <string name="impression_guide_bottomsheet_title">감상평 가이드</string>
+    <string name="impression_guide_bottomsheet_description">아래 문장 중 하나를 선택해 이어서 감상을 적어보세요</string>
+    <string name="impression_guide_bottomsheet_selection_confirm">선택 완료</string>
+    <string name="impression_guide_blank">______</string>
 </resources>
