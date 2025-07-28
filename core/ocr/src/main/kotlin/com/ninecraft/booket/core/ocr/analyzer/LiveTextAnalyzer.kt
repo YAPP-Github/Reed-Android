@@ -12,6 +12,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
@@ -47,8 +48,8 @@ class LiveTextAnalyzer @AssistedInject constructor(
 
             suspendCoroutine { continuation ->
                 textRecognizer.process(inputImage)
-                    .addOnCompleteListener { visionText ->
-                        onTextDetected(visionText.result.text)
+                    .addOnSuccessListener { visionText ->
+                        onTextDetected(visionText.text)
                     }
                     .addOnFailureListener { exception ->
                         Logger.e(exception.message ?: "Unknown error")
@@ -64,6 +65,10 @@ class LiveTextAnalyzer @AssistedInject constructor(
             }
             imageProxy.close()
         }
+    }
+
+    fun cancel() {
+        scope.cancel()
     }
 
     @AssistedFactory

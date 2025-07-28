@@ -11,6 +11,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -32,7 +33,7 @@ class StillTextAnalyzer @AssistedInject constructor(
     @Assisted private val onFailure: () -> Unit,
 ) : TextAnalyzer {
 
-    val scope = CoroutineScope(Dispatchers.IO)
+    private val scope = CoroutineScope(Dispatchers.IO)
 
     @OptIn(ExperimentalGetImage::class)
     override fun analyze(imageProxy: ImageProxy) {
@@ -42,8 +43,8 @@ class StillTextAnalyzer @AssistedInject constructor(
 
             suspendCoroutine { continuation ->
                 textRecognizer.process(inputImage)
-                    .addOnCompleteListener { visionText ->
-                        onTextDetected(visionText.result.text)
+                    .addOnSuccessListener { visionText ->
+                        onTextDetected(visionText.text)
                     }
                     .addOnFailureListener {
                         onFailure()
@@ -58,6 +59,10 @@ class StillTextAnalyzer @AssistedInject constructor(
             }
             imageProxy.close()
         }
+    }
+
+    fun cancel() {
+        scope.cancel()
     }
 
     @AssistedFactory

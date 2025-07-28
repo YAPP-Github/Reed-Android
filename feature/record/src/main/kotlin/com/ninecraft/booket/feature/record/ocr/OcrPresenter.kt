@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.record.ocr
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -39,6 +40,12 @@ class OcrPresenter @AssistedInject constructor(
                     recognizedText = text
                 },
             )
+        }
+
+        DisposableEffect(Unit) {
+            onDispose {
+                analyzer.cancel()
+            }
         }
 
         fun handleEvent(event: OcrUiEvent) {
