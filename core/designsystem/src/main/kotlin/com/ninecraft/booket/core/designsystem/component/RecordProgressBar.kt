@@ -30,7 +30,7 @@ fun RecordProgressBar(
                     .height(6.dp)
                     .clip(RoundedCornerShape(ReedTheme.radius.full))
                     .background(
-                        color = if (currentStep.value == index) {
+                        color = if (index <= currentStep.ordinal) {
                             ReedTheme.colors.bgPrimary
                         } else {
                             ReedTheme.colors.bgDisabled
