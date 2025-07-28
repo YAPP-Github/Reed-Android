@@ -21,4 +21,7 @@
     <string name="recapture_dialog_description">선택한 문장은 삭제될 예정입니다.</string>
     <string name="recapture_dialog_confirm">확인</string>
     <string name="recapture_dialog_cancel">취소</string>
+    <string name="permission_dialog_title">카메라 권한이 필요해요</string>
+    <string name="permission_dialog_description">문장 인식을 위해 설정에서 권한을 허용해주세요.</string>
+    <string name="permission_dialog_move_to_settings">설정으로 이동하기</string>
 </resources>

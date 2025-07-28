@@ -21,10 +21,11 @@ class OcrPresenter @AssistedInject constructor(
     private val liveTextAnalyzer: LiveTextAnalyzer.Factory,
 ) : Presenter<OcrUiState> {
 
-
     @Composable
     override fun present(): OcrUiState {
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
+        var hasPermission by rememberRetained { mutableStateOf(false) }
+        var isPermissionDialogVisible by rememberRetained { mutableStateOf(false) }
         var sentenceList by rememberRetained { mutableStateOf(emptyList<String>().toPersistentList()) }
         var recognizedText by rememberRetained { mutableStateOf("") }
         var selectedIndices by rememberRetained { mutableStateOf(setOf<Int>()) }
@@ -44,6 +45,18 @@ class OcrPresenter @AssistedInject constructor(
             when (event) {
                 is OcrUiEvent.OnCloseClick -> {
                     navigator.pop()
+                }
+
+                is OcrUiEvent.OnCameraPermissionResult -> {
+                    hasPermission = event.isGranted
+
+                    if (hasPermission) {
+                        isPermissionDialogVisible = false
+                    }
+                }
+
+                is OcrUiEvent.OnRequestPermissionDialog -> {
+                    isPermissionDialogVisible = true
                 }
 
                 is OcrUiEvent.OnFrameReceived -> {
@@ -95,6 +108,8 @@ class OcrPresenter @AssistedInject constructor(
 
         return OcrUiState(
             currentUi = currentUi,
+            hasPermission = hasPermission,
+            isPermissionDialogVisible = isPermissionDialogVisible,
             sentenceList = sentenceList,
             selectedIndices = selectedIndices,
             isTextDetectionFailed = isTextDetectionFailed,

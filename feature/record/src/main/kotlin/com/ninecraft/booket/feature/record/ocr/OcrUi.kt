@@ -1,6 +1,9 @@
 package com.ninecraft.booket.feature.record.ocr
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.Settings
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -32,10 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,7 +49,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.R as designR
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
@@ -66,6 +65,7 @@ import com.ninecraft.booket.feature.screens.OcrScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
+import com.ninecraft.booket.core.designsystem.R as designR
 
 @CircuitInject(OcrScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -90,11 +90,24 @@ private fun CameraPreview(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val permission = android.Manifest.permission.CAMERA
-    var hasPermission by remember { mutableStateOf(false) }
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
     ) { isGranted ->
-        hasPermission = isGranted
+        if (isGranted) {
+            state.eventSink(OcrUiEvent.OnCameraPermissionResult(isGranted = isGranted))
+        } else {
+            state.eventSink(OcrUiEvent.OnRequestPermissionDialog)
+        }
+    }
+    val settingsLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+    ) { _ ->
+        val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+        if (granted) {
+            state.eventSink(OcrUiEvent.OnCameraPermissionResult(isGranted = granted))
+        } else {
+            state.eventSink(OcrUiEvent.OnRequestPermissionDialog)
+        }
     }
 
     val cameraController = remember { LifecycleCameraController(context) }
@@ -106,6 +119,15 @@ private fun CameraPreview(
 
     val systemUiController = rememberSystemUiController()
     val isDarkTheme = isSystemInDarkTheme()
+
+    LaunchedEffect(Unit) {
+        val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+        if (granted) {
+            state.eventSink(OcrUiEvent.OnCameraPermissionResult(isGranted = true))
+        } else {
+            launcher.launch(permission)
+        }
+    }
 
     DisposableEffect(lifecycleOwner, cameraController) {
         cameraController.bindToLifecycle(lifecycleOwner)
@@ -133,15 +155,6 @@ private fun CameraPreview(
         }
     }
 
-    LaunchedEffect(Unit) {
-        val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
-        if (!granted) {
-            launcher.launch(permission)
-        } else {
-            hasPermission = true
-        }
-    }
-
     Box(
         modifier = modifier.fillMaxSize(),
     ) {
@@ -165,14 +178,15 @@ private fun CameraPreview(
                 style = ReedTheme.typography.headline2Medium,
             )
         }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(White)
-                .aspectRatio(1f)
-                .align(Alignment.Center),
-        ) {
-            if (hasPermission)
+
+        if (state.hasPermission) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(White)
+                    .aspectRatio(1f)
+                    .align(Alignment.Center),
+            ) {
                 AndroidView(
                     modifier = Modifier.fillMaxSize(),
                     factory = { context ->
@@ -188,8 +202,10 @@ private fun CameraPreview(
                         }
                     },
                 )
+            }
+            CameraFrame(modifier = Modifier.align(Alignment.Center))
         }
-        CameraFrame(modifier = Modifier.align(Alignment.Center))
+
         Column(
             modifier = Modifier.align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -224,6 +240,20 @@ private fun CameraPreview(
             }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
         }
+    }
+
+    if (state.isPermissionDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.permission_dialog_title),
+            description = stringResource(R.string.permission_dialog_description),
+            confirmButtonText = stringResource(R.string.permission_dialog_move_to_settings),
+            onConfirmRequest = {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.fromParts("package", context.packageName, null)
+                }
+                settingsLauncher.launch(intent)
+            },
+        )
     }
 }
 
