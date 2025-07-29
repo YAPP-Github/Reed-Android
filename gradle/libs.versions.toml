@@ -9,6 +9,7 @@ androidx-activity-compose = "1.10.1"
 androidx-startup = "1.2.0"
 androidx-splash = "1.0.1"
 androidx-datastore = "1.1.7"
+androidx-camera = "1.4.2"
 
 ## Compose
 androidx-compose-bom = "2025.07.00"
@@ -48,6 +49,9 @@ kakao-core = "2.21.4"
 coil-compose = "2.7.0"
 landscapist = "2.5.1"
 
+## OCR
+mlkit-text = "16.0.1"
+
 ## Extension
 # https://github.com/jisungbin/dependency-handler-extensions
 gradle-dependency-handler-extensions = "1.1.0"
@@ -74,6 +78,10 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 androidx-splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-splash" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "androidx-startup" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidx-datastore" }
+androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "androidx-camera" }
+androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidx-camera" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidx-camera" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "androidx-camera" }
 
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-compose-bom" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
@@ -84,12 +92,12 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidx-compose-material3" }
-androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended"}
+androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-stable-marker = { group = "com.github.skydoves", name = "compose-stable-marker", version.ref = "compose-stable-marker" }
 compose-effects = { group = "com.github.skydoves", name = "compose-effects", version.ref = "compose-effects" }
 compose-system-ui-controller = { group = "tech.thdev", name = "extensions-compose-system-ui-controller", version.ref = "compose-extensions" }
 compose-keyboard-state = { group = "tech.thdev", name = "extensions-compose-keyboard-state", version.ref = "compose-extensions" }
-compose-shadow = { group = "com.adamglin", name = "compose-shadow", version.ref = "compose-shadow"}
+compose-shadow = { group = "com.adamglin", name = "compose-shadow", version.ref = "compose-shadow" }
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
@@ -122,6 +130,9 @@ logger = { group = "com.orhanobut", name = "logger", version.ref = "logger" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "kotlin-detekt" }
 
 kakao-auth = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-core" }
+
+google-mlkit-text-recognition = { group = "com.google.mlkit", name = "text-recognition", version.ref = "mlkit-text" }
+google-mlkit-text-recognition-korean = { group = "com.google.mlkit", name = "text-recognition-korean", version.ref = "mlkit-text" }
 
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx-test-runner" }

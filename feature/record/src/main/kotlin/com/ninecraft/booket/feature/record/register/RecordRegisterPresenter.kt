@@ -7,8 +7,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.designsystem.RecordStep
+import com.ninecraft.booket.feature.screens.OcrScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.rememberAnsweringNavigator
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -44,6 +46,12 @@ class RecordRegisterPresenter @AssistedInject constructor(
         val impressionState = rememberTextFieldState()
         var isImpressionGuideBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
+        val ocrNavigator = rememberAnsweringNavigator<OcrScreen.OcrResult>(navigator) { result ->
+            recordSentenceState.edit {
+                replace(0, length, "")
+                append(result.sentence)
+            }
+        }
 
         fun handleEvent(event: RecordRegisterUiEvent) {
             when (event) {
@@ -75,7 +83,9 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     isExitDialogVisible = false
                 }
 
-                is RecordRegisterUiEvent.OnSentenceScanButtonClick -> {}
+                is RecordRegisterUiEvent.OnSentenceScanButtonClick -> {
+                    ocrNavigator.goTo(OcrScreen)
+                }
 
                 is RecordRegisterUiEvent.OnSelectEmotion -> {}
 

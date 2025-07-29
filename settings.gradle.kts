@@ -33,6 +33,7 @@ include(
     ":core:model",
     ":core:network",
     ":core:ui",
+    ":core:ocr",
 
     ":feature:home",
     ":feature:library",

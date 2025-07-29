@@ -46,6 +46,7 @@ dependencies {
         projects.core.model,
         projects.core.network,
         projects.core.ui,
+        projects.core.ocr,
 
         projects.feature.home,
         projects.feature.library,
