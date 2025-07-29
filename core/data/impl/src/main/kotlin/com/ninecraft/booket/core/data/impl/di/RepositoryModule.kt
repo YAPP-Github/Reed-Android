@@ -2,6 +2,7 @@ package com.ninecraft.booket.core.data.impl.di
 
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
+import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultAuthRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultBookRepository
@@ -27,4 +28,8 @@ internal abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindBookRepository(defaultBookRepository: DefaultBookRepository): BookRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindRecordRepository(defaultRecordRepository: DefaultBookRepository): RecordRepository
 }
