@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.search
+package com.ninecraft.booket.feature.search.book
 
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState

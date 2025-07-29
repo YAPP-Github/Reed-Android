@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.search
+package com.ninecraft.booket.feature.search.book
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,11 +33,12 @@ import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.screens.SearchScreen
-import com.ninecraft.booket.feature.search.component.BookItem
-import com.ninecraft.booket.feature.search.component.BookRegisterBottomSheet
-import com.ninecraft.booket.feature.search.component.BookRegisterSuccessBottomSheet
-import com.ninecraft.booket.feature.search.component.RecentSearchTitle
-import com.ninecraft.booket.feature.search.component.SearchItem
+import com.ninecraft.booket.feature.search.R
+import com.ninecraft.booket.feature.search.book.component.BookItem
+import com.ninecraft.booket.feature.search.book.component.BookRegisterBottomSheet
+import com.ninecraft.booket.feature.search.book.component.BookRegisterSuccessBottomSheet
+import com.ninecraft.booket.feature.search.book.component.RecentSearchTitle
+import com.ninecraft.booket.feature.search.book.component.SearchItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList

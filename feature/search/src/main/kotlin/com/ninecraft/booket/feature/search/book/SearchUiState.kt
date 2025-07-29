@@ -1,9 +1,10 @@
-package com.ninecraft.booket.feature.search
+package com.ninecraft.booket.feature.search.book
 
 import androidx.compose.foundation.text.input.TextFieldState
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
+import com.ninecraft.booket.feature.search.R
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList

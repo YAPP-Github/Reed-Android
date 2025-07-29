@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.search
+package com.ninecraft.booket.feature.search.book
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
