@@ -44,7 +44,7 @@ fun ResourceImage(
 private fun ResourceImagePreview() {
     ReedTheme {
         ResourceImage(
-            imageRes = 0,
+            imageRes = R.drawable.ic_placeholder,
             contentDescription = "",
             placeholder = painterResource(R.drawable.ic_placeholder),
         )

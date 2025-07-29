@@ -56,7 +56,7 @@ private fun PagerIndicatorPreview() {
 
     ReedTheme {
         PagerIndicator(
-            pageCount = 2,
+            pageCount = pageCount,
             pagerState = pagerState,
         )
     }

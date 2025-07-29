@@ -31,7 +31,7 @@ class OnboardingPresenter @AssistedInject constructor(
         fun handleEvent(event: OnboardingUiEvent) {
             when (event) {
                 is OnboardingUiEvent.OnNextButtonClick -> {
-                    if (event.currentStep == 2) {
+                    if (event.currentPage == 2) {
                         scope.launch {
                             repository.setOnboardingCompleted(true)
                             navigator.resetRoot(HomeScreen)
@@ -39,7 +39,7 @@ class OnboardingPresenter @AssistedInject constructor(
                     } else {
                         pagerState.let { state ->
                             scope.launch {
-                                state.animateScrollToPage(event.currentStep + 1)
+                                state.animateScrollToPage(event.currentPage + 1)
                             }
                         }
                     }

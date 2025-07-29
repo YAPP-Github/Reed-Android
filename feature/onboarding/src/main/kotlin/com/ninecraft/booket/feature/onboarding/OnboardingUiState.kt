@@ -10,5 +10,5 @@ data class OnboardingUiState(
 ) : CircuitUiState
 
 sealed interface OnboardingUiEvent : CircuitUiEvent {
-    data class OnNextButtonClick(val currentStep: Int) : OnboardingUiEvent
+    data class OnNextButtonClick(val currentPage: Int) : OnboardingUiEvent
 }
