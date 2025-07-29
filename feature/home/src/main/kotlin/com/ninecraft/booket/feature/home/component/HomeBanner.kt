@@ -14,20 +14,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.R
+import com.ninecraft.booket.core.designsystem.R as designR
 import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.feature.home.R
 
 @Composable
 fun HomeBanner(
     onBookRegisterClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(160.dp)
             .background(HomeBg)
@@ -39,7 +42,7 @@ fun HomeBanner(
     ) {
         Column {
             Text(
-                text = "문장 기록하고\n씨앗을 모아볼까요?",
+                text = stringResource(R.string.home_banner_title),
                 color = ReedTheme.colors.contentPrimary,
                 style = ReedTheme.typography.heading1Bold,
             )
@@ -51,12 +54,12 @@ fun HomeBanner(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "책 등록하기",
+                    text = stringResource(R.string.home_banner_book_register),
                     color = ReedTheme.colors.contentBrand,
                     style = ReedTheme.typography.body2Medium,
                 )
                 Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_chevron_right),
+                    imageVector = ImageVector.vectorResource(id = designR.drawable.ic_chevron_right),
                     contentDescription = "Chevron Right Icon",
                     tint = ReedTheme.colors.contentBrand,
                 )

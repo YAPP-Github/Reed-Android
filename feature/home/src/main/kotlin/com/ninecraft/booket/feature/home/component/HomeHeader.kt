@@ -13,12 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.R
+import com.ninecraft.booket.core.designsystem.R as designR
 import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.feature.home.R
 
 @Composable
 fun HomeHeader(
@@ -34,7 +36,7 @@ fun HomeHeader(
     ) {
         Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing5))
         Text(
-            text = "Reed",
+            text = stringResource(R.string.home_header_title),
             color = ReedTheme.colors.contentBrand,
             style = ReedTheme.typography.title1Bold,
         )
@@ -45,7 +47,7 @@ fun HomeHeader(
             },
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_settings),
+                imageVector = ImageVector.vectorResource(id = designR.drawable.ic_settings),
                 contentDescription = "Settings Icon",
             )
         }

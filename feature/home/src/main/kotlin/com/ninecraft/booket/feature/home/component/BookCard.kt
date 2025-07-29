@@ -24,9 +24,14 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
@@ -34,10 +39,17 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorSt
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.feature.home.Book
+import com.ninecraft.booket.feature.home.R
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
-fun BookCard(modifier: Modifier = Modifier) {
+fun BookCard(
+    bookInfo: Book,
+    onBookDetailClick: () -> Unit,
+    onRecordButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -51,6 +63,10 @@ fun BookCard(modifier: Modifier = Modifier) {
                 color = ReedTheme.colors.basePrimary,
                 shape = RoundedCornerShape(ReedTheme.radius.sm),
             )
+            .clip(shape = RoundedCornerShape(ReedTheme.radius.sm))
+            .clickableSingle {
+                onBookDetailClick()
+            }
             .border(
                 width = 1.dp,
                 color = ReedTheme.colors.borderSecondary,
@@ -66,7 +82,7 @@ fun BookCard(modifier: Modifier = Modifier) {
     ) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
         NetworkImage(
-            imageUrl = "",
+            imageUrl = bookInfo.imageUrl,
             contentDescription = "Book CoverImage",
             modifier = Modifier
                 .width(86.dp)
@@ -81,7 +97,7 @@ fun BookCard(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
         Text(
-            text = "여름은 오래 그곳에 남아",
+            text = bookInfo.title,
             color = ReedTheme.colors.contentPrimary,
             style = ReedTheme.typography.headline1SemiBold,
         )
@@ -92,7 +108,7 @@ fun BookCard(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = "마쓰이에 마사시",
+                text = bookInfo.author,
                 color = ReedTheme.colors.contentTertiary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
@@ -107,7 +123,7 @@ fun BookCard(modifier: Modifier = Modifier) {
             )
             Spacer(Modifier.width(ReedTheme.spacing.spacing1))
             Text(
-                text = "비채",
+                text = bookInfo.publisher,
                 color = ReedTheme.colors.contentTertiary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
@@ -123,6 +139,10 @@ fun BookCard(modifier: Modifier = Modifier) {
                         color = ReedTheme.colors.baseSecondary,
                         shape = RoundedCornerShape(ReedTheme.radius.sm),
                     )
+                    .clip(shape = RoundedCornerShape(ReedTheme.radius.sm))
+                    .clickableSingle {
+                        onBookDetailClick()
+                    }
                     .padding(
                         horizontal = ReedTheme.spacing.spacing3,
                         vertical = ReedTheme.spacing.spacing2,
@@ -136,18 +156,26 @@ fun BookCard(modifier: Modifier = Modifier) {
                 )
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
                 Text(
-                    text = "3개",
+                    text = buildAnnotatedString {
+                        append("${bookInfo.reviewCount}")
+                        withStyle(style = SpanStyle(color = ReedTheme.colors.contentSecondary)) {
+                            append("개")
+                        }
+                    },
+                    color = ReedTheme.colors.contentBrand,
                     style = ReedTheme.typography.label1SemiBold,
                 )
 
             }
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
             ReedButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    onRecordButtonClick()
+                },
                 sizeStyle = largeButtonStyle,
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 modifier = Modifier.weight(1f),
-                text = "기록하기",
+                text = stringResource(R.string.book_card_record),
                 leadingIcon = {
                     Icon(
                         imageVector = ImageVector.vectorResource(designR.drawable.ic_edit_3),
@@ -198,13 +226,13 @@ fun EmptyBookCard(
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
         Text(
-            text = "아직 등록된 책이 없어요",
+            text = stringResource(R.string.empty_book_card_title),
             color = ReedTheme.colors.contentPrimary,
             style = ReedTheme.typography.headline1SemiBold,
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
         Text(
-            text = "등록 후 나만의 독서 기록을 남겨 보세요.",
+            text = stringResource(R.string.empty_book_card_description),
             color = ReedTheme.colors.contentTertiary,
             style = ReedTheme.typography.label1Medium,
         )
@@ -216,7 +244,7 @@ fun EmptyBookCard(
             sizeStyle = largeButtonStyle,
             colorStyle = ReedButtonColorStyle.PRIMARY,
             modifier = Modifier.fillMaxWidth(),
-            text = "등록하기",
+            text = stringResource(R.string.empty_book_card_register),
         )
     }
 }
@@ -225,7 +253,11 @@ fun EmptyBookCard(
 @Composable
 private fun BookCardPreview() {
     ReedTheme {
-        BookCard()
+        BookCard(
+            bookInfo = Book(),
+            onBookDetailClick = {},
+            onRecordButtonClick = {},
+        )
     }
 }
 
