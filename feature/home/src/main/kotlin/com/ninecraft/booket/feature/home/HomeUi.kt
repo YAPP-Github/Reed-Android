@@ -17,18 +17,22 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
+import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.home.component.BookCard
 import com.ninecraft.booket.feature.home.component.HomeBanner
 import com.ninecraft.booket.feature.home.component.HomeHeader
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
 
 @CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -52,10 +56,25 @@ internal fun HomeContent(
     modifier: Modifier = Modifier,
 ) {
     val dummyBooks = listOf(
-        Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://example.com/sample-book-cover.jpg", 3),
-        Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://example.com/sample-book-cover.jpg", 3),
-        Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://example.com/sample-book-cover.jpg", 3)
+        Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg", 3),
+        Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg", 3),
+        Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg", 3)
     )
+
+    val systemUiController = rememberSystemUiController()
+
+    DisposableEffect(systemUiController) {
+        systemUiController.setStatusBarColor(
+            color = HomeBg,
+            darkIcons = true,
+        )
+        onDispose {
+            systemUiController.setStatusBarColor(
+                color = White,
+                darkIcons = true,
+            )
+        }
+    }
 
     HomeHeader(
         onSettingsClick = {
