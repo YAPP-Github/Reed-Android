@@ -5,7 +5,9 @@ import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
@@ -19,13 +21,18 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.launch
 
 class RecordRegisterPresenter @AssistedInject constructor(
+    @Assisted private val screen: RecordScreen,
     @Assisted private val navigator: Navigator,
+    private val repository: RecordRepository,
 ) : Presenter<RecordRegisterUiState> {
 
     @Composable
     override fun present(): RecordRegisterUiState {
+        val scope = rememberCoroutineScope()
+
         var currentStep by rememberRetained { mutableStateOf(RecordStep.QUOTE) }
         val recordPageState = rememberTextFieldState()
         val recordSentenceState = rememberTextFieldState()
@@ -50,6 +57,28 @@ class RecordRegisterPresenter @AssistedInject constructor(
             recordSentenceState.edit {
                 replace(0, length, "")
                 append(result.sentence)
+            }
+        }
+
+        fun postRecord(
+            userBookId: String,
+            pageNumber: Int,
+            quote: String,
+            emotionTags: List<String>,
+            impression: String,
+        ) {
+            scope.launch {
+                repository.postRecord(
+                    userBookId = userBookId,
+                    pageNumber = pageNumber,
+                    quote = quote,
+                    emotionTags = emotionTags,
+                    review = impression,
+                ).onSuccess {
+                    // TODO: 기록 완료 다이얼로그 띄우기
+                }.onFailure {
+                    // TODO: 등록 실패 다이얼로그 띄우기
+                }
             }
         }
 
@@ -125,7 +154,13 @@ class RecordRegisterPresenter @AssistedInject constructor(
                         }
 
                         RecordStep.IMPRESSION -> {
-                            // TODO: (기록 완료 API 성공 시) 기록 상세 화면 이동
+                            postRecord(
+                                userBookId = screen.userBookId,
+                                pageNumber = recordPageState.text.toString().toInt(),
+                                quote = recordSentenceState.text.toString(),
+                                emotionTags = listOf("감동적"), // enum 값으로 관리해야 할 것 같은데..
+                                impression = impressionState.text.toString(),
+                            )
                         }
                     }
                 }
@@ -148,6 +183,9 @@ class RecordRegisterPresenter @AssistedInject constructor(
     @CircuitInject(RecordScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(navigator: Navigator): RecordRegisterPresenter
+        fun create(
+            screen: RecordScreen,
+            navigator: Navigator,
+        ): RecordRegisterPresenter
     }
 }

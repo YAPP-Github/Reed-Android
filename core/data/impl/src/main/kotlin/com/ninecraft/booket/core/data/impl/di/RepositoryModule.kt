@@ -6,6 +6,7 @@ import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultAuthRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultBookRepository
+import com.ninecraft.booket.core.data.impl.repository.DefaultRecordRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultUserRepository
 import dagger.Binds
 import dagger.Module
@@ -31,5 +32,5 @@ internal abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindRecordRepository(defaultRecordRepository: DefaultBookRepository): RecordRepository
+    abstract fun bindRecordRepository(defaultRecordRepository: DefaultRecordRepository): RecordRepository
 }
