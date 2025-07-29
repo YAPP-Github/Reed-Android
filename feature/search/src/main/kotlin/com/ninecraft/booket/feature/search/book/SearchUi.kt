@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.search.book
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -93,6 +94,8 @@ internal fun SearchContent(
                 state.eventSink(SearchUiEvent.OnClearClick)
             },
             modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+            borderStroke = BorderStroke(width = 1.dp, color = ReedTheme.colors.borderBrand),
+            searchIconTint = ReedTheme.colors.contentBrand,
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
 
