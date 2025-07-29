@@ -7,10 +7,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.constants.WebViewConstants
+import com.ninecraft.booket.core.data.api.repository.UserRepository
+import com.ninecraft.booket.feature.screens.BottomNavigationScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.ninecraft.booket.feature.screens.WebViewScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -23,6 +26,7 @@ import kotlinx.collections.immutable.toPersistentList
 
 class TermsAgreementPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
+    private val repository: UserRepository,
 ) : Presenter<TermsAgreementUiState> {
 
     @Composable
@@ -36,6 +40,8 @@ class TermsAgreementPresenter @AssistedInject constructor(
                 agreedTerms.all { it }
             }
         }
+
+        val isOnboardingCompleted by repository.isOnboardingCompleted.collectAsRetainedState(initial = false)
 
         fun handleEvent(event: TermsAgreementUiEvent) {
             when (event) {
@@ -59,9 +65,11 @@ class TermsAgreementPresenter @AssistedInject constructor(
                 }
 
                 is TermsAgreementUiEvent.OnStartButtonClick -> {
-                    // TODO 온보딩 완료 여부 확인
-                    // navigator.resetRoot(BottomNavigationScreen)
-                    navigator.resetRoot(OnboardingScreen)
+                    if (isOnboardingCompleted) {
+                        navigator.resetRoot(BottomNavigationScreen)
+                    } else {
+                        navigator.resetRoot(OnboardingScreen)
+                    }
                 }
             }
         }

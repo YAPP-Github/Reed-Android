@@ -4,6 +4,7 @@ package com.ninecraft.booket.feature.onboarding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -19,6 +20,7 @@ const val ONBOARDING_STEPS_COUNT = 3
 
 class OnboardingPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
+    private val repository: UserRepository,
 ) : Presenter<OnboardingUiState> {
 
     @Composable
@@ -30,7 +32,10 @@ class OnboardingPresenter @AssistedInject constructor(
             when (event) {
                 is OnboardingUiEvent.OnNextButtonClick -> {
                     if (event.currentStep == 2) {
-                        navigator.resetRoot(HomeScreen)
+                        scope.launch {
+                            repository.setOnboardingCompleted(true)
+                            navigator.resetRoot(HomeScreen)
+                        }
                     } else {
                         pagerState.let { state ->
                             scope.launch {
