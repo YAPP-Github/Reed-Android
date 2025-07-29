@@ -1,5 +1,6 @@
 package com.ninecraft.booket.core.designsystem.component
 
+import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,15 +16,15 @@ import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.placeholder.PlaceholderPlugin
 
 @Composable
-fun NetworkImage(
-    imageUrl: String,
+fun ResourceImage(
+    @DrawableRes imageRes: Int,
     contentDescription: String,
     modifier: Modifier = Modifier,
     placeholder: Painter? = painterResource(R.drawable.ic_placeholder),
     contentScale: ContentScale = ContentScale.Crop,
 ) {
     CoilImage(
-        imageModel = { imageUrl },
+        imageModel = { imageRes },
         modifier = modifier,
         component = rememberImageComponent {
             +PlaceholderPlugin.Loading(placeholder)
@@ -40,10 +41,10 @@ fun NetworkImage(
 
 @ComponentPreview
 @Composable
-private fun NetworkImagePreview() {
+private fun ResourceImagePreview() {
     ReedTheme {
-        NetworkImage(
-            imageUrl = "",
+        ResourceImage(
+            imageRes = R.drawable.ic_placeholder,
             contentDescription = "",
             placeholder = painterResource(R.drawable.ic_placeholder),
         )

@@ -74,6 +74,9 @@ internal fun TermsAgreementUi(
                         color = ReedTheme.colors.contentBrand,
                         shape = RoundedCornerShape(ReedTheme.radius.sm),
                     )
+                    .noRippleClickable {
+                        state.eventSink(TermsAgreementUiEvent.OnAllTermsAgreedClick)
+                    }
                     .padding(
                         horizontal = ReedTheme.spacing.spacing4,
                         vertical = ReedTheme.spacing.spacing5,

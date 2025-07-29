@@ -35,14 +35,15 @@ include(
     ":core:ui",
     ":core:ocr",
 
+    ":feature:detail",
     ":feature:home",
     ":feature:library",
     ":feature:login",
     ":feature:main",
+    ":feature:onboarding",
     ":feature:record",
     ":feature:screens",
     ":feature:search",
     ":feature:settings",
     ":feature:webview",
-    ":feature:detail",
 )

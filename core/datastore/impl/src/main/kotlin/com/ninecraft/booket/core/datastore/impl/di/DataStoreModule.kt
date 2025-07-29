@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import com.ninecraft.booket.core.datastore.api.datasource.OnboardingDataSource
 import com.ninecraft.booket.core.datastore.api.datasource.RecentSearchDataSource
 import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
+import com.ninecraft.booket.core.datastore.impl.datasource.DefaultOnboardingDataSource
 import com.ninecraft.booket.core.datastore.impl.datasource.DefaultRecentSearchDataSource
 import com.ninecraft.booket.core.datastore.impl.datasource.DefaultTokenDataSource
 import dagger.Binds
@@ -21,9 +23,11 @@ import javax.inject.Singleton
 object DataStoreModule {
     private const val TOKEN_DATASTORE_NAME = "TOKENS_DATASTORE"
     private const val RECENT_SEARCH_DATASTORE_NAME = "RECENT_SEARCH_DATASTORE"
+    private const val ONBOARDING_DATASTORE_NAME = "ONBOARDING_DATASTORE"
 
     private val Context.tokenDataStore by preferencesDataStore(name = TOKEN_DATASTORE_NAME)
     private val Context.recentSearchDataStore by preferencesDataStore(name = RECENT_SEARCH_DATASTORE_NAME)
+    private val Context.onboardingDataStore by preferencesDataStore(name = ONBOARDING_DATASTORE_NAME)
 
     @TokenDataStore
     @Provides
@@ -38,6 +42,13 @@ object DataStoreModule {
     fun provideRecentSearchDataStore(
         @ApplicationContext context: Context,
     ): DataStore<Preferences> = context.recentSearchDataStore
+
+    @OnboardingDataStore
+    @Provides
+    @Singleton
+    fun provideOnboardingDataStore(
+        @ApplicationContext context: Context,
+    ): DataStore<Preferences> = context.onboardingDataStore
 }
 
 @Module
@@ -55,4 +66,10 @@ abstract class DataStoreBindModule {
     abstract fun bindRecentSearchDataSource(
         defaultRecentSearchDataSource: DefaultRecentSearchDataSource,
     ): RecentSearchDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindOnboardingDataSource(
+        defaultOnboardingDataSource: DefaultOnboardingDataSource,
+    ): OnboardingDataSource
 }
