@@ -43,6 +43,34 @@ internal fun HomeUi(
     Column(
         modifier = modifier.fillMaxSize(),
     ) {
+        // TODO: Android 15에서 statusBar 색상 적용 안되는 문제 있음. 해결 예정.
+        val systemUiController = rememberSystemUiController()
+
+        DisposableEffect(systemUiController) {
+            systemUiController.setStatusBarColor(
+                color = HomeBg,
+                darkIcons = true,
+            )
+            onDispose {
+                systemUiController.setStatusBarColor(
+                    color = White,
+                    darkIcons = true,
+                )
+            }
+        }
+
+        HomeHeader(
+            onSettingsClick = {
+                state.eventSink(HomeUiEvent.OnSettingsClick)
+            },
+            modifier = modifier,
+        )
+        HomeBanner(
+            onBookRegisterClick = {
+                state.eventSink(HomeUiEvent.OnBookRegisterClick)
+            },
+            modifier = modifier,
+        )
         HomeContent(
             state = state,
             modifier = modifier,
@@ -60,36 +88,8 @@ internal fun HomeContent(
         Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg", 3),
         Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg", 3),
     )
-
-    val systemUiController = rememberSystemUiController()
-
-    DisposableEffect(systemUiController) {
-        systemUiController.setStatusBarColor(
-            color = HomeBg,
-            darkIcons = true,
-        )
-        onDispose {
-            systemUiController.setStatusBarColor(
-                color = White,
-                darkIcons = true,
-            )
-        }
-    }
-
-    HomeHeader(
-        onSettingsClick = {
-            state.eventSink(HomeUiEvent.OnSettingsClick)
-        },
-        modifier = modifier,
-    )
-    HomeBanner(
-        onBookRegisterClick = {
-            state.eventSink(HomeUiEvent.OnBookRegisterClick)
-        },
-        modifier = modifier,
-    )
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(ReedTheme.colors.baseSecondary),
     ) {
