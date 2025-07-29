@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.termsagreement
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -74,6 +75,9 @@ internal fun TermsAgreementUi(
                         color = ReedTheme.colors.contentBrand,
                         shape = RoundedCornerShape(ReedTheme.radius.sm),
                     )
+                    .noRippleClickable {
+                        state.eventSink(TermsAgreementUiEvent.OnAllTermsAgreedClick)
+                    }
                     .padding(
                         horizontal = ReedTheme.spacing.spacing4,
                         vertical = ReedTheme.spacing.spacing5,
