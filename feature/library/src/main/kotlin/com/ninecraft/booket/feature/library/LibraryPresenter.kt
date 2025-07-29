@@ -12,6 +12,7 @@ import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LibraryScreen
+import com.ninecraft.booket.feature.screens.LibrarySearchScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -102,6 +103,10 @@ class LibraryPresenter @AssistedInject constructor(
             when (event) {
                 is LibraryUiEvent.InitSideEffect -> {
                     sideEffect = null
+                }
+
+                is LibraryUiEvent.OnLibrarySearchClick -> {
+                    navigator.goTo(LibrarySearchScreen)
                 }
 
                 is LibraryUiEvent.OnSettingsClick -> {

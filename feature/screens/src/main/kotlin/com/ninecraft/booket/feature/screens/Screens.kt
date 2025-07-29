@@ -24,6 +24,9 @@ data object LoginScreen : ReedScreen(name = "Login()")
 data object SearchScreen : ReedScreen(name = "Search()")
 
 @Parcelize
+data object LibrarySearchScreen : ReedScreen(name = "LibrarySearch()")
+
+@Parcelize
 data object TermsAgreementScreen : ReedScreen(name = "TermsAgreement()")
 
 @Parcelize
