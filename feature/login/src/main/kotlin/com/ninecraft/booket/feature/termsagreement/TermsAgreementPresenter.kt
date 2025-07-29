@@ -48,10 +48,6 @@ class TermsAgreementPresenter @AssistedInject constructor(
                     agreedTerms = agreedTerms.set(event.index, !agreedTerms[event.index])
                 }
 
-                is TermsAgreementUiEvent.OnBackClick -> {
-                    navigator.pop()
-                }
-
                 is TermsAgreementUiEvent.OnPolicyClick -> {
                     val policy = WebViewConstants.PRIVACY_POLICY
                     navigator.goTo(WebViewScreen(url = policy.url, title = policy.title))
