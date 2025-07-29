@@ -53,11 +53,7 @@ fun LibraryBookItem(
                 .clip(RoundedCornerShape(size = ReedTheme.radius.sm)),
             placeholder = painterResource(designR.drawable.ic_placeholder),
         )
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = ReedTheme.spacing.spacing5),
-        ) {
+        Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = book.bookTitle,
                 color = ReedTheme.colors.contentPrimary,
