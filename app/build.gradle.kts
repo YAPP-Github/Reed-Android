@@ -47,16 +47,17 @@ dependencies {
         projects.core.network,
         projects.core.ui,
 
+        projects.feature.detail,
         projects.feature.home,
         projects.feature.library,
         projects.feature.login,
         projects.feature.main,
+        projects.feature.onboarding,
         projects.feature.record,
         projects.feature.screens,
         projects.feature.search,
         projects.feature.settings,
         projects.feature.webview,
-        projects.feature.detail,
 
         libs.androidx.activity.compose,
         libs.androidx.startup,

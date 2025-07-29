@@ -34,15 +34,15 @@ include(
     ":core:network",
     ":core:ui",
 
+    ":feature:detail",
     ":feature:home",
     ":feature:library",
     ":feature:login",
     ":feature:main",
+    ":feature:onboarding",
     ":feature:record",
     ":feature:screens",
     ":feature:search",
     ":feature:settings",
     ":feature:webview",
-    ":feature:detail",
 )
-include(":feature:onboarding")

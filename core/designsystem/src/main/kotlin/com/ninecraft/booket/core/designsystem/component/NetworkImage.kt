@@ -19,7 +19,7 @@ fun NetworkImage(
     imageUrl: String,
     contentDescription: String,
     modifier: Modifier = Modifier,
-    placeholder: Painter? = null,
+    placeholder: Painter? = painterResource(R.drawable.ic_placeholder),
     contentScale: ContentScale = ContentScale.Crop,
 ) {
     CoilImage(

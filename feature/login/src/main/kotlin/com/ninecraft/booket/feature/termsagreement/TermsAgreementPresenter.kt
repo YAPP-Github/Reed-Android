@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.constants.WebViewConstants
-import com.ninecraft.booket.feature.screens.BottomNavigationScreen
+import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.ninecraft.booket.feature.screens.WebViewScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -59,7 +59,9 @@ class TermsAgreementPresenter @AssistedInject constructor(
                 }
 
                 is TermsAgreementUiEvent.OnStartButtonClick -> {
-                    navigator.resetRoot(BottomNavigationScreen)
+                    // TODO 온보딩 완료 여부 확인
+                    // navigator.resetRoot(BottomNavigationScreen)
+                    navigator.resetRoot(OnboardingScreen)
                 }
             }
         }

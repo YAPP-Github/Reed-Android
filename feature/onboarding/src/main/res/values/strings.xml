@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="next">다음</string>
-    <string name="onboarding_first_step_title">읽고 있는 책을 등록하고 바로 기록해보세요</string>
-    <string name="onboarding_first_step_description">책을 덮기 전, 마음에 남은 문장과 감정을 간편하게 남길 수 있어요</string>
-    <string name="onboarding_second_step_title">어떻게 쓸지 막막할땐, 감상평 가이드가 도와드려요</string>
-    <string name="onboarding_second_step_description">감정과 생각을 이끌어주는 문장들이 기록을 자연스럽게 도와줘요</string>
-    <string name="onboarding_third_step_title">독서 중 느낀 감정은 씨앗으로 남겨보세요</string>
-    <string name="onboarding_third_step_description">책마다 쌓인 감정들은 나만의 독서에 흔적이 됩니다</string>
+    <string name="onboarding_first_step_title">읽고 있는 책을 등록하고\n바로 기록해보세요</string>
+    <string name="onboarding_first_step_description">책을 덮기 전, 마음에 남은 문장과\n감정을 간편하게 남길 수 있어요</string>
+    <string name="onboarding_second_step_title">어떻게 쓸지 막막할땐,\n감상평 가이드가 도와드려요</string>
+    <string name="onboarding_second_step_description">감정과 생각을 이끌어주는\n문장들이 기록을 자연스럽게 도와줘요</string>
+    <string name="onboarding_third_step_title">독서 중 느낀 감정은\n씨앗으로 남겨보세요</string>
+    <string name="onboarding_third_step_description">책마다 쌓인 감정들은\n나만의 독서에 흔적이 됩니다</string>
+    <string name="onboarding_first_highlight_text">기록</string>
+    <string name="onboarding_second_highlight_text">감상평 가이드</string>
+    <string name="onboarding_third_highlight_text">씨앗</string>
 </resources>

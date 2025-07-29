@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.designsystem
+package com.ninecraft.booket.core.designsystem.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
@@ -6,6 +6,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import com.ninecraft.booket.core.designsystem.ComponentPreview
+import com.ninecraft.booket.core.designsystem.R
+import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
@@ -16,7 +20,7 @@ fun ResourceImage(
     @DrawableRes imageRes: Int,
     contentDescription: String,
     modifier: Modifier = Modifier,
-    placeholder: Painter? = null,
+    placeholder: Painter? = painterResource(R.drawable.ic_placeholder),
     contentScale: ContentScale = ContentScale.Crop,
 ) {
     CoilImage(
@@ -33,4 +37,16 @@ fun ResourceImage(
         ),
         previewPlaceholder = placeholder,
     )
+}
+
+@ComponentPreview
+@Composable
+private fun ResourceImagePreview() {
+    ReedTheme {
+        ResourceImage(
+            imageRes = 0,
+            contentDescription = "",
+            placeholder = painterResource(R.drawable.ic_placeholder),
+        )
+    }
 }

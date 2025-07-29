@@ -1,8 +1,9 @@
 
+package com.ninecraft.booket.feature.onboarding
+
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import com.ninecraft.booket.feature.onboarding.OnboardingUiEvent
-import com.ninecraft.booket.feature.onboarding.OnboardingUiState
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -12,25 +13,37 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.coroutines.launch
 
-@Suppress("unused")
-class HomePresenter @AssistedInject constructor(
+const val ONBOARDING_STEPS_COUNT = 3
+
+class OnboardingPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
 ) : Presenter<OnboardingUiState> {
 
     @Composable
     override fun present(): OnboardingUiState {
         val scope = rememberCoroutineScope()
+        val pagerState = rememberPagerState(pageCount = { ONBOARDING_STEPS_COUNT })
 
         fun handleEvent(event: OnboardingUiEvent) {
             when (event) {
                 is OnboardingUiEvent.OnNextButtonClick -> {
-                    navigator.resetRoot(HomeScreen)
+                    if (event.currentStep == 2) {
+                        navigator.resetRoot(HomeScreen)
+                    } else {
+                        pagerState.let { state ->
+                            scope.launch {
+                                state.animateScrollToPage(event.currentStep + 1)
+                            }
+                        }
+                    }
                 }
             }
         }
 
         return OnboardingUiState(
+            pagerState = pagerState,
             eventSink = ::handleEvent,
         )
     }
@@ -38,6 +51,6 @@ class HomePresenter @AssistedInject constructor(
     @CircuitInject(OnboardingScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(navigator: Navigator): HomePresenter
+        fun create(navigator: Navigator): OnboardingPresenter
     }
 }
