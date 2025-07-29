@@ -17,4 +17,6 @@
     <string name="book_status_reading">읽는 중</string>
     <string name="book_status_completed">독서 완료</string>
     <string name="empty_recent_searches">최근 검색어 내역이 없습니다.</string>
+    <string name="library_search_hint">등록한 책을 검색해보세요</string>
+    <string name="library_book_item_records">남긴 기록</string>
 </resources>
