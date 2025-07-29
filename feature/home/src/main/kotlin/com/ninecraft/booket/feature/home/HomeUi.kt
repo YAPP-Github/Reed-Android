@@ -58,7 +58,7 @@ internal fun HomeContent(
     val dummyBooks = listOf(
         Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg", 3),
         Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg", 3),
-        Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg", 3)
+        Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg", 3),
     )
 
     val systemUiController = rememberSystemUiController()
@@ -115,7 +115,7 @@ internal fun HomeContent(
                 },
                 onRecordButtonClick = {
                     state.eventSink(HomeUiEvent.OnRecordButtonClick)
-                }
+                },
             )
         }
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
@@ -130,7 +130,7 @@ internal fun HomeContent(
                         .size(12.dp)
                         .padding(3.dp)
                         .clip(CircleShape)
-                        .background(color)
+                        .background(color),
                 )
             }
         }

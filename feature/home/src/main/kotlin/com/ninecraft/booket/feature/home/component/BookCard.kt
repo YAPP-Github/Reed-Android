@@ -165,7 +165,6 @@ fun BookCard(
                     color = ReedTheme.colors.contentBrand,
                     style = ReedTheme.typography.label1SemiBold,
                 )
-
             }
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
             ReedButton(

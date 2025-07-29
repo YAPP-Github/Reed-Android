@@ -11,7 +11,7 @@ sealed interface HomeUiEvent : CircuitUiEvent {
     data object OnSettingsClick : HomeUiEvent
     data object OnBookRegisterClick : HomeUiEvent
     data object OnRecordButtonClick : HomeUiEvent
-    data object OnBookDetailClick: HomeUiEvent
+    data object OnBookDetailClick : HomeUiEvent
 }
 
 data class Book(
