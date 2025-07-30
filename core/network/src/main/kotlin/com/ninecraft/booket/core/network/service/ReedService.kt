@@ -2,6 +2,7 @@ package com.ninecraft.booket.core.network.service
 
 import com.ninecraft.booket.core.network.request.BookUpsertRequest
 import com.ninecraft.booket.core.network.request.LoginRequest
+import com.ninecraft.booket.core.network.request.RecordRegisterRequest
 import com.ninecraft.booket.core.network.request.RefreshTokenRequest
 import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.response.BookDetailResponse
@@ -9,6 +10,7 @@ import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
+import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.RefreshTokenResponse
 import com.ninecraft.booket.core.network.response.TermsAgreementResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
@@ -16,6 +18,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ReedService {
@@ -66,4 +69,11 @@ interface ReedService {
         @Query("size") size: Int,
         @Query("sort") sort: String = "CREATED_DATE_DESC",
     ): LibraryResponse
+
+    // Reading-records endpoints (auth required)
+    @POST("api/v1/reading-records/{userBookId}")
+    suspend fun postRecord(
+        @Path("userBookId") userBookId: String,
+        @Body recordRegisterRequest: RecordRegisterRequest,
+    ): RecordRegisterResponse
 }

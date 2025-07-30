@@ -1,14 +1,18 @@
 package com.ninecraft.booket.feature.record.register
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.core.designsystem.component.RecordProgressBar
@@ -33,6 +37,8 @@ internal fun RecordRegister(
     state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
+    HandleRecordRegisterSideEffects(state = state)
+
     BackHandler {
         state.eventSink(RecordRegisterUiEvent.OnBackButtonClick)
     }
@@ -56,7 +62,7 @@ internal fun RecordRegister(
             }
 
             RecordStep.EMOTION -> {
-                EmotionStep()
+                EmotionStep(state = state)
             }
 
             RecordStep.IMPRESSION -> {
@@ -73,6 +79,7 @@ internal fun RecordRegister(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = ReedTheme.spacing.spacing5),
+            enabled = state.isNextButtonEnabled,
             text = stringResource(R.string.record_next_button),
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
@@ -89,6 +96,28 @@ internal fun RecordRegister(
             },
             onDismissRequest = {
                 state.eventSink(RecordRegisterUiEvent.OnExitDialogDismiss)
+            },
+        )
+    }
+
+    if (state.isRecordSavedDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.record_saved_dialog_title),
+            description = stringResource(R.string.record_saved_dialog_description),
+            confirmButtonText = stringResource(R.string.record_saved_dialog_move_to_detail),
+            dismissButtonText = stringResource(R.string.record_saved_dialog_close),
+            onConfirmRequest = {
+                state.eventSink(RecordRegisterUiEvent.OnRecordSavedDialogConfirm)
+            },
+            onDismissRequest = {
+                state.eventSink(RecordRegisterUiEvent.OnRecordSavedDialogDismiss)
+            },
+            headerContent = {
+                Box(
+                    modifier = Modifier
+                        .size(132.dp)
+                        .background(ReedTheme.colors.contentTertiary),
+                )
             },
         )
     }

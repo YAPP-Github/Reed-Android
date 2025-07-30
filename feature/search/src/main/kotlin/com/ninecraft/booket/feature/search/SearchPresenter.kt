@@ -14,6 +14,7 @@ import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.SearchScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -51,6 +52,7 @@ class SearchPresenter @AssistedInject constructor(
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
         var isLastPage by rememberRetained { mutableStateOf(false) }
         var selectedBookIsbn by rememberRetained { mutableStateOf("") }
+        var registeredUserBookId by rememberRetained { mutableStateOf("") }
         var isBookRegisterBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var selectedBookStatus by rememberRetained { mutableStateOf<BookStatus?>(null) }
         var isBookRegisterSuccessBottomSheetVisible by rememberRetained { mutableStateOf(false) }
@@ -98,6 +100,7 @@ class SearchPresenter @AssistedInject constructor(
             scope.launch {
                 repository.upsertBook(bookIsbn, bookStatus)
                     .onSuccess {
+                        registeredUserBookId = it.userBookId
                         selectedBookIsbn = ""
                         selectedBookStatus = null
                         isBookRegisterBottomSheetVisible = false
@@ -181,6 +184,7 @@ class SearchPresenter @AssistedInject constructor(
 
                 is SearchUiEvent.OnBookRegisterSuccessOkButtonClick -> {
                     isBookRegisterSuccessBottomSheetVisible = false
+                    navigator.goTo(RecordScreen(registeredUserBookId))
                 }
 
                 is SearchUiEvent.OnBookRegisterSuccessCancelButtonClick -> {
