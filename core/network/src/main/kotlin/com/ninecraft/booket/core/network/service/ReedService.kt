@@ -66,7 +66,7 @@ interface ReedService {
     ): LibraryResponse
 
     // Reading-records endpoints (auth required)
-    @POST("/api/v1/reading-records/{userBookId}")
+    @POST("api/v1/reading-records/{userBookId}")
     suspend fun postRecord(
         @Path("userBookId") userBookId: String,
         @Body recordRegisterRequest: RecordRegisterRequest,
