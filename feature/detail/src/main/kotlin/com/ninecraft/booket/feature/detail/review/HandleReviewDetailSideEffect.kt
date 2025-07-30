@@ -8,7 +8,6 @@ import com.skydoves.compose.effects.RememberedEffect
 @Composable
 internal fun HandleReviewDetailSideEffects(
     state: ReviewDetailUiState,
-    eventSink: (ReviewDetailUiEvent) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -19,10 +18,6 @@ internal fun HandleReviewDetailSideEffects(
             }
 
             null -> {}
-        }
-
-        if (state.sideEffect != null) {
-            eventSink(ReviewDetailUiEvent.InitSideEffect)
         }
     }
 }

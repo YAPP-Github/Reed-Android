@@ -17,6 +17,5 @@ sealed interface ReviewDetailSideEffect {
 }
 
 sealed interface ReviewDetailUiEvent : CircuitUiEvent {
-    data object InitSideEffect : ReviewDetailUiEvent
     data object OnBackClicked : ReviewDetailUiEvent
 }

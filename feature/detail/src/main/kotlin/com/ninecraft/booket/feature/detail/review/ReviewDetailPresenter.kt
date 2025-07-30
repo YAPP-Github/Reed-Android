@@ -28,10 +28,6 @@ class ReviewDetailPresenter @AssistedInject constructor(
 
         fun handleEvent(event: ReviewDetailUiEvent) {
             when (event) {
-                ReviewDetailUiEvent.InitSideEffect -> {
-                    sideEffect = null
-                }
-
                 ReviewDetailUiEvent.OnBackClicked -> {
                     navigator.pop()
                 }
@@ -47,7 +43,5 @@ class ReviewDetailPresenter @AssistedInject constructor(
 @CircuitInject(ReviewDetailScreen::class, ActivityRetainedComponent::class)
 @AssistedFactory
 fun interface Factory {
-    fun create(
-        navigator: Navigator,
-    ): ReviewDetailPresenter
+    fun create(navigator: Navigator): ReviewDetailPresenter
 }
