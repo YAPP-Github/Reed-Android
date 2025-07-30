@@ -10,7 +10,6 @@ import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.constants.WebViewConstants
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
-import com.ninecraft.booket.feature.login.LoginSideEffect
 import com.ninecraft.booket.feature.screens.BottomNavigationScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
@@ -27,7 +26,6 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class TermsAgreementPresenter @AssistedInject constructor(

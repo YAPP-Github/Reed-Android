@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TermsAgreementRequest(
     @SerialName("termsAgreed")
-    val termsAgreed: Boolean
+    val termsAgreed: Boolean,
 )

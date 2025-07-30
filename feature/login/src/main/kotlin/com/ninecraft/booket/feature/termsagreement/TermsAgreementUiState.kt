@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.termsagreement
 
-import com.ninecraft.booket.feature.login.LoginSideEffect
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList

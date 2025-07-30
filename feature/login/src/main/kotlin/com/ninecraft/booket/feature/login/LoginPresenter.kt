@@ -34,9 +34,7 @@ class LoginPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<LoginSideEffect?>(null) }
-        val isOnboardingCompleted by userRepository.isOnboardingCompleted.collectAsRetainedState(
-            initial = false
-        )
+        val isOnboardingCompleted by userRepository.isOnboardingCompleted.collectAsRetainedState(initial = false)
 
         fun navigateAfterLogin() {
             scope.launch {

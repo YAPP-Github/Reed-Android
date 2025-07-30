@@ -68,7 +68,7 @@ private fun TermItemPreview() {
     ReedTheme {
         TermItem(
             title = "(필수)서비스 이용약관",
-            onCheckClick = {}
+            onCheckClick = {},
         )
     }
 }
