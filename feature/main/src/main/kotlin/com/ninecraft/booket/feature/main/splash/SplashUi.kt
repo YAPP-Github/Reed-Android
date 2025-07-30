@@ -11,7 +11,6 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 @CircuitInject(SplashScreen::class, ActivityRetainedComponent::class)
 @Composable
 fun SplashUi(
-    state: SplashUiState,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxSize())

@@ -4,5 +4,5 @@ import com.slack.circuit.runtime.CircuitUiState
 
 data class SplashUiState(
     val idle: Boolean = true,
-    val isOnboardingCompleted: Boolean? = null
+    val isOnboardingCompleted: Boolean? = null,
 ) : CircuitUiState

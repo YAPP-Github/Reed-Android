@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.main.splash
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.model.OnboardingState
@@ -27,14 +26,16 @@ class SplashPresenter @AssistedInject constructor(
     override fun present(): SplashUiState {
         val onboardingState by userRepository.onboardingState.collectAsRetainedState(initial = OnboardingState.Idle)
 
-        LaunchedEffect(onboardingState) {
+        RememberedEffect(onboardingState) {
             when (onboardingState) {
                 OnboardingState.Idle -> {
                     // 초기 진입 상태
                 }
+
                 OnboardingState.NotCompleted -> {
                     navigator.resetRoot(OnboardingScreen)
                 }
+
                 OnboardingState.Completed -> {
                     navigator.resetRoot(LoginScreen)
                 }
@@ -47,7 +48,7 @@ class SplashPresenter @AssistedInject constructor(
                 OnboardingState.Idle -> null
                 OnboardingState.NotCompleted -> false
                 OnboardingState.Completed -> true
-            }
+            },
         )
     }
 

@@ -10,6 +10,6 @@ dependencies {
     implementations(
         projects.core.model,
 
-        libs.kotlinx.coroutines.core
+        libs.kotlinx.coroutines.core,
     )
 }
