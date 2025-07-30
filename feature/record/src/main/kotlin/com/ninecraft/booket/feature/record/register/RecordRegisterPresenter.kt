@@ -3,9 +3,10 @@ package com.ninecraft.booket.feature.record.register
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.utils.handleException
@@ -62,7 +63,21 @@ class RecordRegisterPresenter @AssistedInject constructor(
         var isImpressionGuideBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
         var isRecordSavedDialogVisible by rememberRetained { mutableStateOf(false) }
-        var isNextButtonEnabled by rememberRetained { mutableStateOf(false) }
+        val isNextButtonEnabled by remember {
+            derivedStateOf {
+                when (currentStep) {
+                    RecordStep.QUOTE -> {
+                        recordPageState.text.isNotEmpty() && recordSentenceState.text.isNotEmpty()
+                    }
+                    RecordStep.EMOTION -> {
+                        selectedEmotion != null
+                    }
+                    RecordStep.IMPRESSION -> {
+                        impressionState.text.isNotEmpty()
+                    }
+                }
+            }
+        }
 
         val ocrNavigator = rememberAnsweringNavigator<OcrScreen.OcrResult>(navigator) { result ->
             recordSentenceState.edit {
@@ -100,22 +115,6 @@ class RecordRegisterPresenter @AssistedInject constructor(
                             navigator.resetRoot(LoginScreen)
                         },
                     )
-                }
-            }
-        }
-
-        fun updateIsNextButtonEnabled() {
-            isNextButtonEnabled = when (currentStep) {
-                RecordStep.QUOTE -> {
-                    recordPageState.text.isNotEmpty() && recordSentenceState.text.isNotEmpty()
-                }
-
-                RecordStep.EMOTION -> {
-                    selectedEmotion != null
-                }
-
-                RecordStep.IMPRESSION -> {
-                    impressionState.text.isNotEmpty()
                 }
             }
         }
@@ -217,16 +216,6 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     navigator.pop()
                 }
             }
-        }
-
-        LaunchedEffect(
-            currentStep,
-            recordPageState.text,
-            recordSentenceState.text,
-            selectedEmotion,
-            impressionState.text,
-        ) {
-            updateIsNextButtonEnabled()
         }
 
         return RecordRegisterUiState(
