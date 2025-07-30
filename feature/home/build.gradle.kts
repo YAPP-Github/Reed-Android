@@ -17,5 +17,7 @@ ksp {
 dependencies {
     implementations(
         libs.logger,
+
+        libs.compose.system.ui.controller,
     )
 }
