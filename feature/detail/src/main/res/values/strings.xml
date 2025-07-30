@@ -3,4 +3,6 @@
     <string name="review_detail_title">독서 기록</string>
     <string name="review_detail_quote_label">수집한 문장</string>
     <string name="review_detail_impression_label">감상평 기록</string>
+    <string name="book_update_title">도서 상태</string>
+    <string name="book_update_ok">변경하기</string>
 </resources>
