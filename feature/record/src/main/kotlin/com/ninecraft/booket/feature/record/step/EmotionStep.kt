@@ -15,18 +15,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
+import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
+import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
+import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
+import kotlinx.collections.immutable.toPersistentList
 
 @Composable
 fun EmotionStep(
+    state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
-    val emotionList = listOf("기쁨", "슬픔", "분노", "놀람")
     Column(
         modifier = modifier
             .background(White)
@@ -49,8 +55,14 @@ fun EmotionStep(
             verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing3),
             horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing3),
             content = {
-                items(emotionList) { title ->
-                    EmotionItem(title)
+                items(state.emotionTags) { tag ->
+                    EmotionItem(
+                        emotionTag = tag,
+                        onClick = {
+                            state.eventSink(RecordRegisterUiEvent.OnSelectEmotion(tag))
+                        },
+                        isSelected = state.selectedEmotion == tag,
+                    )
                 }
             },
         )
@@ -58,24 +70,41 @@ fun EmotionStep(
 }
 
 @Composable
-private fun EmotionItem(title: String) {
+private fun EmotionItem(
+    emotionTag: EmotionTag,
+    onClick: () -> Unit,
+    isSelected: Boolean,
+) {
+    val bgColor = if (isSelected) ReedTheme.colors.bgTertiary else ReedTheme.colors.bgSecondary
+
     Box(
         modifier = Modifier
             .height(214.dp)
             .background(
-                color = ReedTheme.colors.bgSecondary,
+                color = bgColor,
                 shape = RoundedCornerShape(ReedTheme.radius.md),
-            ),
+            )
+            .clip(RoundedCornerShape(ReedTheme.radius.md))
+            .clickableSingle {
+                onClick()
+            },
         contentAlignment = Alignment.Center,
     ) {
-        Text(text = title)
+        Text(text = emotionTag.label)
     }
 }
 
 @ComponentPreview
 @Composable
 private fun RecordRegisterPreview() {
+    val emotionTags = EmotionTag.entries.toPersistentList()
+
     ReedTheme {
-        EmotionStep()
+        EmotionStep(
+            state = RecordRegisterUiState(
+                emotionTags = emotionTags,
+                eventSink = {},
+            ),
+        )
     }
 }

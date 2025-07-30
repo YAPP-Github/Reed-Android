@@ -56,7 +56,7 @@ internal fun RecordRegister(
             }
 
             RecordStep.EMOTION -> {
-                EmotionStep()
+                EmotionStep(state = state)
             }
 
             RecordStep.IMPRESSION -> {
@@ -90,6 +90,21 @@ internal fun RecordRegister(
             onDismissRequest = {
                 state.eventSink(RecordRegisterUiEvent.OnExitDialogDismiss)
             },
+        )
+    }
+
+    if (state.isRecordSavedDialogVisible) {
+        ReedDialog(
+            title = "기록이 저장되었어요!",
+            description = "방금 남긴 기록을 확인해볼까요?",
+            confirmButtonText = "기록 보러가기",
+            dismissButtonText = "닫기",
+            onConfirmRequest = {
+                state.eventSink(RecordRegisterUiEvent.OnRecordSavedDialogConfirm)
+            },
+            onDismissRequest = {
+                state.eventSink(RecordRegisterUiEvent.OnRecordSavedDialogDismiss)
+            }
         )
     }
 }

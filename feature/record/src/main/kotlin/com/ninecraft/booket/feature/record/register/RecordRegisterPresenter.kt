@@ -8,9 +8,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
+import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
+import com.ninecraft.booket.feature.screens.ReviewDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.rememberAnsweringNavigator
 import com.slack.circuit.retained.rememberRetained
@@ -49,10 +51,13 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 ).toPersistentList(),
             )
         }
+        val emotionTags by rememberRetained { mutableStateOf(EmotionTag.entries.toPersistentList()) }
+        var selectedEmotion by rememberRetained { mutableStateOf<EmotionTag?>(null) }
         var selectedImpressionGuide by rememberRetained { mutableStateOf("") }
         val impressionState = rememberTextFieldState()
         var isImpressionGuideBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
+        var isRecordSavedDialogVisible by rememberRetained { mutableStateOf(false) }
         val ocrNavigator = rememberAnsweringNavigator<OcrScreen.OcrResult>(navigator) { result ->
             recordSentenceState.edit {
                 replace(0, length, "")
@@ -75,7 +80,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     emotionTags = emotionTags,
                     review = impression,
                 ).onSuccess {
-                    // TODO: 기록 완료 다이얼로그 띄우기
+                    isRecordSavedDialogVisible = true
                 }.onFailure {
                     // TODO: 등록 실패 다이얼로그 띄우기
                 }
@@ -105,6 +110,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
 
                 is RecordRegisterUiEvent.OnExitDialogConfirm -> {
+                    isExitDialogVisible = false
                     navigator.pop()
                 }
 
@@ -116,7 +122,9 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     ocrNavigator.goTo(OcrScreen)
                 }
 
-                is RecordRegisterUiEvent.OnSelectEmotion -> {}
+                is RecordRegisterUiEvent.OnSelectEmotion -> {
+                    selectedEmotion = event.emotion
+                }
 
                 is RecordRegisterUiEvent.OnImpressionGuideButtonClick -> {
                     selectedImpressionGuide = ""
@@ -156,13 +164,24 @@ class RecordRegisterPresenter @AssistedInject constructor(
                         RecordStep.IMPRESSION -> {
                             postRecord(
                                 userBookId = screen.userBookId,
-                                pageNumber = recordPageState.text.toString().toInt(),
+                                pageNumber = recordPageState.text.toString().toIntOrNull() ?: 0,
                                 quote = recordSentenceState.text.toString(),
-                                emotionTags = listOf("감동적"), // enum 값으로 관리해야 할 것 같은데..
+                                emotionTags = selectedEmotion?.let { listOf(it.label) } ?: emptyList(),
                                 impression = impressionState.text.toString(),
                             )
                         }
                     }
+                }
+
+                is RecordRegisterUiEvent.OnRecordSavedDialogConfirm -> {
+                    isRecordSavedDialogVisible = false
+                    navigator.pop()
+                    navigator.goTo(ReviewDetailScreen)
+                }
+
+                is RecordRegisterUiEvent.OnRecordSavedDialogDismiss -> {
+                    isRecordSavedDialogVisible = false
+                    navigator.pop()
                 }
             }
         }
@@ -171,10 +190,13 @@ class RecordRegisterPresenter @AssistedInject constructor(
             currentStep = currentStep,
             recordPageState = recordPageState,
             recordSentenceState = recordSentenceState,
+            emotionTags = emotionTags,
+            selectedEmotion = selectedEmotion,
             impressionState = impressionState,
             impressionGuideList = impressionGuideList,
             isImpressionGuideBottomSheetVisible = isImpressionGuideBottomSheetVisible,
             isExitDialogVisible = isExitDialogVisible,
+            isRecordSavedDialogVisible = isRecordSavedDialogVisible,
             selectedImpressionGuide = selectedImpressionGuide,
             eventSink = ::handleEvent,
         )
