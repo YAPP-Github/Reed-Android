@@ -100,7 +100,6 @@ class RecordRegisterPresenter @AssistedInject constructor(
                             navigator.resetRoot(LoginScreen)
                         },
                     )
-
                 }
             }
         }
@@ -225,7 +224,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
             recordPageState.text,
             recordSentenceState.text,
             selectedEmotion,
-            impressionState.text
+            impressionState.text,
         ) {
             updateIsNextButtonEnabled()
         }

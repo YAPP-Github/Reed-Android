@@ -14,5 +14,5 @@ enum class EmotionTag(val label: String, val bgColor: Color, val textColor: Colo
     WARMTH("따뜻함", WarmthBgColor, WarmthTextColor, 0),
     JOY("즐거움", JoyBgColor, JoyTextColor, 0),
     TENSION("긴장감", TensionBgColor, TensionTextColor, 0),
-    SADNESS("슬픔", SadnessBgColor, SadnessTextColor, 0);
+    SADNESS("슬픔", SadnessBgColor, SadnessTextColor, 0),
 }

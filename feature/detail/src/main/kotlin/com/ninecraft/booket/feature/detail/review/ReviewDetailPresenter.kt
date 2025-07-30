@@ -19,6 +19,7 @@ class ReviewDetailPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
 ) : Presenter<ReviewDetailUiState> {
 
+    @Suppress("unused")
     @Composable
     override fun present(): ReviewDetailUiState {
         val scope = rememberCoroutineScope()
