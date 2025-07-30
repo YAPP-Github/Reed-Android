@@ -1,14 +1,18 @@
 package com.ninecraft.booket.feature.record.register
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.core.designsystem.component.RecordProgressBar
@@ -96,16 +100,23 @@ internal fun RecordRegister(
 
     if (state.isRecordSavedDialogVisible) {
         ReedDialog(
-            title = "기록이 저장되었어요!",
-            description = "방금 남긴 기록을 확인해볼까요?",
-            confirmButtonText = "기록 보러가기",
-            dismissButtonText = "닫기",
+            title = stringResource(R.string.record_saved_dialog_title),
+            description = stringResource(R.string.record_saved_dialog_description),
+            confirmButtonText = stringResource(R.string.record_saved_dialog_move_to_detail),
+            dismissButtonText = stringResource(R.string.record_saved_dialog_close),
             onConfirmRequest = {
                 state.eventSink(RecordRegisterUiEvent.OnRecordSavedDialogConfirm)
             },
             onDismissRequest = {
                 state.eventSink(RecordRegisterUiEvent.OnRecordSavedDialogDismiss)
-            }
+            },
+            headerContent = {
+                Box(
+                    modifier = Modifier
+                        .size(132.dp)
+                        .background(ReedTheme.colors.contentTertiary),
+                )
+            },
         )
     }
 }
