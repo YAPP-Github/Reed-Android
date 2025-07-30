@@ -33,13 +33,14 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 @Composable
 fun ReedButton(
     onClick: () -> Unit,
+    text: String,
     sizeStyle: ButtonSizeStyle,
     colorStyle: ReedButtonColorStyle,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    text: String = "",
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    multipleEventsCutterEnabled: Boolean = true,
 ) {
     val multipleEventsCutter = remember { MultipleEventsCutter.get() }
 
@@ -53,7 +54,13 @@ fun ReedButton(
     )
 
     Button(
-        onClick = { multipleEventsCutter.processEvent { onClick() } },
+        onClick = {
+            if (multipleEventsCutterEnabled) {
+                multipleEventsCutter.processEvent { onClick() }
+            } else {
+                onClick()
+            }
+        },
         modifier = modifier.graphicsLayer {
             scaleX = scale
             scaleY = scale
