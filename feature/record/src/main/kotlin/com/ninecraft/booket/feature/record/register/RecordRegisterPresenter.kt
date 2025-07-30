@@ -8,12 +8,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.RecordStep
+import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.ReviewDetailScreen
+import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.rememberAnsweringNavigator
 import com.slack.circuit.retained.rememberRetained
@@ -35,7 +38,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
     @Composable
     override fun present(): RecordRegisterUiState {
         val scope = rememberCoroutineScope()
-
+        var sideEffect by rememberRetained { mutableStateOf<RecordRegisterSideEffect?>(null) }
         var currentStep by rememberRetained { mutableStateOf(RecordStep.QUOTE) }
         val recordPageState = rememberTextFieldState()
         val recordSentenceState = rememberTextFieldState()
@@ -84,8 +87,20 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     review = impression,
                 ).onSuccess {
                     isRecordSavedDialogVisible = true
-                }.onFailure {
-                    // TODO: 등록 실패 다이얼로그 띄우기
+                }.onFailure { exception ->
+                    val handleErrorMessage = { message: String ->
+                        Logger.e(message)
+                        sideEffect = RecordRegisterSideEffect.ShowToast(message)
+                    }
+
+                    handleException(
+                        exception = exception,
+                        onError = handleErrorMessage,
+                        onLoginRequired = {
+                            navigator.resetRoot(LoginScreen)
+                        },
+                    )
+
                 }
             }
         }
@@ -228,6 +243,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
             isImpressionGuideBottomSheetVisible = isImpressionGuideBottomSheetVisible,
             isExitDialogVisible = isExitDialogVisible,
             isRecordSavedDialogVisible = isRecordSavedDialogVisible,
+            sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
     }

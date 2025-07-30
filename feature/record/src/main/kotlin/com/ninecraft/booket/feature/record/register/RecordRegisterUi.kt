@@ -37,6 +37,8 @@ internal fun RecordRegister(
     state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
+    HandleRecordRegisterSideEffects(state = state)
+
     BackHandler {
         state.eventSink(RecordRegisterUiEvent.OnBackButtonClick)
     }

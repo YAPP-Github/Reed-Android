@@ -7,6 +7,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import java.util.UUID
 
 data class RecordRegisterUiState(
     val currentStep: RecordStep = RecordStep.QUOTE,
@@ -21,8 +22,16 @@ data class RecordRegisterUiState(
     val isImpressionGuideBottomSheetVisible: Boolean = false,
     val isExitDialogVisible: Boolean = false,
     val isRecordSavedDialogVisible: Boolean = false,
+    val sideEffect: RecordRegisterSideEffect? = null,
     val eventSink: (RecordRegisterUiEvent) -> Unit,
 ) : CircuitUiState
+
+sealed interface RecordRegisterSideEffect {
+    data class ShowToast(
+        val message: String,
+        private val key: String = UUID.randomUUID().toString(),
+    ) : RecordRegisterSideEffect
+}
 
 sealed interface RecordRegisterUiEvent : CircuitUiEvent {
     data object OnBackButtonClick : RecordRegisterUiEvent
