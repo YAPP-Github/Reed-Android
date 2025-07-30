@@ -43,7 +43,6 @@ internal fun ReviewDetail(
 ) {
     HandleReviewDetailSideEffects(
         state = state,
-        eventSink = state.eventSink,
     )
 
     ReedFullScreen(modifier = modifier) {
