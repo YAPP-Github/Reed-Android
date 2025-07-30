@@ -6,14 +6,14 @@ import androidx.compose.ui.platform.LocalContext
 import com.skydoves.compose.effects.RememberedEffect
 
 @Composable
-internal fun HandleReviewDetailSideEffects(
-    state: ReviewDetailUiState,
+internal fun HandleRecordDetailSideEffects(
+    state: RecordDetailUiState,
 ) {
     val context = LocalContext.current
 
     RememberedEffect(state.sideEffect) {
         when (state.sideEffect) {
-            is ReviewDetailSideEffect.ShowToast -> {
+            is RecordDetailSideEffect.ShowToast -> {
                 Toast.makeText(context, state.sideEffect.message, Toast.LENGTH_SHORT).show()
             }
 

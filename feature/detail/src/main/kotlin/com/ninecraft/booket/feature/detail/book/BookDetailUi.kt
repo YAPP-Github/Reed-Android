@@ -8,11 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -20,7 +20,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 
 @CircuitInject(BookDetailScreen::class, ActivityRetainedComponent::class)
 @Composable
-fun BookDetail(
+fun BookDetailUi(
     state: BookDetailUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -78,7 +78,7 @@ fun BookDetail(
 @Composable
 private fun BookDetailPreview() {
     ReedTheme {
-        BookDetail(
+        BookDetailUi(
             state = BookDetailUiState(
                 eventSink = {},
             ),

@@ -15,8 +15,8 @@ import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OcrScreen
+import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
-import com.ninecraft.booket.feature.screens.ReviewDetailScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.rememberAnsweringNavigator
@@ -208,7 +208,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 is RecordRegisterUiEvent.OnRecordSavedDialogConfirm -> {
                     isRecordSavedDialogVisible = false
                     navigator.pop()
-                    navigator.goTo(ReviewDetailScreen)
+                    navigator.goTo(RecordDetailScreen)
                 }
 
                 is RecordRegisterUiEvent.OnRecordSavedDialogDismiss -> {

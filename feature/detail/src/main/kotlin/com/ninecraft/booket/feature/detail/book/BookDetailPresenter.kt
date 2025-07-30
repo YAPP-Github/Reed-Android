@@ -9,6 +9,7 @@ import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -57,24 +58,28 @@ class BookDetailPresenter @AssistedInject constructor(
 
         fun handleEvent(event: BookDetailUiEvent) {
             when (event) {
-                BookDetailUiEvent.InitSideEffect -> {
+                is BookDetailUiEvent.InitSideEffect -> {
                     sideEffect = null
                 }
 
-                BookDetailUiEvent.OnBackClicked -> {
+                is BookDetailUiEvent.OnBackClicked -> {
                     navigator.pop()
                 }
 
-                BookDetailUiEvent.OnBeforeReadingClick -> {
+                is BookDetailUiEvent.OnBeforeReadingClick -> {
                     upsertBook(screen.isbn, "BEFORE_READING")
                 }
 
-                BookDetailUiEvent.OnReadingClick -> {
+                is BookDetailUiEvent.OnReadingClick -> {
                     upsertBook(screen.isbn, "READING")
                 }
 
-                BookDetailUiEvent.OnCompletedClick -> {
+                is BookDetailUiEvent.OnCompletedClick -> {
                     upsertBook(screen.isbn, "COMPLETED")
+                }
+
+                is BookDetailUiEvent.OnRecordItemClick -> {
+                    navigator.goTo(RecordDetailScreen(event.recordId))
                 }
             }
         }

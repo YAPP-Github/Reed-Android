@@ -22,4 +22,5 @@ sealed interface BookDetailUiEvent : CircuitUiEvent {
     data object OnBeforeReadingClick : BookDetailUiEvent
     data object OnReadingClick : BookDetailUiEvent
     data object OnCompletedClick : BookDetailUiEvent
+    data class OnRecordItemClick(val recordId: String) : BookDetailUiEvent
 }
