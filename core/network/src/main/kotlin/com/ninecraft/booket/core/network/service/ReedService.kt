@@ -3,12 +3,14 @@ package com.ninecraft.booket.core.network.service
 import com.ninecraft.booket.core.network.request.BookUpsertRequest
 import com.ninecraft.booket.core.network.request.LoginRequest
 import com.ninecraft.booket.core.network.request.RefreshTokenRequest
+import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
 import com.ninecraft.booket.core.network.response.RefreshTokenResponse
+import com.ninecraft.booket.core.network.response.TermsAgreementResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -27,6 +29,9 @@ interface ReedService {
     // Auth endpoints (auth required)
     @POST("api/v1/auth/signout")
     suspend fun logout()
+
+    @PUT("api/v1/auth/terms-agreement")
+    suspend fun agreeTerms(@Body termsAgreementRequest: TermsAgreementRequest): TermsAgreementResponse
 
     @GET("api/v1/auth/me")
     suspend fun getUserProfile(): UserProfileResponse
