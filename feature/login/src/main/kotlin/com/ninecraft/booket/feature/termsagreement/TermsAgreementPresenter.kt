@@ -5,15 +5,15 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.constants.WebViewConstants
-import com.ninecraft.booket.core.data.api.repository.UserRepository
+import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.feature.screens.BottomNavigationScreen
-import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.ninecraft.booket.feature.screens.WebViewScreen
+import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -23,14 +23,18 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.launch
 
 class TermsAgreementPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val repository: UserRepository,
+    private val authRepository: AuthRepository,
 ) : Presenter<TermsAgreementUiState> {
 
     @Composable
     override fun present(): TermsAgreementUiState {
+        val scope = rememberCoroutineScope()
+        var sideEffect by rememberRetained { mutableStateOf<TermsAgreementSideEffect?>(null) }
+
         var agreedTerms by rememberRetained {
             mutableStateOf(persistentListOf(false, false, false))
         }
@@ -40,8 +44,6 @@ class TermsAgreementPresenter @AssistedInject constructor(
                 agreedTerms.all { it }
             }
         }
-
-        val isOnboardingCompleted by repository.isOnboardingCompleted.collectAsRetainedState(initial = false)
 
         fun handleEvent(event: TermsAgreementUiEvent) {
             when (event) {
@@ -65,10 +67,16 @@ class TermsAgreementPresenter @AssistedInject constructor(
                 }
 
                 is TermsAgreementUiEvent.OnStartButtonClick -> {
-                    if (isOnboardingCompleted) {
-                        navigator.resetRoot(BottomNavigationScreen)
-                    } else {
-                        navigator.resetRoot(OnboardingScreen)
+                    scope.launch {
+                        authRepository.agreeTerms(true)
+                            .onSuccess {
+                                navigator.resetRoot(BottomNavigationScreen)
+                            }.onFailure { exception ->
+                                exception.message?.let { Logger.e(it) }
+                                sideEffect = exception.message?.let {
+                                    TermsAgreementSideEffect.ShowToast(it)
+                                }
+                            }
                     }
                 }
             }

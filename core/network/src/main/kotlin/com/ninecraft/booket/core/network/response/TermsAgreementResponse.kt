@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserProfileResponse(
+data class TermsAgreementResponse(
     @SerialName("id")
     val id: String,
     @SerialName("email")

@@ -33,13 +33,14 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 @Composable
 fun ReedButton(
     onClick: () -> Unit,
+    text: String,
     sizeStyle: ButtonSizeStyle,
     colorStyle: ReedButtonColorStyle,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    text: String = "",
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    multipleEventsCutterEnabled: Boolean = true,
 ) {
     val multipleEventsCutter = remember { MultipleEventsCutter.get() }
 
@@ -53,7 +54,13 @@ fun ReedButton(
     )
 
     Button(
-        onClick = { multipleEventsCutter.processEvent { onClick() } },
+        onClick = {
+            if (multipleEventsCutterEnabled) {
+                multipleEventsCutter.processEvent { onClick() }
+            } else {
+                onClick()
+            }
+        },
         modifier = modifier.graphicsLayer {
             scaleX = scale
             scaleY = scale
@@ -141,15 +148,15 @@ private fun ReedLargeButtonPreview() {
         ) {
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 sizeStyle = largeRoundedButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.SECONDARY,
                 sizeStyle = largeRoundedButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
@@ -159,9 +166,9 @@ private fun ReedLargeButtonPreview() {
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.STROKE,
                 sizeStyle = largeRoundedButtonStyle,
-                text = "button",
             )
         }
         FlowRow(
@@ -173,9 +180,9 @@ private fun ReedLargeButtonPreview() {
             ) {
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.PRIMARY,
                     sizeStyle = largeButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -191,9 +198,9 @@ private fun ReedLargeButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.SECONDARY,
                     sizeStyle = largeButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -209,9 +216,9 @@ private fun ReedLargeButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.TERTIARY,
                     sizeStyle = largeButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -227,9 +234,9 @@ private fun ReedLargeButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.STROKE,
                     sizeStyle = largeButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -249,9 +256,9 @@ private fun ReedLargeButtonPreview() {
             ) {
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.PRIMARY,
                     sizeStyle = largeRoundedButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -267,9 +274,9 @@ private fun ReedLargeButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.SECONDARY,
                     sizeStyle = largeRoundedButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -285,9 +292,9 @@ private fun ReedLargeButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.TERTIARY,
                     sizeStyle = largeRoundedButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -303,9 +310,9 @@ private fun ReedLargeButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.STROKE,
                     sizeStyle = largeRoundedButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -337,27 +344,27 @@ private fun ReedMediumButtonPreview() {
         ) {
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 sizeStyle = mediumButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.SECONDARY,
                 sizeStyle = mediumButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.TERTIARY,
                 sizeStyle = mediumButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.STROKE,
                 sizeStyle = mediumButtonStyle,
-                text = "button",
             )
         }
         FlowRow(
@@ -366,27 +373,27 @@ private fun ReedMediumButtonPreview() {
         ) {
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 sizeStyle = mediumRoundedButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.SECONDARY,
                 sizeStyle = mediumRoundedButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.TERTIARY,
                 sizeStyle = mediumRoundedButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.STROKE,
                 sizeStyle = mediumRoundedButtonStyle,
-                text = "button",
             )
         }
         FlowRow(
@@ -397,9 +404,9 @@ private fun ReedMediumButtonPreview() {
             ) {
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.PRIMARY,
                     sizeStyle = mediumButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -415,9 +422,9 @@ private fun ReedMediumButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.SECONDARY,
                     sizeStyle = mediumButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -433,9 +440,9 @@ private fun ReedMediumButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.TERTIARY,
                     sizeStyle = mediumButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -451,9 +458,9 @@ private fun ReedMediumButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.STROKE,
                     sizeStyle = mediumButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -473,9 +480,9 @@ private fun ReedMediumButtonPreview() {
             ) {
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.PRIMARY,
                     sizeStyle = mediumRoundedButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -491,9 +498,9 @@ private fun ReedMediumButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.SECONDARY,
                     sizeStyle = mediumRoundedButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -509,9 +516,9 @@ private fun ReedMediumButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.TERTIARY,
                     sizeStyle = mediumRoundedButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -527,9 +534,9 @@ private fun ReedMediumButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.STROKE,
                     sizeStyle = mediumRoundedButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -561,27 +568,27 @@ private fun ReedSmallButtonPreview() {
         ) {
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 sizeStyle = smallButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.SECONDARY,
                 sizeStyle = smallButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.TERTIARY,
                 sizeStyle = smallButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.STROKE,
                 sizeStyle = smallButtonStyle,
-                text = "button",
             )
         }
         Row(
@@ -589,27 +596,27 @@ private fun ReedSmallButtonPreview() {
         ) {
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 sizeStyle = smallRoundedButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.SECONDARY,
                 sizeStyle = smallRoundedButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.TERTIARY,
                 sizeStyle = smallRoundedButtonStyle,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.STROKE,
                 sizeStyle = smallRoundedButtonStyle,
-                text = "button",
             )
         }
         Row(
@@ -620,9 +627,9 @@ private fun ReedSmallButtonPreview() {
             ) {
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.PRIMARY,
                     sizeStyle = smallButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -638,9 +645,9 @@ private fun ReedSmallButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.SECONDARY,
                     sizeStyle = smallButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -656,9 +663,9 @@ private fun ReedSmallButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.TERTIARY,
                     sizeStyle = smallButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -674,9 +681,9 @@ private fun ReedSmallButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.STROKE,
                     sizeStyle = smallButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -696,9 +703,9 @@ private fun ReedSmallButtonPreview() {
             ) {
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.PRIMARY,
                     sizeStyle = smallRoundedButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -714,9 +721,9 @@ private fun ReedSmallButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.SECONDARY,
                     sizeStyle = smallRoundedButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -732,9 +739,9 @@ private fun ReedSmallButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.TERTIARY,
                     sizeStyle = smallRoundedButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -750,9 +757,9 @@ private fun ReedSmallButtonPreview() {
                 )
                 ReedButton(
                     onClick = {},
+                    text = "button",
                     colorStyle = ReedButtonColorStyle.STROKE,
                     sizeStyle = smallRoundedButtonStyle,
-                    text = "button",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Check,
@@ -784,23 +791,23 @@ private fun ReedButtonDisabledPreview() {
         ) {
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 sizeStyle = largeButtonStyle,
                 enabled = false,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 sizeStyle = largeRoundedButtonStyle,
                 enabled = false,
-                text = "button",
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 sizeStyle = largeButtonStyle,
-                text = "button",
                 enabled = false,
                 leadingIcon = {
                     Icon(
@@ -817,10 +824,10 @@ private fun ReedButtonDisabledPreview() {
             )
             ReedButton(
                 onClick = {},
+                text = "button",
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 sizeStyle = largeRoundedButtonStyle,
                 enabled = false,
-                text = "button",
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Check,

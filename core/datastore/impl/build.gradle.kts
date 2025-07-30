@@ -17,6 +17,8 @@ android {
 dependencies {
     implementations(
         projects.core.datastore.api,
+        projects.core.model,
+
         libs.androidx.datastore.preferences,
 
         libs.logger,

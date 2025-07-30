@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
+import com.ninecraft.booket.core.data.api.repository.UserRepository
+import com.ninecraft.booket.feature.screens.BottomNavigationScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.orhanobut.logger.Logger
@@ -21,7 +23,8 @@ import kotlinx.coroutines.launch
 
 class LoginPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val repository: AuthRepository,
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
 ) : Presenter<LoginUiState> {
 
     @Composable
@@ -29,6 +32,24 @@ class LoginPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<LoginSideEffect?>(null) }
+
+        fun navigateAfterLogin() {
+            scope.launch {
+                userRepository.getUserProfile()
+                    .onSuccess { userProfile ->
+                        if (userProfile.termsAgreed) {
+                            navigator.resetRoot(BottomNavigationScreen)
+                        } else {
+                            navigator.resetRoot(TermsAgreementScreen)
+                        }
+                    }.onFailure { exception ->
+                        exception.message?.let { Logger.e(it) }
+                        sideEffect = exception.message?.let {
+                            LoginSideEffect.ShowToast(it)
+                        }
+                    }
+            }
+        }
 
         fun handleEvent(event: LoginUiEvent) {
             when (event) {
@@ -46,9 +67,9 @@ class LoginPresenter @AssistedInject constructor(
                     scope.launch {
                         try {
                             isLoading = true
-                            repository.login(event.accessToken)
+                            authRepository.login(event.accessToken)
                                 .onSuccess {
-                                    navigator.resetRoot(TermsAgreementScreen)
+                                    navigateAfterLogin()
                                 }.onFailure { exception ->
                                     exception.message?.let { Logger.e(it) }
                                     sideEffect = exception.message?.let {

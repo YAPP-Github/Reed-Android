@@ -38,7 +38,7 @@ internal fun PagerIndicator(
 
                 Box(
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
+                        .padding(horizontal = 4.dp)
                         .clip(CircleShape)
                         .background(color)
                         .size(8.dp),

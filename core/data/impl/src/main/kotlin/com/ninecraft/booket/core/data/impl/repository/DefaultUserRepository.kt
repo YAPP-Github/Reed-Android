@@ -15,7 +15,7 @@ internal class DefaultUserRepository @Inject constructor(
         service.getUserProfile().toModel()
     }
 
-    override val isOnboardingCompleted = onboardingDataSource.isOnboardingCompleted
+    override val onboardingState = onboardingDataSource.onboardingState
 
     override suspend fun setOnboardingCompleted(isCompleted: Boolean) {
         onboardingDataSource.setOnboardingCompleted(isCompleted)

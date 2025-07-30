@@ -4,6 +4,7 @@ import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
 import com.ninecraft.booket.core.network.request.LoginRequest
+import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import javax.inject.Inject
 
@@ -26,6 +27,11 @@ internal class DefaultAuthRepository @Inject constructor(
     override suspend fun logout() = runSuspendCatching {
         service.logout()
         clearTokens()
+    }
+
+    override suspend fun agreeTerms(termsAgreed: Boolean) = runSuspendCatching {
+        service.agreeTerms(TermsAgreementRequest(termsAgreed))
+        Unit
     }
 
     private suspend fun saveTokens(accessToken: String, refreshToken: String) {
