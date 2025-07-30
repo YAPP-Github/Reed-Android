@@ -3,6 +3,7 @@ package com.ninecraft.booket.feature.record.register
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -58,6 +59,8 @@ class RecordRegisterPresenter @AssistedInject constructor(
         var isImpressionGuideBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
         var isRecordSavedDialogVisible by rememberRetained { mutableStateOf(false) }
+        var isNextButtonEnabled by rememberRetained { mutableStateOf(false) }
+
         val ocrNavigator = rememberAnsweringNavigator<OcrScreen.OcrResult>(navigator) { result ->
             recordSentenceState.edit {
                 replace(0, length, "")
@@ -83,6 +86,22 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     isRecordSavedDialogVisible = true
                 }.onFailure {
                     // TODO: 등록 실패 다이얼로그 띄우기
+                }
+            }
+        }
+
+        fun updateIsNextButtonEnabled() {
+            isNextButtonEnabled = when (currentStep) {
+                RecordStep.QUOTE -> {
+                    recordPageState.text.isNotEmpty() && recordSentenceState.text.isNotEmpty()
+                }
+
+                RecordStep.EMOTION -> {
+                    selectedEmotion != null
+                }
+
+                RecordStep.IMPRESSION -> {
+                    impressionState.text.isNotEmpty()
                 }
             }
         }
@@ -186,6 +205,16 @@ class RecordRegisterPresenter @AssistedInject constructor(
             }
         }
 
+        LaunchedEffect(
+            currentStep,
+            recordPageState.text,
+            recordSentenceState.text,
+            selectedEmotion,
+            impressionState.text
+        ) {
+            updateIsNextButtonEnabled()
+        }
+
         return RecordRegisterUiState(
             currentStep = currentStep,
             recordPageState = recordPageState,
@@ -194,10 +223,11 @@ class RecordRegisterPresenter @AssistedInject constructor(
             selectedEmotion = selectedEmotion,
             impressionState = impressionState,
             impressionGuideList = impressionGuideList,
+            selectedImpressionGuide = selectedImpressionGuide,
+            isNextButtonEnabled = isNextButtonEnabled,
             isImpressionGuideBottomSheetVisible = isImpressionGuideBottomSheetVisible,
             isExitDialogVisible = isExitDialogVisible,
             isRecordSavedDialogVisible = isRecordSavedDialogVisible,
-            selectedImpressionGuide = selectedImpressionGuide,
             eventSink = ::handleEvent,
         )
     }

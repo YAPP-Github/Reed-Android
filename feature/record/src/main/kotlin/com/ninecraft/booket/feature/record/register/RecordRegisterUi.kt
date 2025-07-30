@@ -73,6 +73,7 @@ internal fun RecordRegister(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = ReedTheme.spacing.spacing5),
+            enabled = state.isNextButtonEnabled,
             text = stringResource(R.string.record_next_button),
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))

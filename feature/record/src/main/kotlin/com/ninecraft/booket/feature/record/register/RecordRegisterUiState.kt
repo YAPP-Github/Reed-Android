@@ -17,6 +17,7 @@ data class RecordRegisterUiState(
     val impressionState: TextFieldState = TextFieldState(),
     val impressionGuideList: ImmutableList<String> = persistentListOf(),
     val selectedImpressionGuide: String = "",
+    val isNextButtonEnabled: Boolean = false,
     val isImpressionGuideBottomSheetVisible: Boolean = false,
     val isExitDialogVisible: Boolean = false,
     val isRecordSavedDialogVisible: Boolean = false,
