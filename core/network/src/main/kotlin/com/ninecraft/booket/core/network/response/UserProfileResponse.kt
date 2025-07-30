@@ -13,4 +13,6 @@ data class UserProfileResponse(
     val nickname: String,
     @SerialName("provider")
     val provider: String,
+    @SerialName("termsAgreed")
+    val termsAgreed: Boolean,
 )

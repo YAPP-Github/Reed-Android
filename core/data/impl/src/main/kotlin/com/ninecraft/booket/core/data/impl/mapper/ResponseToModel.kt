@@ -26,6 +26,7 @@ internal fun UserProfileResponse.toModel(): UserProfileModel {
         email = email,
         nickname = nickname,
         provider = provider,
+        termsAgreed = termsAgreed,
     )
 }
 
