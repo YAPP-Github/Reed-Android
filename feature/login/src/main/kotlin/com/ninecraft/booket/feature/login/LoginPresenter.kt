@@ -5,12 +5,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.slack.circuit.retained.collectAsRetainedState
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.feature.screens.BottomNavigationScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
-import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -34,18 +32,13 @@ class LoginPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<LoginSideEffect?>(null) }
-        val isOnboardingCompleted by userRepository.isOnboardingCompleted.collectAsRetainedState(initial = false)
 
         fun navigateAfterLogin() {
             scope.launch {
                 userRepository.getUserProfile()
                     .onSuccess { userProfile ->
                         if (userProfile.termsAgreed) {
-                            if (isOnboardingCompleted) {
-                                navigator.resetRoot(BottomNavigationScreen)
-                            } else {
-                                navigator.resetRoot(OnboardingScreen)
-                            }
+                            navigator.resetRoot(BottomNavigationScreen)
                         } else {
                             navigator.resetRoot(TermsAgreementScreen)
                         }

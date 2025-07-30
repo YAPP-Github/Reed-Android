@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import com.ninecraft.booket.core.datastore.api.datasource.OnboardingDataSource
+import com.ninecraft.booket.core.model.OnboardingState
 import com.ninecraft.booket.core.datastore.impl.di.OnboardingDataStore
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
 import kotlinx.coroutines.flow.Flow
@@ -14,10 +15,13 @@ import javax.inject.Inject
 class DefaultOnboardingDataSource @Inject constructor(
     @OnboardingDataStore private val dataStore: DataStore<Preferences>,
 ) : OnboardingDataSource {
-    override val isOnboardingCompleted: Flow<Boolean> = dataStore.data
+    override val onboardingState: Flow<OnboardingState> = dataStore.data
         .handleIOException()
         .map { prefs ->
-            prefs[IS_ONBOARDING_COMPLETED] ?: false
+            when (prefs[IS_ONBOARDING_COMPLETED] ?: false) {
+                false -> OnboardingState.NotCompleted
+                true -> OnboardingState.Completed
+            }
         }
 
     override suspend fun setOnboardingCompleted(isCompleted: Boolean) {

@@ -7,5 +7,9 @@ android {
 }
 
 dependencies {
-    implementation(libs.kotlinx.coroutines.core)
+    implementations(
+        projects.core.model,
+
+        libs.kotlinx.coroutines.core
+    )
 }
