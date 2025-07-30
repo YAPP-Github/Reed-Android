@@ -1,7 +1,7 @@
 package com.ninecraft.booket.core.model
 
 enum class OnboardingState {
-    Idle,
-    NotCompleted,
-    Completed,
+    IDLE,
+    NOT_COMPLETED,
+    COMPLETED,
 }

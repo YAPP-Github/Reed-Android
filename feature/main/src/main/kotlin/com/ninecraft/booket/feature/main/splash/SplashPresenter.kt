@@ -24,30 +24,30 @@ class SplashPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): SplashUiState {
-        val onboardingState by userRepository.onboardingState.collectAsRetainedState(initial = OnboardingState.Idle)
+        val onboardingState by userRepository.onboardingState.collectAsRetainedState(initial = OnboardingState.IDLE)
 
         RememberedEffect(onboardingState) {
             when (onboardingState) {
-                OnboardingState.Idle -> {
+                OnboardingState.IDLE -> {
                     // 초기 진입 상태
                 }
 
-                OnboardingState.NotCompleted -> {
+                OnboardingState.NOT_COMPLETED -> {
                     navigator.resetRoot(OnboardingScreen)
                 }
 
-                OnboardingState.Completed -> {
+                OnboardingState.COMPLETED -> {
                     navigator.resetRoot(LoginScreen)
                 }
             }
         }
 
         return SplashUiState(
-            idle = onboardingState == OnboardingState.Idle,
+            idle = onboardingState == OnboardingState.IDLE,
             isOnboardingCompleted = when (onboardingState) {
-                OnboardingState.Idle -> null
-                OnboardingState.NotCompleted -> false
-                OnboardingState.Completed -> true
+                OnboardingState.IDLE -> null
+                OnboardingState.NOT_COMPLETED -> false
+                OnboardingState.COMPLETED -> true
             },
         )
     }

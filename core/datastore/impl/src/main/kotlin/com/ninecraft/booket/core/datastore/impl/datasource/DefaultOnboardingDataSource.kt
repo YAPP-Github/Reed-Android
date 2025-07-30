@@ -19,8 +19,8 @@ class DefaultOnboardingDataSource @Inject constructor(
         .handleIOException()
         .map { prefs ->
             when (prefs[IS_ONBOARDING_COMPLETED] ?: false) {
-                false -> OnboardingState.NotCompleted
-                true -> OnboardingState.Completed
+                false -> OnboardingState.NOT_COMPLETED
+                true -> OnboardingState.COMPLETED
             }
         }
 
