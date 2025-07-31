@@ -24,13 +24,13 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.book.BookDetailUiState
 
-// TODO 필요한 파라미터만 선언하여 사용하기
 @Composable
 internal fun CollectedSeed(
     state: BookDetailUiState,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(
                 start = ReedTheme.spacing.spacing5,
