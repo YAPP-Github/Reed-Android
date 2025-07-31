@@ -18,7 +18,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ninecraft.booket.core.common.util.buildEmotionText
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.feature.detail.R
@@ -72,7 +71,7 @@ internal fun CollectedSeed(
                 ),
         ) {
             Text(
-                text = buildEmotionText(
+                text = EmotionAnalysisResultText(
                     emotions = state.emotionList,
                     brandColor = ReedTheme.colors.contentBrand,
                     secondaryColor = ReedTheme.colors.contentSecondary,
