@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.detail.record
 
+import androidx.compose.runtime.Immutable
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import java.util.UUID
@@ -9,6 +10,7 @@ data class RecordDetailUiState(
     val eventSink: (RecordDetailUiEvent) -> Unit,
 ) : CircuitUiState
 
+@Immutable
 sealed interface RecordDetailSideEffect {
     data class ShowToast(
         val message: String,

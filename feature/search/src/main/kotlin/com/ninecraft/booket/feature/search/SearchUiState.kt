@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.search
 
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
@@ -37,6 +38,7 @@ data class SearchUiState(
     val isEmptySearchResult: Boolean get() = uiState is UiState.Success && searchResult.totalResults == 0
 }
 
+@Immutable
 sealed interface SearchSideEffect {
     data class ShowToast(
         val message: String,

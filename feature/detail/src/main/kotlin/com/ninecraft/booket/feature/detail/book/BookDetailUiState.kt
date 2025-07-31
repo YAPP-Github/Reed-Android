@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.detail.book
 
+import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.common.R
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.model.Emotion
@@ -64,6 +65,7 @@ data class BookDetailUiState(
     val eventSink: (BookDetailUiEvent) -> Unit,
 ) : CircuitUiState
 
+@Immutable
 sealed interface BookDetailSideEffect {
     data class ShowToast(
         val message: String,

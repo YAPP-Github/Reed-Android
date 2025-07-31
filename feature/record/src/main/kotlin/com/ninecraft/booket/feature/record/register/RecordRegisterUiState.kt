@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.record.register
 
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.RecordStep
 import com.slack.circuit.runtime.CircuitUiEvent
@@ -26,6 +27,7 @@ data class RecordRegisterUiState(
     val eventSink: (RecordRegisterUiEvent) -> Unit,
 ) : CircuitUiState
 
+@Immutable
 sealed interface RecordRegisterSideEffect {
     data class ShowToast(
         val message: String,
