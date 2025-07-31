@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.TextRange
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.designsystem.EmotionTag
@@ -184,6 +185,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     impressionState.edit {
                         replace(0, length, "")
                         append(selectedImpressionGuide)
+                        this.selection = TextRange(0) // 커서를 문장 맨 앞에 위치
                     }
                     isImpressionGuideBottomSheetVisible = false
                 }

@@ -65,7 +65,7 @@ fun ReedRecordTextField(
         Column {
             BasicTextField(
                 state = recordState,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth(),
                 inputTransformation = inputTransformation,
                 textStyle = ReedTheme.typography.body2Medium.copy(color = textColor),
                 keyboardOptions = keyboardOptions,
