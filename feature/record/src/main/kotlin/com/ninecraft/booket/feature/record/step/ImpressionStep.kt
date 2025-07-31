@@ -89,7 +89,9 @@ fun ImpressionStep(
                 state.eventSink(RecordRegisterUiEvent.OnImpressionGuideBottomSheetDismiss)
             },
             sheetState = impressionGuideBottomSheetState,
+            impressionState = state.impressionState,
             impressionGuideList = state.impressionGuideList,
+            beforeSelectedImpressionGuide = state.beforeSelectedImpressionGuide,
             selectedImpressionGuide = state.selectedImpressionGuide,
             onGuideClick = {
                 state.eventSink(RecordRegisterUiEvent.OnSelectImpressionGuide(it))
@@ -103,7 +105,7 @@ fun ImpressionStep(
             onSelectionConfirmButtonClick = {
                 coroutineScope.launch {
                     impressionGuideBottomSheetState.hide()
-                    state.eventSink(RecordRegisterUiEvent.OnImpressionGuideBottomSheetDismiss)
+                    state.eventSink(RecordRegisterUiEvent.OnImpressionGuideConfirmed)
                 }
             },
         )

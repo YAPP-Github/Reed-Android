@@ -59,6 +59,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
         val emotionTags by rememberRetained { mutableStateOf(EmotionTag.entries.toPersistentList()) }
         var selectedEmotion by rememberRetained { mutableStateOf<EmotionTag?>(null) }
         var selectedImpressionGuide by rememberRetained { mutableStateOf("") }
+        var beforeSelectedImpressionGuide by rememberRetained { mutableStateOf(selectedImpressionGuide) }
         val impressionState = rememberTextFieldState()
         var isImpressionGuideBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
@@ -165,9 +166,9 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
 
                 is RecordRegisterUiEvent.OnImpressionGuideButtonClick -> {
-                    selectedImpressionGuide = ""
-                    impressionState.edit {
-                        replace(0, length, "")
+                    beforeSelectedImpressionGuide = selectedImpressionGuide
+                    if (impressionState.text.isEmpty()) {
+                        selectedImpressionGuide = ""
                     }
                     isImpressionGuideBottomSheetVisible = true
                 }
@@ -176,14 +177,16 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     val index = event.index
                     if (index in impressionGuideList.indices) {
                         selectedImpressionGuide = impressionGuideList[index]
-                        impressionState.edit {
-                            replace(0, length, "")
-                            append(selectedImpressionGuide)
-                        }
                     }
                 }
 
-                is RecordRegisterUiEvent.OnSelectionConfirmed -> {}
+                is RecordRegisterUiEvent.OnImpressionGuideConfirmed -> {
+                    impressionState.edit {
+                        replace(0, length, "")
+                        append(selectedImpressionGuide)
+                    }
+                    isImpressionGuideBottomSheetVisible = false
+                }
 
                 is RecordRegisterUiEvent.OnImpressionGuideBottomSheetDismiss -> {
                     isImpressionGuideBottomSheetVisible = false
@@ -234,6 +237,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
             impressionState = impressionState,
             impressionGuideList = impressionGuideList,
             selectedImpressionGuide = selectedImpressionGuide,
+            beforeSelectedImpressionGuide = beforeSelectedImpressionGuide,
             isNextButtonEnabled = isNextButtonEnabled,
             isImpressionGuideBottomSheetVisible = isImpressionGuideBottomSheetVisible,
             isExitDialogVisible = isExitDialogVisible,

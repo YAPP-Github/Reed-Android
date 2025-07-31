@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SheetState
@@ -36,12 +37,17 @@ import com.ninecraft.booket.core.designsystem.R as designR
 fun ImpressionGuideBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
+    impressionState: TextFieldState,
     impressionGuideList: ImmutableList<String>,
+    beforeSelectedImpressionGuide: String,
     selectedImpressionGuide: String,
     onGuideClick: (Int) -> Unit,
     onCloseButtonClick: () -> Unit,
     onSelectionConfirmButtonClick: () -> Unit,
 ) {
+    val description = if (impressionState.text.isEmpty()) stringResource(R.string.impression_guide_bottomsheet_description) else stringResource(R.string.impression_guide_bottomsheet_warning)
+    val descriptionColor = if (impressionState.text.isEmpty()) ReedTheme.colors.contentSecondary else ReedTheme.colors.contentError
+
     ReedBottomSheet(
         onDismissRequest = {
             onDismissRequest()
@@ -75,16 +81,18 @@ fun ImpressionGuideBottomSheet(
                     },
                 )
             }
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
             Text(
-                text = stringResource(R.string.impression_guide_bottomsheet_description),
+                text = description,
                 modifier = Modifier.fillMaxWidth(),
-                color = ReedTheme.colors.contentPrimary,
+                color = descriptionColor,
                 style = ReedTheme.typography.label1Medium,
             )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = ReedTheme.spacing.spacing5)
+                ,
                 verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
             ) {
                 impressionGuideList.forEachIndexed { index, guide ->
@@ -97,18 +105,30 @@ fun ImpressionGuideBottomSheet(
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
-            ReedButton(
-                onClick = {
-                    onSelectionConfirmButtonClick()
-                },
-                sizeStyle = largeButtonStyle,
-                colorStyle = ReedButtonColorStyle.PRIMARY,
-                modifier = Modifier.fillMaxWidth(),
-                enabled = selectedImpressionGuide.isNotEmpty(),
-                text = stringResource(R.string.impression_guide_bottomsheet_selection_confirm),
-            )
+            if (impressionState.text.isEmpty()) {
+                ReedButton(
+                    onClick = {
+                        onSelectionConfirmButtonClick()
+                    },
+                    sizeStyle = largeButtonStyle,
+                    colorStyle = ReedButtonColorStyle.PRIMARY,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = selectedImpressionGuide.isNotEmpty(),
+                    text = stringResource(R.string.impression_guide_bottomsheet_selection_confirm),
+                )
+            } else {
+                ReedButton(
+                    onClick = {
+                        onSelectionConfirmButtonClick()
+                    },
+                    sizeStyle = largeButtonStyle,
+                    colorStyle = ReedButtonColorStyle.PRIMARY_INVERSE_TEXT,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = beforeSelectedImpressionGuide != selectedImpressionGuide,
+                    text = "변경 완료",
+                )
+            }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
         }
     }
@@ -138,7 +158,9 @@ private fun ImpressionGuideBottomSheetPreview() {
         ImpressionGuideBottomSheet(
             onDismissRequest = {},
             sheetState = sheetState,
+            impressionState = TextFieldState(),
             impressionGuideList = impressionGuideList,
+            beforeSelectedImpressionGuide = "",
             selectedImpressionGuide = "",
             onGuideClick = {},
             onCloseButtonClick = {},

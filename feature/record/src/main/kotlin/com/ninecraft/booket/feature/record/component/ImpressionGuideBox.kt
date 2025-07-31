@@ -12,12 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.ComponentPreview
+import com.ninecraft.booket.core.designsystem.theme.Blank
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
@@ -56,7 +55,7 @@ fun ImpressionGuideBox(
         Row(verticalAlignment = Alignment.Bottom) {
             Text(
                 text = stringResource(R.string.impression_guide_blank),
-                color = Color(0xFFD6D6D6),
+                color = Blank,
                 style = ReedTheme.typography.label1SemiBold,
             )
             Text(

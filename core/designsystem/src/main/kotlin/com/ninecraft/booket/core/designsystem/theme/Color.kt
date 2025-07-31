@@ -64,6 +64,7 @@ val Blue800 = Color(0xFF1269EC)
 val Blue900 = Color(0xFF1F47CD)
 
 val Kakao = Color(0xFFFBD300)
+val Blank = Color(0xFFD6D6D6)
 val HomeBg = Color(0xFFF0F9E8)
 
 // Emotion Color

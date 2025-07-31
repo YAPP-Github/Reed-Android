@@ -31,6 +31,7 @@
     <string name="impression_step_guide">감상평 가이드</string>
     <string name="impression_guide_bottomsheet_title">감상평 가이드</string>
     <string name="impression_guide_bottomsheet_description">아래 문장 중 하나를 선택해 이어서 감상을 적어보세요</string>
+    <string name="impression_guide_bottomsheet_warning">새로운 가이드를 선택하면 기존 내용은 사라져요</string>
     <string name="impression_guide_bottomsheet_selection_confirm">선택 완료</string>
     <string name="impression_guide_blank">______</string>
     <string name="record_saved_dialog_title">기록이 저장되었어요!</string>

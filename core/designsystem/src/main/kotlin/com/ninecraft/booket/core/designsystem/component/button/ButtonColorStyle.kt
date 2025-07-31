@@ -7,11 +7,12 @@ import com.ninecraft.booket.core.designsystem.theme.Kakao
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
 enum class ReedButtonColorStyle {
-    PRIMARY, SECONDARY, TERTIARY, STROKE, KAKAO;
+    PRIMARY, PRIMARY_INVERSE_TEXT, SECONDARY, TERTIARY, STROKE, KAKAO;
 
     @Composable
     fun containerColor(isPressed: Boolean) = when (this) {
         PRIMARY -> if (isPressed) ReedTheme.colors.bgPrimaryPressed else ReedTheme.colors.bgPrimary
+        PRIMARY_INVERSE_TEXT -> if (isPressed) ReedTheme.colors.bgPrimaryPressed else ReedTheme.colors.bgPrimary
         SECONDARY -> if (isPressed) ReedTheme.colors.bgSecondaryPressed else ReedTheme.colors.bgSecondary
         TERTIARY -> if (isPressed) ReedTheme.colors.bgTertiaryPressed else ReedTheme.colors.bgTertiary
         STROKE -> if (isPressed) ReedTheme.colors.basePrimary else ReedTheme.colors.basePrimary
@@ -21,6 +22,7 @@ enum class ReedButtonColorStyle {
     @Composable
     fun contentColor() = when (this) {
         PRIMARY -> ReedTheme.colors.contentInverse
+        PRIMARY_INVERSE_TEXT -> ReedTheme.colors.contentInverse
         SECONDARY -> ReedTheme.colors.contentPrimary
         TERTIARY -> ReedTheme.colors.contentBrand
         STROKE -> ReedTheme.colors.contentBrand
@@ -31,7 +33,7 @@ enum class ReedButtonColorStyle {
     fun disabledContainerColor() = ReedTheme.colors.bgDisabled
 
     @Composable
-    fun disabledContentColor() = ReedTheme.colors.contentDisabled
+    fun disabledContentColor() = if (this == PRIMARY_INVERSE_TEXT) ReedTheme.colors.contentInverse else ReedTheme.colors.contentDisabled
 
     @Composable
     fun borderStroke() = when (this) {
