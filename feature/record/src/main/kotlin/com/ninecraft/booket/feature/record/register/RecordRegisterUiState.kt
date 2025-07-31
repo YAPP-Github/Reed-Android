@@ -13,11 +13,13 @@ data class RecordRegisterUiState(
     val currentStep: RecordStep = RecordStep.QUOTE,
     val recordPageState: TextFieldState = TextFieldState(),
     val recordSentenceState: TextFieldState = TextFieldState(),
+    val isPageError: Boolean = false,
     val emotionTags: ImmutableList<EmotionTag> = persistentListOf(),
     val selectedEmotion: EmotionTag? = null,
     val impressionState: TextFieldState = TextFieldState(),
     val impressionGuideList: ImmutableList<String> = persistentListOf(),
     val selectedImpressionGuide: String = "",
+    val beforeSelectedImpressionGuide: String = "",
     val isNextButtonEnabled: Boolean = false,
     val isImpressionGuideBottomSheetVisible: Boolean = false,
     val isExitDialogVisible: Boolean = false,
@@ -42,7 +44,7 @@ sealed interface RecordRegisterUiEvent : CircuitUiEvent {
     data object OnImpressionGuideButtonClick : RecordRegisterUiEvent
     data object OnImpressionGuideBottomSheetDismiss : RecordRegisterUiEvent
     data class OnSelectImpressionGuide(val index: Int) : RecordRegisterUiEvent
-    data object OnSelectionConfirmed : RecordRegisterUiEvent
+    data object OnImpressionGuideConfirmed : RecordRegisterUiEvent
     data object OnExitDialogConfirm : RecordRegisterUiEvent
     data object OnExitDialogDismiss : RecordRegisterUiEvent
     data object OnRecordSavedDialogConfirm : RecordRegisterUiEvent

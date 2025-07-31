@@ -11,10 +11,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -41,6 +46,16 @@ fun ImpressionStep(
     val impressionGuideBottomSheetState =
         rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(Unit) {
+        if (state.impressionState.text.isEmpty()) {
+            focusRequester.requestFocus()
+            keyboardController?.show()
+        }
+    }
+
     Column(
         modifier = modifier
             .background(White)
@@ -63,6 +78,7 @@ fun ImpressionStep(
             recordHintRes = R.string.impression_step_hint,
             modifier = Modifier
                 .fillMaxWidth()
+                .focusRequester(focusRequester)
                 .height(140.dp),
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
@@ -89,7 +105,9 @@ fun ImpressionStep(
                 state.eventSink(RecordRegisterUiEvent.OnImpressionGuideBottomSheetDismiss)
             },
             sheetState = impressionGuideBottomSheetState,
+            impressionState = state.impressionState,
             impressionGuideList = state.impressionGuideList,
+            beforeSelectedImpressionGuide = state.beforeSelectedImpressionGuide,
             selectedImpressionGuide = state.selectedImpressionGuide,
             onGuideClick = {
                 state.eventSink(RecordRegisterUiEvent.OnSelectImpressionGuide(it))
@@ -103,7 +121,7 @@ fun ImpressionStep(
             onSelectionConfirmButtonClick = {
                 coroutineScope.launch {
                     impressionGuideBottomSheetState.hide()
-                    state.eventSink(RecordRegisterUiEvent.OnImpressionGuideBottomSheetDismiss)
+                    state.eventSink(RecordRegisterUiEvent.OnImpressionGuideConfirmed)
                 }
             },
         )

@@ -81,6 +81,7 @@ internal fun RecordRegister(
                 .padding(horizontal = ReedTheme.spacing.spacing5),
             enabled = state.isNextButtonEnabled,
             text = stringResource(R.string.record_next_button),
+            multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
     }
