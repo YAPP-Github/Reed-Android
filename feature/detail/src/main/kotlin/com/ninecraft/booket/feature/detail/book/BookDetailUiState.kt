@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.detail.book
 
 import com.ninecraft.booket.core.common.R
+import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.model.EmotionModel
 import com.ninecraft.booket.core.model.RecordRegisterModel
@@ -11,6 +12,8 @@ import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 data class BookDetailUiState(
+    val isBookUpdateBottomSheetVisible: Boolean = false,
+    val isRecordSortBottomSheetVisible: Boolean = false,
     val emotionList: ImmutableList<EmotionModel> = persistentListOf(
         EmotionModel(
             type = Emotion.WARM,
@@ -29,6 +32,7 @@ data class BookDetailUiState(
             count = 2,
         ),
     ),
+    val currentBookStatus: BookStatus = BookStatus.BEFORE_READING,
     val currentRecordSort: RecordSort = RecordSort.PAGE_ASCENDING,
     val recordCollections: ImmutableList<RecordRegisterModel> = persistentListOf(
         RecordRegisterModel(
@@ -69,10 +73,15 @@ sealed interface BookDetailSideEffect {
 
 sealed interface BookDetailUiEvent : CircuitUiEvent {
     data object InitSideEffect : BookDetailUiEvent
-    data object OnBackClicked : BookDetailUiEvent
-    data object OnBeforeReadingClick : BookDetailUiEvent
-    data object OnReadingClick : BookDetailUiEvent
-    data object OnCompletedClick : BookDetailUiEvent
+    data object OnBackClick : BookDetailUiEvent
+    data object OnBookStatusButtonClick : BookDetailUiEvent
+    data object OnRegisterRecordButtonClick : BookDetailUiEvent
+    data object OnRecordSortButtonClick : BookDetailUiEvent
+    data object OnBookUpdateBottomSheetDismiss : BookDetailUiEvent
+    data class OnBookStatusItemSelected(val bookStatus: BookStatus) : BookDetailUiEvent
+    data object OnBookStatusUpdateButtonClick : BookDetailUiEvent
+    data object OnRecordSortBottomSheetDismiss : BookDetailUiEvent
+    data class OnRecordSortItemSelected(val sortType: RecordSort) : BookDetailUiEvent
     data class OnRecordItemClick(val recordId: String) : BookDetailUiEvent
 }
 

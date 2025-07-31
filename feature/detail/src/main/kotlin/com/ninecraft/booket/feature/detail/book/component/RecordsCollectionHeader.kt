@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.detail.book.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,10 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import com.ninecraft.booket.core.designsystem.R as designR
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.feature.detail.R
+import com.ninecraft.booket.feature.detail.book.BookDetailUiEvent
 import com.ninecraft.booket.feature.detail.book.BookDetailUiState
+import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
 internal fun RecordsCollectionHeader(
@@ -41,7 +43,11 @@ internal fun RecordsCollectionHeader(
                 style = ReedTheme.typography.headline2SemiBold,
             )
         }
-        Row {
+        Row(
+            modifier = Modifier.clickable {
+                state.eventSink(BookDetailUiEvent.OnRecordSortButtonClick)
+            },
+        ) {
             Text(
                 text = stringResource(state.currentRecordSort.getDisplayNameRes()),
                 color = ReedTheme.colors.contentSecondary,

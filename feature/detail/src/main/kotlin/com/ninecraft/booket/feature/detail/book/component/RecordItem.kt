@@ -69,7 +69,7 @@ internal fun RecordItem(
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
             Column {
                 Text(
-                    text = "#감동 공감",
+                    text = "#감동·공감",
                     color = ReedTheme.colors.contentBrand,
                     style = ReedTheme.typography.label1SemiBold,
                 )

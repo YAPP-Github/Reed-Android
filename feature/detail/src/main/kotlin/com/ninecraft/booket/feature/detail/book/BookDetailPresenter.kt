@@ -5,11 +5,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
+import com.ninecraft.booket.feature.screens.RecordScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -31,6 +33,10 @@ class BookDetailPresenter @AssistedInject constructor(
     override fun present(): BookDetailUiState {
         val scope = rememberCoroutineScope()
 
+        var isBookUpdateBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isRecordSortBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var currentBookStatus by rememberRetained { mutableStateOf(BookStatus.READING) }
+        var currentRecordSort by rememberRetained { mutableStateOf(RecordSort.PAGE_ASCENDING) }
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
 
         fun upsertBook(bookIsbn: String, bookStatus: String) {
@@ -62,20 +68,41 @@ class BookDetailPresenter @AssistedInject constructor(
                     sideEffect = null
                 }
 
-                is BookDetailUiEvent.OnBackClicked -> {
+                is BookDetailUiEvent.OnBackClick -> {
                     navigator.pop()
                 }
 
-                is BookDetailUiEvent.OnBeforeReadingClick -> {
-                    upsertBook(screen.isbn, "BEFORE_READING")
+                is BookDetailUiEvent.OnBookStatusButtonClick -> {
+                    isBookUpdateBottomSheetVisible = true
                 }
 
-                is BookDetailUiEvent.OnReadingClick -> {
-                    upsertBook(screen.isbn, "READING")
+                is BookDetailUiEvent.OnRegisterRecordButtonClick -> {
+                    navigator.goTo(RecordScreen(""))
                 }
 
-                is BookDetailUiEvent.OnCompletedClick -> {
-                    upsertBook(screen.isbn, "COMPLETED")
+                is BookDetailUiEvent.OnRecordSortButtonClick -> {
+                    isRecordSortBottomSheetVisible = true
+                }
+
+                is BookDetailUiEvent.OnBookUpdateBottomSheetDismiss -> {
+                    isBookUpdateBottomSheetVisible = false
+                }
+
+                is BookDetailUiEvent.OnBookStatusItemSelected -> {
+                    currentBookStatus = event.bookStatus
+                }
+
+                is BookDetailUiEvent.OnBookStatusUpdateButtonClick -> {
+                    upsertBook(screen.isbn, currentBookStatus.value)
+                }
+
+                is BookDetailUiEvent.OnRecordSortBottomSheetDismiss -> {
+                    isRecordSortBottomSheetVisible = false
+                }
+
+                is BookDetailUiEvent.OnRecordSortItemSelected -> {
+                    currentRecordSort = event.sortType
+                    isRecordSortBottomSheetVisible = false
                 }
 
                 is BookDetailUiEvent.OnRecordItemClick -> {
@@ -85,6 +112,10 @@ class BookDetailPresenter @AssistedInject constructor(
         }
 
         return BookDetailUiState(
+            isBookUpdateBottomSheetVisible = isBookUpdateBottomSheetVisible,
+            isRecordSortBottomSheetVisible = isRecordSortBottomSheetVisible,
+            currentBookStatus = currentBookStatus,
+            currentRecordSort = currentRecordSort,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
