@@ -42,7 +42,7 @@ import com.ninecraft.booket.core.designsystem.R as designR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookUpdateBottomSheet(
+internal fun BookUpdateBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
     onCloseButtonClick: () -> Unit,

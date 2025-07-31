@@ -35,7 +35,7 @@ import com.ninecraft.booket.core.designsystem.R as designR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecordSortBottomSheet(
+internal fun RecordSortBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
     onCloseButtonClick: () -> Unit,
