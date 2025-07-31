@@ -37,4 +37,5 @@
     <string name="record_saved_dialog_description">방금 남긴 기록을 확인해볼까요?</string>
     <string name="record_saved_dialog_move_to_detail">기록 보러가기</string>
     <string name="record_saved_dialog_close">닫기</string>
+    <string name="quote_step_page_input_error">해당 책의 마지막 페이지 수를 초과했습니다</string>
 </resources>

@@ -21,6 +21,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.designsystem.component.textfield.digitOnlyInputTransformation
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
@@ -59,11 +60,11 @@ internal fun QuoteStep(
         ReedRecordTextField(
             recordState = state.recordPageState,
             recordHintRes = R.string.quote_step_page_hint,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Next,
-            ),
+            inputTransformation = digitOnlyInputTransformation,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             lineLimits = TextFieldLineLimits.SingleLine,
+            isError = state.isPageError,
+            errorMessage = stringResource(R.string.quote_step_page_input_error),
             onClear = {
                 state.eventSink(RecordRegisterUiEvent.OnClearClick)
             },

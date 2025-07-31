@@ -63,11 +63,17 @@ class RecordRegisterPresenter @AssistedInject constructor(
         var isImpressionGuideBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
         var isRecordSavedDialogVisible by rememberRetained { mutableStateOf(false) }
+        val isPageError by remember {
+            derivedStateOf {
+                val page = recordPageState.text.toString().toIntOrNull() ?: 0
+                page > MAX_PAGE
+            }
+        }
         val isNextButtonEnabled by remember {
             derivedStateOf {
                 when (currentStep) {
                     RecordStep.QUOTE -> {
-                        recordPageState.text.isNotEmpty() && recordSentenceState.text.isNotEmpty()
+                        recordPageState.text.isNotEmpty() && recordSentenceState.text.isNotEmpty() && !isPageError
                     }
                     RecordStep.EMOTION -> {
                         selectedEmotion != null
@@ -222,6 +228,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
             currentStep = currentStep,
             recordPageState = recordPageState,
             recordSentenceState = recordSentenceState,
+            isPageError = isPageError,
             emotionTags = emotionTags,
             selectedEmotion = selectedEmotion,
             impressionState = impressionState,
@@ -243,5 +250,9 @@ class RecordRegisterPresenter @AssistedInject constructor(
             screen: RecordScreen,
             navigator: Navigator,
         ): RecordRegisterPresenter
+    }
+
+    companion object {
+        const val MAX_PAGE = 1000
     }
 }

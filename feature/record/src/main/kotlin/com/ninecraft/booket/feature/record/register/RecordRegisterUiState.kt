@@ -13,6 +13,7 @@ data class RecordRegisterUiState(
     val currentStep: RecordStep = RecordStep.QUOTE,
     val recordPageState: TextFieldState = TextFieldState(),
     val recordSentenceState: TextFieldState = TextFieldState(),
+    val isPageError: Boolean = false,
     val emotionTags: ImmutableList<EmotionTag> = persistentListOf(),
     val selectedEmotion: EmotionTag? = null,
     val impressionState: TextFieldState = TextFieldState(),
