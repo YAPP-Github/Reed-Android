@@ -208,7 +208,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 is RecordRegisterUiEvent.OnRecordSavedDialogConfirm -> {
                     isRecordSavedDialogVisible = false
                     navigator.pop()
-                    navigator.goTo(RecordDetailScreen)
+                    navigator.goTo(RecordDetailScreen(event.recordId))
                 }
 
                 is RecordRegisterUiEvent.OnRecordSavedDialogDismiss -> {

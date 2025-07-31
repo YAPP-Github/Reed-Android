@@ -107,7 +107,7 @@ internal fun RecordRegister(
             confirmButtonText = stringResource(R.string.record_saved_dialog_move_to_detail),
             dismissButtonText = stringResource(R.string.record_saved_dialog_close),
             onConfirmRequest = {
-                state.eventSink(RecordRegisterUiEvent.OnRecordSavedDialogConfirm)
+                state.eventSink(RecordRegisterUiEvent.OnRecordSavedDialogConfirm(""))
             },
             onDismissRequest = {
                 state.eventSink(RecordRegisterUiEvent.OnRecordSavedDialogDismiss)

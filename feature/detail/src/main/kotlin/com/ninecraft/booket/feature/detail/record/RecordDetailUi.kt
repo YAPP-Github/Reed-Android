@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.detail.review
+package com.ninecraft.booket.feature.detail.record
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -28,8 +28,8 @@ import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.detail.R
-import com.ninecraft.booket.feature.detail.review.component.QuoteBox
-import com.ninecraft.booket.feature.detail.review.component.ReviewBox
+import com.ninecraft.booket.feature.detail.record.component.QuoteBox
+import com.ninecraft.booket.feature.detail.record.component.ReviewBox
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent

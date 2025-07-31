@@ -45,6 +45,6 @@ sealed interface RecordRegisterUiEvent : CircuitUiEvent {
     data object OnSelectionConfirmed : RecordRegisterUiEvent
     data object OnExitDialogConfirm : RecordRegisterUiEvent
     data object OnExitDialogDismiss : RecordRegisterUiEvent
-    data object OnRecordSavedDialogConfirm : RecordRegisterUiEvent
+    data class OnRecordSavedDialogConfirm(val recordId: String) : RecordRegisterUiEvent
     data object OnRecordSavedDialogDismiss : RecordRegisterUiEvent
 }

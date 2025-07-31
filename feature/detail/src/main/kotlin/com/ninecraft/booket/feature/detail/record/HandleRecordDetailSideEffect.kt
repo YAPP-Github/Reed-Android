@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.detail.review
+package com.ninecraft.booket.feature.detail.record
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable

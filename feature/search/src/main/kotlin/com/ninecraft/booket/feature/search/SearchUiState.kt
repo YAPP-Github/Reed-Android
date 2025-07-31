@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.search
 
 import androidx.compose.foundation.text.input.TextFieldState
+import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState

@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.detail.review
+package com.ninecraft.booket.feature.detail.record
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
