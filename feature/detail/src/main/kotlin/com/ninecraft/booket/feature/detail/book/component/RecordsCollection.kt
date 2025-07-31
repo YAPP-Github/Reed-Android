@@ -43,17 +43,16 @@ internal fun RecordsCollection(
             count = state.recordCollections.size,
             key = { index -> state.recordCollections[index].id },
         ) { index ->
-            state.recordCollections[index].apply {
-                RecordItem(
-                    quote = quote,
-                    emotionTags = emotionTags.toImmutableList(),
-                    pageNumber = pageNumber,
-                    createdAt = createdAt,
-                    modifier = Modifier.clickable {
-                        state.eventSink(BookDetailUiEvent.OnRecordItemClick(id))
-                    },
-                )
-            }
+            val record = state.recordCollections[index]
+            RecordItem(
+                quote = record.quote,
+                emotionTags = record.emotionTags.toImmutableList(),
+                pageNumber = record.pageNumber,
+                createdAt = record.createdAt,
+                modifier = Modifier.clickable {
+                    state.eventSink(BookDetailUiEvent.OnRecordItemClick(record.id))
+                },
+            )
         }
     }
 }
