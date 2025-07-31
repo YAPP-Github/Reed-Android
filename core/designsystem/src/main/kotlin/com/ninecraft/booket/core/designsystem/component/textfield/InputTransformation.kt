@@ -5,8 +5,7 @@ import androidx.compose.foundation.text.input.TextFieldBuffer
 /**
  * 숫자만 허용하고, 01, 00 같은 형식을 막는 InputTransformation
  */
-val digitOnlyInputTransformation = {
-        text: TextFieldBuffer ->
+val digitOnlyInputTransformation = { text: TextFieldBuffer ->
     val filtered = text.toString().filter { it.isDigit() }
 
     val transformed = when {
