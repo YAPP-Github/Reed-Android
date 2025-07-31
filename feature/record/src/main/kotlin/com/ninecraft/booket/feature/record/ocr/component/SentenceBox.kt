@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.record.ocr.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.clickableSingle
+import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
@@ -40,7 +42,7 @@ fun SentenceBox(
                 shape = RoundedCornerShape(ReedTheme.radius.sm),
             )
             .clip(RoundedCornerShape(ReedTheme.radius.sm))
-            .clickableSingle {
+            .noRippleClickable {
                 onClick()
             }
             .padding(
