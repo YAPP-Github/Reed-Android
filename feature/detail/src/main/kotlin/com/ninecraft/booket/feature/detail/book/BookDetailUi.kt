@@ -1,11 +1,8 @@
 package com.ninecraft.booket.feature.detail.book
 
-import android.R.attr.onClick
-import android.R.attr.text
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,7 +22,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.R as designR
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
@@ -35,9 +31,11 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.detail.book.component.CollectedSeed
+import com.ninecraft.booket.feature.detail.book.component.RecordsCollection
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import com.ninecraft.booket.core.designsystem.R as designR
 
 @CircuitInject(BookDetailScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -160,8 +158,8 @@ internal fun BookDetailContent(
             )
         }
         CollectedSeed(state = state)
-        Spacer(Modifier.height(ReedTheme.spacing.spacing6))
         ReedDivider()
+        RecordsCollection(state = state)
     }
 }
 

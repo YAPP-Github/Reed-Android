@@ -6,4 +6,6 @@
     <string name="book_update_title">도서 상태</string>
     <string name="book_update_ok">변경하기</string>
     <string name="record_sort_title">정렬</string>
+    <string name="record_collection">내 기록 모음</string>
+    <string name="collected_seed_title">내가 모은 씨앗</string>
 </resources>
