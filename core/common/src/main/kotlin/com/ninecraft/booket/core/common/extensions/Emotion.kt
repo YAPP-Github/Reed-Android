@@ -1,10 +1,8 @@
 package com.ninecraft.booket.core.common.extensions
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.ninecraft.booket.core.model.Emotion
 
-@Composable
 fun Emotion.toTextColor(): Color {
     return when (this) {
         Emotion.WARM -> Color(0xFFE3931B)
@@ -14,7 +12,6 @@ fun Emotion.toTextColor(): Color {
     }
 }
 
-@Composable
 fun Emotion.toBackgroundColor(): Color {
     return when (this) {
         Emotion.WARM -> Color(0xFFFFF5D3)

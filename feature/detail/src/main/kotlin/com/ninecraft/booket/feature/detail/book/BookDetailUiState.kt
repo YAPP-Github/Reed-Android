@@ -86,8 +86,8 @@ sealed interface BookDetailUiEvent : CircuitUiEvent {
 }
 
 enum class RecordSort(val value: String) {
-    PAGE_ASCENDING("BEFORE_READING"),
-    RECENT_REGISTER("READING"),
+    PAGE_ASCENDING("PAGE_ASCENDING"),
+    RECENT_REGISTER("RECENT_REGISTER"),
     ;
 
     fun getDisplayNameRes(): Int {
