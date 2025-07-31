@@ -56,6 +56,7 @@ internal fun RecordsCollectionHeader(
             Icon(
                 imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_down),
                 contentDescription = "Dropdown Icon",
+                tint = ReedTheme.colors.contentSecondary,
             )
         }
     }

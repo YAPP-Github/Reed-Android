@@ -210,6 +210,7 @@ internal fun BookDetailContent(
                         imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_down),
                         contentDescription = "Dropdown Icon",
                         modifier = Modifier.size(22.dp),
+                        tint = ReedTheme.colors.contentPrimary,
                     )
                 },
             )
