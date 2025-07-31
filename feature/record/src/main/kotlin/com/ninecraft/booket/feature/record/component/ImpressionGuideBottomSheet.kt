@@ -45,8 +45,10 @@ fun ImpressionGuideBottomSheet(
     onCloseButtonClick: () -> Unit,
     onSelectionConfirmButtonClick: () -> Unit,
 ) {
-    val description = if (impressionState.text.isEmpty()) stringResource(R.string.impression_guide_bottomsheet_description) else stringResource(R.string.impression_guide_bottomsheet_warning)
-    val descriptionColor = if (impressionState.text.isEmpty()) ReedTheme.colors.contentSecondary else ReedTheme.colors.contentError
+    val isImpressionEmpty = impressionState.text.isEmpty()
+
+    val description = if (isImpressionEmpty) R.string.impression_guide_description else R.string.impression_guide_warning
+    val descriptionColor = if (isImpressionEmpty) ReedTheme.colors.contentSecondary else ReedTheme.colors.contentError
 
     ReedBottomSheet(
         onDismissRequest = {
@@ -68,7 +70,7 @@ fun ImpressionGuideBottomSheet(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = stringResource(R.string.impression_guide_bottomsheet_title),
+                    text = stringResource(R.string.impression_step_guide),
                     color = ReedTheme.colors.contentPrimary,
                     textAlign = TextAlign.Center,
                     style = ReedTheme.typography.heading2SemiBold,
@@ -83,7 +85,7 @@ fun ImpressionGuideBottomSheet(
             }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
             Text(
-                text = description,
+                text = stringResource(description),
                 modifier = Modifier.fillMaxWidth(),
                 color = descriptionColor,
                 style = ReedTheme.typography.label1Medium,
@@ -91,8 +93,7 @@ fun ImpressionGuideBottomSheet(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = ReedTheme.spacing.spacing5)
-                ,
+                    .padding(vertical = ReedTheme.spacing.spacing5),
                 verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
             ) {
                 impressionGuideList.forEachIndexed { index, guide ->
@@ -115,7 +116,7 @@ fun ImpressionGuideBottomSheet(
                     colorStyle = ReedButtonColorStyle.PRIMARY,
                     modifier = Modifier.fillMaxWidth(),
                     enabled = selectedImpressionGuide.isNotEmpty(),
-                    text = stringResource(R.string.impression_guide_bottomsheet_selection_confirm),
+                    text = stringResource(R.string.impression_guide_selection_done),
                 )
             } else {
                 ReedButton(
@@ -126,7 +127,7 @@ fun ImpressionGuideBottomSheet(
                     colorStyle = ReedButtonColorStyle.PRIMARY_INVERSE_TEXT,
                     modifier = Modifier.fillMaxWidth(),
                     enabled = beforeSelectedImpressionGuide != selectedImpressionGuide,
-                    text = "변경 완료",
+                    text = stringResource(R.string.impression_guide_change_done),
                 )
             }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
