@@ -102,29 +102,21 @@ fun ImpressionGuideBottomSheet(
                 }
             }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
-            if (impressionState.text.isEmpty()) {
-                ReedButton(
-                    onClick = {
-                        onSelectionConfirmButtonClick()
-                    },
-                    sizeStyle = largeButtonStyle,
-                    colorStyle = ReedButtonColorStyle.PRIMARY,
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = selectedImpressionGuide.isNotEmpty(),
-                    text = stringResource(R.string.impression_guide_selection_done),
-                )
+            val isButtonEnabled = if (impressionState.text.isEmpty()) {
+                selectedImpressionGuide.isNotEmpty()
             } else {
-                ReedButton(
-                    onClick = {
-                        onSelectionConfirmButtonClick()
-                    },
-                    sizeStyle = largeButtonStyle,
-                    colorStyle = ReedButtonColorStyle.PRIMARY_INVERSE_TEXT,
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = beforeSelectedImpressionGuide != selectedImpressionGuide,
-                    text = stringResource(R.string.impression_guide_change_done),
-                )
+                beforeSelectedImpressionGuide != selectedImpressionGuide
             }
+            ReedButton(
+                onClick = {
+                    onSelectionConfirmButtonClick()
+                },
+                sizeStyle = largeButtonStyle,
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = isButtonEnabled,
+                text = stringResource(R.string.impression_guide_selection_done),
+            )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
         }
     }
