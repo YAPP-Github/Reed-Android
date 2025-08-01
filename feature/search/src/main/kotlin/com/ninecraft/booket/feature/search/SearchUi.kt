@@ -233,7 +233,7 @@ internal fun SearchContent(
                                     onBookClick = { book ->
                                         state.eventSink(SearchUiEvent.OnBookClick(book.isbn))
                                     },
-                                    enabled = SearchBookStatus.from(state.books[index].userBookStatus) == SearchBookStatus.BEFORE_REGISTRATION
+                                    enabled = SearchBookStatus.from(state.books[index].userBookStatus) == SearchBookStatus.BEFORE_REGISTRATION,
                                 )
                                 HorizontalDivider(
                                     modifier = Modifier.fillMaxWidth(),

@@ -78,7 +78,6 @@ fun BookItem(
             }
         }
 
-
         Column(modifier = Modifier.weight(1f)) {
             if (!enabled) {
                 Text(

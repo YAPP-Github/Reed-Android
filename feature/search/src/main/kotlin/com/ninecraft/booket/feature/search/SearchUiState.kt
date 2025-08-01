@@ -64,7 +64,8 @@ sealed interface SearchUiEvent : CircuitUiEvent {
 }
 
 enum class SearchBookStatus(val value: String) {
-    BEFORE_REGISTRATION("BEFORE_REGISTRATION");
+    BEFORE_REGISTRATION("BEFORE_REGISTRATION"),
+    ;
 
     companion object {
         fun from(value: String?): SearchBookStatus? {
