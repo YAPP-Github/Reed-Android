@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.home.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -261,7 +260,7 @@ private fun BookCardPreview() {
                 title = "여름은 오래 그곳에 남아",
                 author = "마쓰이에 마사시",
                 publisher = "비채",
-                coverImageUrl = "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg"
+                coverImageUrl = "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg",
             ),
             onBookDetailClick = {},
             onRecordButtonClick = {},

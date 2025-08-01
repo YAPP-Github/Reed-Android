@@ -41,6 +41,8 @@ internal fun HomeUi(
     state: HomeUiState,
     modifier: Modifier = Modifier,
 ) {
+    HandleHomeSideEffects(state = state)
+
     Column(
         modifier = modifier.fillMaxSize(),
     ) {
