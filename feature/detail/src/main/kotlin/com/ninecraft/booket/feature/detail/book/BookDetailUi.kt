@@ -225,7 +225,13 @@ internal fun BookDetailContent(
                 modifier = Modifier.weight(2.34f),
             )
         }
-        CollectedSeed(state = state)
+
+        if (state.recordCollections.isEmpty()) {
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
+        } else {
+            CollectedSeed(state = state)
+        }
+
         ReedDivider()
         RecordsCollection(state = state)
     }
