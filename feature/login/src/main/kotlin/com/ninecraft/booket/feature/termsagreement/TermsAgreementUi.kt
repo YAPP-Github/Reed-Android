@@ -100,7 +100,7 @@ internal fun TermsAgreementUi(
                     state.eventSink(TermsAgreementUiEvent.OnTermItemClick(0))
                 },
                 onDetailClick = {
-                    state.eventSink(TermsAgreementUiEvent.OnPolicyClick)
+                    state.eventSink(TermsAgreementUiEvent.OnTermClick)
                 },
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
@@ -111,7 +111,7 @@ internal fun TermsAgreementUi(
                     state.eventSink(TermsAgreementUiEvent.OnTermItemClick(1))
                 },
                 onDetailClick = {
-                    state.eventSink(TermsAgreementUiEvent.OnTermClick)
+                    state.eventSink(TermsAgreementUiEvent.OnPolicyClick)
                 },
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
