@@ -3,4 +3,10 @@
     <string name="review_detail_title">독서 기록</string>
     <string name="review_detail_quote_label">수집한 문장</string>
     <string name="review_detail_impression_label">감상평 기록</string>
+    <string name="book_update_title">도서 상태</string>
+    <string name="book_update_ok">변경하기</string>
+    <string name="record_sort_title">정렬</string>
+    <string name="record_collection">내 기록 모음</string>
+    <string name="collected_seed_title">내가 모은 씨앗</string>
+    <string name="records_collection_empty">첫 기록을 남겨 보세요!\n나만의 아카이브를 만들 수 있어요.</string>
 </resources>

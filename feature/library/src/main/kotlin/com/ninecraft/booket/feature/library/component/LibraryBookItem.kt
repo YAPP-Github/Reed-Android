@@ -99,7 +99,7 @@ fun LibraryBookItem(
                 )
                 Spacer(Modifier.width(ReedTheme.spacing.spacing1))
                 Text(
-                    text = book.recordCount.toString(),
+                    text = "${book.recordCount}",
                     color = ReedTheme.colors.contentBrand,
                     style = ReedTheme.typography.label2SemiBold,
                 )

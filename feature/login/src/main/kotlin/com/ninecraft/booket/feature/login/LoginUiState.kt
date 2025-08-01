@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.login
 
+import androidx.compose.runtime.Immutable
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import java.util.UUID
@@ -10,6 +11,7 @@ data class LoginUiState(
     val eventSink: (LoginUiEvent) -> Unit,
 ) : CircuitUiState
 
+@Immutable
 sealed interface LoginSideEffect {
     data object KakaoLogin : LoginSideEffect
     data class ShowToast(

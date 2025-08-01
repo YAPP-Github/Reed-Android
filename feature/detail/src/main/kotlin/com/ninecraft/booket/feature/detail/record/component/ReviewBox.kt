@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.detail.review.component
+package com.ninecraft.booket.feature.detail.record.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

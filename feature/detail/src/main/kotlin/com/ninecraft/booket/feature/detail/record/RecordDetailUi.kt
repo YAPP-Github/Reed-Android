@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.detail.review
+package com.ninecraft.booket.feature.detail.record
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -28,20 +28,20 @@ import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.detail.R
-import com.ninecraft.booket.feature.detail.review.component.QuoteBox
-import com.ninecraft.booket.feature.detail.review.component.ReviewBox
-import com.ninecraft.booket.feature.screens.ReviewDetailScreen
+import com.ninecraft.booket.feature.detail.record.component.QuoteBox
+import com.ninecraft.booket.feature.detail.record.component.ReviewBox
+import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import com.ninecraft.booket.core.designsystem.R as designR
 
-@CircuitInject(ReviewDetailScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(RecordDetailScreen::class, ActivityRetainedComponent::class)
 @Composable
-internal fun ReviewDetail(
-    state: ReviewDetailUiState,
+internal fun RecordDetailUi(
+    state: RecordDetailUiState,
     modifier: Modifier = Modifier,
 ) {
-    HandleReviewDetailSideEffects(
+    HandleRecordDetailSideEffects(
         state = state,
     )
 
@@ -51,7 +51,7 @@ internal fun ReviewDetail(
             startIconRes = designR.drawable.ic_close,
             startIconDescription = "Close Icon",
             startIconOnClick = {
-                state.eventSink(ReviewDetailUiEvent.OnBackClicked)
+                state.eventSink(RecordDetailUiEvent.OnCloseClicked)
             },
         )
         ReviewDetailContent(modifier)
@@ -154,8 +154,8 @@ private fun ReviewDetailContent(modifier: Modifier = Modifier) {
 @Composable
 private fun ReviewDetailPreview() {
     ReedTheme {
-        ReviewDetail(
-            state = ReviewDetailUiState(
+        RecordDetailUi(
+            state = RecordDetailUiState(
                 eventSink = {},
             ),
         )

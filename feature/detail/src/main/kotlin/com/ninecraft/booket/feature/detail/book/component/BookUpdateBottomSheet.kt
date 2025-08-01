@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.search.component
+package com.ninecraft.booket.feature.detail.book.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,26 +30,26 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.ui.component.ReedBottomSheet
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.feature.search.R
+import com.ninecraft.booket.core.ui.component.ReedBottomSheet
+import com.ninecraft.booket.feature.detail.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookRegisterBottomSheet(
+internal fun BookUpdateBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
     onCloseButtonClick: () -> Unit,
     bookStatuses: ImmutableList<BookStatus>,
     currentBookStatus: BookStatus?,
     onItemSelected: (BookStatus) -> Unit,
-    onBookRegisterButtonClick: () -> Unit,
+    onBookUpdateButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     ReedBottomSheet(
@@ -72,7 +72,7 @@ fun BookRegisterBottomSheet(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = stringResource(R.string.book_register_title),
+                    text = stringResource(R.string.book_update_title),
                     color = ReedTheme.colors.contentPrimary,
                     textAlign = TextAlign.Center,
                     style = ReedTheme.typography.heading2SemiBold,
@@ -107,13 +107,13 @@ fun BookRegisterBottomSheet(
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
             ReedButton(
                 onClick = {
-                    onBookRegisterButtonClick()
+                    onBookUpdateButtonClick()
                 },
                 sizeStyle = largeButtonStyle,
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 modifier = Modifier.fillMaxWidth(),
                 enabled = currentBookStatus != null,
-                text = stringResource(R.string.book_register_ok),
+                text = stringResource(R.string.book_update_ok),
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
         }
@@ -153,7 +153,7 @@ fun RowScope.BookStatusItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @ComponentPreview
 @Composable
-private fun BookRegisterBottomSheetPreview() {
+private fun BookUpdateBottomSheetPreview() {
     val sheetState = SheetState(
         skipPartiallyExpanded = true,
         initialValue = SheetValue.Expanded,
@@ -161,14 +161,14 @@ private fun BookRegisterBottomSheetPreview() {
         velocityThreshold = { 0f },
     )
     ReedTheme {
-        BookRegisterBottomSheet(
+        BookUpdateBottomSheet(
             onDismissRequest = {},
             sheetState = sheetState,
             onCloseButtonClick = {},
             bookStatuses = BookStatus.entries.toImmutableList(),
             currentBookStatus = null,
             onItemSelected = {},
-            onBookRegisterButtonClick = {},
+            onBookUpdateButtonClick = {},
         )
     }
 }

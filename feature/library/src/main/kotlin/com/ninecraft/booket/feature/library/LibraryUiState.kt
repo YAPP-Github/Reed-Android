@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.library
 
+import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.slack.circuit.runtime.CircuitUiEvent
@@ -26,6 +27,7 @@ data class LibraryUiState(
     val eventSink: (LibraryUiEvent) -> Unit,
 ) : CircuitUiState
 
+@Immutable
 sealed interface LibrarySideEffect {
     data class ShowToast(val message: String) : LibrarySideEffect
 }

@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.termsagreement
 
+import androidx.compose.runtime.Immutable
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
@@ -12,6 +13,7 @@ data class TermsAgreementUiState(
     val eventSink: (TermsAgreementUiEvent) -> Unit,
 ) : CircuitUiState
 
+@Immutable
 sealed interface TermsAgreementSideEffect {
     data class ShowToast(
         val message: String,

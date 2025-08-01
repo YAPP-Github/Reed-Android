@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="book_status_before">읽기 전</string>
+    <string name="book_status_reading">읽는 중</string>
+    <string name="book_status_completed">독서 완료</string>
+    <string name="record_sort_page_ascending">페이지순</string>
+    <string name="record_sort_recent_register">최신 등록순</string>
+</resources>
