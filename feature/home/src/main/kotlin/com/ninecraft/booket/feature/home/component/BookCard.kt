@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.home.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -219,10 +220,9 @@ fun EmptyBookCard(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-        Box(
-            modifier = Modifier
-                .size(112.dp)
-                .background(ReedTheme.colors.bgSecondary),
+        Image(
+            painter = painterResource(R.drawable.img_empty_book),
+            contentDescription = "Empty Book"
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
         Text(

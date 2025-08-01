@@ -100,7 +100,10 @@ internal fun HomeContent(
 
         if (state.recentBooks.isEmpty()) {
             EmptyBookCard(
-                onBookRegisterClick = {},
+                onBookRegisterClick = {
+                    state.eventSink(HomeUiEvent.OnBookRegisterClick)
+                },
+                modifier = Modifier.padding(ReedTheme.spacing.spacing5),
             )
         } else {
             val pagerState = rememberPagerState(pageCount = { state.recentBooks.size })
