@@ -5,20 +5,24 @@ import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.model.BookUpsertModel
+import com.ninecraft.booket.core.model.HomeModel
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.model.LibraryBooksModel
 import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.PageInfoModel
+import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.core.model.RecordRegisterModel
 import com.ninecraft.booket.core.model.UserProfileModel
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookSummary
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
+import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryBookSummary
 import com.ninecraft.booket.core.network.response.LibraryBooks
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.PageInfo
+import com.ninecraft.booket.core.network.response.RecentBook
 import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
 
@@ -148,5 +152,23 @@ internal fun RecordRegisterResponse.toModel(): RecordRegisterModel {
         review = review,
         createdAt = createdAt,
         updatedAt = updatedAt,
+    )
+}
+
+internal fun HomeResponse.toModel(): HomeModel {
+    return HomeModel(
+        recentBooks = recentBooks.map { it.toModel() },
+    )
+}
+
+internal fun RecentBook.toModel(): RecentBookModel {
+    return RecentBookModel(
+        userBookId = userBookId,
+        title = title,
+        author = author,
+        publisher = publisher,
+        coverImageUrl = coverImageUrl,
+        lastRecordedAt = lastRecordedAt,
+        recordCount = recordCount,
     )
 }
