@@ -39,13 +39,13 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorSt
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.feature.home.Book
+import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.feature.home.R
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
 fun BookCard(
-    bookInfo: Book,
+    recentBookInfo: RecentBookModel,
     onBookDetailClick: () -> Unit,
     onRecordButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -82,7 +82,7 @@ fun BookCard(
     ) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
         NetworkImage(
-            imageUrl = bookInfo.imageUrl,
+            imageUrl = recentBookInfo.coverImageUrl,
             contentDescription = "Book CoverImage",
             modifier = Modifier
                 .width(86.dp)
@@ -97,7 +97,7 @@ fun BookCard(
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
         Text(
-            text = bookInfo.title,
+            text = recentBookInfo.title,
             color = ReedTheme.colors.contentPrimary,
             style = ReedTheme.typography.headline1SemiBold,
         )
@@ -108,7 +108,7 @@ fun BookCard(
             horizontalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = bookInfo.author,
+                text = recentBookInfo.author,
                 color = ReedTheme.colors.contentTertiary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
@@ -123,7 +123,7 @@ fun BookCard(
             )
             Spacer(Modifier.width(ReedTheme.spacing.spacing1))
             Text(
-                text = bookInfo.publisher,
+                text = recentBookInfo.publisher,
                 color = ReedTheme.colors.contentTertiary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
@@ -157,7 +157,7 @@ fun BookCard(
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
                 Text(
                     text = buildAnnotatedString {
-                        append("${bookInfo.reviewCount}")
+                        append("${recentBookInfo.recordCount}")
                         withStyle(style = SpanStyle(color = ReedTheme.colors.contentSecondary)) {
                             append("개")
                         }
@@ -253,7 +253,7 @@ fun EmptyBookCard(
 private fun BookCardPreview() {
     ReedTheme {
         BookCard(
-            bookInfo = Book(),
+            recentBookInfo = RecentBookModel(),
             onBookDetailClick = {},
             onRecordButtonClick = {},
         )

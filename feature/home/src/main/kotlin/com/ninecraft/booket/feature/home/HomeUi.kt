@@ -27,6 +27,7 @@ import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.home.component.BookCard
+import com.ninecraft.booket.feature.home.component.EmptyBookCard
 import com.ninecraft.booket.feature.home.component.HomeBanner
 import com.ninecraft.booket.feature.home.component.HomeHeader
 import com.ninecraft.booket.feature.screens.HomeScreen
@@ -83,11 +84,6 @@ internal fun HomeContent(
     state: HomeUiState,
     modifier: Modifier = Modifier,
 ) {
-    val dummyBooks = listOf(
-        Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg", 3),
-        Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg", 3),
-        Book("여름은 오래 그곳에 남아", "마쓰이에 마사시", "비채", "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg", 3),
-    )
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -101,37 +97,45 @@ internal fun HomeContent(
             style = ReedTheme.typography.headline2Medium,
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
-        val pagerState = rememberPagerState(pageCount = { dummyBooks.size })
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = ReedTheme.spacing.spacing5),
-            pageSpacing = ReedTheme.spacing.spacing5,
-        ) { page ->
-            BookCard(
-                bookInfo = dummyBooks[page],
-                onBookDetailClick = {
-                    state.eventSink(HomeUiEvent.OnBookDetailClick)
-                },
-                onRecordButtonClick = {
-                    state.eventSink(HomeUiEvent.OnRecordButtonClick)
-                },
+
+        if (state.recentBooks.isEmpty()) {
+            EmptyBookCard(
+                onBookRegisterClick = {},
             )
-        }
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            repeat(pagerState.pageCount) { iteration ->
-                val color = if (pagerState.currentPage == iteration) ReedTheme.colors.bgPrimary else ReedTheme.colors.bgSecondaryPressed
-                Box(
-                    modifier = Modifier
-                        .size(12.dp)
-                        .padding(3.dp)
-                        .clip(CircleShape)
-                        .background(color),
+        } else {
+            val pagerState = rememberPagerState(pageCount = { state.recentBooks.size })
+
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = ReedTheme.spacing.spacing5),
+                pageSpacing = ReedTheme.spacing.spacing5,
+            ) { page ->
+                BookCard(
+                    recentBookInfo = state.recentBooks[page],
+                    onBookDetailClick = {
+                        state.eventSink(HomeUiEvent.OnBookDetailClick)
+                    },
+                    onRecordButtonClick = {
+                        state.eventSink(HomeUiEvent.OnRecordButtonClick)
+                    },
                 )
+            }
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                repeat(pagerState.pageCount) { iteration ->
+                    val color = if (pagerState.currentPage == iteration) ReedTheme.colors.bgPrimary else ReedTheme.colors.bgSecondaryPressed
+                    Box(
+                        modifier = Modifier
+                            .size(12.dp)
+                            .padding(3.dp)
+                            .clip(CircleShape)
+                            .background(color),
+                    )
+                }
             }
         }
     }
