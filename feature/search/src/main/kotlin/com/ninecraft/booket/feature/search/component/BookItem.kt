@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
@@ -26,6 +27,7 @@ import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.model.BookSummaryModel
+import com.ninecraft.booket.feature.search.R
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
@@ -80,7 +82,7 @@ fun BookItem(
         Column(modifier = Modifier.weight(1f)) {
             if (!enabled) {
                 Text(
-                    text = "이미 등록된 책입니다",
+                    text = stringResource(R.string.book_status_registered),
                     color = ReedTheme.colors.contentSuccess,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
