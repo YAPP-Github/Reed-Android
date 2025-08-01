@@ -55,6 +55,7 @@ internal fun BookSummary.toModel(): BookSummaryModel {
         author = author,
         publisher = publisher,
         coverImageUrl = coverImageUrl,
+        userBookStatus = userBookStatus,
     )
 }
 

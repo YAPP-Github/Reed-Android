@@ -102,6 +102,12 @@ class SearchPresenter @AssistedInject constructor(
                 repository.upsertBook(bookIsbn, bookStatus)
                     .onSuccess {
                         registeredUserBookId = it.userBookId
+                        books = books.map { book ->
+                            if (book.isbn == selectedBookIsbn) {
+                                book.copy(userBookStatus = bookStatus)
+                            } else book
+                        }.toPersistentList()
+
                         selectedBookIsbn = ""
                         selectedBookStatus = null
                         isBookRegisterBottomSheetVisible = false
