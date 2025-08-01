@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -22,6 +23,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
@@ -30,6 +33,7 @@ import com.ninecraft.booket.core.designsystem.component.button.smallRoundedButto
 import com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordTextField
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.designsystem.R as designR
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.component.ImpressionGuideBottomSheet
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
@@ -80,6 +84,10 @@ fun ImpressionStep(
                 .fillMaxWidth()
                 .focusRequester(focusRequester)
                 .height(140.dp),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Default,
+            ),
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         ReedButton(
@@ -92,7 +100,7 @@ fun ImpressionStep(
             text = stringResource(R.string.impression_step_guide),
             leadingIcon = {
                 Icon(
-                    imageVector = ImageVector.vectorResource(com.ninecraft.booket.core.designsystem.R.drawable.ic_book_open),
+                    imageVector = ImageVector.vectorResource(designR.drawable.ic_book_open),
                     contentDescription = "Impression Guide Icon",
                 )
             },
