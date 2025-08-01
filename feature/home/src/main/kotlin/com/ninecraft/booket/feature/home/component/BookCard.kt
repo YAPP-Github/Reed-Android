@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.clickableSingle
+import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
@@ -64,9 +65,6 @@ fun BookCard(
                 shape = RoundedCornerShape(ReedTheme.radius.sm),
             )
             .clip(shape = RoundedCornerShape(ReedTheme.radius.sm))
-            .clickableSingle {
-                onBookDetailClick()
-            }
             .border(
                 width = 1.dp,
                 color = ReedTheme.colors.borderSecondary,
@@ -92,7 +90,10 @@ fun BookCard(
                     width = 1.dp,
                     color = ReedTheme.colors.borderPrimary,
                     shape = RoundedCornerShape(ReedTheme.radius.sm),
-                ),
+                )
+                .noRippleClickable {
+                    onBookDetailClick()
+                },
             placeholder = painterResource(designR.drawable.ic_placeholder),
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
