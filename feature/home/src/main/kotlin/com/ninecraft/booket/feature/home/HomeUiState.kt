@@ -17,11 +17,3 @@ sealed interface HomeUiEvent : CircuitUiEvent {
     data class OnRecordButtonClick(val userBookId: String) : HomeUiEvent
     data object OnBookDetailClick : HomeUiEvent
 }
-
-data class Book(
-    val title: String = "",
-    val author: String = "",
-    val publisher: String = "",
-    val imageUrl: String = "",
-    val reviewCount: Int = 0,
-)
