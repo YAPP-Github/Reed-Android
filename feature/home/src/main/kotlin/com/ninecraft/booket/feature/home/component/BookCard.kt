@@ -36,6 +36,7 @@ import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
+import com.ninecraft.booket.core.designsystem.component.ResourceImage
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
@@ -222,8 +223,8 @@ fun EmptyBookCard(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-        Image(
-            painter = painterResource(R.drawable.img_empty_book),
+        ResourceImage(
+            imageRes = R.drawable.img_empty_book,
             contentDescription = "Empty Book",
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
@@ -260,6 +261,7 @@ private fun BookCardPreview() {
                 title = "여름은 오래 그곳에 남아",
                 author = "마쓰이에 마사시",
                 publisher = "비채",
+                coverImageUrl = "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg"
             ),
             onBookDetailClick = {},
             onRecordButtonClick = {},
