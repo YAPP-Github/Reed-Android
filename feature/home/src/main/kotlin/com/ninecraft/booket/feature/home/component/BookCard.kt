@@ -101,6 +101,8 @@ fun BookCard(
         Text(
             text = recentBookInfo.title,
             color = ReedTheme.colors.contentPrimary,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
             style = ReedTheme.typography.headline1SemiBold,
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
@@ -254,7 +256,11 @@ fun EmptyBookCard(
 private fun BookCardPreview() {
     ReedTheme {
         BookCard(
-            recentBookInfo = RecentBookModel(),
+            recentBookInfo = RecentBookModel(
+                title = "여름은 오래 그곳에 남아",
+                author = "마쓰이에 마사시",
+                publisher = "비채"
+            ),
             onBookDetailClick = {},
             onRecordButtonClick = {},
         )
