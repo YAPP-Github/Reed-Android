@@ -19,6 +19,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
+import com.ninecraft.booket.core.designsystem.component.ResourceImage
 import com.ninecraft.booket.core.designsystem.R as designR
 import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -65,6 +66,12 @@ fun HomeBanner(
                 )
             }
         }
+        ResourceImage(
+            imageRes = R.drawable.img_home_seed,
+            contentDescription = "Home Seed Image",
+            modifier = Modifier
+                .align(Alignment.BottomEnd),
+        )
     }
 }
 
