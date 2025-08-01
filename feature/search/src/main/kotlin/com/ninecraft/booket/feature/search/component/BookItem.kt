@@ -1,6 +1,8 @@
 package com.ninecraft.booket.feature.search.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,12 +17,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.designsystem.R as designR
 
@@ -29,17 +33,23 @@ fun BookItem(
     book: BookSummaryModel,
     onBookClick: (BookSummaryModel) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
+    val titleColor = if (enabled) ReedTheme.colors.contentPrimary else ReedTheme.colors.contentDisabled
+    val authorColor = if (enabled) ReedTheme.colors.contentTertiary else ReedTheme.colors.contentDisabled
+    val bgColor = if (enabled) White else ReedTheme.colors.bgDisabled
+
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onBookClick(book) }
+            .background(bgColor)
+            .then(
+                if (enabled) Modifier.clickable { onBookClick(book) } else Modifier,
+            )
             .padding(horizontal = ReedTheme.spacing.spacing5),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        NetworkImage(
-            imageUrl = book.coverImageUrl,
-            contentDescription = "Book CoverImage",
+        Box(
             modifier = Modifier
                 .padding(
                     top = ReedTheme.spacing.spacing4,
@@ -49,12 +59,38 @@ fun BookItem(
                 .width(68.dp)
                 .height(100.dp)
                 .clip(RoundedCornerShape(size = ReedTheme.radius.sm)),
-            placeholder = painterResource(designR.drawable.ic_placeholder),
-        )
+        ) {
+            NetworkImage(
+                imageUrl = book.coverImageUrl,
+                contentDescription = "Book CoverImage",
+                modifier = Modifier.matchParentSize(),
+                placeholder = painterResource(designR.drawable.ic_placeholder),
+            )
+
+            if (!enabled) {
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .background(Color.Black.copy(alpha = 0.3f)),
+                )
+            }
+        }
+
+
         Column(modifier = Modifier.weight(1f)) {
+            if (!enabled) {
+                Text(
+                    text = "이미 등록된 책입니다",
+                    color = ReedTheme.colors.contentSuccess,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    style = ReedTheme.typography.label2Regular,
+                )
+                Spacer(Modifier.height(ReedTheme.spacing.spacing1))
+            }
             Text(
                 text = book.title,
-                color = ReedTheme.colors.contentPrimary,
+                color = titleColor,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 style = ReedTheme.typography.body1SemiBold,
@@ -66,7 +102,7 @@ fun BookItem(
             ) {
                 Text(
                     text = book.author,
-                    color = ReedTheme.colors.contentTertiary,
+                    color = authorColor,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = ReedTheme.typography.label1Medium,
@@ -81,7 +117,7 @@ fun BookItem(
                 Spacer(Modifier.width(ReedTheme.spacing.spacing1))
                 Text(
                     text = book.publisher,
-                    color = ReedTheme.colors.contentTertiary,
+                    color = authorColor,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = ReedTheme.typography.label1Medium,

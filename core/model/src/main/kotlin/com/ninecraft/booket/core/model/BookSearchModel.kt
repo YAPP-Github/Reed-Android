@@ -24,4 +24,5 @@ data class BookSummaryModel(
     val author: String = "",
     val publisher: String = "",
     val coverImageUrl: String = "",
+    val userBookStatus: String = ""
 )
