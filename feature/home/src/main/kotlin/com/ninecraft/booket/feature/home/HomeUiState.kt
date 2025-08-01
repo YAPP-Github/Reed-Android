@@ -14,7 +14,7 @@ data class HomeUiState(
 sealed interface HomeUiEvent : CircuitUiEvent {
     data object OnSettingsClick : HomeUiEvent
     data object OnBookRegisterClick : HomeUiEvent
-    data object OnRecordButtonClick : HomeUiEvent
+    data class OnRecordButtonClick(val userBookId: String) : HomeUiEvent
     data object OnBookDetailClick : HomeUiEvent
 }
 

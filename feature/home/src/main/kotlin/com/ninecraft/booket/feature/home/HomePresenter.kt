@@ -26,7 +26,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
-@Suppress("unused")
 class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val repository: HomeRepository,
@@ -59,7 +58,7 @@ class HomePresenter @AssistedInject constructor(
                 }
 
                 is HomeUiEvent.OnRecordButtonClick -> {
-                    navigator.goTo(RecordScreen(""))
+                    navigator.goTo(RecordScreen(event.userBookId))
                 }
 
                 is HomeUiEvent.OnBookDetailClick -> {
@@ -68,7 +67,7 @@ class HomePresenter @AssistedInject constructor(
             }
         }
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(true) {
             getHome()
         }
 
