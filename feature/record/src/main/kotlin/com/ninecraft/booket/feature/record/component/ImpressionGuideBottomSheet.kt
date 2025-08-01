@@ -45,11 +45,6 @@ fun ImpressionGuideBottomSheet(
     onCloseButtonClick: () -> Unit,
     onSelectionConfirmButtonClick: () -> Unit,
 ) {
-    val isImpressionEmpty = impressionState.text.isEmpty()
-
-    val description = if (isImpressionEmpty) R.string.impression_guide_description else R.string.impression_guide_warning
-    val descriptionColor = if (isImpressionEmpty) ReedTheme.colors.contentSecondary else ReedTheme.colors.contentError
-
     ReedBottomSheet(
         onDismissRequest = {
             onDismissRequest()
@@ -85,9 +80,9 @@ fun ImpressionGuideBottomSheet(
             }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
             Text(
-                text = stringResource(description),
+                text = stringResource(R.string.impression_guide_description),
                 modifier = Modifier.fillMaxWidth(),
-                color = descriptionColor,
+                color = ReedTheme.colors.contentSecondary,
                 style = ReedTheme.typography.label1Medium,
             )
             Column(

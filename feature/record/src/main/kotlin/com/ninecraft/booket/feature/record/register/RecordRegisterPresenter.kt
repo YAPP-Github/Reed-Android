@@ -182,11 +182,24 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
 
                 is RecordRegisterUiEvent.OnImpressionGuideConfirmed -> {
-                    impressionState.edit {
-                        replace(0, length, "")
-                        append(selectedImpressionGuide)
-                        this.selection = TextRange(0) // 커서를 문장 맨 앞에 위치
+                    val currentImpressionText = impressionState.text.toString()
+
+                    if (currentImpressionText.isNotEmpty()) {
+                        // 이미 작성된 감상문이 있는 경우 줄바꿈해서 추가
+                        val startIndex = currentImpressionText.length
+
+                        impressionState.edit {
+                            replace(0, length, currentImpressionText + "\n" + selectedImpressionGuide)
+                            this.selection = TextRange(startIndex + 1) // 줄바꿈한 문장 맨 앞에 커서 위치
+                        }
+                    } else {
+                        impressionState.edit {
+                            replace(0, length, "")
+                            append(selectedImpressionGuide)
+                            this.selection = TextRange(0) // 커서를 문장 맨 앞에 위치
+                        }
                     }
+
                     isImpressionGuideBottomSheetVisible = false
                 }
 
