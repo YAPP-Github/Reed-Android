@@ -4,7 +4,7 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class HomeModel(
-    val recentBooks: List<RecentBookModel> = emptyList()
+    val recentBooks: List<RecentBookModel> = emptyList(),
 )
 
 @Stable

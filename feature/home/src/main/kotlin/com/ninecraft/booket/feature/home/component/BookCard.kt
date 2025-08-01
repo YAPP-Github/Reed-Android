@@ -224,7 +224,7 @@ fun EmptyBookCard(
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
         Image(
             painter = painterResource(R.drawable.img_empty_book),
-            contentDescription = "Empty Book"
+            contentDescription = "Empty Book",
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
         Text(
@@ -259,7 +259,7 @@ private fun BookCardPreview() {
             recentBookInfo = RecentBookModel(
                 title = "여름은 오래 그곳에 남아",
                 author = "마쓰이에 마사시",
-                publisher = "비채"
+                publisher = "비채",
             ),
             onBookDetailClick = {},
             onRecordButtonClick = {},

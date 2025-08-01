@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class HomeResponse(
     @SerialName("recentBooks")
-    val recentBooks: List<RecentBook>
+    val recentBooks: List<RecentBook>,
 )
 
 @Serializable
