@@ -2,8 +2,11 @@ package com.ninecraft.booket.feature.main.splash
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
+import com.ninecraft.booket.core.model.AutoLoginState
 import com.ninecraft.booket.core.model.OnboardingState
+import com.ninecraft.booket.feature.screens.BottomNavigationScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.ninecraft.booket.feature.screens.SplashScreen
@@ -20,35 +23,46 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 class SplashPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val userRepository: UserRepository,
+    private val authRepository: AuthRepository,
 ) : Presenter<SplashUiState> {
 
     @Composable
     override fun present(): SplashUiState {
         val onboardingState by userRepository.onboardingState.collectAsRetainedState(initial = OnboardingState.IDLE)
+        val autoLoginState by authRepository.autoLoginState.collectAsRetainedState(initial = AutoLoginState.IDLE)
 
-        RememberedEffect(onboardingState) {
+        RememberedEffect(onboardingState, autoLoginState) {
             when (onboardingState) {
-                OnboardingState.IDLE -> {
-                    // 초기 진입 상태
-                }
-
                 OnboardingState.NOT_COMPLETED -> {
                     navigator.resetRoot(OnboardingScreen)
                 }
 
                 OnboardingState.COMPLETED -> {
-                    navigator.resetRoot(LoginScreen)
+                    when (autoLoginState) {
+                        AutoLoginState.LOGGED_IN -> {
+                            navigator.resetRoot(BottomNavigationScreen)
+                        }
+
+                        AutoLoginState.NOT_LOGGED_IN -> {
+                            navigator.resetRoot(LoginScreen)
+                        }
+
+                        AutoLoginState.IDLE -> {
+                            // 자동 로그인 상태를 기다리는 중
+                        }
+                    }
+                }
+
+                OnboardingState.IDLE -> {
+                    // 온보딩 상태를 기다리는 중
                 }
             }
         }
 
         return SplashUiState(
-            idle = onboardingState == OnboardingState.IDLE,
-            isOnboardingCompleted = when (onboardingState) {
-                OnboardingState.IDLE -> null
-                OnboardingState.NOT_COMPLETED -> false
-                OnboardingState.COMPLETED -> true
-            },
+            idle = onboardingState == OnboardingState.IDLE || autoLoginState == AutoLoginState.IDLE,
+            onboardingState = onboardingState,
+            autoLoginState = autoLoginState,
         )
     }
 
