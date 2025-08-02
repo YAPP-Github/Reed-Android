@@ -29,12 +29,13 @@
     <string name="impression_step_description">감상평 가이드로 쉽게 남길 수 있어요</string>
     <string name="impression_step_hint">내용을 입력해주세요.</string>
     <string name="impression_step_guide">감상평 가이드</string>
-    <string name="impression_guide_bottomsheet_title">감상평 가이드</string>
-    <string name="impression_guide_bottomsheet_description">아래 문장 중 하나를 선택해 이어서 감상을 적어보세요</string>
-    <string name="impression_guide_bottomsheet_selection_confirm">선택 완료</string>
+    <string name="impression_guide_description">아래 문장 중 하나를 선택해 이어서 감상을 적어보세요</string>
+    <string name="impression_guide_selection_done">선택 완료</string>
+    <string name="impression_guide_change_done">변경 완료</string>
     <string name="impression_guide_blank">______</string>
     <string name="record_saved_dialog_title">기록이 저장되었어요!</string>
     <string name="record_saved_dialog_description">방금 남긴 기록을 확인해볼까요?</string>
     <string name="record_saved_dialog_move_to_detail">기록 보러가기</string>
     <string name="record_saved_dialog_close">닫기</string>
+    <string name="quote_step_page_input_error">해당 책의 마지막 페이지 수를 초과했습니다</string>
 </resources>

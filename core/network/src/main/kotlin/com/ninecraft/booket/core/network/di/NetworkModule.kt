@@ -24,9 +24,13 @@ import javax.inject.Singleton
 private const val MaxTimeoutMillis = 15_000L
 
 private val jsonRule = Json {
+    // 기본값도 JSON에 포함하여 직렬화
     encodeDefaults = true
+    // JSON에 정의되지 않은 키는 무시 (역직렬화 시 에러 방지)
     ignoreUnknownKeys = true
+    // JSON을 보기 좋게 들여쓰기하여 포맷팅
     prettyPrint = true
+    // 엄격하지 않은 파싱 (따옴표 없는 키, 후행 쉼표 등 허용)
     isLenient = true
 }
 

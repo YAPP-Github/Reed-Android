@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SheetState
@@ -36,7 +37,9 @@ import com.ninecraft.booket.core.designsystem.R as designR
 fun ImpressionGuideBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
+    impressionState: TextFieldState,
     impressionGuideList: ImmutableList<String>,
+    beforeSelectedImpressionGuide: String,
     selectedImpressionGuide: String,
     onGuideClick: (Int) -> Unit,
     onCloseButtonClick: () -> Unit,
@@ -62,7 +65,7 @@ fun ImpressionGuideBottomSheet(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = stringResource(R.string.impression_guide_bottomsheet_title),
+                    text = stringResource(R.string.impression_step_guide),
                     color = ReedTheme.colors.contentPrimary,
                     textAlign = TextAlign.Center,
                     style = ReedTheme.typography.heading2SemiBold,
@@ -75,16 +78,17 @@ fun ImpressionGuideBottomSheet(
                     },
                 )
             }
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
             Text(
-                text = stringResource(R.string.impression_guide_bottomsheet_description),
+                text = stringResource(R.string.impression_guide_description),
                 modifier = Modifier.fillMaxWidth(),
-                color = ReedTheme.colors.contentPrimary,
+                color = ReedTheme.colors.contentSecondary,
                 style = ReedTheme.typography.label1Medium,
             )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = ReedTheme.spacing.spacing5),
                 verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
             ) {
                 impressionGuideList.forEachIndexed { index, guide ->
@@ -97,8 +101,12 @@ fun ImpressionGuideBottomSheet(
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+            val isButtonEnabled = if (impressionState.text.isEmpty()) {
+                selectedImpressionGuide.isNotEmpty()
+            } else {
+                beforeSelectedImpressionGuide != selectedImpressionGuide
+            }
             ReedButton(
                 onClick = {
                     onSelectionConfirmButtonClick()
@@ -106,8 +114,8 @@ fun ImpressionGuideBottomSheet(
                 sizeStyle = largeButtonStyle,
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 modifier = Modifier.fillMaxWidth(),
-                enabled = selectedImpressionGuide.isNotEmpty(),
-                text = stringResource(R.string.impression_guide_bottomsheet_selection_confirm),
+                enabled = isButtonEnabled,
+                text = stringResource(R.string.impression_guide_selection_done),
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
         }
@@ -138,7 +146,9 @@ private fun ImpressionGuideBottomSheetPreview() {
         ImpressionGuideBottomSheet(
             onDismissRequest = {},
             sheetState = sheetState,
+            impressionState = TextFieldState(),
             impressionGuideList = impressionGuideList,
+            beforeSelectedImpressionGuide = "",
             selectedImpressionGuide = "",
             onGuideClick = {},
             onCloseButtonClick = {},

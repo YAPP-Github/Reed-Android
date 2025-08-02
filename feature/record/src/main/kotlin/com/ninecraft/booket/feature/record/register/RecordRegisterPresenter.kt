@@ -9,14 +9,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.TextRange
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OcrScreen
+import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
-import com.ninecraft.booket.feature.screens.ReviewDetailScreen
+import com.ninecraft.booket.feature.screens.delayedPop
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.rememberAnsweringNavigator
@@ -59,15 +61,22 @@ class RecordRegisterPresenter @AssistedInject constructor(
         val emotionTags by rememberRetained { mutableStateOf(EmotionTag.entries.toPersistentList()) }
         var selectedEmotion by rememberRetained { mutableStateOf<EmotionTag?>(null) }
         var selectedImpressionGuide by rememberRetained { mutableStateOf("") }
+        var beforeSelectedImpressionGuide by rememberRetained { mutableStateOf(selectedImpressionGuide) }
         val impressionState = rememberTextFieldState()
         var isImpressionGuideBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
         var isRecordSavedDialogVisible by rememberRetained { mutableStateOf(false) }
+        val isPageError by remember {
+            derivedStateOf {
+                val page = recordPageState.text.toString().toIntOrNull() ?: 0
+                page > MAX_PAGE
+            }
+        }
         val isNextButtonEnabled by remember {
             derivedStateOf {
                 when (currentStep) {
                     RecordStep.QUOTE -> {
-                        recordPageState.text.isNotEmpty() && recordSentenceState.text.isNotEmpty()
+                        recordPageState.text.isNotEmpty() && recordSentenceState.text.isNotEmpty() && !isPageError
                     }
                     RecordStep.EMOTION -> {
                         selectedEmotion != null
@@ -143,7 +152,9 @@ class RecordRegisterPresenter @AssistedInject constructor(
 
                 is RecordRegisterUiEvent.OnExitDialogConfirm -> {
                     isExitDialogVisible = false
-                    navigator.pop()
+                    scope.launch {
+                        navigator.delayedPop()
+                    }
                 }
 
                 is RecordRegisterUiEvent.OnExitDialogDismiss -> {
@@ -159,9 +170,9 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
 
                 is RecordRegisterUiEvent.OnImpressionGuideButtonClick -> {
-                    selectedImpressionGuide = ""
-                    impressionState.edit {
-                        replace(0, length, "")
+                    beforeSelectedImpressionGuide = selectedImpressionGuide
+                    if (impressionState.text.isEmpty()) {
+                        selectedImpressionGuide = ""
                     }
                     isImpressionGuideBottomSheetVisible = true
                 }
@@ -170,14 +181,30 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     val index = event.index
                     if (index in impressionGuideList.indices) {
                         selectedImpressionGuide = impressionGuideList[index]
-                        impressionState.edit {
-                            replace(0, length, "")
-                            append(selectedImpressionGuide)
-                        }
                     }
                 }
 
-                is RecordRegisterUiEvent.OnSelectionConfirmed -> {}
+                is RecordRegisterUiEvent.OnImpressionGuideConfirmed -> {
+                    val currentImpressionText = impressionState.text.toString()
+
+                    if (currentImpressionText.isNotEmpty()) {
+                        // 이미 작성된 감상문이 있는 경우 줄바꿈해서 추가
+                        val startIndex = currentImpressionText.length
+
+                        impressionState.edit {
+                            replace(0, length, currentImpressionText + "\n" + selectedImpressionGuide)
+                            this.selection = TextRange(startIndex + 1) // 줄바꿈한 문장 맨 앞에 커서 위치
+                        }
+                    } else {
+                        impressionState.edit {
+                            replace(0, length, "")
+                            append(selectedImpressionGuide)
+                            this.selection = TextRange(0) // 커서를 문장 맨 앞에 위치
+                        }
+                    }
+
+                    isImpressionGuideBottomSheetVisible = false
+                }
 
                 is RecordRegisterUiEvent.OnImpressionGuideBottomSheetDismiss -> {
                     isImpressionGuideBottomSheetVisible = false
@@ -208,12 +235,14 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 is RecordRegisterUiEvent.OnRecordSavedDialogConfirm -> {
                     isRecordSavedDialogVisible = false
                     navigator.pop()
-                    navigator.goTo(ReviewDetailScreen)
+                    navigator.goTo(RecordDetailScreen(event.recordId))
                 }
 
                 is RecordRegisterUiEvent.OnRecordSavedDialogDismiss -> {
                     isRecordSavedDialogVisible = false
-                    navigator.pop()
+                    scope.launch {
+                        navigator.delayedPop()
+                    }
                 }
             }
         }
@@ -222,11 +251,13 @@ class RecordRegisterPresenter @AssistedInject constructor(
             currentStep = currentStep,
             recordPageState = recordPageState,
             recordSentenceState = recordSentenceState,
+            isPageError = isPageError,
             emotionTags = emotionTags,
             selectedEmotion = selectedEmotion,
             impressionState = impressionState,
             impressionGuideList = impressionGuideList,
             selectedImpressionGuide = selectedImpressionGuide,
+            beforeSelectedImpressionGuide = beforeSelectedImpressionGuide,
             isNextButtonEnabled = isNextButtonEnabled,
             isImpressionGuideBottomSheetVisible = isImpressionGuideBottomSheetVisible,
             isExitDialogVisible = isExitDialogVisible,
@@ -243,5 +274,9 @@ class RecordRegisterPresenter @AssistedInject constructor(
             screen: RecordScreen,
             navigator: Navigator,
         ): RecordRegisterPresenter
+    }
+
+    companion object {
+        const val MAX_PAGE = 1000
     }
 }

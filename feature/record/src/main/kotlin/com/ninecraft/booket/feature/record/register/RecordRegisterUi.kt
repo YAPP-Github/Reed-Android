@@ -81,6 +81,7 @@ internal fun RecordRegister(
                 .padding(horizontal = ReedTheme.spacing.spacing5),
             enabled = state.isNextButtonEnabled,
             text = stringResource(R.string.record_next_button),
+            multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
     }
@@ -107,7 +108,7 @@ internal fun RecordRegister(
             confirmButtonText = stringResource(R.string.record_saved_dialog_move_to_detail),
             dismissButtonText = stringResource(R.string.record_saved_dialog_close),
             onConfirmRequest = {
-                state.eventSink(RecordRegisterUiEvent.OnRecordSavedDialogConfirm)
+                state.eventSink(RecordRegisterUiEvent.OnRecordSavedDialogConfirm(""))
             },
             onDismissRequest = {
                 state.eventSink(RecordRegisterUiEvent.OnRecordSavedDialogDismiss)

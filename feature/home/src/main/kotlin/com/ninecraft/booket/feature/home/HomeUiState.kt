@@ -1,23 +1,30 @@
 package com.ninecraft.booket.feature.home
 
+import androidx.compose.runtime.Immutable
+import com.ninecraft.booket.core.model.RecentBookModel
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import java.util.UUID
 
 data class HomeUiState(
+    val recentBooks: ImmutableList<RecentBookModel> = persistentListOf(),
+    val sideEffect: HomeSideEffect? = null,
     val eventSink: (HomeUiEvent) -> Unit,
 ) : CircuitUiState
+
+@Immutable
+sealed interface HomeSideEffect {
+    data class ShowToast(
+        val message: String,
+        private val key: String = UUID.randomUUID().toString(),
+    ) : HomeSideEffect
+}
 
 sealed interface HomeUiEvent : CircuitUiEvent {
     data object OnSettingsClick : HomeUiEvent
     data object OnBookRegisterClick : HomeUiEvent
-    data object OnRecordButtonClick : HomeUiEvent
+    data class OnRecordButtonClick(val userBookId: String) : HomeUiEvent
     data object OnBookDetailClick : HomeUiEvent
 }
-
-data class Book(
-    val title: String = "",
-    val author: String = "",
-    val publisher: String = "",
-    val imageUrl: String = "",
-    val reviewCount: Int = 0,
-)

@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.textfield.ReedTextField
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
@@ -232,6 +233,7 @@ internal fun SearchContent(
                                     onBookClick = { book ->
                                         state.eventSink(SearchUiEvent.OnBookClick(book.isbn))
                                     },
+                                    enabled = SearchBookStatus.from(state.books[index].userBookStatus) == SearchBookStatus.BEFORE_REGISTRATION,
                                 )
                                 HorizontalDivider(
                                     modifier = Modifier.fillMaxWidth(),

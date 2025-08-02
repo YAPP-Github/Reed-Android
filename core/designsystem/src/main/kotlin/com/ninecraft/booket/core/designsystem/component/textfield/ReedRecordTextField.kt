@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
@@ -41,11 +43,14 @@ fun ReedRecordTextField(
     recordState: TextFieldState,
     @StringRes recordHintRes: Int,
     modifier: Modifier = Modifier,
+    inputTransformation: InputTransformation? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
         keyboardType = KeyboardType.Text,
         imeAction = ImeAction.Done,
     ),
     lineLimits: TextFieldLineLimits = TextFieldLineLimits.MultiLine(),
+    isError: Boolean = false,
+    errorMessage: String = "",
     onClear: (() -> Unit)? = null,
     onNext: () -> Unit = {},
     backgroundColor: Color = ReedTheme.colors.baseSecondary,
@@ -54,58 +59,70 @@ fun ReedRecordTextField(
     borderStroke: BorderStroke = BorderStroke(width = 1.dp, color = ReedTheme.colors.baseSecondary),
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val errorBorderStroke = BorderStroke(width = 1.dp, color = ReedTheme.colors.borderError)
 
     CompositionLocalProvider(LocalTextSelectionColors provides reedTextSelectionColors) {
-        BasicTextField(
-            state = recordState,
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = ReedTheme.typography.body2Medium.copy(color = textColor),
-            keyboardOptions = keyboardOptions,
-            onKeyboardAction = {
-                if (keyboardOptions.imeAction == ImeAction.Next) {
-                    onNext()
-                } else {
-                    keyboardController?.hide()
-                }
-            },
-            lineLimits = lineLimits,
-            decorator = { innerTextField ->
-                Row(
-                    modifier = modifier
-                        .background(color = backgroundColor, shape = cornerShape)
-                        .border(
-                            border = borderStroke,
-                            shape = cornerShape,
-                        )
-                        .padding(vertical = ReedTheme.spacing.spacing3),
-                    verticalAlignment = if (lineLimits is TextFieldLineLimits.MultiLine) Alignment.Top else Alignment.CenterVertically,
-                ) {
-                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
-                    Box(modifier = Modifier.weight(1f)) {
-                        if (recordState.text.isEmpty()) {
-                            Text(
-                                text = stringResource(id = recordHintRes),
-                                color = ReedTheme.colors.contentTertiary,
-                                style = ReedTheme.typography.body2Regular,
+        Column {
+            BasicTextField(
+                state = recordState,
+                modifier = modifier.fillMaxWidth(),
+                inputTransformation = inputTransformation,
+                textStyle = ReedTheme.typography.body2Medium.copy(color = textColor),
+                keyboardOptions = keyboardOptions,
+                onKeyboardAction = {
+                    if (keyboardOptions.imeAction == ImeAction.Next) {
+                        onNext()
+                    } else {
+                        keyboardController?.hide()
+                    }
+                },
+                lineLimits = lineLimits,
+                decorator = { innerTextField ->
+                    Row(
+                        modifier = modifier
+                            .background(color = backgroundColor, shape = cornerShape)
+                            .border(
+                                border = if (isError) errorBorderStroke else borderStroke,
+                                shape = cornerShape,
+                            )
+                            .padding(vertical = ReedTheme.spacing.spacing3),
+                        verticalAlignment = if (lineLimits is TextFieldLineLimits.MultiLine) Alignment.Top else Alignment.CenterVertically,
+                    ) {
+                        Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
+                        Box(modifier = Modifier.weight(1f)) {
+                            if (recordState.text.isEmpty()) {
+                                Text(
+                                    text = stringResource(id = recordHintRes),
+                                    color = ReedTheme.colors.contentTertiary,
+                                    style = ReedTheme.typography.body2Regular,
+                                )
+                            }
+                            innerTextField()
+                        }
+                        Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
+                        if (recordState.text.toString().isNotEmpty() && onClear != null) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(R.drawable.ic_x_circle),
+                                contentDescription = "Clear Icon",
+                                modifier = Modifier.clickable {
+                                    onClear()
+                                },
+                                tint = Color.Unspecified,
                             )
                         }
-                        innerTextField()
+                        Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
                     }
-                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-                    if (recordState.text.toString().isNotEmpty() && onClear != null) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(R.drawable.ic_x_circle),
-                            contentDescription = "Clear Icon",
-                            modifier = Modifier.clickable {
-                                onClear()
-                            },
-                            tint = Color.Unspecified,
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
-                }
-            },
-        )
+                },
+            )
+            if (isError) {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+                Text(
+                    text = errorMessage,
+                    color = ReedTheme.colors.contentError,
+                    style = ReedTheme.typography.label2Regular,
+                )
+            }
+        }
     }
 }
 
