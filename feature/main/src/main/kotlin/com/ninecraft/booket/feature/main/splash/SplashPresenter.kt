@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.main.splash
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.model.AutoLoginState
 import com.ninecraft.booket.core.model.OnboardingState
@@ -22,12 +23,13 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 class SplashPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val userRepository: UserRepository,
+    private val authRepository: AuthRepository,
 ) : Presenter<SplashUiState> {
 
     @Composable
     override fun present(): SplashUiState {
         val onboardingState by userRepository.onboardingState.collectAsRetainedState(initial = OnboardingState.IDLE)
-        val autoLoginState by userRepository.autoLoginState.collectAsRetainedState(initial = AutoLoginState.IDLE)
+        val autoLoginState by authRepository.autoLoginState.collectAsRetainedState(initial = AutoLoginState.IDLE)
 
         RememberedEffect(onboardingState, autoLoginState) {
             when (onboardingState) {
@@ -40,9 +42,11 @@ class SplashPresenter @AssistedInject constructor(
                         AutoLoginState.LOGGED_IN -> {
                             navigator.resetRoot(BottomNavigationScreen)
                         }
+
                         AutoLoginState.NOT_LOGGED_IN -> {
                             navigator.resetRoot(LoginScreen)
                         }
+
                         AutoLoginState.IDLE -> {
                             // 자동 로그인 상태를 기다리는 중
                         }
