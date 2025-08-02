@@ -6,11 +6,9 @@ import com.ninecraft.booket.core.data.impl.mapper.toModel
 import com.ninecraft.booket.core.datastore.api.datasource.OnboardingDataSource
 import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
 import com.ninecraft.booket.core.model.AutoLoginState
-import com.ninecraft.booket.core.model.OnboardingState
 import com.ninecraft.booket.core.network.service.ReedService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 internal class DefaultUserRepository @Inject constructor(
@@ -23,7 +21,6 @@ internal class DefaultUserRepository @Inject constructor(
     }
 
     override val onboardingState = onboardingDataSource.onboardingState
-        .onStart { emit(OnboardingState.IDLE) }
 
     override suspend fun setOnboardingCompleted(isCompleted: Boolean) {
         onboardingDataSource.setOnboardingCompleted(isCompleted)
@@ -36,5 +33,4 @@ internal class DefaultUserRepository @Inject constructor(
                 else -> AutoLoginState.LOGGED_IN
             }
         }
-        .onStart { emit(AutoLoginState.IDLE) }
 }
