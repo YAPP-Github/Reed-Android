@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -204,7 +205,7 @@ internal fun BookDetailContent(
                 text = "읽는 중",
                 sizeStyle = largeButtonStyle,
                 colorStyle = ReedButtonColorStyle.SECONDARY,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.widthIn(min = 98.dp),
                 trailingIcon = {
                     Icon(
                         imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_down),
@@ -222,7 +223,7 @@ internal fun BookDetailContent(
                 text = "독서 기록 추가",
                 sizeStyle = largeButtonStyle,
                 colorStyle = ReedButtonColorStyle.PRIMARY,
-                modifier = Modifier.weight(2.34f),
+                modifier = Modifier.weight(1f),
             )
         }
 
