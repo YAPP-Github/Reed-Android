@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,21 +12,26 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.component.textfield.ReedTextField
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
+import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.screens.LibrarySearchScreen
 import com.ninecraft.booket.feature.search.R
 import com.ninecraft.booket.feature.search.book.component.RecentSearchTitle
+import com.ninecraft.booket.feature.search.library.component.LibraryBookItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 
@@ -37,7 +43,7 @@ internal fun LibrarySearchUi(
 ) {
     ReedFullScreen(modifier = modifier) {
         ReedBackTopAppBar(
-            title = stringResource(R.string.search_title),
+            title = stringResource(R.string.library_search_title),
             onBackClick = {
                 state.eventSink(LibrarySearchUiEvent.OnBackClick)
             },
@@ -102,7 +108,7 @@ internal fun LibrarySearchContent(
                         style = ReedTheme.typography.body1Regular,
                     )
                     Button(
-                        onClick = { /*TODO: 다시시도 클릭*/ },
+                        onClick = { state.eventSink(LibrarySearchUiEvent.OnRetryClick) },
                         modifier = Modifier.padding(top = ReedTheme.spacing.spacing3),
                     ) {
                         Text(text = stringResource(R.string.retry))
@@ -158,75 +164,50 @@ internal fun LibrarySearchContent(
             }
 
             is UiState.Success -> {
-//                if (state.isEmptySearchResult) {
-//                    Box(
-//                        modifier = Modifier.fillMaxSize(),
-//                        contentAlignment = Alignment.Center,
-//                    ) {
-//                        Text(
-//                            text = stringResource(R.string.empty_results),
-//                            color = ReedTheme.colors.contentSecondary,
-//                            style = ReedTheme.typography.body1Medium,
-//                        )
-//                    }
-//                } else {
-//                    Row(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(
-//                                horizontal = ReedTheme.spacing.spacing5,
-//                                vertical = ReedTheme.spacing.spacing2,
-//                            ),
-//                    ) {
-//                        Text(
-//                            text = stringResource(R.string.search_result_prefix),
-//                            color = ReedTheme.colors.contentPrimary,
-//                            style = ReedTheme.typography.label1Medium,
-//                        )
-//                        Text(
-//                            text = "${state.searchResult.totalResults}",
-//                            color = ReedTheme.colors.contentBrand,
-//                            style = ReedTheme.typography.label1Medium,
-//                        )
-//                        Text(
-//                            text = stringResource(R.string.search_result_suffix),
-//                            color = ReedTheme.colors.contentPrimary,
-//                            style = ReedTheme.typography.label1Medium,
-//                        )
-//                    }
-//
-//                    InfinityLazyColumn(
-//                        loadMore = {
-//                            state.eventSink(SearchUiEvent.OnLoadMore)
-//                        },
-//                    ) {
-//                        items(
-//                            count = state.books.size,
-//                            key = { index -> state.books[index].isbn },
-//                        ) { index ->
-//                            Column {
-//                                BookItem(
-//                                    book = state.books[index],
-//                                    onBookClick = { book ->
-//                                        state.eventSink(SearchUiEvent.OnBookClick(book.isbn))
-//                                    },
-//                                )
-//                                HorizontalDivider(
-//                                    modifier = Modifier.fillMaxWidth(),
-//                                    thickness = 1.dp,
-//                                    color = ReedTheme.colors.borderPrimary,
-//                                )
-//                            }
-//                        }
-//
-//                        item {
-//                            LoadStateFooter(
-//                                footerState = state.footerState,
-//                                onRetryClick = { state.eventSink(SearchUiEvent.OnLoadMore) },
-//                            )
-//                        }
-//                    }
-//                }
+                if (state.books.isEmpty()) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = stringResource(R.string.library_empty_result),
+                            color = ReedTheme.colors.contentSecondary,
+                            style = ReedTheme.typography.body1Medium,
+                        )
+                    }
+                } else {
+                    InfinityLazyColumn(
+                        loadMore = {
+                            state.eventSink(LibrarySearchUiEvent.OnLoadMore)
+                        },
+                    ) {
+                        items(
+                            count = state.books.size,
+                            key = { index -> state.books[index].bookIsbn },
+                        ) { index ->
+                            Column {
+                                LibraryBookItem(
+                                    book = state.books[index],
+                                    onBookClick = { book ->
+                                        state.eventSink(LibrarySearchUiEvent.OnBookClick(book.userBookId))
+                                    },
+                                )
+                                HorizontalDivider(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    thickness = 1.dp,
+                                    color = ReedTheme.colors.borderPrimary,
+                                )
+                            }
+                        }
+
+                        item {
+                            LoadStateFooter(
+                                footerState = state.footerState,
+                                onRetryClick = { state.eventSink(LibrarySearchUiEvent.OnLoadMore) },
+                            )
+                        }
+                    }
+                }
             }
         }
     }
