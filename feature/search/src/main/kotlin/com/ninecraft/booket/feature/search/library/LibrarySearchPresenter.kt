@@ -106,13 +106,15 @@ class LibrarySearchPresenter @AssistedInject constructor(
                 }
 
                 is LibrarySearchUiEvent.OnLoadMore -> {
-                    if (footerState !is FooterState.Loading && !isLastPage && queryState.text.isNotEmpty()) {
-                        searchLibraryBooks(query = queryState.text.toString(), page = currentPage + 1, size = PAGE_SIZE)
+                    val query = queryState.text.trim().toString()
+                    if (footerState !is FooterState.Loading && !isLastPage && query.isNotEmpty()) {
+                        searchLibraryBooks(query = query, page = currentPage + 1, size = PAGE_SIZE)
                     }
                 }
 
                 is LibrarySearchUiEvent.OnRetryClick -> {
-                    if (queryState.text.isNotEmpty()) {
+                    val query = queryState.text.trim().toString()
+                    if (query.isNotEmpty()) {
                         searchLibraryBooks(query = queryState.text.toString(), page = START_INDEX, size = PAGE_SIZE)
                     }
                 }
