@@ -70,73 +70,75 @@ fun BookCard(
                 width = 1.dp,
                 color = ReedTheme.colors.borderSecondary,
                 shape = RoundedCornerShape(ReedTheme.radius.sm),
-            )
-            .padding(
-                start = ReedTheme.spacing.spacing5,
-                top = ReedTheme.spacing.spacing6,
-                end = ReedTheme.spacing.spacing5,
-                bottom = ReedTheme.spacing.spacing5,
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-        NetworkImage(
-            imageUrl = recentBookInfo.coverImageUrl,
-            contentDescription = "Book CoverImage",
+        Column(
             modifier = Modifier
-                .width(86.dp)
-                .height(125.dp)
-                .clip(RoundedCornerShape(size = ReedTheme.radius.sm))
-                .border(
-                    width = 1.dp,
-                    color = ReedTheme.colors.borderPrimary,
-                    shape = RoundedCornerShape(ReedTheme.radius.sm),
-                )
-                .noRippleClickable {
-                    onBookDetailClick()
-                },
-            placeholder = painterResource(designR.drawable.ic_placeholder),
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-        Text(
-            text = recentBookInfo.title,
-            color = ReedTheme.colors.contentPrimary,
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 1,
-            style = ReedTheme.typography.headline1SemiBold,
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
+                .padding(bottom = ReedTheme.spacing.spacing6)
+                .noRippleClickable { onBookDetailClick() }
+                .padding(horizontal = ReedTheme.spacing.spacing5),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
+            NetworkImage(
+                imageUrl = recentBookInfo.coverImageUrl,
+                contentDescription = "Book CoverImage",
+                modifier = Modifier
+                    .width(86.dp)
+                    .height(125.dp)
+                    .clip(RoundedCornerShape(size = ReedTheme.radius.sm))
+                    .border(
+                        width = 1.dp,
+                        color = ReedTheme.colors.borderPrimary,
+                        shape = RoundedCornerShape(ReedTheme.radius.sm),
+                    ),
+                placeholder = painterResource(designR.drawable.ic_placeholder),
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
             Text(
-                text = recentBookInfo.author,
-                color = ReedTheme.colors.contentTertiary,
+                text = recentBookInfo.title,
+                color = ReedTheme.colors.contentPrimary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
-                style = ReedTheme.typography.label1Medium,
-                modifier = Modifier.weight(0.7f, fill = false),
+                style = ReedTheme.typography.headline1SemiBold,
             )
-            Spacer(Modifier.width(ReedTheme.spacing.spacing1))
-            VerticalDivider(
-                modifier = Modifier.height(14.dp),
-                thickness = 1.dp,
-                color = ReedTheme.colors.contentTertiary,
-            )
-            Spacer(Modifier.width(ReedTheme.spacing.spacing1))
-            Text(
-                text = recentBookInfo.publisher,
-                color = ReedTheme.colors.contentTertiary,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
-                style = ReedTheme.typography.label1Medium,
-                modifier = Modifier.weight(0.3f, fill = false),
-            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    text = recentBookInfo.author,
+                    color = ReedTheme.colors.contentTertiary,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    style = ReedTheme.typography.label1Medium,
+                    modifier = Modifier.weight(0.7f, fill = false),
+                )
+                Spacer(Modifier.width(ReedTheme.spacing.spacing1))
+                VerticalDivider(
+                    modifier = Modifier.height(14.dp),
+                    thickness = 1.dp,
+                    color = ReedTheme.colors.contentTertiary,
+                )
+                Spacer(Modifier.width(ReedTheme.spacing.spacing1))
+                Text(
+                    text = recentBookInfo.publisher,
+                    color = ReedTheme.colors.contentTertiary,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    style = ReedTheme.typography.label1Medium,
+                    modifier = Modifier.weight(0.3f, fill = false),
+                )
+            }
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
         }
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Row(
                 modifier = Modifier
                     .background(
@@ -187,6 +189,7 @@ fun BookCard(
                 },
             )
         }
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
     }
 }
 
