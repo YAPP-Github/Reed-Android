@@ -41,7 +41,7 @@ fun HomeBanner(
                 top = ReedTheme.spacing.spacing4,
                 start = ReedTheme.spacing.spacing6,
                 end = ReedTheme.spacing.spacing5,
-            )
+            ),
         ) {
             Text(
                 text = stringResource(R.string.home_banner_title),
@@ -67,11 +67,12 @@ fun HomeBanner(
                 )
             }
         }
-        Spacer(modifier = Modifier
-            .fillMaxWidth()
-            .height(5.dp)
-            .background(ReedTheme.colors.baseSecondary)
-            .align(Alignment.BottomCenter)
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(5.dp)
+                .background(ReedTheme.colors.baseSecondary)
+                .align(Alignment.BottomCenter),
         )
         ResourceImage(
             imageRes = R.drawable.img_home_seed,

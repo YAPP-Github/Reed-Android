@@ -137,7 +137,7 @@ fun BookCard(
         }
         Row(
             modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Row(
                 modifier = Modifier
