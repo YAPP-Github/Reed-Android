@@ -45,12 +45,12 @@ interface ReedService {
     suspend fun searchBook(
         @Query("query") query: String,
         @Query("queryType") queryType: String = "Title",
-        @Query("searchTarget") searchTarget: String? = null,
+        @Query("searchTarget") searchTarget: String = "Book",
         @Query("maxResults") maxResults: Int = 20,
         @Query("start") start: Int = 1,
         @Query("sort") sort: String = "Accuracy",
         @Query("cover") cover: String? = "Big",
-        @Query("categoryId") categoryId: Int? = null,
+        @Query("categoryId") categoryId: Int = 0,
     ): BookSearchResponse
 
     @GET("api/v1/books/detail")

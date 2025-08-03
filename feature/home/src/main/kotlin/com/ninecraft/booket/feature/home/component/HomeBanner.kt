@@ -20,10 +20,10 @@ import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.ResourceImage
-import com.ninecraft.booket.core.designsystem.R as designR
 import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.feature.home.R
+import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
 fun HomeBanner(
@@ -34,14 +34,15 @@ fun HomeBanner(
         modifier = modifier
             .fillMaxWidth()
             .height(160.dp)
-            .background(HomeBg)
-            .padding(
+            .background(HomeBg),
+    ) {
+        Column(
+            modifier = Modifier.padding(
                 top = ReedTheme.spacing.spacing4,
                 start = ReedTheme.spacing.spacing6,
                 end = ReedTheme.spacing.spacing5,
             ),
-    ) {
-        Column {
+        ) {
             Text(
                 text = stringResource(R.string.home_banner_title),
                 color = ReedTheme.colors.contentPrimary,
@@ -66,11 +67,19 @@ fun HomeBanner(
                 )
             }
         }
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(5.dp)
+                .background(ReedTheme.colors.baseSecondary)
+                .align(Alignment.BottomCenter),
+        )
         ResourceImage(
             imageRes = R.drawable.img_home_seed,
             contentDescription = "Home Seed Image",
             modifier = Modifier
-                .align(Alignment.BottomEnd),
+                .align(Alignment.BottomEnd)
+                .padding(end = ReedTheme.spacing.spacing5),
         )
     }
 }
