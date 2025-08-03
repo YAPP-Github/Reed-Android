@@ -215,18 +215,18 @@ fun EmptyBookCard(
             )
             .padding(
                 start = ReedTheme.spacing.spacing5,
-                top = ReedTheme.spacing.spacing6,
                 end = ReedTheme.spacing.spacing5,
                 bottom = ReedTheme.spacing.spacing5,
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
+        Spacer(modifier = Modifier.height(52.dp))
         ResourceImage(
             imageRes = R.drawable.img_empty_book,
             contentDescription = "Empty Book",
+            modifier = Modifier.size(112.dp),
         )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
         Text(
             text = stringResource(R.string.empty_book_card_title),
             color = ReedTheme.colors.contentPrimary,
