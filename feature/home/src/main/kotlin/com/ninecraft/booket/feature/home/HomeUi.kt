@@ -43,25 +43,25 @@ internal fun HomeUi(
 ) {
     HandleHomeSideEffects(state = state)
 
+    // TODO: Android 15에서 statusBar 색상 적용 안되는 문제 있음. 해결 예정.
+    val systemUiController = rememberSystemUiController()
+
+    DisposableEffect(systemUiController) {
+        systemUiController.setStatusBarColor(
+            color = HomeBg,
+            darkIcons = true,
+        )
+        onDispose {
+            systemUiController.setStatusBarColor(
+                color = White,
+                darkIcons = true,
+            )
+        }
+    }
+
     Column(
         modifier = modifier.fillMaxSize(),
     ) {
-        // TODO: Android 15에서 statusBar 색상 적용 안되는 문제 있음. 해결 예정.
-        val systemUiController = rememberSystemUiController()
-
-        DisposableEffect(systemUiController) {
-            systemUiController.setStatusBarColor(
-                color = HomeBg,
-                darkIcons = true,
-            )
-            onDispose {
-                systemUiController.setStatusBarColor(
-                    color = White,
-                    darkIcons = true,
-                )
-            }
-        }
-
         HomeHeader(
             onSettingsClick = {
                 state.eventSink(HomeUiEvent.OnSettingsClick)

@@ -45,8 +45,6 @@ internal fun LibraryUi(
 
     Column(
         modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
     ) {
         LibraryContent(
             state = state,
