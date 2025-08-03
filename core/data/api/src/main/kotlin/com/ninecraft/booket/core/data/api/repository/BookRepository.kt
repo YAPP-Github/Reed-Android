@@ -28,4 +28,10 @@ interface BookRepository {
         page: Int,
         size: Int,
     ): Result<LibraryModel>
+
+    suspend fun searchLibrary(
+        title: String,
+        page: Int,
+        size: Int,
+    ): Result<LibraryModel>
 }

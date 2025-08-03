@@ -57,6 +57,7 @@ interface ReedService {
     @GET("api/v1/books/my-library")
     suspend fun getLibrary(
         @Query("status") status: String? = null,
+        @Query("title") title: String? = null,
         @Query("page") page: Int,
         @Query("size") size: Int,
         @Query("sort") sort: String = "CREATED_DATE_DESC",
