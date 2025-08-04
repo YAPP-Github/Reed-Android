@@ -11,6 +11,7 @@ import com.ninecraft.booket.core.network.response.BookUpsertResponse
 import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
+import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.RefreshTokenResponse
 import com.ninecraft.booket.core.network.response.SeedResponse
@@ -76,6 +77,14 @@ interface ReedService {
         @Path("userBookId") userBookId: String,
         @Body recordRegisterRequest: RecordRegisterRequest,
     ): RecordRegisterResponse
+
+    @GET("api/v1/reading-records/{userBookId}")
+    suspend fun getReadingRecords(
+        @Path("userBookId") userBookId: String,
+        @Query("sort") sort: String = "CREATED_DATE_DESC",
+        @Query("page") page: Int,
+        @Query("size") size: Int = 20,
+    ): ReadingRecordsResponse
 
     // Home (auth required)
     @GET("api/v1/home")

@@ -12,6 +12,8 @@ import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.model.LibraryBooksModel
 import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.PageInfoModel
+import com.ninecraft.booket.core.model.ReadingRecordModel
+import com.ninecraft.booket.core.model.ReadingRecordsModel
 import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.core.model.RecordRegisterModel
 import com.ninecraft.booket.core.model.SeedModel
@@ -26,6 +28,8 @@ import com.ninecraft.booket.core.network.response.LibraryBookSummary
 import com.ninecraft.booket.core.network.response.LibraryBooks
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.PageInfo
+import com.ninecraft.booket.core.network.response.ReadingRecord
+import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RecentBook
 import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.SeedResponse
@@ -153,6 +157,29 @@ internal fun RecordRegisterResponse.toModel(): RecordRegisterModel {
         review = review,
         createdAt = createdAt,
         updatedAt = updatedAt,
+    )
+}
+
+internal fun ReadingRecordsResponse.toModel(): ReadingRecordsModel {
+    return ReadingRecordsModel(
+        content = content.map { it.toModel() },
+        page = page.toModel(),
+    )
+}
+
+internal fun ReadingRecord.toModel(): ReadingRecordModel {
+    return ReadingRecordModel(
+        id = id,
+        userBookId = userBookId,
+        pageNumber = pageNumber,
+        quote = quote,
+        review = review,
+        emotionTags = emotionTags,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        bookTitle = bookTitle,
+        bookPublisher = bookPublisher,
+        bookCoverImageUrl = bookCoverImageUrl,
     )
 }
 
