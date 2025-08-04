@@ -19,7 +19,7 @@ sealed interface UiState {
     data class Error(val message: String) : UiState
 }
 
-data class SearchUiState(
+data class BookSearchUiState(
     val uiState: UiState = UiState.Idle,
     val footerState: FooterState = FooterState.Idle,
     val queryState: TextFieldState = TextFieldState(),
@@ -32,43 +32,43 @@ data class SearchUiState(
     val isBookRegisterBottomSheetVisible: Boolean = false,
     val selectedBookStatus: BookStatus? = null,
     val isBookRegisterSuccessBottomSheetVisible: Boolean = false,
-    val sideEffect: SearchSideEffect? = null,
-    val eventSink: (SearchUiEvent) -> Unit,
+    val sideEffect: BookSearchSideEffect? = null,
+    val eventSink: (BookSearchUiEvent) -> Unit,
 ) : CircuitUiState {
     val isEmptySearchResult: Boolean get() = uiState is UiState.Success && searchResult.totalResults == 0
 }
 
 @Immutable
-sealed interface SearchSideEffect {
+sealed interface BookSearchSideEffect {
     data class ShowToast(
         val message: String,
         private val key: String = UUID.randomUUID().toString(),
-    ) : SearchSideEffect
+    ) : BookSearchSideEffect
 }
 
-sealed interface SearchUiEvent : CircuitUiEvent {
-    data object OnBackClick : SearchUiEvent
-    data class OnRecentSearchClick(val query: String) : SearchUiEvent
-    data class OnRecentSearchRemoveClick(val query: String) : SearchUiEvent
-    data class OnSearchClick(val text: String) : SearchUiEvent
-    data object OnClearClick : SearchUiEvent
-    data class OnBookClick(val bookIsbn: String) : SearchUiEvent
-    data object OnLoadMore : SearchUiEvent
-    data object OnRetryClick : SearchUiEvent
-    data object OnBookRegisterBottomSheetDismiss : SearchUiEvent
-    data class OnBookStatusSelect(val bookStatus: BookStatus) : SearchUiEvent
-    data object OnBookRegisterSuccessBottomSheetDismiss : SearchUiEvent
-    data object OnBookRegisterButtonClick : SearchUiEvent
-    data object OnBookRegisterSuccessOkButtonClick : SearchUiEvent
-    data object OnBookRegisterSuccessCancelButtonClick : SearchUiEvent
+sealed interface BookSearchUiEvent : CircuitUiEvent {
+    data object OnBackClick : BookSearchUiEvent
+    data class OnRecentSearchClick(val query: String) : BookSearchUiEvent
+    data class OnRecentSearchRemoveClick(val query: String) : BookSearchUiEvent
+    data class OnSearchClick(val text: String) : BookSearchUiEvent
+    data object OnClearClick : BookSearchUiEvent
+    data class OnBookClick(val bookIsbn: String) : BookSearchUiEvent
+    data object OnLoadMore : BookSearchUiEvent
+    data object OnRetryClick : BookSearchUiEvent
+    data object OnBookRegisterBottomSheetDismiss : BookSearchUiEvent
+    data class OnBookStatusSelect(val bookStatus: BookStatus) : BookSearchUiEvent
+    data object OnBookRegisterSuccessBottomSheetDismiss : BookSearchUiEvent
+    data object OnBookRegisterButtonClick : BookSearchUiEvent
+    data object OnBookRegisterSuccessOkButtonClick : BookSearchUiEvent
+    data object OnBookRegisterSuccessCancelButtonClick : BookSearchUiEvent
 }
 
-enum class SearchBookStatus(val value: String) {
+enum class BookRegisteredState(val value: String) {
     BEFORE_REGISTRATION("BEFORE_REGISTRATION"),
     ;
 
     companion object {
-        fun from(value: String?): SearchBookStatus? {
+        fun from(value: String?): BookRegisteredState? {
             return entries.find { it.value == value }
         }
     }

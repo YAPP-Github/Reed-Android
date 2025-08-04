@@ -33,17 +33,17 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
-class SearchPresenter @AssistedInject constructor(
+class BookSearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val repository: BookRepository,
-) : Presenter<SearchUiState> {
+) : Presenter<BookSearchUiState> {
     companion object {
         private const val PAGE_SIZE = 20
         private const val START_INDEX = 1
     }
 
     @Composable
-    override fun present(): SearchUiState {
+    override fun present(): BookSearchUiState {
         val scope = rememberCoroutineScope()
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
@@ -58,7 +58,7 @@ class SearchPresenter @AssistedInject constructor(
         var isBookRegisterBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var selectedBookStatus by rememberRetained { mutableStateOf<BookStatus?>(null) }
         var isBookRegisterSuccessBottomSheetVisible by rememberRetained { mutableStateOf(false) }
-        var sideEffect by rememberRetained { mutableStateOf<SearchSideEffect?>(null) }
+        var sideEffect by rememberRetained { mutableStateOf<BookSearchSideEffect?>(null) }
 
         fun searchBooks(query: String, startIndex: Int = START_INDEX) {
             scope.launch {
@@ -117,7 +117,7 @@ class SearchPresenter @AssistedInject constructor(
                     .onFailure { exception ->
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)
-                            sideEffect = SearchSideEffect.ShowToast(message)
+                            sideEffect = BookSearchSideEffect.ShowToast(message)
                         }
 
                         handleException(
@@ -131,13 +131,13 @@ class SearchPresenter @AssistedInject constructor(
             }
         }
 
-        fun handleEvent(event: SearchUiEvent) {
+        fun handleEvent(event: BookSearchUiEvent) {
             when (event) {
-                is SearchUiEvent.OnBackClick -> {
+                is BookSearchUiEvent.OnBackClick -> {
                     navigator.pop()
                 }
 
-                is SearchUiEvent.OnRecentSearchClick -> {
+                is BookSearchUiEvent.OnRecentSearchClick -> {
                     queryState.edit {
                         replace(0, length, "")
                         append(event.query)
@@ -145,74 +145,74 @@ class SearchPresenter @AssistedInject constructor(
                     searchBooks(query = event.query, startIndex = START_INDEX)
                 }
 
-                is SearchUiEvent.OnRecentSearchRemoveClick -> {
+                is BookSearchUiEvent.OnRecentSearchRemoveClick -> {
                     scope.launch {
                         repository.removeBookRecentSearch(query = event.query)
                     }
                 }
 
-                is SearchUiEvent.OnSearchClick -> {
+                is BookSearchUiEvent.OnSearchClick -> {
                     val query = event.text.trim()
                     if (query.isNotEmpty()) {
                         searchBooks(query = event.text, startIndex = START_INDEX)
                     }
                 }
 
-                is SearchUiEvent.OnClearClick -> {
+                is BookSearchUiEvent.OnClearClick -> {
                     queryState.clearText()
                 }
 
-                is SearchUiEvent.OnLoadMore -> {
+                is BookSearchUiEvent.OnLoadMore -> {
                     val query = queryState.text.trim().toString()
                     if (footerState !is FooterState.Loading && !isLastPage && query.isNotEmpty()) {
                         searchBooks(query = queryState.text.toString(), startIndex = currentStartIndex + 1)
                     }
                 }
 
-                is SearchUiEvent.OnRetryClick -> {
+                is BookSearchUiEvent.OnRetryClick -> {
                     val query = queryState.text.trim().toString()
                     if (query.isNotEmpty()) {
                         searchBooks(query = queryState.text.toString(), startIndex = START_INDEX)
                     }
                 }
 
-                is SearchUiEvent.OnBookClick -> {
+                is BookSearchUiEvent.OnBookClick -> {
                     selectedBookIsbn = event.bookIsbn
                     isBookRegisterBottomSheetVisible = true
                 }
 
-                is SearchUiEvent.OnBookRegisterBottomSheetDismiss -> {
+                is BookSearchUiEvent.OnBookRegisterBottomSheetDismiss -> {
                     isBookRegisterBottomSheetVisible = false
                     selectedBookIsbn = ""
                     selectedBookStatus = null
                 }
 
-                is SearchUiEvent.OnBookStatusSelect -> {
+                is BookSearchUiEvent.OnBookStatusSelect -> {
                     selectedBookStatus = event.bookStatus
                 }
 
-                is SearchUiEvent.OnBookRegisterButtonClick -> {
+                is BookSearchUiEvent.OnBookRegisterButtonClick -> {
                     selectedBookStatus?.let { bookStatus -> upsertBook(selectedBookIsbn, bookStatus.value) }
                 }
 
-                is SearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss -> {
+                is BookSearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss -> {
                     isBookRegisterSuccessBottomSheetVisible = false
                 }
 
-                is SearchUiEvent.OnBookRegisterSuccessOkButtonClick -> {
+                is BookSearchUiEvent.OnBookRegisterSuccessOkButtonClick -> {
                     isBookRegisterSuccessBottomSheetVisible = false
                     scope.launch {
                         navigator.delayedGoTo(RecordScreen(registeredUserBookId))
                     }
                 }
 
-                is SearchUiEvent.OnBookRegisterSuccessCancelButtonClick -> {
+                is BookSearchUiEvent.OnBookRegisterSuccessCancelButtonClick -> {
                     isBookRegisterSuccessBottomSheetVisible = false
                 }
             }
         }
 
-        return SearchUiState(
+        return BookSearchUiState(
             uiState = uiState,
             footerState = footerState,
             queryState = queryState,
@@ -233,6 +233,6 @@ class SearchPresenter @AssistedInject constructor(
     @CircuitInject(SearchScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(navigator: Navigator): SearchPresenter
+        fun create(navigator: Navigator): BookSearchPresenter
     }
 }
