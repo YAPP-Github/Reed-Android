@@ -229,13 +229,13 @@ internal fun SearchContent(
                     ) {
                         items(
                             count = state.books.size,
-                            key = { index -> state.books[index].isbn },
+                            key = { index -> state.books[index].isbn13 },
                         ) { index ->
                             Column {
                                 BookItem(
                                     book = state.books[index],
                                     onBookClick = { book ->
-                                        state.eventSink(SearchUiEvent.OnBookClick(book.isbn))
+                                        state.eventSink(SearchUiEvent.OnBookClick(book.isbn13))
                                     },
                                     enabled = SearchBookStatus.from(state.books[index].userBookStatus) == SearchBookStatus.BEFORE_REGISTRATION,
                                 )

@@ -139,7 +139,7 @@ private fun BookItemPreview() {
                 author = "마쓰이에 마사시 마쓰이에 마사시",
                 publisher = "비채",
                 coverImageUrl = "https://example.com/sample-book-cover.jpg",
-                isbn = "",
+                isbn13 = "",
             ),
             onBookClick = {},
         )

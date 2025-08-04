@@ -104,7 +104,7 @@ class SearchPresenter @AssistedInject constructor(
                     .onSuccess {
                         registeredUserBookId = it.userBookId
                         books = books.map { book ->
-                            if (book.isbn == selectedBookIsbn) {
+                            if (book.isbn13 == selectedBookIsbn) {
                                 book.copy(userBookStatus = bookStatus)
                             } else book
                         }.toPersistentList()
