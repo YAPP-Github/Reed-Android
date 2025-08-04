@@ -75,17 +75,19 @@ internal fun CollectedSeeds(
                     shape = RoundedCornerShape(ReedTheme.radius.sm),
                 ),
         ) {
-            Text(
-                text = EmotionAnalysisResultText(
-                    emotions = seedsStats,
-                    brandColor = ReedTheme.colors.contentBrand,
-                    secondaryColor = ReedTheme.colors.contentSecondary,
-                    emotionTextStyle = ReedTheme.typography.label2SemiBold,
-                    regularTextStyle = ReedTheme.typography.label2Regular,
-                ),
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
+            EmotionAnalysisResultText(
+                emotions = seedsStats,
+                brandColor = ReedTheme.colors.contentBrand,
+                secondaryColor = ReedTheme.colors.contentSecondary,
+                emotionTextStyle = ReedTheme.typography.label2SemiBold,
+                regularTextStyle = ReedTheme.typography.label2Regular,
+            )?.let { annotatedString ->
+                Text(
+                    text = annotatedString,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
     }

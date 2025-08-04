@@ -148,7 +148,7 @@ internal fun BookDetailContent(
                             state.eventSink(BookDetailUiEvent.OnBookStatusButtonClick)
                         },
                         text = stringResource(
-                            BookStatus.fromValue(state.bookDetail.userBookStatus)?.getDisplayNameRes() 
+                            BookStatus.fromValue(state.bookDetail.userBookStatus)?.getDisplayNameRes()
                                 ?: BookStatus.BEFORE_READING.getDisplayNameRes()
                         ),
                         sizeStyle = largeButtonStyle,
@@ -178,10 +178,10 @@ internal fun BookDetailContent(
         }
 
         item {
-            if (state.recordCollections.isEmpty()) {
-                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
-            } else {
+            if (state.hasEmotionData()) {
                 CollectedSeeds(seedsStats = state.seedsStats)
+            } else {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
             }
 
             ReedDivider()

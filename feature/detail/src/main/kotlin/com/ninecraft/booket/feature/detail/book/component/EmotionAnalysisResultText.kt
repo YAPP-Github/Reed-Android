@@ -31,10 +31,12 @@ internal fun EmotionAnalysisResultText(
     secondaryColor: Color,
     emotionTextStyle: TextStyle,
     regularTextStyle: TextStyle,
-): AnnotatedString {
+): AnnotatedString? {
     val analysisResult = remember(emotions) { analyzeEmotions(emotions) }
 
     return when (analysisResult.displayType) {
+        EmotionDisplayType.NONE -> null
+        
         EmotionDisplayType.SINGLE -> {
             val emotion = analysisResult.topEmotions.first()
             buildAnnotatedString {
@@ -91,51 +93,79 @@ private fun EmotionTextAllCasesPreview() {
     ReedTheme {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "1개의 감정이 1위인 경우:")
-            Text(
-                text = EmotionAnalysisResultText(
-                    emotions = persistentListOf(
-                        EmotionModel(name = Emotion.WARM, count = 5),
-                        EmotionModel(name = Emotion.JOY, count = 2),
-                    ),
-                    brandColor = ReedTheme.colors.contentBrand,
-                    secondaryColor = ReedTheme.colors.contentSecondary,
-                    emotionTextStyle = ReedTheme.typography.label2SemiBold,
-                    regularTextStyle = ReedTheme.typography.label2Regular,
+            EmotionAnalysisResultText(
+                emotions = persistentListOf(
+                    EmotionModel(name = Emotion.WARM, count = 5),
+                    EmotionModel(name = Emotion.JOY, count = 2),
                 ),
-                modifier = Modifier.padding(vertical = 8.dp),
-            )
+                brandColor = ReedTheme.colors.contentBrand,
+                secondaryColor = ReedTheme.colors.contentSecondary,
+                emotionTextStyle = ReedTheme.typography.label2SemiBold,
+                regularTextStyle = ReedTheme.typography.label2Regular,
+            )?.let { annotatedString ->
+                Text(
+                    text = annotatedString,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = "2개의 감정이 공동 1위인 경우:")
-            Text(
-                text = EmotionAnalysisResultText(
-                    emotions = persistentListOf(
-                        EmotionModel(name = Emotion.WARM, count = 5),
-                        EmotionModel(name = Emotion.JOY, count = 5),
-                        EmotionModel(name = Emotion.SADNESS, count = 2),
-                    ),
-                    brandColor = ReedTheme.colors.contentBrand,
-                    secondaryColor = ReedTheme.colors.contentSecondary,
-                    emotionTextStyle = ReedTheme.typography.label2SemiBold,
-                    regularTextStyle = ReedTheme.typography.label2Regular,
+            EmotionAnalysisResultText(
+                emotions = persistentListOf(
+                    EmotionModel(name = Emotion.WARM, count = 5),
+                    EmotionModel(name = Emotion.JOY, count = 5),
+                    EmotionModel(name = Emotion.SADNESS, count = 2),
                 ),
-                modifier = Modifier.padding(vertical = 8.dp),
-            )
+                brandColor = ReedTheme.colors.contentBrand,
+                secondaryColor = ReedTheme.colors.contentSecondary,
+                emotionTextStyle = ReedTheme.typography.label2SemiBold,
+                regularTextStyle = ReedTheme.typography.label2Regular,
+            )?.let { annotatedString ->
+                Text(
+                    text = annotatedString,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = "3~4개의 감정이 공동 1위인 경우:")
-            Text(
-                text = EmotionAnalysisResultText(
-                    emotions = persistentListOf(
-                        EmotionModel(name = Emotion.WARM, count = 3),
-                        EmotionModel(name = Emotion.JOY, count = 3),
-                        EmotionModel(name = Emotion.SADNESS, count = 3),
-                        EmotionModel(name = Emotion.TENSION, count = 3),
-                    ),
-                    brandColor = ReedTheme.colors.contentBrand,
-                    secondaryColor = ReedTheme.colors.contentSecondary,
-                    emotionTextStyle = ReedTheme.typography.label2SemiBold,
-                    regularTextStyle = ReedTheme.typography.label2Regular,
+            EmotionAnalysisResultText(
+                emotions = persistentListOf(
+                    EmotionModel(name = Emotion.WARM, count = 3),
+                    EmotionModel(name = Emotion.JOY, count = 3),
+                    EmotionModel(name = Emotion.SADNESS, count = 3),
+                    EmotionModel(name = Emotion.TENSION, count = 3),
                 ),
+                brandColor = ReedTheme.colors.contentBrand,
+                secondaryColor = ReedTheme.colors.contentSecondary,
+                emotionTextStyle = ReedTheme.typography.label2SemiBold,
+                regularTextStyle = ReedTheme.typography.label2Regular,
+            )?.let { annotatedString ->
+                Text(
+                    text = annotatedString,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = "모든 감정의 count가 0인 경우:")
+            EmotionAnalysisResultText(
+                emotions = persistentListOf(
+                    EmotionModel(name = Emotion.WARM, count = 0),
+                    EmotionModel(name = Emotion.JOY, count = 0),
+                    EmotionModel(name = Emotion.SADNESS, count = 0),
+                ),
+                brandColor = ReedTheme.colors.contentBrand,
+                secondaryColor = ReedTheme.colors.contentSecondary,
+                emotionTextStyle = ReedTheme.typography.label2SemiBold,
+                regularTextStyle = ReedTheme.typography.label2Regular,
+            )?.let { annotatedString ->
+                Text(
+                    text = annotatedString,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                )
+            } ?: Text(
+                text = "null 반환 - 표시되지 않음",
                 modifier = Modifier.padding(vertical = 8.dp),
+                color = ReedTheme.colors.contentSecondary,
             )
         }
     }
