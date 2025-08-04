@@ -73,10 +73,10 @@ class DefaultLibraryRecentSearchDataSource @Inject constructor(
                 try {
                     Json.decodeFromString<List<String>>(jsonString).toMutableList()
                 } catch (e: SerializationException) {
-                    Logger.e(e, "Failed to deserialize recent searches for adding")
+                    Logger.e(e, "Failed to deserialize recent searches for removal")
                     mutableListOf()
                 } catch (e: Exception) {
-                    Logger.e(e, "Unexpected error while adding recent search")
+                    Logger.e(e, "Unexpected error while removing recent search")
                     mutableListOf()
                 }
             } ?: mutableListOf()
