@@ -31,8 +31,8 @@ data class BookSearchResponse(
 
 @Serializable
 data class BookSummary(
-    @SerialName("isbn")
-    val isbn: String,
+    @SerialName("isbn13")
+    val isbn13: String,
     @SerialName("title")
     val title: String,
     @SerialName("author")
@@ -41,4 +41,6 @@ data class BookSummary(
     val publisher: String,
     @SerialName("coverImageUrl")
     val coverImageUrl: String,
+    @SerialName("userBookStatus")
+    val userBookStatus: String,
 )

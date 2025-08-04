@@ -24,6 +24,9 @@ data object LoginScreen : ReedScreen(name = "Login()")
 data object SearchScreen : ReedScreen(name = "Search()")
 
 @Parcelize
+data object LibrarySearchScreen : ReedScreen(name = "LibrarySearch()")
+
+@Parcelize
 data object TermsAgreementScreen : ReedScreen(name = "TermsAgreement()")
 
 @Parcelize
@@ -51,7 +54,7 @@ data class WebViewScreen(
 ) : ReedScreen(name = "WebView()")
 
 @Parcelize
-data class BookDetailScreen(val isbn: String) : ReedScreen(name = "BookDetail()")
+data class BookDetailScreen(val isbn13: String) : ReedScreen(name = "BookDetail()")
 
 @Parcelize
 data object OnboardingScreen : ReedScreen(name = "Onboarding()")

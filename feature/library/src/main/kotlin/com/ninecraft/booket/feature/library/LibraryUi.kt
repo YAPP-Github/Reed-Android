@@ -45,8 +45,6 @@ internal fun LibraryUi(
 
     Column(
         modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
     ) {
         LibraryContent(
             state = state,
@@ -67,7 +65,7 @@ internal fun LibraryContent(
     ) {
         LibraryHeader(
             onSearchClick = {
-                // TODO: 내서재 검색 화면으로 이동
+                state.eventSink(LibraryUiEvent.OnLibrarySearchClick)
             },
             onSettingClick = {
                 state.eventSink(LibraryUiEvent.OnSettingsClick)

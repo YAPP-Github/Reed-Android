@@ -19,9 +19,10 @@ data class BookSearchModel(
 
 @Stable
 data class BookSummaryModel(
-    val isbn: String = "",
+    val isbn13: String = "",
     val title: String = "",
     val author: String = "",
     val publisher: String = "",
     val coverImageUrl: String = "",
+    val userBookStatus: String = "",
 )

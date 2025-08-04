@@ -1,6 +1,5 @@
-package com.ninecraft.booket.feature.search.component
+package com.ninecraft.booket.feature.search.library.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,24 +15,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.model.BookSummaryModel
+import com.ninecraft.booket.core.model.LibraryBookSummaryModel
+import com.ninecraft.booket.feature.search.R
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
-fun BookItem(
-    book: BookSummaryModel,
-    onBookClick: (BookSummaryModel) -> Unit,
+fun LibraryBookItem(
+    book: LibraryBookSummaryModel,
+    onBookClick: (LibraryBookSummaryModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onBookClick(book) }
+            .clickableSingle { onBookClick(book) }
             .padding(horizontal = ReedTheme.spacing.spacing5),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -53,7 +55,7 @@ fun BookItem(
         )
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = book.title,
+                text = book.bookTitle,
                 color = ReedTheme.colors.contentPrimary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
@@ -65,7 +67,7 @@ fun BookItem(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = book.author,
+                    text = book.bookAuthor,
                     color = ReedTheme.colors.contentTertiary,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
@@ -88,21 +90,35 @@ fun BookItem(
                     modifier = Modifier.weight(0.3f, fill = false),
                 )
             }
+            Spacer(Modifier.height(ReedTheme.spacing.spacing4))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = stringResource(R.string.library_book_item_records),
+                    color = ReedTheme.colors.contentPrimary,
+                    style = ReedTheme.typography.label2Regular,
+                )
+                Spacer(Modifier.width(ReedTheme.spacing.spacing1))
+                Text(
+                    text = book.recordCount.toString(),
+                    color = ReedTheme.colors.contentBrand,
+                    style = ReedTheme.typography.label2SemiBold,
+                )
+            }
         }
     }
 }
 
 @ComponentPreview
 @Composable
-private fun BookItemPreview() {
+private fun LibraryBookItemPreview() {
     ReedTheme {
-        BookItem(
-            book = BookSummaryModel(
-                title = "여름은 오래 그곳에 남아",
-                author = "마쓰이에 마사시 마쓰이에 마사시",
+        LibraryBookItem(
+            book = LibraryBookSummaryModel(
+                bookTitle = "여름은 오래 그곳에 남아",
+                bookAuthor = "마쓰이에 마사시 마쓰이에 마사시",
                 publisher = "비채",
                 coverImageUrl = "https://example.com/sample-book-cover.jpg",
-                isbn = "",
+                recordCount = 3,
             ),
             onBookClick = {},
         )

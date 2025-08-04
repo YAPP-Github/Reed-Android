@@ -18,6 +18,7 @@ import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
+import com.ninecraft.booket.feature.screens.delayedPop
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.foundation.rememberAnsweringNavigator
@@ -151,7 +152,9 @@ class RecordRegisterPresenter @AssistedInject constructor(
 
                 is RecordRegisterUiEvent.OnExitDialogConfirm -> {
                     isExitDialogVisible = false
-                    navigator.pop()
+                    scope.launch {
+                        navigator.delayedPop()
+                    }
                 }
 
                 is RecordRegisterUiEvent.OnExitDialogDismiss -> {
@@ -182,11 +185,24 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
 
                 is RecordRegisterUiEvent.OnImpressionGuideConfirmed -> {
-                    impressionState.edit {
-                        replace(0, length, "")
-                        append(selectedImpressionGuide)
-                        this.selection = TextRange(0) // 커서를 문장 맨 앞에 위치
+                    val currentImpressionText = impressionState.text.toString()
+
+                    if (currentImpressionText.isNotEmpty()) {
+                        // 이미 작성된 감상문이 있는 경우 줄바꿈해서 추가
+                        val startIndex = currentImpressionText.length
+
+                        impressionState.edit {
+                            replace(0, length, currentImpressionText + "\n" + selectedImpressionGuide)
+                            this.selection = TextRange(startIndex + 1) // 줄바꿈한 문장 맨 앞에 커서 위치
+                        }
+                    } else {
+                        impressionState.edit {
+                            replace(0, length, "")
+                            append(selectedImpressionGuide)
+                            this.selection = TextRange(0) // 커서를 문장 맨 앞에 위치
+                        }
                     }
+
                     isImpressionGuideBottomSheetVisible = false
                 }
 
@@ -224,7 +240,9 @@ class RecordRegisterPresenter @AssistedInject constructor(
 
                 is RecordRegisterUiEvent.OnRecordSavedDialogDismiss -> {
                     isRecordSavedDialogVisible = false
-                    navigator.pop()
+                    scope.launch {
+                        navigator.delayedPop()
+                    }
                 }
             }
         }
