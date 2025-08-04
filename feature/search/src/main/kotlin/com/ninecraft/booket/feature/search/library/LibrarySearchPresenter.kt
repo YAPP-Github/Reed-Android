@@ -8,11 +8,14 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LibrarySearchScreen
+import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.search.book.SearchSideEffect
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
@@ -46,6 +49,7 @@ class LibrarySearchPresenter @AssistedInject constructor(
         val queryState = rememberTextFieldState()
         val recentSearches by repository.libraryRecentSearches.collectAsRetainedState(initial = emptyList())
         var books by rememberRetained { mutableStateOf(persistentListOf<LibraryBookSummaryModel>()) }
+        var sideEffect by rememberRetained { mutableStateOf<LibrarySearchSideEffect?>(null) }
 
         var currentPage by rememberRetained { mutableIntStateOf(START_INDEX) }
         var isLastPage by rememberRetained { mutableStateOf(false) }
@@ -77,13 +81,25 @@ class LibrarySearchPresenter @AssistedInject constructor(
                         }
                     }
                     .onFailure { exception ->
-                        Logger.d(exception)
                         val errorMessage = exception.message ?: "알 수 없는 오류가 발생했습니다."
                         if (page == START_INDEX) {
                             uiState = UiState.Error(errorMessage)
                         } else {
                             footerState = FooterState.Error(errorMessage)
                         }
+
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = LibrarySearchSideEffect.ShowToast(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen)
+                            },
+                        )
                     }
             }
         }
@@ -148,6 +164,7 @@ class LibrarySearchPresenter @AssistedInject constructor(
             queryState = queryState,
             recentSearches = recentSearches.toImmutableList(),
             books = books,
+            sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
     }

@@ -42,6 +42,8 @@ internal fun LibrarySearchUi(
     state: LibrarySearchUiState,
     modifier: Modifier = Modifier,
 ) {
+    HandlingLibrarySearchSideEffect(state = state)
+
     ReedFullScreen(modifier = modifier) {
         ReedBackTopAppBar(
             title = stringResource(R.string.library_search_title),
