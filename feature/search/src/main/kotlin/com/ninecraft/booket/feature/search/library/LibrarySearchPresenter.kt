@@ -95,6 +95,10 @@ class LibrarySearchPresenter @AssistedInject constructor(
                 }
 
                 is LibrarySearchUiEvent.OnRecentSearchClick -> {
+                    queryState.edit {
+                        replace(0, length, "")
+                        append(event.query)
+                    }
                     searchLibraryBooks(query = event.query, page = START_INDEX, size = PAGE_SIZE)
                 }
 

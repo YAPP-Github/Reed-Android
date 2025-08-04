@@ -138,6 +138,10 @@ class SearchPresenter @AssistedInject constructor(
                 }
 
                 is SearchUiEvent.OnRecentSearchClick -> {
+                    queryState.edit {
+                        replace(0, length, "")
+                        append(event.query)
+                    }
                     searchBooks(query = event.query, startIndex = START_INDEX)
                 }
 

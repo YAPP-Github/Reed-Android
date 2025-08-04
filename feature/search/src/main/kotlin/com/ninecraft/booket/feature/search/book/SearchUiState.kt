@@ -6,7 +6,6 @@ import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
-import com.ninecraft.booket.feature.search.R
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
