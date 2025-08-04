@@ -3,6 +3,7 @@ package com.ninecraft.booket.feature.detail.book
 import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.common.R
 import com.ninecraft.booket.core.common.constants.BookStatus
+import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.model.EmotionModel
 import com.ninecraft.booket.core.model.RecordRegisterModel
@@ -13,6 +14,8 @@ import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 data class BookDetailUiState(
+    val isLoading: Boolean = false,
+    val bookDetail: BookDetailModel = BookDetailModel(),
     val isBookUpdateBottomSheetVisible: Boolean = false,
     val isRecordSortBottomSheetVisible: Boolean = false,
     val emotionList: ImmutableList<EmotionModel> = persistentListOf(

@@ -61,6 +61,10 @@ class HomePresenter @AssistedInject constructor(
             }
         }
 
+        LaunchedEffect(true) {
+            getHome()
+        }
+
         fun handleEvent(event: HomeUiEvent) {
             when (event) {
                 is HomeUiEvent.OnSettingsClick -> {
@@ -76,13 +80,9 @@ class HomePresenter @AssistedInject constructor(
                 }
 
                 is HomeUiEvent.OnBookDetailClick -> {
-                    navigator.goTo(BookDetailScreen(""))
+                    navigator.goTo(BookDetailScreen(event.userBookId))
                 }
             }
-        }
-
-        LaunchedEffect(true) {
-            getHome()
         }
 
         return HomeUiState(

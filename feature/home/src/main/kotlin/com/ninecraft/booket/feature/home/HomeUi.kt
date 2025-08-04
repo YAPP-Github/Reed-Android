@@ -119,7 +119,7 @@ internal fun HomeContent(
                 BookCard(
                     recentBookInfo = state.recentBooks[page],
                     onBookDetailClick = {
-                        state.eventSink(HomeUiEvent.OnBookDetailClick)
+                        state.eventSink(HomeUiEvent.OnBookDetailClick(state.recentBooks[page].userBookId))
                     },
                     onRecordButtonClick = {
                         state.eventSink(HomeUiEvent.OnRecordButtonClick(state.recentBooks[page].userBookId))
