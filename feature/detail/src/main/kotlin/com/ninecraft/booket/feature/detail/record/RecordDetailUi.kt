@@ -25,6 +25,7 @@ import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.model.RecordDetailModel
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.detail.R
@@ -54,12 +55,12 @@ internal fun RecordDetailUi(
                 state.eventSink(RecordDetailUiEvent.OnCloseClicked)
             },
         )
-        ReviewDetailContent(modifier)
+        ReviewDetailContent(state = state, modifier = modifier)
     }
 }
 
 @Composable
-private fun ReviewDetailContent(modifier: Modifier = Modifier) {
+private fun ReviewDetailContent(state: RecordDetailUiState, modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,7 +76,7 @@ private fun ReviewDetailContent(modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             NetworkImage(
-                imageUrl = "",
+                imageUrl = state.recordDetailInfo.bookCoverImageUrl,
                 contentDescription = "Book CoverImage",
                 modifier = Modifier
                     .padding(end = ReedTheme.spacing.spacing4)
@@ -86,7 +87,7 @@ private fun ReviewDetailContent(modifier: Modifier = Modifier) {
             )
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "여름은 오래 그곳에 남아",
+                    text = state.recordDetailInfo.bookTitle,
                     color = ReedTheme.colors.contentPrimary,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
@@ -98,7 +99,7 @@ private fun ReviewDetailContent(modifier: Modifier = Modifier) {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "미쓰이에 마사시",
+                        text = "미쓰이에 마사시", // TODO: 서버에서 author 정보 추가로 내려줘야 함
                         color = ReedTheme.colors.contentTertiary,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1,
@@ -113,7 +114,7 @@ private fun ReviewDetailContent(modifier: Modifier = Modifier) {
                     )
                     Spacer(Modifier.width(ReedTheme.spacing.spacing1))
                     Text(
-                        text = "비채",
+                        text = state.recordDetailInfo.bookPublisher,
                         color = ReedTheme.colors.contentTertiary,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1,
@@ -137,7 +138,10 @@ private fun ReviewDetailContent(modifier: Modifier = Modifier) {
                 style = ReedTheme.typography.body1Medium,
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-            QuoteBox(quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.", page = 99)
+            QuoteBox(
+                quote = state.recordDetailInfo.quote,
+                page = state.recordDetailInfo.pageNumber,
+            )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
             Text(
                 text = stringResource(R.string.review_detail_impression_label),
@@ -145,7 +149,11 @@ private fun ReviewDetailContent(modifier: Modifier = Modifier) {
                 style = ReedTheme.typography.body1Medium,
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-            ReviewBox(modifier)
+            ReviewBox(
+                emotion = state.recordDetailInfo.emotionTags.getOrNull(0) ?: "",
+                createdAt = state.recordDetailInfo.createdAt,
+                review = state.recordDetailInfo.review,
+            )
         }
     }
 }
@@ -156,6 +164,19 @@ private fun ReviewDetailPreview() {
     ReedTheme {
         RecordDetailUi(
             state = RecordDetailUiState(
+                recordDetailInfo = RecordDetailModel(
+                    id = "",
+                    userBookId = "",
+                    pageNumber = 90,
+                    quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
+                    review = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다",
+                    emotionTags = listOf("따뜻함"),
+                    createdAt = "2023.10.10",
+                    updatedAt = "",
+                    bookTitle = "여름은 오래 그곳에 남아",
+                    bookPublisher = "비채",
+                    bookCoverImageUrl = ""
+                ),
                 eventSink = {},
             ),
         )
