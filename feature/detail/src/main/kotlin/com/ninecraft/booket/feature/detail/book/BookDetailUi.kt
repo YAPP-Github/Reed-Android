@@ -1,5 +1,7 @@
 package com.ninecraft.booket.feature.detail.book
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,16 +12,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.designsystem.ComponentPreview
@@ -28,13 +34,16 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
+import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.book.component.BookItem
 import com.ninecraft.booket.feature.detail.book.component.BookUpdateBottomSheet
 import com.ninecraft.booket.feature.detail.book.component.CollectedSeeds
+import com.ninecraft.booket.feature.detail.book.component.RecordItem
 import com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet
-import com.ninecraft.booket.feature.detail.book.component.RecordsCollection
+import com.ninecraft.booket.feature.detail.book.component.RecordsCollectionHeader
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -116,57 +125,115 @@ internal fun BookDetailUi(
 internal fun BookDetailContent(
     state: BookDetailUiState,
     modifier: Modifier = Modifier,
+    lazyListState: LazyListState = rememberLazyListState(),
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+    InfinityLazyColumn(
+        modifier = modifier.fillMaxSize(),
+        state = lazyListState,
+        loadMore = {
+            // TODO: 페이지네이션 로직 추가
+        },
     ) {
-        BookItem(bookDetail = state.bookDetail)
-        Spacer(Modifier.height(ReedTheme.spacing.spacing3))
-        Spacer(Modifier.height(ReedTheme.spacing.spacing4))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = ReedTheme.spacing.spacing5),
-        ) {
-            ReedButton(
-                onClick = {
-                    state.eventSink(BookDetailUiEvent.OnBookStatusButtonClick)
-                },
-                text = "읽는 중",
-                sizeStyle = largeButtonStyle,
-                colorStyle = ReedButtonColorStyle.SECONDARY,
-                modifier = Modifier.widthIn(min = 98.dp),
-                trailingIcon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_down),
-                        contentDescription = "Dropdown Icon",
-                        modifier = Modifier.size(22.dp),
-                        tint = ReedTheme.colors.contentPrimary,
+        item {
+            Column {
+                BookItem(bookDetail = state.bookDetail)
+                Spacer(Modifier.height(28.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = ReedTheme.spacing.spacing5),
+                ) {
+                    ReedButton(
+                        onClick = {
+                            state.eventSink(BookDetailUiEvent.OnBookStatusButtonClick)
+                        },
+                        text = "읽는 중",
+                        sizeStyle = largeButtonStyle,
+                        colorStyle = ReedButtonColorStyle.SECONDARY,
+                        modifier = Modifier.widthIn(min = 98.dp),
+                        trailingIcon = {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_down),
+                                contentDescription = "Dropdown Icon",
+                                modifier = Modifier.size(22.dp),
+                                tint = ReedTheme.colors.contentPrimary,
+                            )
+                        },
                     )
-                },
-            )
-            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-            ReedButton(
-                onClick = {
-                    state.eventSink(BookDetailUiEvent.OnRegisterRecordButtonClick)
-                },
-                text = "독서 기록 추가",
-                sizeStyle = largeButtonStyle,
-                colorStyle = ReedButtonColorStyle.PRIMARY,
-                modifier = Modifier.weight(1f),
-            )
+                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
+                    ReedButton(
+                        onClick = {
+                            state.eventSink(BookDetailUiEvent.OnRegisterRecordButtonClick)
+                        },
+                        text = stringResource(R.string.register_book_record),
+                        sizeStyle = largeButtonStyle,
+                        colorStyle = ReedButtonColorStyle.PRIMARY,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+            }
+        }
+
+        item {
+            if (state.recordCollections.isEmpty()) {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
+            } else {
+                CollectedSeeds(seedsStats = state.seedsStats)
+            }
+
+            ReedDivider()
+        }
+
+        item {
+            Column(
+                modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5)
+            ) {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
+                RecordsCollectionHeader(state = state)
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
+            }
         }
 
         if (state.recordCollections.isEmpty()) {
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(324.dp)
+                        .padding(horizontal = ReedTheme.spacing.spacing5),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = stringResource(R.string.records_collection_empty),
+                        color = ReedTheme.colors.contentSecondary,
+                        textAlign = TextAlign.Center,
+                        style = ReedTheme.typography.body1Medium,
+                    )
+                }
+            }
         } else {
-            CollectedSeeds(seedsStats = state.seedsStats)
+            items(
+                count = state.recordCollections.size,
+                key = { index -> state.recordCollections[index].id },
+            ) { index ->
+                val record = state.recordCollections[index]
+                RecordItem(
+                    quote = record.quote,
+                    emotionTags = record.emotionTags.toImmutableList(),
+                    pageNumber = record.pageNumber,
+                    createdAt = record.createdAt,
+                    modifier = Modifier
+                        .padding(
+                            start = ReedTheme.spacing.spacing5,
+                            end = ReedTheme.spacing.spacing5,
+                            bottom = ReedTheme.spacing.spacing3,
+                        )
+                        .clickable {
+                            state.eventSink(BookDetailUiEvent.OnRecordItemClick(record.id))
+                        },
+                )
+            }
         }
-
-        ReedDivider()
-        RecordsCollection(state = state)
     }
 }
 
