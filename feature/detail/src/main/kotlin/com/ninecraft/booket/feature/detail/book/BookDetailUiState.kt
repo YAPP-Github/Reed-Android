@@ -62,7 +62,6 @@ sealed interface BookDetailUiEvent : CircuitUiEvent {
     data class OnRecordSortItemSelected(val sortType: RecordSort) : BookDetailUiEvent
     data class OnRecordItemClick(val recordId: String) : BookDetailUiEvent
     data object OnLoadMore : BookDetailUiEvent
-
 }
 
 enum class RecordSort(val value: String) {

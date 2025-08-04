@@ -104,7 +104,6 @@ class BookDetailPresenter @AssistedInject constructor(
                             },
                         )
                     }
-
             }
         }
 

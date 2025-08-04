@@ -198,7 +198,7 @@ internal fun BookDetailContent(
                     currentRecordSort = state.currentRecordSort,
                     onReadingRecordClick = {
                         state.eventSink(BookDetailUiEvent.OnRecordSortButtonClick)
-                    }
+                    },
                 )
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
             }
