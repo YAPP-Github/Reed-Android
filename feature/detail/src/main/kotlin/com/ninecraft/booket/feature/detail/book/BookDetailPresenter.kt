@@ -155,7 +155,7 @@ class BookDetailPresenter @AssistedInject constructor(
                             when (currentRecordSort) {
                                 RecordSort.PAGE_NUMBER_ASC -> compareBy { it.pageNumber }
                                 RecordSort.CREATED_DATE_DESC -> compareByDescending { it.createdAt }
-                            }
+                            },
                         ).toPersistentList()
                     }
 
@@ -229,7 +229,7 @@ class BookDetailPresenter @AssistedInject constructor(
                         when (event.sortType) {
                             RecordSort.PAGE_NUMBER_ASC -> compareBy { it.pageNumber }
                             RecordSort.CREATED_DATE_DESC -> compareByDescending { it.createdAt }
-                        }
+                        },
                     ).toPersistentList()
                     isRecordSortBottomSheetVisible = false
                 }
