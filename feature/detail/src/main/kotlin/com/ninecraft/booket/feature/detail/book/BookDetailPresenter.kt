@@ -81,7 +81,7 @@ class BookDetailPresenter @AssistedInject constructor(
             scope.launch {
                 try {
                     isLoading = true
-                    repository.getBookDetail(screen.bookId)
+                    repository.getBookDetail(screen.isbn)
                         .onSuccess { result ->
                             bookDetail = result
                         }
@@ -128,7 +128,7 @@ class BookDetailPresenter @AssistedInject constructor(
             }
         }
 
-        LaunchedEffect(screen.bookId) {
+        LaunchedEffect(Unit) {
             getSeedsStats()
             getBookDetail()
         }
@@ -164,7 +164,7 @@ class BookDetailPresenter @AssistedInject constructor(
                 }
 
                 is BookDetailUiEvent.OnBookStatusUpdateButtonClick -> {
-                    upsertBook(screen.bookId, currentBookStatus.value)
+                    upsertBook(screen.isbn, currentBookStatus.value)
                 }
 
                 is BookDetailUiEvent.OnRecordSortBottomSheetDismiss -> {

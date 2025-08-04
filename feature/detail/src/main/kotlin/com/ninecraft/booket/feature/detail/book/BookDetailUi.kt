@@ -147,7 +147,10 @@ internal fun BookDetailContent(
                         onClick = {
                             state.eventSink(BookDetailUiEvent.OnBookStatusButtonClick)
                         },
-                        text = "읽는 중",
+                        text = stringResource(
+                            BookStatus.fromValue(state.bookDetail.userBookStatus)?.getDisplayNameRes() 
+                                ?: BookStatus.BEFORE_READING.getDisplayNameRes()
+                        ),
                         sizeStyle = largeButtonStyle,
                         colorStyle = ReedButtonColorStyle.SECONDARY,
                         modifier = Modifier.widthIn(min = 98.dp),

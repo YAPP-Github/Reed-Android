@@ -12,3 +12,12 @@ fun String.decodeHtmlEntities(): String {
         .replace("&#39;", "'")
         .replace("&nbsp;", " ")
 }
+
+fun String.formatPublishYear(): String {
+    return try {
+        val year = this.substringBefore("-")
+        "${year}년"
+    } catch (e: Exception) {
+        this
+    }
+}

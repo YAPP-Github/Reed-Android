@@ -56,9 +56,7 @@ interface ReedService {
 
     @GET("api/v1/books/detail")
     suspend fun getBookDetail(
-        @Query("itemId") itemId: String,
-        @Query("itemIdType") itemIdType: String = "ISBN",
-        @Query("optResult") optResult: String = "BookInfo,Toc,PreviewImg",
+        @Query("isbn") isbn: String,
     ): BookDetailResponse
 
     @PUT("api/v1/books/upsert")

@@ -76,18 +76,13 @@ internal fun BookDetailResponse.toModel(): BookDetailModel {
         author = author,
         pubDate = pubDate,
         description = description,
-        isbn = isbn,
         isbn13 = isbn13,
-        itemId = itemId,
-        priceSales = priceSales,
-        priceStandard = priceStandard,
         mallType = mallType,
-        stockStatus = stockStatus,
-        mileage = mileage,
-        cover = cover,
-        categoryId = categoryId,
+        coverImageUrl = coverImageUrl,
         categoryName = categoryName,
         publisher = publisher,
+        totalPage = totalPage,
+        userBookStatus = userBookStatus,
     )
 }
 

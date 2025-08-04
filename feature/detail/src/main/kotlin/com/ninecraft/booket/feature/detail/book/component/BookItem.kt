@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.extensions.formatPublishYear
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.BookDetailModel
@@ -33,7 +34,7 @@ internal fun BookItem(
             .padding(horizontal = ReedTheme.spacing.spacing5),
     ) {
         NetworkImage(
-            imageUrl = bookDetail.cover,
+            imageUrl = bookDetail.coverImageUrl,
             contentDescription = "Book CoverImage",
             modifier = Modifier
                 .padding(end = ReedTheme.spacing.spacing4)
@@ -44,7 +45,7 @@ internal fun BookItem(
         )
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = "여름은 오래 그곳에 남아",
+                text = bookDetail.title,
                 color = ReedTheme.colors.contentPrimary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 2,
@@ -56,7 +57,7 @@ internal fun BookItem(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "미쓰이에 마사시",
+                    text = bookDetail.author,
                     color = ReedTheme.colors.contentTertiary,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
@@ -71,7 +72,7 @@ internal fun BookItem(
                 )
                 Spacer(Modifier.width(ReedTheme.spacing.spacing1))
                 Text(
-                    text = "비채",
+                    text = bookDetail.publisher,
                     color = ReedTheme.colors.contentTertiary,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
@@ -81,7 +82,7 @@ internal fun BookItem(
             }
             Spacer(Modifier.width(ReedTheme.spacing.spacing05))
             Text(
-                text = "2024년",
+                text = bookDetail.pubDate.formatPublishYear(),
                 color = ReedTheme.colors.contentTertiary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
