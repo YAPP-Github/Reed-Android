@@ -45,7 +45,7 @@ class SearchPresenter @AssistedInject constructor(
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
         val queryState = rememberTextFieldState()
-        val recentSearches by repository.recentSearches.collectAsRetainedState(initial = emptyList())
+        val recentSearches by repository.bookRecentSearches.collectAsRetainedState(initial = emptyList())
         var searchResult by rememberRetained { mutableStateOf(BookSearchModel()) }
         var books by rememberRetained { mutableStateOf(persistentListOf<BookSummaryModel>()) }
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
@@ -132,12 +132,15 @@ class SearchPresenter @AssistedInject constructor(
 
                 is SearchUiEvent.OnRecentSearchRemoveClick -> {
                     scope.launch {
-                        repository.removeRecentSearch(query = event.query)
+                        repository.removeBookRecentSearch(query = event.query)
                     }
                 }
 
                 is SearchUiEvent.OnSearchClick -> {
-                    searchBooks(query = event.text, startIndex = START_INDEX)
+                    val query = event.text.trim()
+                    if (query.isNotEmpty()) {
+                        searchBooks(query = event.text, startIndex = START_INDEX)
+                    }
                 }
 
                 is SearchUiEvent.OnClearClick -> {
@@ -145,13 +148,15 @@ class SearchPresenter @AssistedInject constructor(
                 }
 
                 is SearchUiEvent.OnLoadMore -> {
-                    if (footerState !is FooterState.Loading && !isLastPage && queryState.text.toString().isNotEmpty()) {
+                    val query = queryState.text.trim().toString()
+                    if (footerState !is FooterState.Loading && !isLastPage && query.isNotEmpty()) {
                         searchBooks(query = queryState.text.toString(), startIndex = currentStartIndex + 1)
                     }
                 }
 
                 is SearchUiEvent.OnRetryClick -> {
-                    if (queryState.text.toString().isNotEmpty()) {
+                    val query = queryState.text.trim().toString()
+                    if (query.isNotEmpty()) {
                         searchBooks(query = queryState.text.toString(), startIndex = START_INDEX)
                     }
                 }
