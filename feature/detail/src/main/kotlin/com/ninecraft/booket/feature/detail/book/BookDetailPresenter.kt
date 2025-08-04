@@ -150,7 +150,13 @@ class BookDetailPresenter @AssistedInject constructor(
                     readingRecords = if (startIndex == START_INDEX) {
                         result.content.toPersistentList()
                     } else {
-                        (readingRecords + result.content).toPersistentList()
+                        // 새로운 데이터를 기존 리스트와 합친 후 정렬
+                        (readingRecords + result.content).sortedWith(
+                            when (currentRecordSort) {
+                                RecordSort.PAGE_NUMBER_ASC -> compareBy { it.pageNumber }
+                                RecordSort.CREATED_DATE_DESC -> compareByDescending { it.createdAt }
+                            }
+                        ).toPersistentList()
                     }
 
                     currentStartIndex = startIndex
@@ -219,6 +225,12 @@ class BookDetailPresenter @AssistedInject constructor(
 
                 is BookDetailUiEvent.OnRecordSortItemSelected -> {
                     currentRecordSort = event.sortType
+                    readingRecords = readingRecords.sortedWith(
+                        when (event.sortType) {
+                            RecordSort.PAGE_NUMBER_ASC -> compareBy { it.pageNumber }
+                            RecordSort.CREATED_DATE_DESC -> compareByDescending { it.createdAt }
+                        }
+                    ).toPersistentList()
                     isRecordSortBottomSheetVisible = false
                 }
 
