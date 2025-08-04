@@ -7,14 +7,15 @@ import kotlinx.coroutines.flow.Flow
 import com.ninecraft.booket.core.model.LibraryModel
 
 interface BookRepository {
-    val recentSearches: Flow<List<String>>
+    val bookRecentSearches: Flow<List<String>>
+    val libraryRecentSearches: Flow<List<String>>
 
     suspend fun searchBook(
         query: String,
         start: Int,
     ): Result<BookSearchModel>
 
-    suspend fun removeRecentSearch(query: String)
+    suspend fun removeBookRecentSearch(query: String)
 
     suspend fun getBookDetail(itemId: String): Result<BookDetailModel>
 
@@ -34,4 +35,6 @@ interface BookRepository {
         page: Int,
         size: Int,
     ): Result<LibraryModel>
+
+    suspend fun removeLibraryRecentSearch(query: String)
 }

@@ -4,8 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.ninecraft.booket.core.datastore.api.datasource.RecentSearchDataSource
-import com.ninecraft.booket.core.datastore.impl.di.RecentSearchDataStore
+import com.ninecraft.booket.core.datastore.api.datasource.LibraryRecentSearchDataSource
+import com.ninecraft.booket.core.datastore.impl.di.LibraryRecentSearchDataStore
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
@@ -14,14 +14,13 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
-class DefaultRecentSearchDataSource @Inject constructor(
-    @RecentSearchDataStore private val dataStore: DataStore<Preferences>,
-) : RecentSearchDataSource {
-    @Suppress("TooGenericExceptionCaught")
+class DefaultLibraryRecentSearchDataSource @Inject constructor(
+    @LibraryRecentSearchDataStore private val dataStore: DataStore<Preferences>
+): LibraryRecentSearchDataSource {
     override val recentSearches: Flow<List<String>> = dataStore.data
         .handleIOException()
         .map { prefs ->
-            prefs[RECENT_SEARCHES]?.let { jsonString ->
+            prefs[LIBRARY_RECENT_SEARCHES]?.let { jsonString ->
                 try {
                     Json.decodeFromString<List<String>>(jsonString)
                 } catch (e: SerializationException) {
@@ -34,12 +33,11 @@ class DefaultRecentSearchDataSource @Inject constructor(
             } ?: emptyList()
         }
 
-    @Suppress("TooGenericExceptionCaught")
     override suspend fun addRecentSearch(query: String) {
         if (query.isBlank()) return
 
         dataStore.edit { prefs ->
-            val currentSearches = prefs[RECENT_SEARCHES]?.let { jsonString ->
+            val currentSearches = prefs[LIBRARY_RECENT_SEARCHES]?.let { jsonString ->
                 try {
                     Json.decodeFromString<List<String>>(jsonString).toMutableList()
                 } catch (e: SerializationException) {
@@ -59,17 +57,16 @@ class DefaultRecentSearchDataSource @Inject constructor(
             // 최근 10개만 유지
             val limitedSearches = currentSearches.take(MAX_SEARCH_COUNT)
             try {
-                prefs[RECENT_SEARCHES] = Json.encodeToString(limitedSearches)
+                prefs[LIBRARY_RECENT_SEARCHES] = Json.encodeToString(limitedSearches)
             } catch (e: SerializationException) {
                 Logger.e(e, "Failed to serialize recent searches")
             }
         }
     }
 
-    @Suppress("TooGenericExceptionCaught")
     override suspend fun removeRecentSearch(query: String) {
         dataStore.edit { prefs ->
-            val currentSearches = prefs[RECENT_SEARCHES]?.let { jsonString ->
+            val currentSearches = prefs[LIBRARY_RECENT_SEARCHES]?.let { jsonString ->
                 try {
                     Json.decodeFromString<List<String>>(jsonString).toMutableList()
                 } catch (e: SerializationException) {
@@ -83,7 +80,7 @@ class DefaultRecentSearchDataSource @Inject constructor(
 
             currentSearches.remove(query)
             try {
-                prefs[RECENT_SEARCHES] = Json.encodeToString(currentSearches)
+                prefs[LIBRARY_RECENT_SEARCHES] = Json.encodeToString(currentSearches)
             } catch (e: SerializationException) {
                 Logger.e(e, "Failed to serialize recent searches after removal")
             }
@@ -92,12 +89,12 @@ class DefaultRecentSearchDataSource @Inject constructor(
 
     override suspend fun clearRecentSearches() {
         dataStore.edit { prefs ->
-            prefs.remove(RECENT_SEARCHES)
+            prefs.remove(LIBRARY_RECENT_SEARCHES)
         }
     }
 
     companion object {
-        private val RECENT_SEARCHES = stringPreferencesKey("RECENT_SEARCHES")
+        private val LIBRARY_RECENT_SEARCHES = stringPreferencesKey("LIBRARY_RECENT_SEARCHES")
         private const val MAX_SEARCH_COUNT = 10
     }
 }
