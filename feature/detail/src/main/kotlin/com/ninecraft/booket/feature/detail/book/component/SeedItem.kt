@@ -41,7 +41,7 @@ internal fun SeedItem(
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(ReedTheme.radius.full))
-                .background(emotion.type.toBackgroundColor())
+                .background(emotion.name.toBackgroundColor())
                 .padding(
                     horizontal = ReedTheme.spacing.spacing2,
                     vertical = ReedTheme.spacing.spacing1,
@@ -49,8 +49,8 @@ internal fun SeedItem(
             contentAlignment = Alignment.Center,
         ) {
             Text(
-                text = emotion.type.displayName,
-                color = emotion.type.toTextColor(),
+                text = emotion.name.displayName,
+                color = emotion.name.toTextColor(),
                 style = ReedTheme.typography.body2Medium,
             )
         }
@@ -69,7 +69,7 @@ private fun SeedItemPreview() {
     ReedTheme {
         SeedItem(
             emotion = EmotionModel(
-                type = Emotion.WARM,
+                name = Emotion.WARM,
                 count = 3,
             ),
         )

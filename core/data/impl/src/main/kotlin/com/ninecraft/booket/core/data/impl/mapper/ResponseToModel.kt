@@ -5,6 +5,8 @@ import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.model.BookUpsertModel
+import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.EmotionModel
 import com.ninecraft.booket.core.model.HomeModel
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.model.LibraryBooksModel
@@ -12,11 +14,13 @@ import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.PageInfoModel
 import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.core.model.RecordRegisterModel
+import com.ninecraft.booket.core.model.SeedModel
 import com.ninecraft.booket.core.model.UserProfileModel
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookSummary
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
+import com.ninecraft.booket.core.network.response.Category
 import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryBookSummary
 import com.ninecraft.booket.core.network.response.LibraryBooks
@@ -24,6 +28,7 @@ import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.PageInfo
 import com.ninecraft.booket.core.network.response.RecentBook
 import com.ninecraft.booket.core.network.response.RecordRegisterResponse
+import com.ninecraft.booket.core.network.response.SeedResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
 
 internal fun UserProfileResponse.toModel(): UserProfileModel {
@@ -171,5 +176,19 @@ internal fun RecentBook.toModel(): RecentBookModel {
         coverImageUrl = coverImageUrl,
         lastRecordedAt = lastRecordedAt,
         recordCount = recordCount,
+    )
+}
+
+internal fun SeedResponse.toModel(): SeedModel {
+    return SeedModel(
+        categories = categories.mapNotNull { it.toEmotionModel() },
+    )
+}
+
+internal fun Category.toEmotionModel(): EmotionModel? {
+    val emotion = Emotion.fromDisplayName(name) ?: return null
+    return EmotionModel(
+        name = emotion,
+        count = count,
     )
 }

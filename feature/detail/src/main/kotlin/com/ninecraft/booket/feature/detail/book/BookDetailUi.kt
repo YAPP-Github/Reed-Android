@@ -32,7 +32,7 @@ import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.detail.book.component.BookItem
 import com.ninecraft.booket.feature.detail.book.component.BookUpdateBottomSheet
-import com.ninecraft.booket.feature.detail.book.component.CollectedSeed
+import com.ninecraft.booket.feature.detail.book.component.CollectedSeeds
 import com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet
 import com.ninecraft.booket.feature.detail.book.component.RecordsCollection
 import com.ninecraft.booket.feature.screens.BookDetailScreen
@@ -162,7 +162,7 @@ internal fun BookDetailContent(
         if (state.recordCollections.isEmpty()) {
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
         } else {
-            CollectedSeed(state = state)
+            CollectedSeeds(seedsStats = state.seedsStats)
         }
 
         ReedDivider()

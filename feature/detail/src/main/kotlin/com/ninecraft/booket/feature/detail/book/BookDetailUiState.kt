@@ -7,6 +7,7 @@ import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.model.EmotionModel
 import com.ninecraft.booket.core.model.RecordRegisterModel
+import com.ninecraft.booket.core.model.SeedModel
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
@@ -16,23 +17,24 @@ import java.util.UUID
 data class BookDetailUiState(
     val isLoading: Boolean = false,
     val bookDetail: BookDetailModel = BookDetailModel(),
+    val seedsStats: ImmutableList<EmotionModel> = persistentListOf(),
     val isBookUpdateBottomSheetVisible: Boolean = false,
     val isRecordSortBottomSheetVisible: Boolean = false,
     val emotionList: ImmutableList<EmotionModel> = persistentListOf(
         EmotionModel(
-            type = Emotion.WARM,
+            name = Emotion.WARM,
             count = 3,
         ),
         EmotionModel(
-            type = Emotion.JOY,
+            name = Emotion.JOY,
             count = 1,
         ),
         EmotionModel(
-            type = Emotion.TENSION,
+            name = Emotion.TENSION,
             count = 2,
         ),
         EmotionModel(
-            type = Emotion.SADNESS,
+            name = Emotion.SADNESS,
             count = 2,
         ),
     ),

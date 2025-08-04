@@ -13,6 +13,7 @@ import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
 import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.RefreshTokenResponse
+import com.ninecraft.booket.core.network.response.SeedResponse
 import com.ninecraft.booket.core.network.response.TermsAgreementResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
 import retrofit2.http.Body
@@ -83,4 +84,8 @@ interface ReedService {
     suspend fun getHome(
         @Query("limit") limit: Int = 3,
     ): HomeResponse
+
+    // Seed (auth required)
+    @GET("api/v1/seeds/stats")
+    suspend fun getSeedsStats(): SeedResponse
 }

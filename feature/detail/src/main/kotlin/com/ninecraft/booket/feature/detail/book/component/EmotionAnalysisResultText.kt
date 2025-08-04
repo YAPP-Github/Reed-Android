@@ -42,7 +42,7 @@ internal fun EmotionAnalysisResultText(
                     append("이 책에서 ")
                 }
                 withStyle(SpanStyle(color = brandColor, fontSize = emotionTextStyle.fontSize, fontWeight = emotionTextStyle.fontWeight)) {
-                    append(emotion.type.displayName)
+                    append(emotion.name.displayName)
                 }
                 withStyle(SpanStyle(color = secondaryColor, fontSize = regularTextStyle.fontSize, fontWeight = regularTextStyle.fontWeight)) {
                     append(" 감정을 많이 느꼈어요")
@@ -63,7 +63,7 @@ internal fun EmotionAnalysisResultText(
                         }
                     }
                     withStyle(SpanStyle(color = brandColor, fontSize = emotionTextStyle.fontSize, fontWeight = emotionTextStyle.fontWeight)) {
-                        append(emotion.type.displayName)
+                        append(emotion.name.displayName)
                     }
                 }
                 withStyle(SpanStyle(color = secondaryColor, fontSize = regularTextStyle.fontSize, fontWeight = regularTextStyle.fontWeight)) {
@@ -94,8 +94,8 @@ private fun EmotionTextAllCasesPreview() {
             Text(
                 text = EmotionAnalysisResultText(
                     emotions = persistentListOf(
-                        EmotionModel(type = Emotion.WARM, count = 5),
-                        EmotionModel(type = Emotion.JOY, count = 2),
+                        EmotionModel(name = Emotion.WARM, count = 5),
+                        EmotionModel(name = Emotion.JOY, count = 2),
                     ),
                     brandColor = ReedTheme.colors.contentBrand,
                     secondaryColor = ReedTheme.colors.contentSecondary,
@@ -109,9 +109,9 @@ private fun EmotionTextAllCasesPreview() {
             Text(
                 text = EmotionAnalysisResultText(
                     emotions = persistentListOf(
-                        EmotionModel(type = Emotion.WARM, count = 5),
-                        EmotionModel(type = Emotion.JOY, count = 5),
-                        EmotionModel(type = Emotion.SADNESS, count = 2),
+                        EmotionModel(name = Emotion.WARM, count = 5),
+                        EmotionModel(name = Emotion.JOY, count = 5),
+                        EmotionModel(name = Emotion.SADNESS, count = 2),
                     ),
                     brandColor = ReedTheme.colors.contentBrand,
                     secondaryColor = ReedTheme.colors.contentSecondary,
@@ -125,10 +125,10 @@ private fun EmotionTextAllCasesPreview() {
             Text(
                 text = EmotionAnalysisResultText(
                     emotions = persistentListOf(
-                        EmotionModel(type = Emotion.WARM, count = 3),
-                        EmotionModel(type = Emotion.JOY, count = 3),
-                        EmotionModel(type = Emotion.SADNESS, count = 3),
-                        EmotionModel(type = Emotion.TENSION, count = 3),
+                        EmotionModel(name = Emotion.WARM, count = 3),
+                        EmotionModel(name = Emotion.JOY, count = 3),
+                        EmotionModel(name = Emotion.SADNESS, count = 3),
+                        EmotionModel(name = Emotion.TENSION, count = 3),
                     ),
                     brandColor = ReedTheme.colors.contentBrand,
                     secondaryColor = ReedTheme.colors.contentSecondary,

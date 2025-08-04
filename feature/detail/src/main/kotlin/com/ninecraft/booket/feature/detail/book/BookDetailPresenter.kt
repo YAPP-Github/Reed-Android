@@ -10,6 +10,8 @@ import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.BookDetailModel
+import com.ninecraft.booket.core.model.EmotionModel
+import com.ninecraft.booket.core.model.SeedModel
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
@@ -23,6 +25,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 class BookDetailPresenter @AssistedInject constructor(
@@ -37,11 +42,40 @@ class BookDetailPresenter @AssistedInject constructor(
 
         var isLoading by rememberRetained { mutableStateOf(false) }
         var bookDetail by rememberRetained { mutableStateOf(BookDetailModel()) }
+        var seedsStates by rememberRetained { mutableStateOf<ImmutableList<EmotionModel>>(persistentListOf<EmotionModel>()) }
         var isBookUpdateBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isRecordSortBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var currentBookStatus by rememberRetained { mutableStateOf(BookStatus.READING) }
         var currentRecordSort by rememberRetained { mutableStateOf(RecordSort.PAGE_ASCENDING) }
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
+
+        fun getSeedsStats() {
+            scope.launch {
+                try {
+                    isLoading = true
+                    repository.getSeedsStats()
+                        .onSuccess { result ->
+                            seedsStates = result.categories.toImmutableList()
+                        }
+                        .onFailure { exception ->
+                            val handleErrorMessage = { message: String ->
+                                Logger.e(message)
+                                sideEffect = BookDetailSideEffect.ShowToast(message)
+                            }
+
+                            handleException(
+                                exception = exception,
+                                onError = handleErrorMessage,
+                                onLoginRequired = {
+                                    navigator.resetRoot(LoginScreen)
+                                },
+                            )
+                        }
+                } finally {
+                    isLoading = false
+                }
+            }
+        }
 
         fun getBookDetail() {
             scope.launch {
@@ -95,6 +129,7 @@ class BookDetailPresenter @AssistedInject constructor(
         }
 
         LaunchedEffect(screen.bookId) {
+            getSeedsStats()
             getBookDetail()
         }
 
@@ -150,6 +185,7 @@ class BookDetailPresenter @AssistedInject constructor(
         return BookDetailUiState(
             isLoading = isLoading,
             bookDetail = bookDetail,
+            seedsStats = seedsStates,
             isBookUpdateBottomSheetVisible = isBookUpdateBottomSheetVisible,
             isRecordSortBottomSheetVisible = isRecordSortBottomSheetVisible,
             currentBookStatus = currentBookStatus,

@@ -20,12 +20,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.EmotionModel
+import com.ninecraft.booket.core.model.SeedModel
 import com.ninecraft.booket.feature.detail.R
-import com.ninecraft.booket.feature.detail.book.BookDetailUiState
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-internal fun CollectedSeed(
-    state: BookDetailUiState,
+internal fun CollectedSeeds(
+    seedsStats: ImmutableList<EmotionModel>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -52,7 +57,7 @@ internal fun CollectedSeed(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
-            state.emotionList.forEach { emotion ->
+            seedsStats.forEach { emotion ->
                 SeedItem(emotion = emotion)
             }
         }
@@ -72,7 +77,7 @@ internal fun CollectedSeed(
         ) {
             Text(
                 text = EmotionAnalysisResultText(
-                    emotions = state.emotionList,
+                    emotions = seedsStats,
                     brandColor = ReedTheme.colors.contentBrand,
                     secondaryColor = ReedTheme.colors.contentSecondary,
                     emotionTextStyle = ReedTheme.typography.label2SemiBold,
@@ -90,9 +95,12 @@ internal fun CollectedSeed(
 @Composable
 private fun CollectedSeedPreview() {
     ReedTheme {
-        CollectedSeed(
-            state = BookDetailUiState(
-                eventSink = {},
+        CollectedSeeds(
+            seedsStats = persistentListOf(
+                EmotionModel(Emotion.WARM, 3),
+                EmotionModel(Emotion.JOY, 2),
+                EmotionModel(Emotion.TENSION, 1),
+                EmotionModel(Emotion.SADNESS, 3),
             ),
         )
     }
