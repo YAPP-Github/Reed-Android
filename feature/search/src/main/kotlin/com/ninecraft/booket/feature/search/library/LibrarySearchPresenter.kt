@@ -15,6 +15,7 @@ import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LibrarySearchScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -23,6 +24,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
@@ -42,6 +44,7 @@ class LibrarySearchPresenter @AssistedInject constructor(
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
         val queryState = rememberTextFieldState()
+        val recentSearches by repository.libraryRecentSearches.collectAsRetainedState(initial = emptyList())
         var books by rememberRetained { mutableStateOf(persistentListOf<LibraryBookSummaryModel>()) }
 
         var currentPage by rememberRetained { mutableIntStateOf(START_INDEX) }
@@ -91,8 +94,15 @@ class LibrarySearchPresenter @AssistedInject constructor(
                     navigator.pop()
                 }
 
-                // recentSearchClick
-                // OnRecentSearchRemoveClick
+                is LibrarySearchUiEvent.OnRecentSearchClick -> {
+                    searchLibraryBooks(query = event.query, page = START_INDEX, size = PAGE_SIZE)
+                }
+
+                is LibrarySearchUiEvent.OnRecentSearchRemoveClick -> {
+                    scope.launch {
+                        repository.removeLibraryRecentSearch(event.query)
+                    }
+                }
 
                 is LibrarySearchUiEvent.OnSearchClick -> {
                     val query = event.query.trim()
@@ -120,15 +130,19 @@ class LibrarySearchPresenter @AssistedInject constructor(
                 }
 
                 is LibrarySearchUiEvent.OnBookClick -> {
-                    // TODO: 도서 상세 화면에서 어떤 값을 넘겨야 하는지 확인!
-                    navigator.goTo(BookDetailScreen(event.userBookId))
+                    val userBookId = event.userBookId
+                    val isbn = event.isbn
+                    // TODO: 도서 상세 화면에 bookIsbn, userBookId 넘겨야 함
+                    navigator.goTo(BookDetailScreen(isbn = isbn))
                 }
             }
         }
 
         return LibrarySearchUiState(
             uiState = uiState,
+            footerState = footerState,
             queryState = queryState,
+            recentSearches = recentSearches.toImmutableList(),
             books = books,
             eventSink = ::handleEvent,
         )

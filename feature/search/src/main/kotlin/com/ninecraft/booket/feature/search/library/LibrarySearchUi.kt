@@ -4,12 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
@@ -31,6 +31,7 @@ import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.screens.LibrarySearchScreen
 import com.ninecraft.booket.feature.search.R
 import com.ninecraft.booket.feature.search.book.component.RecentSearchTitle
+import com.ninecraft.booket.feature.search.book.component.SearchItem
 import com.ninecraft.booket.feature.search.library.component.LibraryBookItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -63,7 +64,7 @@ internal fun LibrarySearchContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(White)
+            .background(White),
     ) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         ReedTextField(
@@ -117,7 +118,7 @@ internal fun LibrarySearchContent(
             }
 
             is UiState.Idle -> {
-                if (true) {
+                if (state.recentSearches.isEmpty()) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
@@ -131,35 +132,33 @@ internal fun LibrarySearchContent(
                         )
                     }
                 } else {
-//                    LazyColumn {
-//                        item {
-//                            RecentSearchTitle()
-//                        }
-//
-//                        items(
-//                            count = state.recentSearches.size,
-//                            key = { index -> state.recentSearches[index] },
-//                        ) { index ->
-//                            Column {
-//                                SearchItem(
-//                                    query = state.recentSearches[index],
-//                                    onQueryClick = { keyword ->
-//                                        state.eventSink(SearchUiEvent.OnRecentSearchClick(keyword))
-//                                    },
-//                                    onRemoveIconClick = { keyword ->
-//                                        state.eventSink(
-//                                            SearchUiEvent.OnRecentSearchRemoveClick(keyword),
-//                                        )
-//                                    },
-//                                )
-//                                HorizontalDivider(
-//                                    modifier = Modifier.fillMaxWidth(),
-//                                    thickness = 1.dp,
-//                                    color = ReedTheme.colors.borderPrimary,
-//                                )
-//                            }
-//                        }
-//                    }
+                    LazyColumn {
+                        item {
+                            RecentSearchTitle()
+                        }
+
+                        items(
+                            count = state.recentSearches.size,
+                            key = { index -> state.recentSearches[index] },
+                        ) { index ->
+                            Column {
+                                SearchItem(
+                                    query = state.recentSearches[index],
+                                    onQueryClick = { keyword ->
+                                        state.eventSink(LibrarySearchUiEvent.OnRecentSearchClick(keyword))
+                                    },
+                                    onRemoveIconClick = { keyword ->
+                                        state.eventSink(LibrarySearchUiEvent.OnRecentSearchRemoveClick(keyword))
+                                    },
+                                )
+                                HorizontalDivider(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    thickness = 1.dp,
+                                    color = ReedTheme.colors.borderPrimary,
+                                )
+                            }
+                        }
+                    }
                 }
             }
 
@@ -189,7 +188,12 @@ internal fun LibrarySearchContent(
                                 LibraryBookItem(
                                     book = state.books[index],
                                     onBookClick = { book ->
-                                        state.eventSink(LibrarySearchUiEvent.OnBookClick(book.userBookId))
+                                        state.eventSink(
+                                            LibrarySearchUiEvent.OnBookClick(
+                                                userBookId = book.userBookId,
+                                                isbn = book.bookIsbn,
+                                            ),
+                                        )
                                     },
                                 )
                                 HorizontalDivider(

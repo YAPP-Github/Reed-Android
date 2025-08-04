@@ -20,6 +20,7 @@ data class LibrarySearchUiState(
     val uiState: UiState = UiState.Idle,
     val footerState: FooterState = FooterState.Idle,
     val queryState: TextFieldState = TextFieldState(),
+    val recentSearches: ImmutableList<String> = persistentListOf(),
     val books: ImmutableList<LibraryBookSummaryModel> = persistentListOf(),
     val sideEffect: LibrarySearchSideEffect? = null,
     val eventSink: (LibrarySearchUiEvent) -> Unit,
@@ -33,10 +34,12 @@ sealed interface LibrarySearchSideEffect {
 }
 
 sealed interface LibrarySearchUiEvent : CircuitUiEvent {
+    data object OnBackClick : LibrarySearchUiEvent
+    data class OnRecentSearchClick(val query: String) : LibrarySearchUiEvent
+    data class OnRecentSearchRemoveClick(val query: String) : LibrarySearchUiEvent
     data class OnSearchClick(val query: String) : LibrarySearchUiEvent
     data object OnClearClick : LibrarySearchUiEvent
     data object OnLoadMore : LibrarySearchUiEvent
     data object OnRetryClick : LibrarySearchUiEvent
-    data class OnBookClick(val userBookId: String) : LibrarySearchUiEvent
-    data object OnBackClick : LibrarySearchUiEvent
+    data class OnBookClick(val userBookId: String, val isbn: String) : LibrarySearchUiEvent
 }
