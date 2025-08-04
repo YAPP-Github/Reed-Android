@@ -15,7 +15,6 @@ import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LibrarySearchScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
-import com.ninecraft.booket.feature.search.book.SearchSideEffect
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
@@ -62,7 +61,7 @@ class LibrarySearchPresenter @AssistedInject constructor(
                     footerState = FooterState.Loading
                 }
 
-                repository.searchLibrary(title = query, page = page, size = size)
+                repository.searchLibraryBooks(title = query, page = page, size = size)
                     .onSuccess { result ->
                         books = if (result.books.page.number == START_INDEX) {
                             result.books.content.toPersistentList()

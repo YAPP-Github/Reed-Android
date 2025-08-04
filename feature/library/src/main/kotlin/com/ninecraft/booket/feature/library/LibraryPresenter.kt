@@ -52,7 +52,7 @@ class LibraryPresenter @AssistedInject constructor(
         var currentPage by rememberRetained { mutableIntStateOf(START_INDEX) }
         var isLastPage by rememberRetained { mutableStateOf(false) }
 
-        fun getLibraryBooks(status: String?, page: Int, size: Int) {
+        fun filterLibraryBooks(status: String?, page: Int, size: Int) {
             scope.launch {
                 if (page == START_INDEX) {
                     uiState = UiState.Loading
@@ -60,7 +60,7 @@ class LibraryPresenter @AssistedInject constructor(
                     footerState = FooterState.Loading
                 }
 
-                repository.getLibrary(status = status, page = page, size = size)
+                repository.filterLibraryBooks(status = status, page = page, size = size)
                     .onSuccess { result ->
                         filterChips = filterChips.map { chip ->
                             when (chip.option) {
@@ -115,7 +115,7 @@ class LibraryPresenter @AssistedInject constructor(
 
                 is LibraryUiEvent.OnFilterClick -> {
                     currentFilter = event.filterOption
-                    getLibraryBooks(status = currentFilter.getApiValue(), page = START_INDEX, size = PAGE_SIZE)
+                    filterLibraryBooks(status = currentFilter.getApiValue(), page = START_INDEX, size = PAGE_SIZE)
                 }
 
                 is LibraryUiEvent.OnBookClick -> {
@@ -124,19 +124,19 @@ class LibraryPresenter @AssistedInject constructor(
 
                 is LibraryUiEvent.OnLoadMore -> {
                     if (footerState !is FooterState.Loading && !isLastPage) {
-                        getLibraryBooks(status = currentFilter.getApiValue(), page = currentPage + 1, size = PAGE_SIZE)
+                        filterLibraryBooks(status = currentFilter.getApiValue(), page = currentPage + 1, size = PAGE_SIZE)
                     }
                 }
 
                 is LibraryUiEvent.OnRetryClick -> {
-                    getLibraryBooks(status = currentFilter.getApiValue(), page = currentPage, size = PAGE_SIZE)
+                    filterLibraryBooks(status = currentFilter.getApiValue(), page = currentPage, size = PAGE_SIZE)
                 }
             }
         }
 
         LaunchedEffect(Unit) {
             if (uiState == UiState.Idle || uiState is UiState.Error) {
-                getLibraryBooks(
+                filterLibraryBooks(
                     status = currentFilter.getApiValue(),
                     page = START_INDEX,
                     size = PAGE_SIZE,

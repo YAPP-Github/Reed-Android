@@ -24,13 +24,13 @@ interface BookRepository {
         bookStatus: String,
     ): Result<BookUpsertModel>
 
-    suspend fun getLibrary(
+    suspend fun filterLibraryBooks(
         status: String?,
         page: Int,
         size: Int,
     ): Result<LibraryModel>
 
-    suspend fun searchLibrary(
+    suspend fun searchLibraryBooks(
         title: String,
         page: Int,
         size: Int,

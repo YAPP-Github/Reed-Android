@@ -42,12 +42,12 @@ internal class DefaultBookRepository @Inject constructor(
         service.upsertBook(BookUpsertRequest(bookIsbn, bookStatus)).toModel()
     }
 
-    override suspend fun getLibrary(status: String?, page: Int, size: Int) = runSuspendCatching {
-        service.getLibrary(status, null, page, size).toModel()
+    override suspend fun filterLibraryBooks(status: String?, page: Int, size: Int) = runSuspendCatching {
+        service.getLibraryBooks(status, null, page, size).toModel()
     }
 
-    override suspend fun searchLibrary(title: String, page: Int, size: Int) = runSuspendCatching {
-        val result = service.getLibrary(null, title, page, size).toModel()
+    override suspend fun searchLibraryBooks(title: String, page: Int, size: Int) = runSuspendCatching {
+        val result = service.getLibraryBooks(null, title, page, size).toModel()
 
         libraryRecentSearchDataSource.addRecentSearch(title)
         result
