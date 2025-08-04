@@ -41,5 +41,5 @@ sealed interface LibrarySearchUiEvent : CircuitUiEvent {
     data object OnClearClick : LibrarySearchUiEvent
     data object OnLoadMore : LibrarySearchUiEvent
     data object OnRetryClick : LibrarySearchUiEvent
-    data class OnBookClick(val userBookId: String, val isbn: String) : LibrarySearchUiEvent
+    data class OnBookClick(val userBookId: String, val isbn13: String) : LibrarySearchUiEvent
 }

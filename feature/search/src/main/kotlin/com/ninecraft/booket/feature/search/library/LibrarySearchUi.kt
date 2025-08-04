@@ -193,7 +193,7 @@ internal fun LibrarySearchContent(
                                         state.eventSink(
                                             LibrarySearchUiEvent.OnBookClick(
                                                 userBookId = book.userBookId,
-                                                isbn = book.bookIsbn,
+                                                isbn13 = book.bookIsbn,
                                             ),
                                         )
                                     },
