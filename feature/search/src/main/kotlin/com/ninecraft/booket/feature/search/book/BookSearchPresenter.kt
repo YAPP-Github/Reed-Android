@@ -154,7 +154,7 @@ class BookSearchPresenter @AssistedInject constructor(
                 is BookSearchUiEvent.OnSearchClick -> {
                     val query = event.text.trim()
                     if (query.isNotEmpty()) {
-                        searchBooks(query = event.text, startIndex = START_INDEX)
+                        searchBooks(query = query, startIndex = START_INDEX)
                     }
                 }
 
@@ -165,14 +165,14 @@ class BookSearchPresenter @AssistedInject constructor(
                 is BookSearchUiEvent.OnLoadMore -> {
                     val query = queryState.text.trim().toString()
                     if (footerState !is FooterState.Loading && !isLastPage && query.isNotEmpty()) {
-                        searchBooks(query = queryState.text.toString(), startIndex = currentStartIndex + 1)
+                        searchBooks(query = query, startIndex = currentStartIndex + 1)
                     }
                 }
 
                 is BookSearchUiEvent.OnRetryClick -> {
                     val query = queryState.text.trim().toString()
                     if (query.isNotEmpty()) {
-                        searchBooks(query = queryState.text.toString(), startIndex = START_INDEX)
+                        searchBooks(query = query, startIndex = START_INDEX)
                     }
                 }
 

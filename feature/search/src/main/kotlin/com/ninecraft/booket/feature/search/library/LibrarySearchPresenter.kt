@@ -144,7 +144,7 @@ class LibrarySearchPresenter @AssistedInject constructor(
                 is LibrarySearchUiEvent.OnRetryClick -> {
                     val query = queryState.text.trim().toString()
                     if (query.isNotEmpty()) {
-                        searchLibraryBooks(query = queryState.text.toString(), page = START_INDEX, size = PAGE_SIZE)
+                        searchLibraryBooks(query = query, page = START_INDEX, size = PAGE_SIZE)
                     }
                 }
 
