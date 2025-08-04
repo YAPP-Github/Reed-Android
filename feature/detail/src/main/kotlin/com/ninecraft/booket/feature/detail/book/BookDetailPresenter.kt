@@ -89,6 +89,7 @@ class BookDetailPresenter @AssistedInject constructor(
                 bookRepository.getBookDetail(screen.isbn13)
                     .onSuccess { result ->
                         bookDetail = result
+                        currentBookStatus = BookStatus.fromValue(result.userBookStatus) ?: BookStatus.BEFORE_READING
                     }
                     .onFailure { exception ->
                         val handleErrorMessage = { message: String ->
@@ -111,6 +112,8 @@ class BookDetailPresenter @AssistedInject constructor(
             scope.launch {
                 bookRepository.upsertBook(bookIsbn, bookStatus)
                     .onSuccess {
+                        currentBookStatus = BookStatus.fromValue(bookStatus) ?: BookStatus.BEFORE_READING
+                        bookDetail = bookDetail.copy(userBookStatus = bookStatus)
                         isBookUpdateBottomSheetVisible = false
                     }
                     .onFailure { exception ->
