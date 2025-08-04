@@ -19,7 +19,8 @@ enum class Emotion(
     WARM("따뜻함"),
     JOY("즐거움"),
     TENSION("긴장감"),
-    SADNESS("슬픔");
+    SADNESS("슬픔"),
+    ;
 
     companion object {
         fun fromDisplayName(displayName: String): Emotion? {

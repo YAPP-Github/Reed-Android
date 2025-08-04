@@ -11,7 +11,6 @@ import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.EmotionModel
-import com.ninecraft.booket.core.model.SeedModel
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
@@ -53,7 +52,7 @@ class BookDetailPresenter @AssistedInject constructor(
             scope.launch {
                 try {
                     isLoading = true
-                    repository.getSeedsStats()
+                    repository.getSeedsStats(screen.userBookId)
                         .onSuccess { result ->
                             seedsStates = result.categories.toImmutableList()
                         }

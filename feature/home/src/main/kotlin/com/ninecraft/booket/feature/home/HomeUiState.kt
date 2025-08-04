@@ -26,5 +26,8 @@ sealed interface HomeUiEvent : CircuitUiEvent {
     data object OnSettingsClick : HomeUiEvent
     data object OnBookRegisterClick : HomeUiEvent
     data class OnRecordButtonClick(val userBookId: String) : HomeUiEvent
-    data class OnBookDetailClick(val userBookId: String) : HomeUiEvent
+    data class OnBookDetailClick(
+        val userBookId: String,
+        val isbn: String,
+    ) : HomeUiEvent
 }

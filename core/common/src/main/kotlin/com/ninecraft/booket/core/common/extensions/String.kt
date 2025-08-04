@@ -14,10 +14,6 @@ fun String.decodeHtmlEntities(): String {
 }
 
 fun String.formatPublishYear(): String {
-    return try {
-        val year = this.substringBefore("-")
-        "${year}년"
-    } catch (e: Exception) {
-        this
-    }
+    val year = this.substringBefore("-")
+    return "${year}년"
 }

@@ -22,11 +22,9 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.model.EmotionModel
-import com.ninecraft.booket.core.model.SeedModel
 import com.ninecraft.booket.feature.detail.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 internal fun CollectedSeeds(

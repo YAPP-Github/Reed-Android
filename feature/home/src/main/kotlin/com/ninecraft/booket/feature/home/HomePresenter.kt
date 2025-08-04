@@ -80,7 +80,7 @@ class HomePresenter @AssistedInject constructor(
                 }
 
                 is HomeUiEvent.OnBookDetailClick -> {
-                    navigator.goTo(BookDetailScreen(event.userBookId))
+                    navigator.goTo(BookDetailScreen(event.userBookId, event.isbn))
                 }
             }
         }

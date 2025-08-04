@@ -94,5 +94,7 @@ interface ReedService {
 
     // Seed (auth required)
     @GET("api/v1/seeds/stats")
-    suspend fun getSeedsStats(): SeedResponse
+    suspend fun getSeedsStats(
+        @Query("userBookId") userBookId: String,
+    ): SeedResponse
 }

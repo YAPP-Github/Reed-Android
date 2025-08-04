@@ -36,7 +36,7 @@ internal fun EmotionAnalysisResultText(
 
     return when (analysisResult.displayType) {
         EmotionDisplayType.NONE -> null
-        
+
         EmotionDisplayType.SINGLE -> {
             val emotion = analysisResult.topEmotions.first()
             buildAnnotatedString {

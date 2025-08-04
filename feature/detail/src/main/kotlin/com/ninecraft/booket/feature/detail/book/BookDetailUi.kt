@@ -149,7 +149,7 @@ internal fun BookDetailContent(
                         },
                         text = stringResource(
                             BookStatus.fromValue(state.bookDetail.userBookStatus)?.getDisplayNameRes()
-                                ?: BookStatus.BEFORE_READING.getDisplayNameRes()
+                                ?: BookStatus.BEFORE_READING.getDisplayNameRes(),
                         ),
                         sizeStyle = largeButtonStyle,
                         colorStyle = ReedButtonColorStyle.SECONDARY,
@@ -189,7 +189,7 @@ internal fun BookDetailContent(
 
         item {
             Column(
-                modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5)
+                modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
             ) {
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
                 RecordsCollectionHeader(state = state)

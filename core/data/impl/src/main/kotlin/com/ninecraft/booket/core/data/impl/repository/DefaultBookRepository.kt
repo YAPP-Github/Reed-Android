@@ -4,7 +4,6 @@ import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.impl.mapper.toModel
 import com.ninecraft.booket.core.datastore.api.datasource.RecentSearchDataSource
-import com.ninecraft.booket.core.model.SeedModel
 import com.ninecraft.booket.core.network.request.BookUpsertRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import javax.inject.Inject
@@ -52,7 +51,7 @@ internal class DefaultBookRepository @Inject constructor(
         service.getLibrary(status, page, size).toModel()
     }
 
-    override suspend fun getSeedsStats() = runSuspendCatching {
-        service.getSeedsStats().toModel()
+    override suspend fun getSeedsStats(userBookId: String) = runSuspendCatching {
+        service.getSeedsStats(userBookId).toModel()
     }
 }

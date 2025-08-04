@@ -33,6 +33,5 @@ interface BookRepository {
         size: Int,
     ): Result<LibraryModel>
 
-    suspend fun getSeedsStats(): Result<SeedModel>
-
+    suspend fun getSeedsStats(userBookId: String): Result<SeedModel>
 }
