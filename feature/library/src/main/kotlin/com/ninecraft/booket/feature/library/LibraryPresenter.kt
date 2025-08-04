@@ -32,7 +32,7 @@ class LibraryPresenter @AssistedInject constructor(
     private val repository: BookRepository,
 ) : Presenter<LibraryUiState> {
     companion object {
-        private const val PAGE_SIZE = 10
+        private const val PAGE_SIZE = 20
         private const val START_INDEX = 0
     }
 
