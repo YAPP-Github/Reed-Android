@@ -36,6 +36,10 @@
                 android:name="com.ninecraft.booket.initializer.KakaoSdkInitializer"
                 android:value="androidx.startup" />
 
+            <meta-data
+                android:name="com.ninecraft.booket.initializer.FirebaseCrashlyticsInitializer"
+                android:value="androidx.startup" />
+
         </provider>
 
         <activity
