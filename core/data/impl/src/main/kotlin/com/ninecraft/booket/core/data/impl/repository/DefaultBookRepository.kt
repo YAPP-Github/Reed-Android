@@ -61,14 +61,6 @@ internal class DefaultBookRepository @Inject constructor(
         service.getHome().toModel()
     }
 
-    override suspend fun getLibrary(
-        status: String?,
-        page: Int,
-        size: Int,
-    ) = runSuspendCatching {
-        service.getLibrary(status, page, size).toModel()
-    }
-
     override suspend fun getSeedsStats(userBookId: String) = runSuspendCatching {
         service.getSeedsStats(userBookId).toModel()
     }

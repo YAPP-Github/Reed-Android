@@ -4,9 +4,9 @@ import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookUpsertModel
 import com.ninecraft.booket.core.model.HomeModel
-import kotlinx.coroutines.flow.Flow
 import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.SeedModel
+import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
     val bookRecentSearches: Flow<List<String>>
@@ -27,6 +27,10 @@ interface BookRepository {
     ): Result<BookUpsertModel>
 
     suspend fun filterLibraryBooks(
+        status: String?,
+        page: Int,
+        size: Int,
+    ): Result<LibraryModel>
 
     suspend fun searchLibraryBooks(
         title: String,
@@ -37,12 +41,6 @@ interface BookRepository {
     suspend fun removeLibraryRecentSearch(query: String)
 
     suspend fun getHome(): Result<HomeModel>
-
-    suspend fun getLibrary(
-        status: String?,
-        page: Int,
-        size: Int,
-    ): Result<LibraryModel>
 
     suspend fun getSeedsStats(userBookId: String): Result<SeedModel>
 }

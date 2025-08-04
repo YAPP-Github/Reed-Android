@@ -86,7 +86,7 @@ class BookDetailPresenter @AssistedInject constructor(
 
         fun getBookDetail() {
             scope.launch {
-                bookRepository.getBookDetail(screen.isbn)
+                bookRepository.getBookDetail(screen.isbn13)
                     .onSuccess { result ->
                         bookDetail = result
                     }
