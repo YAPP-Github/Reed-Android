@@ -21,6 +21,7 @@ data class RecordRegisterUiState(
     val impressionGuideList: ImmutableList<String> = persistentListOf(),
     val selectedImpressionGuide: String = "",
     val beforeSelectedImpressionGuide: String = "",
+    val savedRecordId: String = "",
     val isNextButtonEnabled: Boolean = false,
     val isImpressionGuideBottomSheetVisible: Boolean = false,
     val isExitDialogVisible: Boolean = false,

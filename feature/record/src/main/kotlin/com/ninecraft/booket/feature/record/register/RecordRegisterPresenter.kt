@@ -63,6 +63,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
         var selectedImpressionGuide by rememberRetained { mutableStateOf("") }
         var beforeSelectedImpressionGuide by rememberRetained { mutableStateOf(selectedImpressionGuide) }
         val impressionState = rememberTextFieldState()
+        var savedRecordId by rememberRetained { mutableStateOf("") }
         var isImpressionGuideBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
         var isRecordSavedDialogVisible by rememberRetained { mutableStateOf(false) }
@@ -109,7 +110,8 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     quote = quote,
                     emotionTags = emotionTags,
                     review = impression,
-                ).onSuccess {
+                ).onSuccess { result ->
+                    savedRecordId = result.id
                     isRecordSavedDialogVisible = true
                 }.onFailure { exception ->
                     val handleErrorMessage = { message: String ->
@@ -258,6 +260,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
             impressionGuideList = impressionGuideList,
             selectedImpressionGuide = selectedImpressionGuide,
             beforeSelectedImpressionGuide = beforeSelectedImpressionGuide,
+            savedRecordId = savedRecordId,
             isNextButtonEnabled = isNextButtonEnabled,
             isImpressionGuideBottomSheetVisible = isImpressionGuideBottomSheetVisible,
             isExitDialogVisible = isExitDialogVisible,
