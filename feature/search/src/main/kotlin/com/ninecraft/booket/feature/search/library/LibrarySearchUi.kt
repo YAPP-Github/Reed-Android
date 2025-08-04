@@ -30,8 +30,8 @@ import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.screens.LibrarySearchScreen
 import com.ninecraft.booket.feature.search.R
-import com.ninecraft.booket.feature.search.book.component.RecentSearchTitle
-import com.ninecraft.booket.feature.search.book.component.SearchItem
+import com.ninecraft.booket.feature.search.common.component.RecentSearchTitle
+import com.ninecraft.booket.feature.search.common.component.SearchItem
 import com.ninecraft.booket.feature.search.library.component.LibraryBookItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent

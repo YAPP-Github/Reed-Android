@@ -38,8 +38,8 @@ import com.ninecraft.booket.feature.search.R
 import com.ninecraft.booket.feature.search.book.component.BookItem
 import com.ninecraft.booket.feature.search.book.component.BookRegisterBottomSheet
 import com.ninecraft.booket.feature.search.book.component.BookRegisterSuccessBottomSheet
-import com.ninecraft.booket.feature.search.book.component.RecentSearchTitle
-import com.ninecraft.booket.feature.search.book.component.SearchItem
+import com.ninecraft.booket.feature.search.common.component.RecentSearchTitle
+import com.ninecraft.booket.feature.search.common.component.SearchItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
