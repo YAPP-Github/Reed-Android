@@ -239,7 +239,7 @@ class BookDetailPresenter @AssistedInject constructor(
                 }
 
                 is BookDetailUiEvent.OnLoadMore -> {
-                    if (footerState !is FooterState.Loading && !isLastPage) {
+                    if (uiState != UiState.Loading && footerState !is FooterState.Loading && !isLastPage) {
                         getReadingRecords(startIndex = currentStartIndex + 1)
                     }
                 }
