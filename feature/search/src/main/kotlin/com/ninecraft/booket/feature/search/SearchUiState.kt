@@ -26,7 +26,7 @@ data class SearchUiState(
     val recentSearches: ImmutableList<String> = persistentListOf(),
     val searchResult: BookSearchModel = BookSearchModel(),
     val books: ImmutableList<BookSummaryModel> = persistentListOf(),
-    val startIndex: Int = 0,
+    val startIndex: Int = 1,
     val isLastPage: Boolean = false,
     val selectedBookIsbn: String = "",
     val isBookRegisterBottomSheetVisible: Boolean = false,

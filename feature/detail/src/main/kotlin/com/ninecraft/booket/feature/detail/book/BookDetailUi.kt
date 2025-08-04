@@ -35,6 +35,7 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorSt
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
+import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.detail.R
@@ -43,7 +44,7 @@ import com.ninecraft.booket.feature.detail.book.component.BookUpdateBottomSheet
 import com.ninecraft.booket.feature.detail.book.component.CollectedSeeds
 import com.ninecraft.booket.feature.detail.book.component.RecordItem
 import com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet
-import com.ninecraft.booket.feature.detail.book.component.RecordsCollectionHeader
+import com.ninecraft.booket.feature.detail.book.component.ReadingRecordsHeader
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -131,7 +132,7 @@ internal fun BookDetailContent(
         modifier = modifier.fillMaxSize(),
         state = lazyListState,
         loadMore = {
-            // TODO: 페이지네이션 로직 추가
+            state.eventSink(BookDetailUiEvent.OnLoadMore)
         },
     ) {
         item {
@@ -192,12 +193,18 @@ internal fun BookDetailContent(
                 modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
             ) {
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
-                RecordsCollectionHeader(state = state)
+                ReadingRecordsHeader(
+                    readingRecords = state.readingRecords,
+                    currentRecordSort = state.currentRecordSort,
+                    onReadingRecordClick = {
+                        state.eventSink(BookDetailUiEvent.OnRecordSortButtonClick)
+                    }
+                )
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
             }
         }
 
-        if (state.recordCollections.isEmpty()) {
+        if (state.readingRecords.isEmpty()) {
             item {
                 Box(
                     modifier = Modifier
@@ -216,10 +223,10 @@ internal fun BookDetailContent(
             }
         } else {
             items(
-                count = state.recordCollections.size,
-                key = { index -> state.recordCollections[index].id },
+                count = state.readingRecords.size,
+                key = { index -> state.readingRecords[index].id },
             ) { index ->
-                val record = state.recordCollections[index]
+                val record = state.readingRecords[index]
                 RecordItem(
                     quote = record.quote,
                     emotionTags = record.emotionTags.toImmutableList(),
@@ -234,6 +241,13 @@ internal fun BookDetailContent(
                         .clickable {
                             state.eventSink(BookDetailUiEvent.OnRecordItemClick(record.id))
                         },
+                )
+            }
+
+            item {
+                LoadStateFooter(
+                    footerState = state.footerState,
+                    onRetryClick = { state.eventSink(BookDetailUiEvent.OnLoadMore) },
                 )
             }
         }

@@ -144,7 +144,7 @@ private fun RecordSortBottomSheetPreview() {
             sheetState = sheetState,
             onCloseButtonClick = {},
             recordSortItems = RecordSort.entries.toImmutableList(),
-            currentRecordSort = RecordSort.PAGE_ASCENDING,
+            currentRecordSort = RecordSort.PAGE_NUMBER_ASC,
             onItemSelected = {},
         )
     }
