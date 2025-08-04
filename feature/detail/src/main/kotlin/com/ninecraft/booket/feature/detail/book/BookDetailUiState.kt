@@ -28,6 +28,7 @@ data class BookDetailUiState(
     val seedsStats: ImmutableList<EmotionModel> = persistentListOf(),
     val readingRecords: ImmutableList<ReadingRecordModel> = persistentListOf(),
     val currentStartIndex: Int = 1,
+    val isLastPage: Boolean = false,
     val currentBookStatus: BookStatus = BookStatus.BEFORE_READING,
     val currentRecordSort: RecordSort = RecordSort.PAGE_NUMBER_ASC,
     val isBookUpdateBottomSheetVisible: Boolean = false,

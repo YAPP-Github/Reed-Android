@@ -42,9 +42,9 @@ import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.book.component.BookItem
 import com.ninecraft.booket.feature.detail.book.component.BookUpdateBottomSheet
 import com.ninecraft.booket.feature.detail.book.component.CollectedSeeds
+import com.ninecraft.booket.feature.detail.book.component.ReadingRecordsHeader
 import com.ninecraft.booket.feature.detail.book.component.RecordItem
 import com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet
-import com.ninecraft.booket.feature.detail.book.component.ReadingRecordsHeader
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent

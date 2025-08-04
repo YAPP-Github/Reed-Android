@@ -42,7 +42,7 @@ class BookDetailPresenter @AssistedInject constructor(
 ) : Presenter<BookDetailUiState> {
     companion object {
         private const val PAGE_SIZE = 20
-        private const val START_INDEX = 1
+        private const val START_INDEX = 0
     }
 
     @Composable
@@ -144,7 +144,7 @@ class BookDetailPresenter @AssistedInject constructor(
                 recordRepository.getReadingRecords(
                     userBookId = screen.userBookId,
                     sort = currentRecordSort.value,
-                    page = START_INDEX,
+                    page = startIndex,
                     size = PAGE_SIZE,
                 ).onSuccess { result ->
                     readingRecords = if (startIndex == START_INDEX) {
@@ -241,6 +241,7 @@ class BookDetailPresenter @AssistedInject constructor(
             seedsStats = seedsStates,
             readingRecords = readingRecords,
             currentStartIndex = currentStartIndex,
+            isLastPage = isLastPage,
             isBookUpdateBottomSheetVisible = isBookUpdateBottomSheetVisible,
             isRecordSortBottomSheetVisible = isRecordSortBottomSheetVisible,
             currentBookStatus = currentBookStatus,
