@@ -53,7 +53,8 @@ fun ReedTextField(
     backgroundColor: Color = ReedTheme.colors.baseSecondary,
     textColor: Color = ReedTheme.colors.contentPrimary,
     cornerShape: RoundedCornerShape = RoundedCornerShape(ReedTheme.radius.sm),
-    borderStroke: BorderStroke = BorderStroke(width = 1.dp, color = ReedTheme.colors.borderBrand),
+    borderStroke: BorderStroke? = null,
+    searchIconTint: Color = ReedTheme.colors.contentPrimary,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -77,9 +78,12 @@ fun ReedTextField(
                 Row(
                     modifier = modifier
                         .background(color = backgroundColor, shape = cornerShape)
-                        .border(
-                            border = borderStroke,
-                            shape = cornerShape,
+                        .then(
+                            if (borderStroke != null) {
+                                Modifier.border(borderStroke, shape = cornerShape)
+                            } else {
+                                Modifier
+                            },
                         )
                         .padding(vertical = ReedTheme.spacing.spacing3),
                     verticalAlignment = Alignment.CenterVertically,
@@ -114,7 +118,7 @@ fun ReedTextField(
                             onSearch(queryState.text.toString())
                             keyboardController?.hide()
                         },
-                        tint = ReedTheme.colors.contentBrand,
+                        tint = searchIconTint,
                     )
                     Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
                 }

@@ -34,8 +34,9 @@ sealed interface LibrarySideEffect {
 
 sealed interface LibraryUiEvent : CircuitUiEvent {
     data object InitSideEffect : LibraryUiEvent
+    data object OnLibrarySearchClick : LibraryUiEvent
     data object OnSettingsClick : LibraryUiEvent
-    data class OnBookClick(val isbn: String) : LibraryUiEvent
+    data class OnBookClick(val isbn13: String) : LibraryUiEvent
     data object OnLoadMore : LibraryUiEvent
     data object OnRetryClick : LibraryUiEvent
     data class OnFilterClick(val filterOption: LibraryFilterOption) : LibraryUiEvent

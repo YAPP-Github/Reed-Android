@@ -15,4 +15,8 @@
     <string name="book_register_ok">도서 등록</string>
     <string name="empty_recent_searches">최근 검색어 내역이 없습니다.</string>
     <string name="book_status_registered">이미 등록된 책입니다</string>
+    <string name="library_search_title">내 서재 검색</string>
+    <string name="library_search_hint">등록한 책을 검색해보세요</string>
+    <string name="library_book_item_records">남긴 기록</string>
+    <string name="library_empty_result">내 서재에 해당 도서가 없습니다.</string>
 </resources>
