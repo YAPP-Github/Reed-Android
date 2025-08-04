@@ -87,6 +87,7 @@ internal fun OnboardingUi(
                     .padding(
                         horizontal = ReedTheme.spacing.spacing5,
                     ),
+                multipleEventsCutterEnabled = false,
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
         }

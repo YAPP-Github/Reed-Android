@@ -16,6 +16,8 @@ dependencies {
         projects.core.model,
         projects.core.network,
 
+        libs.kotlinx.collections.immutable,
+
         libs.logger,
     )
 }

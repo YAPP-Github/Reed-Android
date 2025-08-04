@@ -36,13 +36,16 @@ data object SettingsScreen : ReedScreen(name = "Settings()")
 data object OssLicensesScreen : ReedScreen(name = "OssLicenses()")
 
 @Parcelize
-data object RecordScreen : ReedScreen(name = "Record")
+data class RecordScreen(val userBookId: String) : ReedScreen(name = "Record")
 
 @Parcelize
 data object OcrScreen : ReedScreen(name = "Ocr()") {
     @Parcelize
     data class OcrResult(val sentence: String) : PopResult
 }
+
+@Parcelize
+data class RecordDetailScreen(val recordId: String) : ReedScreen(name = "RecordDetail()")
 
 @Parcelize
 data class WebViewScreen(
@@ -55,3 +58,6 @@ data class BookDetailScreen(val isbn: String) : ReedScreen(name = "BookDetail()"
 
 @Parcelize
 data object OnboardingScreen : ReedScreen(name = "Onboarding()")
+
+@Parcelize
+data object SplashScreen : ReedScreen(name = "Splash()")

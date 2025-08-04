@@ -64,6 +64,18 @@ val Blue800 = Color(0xFF1269EC)
 val Blue900 = Color(0xFF1F47CD)
 
 val Kakao = Color(0xFFFBD300)
+val Blank = Color(0xFFD6D6D6)
+val HomeBg = Color(0xFFF0F9E8)
+
+// Emotion Color
+val WarmthTextColor = Color(0xFFE3931B)
+val WarmthBgColor = Color(0xFFFFF5D3)
+val JoyTextColor = Color(0xFFEE6B33)
+val JoyBgColor = Color(0xFFFFEBE3)
+val TensionTextColor = Color(0xFF9A55E4)
+val TensionBgColor = Color(0xFFF3E8FF)
+val SadnessTextColor = Color(0xFF2872E9)
+val SadnessBgColor = Color(0xFFE1ECFF)
 
 @Immutable
 data class ReedColorScheme(
@@ -94,6 +106,7 @@ data class ReedColorScheme(
 
     // Border
     val borderPrimary: Color = Neutral200,
+    val borderSecondary: Color = Neutral100,
     val borderBrand: Color = Green500,
     val borderError: Color = Red500,
 

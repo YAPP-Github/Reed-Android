@@ -8,13 +8,16 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.SearchScreen
+import com.ninecraft.booket.feature.screens.delayedGoTo
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
@@ -51,6 +54,7 @@ class SearchPresenter @AssistedInject constructor(
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
         var isLastPage by rememberRetained { mutableStateOf(false) }
         var selectedBookIsbn by rememberRetained { mutableStateOf("") }
+        var registeredUserBookId by rememberRetained { mutableStateOf("") }
         var isBookRegisterBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var selectedBookStatus by rememberRetained { mutableStateOf<BookStatus?>(null) }
         var isBookRegisterSuccessBottomSheetVisible by rememberRetained { mutableStateOf(false) }
@@ -98,6 +102,13 @@ class SearchPresenter @AssistedInject constructor(
             scope.launch {
                 repository.upsertBook(bookIsbn, bookStatus)
                     .onSuccess {
+                        registeredUserBookId = it.userBookId
+                        books = books.map { book ->
+                            if (book.isbn == selectedBookIsbn) {
+                                book.copy(userBookStatus = bookStatus)
+                            } else book
+                        }.toPersistentList()
+
                         selectedBookIsbn = ""
                         selectedBookStatus = null
                         isBookRegisterBottomSheetVisible = false
@@ -186,6 +197,9 @@ class SearchPresenter @AssistedInject constructor(
 
                 is SearchUiEvent.OnBookRegisterSuccessOkButtonClick -> {
                     isBookRegisterSuccessBottomSheetVisible = false
+                    scope.launch {
+                        navigator.delayedGoTo(RecordScreen(registeredUserBookId))
+                    }
                 }
 
                 is SearchUiEvent.OnBookRegisterSuccessCancelButtonClick -> {

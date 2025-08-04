@@ -31,6 +31,7 @@ fun ReedDialog(
     description: String? = null,
     dismissButtonText: String? = null,
     onDismissRequest: () -> Unit = {},
+    headerContent: @Composable (() -> Unit)? = null,
 ) {
     Dialog(
         onDismissRequest = {
@@ -58,6 +59,10 @@ fun ReedDialog(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            headerContent?.let {
+                it()
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
+            }
             Text(
                 text = title,
                 color = ReedTheme.colors.contentPrimary,
@@ -111,7 +116,7 @@ private fun ReedConfirmDialogPreview() {
             title = "Title",
             confirmButtonText = "확인",
             onConfirmRequest = {},
-            description = "subtext",
+            description = "description",
         )
     }
 }
@@ -124,7 +129,7 @@ private fun ReedChoiceDialogPreview() {
             title = "Title",
             confirmButtonText = "확인",
             onConfirmRequest = {},
-            description = "subtext",
+            description = "description",
             dismissButtonText = "취소",
         )
     }

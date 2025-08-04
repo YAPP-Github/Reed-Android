@@ -1,6 +1,8 @@
 package com.ninecraft.booket.feature.search.book
 
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.Immutable
+import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
@@ -37,6 +39,7 @@ data class SearchUiState(
     val isEmptySearchResult: Boolean get() = uiState is UiState.Success && searchResult.totalResults == 0
 }
 
+@Immutable
 sealed interface SearchSideEffect {
     data class ShowToast(
         val message: String,
@@ -61,22 +64,12 @@ sealed interface SearchUiEvent : CircuitUiEvent {
     data object OnBookRegisterSuccessCancelButtonClick : SearchUiEvent
 }
 
-enum class BookStatus(val value: String) {
-    BEFORE_READING("BEFORE_READING"),
-    READING("READING"),
-    COMPLETED("COMPLETED"),
+enum class SearchBookStatus(val value: String) {
+    BEFORE_REGISTRATION("BEFORE_REGISTRATION"),
     ;
 
-    fun getDisplayNameRes(): Int {
-        return when (this) {
-            BEFORE_READING -> R.string.book_status_before
-            READING -> R.string.book_status_reading
-            COMPLETED -> R.string.book_status_completed
-        }
-    }
-
-    companion object Companion {
-        fun fromValue(value: String): BookStatus? {
+    companion object {
+        fun from(value: String?): SearchBookStatus? {
             return entries.find { it.value == value }
         }
     }

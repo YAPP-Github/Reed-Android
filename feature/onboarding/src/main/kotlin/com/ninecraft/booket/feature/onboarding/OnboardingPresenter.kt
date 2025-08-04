@@ -5,7 +5,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import com.ninecraft.booket.core.data.api.repository.UserRepository
-import com.ninecraft.booket.feature.screens.BottomNavigationScreen
+import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
@@ -34,7 +34,7 @@ class OnboardingPresenter @AssistedInject constructor(
                     if (event.currentPage == 2) {
                         scope.launch {
                             repository.setOnboardingCompleted(true)
-                            navigator.resetRoot(BottomNavigationScreen)
+                            navigator.resetRoot(LoginScreen)
                         }
                     } else {
                         pagerState.let { state ->

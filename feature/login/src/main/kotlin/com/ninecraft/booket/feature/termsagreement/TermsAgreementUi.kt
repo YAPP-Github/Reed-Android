@@ -12,16 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.DevicePreview
@@ -29,15 +25,14 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.component.checkbox.SquareCheckBox
-import com.ninecraft.booket.core.designsystem.component.checkbox.TickOnlyCheckBox
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.login.R
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
+import com.ninecraft.booket.feature.termsagreement.component.TermItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
-import com.ninecraft.booket.core.designsystem.R as designR
 
 @CircuitInject(TermsAgreementScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -45,6 +40,8 @@ internal fun TermsAgreementUi(
     state: TermsAgreementUiState,
     modifier: Modifier = Modifier,
 ) {
+    HandleTermsAgreementSideEffects(state = state)
+
     val termsTitles = stringArrayResource(id = R.array.terms_agreement_items)
 
     Column(
@@ -53,8 +50,7 @@ internal fun TermsAgreementUi(
             .background(White)
             .systemBarsPadding(),
     ) {
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing16))
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
+        Spacer(modifier = Modifier.height(76.dp))
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -104,7 +100,7 @@ internal fun TermsAgreementUi(
                     state.eventSink(TermsAgreementUiEvent.OnTermItemClick(0))
                 },
                 onDetailClick = {
-                    state.eventSink(TermsAgreementUiEvent.OnPolicyClick)
+                    state.eventSink(TermsAgreementUiEvent.OnTermClick)
                 },
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
@@ -115,7 +111,7 @@ internal fun TermsAgreementUi(
                     state.eventSink(TermsAgreementUiEvent.OnTermItemClick(1))
                 },
                 onDetailClick = {
-                    state.eventSink(TermsAgreementUiEvent.OnTermClick)
+                    state.eventSink(TermsAgreementUiEvent.OnPolicyClick)
                 },
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
@@ -144,49 +140,6 @@ internal fun TermsAgreementUi(
             enabled = state.isAllAgreed,
             text = stringResource(R.string.terms_agreement_button_start),
         )
-    }
-}
-
-@Composable
-private fun TermItem(
-    title: String,
-    onCheckClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    checked: Boolean = false,
-    hasDetailAction: Boolean = true,
-    onDetailClick: () -> Unit = {},
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .noRippleClickable { onDetailClick() }
-            .padding(
-                start = ReedTheme.spacing.spacing4 + ReedTheme.spacing.spacing05,
-                end = ReedTheme.spacing.spacing3,
-                top = ReedTheme.spacing.spacing2,
-                bottom = ReedTheme.spacing.spacing2,
-            ),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        TickOnlyCheckBox(
-            checked = checked,
-            onCheckedChange = { onCheckClick() },
-        )
-        Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing3 + ReedTheme.spacing.spacing05))
-        Text(
-            text = title,
-            modifier = Modifier.weight(1f),
-            color = ReedTheme.colors.contentPrimary,
-            style = ReedTheme.typography.body1Medium,
-        )
-
-        if (hasDetailAction) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = designR.drawable.ic_chevron_right),
-                contentDescription = "Navigation Icon",
-                tint = Color.Unspecified,
-            )
-        }
     }
 }
 

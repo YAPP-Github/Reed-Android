@@ -41,4 +41,6 @@ data class BookSummary(
     val publisher: String,
     @SerialName("coverImageUrl")
     val coverImageUrl: String,
+    @SerialName("userBookStatus")
+    val userBookStatus: String,
 )

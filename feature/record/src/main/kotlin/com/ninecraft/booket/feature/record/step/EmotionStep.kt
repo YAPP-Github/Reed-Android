@@ -1,10 +1,12 @@
 package com.ninecraft.booket.feature.record.step
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -15,18 +17,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
+import com.ninecraft.booket.core.designsystem.EmotionTag
+import com.ninecraft.booket.core.designsystem.component.ResourceImage
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
+import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
+import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
+import kotlinx.collections.immutable.toPersistentList
 
 @Composable
 fun EmotionStep(
+    state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
-    val emotionList = listOf("기쁨", "슬픔", "분노", "놀람")
     Column(
         modifier = modifier
             .background(White)
@@ -49,8 +59,14 @@ fun EmotionStep(
             verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing3),
             horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing3),
             content = {
-                items(emotionList) { title ->
-                    EmotionItem(title)
+                items(state.emotionTags) { tag ->
+                    EmotionItem(
+                        emotionTag = tag,
+                        onClick = {
+                            state.eventSink(RecordRegisterUiEvent.OnSelectEmotion(tag))
+                        },
+                        isSelected = state.selectedEmotion == tag,
+                    )
                 }
             },
         )
@@ -58,24 +74,52 @@ fun EmotionStep(
 }
 
 @Composable
-private fun EmotionItem(title: String) {
+private fun EmotionItem(
+    emotionTag: EmotionTag,
+    onClick: () -> Unit,
+    isSelected: Boolean,
+) {
     Box(
         modifier = Modifier
             .height(214.dp)
             .background(
-                color = ReedTheme.colors.bgSecondary,
+                color = ReedTheme.colors.bgTertiary,
                 shape = RoundedCornerShape(ReedTheme.radius.md),
-            ),
+            )
+            .then(
+                if (isSelected) Modifier.border(
+                    width = 2.dp,
+                    color = ReedTheme.colors.borderBrand,
+                    shape = RoundedCornerShape(ReedTheme.radius.md),
+                )
+                else Modifier,
+            )
+            .clip(RoundedCornerShape(ReedTheme.radius.md))
+            .clickableSingle {
+                onClick()
+            },
         contentAlignment = Alignment.Center,
     ) {
-        Text(text = title)
+        ResourceImage(
+            imageRes = emotionTag.graphic,
+            contentDescription = "Emotion Image",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop,
+        )
     }
 }
 
 @ComponentPreview
 @Composable
 private fun RecordRegisterPreview() {
+    val emotionTags = EmotionTag.entries.toPersistentList()
+
     ReedTheme {
-        EmotionStep()
+        EmotionStep(
+            state = RecordRegisterUiState(
+                emotionTags = emotionTags,
+                eventSink = {},
+            ),
+        )
     }
 }
