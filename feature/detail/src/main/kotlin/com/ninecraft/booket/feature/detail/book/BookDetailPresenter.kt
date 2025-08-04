@@ -33,6 +33,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 class BookDetailPresenter @AssistedInject constructor(
     @Assisted private val screen: BookDetailScreen,
@@ -43,6 +44,13 @@ class BookDetailPresenter @AssistedInject constructor(
     companion object {
         private const val PAGE_SIZE = 20
         private const val START_INDEX = 0
+    }
+
+    private fun getRecordComparator(sortType: RecordSort): Comparator<ReadingRecordModel> {
+        return when (sortType) {
+            RecordSort.PAGE_NUMBER_ASC -> compareBy { it.pageNumber }
+            RecordSort.CREATED_DATE_DESC -> compareByDescending { LocalDateTime.parse(it.createdAt) }
+        }
     }
 
     @Composable
@@ -150,13 +158,7 @@ class BookDetailPresenter @AssistedInject constructor(
                     readingRecords = if (startIndex == START_INDEX) {
                         result.content.toPersistentList()
                     } else {
-                        // 새로운 데이터를 기존 리스트와 합친 후 정렬
-                        (readingRecords + result.content).sortedWith(
-                            when (currentRecordSort) {
-                                RecordSort.PAGE_NUMBER_ASC -> compareBy { it.pageNumber }
-                                RecordSort.CREATED_DATE_DESC -> compareByDescending { it.createdAt }
-                            },
-                        ).toPersistentList()
+                        (readingRecords + result.content).toPersistentList()
                     }
 
                     currentStartIndex = startIndex
@@ -225,12 +227,7 @@ class BookDetailPresenter @AssistedInject constructor(
 
                 is BookDetailUiEvent.OnRecordSortItemSelected -> {
                     currentRecordSort = event.sortType
-                    readingRecords = readingRecords.sortedWith(
-                        when (event.sortType) {
-                            RecordSort.PAGE_NUMBER_ASC -> compareBy { it.pageNumber }
-                            RecordSort.CREATED_DATE_DESC -> compareByDescending { it.createdAt }
-                        },
-                    ).toPersistentList()
+                    readingRecords = readingRecords.sortedWith(getRecordComparator(event.sortType)).toPersistentList()
                     isRecordSortBottomSheetVisible = false
                 }
 
