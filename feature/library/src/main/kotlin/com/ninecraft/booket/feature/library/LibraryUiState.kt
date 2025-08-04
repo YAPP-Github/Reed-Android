@@ -34,10 +34,11 @@ sealed interface LibrarySideEffect {
 
 sealed interface LibraryUiEvent : CircuitUiEvent {
     data object InitSideEffect : LibraryUiEvent
+    data object OnLibrarySearchClick : LibraryUiEvent
     data object OnSettingsClick : LibraryUiEvent
     data class OnBookClick(
         val userBookId: String,
-        val isbn: String,
+        val isbn13: String,
     ) : LibraryUiEvent
     data object OnLoadMore : LibraryUiEvent
     data object OnRetryClick : LibraryUiEvent

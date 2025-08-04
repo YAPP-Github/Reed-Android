@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.search.component
+package com.ninecraft.booket.feature.search.book.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

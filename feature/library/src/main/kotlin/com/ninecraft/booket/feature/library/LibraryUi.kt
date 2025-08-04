@@ -65,7 +65,7 @@ internal fun LibraryContent(
     ) {
         LibraryHeader(
             onSearchClick = {
-                // TODO: 내서재 검색 화면으로 이동
+                state.eventSink(LibraryUiEvent.OnLibrarySearchClick)
             },
             onSettingClick = {
                 state.eventSink(LibraryUiEvent.OnSettingsClick)

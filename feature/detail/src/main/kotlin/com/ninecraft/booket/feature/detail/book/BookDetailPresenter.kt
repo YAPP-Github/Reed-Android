@@ -207,7 +207,7 @@ class BookDetailPresenter @AssistedInject constructor(
                 }
 
                 is BookDetailUiEvent.OnBookStatusUpdateButtonClick -> {
-                    upsertBook(screen.isbn, currentBookStatus.value)
+                    upsertBook(screen.isbn13, currentBookStatus.value)
                 }
 
                 is BookDetailUiEvent.OnRecordSortBottomSheetDismiss -> {

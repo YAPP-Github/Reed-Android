@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.search.component
+package com.ninecraft.booket.feature.search.common.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

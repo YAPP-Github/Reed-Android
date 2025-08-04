@@ -9,14 +9,15 @@ import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.SeedModel
 
 interface BookRepository {
-    val recentSearches: Flow<List<String>>
+    val bookRecentSearches: Flow<List<String>>
+    val libraryRecentSearches: Flow<List<String>>
 
     suspend fun searchBook(
         query: String,
         start: Int,
     ): Result<BookSearchModel>
 
-    suspend fun removeRecentSearch(query: String)
+    suspend fun removeBookRecentSearch(query: String)
 
     suspend fun getBookDetail(isbn: String): Result<BookDetailModel>
 
@@ -24,6 +25,16 @@ interface BookRepository {
         bookIsbn: String,
         bookStatus: String,
     ): Result<BookUpsertModel>
+
+    suspend fun filterLibraryBooks(
+
+    suspend fun searchLibraryBooks(
+        title: String,
+        page: Int,
+        size: Int,
+    ): Result<LibraryModel>
+
+    suspend fun removeLibraryRecentSearch(query: String)
 
     suspend fun getHome(): Result<HomeModel>
 

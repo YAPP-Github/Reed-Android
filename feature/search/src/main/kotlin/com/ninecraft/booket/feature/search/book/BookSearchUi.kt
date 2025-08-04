@@ -1,5 +1,6 @@
-package com.ninecraft.booket.feature.search
+package com.ninecraft.booket.feature.search.book
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,11 +35,12 @@ import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.screens.SearchScreen
-import com.ninecraft.booket.feature.search.component.BookItem
-import com.ninecraft.booket.feature.search.component.BookRegisterBottomSheet
-import com.ninecraft.booket.feature.search.component.BookRegisterSuccessBottomSheet
-import com.ninecraft.booket.feature.search.component.RecentSearchTitle
-import com.ninecraft.booket.feature.search.component.SearchItem
+import com.ninecraft.booket.feature.search.R
+import com.ninecraft.booket.feature.search.book.component.BookItem
+import com.ninecraft.booket.feature.search.book.component.BookRegisterBottomSheet
+import com.ninecraft.booket.feature.search.book.component.BookRegisterSuccessBottomSheet
+import com.ninecraft.booket.feature.search.common.component.RecentSearchTitle
+import com.ninecraft.booket.feature.search.common.component.SearchItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
@@ -48,16 +50,16 @@ import com.ninecraft.booket.core.designsystem.R as designR
 @CircuitInject(SearchScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun SearchUi(
-    state: SearchUiState,
+    state: BookSearchUiState,
     modifier: Modifier = Modifier,
 ) {
-    HandleSearchSideEffects(state = state)
+    HandleBookSearchSideEffects(state = state)
 
     ReedFullScreen(modifier = modifier) {
         ReedBackTopAppBar(
             title = stringResource(R.string.search_title),
             onBackClick = {
-                state.eventSink(SearchUiEvent.OnBackClick)
+                state.eventSink(BookSearchUiEvent.OnBackClick)
             },
         )
         SearchContent(
@@ -70,7 +72,7 @@ internal fun SearchUi(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SearchContent(
-    state: SearchUiState,
+    state: BookSearchUiState,
     modifier: Modifier = Modifier,
 ) {
     val bookRegisterBottomSheetState = rememberModalBottomSheetState()
@@ -87,12 +89,14 @@ internal fun SearchContent(
             queryState = state.queryState,
             queryHintRes = designR.string.search_book_hint,
             onSearch = { text ->
-                state.eventSink(SearchUiEvent.OnSearchClick(text))
+                state.eventSink(BookSearchUiEvent.OnSearchClick(text))
             },
             onClear = {
-                state.eventSink(SearchUiEvent.OnClearClick)
+                state.eventSink(BookSearchUiEvent.OnClearClick)
             },
             modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+            borderStroke = BorderStroke(width = 1.dp, color = ReedTheme.colors.borderBrand),
+            searchIconTint = ReedTheme.colors.contentBrand,
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
 
@@ -125,7 +129,7 @@ internal fun SearchContent(
                         style = ReedTheme.typography.body1Regular,
                     )
                     Button(
-                        onClick = { state.eventSink(SearchUiEvent.OnRetryClick) },
+                        onClick = { state.eventSink(BookSearchUiEvent.OnRetryClick) },
                         modifier = Modifier.padding(top = ReedTheme.spacing.spacing3),
                     ) {
                         Text(text = stringResource(R.string.retry))
@@ -161,11 +165,11 @@ internal fun SearchContent(
                                 SearchItem(
                                     query = state.recentSearches[index],
                                     onQueryClick = { keyword ->
-                                        state.eventSink(SearchUiEvent.OnRecentSearchClick(keyword))
+                                        state.eventSink(BookSearchUiEvent.OnRecentSearchClick(keyword))
                                     },
                                     onRemoveIconClick = { keyword ->
                                         state.eventSink(
-                                            SearchUiEvent.OnRecentSearchRemoveClick(keyword),
+                                            BookSearchUiEvent.OnRecentSearchRemoveClick(keyword),
                                         )
                                     },
                                 )
@@ -220,20 +224,20 @@ internal fun SearchContent(
 
                     InfinityLazyColumn(
                         loadMore = {
-                            state.eventSink(SearchUiEvent.OnLoadMore)
+                            state.eventSink(BookSearchUiEvent.OnLoadMore)
                         },
                     ) {
                         items(
                             count = state.books.size,
-                            key = { index -> state.books[index].isbn },
+                            key = { index -> state.books[index].isbn13 },
                         ) { index ->
                             Column {
                                 BookItem(
                                     book = state.books[index],
                                     onBookClick = { book ->
-                                        state.eventSink(SearchUiEvent.OnBookClick(book.isbn))
+                                        state.eventSink(BookSearchUiEvent.OnBookClick(book.isbn13))
                                     },
-                                    enabled = SearchBookStatus.from(state.books[index].userBookStatus) == SearchBookStatus.BEFORE_REGISTRATION,
+                                    enabled = BookRegisteredState.from(state.books[index].userBookStatus) == BookRegisteredState.BEFORE_REGISTRATION,
                                 )
                                 HorizontalDivider(
                                     modifier = Modifier.fillMaxWidth(),
@@ -246,7 +250,7 @@ internal fun SearchContent(
                         item {
                             LoadStateFooter(
                                 footerState = state.footerState,
-                                onRetryClick = { state.eventSink(SearchUiEvent.OnLoadMore) },
+                                onRetryClick = { state.eventSink(BookSearchUiEvent.OnLoadMore) },
                             )
                         }
                     }
@@ -256,36 +260,36 @@ internal fun SearchContent(
 
         if (state.isBookRegisterBottomSheetVisible) {
             BookRegisterBottomSheet(
-                onDismissRequest = { state.eventSink(SearchUiEvent.OnBookRegisterBottomSheetDismiss) },
+                onDismissRequest = { state.eventSink(BookSearchUiEvent.OnBookRegisterBottomSheetDismiss) },
                 sheetState = bookRegisterBottomSheetState,
                 onCloseButtonClick = {
                     coroutineScope.launch {
                         bookRegisterBottomSheetState.hide()
-                        state.eventSink(SearchUiEvent.OnBookRegisterBottomSheetDismiss)
+                        state.eventSink(BookSearchUiEvent.OnBookRegisterBottomSheetDismiss)
                     }
                 },
                 bookStatuses = BookStatus.entries.toTypedArray().toImmutableList(),
                 currentBookStatus = state.selectedBookStatus,
                 onItemSelected = { bookStatus ->
                     state.eventSink(
-                        SearchUiEvent.OnBookStatusSelect(bookStatus),
+                        BookSearchUiEvent.OnBookStatusSelect(bookStatus),
                     )
                 },
-                onBookRegisterButtonClick = { state.eventSink(SearchUiEvent.OnBookRegisterButtonClick) },
+                onBookRegisterButtonClick = { state.eventSink(BookSearchUiEvent.OnBookRegisterButtonClick) },
             )
         }
 
         if (state.isBookRegisterSuccessBottomSheetVisible) {
             BookRegisterSuccessBottomSheet(
-                onDismissRequest = { state.eventSink(SearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss) },
+                onDismissRequest = { state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss) },
                 sheetState = bookRegisterSuccessBottomSheetState,
                 onCancelButtonClick = {
                     coroutineScope.launch {
                         bookRegisterSuccessBottomSheetState.hide()
-                        state.eventSink(SearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss)
+                        state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss)
                     }
                 },
-                onOKButtonClick = { state.eventSink(SearchUiEvent.OnBookRegisterSuccessOkButtonClick) },
+                onOKButtonClick = { state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessOkButtonClick) },
             )
         }
     }
@@ -296,7 +300,7 @@ internal fun SearchContent(
 private fun SearchPreview() {
     ReedTheme {
         SearchUi(
-            state = SearchUiState(
+            state = BookSearchUiState(
                 eventSink = {},
             ),
         )

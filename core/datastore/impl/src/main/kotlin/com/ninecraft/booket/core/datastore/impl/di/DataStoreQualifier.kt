@@ -8,7 +8,11 @@ annotation class TokenDataStore
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class RecentSearchDataStore
+annotation class BookRecentSearchDataStore
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class LibraryRecentSearchDataStore
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)

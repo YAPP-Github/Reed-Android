@@ -63,7 +63,7 @@ internal fun BookSearchResponse.toModel(): BookSearchModel {
 
 internal fun BookSummary.toModel(): BookSummaryModel {
     return BookSummaryModel(
-        isbn = isbn,
+        isbn13 = isbn13,
         title = title.decodeHtmlEntities(),
         author = author,
         publisher = publisher,
