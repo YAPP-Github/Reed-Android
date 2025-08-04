@@ -83,7 +83,7 @@ fun ReedTextField(
                                 Modifier.border(borderStroke, shape = cornerShape)
                             } else {
                                 Modifier
-                            }
+                            },
                         )
                         .padding(vertical = ReedTheme.spacing.spacing3),
                     verticalAlignment = Alignment.CenterVertically,
