@@ -13,4 +13,6 @@ object Plugins {
 
     const val HILT = "dagger.hilt.android.plugin"
     const val KSP = "com.google.devtools.ksp"
+    const val GOOGLE_SERVICES = "com.google.gms.google-services"
+    const val FIREBASE_CRASHLYTICS = "com.google.firebase.crashlytics"
 }
