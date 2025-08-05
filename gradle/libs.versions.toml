@@ -67,6 +67,11 @@ kotlin-ktlint-source = "0.50.0"
 androidx-test-ext-junit = "1.2.1"
 androidx-test-runner = "1.6.2"
 
+## Firebase
+google-service = "4.4.3"
+firebase-bom = "33.16.0"
+firebase-crashlytics = "3.0.4"
+
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -138,6 +143,10 @@ google-mlkit-text-recognition-korean = { group = "com.google.mlkit", name = "tex
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx-test-runner" }
 
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+
 [plugins]
 gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
 
@@ -156,6 +165,9 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
+google-service = { id = "com.google.gms.google-services", version.ref = "google-service" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
+
 # Plugins defined by this project
 booket-android-application = { id = "booket.android.application", version = "unspecified" }
 booket-android-application-compose = { id = "booket.android.application.compose", version = "unspecified" }
@@ -163,6 +175,7 @@ booket-android-library = { id = "booket.android.library", version = "unspecified
 booket-android-library-compose = { id = "booket.android.library.compose", version = "unspecified" }
 booket-android-retrofit = { id = "booket.android.retrofit", version = "unspecified" }
 booket-android-feature = { id = "booket.android.feature", version = "unspecified" }
+booket-android-firebase = { id = "booket.android.firebase", version = "unspecified" }
 booket-android-hilt = { id = "booket.android.hilt", version = "unspecified" }
 booket-jvm-library = { id = "booket.jvm.library", version = "unspecified" }
 booket-kotlin-library-serialization = { id = "booket.kotlin.library.serialization", version = "unspecified" }
