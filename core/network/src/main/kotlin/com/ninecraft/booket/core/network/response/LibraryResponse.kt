@@ -8,7 +8,7 @@ data class LibraryResponse(
     @SerialName("books")
     val books: LibraryBooks,
     @SerialName("totalCount")
-    val totalCount: Int = 0,
+    val totalCount: Int,
     @SerialName("beforeReadingCount")
     val beforeReadingCount: Int,
     @SerialName("readingCount")
@@ -40,7 +40,7 @@ data class LibraryBookSummary(
     @SerialName("status")
     val status: String,
     @SerialName("recordCount")
-    val recordCount: Int = 0,
+    val recordCount: Int,
     @SerialName("coverImageUrl")
     val coverImageUrl: String,
     @SerialName("publisher")
