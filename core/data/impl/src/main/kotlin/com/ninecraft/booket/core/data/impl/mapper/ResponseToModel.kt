@@ -1,6 +1,7 @@
 package com.ninecraft.booket.core.data.impl.mapper
 
 import com.ninecraft.booket.core.common.extensions.decodeHtmlEntities
+import com.ninecraft.booket.core.common.extensions.toFormattedDate
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
@@ -166,11 +167,12 @@ internal fun RecordDetailResponse.toModel(): RecordDetailModel {
         quote = quote,
         review = review,
         emotionTags = emotionTags,
-        createdAt = createdAt,
-        updatedAt = updatedAt,
+        createdAt = createdAt.toFormattedDate(),
+        updatedAt = updatedAt.toFormattedDate(),
         bookTitle = bookTitle,
         bookPublisher = bookPublisher,
         bookCoverImageUrl = bookCoverImageUrl,
+        author = author,
     )
 }
 

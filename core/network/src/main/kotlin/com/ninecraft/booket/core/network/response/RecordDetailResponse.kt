@@ -27,4 +27,6 @@ data class RecordDetailResponse(
     val bookPublisher: String,
     @SerialName("bookCoverImageUrl")
     val bookCoverImageUrl: String,
+    @SerialName("author")
+    val author: String,
 )

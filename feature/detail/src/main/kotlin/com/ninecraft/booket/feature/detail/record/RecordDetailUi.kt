@@ -99,7 +99,7 @@ private fun ReviewDetailContent(state: RecordDetailUiState, modifier: Modifier =
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "미쓰이에 마사시", // TODO: 서버에서 author 정보 추가로 내려줘야 함
+                        text = state.recordDetailInfo.author,
                         color = ReedTheme.colors.contentTertiary,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1,
@@ -175,7 +175,8 @@ private fun ReviewDetailPreview() {
                     updatedAt = "",
                     bookTitle = "여름은 오래 그곳에 남아",
                     bookPublisher = "비채",
-                    bookCoverImageUrl = ""
+                    bookCoverImageUrl = "",
+                    author = "미쓰이에 마사시",
                 ),
                 eventSink = {},
             ),
