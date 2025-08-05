@@ -21,7 +21,12 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
 @Composable
-fun ReviewBox(modifier: Modifier = Modifier) {
+fun ReviewBox(
+    emotion: String,
+    createdAt: String,
+    review: String,
+    modifier: Modifier = Modifier,
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -50,20 +55,20 @@ fun ReviewBox(modifier: Modifier = Modifier) {
                 )
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
                 Text(
-                    text = "#따뜻함",
+                    text = "#$emotion",
                     color = ReedTheme.colors.contentBrand,
                     style = ReedTheme.typography.body2Medium,
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = "2025.06.25",
+                    text = createdAt,
                     color = ReedTheme.colors.contentTertiary,
                     style = ReedTheme.typography.label2Regular,
                 )
             }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
             Text(
-                text = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다",
+                text = review,
                 color = ReedTheme.colors.contentSecondary,
                 style = ReedTheme.typography.label1Medium,
             )
@@ -75,6 +80,10 @@ fun ReviewBox(modifier: Modifier = Modifier) {
 @Composable
 private fun ReviewBoxPreview() {
     ReedTheme {
-        ReviewBox(modifier = Modifier)
+        ReviewBox(
+            emotion = "따뜻함",
+            review = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다",
+            createdAt = "2025.06.25",
+        )
     }
 }
