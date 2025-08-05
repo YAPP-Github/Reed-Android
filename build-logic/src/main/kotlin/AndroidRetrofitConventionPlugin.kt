@@ -17,14 +17,6 @@ internal class AndroidRetrofitConventionPlugin : Plugin<Project> {
                 "booket.kotlin.library.serialization",
             )
 
-            extensions.configure<LibraryExtension> {
-                configureAndroid(this)
-
-                defaultConfig.apply {
-                    targetSdk = ApplicationConstants.TARGET_SDK
-                }
-            }
-
             dependencies {
                 implementation(libs.retrofit)
                 implementation(libs.retrofit.kotlinx.serialization.converter)
