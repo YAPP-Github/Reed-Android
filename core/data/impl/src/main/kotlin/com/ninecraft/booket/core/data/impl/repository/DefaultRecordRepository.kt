@@ -28,4 +28,8 @@ class DefaultRecordRepository @Inject constructor(
     ) = runSuspendCatching {
         service.getReadingRecords(userBookId, sort, page, size).toModel()
     }
+
+    override suspend fun getRecordDetail(readingRecordId: String) = runSuspendCatching {
+        service.getRecordDetail(readingRecordId).toModel()
+    }
 }

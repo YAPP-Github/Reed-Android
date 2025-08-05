@@ -1,5 +1,9 @@
 package com.ninecraft.booket.core.common.extensions
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
+
 fun String.decodeHtmlEntities(): String {
     return this
         .replace("&lt;", "<")
@@ -16,4 +20,15 @@ fun String.decodeHtmlEntities(): String {
 fun String.formatPublishYear(): String {
     val year = this.substringBefore("-")
     return "${year}년"
+}
+
+fun String.toFormattedDate(): String {
+    return try {
+        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+        val outputFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        val parsedDate = LocalDateTime.parse(this, inputFormatter)
+        parsedDate.format(outputFormatter)
+    } catch (e: DateTimeParseException) {
+        ""
+    }
 }
