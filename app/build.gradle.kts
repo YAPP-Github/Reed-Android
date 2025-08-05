@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.booket.android.application)
     alias(libs.plugins.booket.android.application.compose)
     alias(libs.plugins.booket.android.hilt)
+    alias(libs.plugins.booket.android.firebase)
 }
 
 android {

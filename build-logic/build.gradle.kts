@@ -19,6 +19,7 @@ gradlePlugin {
         "android.library" to "AndroidLibraryConventionPlugin",
         "android.library.compose" to "AndroidLibraryComposeConventionPlugin",
         "android.feature" to "AndroidFeatureConventionPlugin",
+        "android.firebase" to "AndroidFirebaseConventionPlugin",
         "android.hilt" to "AndroidHiltConventionPlugin",
         "android.retrofit" to "AndroidRetrofitConventionPlugin",
         "jvm.library" to "JvmLibraryConventionPlugin",
