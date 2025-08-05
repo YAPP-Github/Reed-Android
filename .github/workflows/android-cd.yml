@@ -30,12 +30,10 @@ jobs:
                 run: echo '${{ secrets.REED_JAVA_KEYSTORE }}' | base64 -d > ./reed.jks
 
             -   name: Generate local.properties
-                run: |
-                    echo '${{ secrets.LOCAL_PROPERTIES }}' >> ./local.properties
+                run: echo '${{ secrets.LOCAL_PROPERTIES }}' | base64 -d > ./local.properties
 
             -   name: Generate keystore.properties
-                run: |
-                    echo '${{ secrets.KEYSTORE_PROPERTIES }}' >> ./keystore.properties
+                run: echo '${{ secrets.KEYSTORE_PROPERTIES }}' | base64 -d > ./keystore.properties
 
             -   name: Generate google-services.json
                 run: echo '${{ secrets.GOOGLE_SERVICES }}' | base64 -d > ./app/google-services.json
