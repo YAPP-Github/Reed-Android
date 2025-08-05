@@ -3,7 +3,6 @@ package com.ninecraft.booket.core.data.impl.repository
 import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.data.impl.mapper.toModel
-import com.ninecraft.booket.core.model.RecordDetailModel
 import com.ninecraft.booket.core.network.request.RecordRegisterRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import javax.inject.Inject

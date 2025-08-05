@@ -15,5 +15,5 @@ data class RecordDetailModel(
     val bookTitle: String = "",
     val bookPublisher: String = "",
     val bookCoverImageUrl: String = "",
-    val author: String = ""
+    val author: String = "",
 )

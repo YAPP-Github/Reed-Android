@@ -25,7 +25,7 @@ fun ReviewBox(
     emotion: String,
     createdAt: String,
     review: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
@@ -55,7 +55,7 @@ fun ReviewBox(
                 )
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
                 Text(
-                    text = "#${emotion}",
+                    text = "#$emotion",
                     color = ReedTheme.colors.contentBrand,
                     style = ReedTheme.typography.body2Medium,
                 )
@@ -83,7 +83,7 @@ private fun ReviewBoxPreview() {
         ReviewBox(
             emotion = "따뜻함",
             review = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다",
-            createdAt = "2025.06.25"
+            createdAt = "2025.06.25",
         )
     }
 }
