@@ -42,7 +42,6 @@ internal fun HomeUi(
     state: HomeUiState,
     modifier: Modifier = Modifier,
 ) {
-    // TODO: Android 15에서 statusBar 색상 적용 안되는 문제 있음. 해결 예정.
     val systemUiController = rememberSystemUiController()
 
     DisposableEffect(systemUiController) {

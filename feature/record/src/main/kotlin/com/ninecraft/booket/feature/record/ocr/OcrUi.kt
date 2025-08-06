@@ -139,20 +139,6 @@ private fun CameraPreview(
         }
     }
 
-    DisposableEffect(systemUiController) {
-        systemUiController.setSystemBarsColor(
-            color = Neutral950,
-            isNavigationBarContrastEnforced = false,
-        )
-        onDispose {
-            systemUiController.setSystemBarsColor(
-                color = White,
-                darkIcons = !isDarkTheme,
-                isNavigationBarContrastEnforced = false,
-            )
-        }
-    }
-
     LaunchedEffect(Unit) {
         val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
         if (granted) {
