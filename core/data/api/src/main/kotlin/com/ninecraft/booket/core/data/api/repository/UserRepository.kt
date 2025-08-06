@@ -5,6 +5,8 @@ import com.ninecraft.booket.core.model.UserProfileModel
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
+    suspend fun agreeTerms(termsAgreed: Boolean): Result<Unit>
+
     suspend fun getUserProfile(): Result<UserProfileModel>
 
     val onboardingState: Flow<OnboardingState>

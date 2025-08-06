@@ -31,11 +31,6 @@ internal class DefaultAuthRepository @Inject constructor(
         clearTokens()
     }
 
-    override suspend fun agreeTerms(termsAgreed: Boolean) = runSuspendCatching {
-        service.agreeTerms(TermsAgreementRequest(termsAgreed))
-        Unit
-    }
-
     private suspend fun saveTokens(accessToken: String, refreshToken: String) {
         tokenDataSource.apply {
             setAccessToken(accessToken)
