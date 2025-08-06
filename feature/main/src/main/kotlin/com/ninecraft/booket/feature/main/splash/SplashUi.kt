@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.Green500
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.main.R
 import com.ninecraft.booket.feature.screens.SplashScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -39,7 +40,12 @@ fun SplashUi(
             darkIcons = false,
         )
 
-        onDispose {}
+        onDispose {
+            systemUiController.setSystemBarsColor(
+                color = White,
+                darkIcons = true,
+            )
+        }
     }
 
     Box(
