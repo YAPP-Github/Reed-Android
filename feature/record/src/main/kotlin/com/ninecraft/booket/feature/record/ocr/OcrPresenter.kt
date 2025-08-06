@@ -15,6 +15,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 
 class OcrPresenter @AssistedInject constructor(
@@ -71,8 +72,11 @@ class OcrPresenter @AssistedInject constructor(
                     } else {
                         isTextDetectionFailed = false
 
-                        val parsedSentences = parseSentences(recognizedText)
-                        sentenceList = parsedSentences.toPersistentList()
+                        val sentences = recognizedText
+                            .split("\n")
+                            .map { it.trim() }
+                            .filter { it.isNotEmpty() }
+                        sentenceList = persistentListOf(*sentences.toTypedArray())
 
                         currentUi = OcrUi.RESULT
                     }
@@ -123,20 +127,5 @@ class OcrPresenter @AssistedInject constructor(
     @AssistedFactory
     fun interface Factory {
         fun create(navigator: Navigator): OcrPresenter
-    }
-}
-
-fun parseSentences(text: String): List<String> {
-    val containsPunctuation = text.contains(Regex("[.!?]"))
-
-    return if (containsPunctuation) {
-        text.replace("\n", " ")
-            .split(Regex("(?<=[.!?])\\s+"))
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-    } else {
-        text.split("\n")
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
     }
 }
