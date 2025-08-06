@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
+import com.ninecraft.booket.core.designsystem.component.ResourceImage
 import com.ninecraft.booket.core.designsystem.R as designR
 import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -35,10 +36,12 @@ fun HomeHeader(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing5))
-        Text(
-            text = stringResource(R.string.home_header_title),
-            color = ReedTheme.colors.contentBrand,
-            style = ReedTheme.typography.title1Bold,
+        ResourceImage(
+            imageRes = R.drawable.reed_logo,
+            contentDescription = "Reed Logo",
+            modifier = Modifier
+                .width(65.dp)
+                .height(24.dp),
         )
         Spacer(modifier = Modifier.weight(1f))
         IconButton(
