@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -41,8 +42,6 @@ internal fun HomeUi(
     state: HomeUiState,
     modifier: Modifier = Modifier,
 ) {
-    HandleHomeSideEffects(state = state)
-
     // TODO: Android 15에서 statusBar 색상 적용 안되는 문제 있음. 해결 예정.
     val systemUiController = rememberSystemUiController()
 
@@ -65,20 +64,23 @@ internal fun HomeUi(
         }
     }
 
+    HandleHomeSideEffects(state = state)
+
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(HomeBg)
+            .statusBarsPadding(),
     ) {
         HomeHeader(
             onSettingsClick = {
                 state.eventSink(HomeUiEvent.OnSettingsClick)
             },
-            modifier = modifier,
         )
         HomeBanner(
             onBookRegisterClick = {
                 state.eventSink(HomeUiEvent.OnBookRegisterClick)
             },
-            modifier = modifier,
         )
         HomeContent(
             state = state,
