@@ -1,9 +1,11 @@
 package com.ninecraft.booket.feature.main.bottomnavigation
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.feature.main.component.MainBottomBar
 import com.ninecraft.booket.feature.main.component.MainTab
@@ -15,7 +17,7 @@ import kotlinx.collections.immutable.toImmutableList
 
 @CircuitInject(BottomNavigationScreen::class, ActivityRetainedComponent::class)
 @Composable
-fun BottomNavigation(
+fun BottomNavigationUi(
     state: BottomNavigationUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -30,6 +32,7 @@ fun BottomNavigation(
                 },
             )
         },
+        contentWindowInsets = WindowInsets(top = 0.dp),
     ) { innerPadding ->
         NavigableCircuitContent(
             navigator = state.navigator,

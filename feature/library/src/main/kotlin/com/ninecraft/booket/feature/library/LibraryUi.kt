@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,6 +23,7 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
@@ -31,6 +34,7 @@ import com.ninecraft.booket.feature.screens.LibraryScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
+import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
 
 @CircuitInject(LibraryScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -38,14 +42,36 @@ internal fun LibraryUi(
     state: LibraryUiState,
     modifier: Modifier = Modifier,
 ) {
+    // TODO: Android 15에서 statusBar 색상 적용 안되는 문제 있음. 해결 예정.
+    val systemUiController = rememberSystemUiController()
+
+    DisposableEffect(systemUiController) {
+        systemUiController.setStatusBarColor(
+            color = White,
+            darkIcons = true,
+        )
+        onDispose {}
+    }
+
     HandleLibrarySideEffects(
         state = state,
         eventSink = state.eventSink,
     )
 
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .statusBarsPadding(),
     ) {
+        LibraryHeader(
+            onSearchClick = {
+                state.eventSink(LibraryUiEvent.OnLibrarySearchClick)
+            },
+            onSettingClick = {
+                state.eventSink(LibraryUiEvent.OnSettingsClick)
+            },
+        )
+
         LibraryContent(
             state = state,
             modifier = modifier,
@@ -63,14 +89,6 @@ internal fun LibraryContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        LibraryHeader(
-            onSearchClick = {
-                state.eventSink(LibraryUiEvent.OnLibrarySearchClick)
-            },
-            onSettingClick = {
-                state.eventSink(LibraryUiEvent.OnSettingsClick)
-            },
-        )
         FilterChipGroup(
             filterList = state.filterChips,
             selectedChipOption = state.currentFilter,
