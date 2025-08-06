@@ -51,43 +51,43 @@ internal fun LoginUi(
             verticalArrangement = Arrangement.Center,
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
-            Text(
-                text = "로그인",
-                modifier = Modifier.align(Alignment.Center),
-            )
-            ReedButton(
-                onClick = {
-                    state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
-                },
-                sizeStyle = largeButtonStyle,
-                colorStyle = ReedButtonColorStyle.KAKAO,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = ReedTheme.spacing.spacing5,
-                        end = ReedTheme.spacing.spacing5,
-                        bottom = ReedTheme.spacing.spacing8,
-                    )
-                    .align(Alignment.BottomCenter),
-                text = stringResource(id = R.string.kakao_login),
-                leadingIcon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
-                        contentDescription = "Kakao Icon",
-                        tint = Color.Unspecified,
-                    )
-                },
-            )
-
-            if (state.isLoading) {
-                CircularProgressIndicator(
+                Text(
+                    text = "로그인",
                     modifier = Modifier.align(Alignment.Center),
-                    color = ReedTheme.colors.contentBrand,
                 )
+                ReedButton(
+                    onClick = {
+                        state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
+                    },
+                    sizeStyle = largeButtonStyle,
+                    colorStyle = ReedButtonColorStyle.KAKAO,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = ReedTheme.spacing.spacing5,
+                            end = ReedTheme.spacing.spacing5,
+                            bottom = ReedTheme.spacing.spacing8,
+                        )
+                        .align(Alignment.BottomCenter),
+                    text = stringResource(id = R.string.kakao_login),
+                    leadingIcon = {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
+                            contentDescription = "Kakao Icon",
+                            tint = Color.Unspecified,
+                        )
+                    },
+                )
+
+                if (state.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = ReedTheme.colors.contentBrand,
+                    )
+                }
             }
         }
     }
-}
 }
 
 @DevicePreview

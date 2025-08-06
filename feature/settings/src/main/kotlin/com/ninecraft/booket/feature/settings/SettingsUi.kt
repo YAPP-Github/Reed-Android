@@ -58,7 +58,9 @@ internal fun SettingsUi(
     }
 
     ReedScaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(White),
         topBar = {
             ReedBackTopAppBar(
                 title = stringResource(R.string.settings_title),

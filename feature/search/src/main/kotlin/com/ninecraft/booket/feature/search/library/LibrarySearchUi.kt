@@ -54,7 +54,7 @@ internal fun LibrarySearchUi(
                 },
             )
         },
-        containerColor = White
+        containerColor = White,
     ) { innerPadding ->
         LibrarySearchContent(
             state = state,
@@ -72,7 +72,7 @@ internal fun LibrarySearchContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(innerPadding)
+            .padding(innerPadding),
     ) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         ReedTextField(

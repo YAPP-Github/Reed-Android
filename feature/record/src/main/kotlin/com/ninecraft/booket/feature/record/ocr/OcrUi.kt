@@ -113,7 +113,6 @@ private fun CameraPreview(
         }
     }
 
-
     LaunchedEffect(Unit) {
         val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
         if (granted) {

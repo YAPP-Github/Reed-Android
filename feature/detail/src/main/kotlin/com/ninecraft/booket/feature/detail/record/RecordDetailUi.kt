@@ -73,7 +73,7 @@ internal fun RecordDetailUi(
 private fun ReviewDetailContent(
     state: RecordDetailUiState,
     innerPadding: PaddingValues,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier

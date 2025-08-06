@@ -34,7 +34,7 @@ internal fun WebViewUi(
                     state.eventSink(WebViewUiEvent.OnBackButtonClick)
                 },
             )
-        }
+        },
     ) { innerPadding ->
         WebViewContent(
             state = state,
@@ -53,7 +53,7 @@ internal fun WebViewContent(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .padding(innerPadding)
+            .padding(innerPadding),
     ) {
         AndroidView(
             factory = { context ->
