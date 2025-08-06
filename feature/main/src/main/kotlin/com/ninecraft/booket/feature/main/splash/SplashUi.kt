@@ -63,6 +63,7 @@ fun SplashUi(
                 color = ReedTheme.colors.contentInverse,
                 style = ReedTheme.typography.heading2SemiBold,
             )
+            Spacer(modifier.height(ReedTheme.spacing.spacing8))
         }
     }
 }
