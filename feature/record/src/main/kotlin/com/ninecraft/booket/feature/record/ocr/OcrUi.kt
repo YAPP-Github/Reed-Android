@@ -144,13 +144,12 @@ private fun CameraPreview(
     DisposableEffect(systemUiController) {
         systemUiController.setSystemBarsColor(
             color = Neutral950,
-            isNavigationBarContrastEnforced = false,
+            darkIcons = false
         )
         onDispose {
             systemUiController.setSystemBarsColor(
                 color = White,
-                darkIcons = !isDarkTheme,
-                isNavigationBarContrastEnforced = false,
+                darkIcons = true,
             )
         }
     }

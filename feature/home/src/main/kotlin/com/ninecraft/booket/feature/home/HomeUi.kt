@@ -51,6 +51,12 @@ internal fun HomeUi(
             color = HomeBg,
             darkIcons = true,
         )
+
+        systemUiController.setSystemBarsColor(
+            color = White,
+            darkIcons = true,
+        )
+
         onDispose {
             systemUiController.setStatusBarColor(
                 color = White,
