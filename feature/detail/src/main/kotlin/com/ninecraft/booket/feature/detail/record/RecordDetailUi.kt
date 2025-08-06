@@ -1,8 +1,8 @@
 package com.ninecraft.booket.feature.detail.record
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +28,7 @@ import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.model.RecordDetailModel
-import com.ninecraft.booket.core.ui.component.ReedFullScreen
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.record.component.QuoteBox
@@ -48,25 +48,37 @@ internal fun RecordDetailUi(
         state = state,
     )
 
-    ReedFullScreen(modifier = modifier) {
-        ReedTopAppBar(
-            title = stringResource(R.string.review_detail_title),
-            startIconRes = designR.drawable.ic_close,
-            startIconDescription = "Close Icon",
-            startIconOnClick = {
-                state.eventSink(RecordDetailUiEvent.OnCloseClicked)
-            },
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+        topBar = {
+            ReedTopAppBar(
+                title = stringResource(R.string.review_detail_title),
+                startIconRes = designR.drawable.ic_close,
+                startIconDescription = "Close Icon",
+                startIconOnClick = {
+                    state.eventSink(RecordDetailUiEvent.OnCloseClicked)
+                },
+            )
+        },
+        containerColor = White,
+    ) { innerPadding ->
+        ReviewDetailContent(
+            state = state,
+            innerPadding = innerPadding,
         )
-        ReviewDetailContent(state = state, modifier = modifier)
     }
 }
 
 @Composable
-private fun ReviewDetailContent(state: RecordDetailUiState, modifier: Modifier = Modifier) {
+private fun ReviewDetailContent(
+    state: RecordDetailUiState,
+    innerPadding: PaddingValues,
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .background(White),
+            .padding(innerPadding),
     ) {
         Row(
             modifier = modifier

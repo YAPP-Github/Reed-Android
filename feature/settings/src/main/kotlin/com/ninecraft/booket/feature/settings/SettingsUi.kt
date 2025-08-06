@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,6 +28,7 @@ import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
@@ -57,130 +57,135 @@ internal fun SettingsUi(
         }.getOrNull() ?: "Unknown"
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(White)
-            .systemBarsPadding(),
-    ) {
-        ReedBackTopAppBar(
-            title = stringResource(R.string.settings_title),
-            onBackClick = {
-                state.eventSink(SettingsUiEvent.OnBackClick)
-            },
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
-
-        SettingItem(
-            title = stringResource(R.string.settings_privacy_policy),
-            onItemClick = {
-                state.eventSink(SettingsUiEvent.OnPolicyClick)
-            },
-            action = {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
-                    contentDescription = "Right Chevron Icon",
-                    tint = Color.Unspecified,
-                )
-            },
-        )
-        SettingItem(
-            title = stringResource(R.string.settings_terms_of_service),
-            onItemClick = {
-                state.eventSink(SettingsUiEvent.OnTermClick)
-            },
-            action = {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
-                    contentDescription = "Right Chevron Icon",
-                    tint = Color.Unspecified,
-                )
-            },
-        )
-        SettingItem(
-            title = stringResource(R.string.settings_open_source_license),
-            onItemClick = {
-                state.eventSink(SettingsUiEvent.OnOssLicensesClick)
-            },
-            action = {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
-                    contentDescription = "Right Chevron Icon",
-                    tint = Color.Unspecified,
-                )
-            },
-        )
-        SettingItem(
-            title = stringResource(R.string.settings_app_version),
-            isClickable = false,
-            action = {
-                Text(
-                    text = appVersion,
-                    style = ReedTheme.typography.body1Medium,
-                    color = ReedTheme.colors.contentSecondary,
-                )
-            },
-        )
-        ReedDivider(modifier = Modifier.padding(vertical = ReedTheme.spacing.spacing4))
-        SettingItem(
-            title = stringResource(R.string.settings_logout),
-            onItemClick = {
-                state.eventSink(SettingsUiEvent.OnLogoutClick)
-            },
-        )
-        SettingItem(
-            title = stringResource(R.string.settings_withdraw),
-            onItemClick = {
-                state.eventSink(SettingsUiEvent.OnWithdrawClick)
-            },
-        )
-    }
-
-    if (state.isLoading) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+        topBar = {
+            ReedBackTopAppBar(
+                title = stringResource(R.string.settings_title),
+                onBackClick = {
+                    state.eventSink(SettingsUiEvent.OnBackClick)
+                },
+            )
+        },
+        containerColor = White,
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
         ) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center),
-                color = ReedTheme.colors.contentBrand,
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+            SettingItem(
+                title = stringResource(R.string.settings_privacy_policy),
+                onItemClick = {
+                    state.eventSink(SettingsUiEvent.OnPolicyClick)
+                },
+                action = {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
+                        contentDescription = "Right Chevron Icon",
+                        tint = Color.Unspecified,
+                    )
+                },
+            )
+            SettingItem(
+                title = stringResource(R.string.settings_terms_of_service),
+                onItemClick = {
+                    state.eventSink(SettingsUiEvent.OnTermClick)
+                },
+                action = {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
+                        contentDescription = "Right Chevron Icon",
+                        tint = Color.Unspecified,
+                    )
+                },
+            )
+            SettingItem(
+                title = stringResource(R.string.settings_open_source_license),
+                onItemClick = {
+                    state.eventSink(SettingsUiEvent.OnOssLicensesClick)
+                },
+                action = {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
+                        contentDescription = "Right Chevron Icon",
+                        tint = Color.Unspecified,
+                    )
+                },
+            )
+            SettingItem(
+                title = stringResource(R.string.settings_app_version),
+                isClickable = false,
+                action = {
+                    Text(
+                        text = appVersion,
+                        style = ReedTheme.typography.body1Medium,
+                        color = ReedTheme.colors.contentSecondary,
+                    )
+                },
+            )
+            ReedDivider(modifier = Modifier.padding(vertical = ReedTheme.spacing.spacing4))
+            SettingItem(
+                title = stringResource(R.string.settings_logout),
+                onItemClick = {
+                    state.eventSink(SettingsUiEvent.OnLogoutClick)
+                },
+            )
+            SettingItem(
+                title = stringResource(R.string.settings_withdraw),
+                onItemClick = {
+                    state.eventSink(SettingsUiEvent.OnWithdrawClick)
+                },
             )
         }
-    }
 
-    if (state.isLogoutDialogVisible) {
-        ReedDialog(
-            title = stringResource(R.string.settings_logout_title),
-            confirmButtonText = stringResource(R.string.settings_logout),
-            dismissButtonText = stringResource(R.string.settings_cancel),
-            onConfirmRequest = {
-                state.eventSink(SettingsUiEvent.Logout)
-            },
-            onDismissRequest = {
-                state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
-            },
-        )
-    }
+        if (state.isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = ReedTheme.colors.contentBrand,
+                )
+            }
+        }
 
-    if (state.isWithdrawBottomSheetVisible) {
-        WithdrawConfirmationBottomSheet(
-            onDismissRequest = {
-                state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
-            },
-            sheetState = withDrawSheetState,
-            isCheckBoxChecked = state.isWithdrawConfirmed,
-            onCheckBoxCheckedChange = {
-                state.eventSink(SettingsUiEvent.OnWithdrawConfirmationToggled)
-            },
-            onCancelButtonClick = {
-                coroutineScope.launch {
-                    withDrawSheetState.hide()
+        if (state.isLogoutDialogVisible) {
+            ReedDialog(
+                title = stringResource(R.string.settings_logout_title),
+                confirmButtonText = stringResource(R.string.settings_logout),
+                dismissButtonText = stringResource(R.string.settings_cancel),
+                onConfirmRequest = {
+                    state.eventSink(SettingsUiEvent.Logout)
+                },
+                onDismissRequest = {
                     state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
-                }
-            },
-            onWithdrawButtonClick = {
-                state.eventSink(SettingsUiEvent.Withdraw)
-            },
-        )
+                },
+            )
+        }
+
+        if (state.isWithdrawBottomSheetVisible) {
+            WithdrawConfirmationBottomSheet(
+                onDismissRequest = {
+                    state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
+                },
+                sheetState = withDrawSheetState,
+                isCheckBoxChecked = state.isWithdrawConfirmed,
+                onCheckBoxCheckedChange = {
+                    state.eventSink(SettingsUiEvent.OnWithdrawConfirmationToggled)
+                },
+                onCancelButtonClick = {
+                    coroutineScope.launch {
+                        withDrawSheetState.hide()
+                        state.eventSink(SettingsUiEvent.OnBottomSheetDismissed)
+                    }
+                },
+                onWithdrawButtonClick = {
+                    state.eventSink(SettingsUiEvent.Withdraw)
+                },
+            )
+        }
     }
 }
 

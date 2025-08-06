@@ -3,6 +3,7 @@ package com.ninecraft.booket.feature.library
 import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
+import com.ninecraft.booket.feature.screens.component.MainTab
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
@@ -40,6 +41,7 @@ sealed interface LibraryUiEvent : CircuitUiEvent {
     data object OnLoadMore : LibraryUiEvent
     data object OnRetryClick : LibraryUiEvent
     data class OnFilterClick(val filterOption: LibraryFilterOption) : LibraryUiEvent
+    data class OnTabSelected(val tab: MainTab) : LibraryUiEvent
 }
 
 data class LibraryFilterChip(

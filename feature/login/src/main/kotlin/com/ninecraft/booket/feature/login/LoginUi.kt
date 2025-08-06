@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -24,6 +23,7 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorSt
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -39,15 +39,18 @@ internal fun LoginUi(
         eventSink = state.eventSink,
     )
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(White)
-            .systemBarsPadding(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Box(modifier = modifier.fillMaxSize()) {
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(White)
+                .padding(innerPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
             Text(
                 text = "로그인",
                 modifier = Modifier.align(Alignment.Center),
@@ -84,6 +87,7 @@ internal fun LoginUi(
             }
         }
     }
+}
 }
 
 @DevicePreview

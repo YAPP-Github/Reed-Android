@@ -7,7 +7,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
-import com.ninecraft.booket.feature.screens.BottomNavigationScreen
+import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.orhanobut.logger.Logger
@@ -38,7 +38,7 @@ class LoginPresenter @AssistedInject constructor(
                 userRepository.getUserProfile()
                     .onSuccess { userProfile ->
                         if (userProfile.termsAgreed) {
-                            navigator.resetRoot(BottomNavigationScreen)
+                            navigator.resetRoot(HomeScreen)
                         } else {
                             navigator.resetRoot(TermsAgreementScreen)
                         }

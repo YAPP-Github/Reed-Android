@@ -14,13 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.theme.Green500
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.main.R
 import com.ninecraft.booket.feature.screens.SplashScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -36,14 +35,16 @@ fun SplashUi(
 
     DisposableEffect(systemUiController) {
         systemUiController.setSystemBarsColor(
-            color = Green500,
+            color = Color.Transparent,
             darkIcons = false,
+            isNavigationBarContrastEnforced = false,
         )
 
         onDispose {
             systemUiController.setSystemBarsColor(
-                color = White,
+                color = Color.Transparent,
                 darkIcons = true,
+                isNavigationBarContrastEnforced = false,
             )
         }
     }

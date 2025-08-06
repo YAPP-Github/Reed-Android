@@ -5,14 +5,16 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.ui.component.ReedFullScreen
+import com.ninecraft.booket.core.ui.ReedScaffold
+import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.feature.screens.WebViewScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -23,16 +25,20 @@ internal fun WebViewUi(
     state: WebViewUiState,
     modifier: Modifier = Modifier,
 ) {
-    ReedFullScreen(modifier = modifier) {
-        ReedBackTopAppBar(
-            title = state.title,
-            onBackClick = {
-                state.eventSink(WebViewUiEvent.OnBackButtonClick)
-            },
-        )
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+        topBar = {
+            ReedBackTopAppBar(
+                title = state.title,
+                onBackClick = {
+                    state.eventSink(WebViewUiEvent.OnBackButtonClick)
+                },
+            )
+        }
+    ) { innerPadding ->
         WebViewContent(
             state = state,
-            modifier = modifier,
+            innerPadding = innerPadding,
         )
     }
 }
@@ -41,9 +47,14 @@ internal fun WebViewUi(
 @Composable
 internal fun WebViewContent(
     state: WebViewUiState,
+    innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(innerPadding)
+    ) {
         AndroidView(
             factory = { context ->
                 WebView(context).apply {

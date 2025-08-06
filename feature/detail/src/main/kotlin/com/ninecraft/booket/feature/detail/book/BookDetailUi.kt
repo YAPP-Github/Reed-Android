@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.detail.book
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,8 +37,8 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
-import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.detail.book.component.BookUpdateBottomSheet
 import com.ninecraft.booket.feature.detail.book.component.CollectedSeed
 import com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet
@@ -65,14 +66,21 @@ internal fun BookDetailUi(
         eventSink = state.eventSink,
     )
 
-    ReedFullScreen(modifier = modifier) {
-        ReedBackTopAppBar(
-            title = "",
-            onBackClick = {
-                state.eventSink(BookDetailUiEvent.OnBackClick)
-            },
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+        topBar = {
+            ReedBackTopAppBar(
+                title = "",
+                onBackClick = {
+                    state.eventSink(BookDetailUiEvent.OnBackClick)
+                },
+            )
+        },
+    ) { innerPadding ->
+        BookDetailContent(
+            state = state,
+            innerPadding = innerPadding,
         )
-        BookDetailContent(state = state)
     }
 
     if (state.isBookUpdateBottomSheetVisible) {
@@ -122,11 +130,13 @@ internal fun BookDetailUi(
 @Composable
 internal fun BookDetailContent(
     state: BookDetailUiState,
+    innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
+            .padding(innerPadding)
             .verticalScroll(rememberScrollState()),
     ) {
         Row(

@@ -3,6 +3,7 @@ package com.ninecraft.booket.feature.record.register
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,9 +21,10 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedDialog
-import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.step.EmotionStep
 import com.ninecraft.booket.feature.record.step.ImpressionStep
@@ -43,47 +45,56 @@ internal fun RecordRegister(
         state.eventSink(RecordRegisterUiEvent.OnBackButtonClick)
     }
 
-    ReedFullScreen(
+    ReedScaffold(
         modifier = modifier.fillMaxSize(),
-    ) {
-        ReedBackTopAppBar(
-            onBackClick = {
-                state.eventSink(RecordRegisterUiEvent.OnBackButtonClick)
-            },
-        )
-        RecordProgressBar(
-            currentStep = state.currentStep,
-            modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
-        when (state.currentStep) {
-            RecordStep.QUOTE -> {
-                QuoteStep(state = state)
-            }
-
-            RecordStep.EMOTION -> {
-                EmotionStep(state = state)
-            }
-
-            RecordStep.IMPRESSION -> {
-                ImpressionStep(state = state)
-            }
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        ReedButton(
-            onClick = {
-                state.eventSink(RecordRegisterUiEvent.OnNextButtonClick)
-            },
-            colorStyle = ReedButtonColorStyle.PRIMARY,
-            sizeStyle = largeButtonStyle,
+        topBar = {
+            ReedBackTopAppBar(
+                onBackClick = {
+                    state.eventSink(RecordRegisterUiEvent.OnBackButtonClick)
+                },
+            )
+        },
+        containerColor = White,
+    ) { innerPadding ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = ReedTheme.spacing.spacing5),
-            enabled = state.isNextButtonEnabled,
-            text = stringResource(R.string.record_next_button),
-            multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+                .fillMaxSize()
+                .padding(innerPadding),
+        ) {
+            RecordProgressBar(
+                currentStep = state.currentStep,
+                modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
+            when (state.currentStep) {
+                RecordStep.QUOTE -> {
+                    QuoteStep(state = state)
+                }
+
+                RecordStep.EMOTION -> {
+                    EmotionStep(state = state)
+                }
+
+                RecordStep.IMPRESSION -> {
+                    ImpressionStep(state = state)
+                }
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            ReedButton(
+                onClick = {
+                    state.eventSink(RecordRegisterUiEvent.OnNextButtonClick)
+                },
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = largeButtonStyle,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = ReedTheme.spacing.spacing5),
+                enabled = state.isNextButtonEnabled,
+                text = stringResource(R.string.record_next_button),
+                multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+        }
     }
 
     if (state.isExitDialogVisible) {

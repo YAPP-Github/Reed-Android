@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.search.book
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,14 +25,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.component.textfield.ReedTextField
-import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
+import com.ninecraft.booket.core.designsystem.component.textfield.ReedTextField
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
-import com.ninecraft.booket.core.ui.component.ReedFullScreen
+import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.feature.screens.SearchScreen
 import com.ninecraft.booket.feature.search.R
 import com.ninecraft.booket.feature.search.book.component.BookItem
@@ -55,16 +54,21 @@ internal fun SearchUi(
 ) {
     HandleBookSearchSideEffects(state = state)
 
-    ReedFullScreen(modifier = modifier) {
-        ReedBackTopAppBar(
-            title = stringResource(R.string.search_title),
-            onBackClick = {
-                state.eventSink(BookSearchUiEvent.OnBackClick)
-            },
-        )
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+        containerColor = White,
+        topBar = {
+            ReedBackTopAppBar(
+                title = stringResource(R.string.search_title),
+                onBackClick = {
+                    state.eventSink(BookSearchUiEvent.OnBackClick)
+                },
+            )
+        },
+    ) { innerPadding ->
         SearchContent(
             state = state,
-            modifier = modifier,
+            modifier = Modifier.padding(innerPadding),
         )
     }
 }
@@ -80,9 +84,7 @@ internal fun SearchContent(
     val coroutineScope = rememberCoroutineScope()
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(White),
+        modifier = modifier.fillMaxSize(),
     ) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         ReedTextField(

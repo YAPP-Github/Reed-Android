@@ -1,9 +1,9 @@
 package com.ninecraft.booket.feature.search.library
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,10 +24,10 @@ import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.component.textfield.ReedTextField
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
-import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.screens.LibrarySearchScreen
 import com.ninecraft.booket.feature.search.R
 import com.ninecraft.booket.feature.search.common.component.RecentSearchTitle
@@ -44,16 +44,21 @@ internal fun LibrarySearchUi(
 ) {
     HandlingLibrarySearchSideEffect(state = state)
 
-    ReedFullScreen(modifier = modifier) {
-        ReedBackTopAppBar(
-            title = stringResource(R.string.library_search_title),
-            onBackClick = {
-                state.eventSink(LibrarySearchUiEvent.OnBackClick)
-            },
-        )
+    ReedScaffold(
+        modifier = modifier,
+        topBar = {
+            ReedBackTopAppBar(
+                title = stringResource(R.string.library_search_title),
+                onBackClick = {
+                    state.eventSink(LibrarySearchUiEvent.OnBackClick)
+                },
+            )
+        },
+        containerColor = White
+    ) { innerPadding ->
         LibrarySearchContent(
             state = state,
-            modifier = modifier,
+            innerPadding = innerPadding,
         )
     }
 }
@@ -61,12 +66,13 @@ internal fun LibrarySearchUi(
 @Composable
 internal fun LibrarySearchContent(
     state: LibrarySearchUiState,
+    innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(White),
+            .padding(innerPadding)
     ) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         ReedTextField(

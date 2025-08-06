@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.main.component
+package com.ninecraft.booket.feature.screens.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,6 +30,7 @@ import com.adamglin.composeshadow.dropShadow
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.feature.screens.component.MainTab
 import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.popUntil
@@ -38,7 +39,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-internal fun MainBottomBar(
+fun MainBottomBar(
     tabs: ImmutableList<MainTab>,
     currentTab: MainTab?,
     onTabSelected: (MainTab) -> Unit,

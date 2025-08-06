@@ -9,7 +9,7 @@ import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.model.AutoLoginState
 import com.ninecraft.booket.core.model.OnboardingState
-import com.ninecraft.booket.feature.screens.BottomNavigationScreen
+import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.ninecraft.booket.feature.screens.SplashScreen
@@ -38,7 +38,7 @@ class SplashPresenter @AssistedInject constructor(
         var isSplashTimeCompleted by rememberRetained { mutableStateOf(false) }
 
         LaunchedEffect(Unit) {
-            delay(3000L)
+            delay(1000L)
             isSplashTimeCompleted = true
         }
 
@@ -53,7 +53,7 @@ class SplashPresenter @AssistedInject constructor(
                 OnboardingState.COMPLETED -> {
                     when (autoLoginState) {
                         AutoLoginState.LOGGED_IN -> {
-                            navigator.resetRoot(BottomNavigationScreen)
+                            navigator.resetRoot(HomeScreen)
                         }
 
                         AutoLoginState.NOT_LOGGED_IN -> {
