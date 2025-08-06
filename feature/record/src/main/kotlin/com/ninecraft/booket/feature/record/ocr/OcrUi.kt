@@ -12,7 +12,6 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -118,7 +117,19 @@ private fun CameraPreview(
     }
 
     val systemUiController = rememberSystemUiController()
-    val isDarkTheme = isSystemInDarkTheme()
+
+    DisposableEffect(systemUiController) {
+        systemUiController.setSystemBarsColor(
+            color = Neutral950,
+            darkIcons = false,
+        )
+        onDispose {
+            systemUiController.setSystemBarsColor(
+                color = White,
+                darkIcons = true,
+            )
+        }
+    }
 
     LaunchedEffect(Unit) {
         val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
@@ -138,19 +149,6 @@ private fun CameraPreview(
         onDispose {
             cameraController.unbind()
             cameraController.clearImageAnalysisAnalyzer()
-        }
-    }
-
-    DisposableEffect(systemUiController) {
-        systemUiController.setSystemBarsColor(
-            color = Neutral950,
-            darkIcons = false
-        )
-        onDispose {
-            systemUiController.setSystemBarsColor(
-                color = White,
-                darkIcons = true,
-            )
         }
     }
 
