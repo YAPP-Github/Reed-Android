@@ -64,7 +64,7 @@ internal fun HomeUi(
         modifier = modifier
             .fillMaxSize()
             .background(HomeBg)
-            .statusBarsPadding()
+            .statusBarsPadding(),
     ) {
         HomeHeader(
             onSettingsClick = {

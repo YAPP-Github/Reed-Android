@@ -32,7 +32,7 @@ fun BottomNavigationUi(
                 },
             )
         },
-        contentWindowInsets = WindowInsets(top = 0.dp)
+        contentWindowInsets = WindowInsets(top = 0.dp),
     ) { innerPadding ->
         NavigableCircuitContent(
             navigator = state.navigator,

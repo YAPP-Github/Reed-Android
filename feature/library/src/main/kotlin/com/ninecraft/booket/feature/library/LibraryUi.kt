@@ -22,7 +22,6 @@ import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
-import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
