@@ -1,7 +1,7 @@
 package com.ninecraft.booket.feature.search.book.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,15 +16,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.ui.component.ReedBottomSheet
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.ui.component.ReedBottomSheet
 import com.ninecraft.booket.feature.search.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,10 +51,10 @@ fun BookRegisterSuccessBottomSheet(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(120.dp),
+            Image(
+                painter = painterResource(R.drawable.img_book_register_complete),
+                contentDescription = "Book Register Complete Image",
+                modifier = Modifier.height(120.dp),
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
             Text(
