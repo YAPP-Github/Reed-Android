@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.utils.HighlightedText
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.ResourceImage
@@ -32,7 +33,9 @@ internal fun OnboardingPage(
         ResourceImage(
             imageRes = imageRes,
             contentDescription = "Onboarding Second Graphic",
+            modifier = Modifier.height(274.dp)
         )
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
         Text(
             text = HighlightedText(
                 fullText = stringResource(titleRes),
@@ -59,7 +62,7 @@ internal fun OnboardingPage(
 private fun OnboardingPagePreview() {
     ReedTheme {
         OnboardingPage(
-            imageRes = R.drawable.img_onboarding_second_graphic,
+            imageRes = R.drawable.img_onboarding_first,
             titleRes = R.string.onboarding_first_page_title,
             highlightTextRes = R.string.onboarding_first_highlight_text,
             descriptionRes = R.string.onboarding_first_page_description,
