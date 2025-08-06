@@ -35,10 +35,11 @@ interface ReedService {
     @POST("api/v1/auth/signout")
     suspend fun logout()
 
-    @PUT("api/v1/auth/terms-agreement")
+    // User endpoints (auth required)
+    @PUT("api/v1/users/terms-agreement")
     suspend fun agreeTerms(@Body termsAgreementRequest: TermsAgreementRequest): TermsAgreementResponse
 
-    @GET("api/v1/auth/me")
+    @GET("api/v1/users/me")
     suspend fun getUserProfile(): UserProfileResponse
 
     // Book endpoints (auth required)
