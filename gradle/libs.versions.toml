@@ -49,6 +49,9 @@ kakao-core = "2.21.4"
 coil-compose = "2.7.0"
 landscapist = "2.5.1"
 
+## Lottie
+lottie = "6.6.6"
+
 ## OCR
 mlkit-text = "16.0.1"
 
@@ -135,6 +138,8 @@ logger = { group = "com.orhanobut", name = "logger", version.ref = "logger" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "kotlin-detekt" }
 
 kakao-auth = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-core" }
+
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
 
 google-mlkit-text-recognition = { group = "com.google.mlkit", name = "text-recognition", version.ref = "mlkit-text" }
 google-mlkit-text-recognition-korean = { group = "com.google.mlkit", name = "text-recognition-korean", version.ref = "mlkit-text" }

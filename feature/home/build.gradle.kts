@@ -19,5 +19,6 @@ dependencies {
         libs.logger,
 
         libs.compose.system.ui.controller,
+        libs.lottie.compose,
     )
 }
