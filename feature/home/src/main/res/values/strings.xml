@@ -8,4 +8,5 @@
     <string name="empty_book_card_description">등록 후 나만의 독서 기록을 남겨 보세요.</string>
     <string name="empty_book_card_register">등록하기</string>
     <string name="book_card_record">기록하기</string>
+    <string name="book_card_unit_count">개</string>
 </resources>
