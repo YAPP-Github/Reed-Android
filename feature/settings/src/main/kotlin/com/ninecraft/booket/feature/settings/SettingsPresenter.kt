@@ -105,7 +105,32 @@ class SettingsPresenter @AssistedInject constructor(
                 }
 
                 is SettingsUiEvent.Withdraw -> {
-                    // TODO: 회원탈퇴 처리 -> 성공 시 로그인 화면으로 이동
+                    scope.launch {
+                        try {
+                            isLoading = true
+                            authRepository.withdraw()
+                                .onSuccess {
+                                    navigator.resetRoot(LoginScreen)
+                                }
+                                .onFailure { exception ->
+                                    val handleErrorMessage = { message: String ->
+                                        Logger.e(message)
+                                        sideEffect = SettingsSideEffect.ShowToast(message)
+                                    }
+
+                                    handleException(
+                                        exception = exception,
+                                        onError = handleErrorMessage,
+                                        onLoginRequired = {
+                                            navigator.resetRoot(LoginScreen)
+                                        },
+                                    )
+                                }
+                        } finally {
+                            isLoading = false
+                        }
+                    }
+                    isWithdrawBottomSheetVisible = false
                 }
             }
         }
