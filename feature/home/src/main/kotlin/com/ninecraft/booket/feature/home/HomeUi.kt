@@ -93,7 +93,11 @@ internal fun HomeContent(
     state: HomeUiState,
     modifier: Modifier = Modifier,
 ) {
-    Box {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ReedTheme.colors.baseSecondary),
+    ) {
         when (state.uiState) {
             is UiState.Idle -> {}
             is UiState.Loading -> {
@@ -106,11 +110,7 @@ internal fun HomeContent(
             }
 
             is UiState.Success -> {
-                Column(
-                    modifier = modifier
-                        .fillMaxSize()
-                        .background(ReedTheme.colors.baseSecondary),
-                ) {
+                Column(modifier = modifier.fillMaxSize()) {
                     Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
                     Text(
                         text = stringResource(R.string.home_content_label_reading_now),
@@ -152,7 +152,8 @@ internal fun HomeContent(
                             horizontalArrangement = Arrangement.Center,
                         ) {
                             repeat(pagerState.pageCount) { iteration ->
-                                val color = if (pagerState.currentPage == iteration) ReedTheme.colors.bgPrimary else ReedTheme.colors.bgSecondaryPressed
+                                val color =
+                                    if (pagerState.currentPage == iteration) ReedTheme.colors.bgPrimary else ReedTheme.colors.bgSecondaryPressed
                                 Box(
                                     modifier = Modifier
                                         .size(12.dp)
@@ -165,6 +166,7 @@ internal fun HomeContent(
                     }
                 }
             }
+
             is UiState.Error -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
