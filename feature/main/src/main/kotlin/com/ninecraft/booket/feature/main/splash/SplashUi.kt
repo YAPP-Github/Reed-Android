@@ -57,13 +57,13 @@ fun SplashUi(
                 contentDescription = "Reed Logo",
                 modifier = Modifier.width(182.dp),
             )
-            Spacer(modifier.height(ReedTheme.spacing.spacing5))
+            Spacer(Modifier.height(ReedTheme.spacing.spacing5))
             Text(
                 text = stringResource(R.string.splash_title),
                 color = ReedTheme.colors.contentInverse,
                 style = ReedTheme.typography.heading2SemiBold,
             )
-            Spacer(modifier.height(ReedTheme.spacing.spacing8))
+            Spacer(Modifier.height(ReedTheme.spacing.spacing8))
         }
     }
 }
