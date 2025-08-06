@@ -26,8 +26,8 @@ class MainActivity : ComponentActivity() {
     lateinit var circuit: Circuit
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         installSplashScreen()
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         setContent {
