@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.CircularProgressIndicator
@@ -18,7 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
+import com.ninecraft.booket.core.designsystem.component.ResourceImage
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
@@ -48,33 +52,49 @@ internal fun LoginUi(
         verticalArrangement = Arrangement.Center,
     ) {
         Box(modifier = modifier.fillMaxSize()) {
-            Text(
-                text = "로그인",
-                modifier = Modifier.align(Alignment.Center),
-            )
-            ReedButton(
-                onClick = {
-                    state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
-                },
-                sizeStyle = largeButtonStyle,
-                colorStyle = ReedButtonColorStyle.KAKAO,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = ReedTheme.spacing.spacing5,
-                        end = ReedTheme.spacing.spacing5,
-                        bottom = ReedTheme.spacing.spacing8,
+            Column {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    ResourceImage(
+                        imageRes = R.drawable.img_reed_logo_big,
+                        contentDescription = "Reed Logo",
+                        modifier = Modifier.height(67.14.dp),
                     )
-                    .align(Alignment.BottomCenter),
-                text = stringResource(id = R.string.kakao_login),
-                leadingIcon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
-                        contentDescription = "Kakao Icon",
-                        tint = Color.Unspecified,
+                    Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
+                    Text(
+                        text = stringResource(R.string.login_reed_slogan),
+                        color = ReedTheme.colors.contentBrand,
+                        style = ReedTheme.typography.headline2SemiBold,
                     )
-                },
-            )
+                }
+                ReedButton(
+                    onClick = {
+                        state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
+                    },
+                    sizeStyle = largeButtonStyle,
+                    colorStyle = ReedButtonColorStyle.KAKAO,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = ReedTheme.spacing.spacing5,
+                            end = ReedTheme.spacing.spacing5,
+                            bottom = ReedTheme.spacing.spacing8,
+                        ),
+                    text = stringResource(id = R.string.kakao_login),
+                    leadingIcon = {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
+                            contentDescription = "Kakao Icon",
+                            tint = Color.Unspecified,
+                        )
+                    },
+                )
+            }
 
             if (state.isLoading) {
                 CircularProgressIndicator(
