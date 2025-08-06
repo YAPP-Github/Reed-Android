@@ -8,6 +8,8 @@ interface AuthRepository {
 
     suspend fun logout(): Result<Unit>
 
+    suspend fun withdraw(): Result<Unit>
+
     suspend fun agreeTerms(termsAgreed: Boolean): Result<Unit>
 
     val autoLoginState: Flow<AutoLoginState>
