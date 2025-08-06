@@ -36,6 +36,12 @@ fun HomeBanner(
     onBookRegisterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.home_seed))
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever,
+    )
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -81,13 +87,6 @@ fun HomeBanner(
                 .background(ReedTheme.colors.baseSecondary)
                 .align(Alignment.BottomCenter),
         )
-
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.home_seed))
-        val progress by animateLottieCompositionAsState(
-            composition = composition,
-            iterations = LottieConstants.IterateForever,
-        )
-
         LottieAnimation(
             composition = composition,
             progress = { progress },

@@ -76,7 +76,6 @@ fun BookCard(
     ) {
         Column(
             modifier = Modifier
-                .padding(bottom = ReedTheme.spacing.spacing6)
                 .noRippleClickable { onBookDetailClick() }
                 .padding(horizontal = ReedTheme.spacing.spacing5),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -141,8 +140,8 @@ fun BookCard(
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
         }
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
         Row(
             modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
             verticalAlignment = Alignment.CenterVertically,
