@@ -280,6 +280,6 @@ class RecordRegisterPresenter @AssistedInject constructor(
     }
 
     companion object {
-        const val MAX_PAGE = 1000
+        const val MAX_PAGE = 4032
     }
 }
