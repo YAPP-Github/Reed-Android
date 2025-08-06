@@ -19,18 +19,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -73,10 +78,16 @@ internal fun Ocr(
     state: OcrUiState,
     modifier: Modifier = Modifier,
 ) {
-    ReedFullScreen {
-        when (state.currentUi) {
-            OcrUi.CAMERA -> CameraPreview(state = state, modifier = modifier)
-            OcrUi.RESULT -> TextScanResult(state = state, modifier = modifier)
+    Scaffold(contentWindowInsets = WindowInsets(0.dp)) { innerPadding ->
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            when (state.currentUi) {
+                OcrUi.CAMERA -> CameraPreview(state = state, modifier = modifier)
+                OcrUi.RESULT -> TextScanResult(state = state, modifier = modifier)
+            }
         }
     }
 }
@@ -120,6 +131,20 @@ private fun CameraPreview(
     val systemUiController = rememberSystemUiController()
     val isDarkTheme = isSystemInDarkTheme()
 
+    DisposableEffect(systemUiController) {
+        systemUiController.setSystemBarsColor(
+            color = Neutral950,
+            isNavigationBarContrastEnforced = false,
+        )
+        onDispose {
+            systemUiController.setSystemBarsColor(
+                color = White,
+                darkIcons = !isDarkTheme,
+                isNavigationBarContrastEnforced = false,
+            )
+        }
+    }
+
     LaunchedEffect(Unit) {
         val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
         if (granted) {
@@ -141,27 +166,14 @@ private fun CameraPreview(
         }
     }
 
-    DisposableEffect(systemUiController) {
-        systemUiController.setSystemBarsColor(
-            color = Neutral950,
-            isNavigationBarContrastEnforced = false,
-        )
-        onDispose {
-            systemUiController.setSystemBarsColor(
-                color = White,
-                darkIcons = !isDarkTheme,
-                isNavigationBarContrastEnforced = false,
-            )
-        }
-    }
-
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(Neutral950)
+            .statusBarsPadding(),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Neutral950),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             ReedCloseTopAppBar(
@@ -265,7 +277,8 @@ private fun TextScanResult(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(White),
+            .background(White)
+            .systemBarsPadding(),
     ) {
         ReedCloseTopAppBar(
             title = stringResource(R.string.ocr_sentence_selection),
