@@ -5,7 +5,6 @@ import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
 import com.ninecraft.booket.core.model.AutoLoginState
 import com.ninecraft.booket.core.network.request.LoginRequest
-import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

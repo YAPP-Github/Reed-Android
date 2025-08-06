@@ -19,7 +19,7 @@ data class OcrUiState(
 sealed interface OcrUiEvent : CircuitUiEvent {
     data object OnCloseClick : OcrUiEvent
     data object OnShowPermissionDialog : OcrUiEvent
-    data object OnHidePermissionDialog: OcrUiEvent
+    data object OnHidePermissionDialog : OcrUiEvent
     data class OnFrameReceived(val imageProxy: ImageProxy) : OcrUiEvent
     data object OnCaptureButtonClick : OcrUiEvent
     data object OnReCaptureButtonClick : OcrUiEvent

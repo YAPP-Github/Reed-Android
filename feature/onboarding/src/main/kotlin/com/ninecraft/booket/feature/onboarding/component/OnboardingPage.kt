@@ -33,8 +33,8 @@ internal fun OnboardingPage(
         Spacer(modifier = Modifier.weight(1f))
         Image(
             painter = painterResource(imageRes),
-            contentDescription = "Onboarding Second Graphic",
-            modifier = Modifier.height(274.dp)
+            contentDescription = "Onboarding Graphic",
+            modifier = Modifier.height(274.dp),
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
         Text(
