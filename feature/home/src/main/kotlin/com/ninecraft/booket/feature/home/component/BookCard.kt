@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.home.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +38,6 @@ import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
-import com.ninecraft.booket.core.designsystem.component.ResourceImage
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.mediumButtonStyle
@@ -162,8 +162,8 @@ fun BookCard(
                     ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                ResourceImage(
-                    imageRes = R.drawable.img_seed_count,
+                Image(
+                    painter = painterResource(R.drawable.img_seed_count),
                     contentDescription = "Seed Count Image",
                     modifier = Modifier.size(32.dp),
                 )
@@ -236,8 +236,8 @@ fun EmptyBookCard(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(52.dp))
-        ResourceImage(
-            imageRes = R.drawable.img_empty_book,
+        Image(
+            painter = painterResource(R.drawable.img_empty_book),
             contentDescription = "Empty Book",
             modifier = Modifier.size(112.dp),
         )

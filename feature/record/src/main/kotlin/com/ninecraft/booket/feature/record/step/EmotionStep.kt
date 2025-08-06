@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.record.step
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -19,12 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.EmotionTag
-import com.ninecraft.booket.core.designsystem.component.ResourceImage
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
@@ -100,8 +101,8 @@ private fun EmotionItem(
             },
         contentAlignment = Alignment.Center,
     ) {
-        ResourceImage(
-            imageRes = emotionTag.graphic,
+        Image(
+            painter = painterResource(emotionTag.graphic),
             contentDescription = "Emotion Image",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
