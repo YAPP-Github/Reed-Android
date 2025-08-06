@@ -19,10 +19,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -156,35 +156,35 @@ private fun CameraPreview(
     }
 
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(Neutral950),
     ) {
-        Column(
+        ReedCloseTopAppBar(
             modifier = Modifier
-                .fillMaxSize()
-                .background(Neutral950),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            ReedCloseTopAppBar(
-                modifier = Modifier.background(color = Color.Black),
-                isDark = true,
-                onClose = {
-                    state.eventSink(OcrUiEvent.OnCloseClick)
-                },
-            )
-            Text(
-                text = stringResource(R.string.ocr_guide),
-                color = ReedTheme.colors.contentInverse,
-                textAlign = TextAlign.Center,
-                style = ReedTheme.typography.headline2Medium,
-            )
-        }
+                .background(color = Color.Black)
+                .align(Alignment.TopCenter),
+            isDark = true,
+            onClose = {
+                state.eventSink(OcrUiEvent.OnCloseClick)
+            },
+        )
+        Text(
+            text = stringResource(R.string.ocr_guide),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .offset(y = (-164).dp),
+            color = ReedTheme.colors.contentInverse,
+            textAlign = TextAlign.Center,
+            style = ReedTheme.typography.headline2Medium,
+        )
 
         if (state.hasPermission) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(White)
-                    .aspectRatio(1f)
+                    .height(200.dp)
                     .align(Alignment.Center),
             ) {
                 AndroidView(
