@@ -8,7 +8,6 @@ import kotlinx.collections.immutable.toPersistentList
 
 data class OcrUiState(
     val currentUi: OcrUi = OcrUi.CAMERA,
-    val hasPermission: Boolean = false,
     val isPermissionDialogVisible: Boolean = false,
     val sentenceList: ImmutableList<String> = emptyList<String>().toPersistentList(),
     val selectedIndices: Set<Int> = emptySet(),
@@ -19,8 +18,8 @@ data class OcrUiState(
 
 sealed interface OcrUiEvent : CircuitUiEvent {
     data object OnCloseClick : OcrUiEvent
-    data class OnCameraPermissionResult(val isGranted: Boolean) : OcrUiEvent
-    data object OnRequestPermissionDialog : OcrUiEvent
+    data object OnShowPermissionDialog : OcrUiEvent
+    data object OnHidePermissionDialog: OcrUiEvent
     data class OnFrameReceived(val imageProxy: ImageProxy) : OcrUiEvent
     data object OnCaptureButtonClick : OcrUiEvent
     data object OnReCaptureButtonClick : OcrUiEvent

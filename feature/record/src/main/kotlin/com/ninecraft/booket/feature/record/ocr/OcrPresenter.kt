@@ -25,7 +25,6 @@ class OcrPresenter @AssistedInject constructor(
     @Composable
     override fun present(): OcrUiState {
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
-        var hasPermission by rememberRetained { mutableStateOf(false) }
         var isPermissionDialogVisible by rememberRetained { mutableStateOf(false) }
         var sentenceList by rememberRetained { mutableStateOf(emptyList<String>().toPersistentList()) }
         var recognizedText by rememberRetained { mutableStateOf("") }
@@ -54,16 +53,12 @@ class OcrPresenter @AssistedInject constructor(
                     navigator.pop()
                 }
 
-                is OcrUiEvent.OnCameraPermissionResult -> {
-                    hasPermission = event.isGranted
-
-                    if (hasPermission) {
-                        isPermissionDialogVisible = false
-                    }
+                is OcrUiEvent.OnShowPermissionDialog -> {
+                    isPermissionDialogVisible = true
                 }
 
-                is OcrUiEvent.OnRequestPermissionDialog -> {
-                    isPermissionDialogVisible = true
+                is OcrUiEvent.OnHidePermissionDialog -> {
+                    isPermissionDialogVisible = false
                 }
 
                 is OcrUiEvent.OnFrameReceived -> {
@@ -115,7 +110,6 @@ class OcrPresenter @AssistedInject constructor(
 
         return OcrUiState(
             currentUi = currentUi,
-            hasPermission = hasPermission,
             isPermissionDialogVisible = isPermissionDialogVisible,
             sentenceList = sentenceList,
             selectedIndices = selectedIndices,
