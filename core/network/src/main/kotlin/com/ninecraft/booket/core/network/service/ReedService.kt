@@ -93,6 +93,11 @@ interface ReedService {
         @Query("size") size: Int = 20,
     ): ReadingRecordsResponse
 
+    @GET("api/v1/reading-records/{userBookId}/seed/stats")
+    suspend fun getSeedsStats(
+        @Path("userBookId") userBookId: String,
+    ): SeedResponse
+
     @GET("api/v1/reading-records/detail/{readingRecordId}")
     suspend fun getRecordDetail(
         @Path("readingRecordId") readingRecordId: String,
@@ -103,10 +108,4 @@ interface ReedService {
     suspend fun getHome(
         @Query("limit") limit: Int = 3,
     ): HomeResponse
-
-    // Seed (auth required)
-    @GET("api/v1/seeds/stats")
-    suspend fun getSeedsStats(
-        @Query("userBookId") userBookId: String,
-    ): SeedResponse
 }
