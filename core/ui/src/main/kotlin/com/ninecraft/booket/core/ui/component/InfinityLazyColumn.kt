@@ -83,7 +83,7 @@ private fun LazyListState.onLoadMore(
     }
 
     LaunchedEffect(reached) {
-        if (reached) action()
+        if (reached && layoutInfo.totalItemsCount > limitCount) action()
     }
 }
 
