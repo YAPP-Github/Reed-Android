@@ -219,8 +219,6 @@ class BookSearchPresenter @AssistedInject constructor(
             recentSearches = recentSearches.toImmutableList(),
             searchResult = searchResult,
             books = books,
-            startIndex = currentStartIndex,
-            isLastPage = isLastPage,
             selectedBookIsbn = selectedBookIsbn,
             isBookRegisterBottomSheetVisible = isBookRegisterBottomSheetVisible,
             selectedBookStatus = selectedBookStatus,

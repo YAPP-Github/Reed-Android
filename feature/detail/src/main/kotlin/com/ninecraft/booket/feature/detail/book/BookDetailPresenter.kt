@@ -249,8 +249,6 @@ class BookDetailPresenter @AssistedInject constructor(
             bookDetail = bookDetail,
             seedsStats = seedsStates,
             readingRecords = readingRecords,
-            currentStartIndex = currentStartIndex,
-            isLastPage = isLastPage,
             isBookUpdateBottomSheetVisible = isBookUpdateBottomSheetVisible,
             isRecordSortBottomSheetVisible = isRecordSortBottomSheetVisible,
             currentBookStatus = currentBookStatus,
