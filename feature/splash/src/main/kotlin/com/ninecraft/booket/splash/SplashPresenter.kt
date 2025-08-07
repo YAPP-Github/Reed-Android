@@ -1,9 +1,10 @@
-package com.ninecraft.booket.feature.main.splash
+package com.ninecraft.booket.splash
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
@@ -24,6 +25,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SplashPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -33,9 +35,26 @@ class SplashPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): SplashUiState {
+        val scope = rememberCoroutineScope()
         val onboardingState by userRepository.onboardingState.collectAsRetainedState(initial = OnboardingState.IDLE)
         val autoLoginState by authRepository.autoLoginState.collectAsRetainedState(initial = AutoLoginState.IDLE)
         var isSplashTimeCompleted by rememberRetained { mutableStateOf(false) }
+
+        fun checkTermsAgreement() {
+            scope.launch {
+                userRepository.getUserProfile()
+                    .onSuccess { userProfile ->
+                        if (userProfile.termsAgreed) {
+                            navigator.resetRoot(HomeScreen)
+                        } else {
+                            navigator.resetRoot(LoginScreen)
+                        }
+                    }
+                    .onFailure {
+                        navigator.resetRoot(LoginScreen)
+                    }
+            }
+        }
 
         LaunchedEffect(Unit) {
             delay(1000L)
@@ -53,7 +72,7 @@ class SplashPresenter @AssistedInject constructor(
                 OnboardingState.COMPLETED -> {
                     when (autoLoginState) {
                         AutoLoginState.LOGGED_IN -> {
-                            navigator.resetRoot(HomeScreen)
+                            checkTermsAgreement()
                         }
 
                         AutoLoginState.NOT_LOGGED_IN -> {
@@ -72,11 +91,7 @@ class SplashPresenter @AssistedInject constructor(
             }
         }
 
-        return SplashUiState(
-            idle = onboardingState == OnboardingState.IDLE || autoLoginState == AutoLoginState.IDLE,
-            onboardingState = onboardingState,
-            autoLoginState = autoLoginState,
-        )
+        return SplashUiState
     }
 
     @CircuitInject(SplashScreen::class, ActivityRetainedComponent::class)

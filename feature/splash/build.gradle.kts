@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ninecraft.booket.feature.main"
+    namespace = "com.ninecraft.booket.feature.splash"
 }
 
 ksp {
@@ -14,11 +14,7 @@ ksp {
 
 dependencies {
     implementations(
-        libs.androidx.activity.compose,
-        libs.androidx.splash,
-
         libs.compose.system.ui.controller,
-
         libs.logger,
     )
 }

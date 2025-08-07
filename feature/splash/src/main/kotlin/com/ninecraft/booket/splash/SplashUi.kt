@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.main.splash
+package com.ninecraft.booket.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,8 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.feature.main.R
 import com.ninecraft.booket.feature.screens.SplashScreen
+import com.ninecraft.booket.feature.splash.R
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
