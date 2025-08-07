@@ -4,13 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.screens.SplashScreen
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
@@ -27,18 +26,17 @@ class MainActivity : ComponentActivity() {
     lateinit var circuit: Circuit
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         installSplashScreen()
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         setContent {
             val systemUiController = rememberSystemUiController()
-            val isDarkTheme = isSystemInDarkTheme()
 
             DisposableEffect(systemUiController) {
                 systemUiController.setSystemBarsColor(
-                    color = White,
-                    darkIcons = !isDarkTheme,
+                    color = Color.Transparent,
+                    darkIcons = true,
                     isNavigationBarContrastEnforced = false,
                 )
 

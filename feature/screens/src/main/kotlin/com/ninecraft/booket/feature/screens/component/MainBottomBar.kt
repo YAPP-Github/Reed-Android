@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.main.component
+package com.ninecraft.booket.feature.screens.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -38,7 +38,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-internal fun MainBottomBar(
+fun MainBottomBar(
     tabs: ImmutableList<MainTab>,
     currentTab: MainTab?,
     onTabSelected: (MainTab) -> Unit,

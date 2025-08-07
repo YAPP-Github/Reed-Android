@@ -78,6 +78,14 @@ class HomePresenter @AssistedInject constructor(
                 is HomeUiEvent.OnBookDetailClick -> {
                     navigator.goTo(BookDetailScreen(""))
                 }
+
+                is HomeUiEvent.OnTabSelected -> {
+                    navigator.resetRoot(
+                        newRoot = event.tab.screen,
+                        saveState = true,
+                        restoreState = true,
+                    )
+                }
             }
         }
 

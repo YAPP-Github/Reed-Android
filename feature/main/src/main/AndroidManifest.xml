@@ -8,7 +8,7 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.Booket">
+            android:theme="@style/Theme.Booket.Splash">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

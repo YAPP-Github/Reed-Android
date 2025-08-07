@@ -12,13 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -26,15 +24,17 @@ import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.feature.home.component.BookCard
 import com.ninecraft.booket.feature.home.component.EmptyBookCard
 import com.ninecraft.booket.feature.home.component.HomeBanner
 import com.ninecraft.booket.feature.home.component.HomeHeader
 import com.ninecraft.booket.feature.screens.HomeScreen
+import com.ninecraft.booket.feature.screens.component.MainBottomBar
+import com.ninecraft.booket.feature.screens.component.MainTab
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
-import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
+import kotlinx.collections.immutable.toImmutableList
 
 @CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -42,44 +42,41 @@ internal fun HomeUi(
     state: HomeUiState,
     modifier: Modifier = Modifier,
 ) {
-    // TODO: Android 15에서 statusBar 색상 적용 안되는 문제 있음. 해결 예정.
-    val systemUiController = rememberSystemUiController()
-
-    DisposableEffect(systemUiController) {
-        systemUiController.setStatusBarColor(
-            color = HomeBg,
-            darkIcons = true,
-        )
-        onDispose {
-            systemUiController.setStatusBarColor(
-                color = White,
-                darkIcons = true,
-            )
-        }
-    }
-
     HandleHomeSideEffects(state = state)
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(HomeBg)
-            .statusBarsPadding(),
-    ) {
-        HomeHeader(
-            onSettingsClick = {
-                state.eventSink(HomeUiEvent.OnSettingsClick)
-            },
-        )
-        HomeBanner(
-            onBookRegisterClick = {
-                state.eventSink(HomeUiEvent.OnBookRegisterClick)
-            },
-        )
-        HomeContent(
-            state = state,
-            modifier = modifier,
-        )
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+        bottomBar = {
+            MainBottomBar(
+                tabs = MainTab.entries.toImmutableList(),
+                currentTab = MainTab.HOME,
+                onTabSelected = { tab ->
+                    state.eventSink(HomeUiEvent.OnTabSelected(tab))
+                },
+            )
+        },
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(HomeBg)
+                .padding(innerPadding),
+        ) {
+            HomeHeader(
+                onSettingsClick = {
+                    state.eventSink(HomeUiEvent.OnSettingsClick)
+                },
+            )
+            HomeBanner(
+                onBookRegisterClick = {
+                    state.eventSink(HomeUiEvent.OnBookRegisterClick)
+                },
+            )
+            HomeContent(
+                state = state,
+                modifier = Modifier,
+            )
+        }
     }
 }
 

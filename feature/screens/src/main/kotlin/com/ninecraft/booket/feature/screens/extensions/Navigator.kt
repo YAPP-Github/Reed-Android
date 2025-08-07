@@ -1,5 +1,6 @@
-package com.ninecraft.booket.feature.screens
+package com.ninecraft.booket.feature.screens.extensions
 
+import com.ninecraft.booket.feature.screens.ReedScreen
 import com.slack.circuit.runtime.Navigator
 import kotlinx.coroutines.delay
 
