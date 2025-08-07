@@ -90,6 +90,14 @@ class HomePresenter @AssistedInject constructor(
                 is HomeUiEvent.OnRetryClick -> {
                     loadHomeContent()
                 }
+
+                is HomeUiEvent.OnTabSelected -> {
+                    navigator.resetRoot(
+                        newRoot = event.tab.screen,
+                        saveState = true,
+                        restoreState = true,
+                    )
+                }
             }
         }
 

@@ -29,6 +29,7 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorSt
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -44,64 +45,68 @@ internal fun LoginUi(
         eventSink = state.eventSink,
     )
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(White)
-            .systemBarsPadding(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Box(modifier = modifier.fillMaxSize()) {
-            Column {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(
-                        painter = painterResource(R.drawable.img_reed_logo_big),
-                        contentDescription = "Reed Logo",
-                        modifier = Modifier.height(67.14.dp),
-                    )
-                    Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-                    Text(
-                        text = stringResource(R.string.login_reed_slogan),
-                        color = ReedTheme.colors.contentBrand,
-                        style = ReedTheme.typography.headline2SemiBold,
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+    ) { innerPadding ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .background(White)
+                .systemBarsPadding(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Box(modifier = modifier.fillMaxSize()) {
+                Column {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.img_reed_logo_big),
+                            contentDescription = "Reed Logo",
+                            modifier = Modifier.height(67.14.dp),
+                        )
+                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
+                        Text(
+                            text = stringResource(R.string.login_reed_slogan),
+                            color = ReedTheme.colors.contentBrand,
+                            style = ReedTheme.typography.headline2SemiBold,
+                        )
+                    }
+                    ReedButton(
+                        onClick = {
+                            state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
+                        },
+                        sizeStyle = largeButtonStyle,
+                        colorStyle = ReedButtonColorStyle.KAKAO,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = ReedTheme.spacing.spacing5,
+                                end = ReedTheme.spacing.spacing5,
+                                bottom = ReedTheme.spacing.spacing8,
+                            ),
+                        text = stringResource(id = R.string.kakao_login),
+                        leadingIcon = {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
+                                contentDescription = "Kakao Icon",
+                                tint = Color.Unspecified,
+                            )
+                        },
                     )
                 }
-                ReedButton(
-                    onClick = {
-                        state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
-                    },
-                    sizeStyle = largeButtonStyle,
-                    colorStyle = ReedButtonColorStyle.KAKAO,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = ReedTheme.spacing.spacing5,
-                            end = ReedTheme.spacing.spacing5,
-                            bottom = ReedTheme.spacing.spacing8,
-                        ),
-                    text = stringResource(id = R.string.kakao_login),
-                    leadingIcon = {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
-                            contentDescription = "Kakao Icon",
-                            tint = Color.Unspecified,
-                        )
-                    },
-                )
-            }
 
-            if (state.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = ReedTheme.colors.contentBrand,
-                )
+                if (state.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = ReedTheme.colors.contentBrand,
+                    )
+                }
             }
         }
     }

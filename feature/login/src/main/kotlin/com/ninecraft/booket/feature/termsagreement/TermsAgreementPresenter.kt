@@ -9,7 +9,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.constants.WebViewConstants
 import com.ninecraft.booket.core.data.api.repository.UserRepository
-import com.ninecraft.booket.feature.screens.BottomNavigationScreen
+import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.ninecraft.booket.feature.screens.WebViewScreen
 import com.orhanobut.logger.Logger
@@ -70,7 +70,7 @@ class TermsAgreementPresenter @AssistedInject constructor(
                     scope.launch {
                         userRepository.agreeTerms(true)
                             .onSuccess {
-                                navigator.resetRoot(BottomNavigationScreen)
+                                navigator.resetRoot(HomeScreen)
                             }.onFailure { exception ->
                                 exception.message?.let { Logger.e(it) }
                                 sideEffect = exception.message?.let {

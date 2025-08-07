@@ -17,7 +17,7 @@ import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.SearchScreen
-import com.ninecraft.booket.feature.screens.delayedGoTo
+import com.ninecraft.booket.feature.screens.extensions.delayedGoTo
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState

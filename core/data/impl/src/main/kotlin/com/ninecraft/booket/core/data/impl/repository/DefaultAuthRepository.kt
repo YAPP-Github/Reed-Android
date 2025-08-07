@@ -30,6 +30,11 @@ internal class DefaultAuthRepository @Inject constructor(
         clearTokens()
     }
 
+    override suspend fun withdraw() = runSuspendCatching {
+        service.withdraw()
+        clearTokens()
+    }
+
     private suspend fun saveTokens(accessToken: String, refreshToken: String) {
         tokenDataSource.apply {
             setAccessToken(accessToken)
