@@ -139,7 +139,7 @@ internal fun HomeContent(
                                     state.eventSink(
                                         HomeUiEvent.OnBookDetailClick(
                                             state.recentBooks[page].userBookId,
-                                            state.recentBooks[page].userBookId,
+                                            state.recentBooks[page].isbn13,
                                         ),
                                     )
                                 },

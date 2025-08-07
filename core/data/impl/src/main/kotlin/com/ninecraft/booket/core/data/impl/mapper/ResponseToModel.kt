@@ -212,6 +212,7 @@ internal fun HomeResponse.toModel(): HomeModel {
 internal fun RecentBook.toModel(): RecentBookModel {
     return RecentBookModel(
         userBookId = userBookId,
+        isbn13 = isbn13,
         title = title,
         author = author,
         publisher = publisher,

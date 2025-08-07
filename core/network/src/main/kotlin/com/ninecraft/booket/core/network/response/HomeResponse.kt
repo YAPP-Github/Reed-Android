@@ -13,6 +13,8 @@ data class HomeResponse(
 data class RecentBook(
     @SerialName("userBookId")
     val userBookId: String,
+    @SerialName("isbn13")
+    val isbn13: String,
     @SerialName("title")
     val title: String,
     @SerialName("author")

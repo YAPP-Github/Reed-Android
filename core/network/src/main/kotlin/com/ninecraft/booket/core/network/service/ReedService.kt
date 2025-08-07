@@ -11,9 +11,9 @@ import com.ninecraft.booket.core.network.response.BookUpsertResponse
 import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
-import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RecordDetailResponse
+import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.RefreshTokenResponse
 import com.ninecraft.booket.core.network.response.SeedResponse
 import com.ninecraft.booket.core.network.response.TermsAgreementResponse
@@ -63,7 +63,7 @@ interface ReedService {
 
     @GET("api/v1/books/detail")
     suspend fun getBookDetail(
-        @Query("isbn") isbn: String,
+        @Query("isbn13") isbn13: String,
     ): BookDetailResponse
 
     @PUT("api/v1/books/upsert")

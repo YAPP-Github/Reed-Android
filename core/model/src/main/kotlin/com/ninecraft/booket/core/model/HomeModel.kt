@@ -10,6 +10,7 @@ data class HomeModel(
 @Stable
 data class RecentBookModel(
     val userBookId: String = "",
+    val isbn13: String = "",
     val title: String = "",
     val author: String = "",
     val publisher: String = "",
