@@ -12,7 +12,6 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,9 +54,9 @@ import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.Neutral950
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedDialog
-import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.ocr.component.CameraFrame
 import com.ninecraft.booket.feature.record.ocr.component.SentenceBox
@@ -69,15 +68,13 @@ import com.ninecraft.booket.core.designsystem.R as designR
 
 @CircuitInject(OcrScreen::class, ActivityRetainedComponent::class)
 @Composable
-internal fun Ocr(
+internal fun OcrUi(
     state: OcrUiState,
     modifier: Modifier = Modifier,
 ) {
-    ReedFullScreen {
-        when (state.currentUi) {
-            OcrUi.CAMERA -> CameraPreview(state = state, modifier = modifier)
-            OcrUi.RESULT -> TextScanResult(state = state, modifier = modifier)
-        }
+    when (state.currentUi) {
+        OcrUi.CAMERA -> CameraPreview(state = state, modifier = modifier)
+        OcrUi.RESULT -> TextScanResult(state = state, modifier = modifier)
     }
 }
 
@@ -118,7 +115,22 @@ private fun CameraPreview(
     }
 
     val systemUiController = rememberSystemUiController()
-    val isDarkTheme = isSystemInDarkTheme()
+
+    DisposableEffect(systemUiController) {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = false,
+            isNavigationBarContrastEnforced = false,
+        )
+
+        onDispose {
+            systemUiController.setSystemBarsColor(
+                color = Color.Transparent,
+                darkIcons = true,
+                isNavigationBarContrastEnforced = false,
+            )
+        }
+    }
 
     LaunchedEffect(Unit) {
         val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
@@ -141,104 +153,94 @@ private fun CameraPreview(
         }
     }
 
-    DisposableEffect(systemUiController) {
-        systemUiController.setSystemBarsColor(
-            color = Neutral950,
-            isNavigationBarContrastEnforced = false,
-        )
-        onDispose {
-            systemUiController.setSystemBarsColor(
-                color = White,
-                darkIcons = !isDarkTheme,
-                isNavigationBarContrastEnforced = false,
-            )
-        }
-    }
-
-    Box(
+    ReedScaffold(
         modifier = modifier.fillMaxSize(),
-    ) {
-        Column(
+        containerColor = Neutral950,
+    ) { innerPadding ->
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Neutral950),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .padding(innerPadding),
         ) {
-            ReedCloseTopAppBar(
-                modifier = Modifier.background(color = Color.Black),
-                isDark = true,
-                onClose = {
-                    state.eventSink(OcrUiEvent.OnCloseClick)
-                },
-            )
-            Text(
-                text = stringResource(R.string.ocr_guide),
-                color = ReedTheme.colors.contentInverse,
-                textAlign = TextAlign.Center,
-                style = ReedTheme.typography.headline2Medium,
-            )
-        }
-
-        if (state.hasPermission) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(White)
-                    .aspectRatio(1f)
-                    .align(Alignment.Center),
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                AndroidView(
-                    modifier = Modifier.fillMaxSize(),
-                    factory = { context ->
-                        PreviewView(context).apply {
-                            layoutParams = LinearLayout.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                            )
-                            clipToOutline = true
-                            implementationMode = PreviewView.ImplementationMode.COMPATIBLE
-                            scaleType = PreviewView.ScaleType.FILL_CENTER
-                            controller = cameraController
-                        }
+                ReedCloseTopAppBar(
+                    isDark = true,
+                    onClose = {
+                        state.eventSink(OcrUiEvent.OnCloseClick)
                     },
                 )
-            }
-            CameraFrame(modifier = Modifier.align(Alignment.Center))
-        }
-
-        Column(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            if (state.isTextDetectionFailed) {
                 Text(
-                    text = stringResource(R.string.ocr_error_text_detection_failed),
-                    color = ReedTheme.colors.contentError,
+                    text = stringResource(R.string.ocr_guide),
+                    color = ReedTheme.colors.contentInverse,
                     textAlign = TextAlign.Center,
-                    style = ReedTheme.typography.label2Regular,
+                    style = ReedTheme.typography.headline2Medium,
                 )
-                Spacer(modifier = Modifier.height(22.dp))
             }
 
-            Button(
-                onClick = {
-                    state.eventSink(OcrUiEvent.OnCaptureButtonClick)
-                },
-                modifier = Modifier.size(72.dp),
-                shape = CircleShape,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = ReedTheme.colors.bgPrimary,
-                    contentColor = White,
-                ),
-                contentPadding = PaddingValues(ReedTheme.spacing.spacing0),
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(designR.drawable.ic_maximize),
-                    contentDescription = "Scan Icon",
-                    modifier = Modifier.size(ReedTheme.spacing.spacing8),
-                )
+            if (state.hasPermission) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(White)
+                        .aspectRatio(1f)
+                        .align(Alignment.Center),
+                ) {
+                    AndroidView(
+                        modifier = Modifier.fillMaxSize(),
+                        factory = { context ->
+                            PreviewView(context).apply {
+                                layoutParams = LinearLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                )
+                                clipToOutline = true
+                                implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+                                scaleType = PreviewView.ScaleType.FILL_CENTER
+                                controller = cameraController
+                            }
+                        },
+                    )
+                }
+                CameraFrame(modifier = Modifier.align(Alignment.Center))
             }
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+
+            Column(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                if (state.isTextDetectionFailed) {
+                    Text(
+                        text = stringResource(R.string.ocr_error_text_detection_failed),
+                        color = ReedTheme.colors.contentError,
+                        textAlign = TextAlign.Center,
+                        style = ReedTheme.typography.label2Regular,
+                    )
+                    Spacer(modifier = Modifier.height(22.dp))
+                }
+
+                Button(
+                    onClick = {
+                        state.eventSink(OcrUiEvent.OnCaptureButtonClick)
+                    },
+                    modifier = Modifier.size(72.dp),
+                    shape = CircleShape,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = ReedTheme.colors.bgPrimary,
+                        contentColor = White,
+                    ),
+                    contentPadding = PaddingValues(ReedTheme.spacing.spacing0),
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(designR.drawable.ic_maximize),
+                        contentDescription = "Scan Icon",
+                        modifier = Modifier.size(ReedTheme.spacing.spacing8),
+                    )
+                }
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+            }
         }
     }
 
@@ -262,61 +264,66 @@ private fun TextScanResult(
     state: OcrUiState,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(White),
-    ) {
-        ReedCloseTopAppBar(
-            title = stringResource(R.string.ocr_sentence_selection),
-            onClose = {
-                state.eventSink(OcrUiEvent.OnCloseClick)
-            },
-        )
-        LazyColumn(
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+        containerColor = White,
+    ) { innerPadding ->
+        Column(
             modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = ReedTheme.spacing.spacing3),
-            verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
+                .fillMaxSize()
+                .padding(innerPadding),
         ) {
-            items(state.sentenceList.size) { index ->
-                SentenceBox(
+            ReedCloseTopAppBar(
+                title = stringResource(R.string.ocr_sentence_selection),
+                onClose = {
+                    state.eventSink(OcrUiEvent.OnCloseClick)
+                },
+            )
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = ReedTheme.spacing.spacing3),
+                verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
+            ) {
+                items(state.sentenceList.size) { index ->
+                    SentenceBox(
+                        onClick = {
+                            state.eventSink(OcrUiEvent.OnSentenceSelected(index))
+                        },
+                        sentence = state.sentenceList[index],
+                        isSelected = state.selectedIndices.contains(index),
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = ReedTheme.spacing.spacing5,
+                        vertical = ReedTheme.spacing.spacing4,
+                    ),
+            ) {
+                ReedButton(
                     onClick = {
-                        state.eventSink(OcrUiEvent.OnSentenceSelected(index))
+                        state.eventSink(OcrUiEvent.OnReCaptureButtonClick)
                     },
-                    sentence = state.sentenceList[index],
-                    isSelected = state.selectedIndices.contains(index),
+                    sizeStyle = largeButtonStyle,
+                    colorStyle = ReedButtonColorStyle.SECONDARY,
+                    modifier = Modifier.weight(1f),
+                    text = stringResource(R.string.ocr_recapture),
+                )
+                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
+                ReedButton(
+                    onClick = {
+                        state.eventSink(OcrUiEvent.OnSelectionConfirmed)
+                    },
+                    sizeStyle = largeButtonStyle,
+                    colorStyle = ReedButtonColorStyle.PRIMARY,
+                    enabled = state.selectedIndices.isNotEmpty(),
+                    modifier = Modifier.weight(1f),
+                    text = stringResource(R.string.ocr_selection_confirm),
                 )
             }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = ReedTheme.spacing.spacing5,
-                    vertical = ReedTheme.spacing.spacing4,
-                ),
-        ) {
-            ReedButton(
-                onClick = {
-                    state.eventSink(OcrUiEvent.OnReCaptureButtonClick)
-                },
-                sizeStyle = largeButtonStyle,
-                colorStyle = ReedButtonColorStyle.SECONDARY,
-                modifier = Modifier.weight(1f),
-                text = stringResource(R.string.ocr_recapture),
-            )
-            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-            ReedButton(
-                onClick = {
-                    state.eventSink(OcrUiEvent.OnSelectionConfirmed)
-                },
-                sizeStyle = largeButtonStyle,
-                colorStyle = ReedButtonColorStyle.PRIMARY,
-                enabled = state.selectedIndices.isNotEmpty(),
-                modifier = Modifier.weight(1f),
-                text = stringResource(R.string.ocr_selection_confirm),
-            )
         }
     }
 

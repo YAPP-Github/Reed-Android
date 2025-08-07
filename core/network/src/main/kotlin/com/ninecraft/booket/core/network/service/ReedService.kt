@@ -19,6 +19,7 @@ import com.ninecraft.booket.core.network.response.SeedResponse
 import com.ninecraft.booket.core.network.response.TermsAgreementResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -37,10 +38,14 @@ interface ReedService {
     @POST("api/v1/auth/signout")
     suspend fun logout()
 
-    @PUT("api/v1/auth/terms-agreement")
+    @DELETE("api/v1/auth/withdraw")
+    suspend fun withdraw()
+
+    // User endpoints (auth required)
+    @PUT("api/v1/users/terms-agreement")
     suspend fun agreeTerms(@Body termsAgreementRequest: TermsAgreementRequest): TermsAgreementResponse
 
-    @GET("api/v1/auth/me")
+    @GET("api/v1/users/me")
     suspend fun getUserProfile(): UserProfileResponse
 
     // Book endpoints (auth required)

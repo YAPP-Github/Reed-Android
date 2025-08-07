@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Booket.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#FF2F9647</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_dummy_splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.Booket</item>
+    </style>
+
+</resources>

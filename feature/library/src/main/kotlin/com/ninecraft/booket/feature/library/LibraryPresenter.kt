@@ -136,6 +136,14 @@ class LibraryPresenter @AssistedInject constructor(
                 is LibraryUiEvent.OnRetryClick -> {
                     filterLibraryBooks(status = currentFilter.getApiValue(), page = currentPage, size = PAGE_SIZE)
                 }
+
+                is LibraryUiEvent.OnTabSelected -> {
+                    navigator.resetRoot(
+                        newRoot = event.tab.screen,
+                        saveState = true,
+                        restoreState = true,
+                    )
+                }
             }
         }
 

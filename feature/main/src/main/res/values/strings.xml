@@ -2,4 +2,5 @@
     <string name="home_label">홈</string>
     <string name="search_label">도서 검색</string>
     <string name="library_label">내 서재</string>
+    <string name="splash_title">책 덮기 전 한 문장을 기록해보세요</string>
 </resources>

@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.home
 
 import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.model.RecentBookModel
+import com.ninecraft.booket.feature.screens.component.MainTab
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
@@ -30,4 +31,5 @@ sealed interface HomeUiEvent : CircuitUiEvent {
         val userBookId: String,
         val isbn: String,
     ) : HomeUiEvent
+    data class OnTabSelected(val tab: MainTab) : HomeUiEvent
 }

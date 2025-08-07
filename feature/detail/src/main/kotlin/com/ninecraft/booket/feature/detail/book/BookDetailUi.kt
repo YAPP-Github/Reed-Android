@@ -3,6 +3,7 @@ package com.ninecraft.booket.feature.detail.book
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,28 +23,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.designsystem.ComponentPreview
+import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
-import com.ninecraft.booket.core.ui.component.LoadStateFooter
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
-import com.ninecraft.booket.core.ui.component.ReedFullScreen
-import com.ninecraft.booket.feature.detail.R
-import com.ninecraft.booket.feature.detail.book.component.BookItem
 import com.ninecraft.booket.feature.detail.book.component.BookUpdateBottomSheet
-import com.ninecraft.booket.feature.detail.book.component.CollectedSeeds
-import com.ninecraft.booket.feature.detail.book.component.ReadingRecordsHeader
-import com.ninecraft.booket.feature.detail.book.component.RecordItem
 import com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -68,14 +64,13 @@ internal fun BookDetailUi(
         eventSink = state.eventSink,
     )
 
-    ReedFullScreen(modifier = modifier) {
-        ReedBackTopAppBar(
-            title = "",
-            onBackClick = {
-                state.eventSink(BookDetailUiEvent.OnBackClick)
-            },
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+    ) { innerPadding ->
+        BookDetailContent(
+            state = state,
+            innerPadding = innerPadding,
         )
-        BookDetailContent(state = state)
     }
 
     if (state.isBookUpdateBottomSheetVisible) {
@@ -125,16 +120,28 @@ internal fun BookDetailUi(
 @Composable
 internal fun BookDetailContent(
     state: BookDetailUiState,
+    innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
     lazyListState: LazyListState = rememberLazyListState(),
 ) {
     InfinityLazyColumn(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(innerPadding),
         state = lazyListState,
         loadMore = {
             state.eventSink(BookDetailUiEvent.OnLoadMore)
         },
     ) {
+        item {
+            ReedBackTopAppBar(
+                title = "",
+                onBackClick = {
+                    state.eventSink(BookDetailUiEvent.OnBackClick)
+                },
+            )
+        }
+
         item {
             Column {
                 BookItem(bookDetail = state.bookDetail)

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.settings.R
@@ -59,25 +59,29 @@ internal fun OssLicenses(
         }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(White)
-            .systemBarsPadding(),
-    ) {
-        ReedBackTopAppBar(
-            title = stringResource(R.string.oss_licenses_title),
-            onBackClick = {
-                state.eventSink(OssLicensesUiEvent.OnBackClicked)
-            },
-        )
-        LazyColumn {
-            items(licenses) { license ->
-                OssLicenseItem(
-                    name = license.name,
-                    license = license.license,
-                    url = license.url,
-                )
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+        containerColor = White,
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+        ) {
+            ReedBackTopAppBar(
+                title = stringResource(R.string.oss_licenses_title),
+                onBackClick = {
+                    state.eventSink(OssLicensesUiEvent.OnBackClicked)
+                },
+            )
+            LazyColumn {
+                items(licenses) { license ->
+                    OssLicenseItem(
+                        name = license.name,
+                        license = license.license,
+                        url = license.url,
+                    )
+                }
             }
         }
     }

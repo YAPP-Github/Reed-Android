@@ -18,7 +18,8 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.ui.component.ReedFullScreen
+import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.feature.onboarding.component.OnboardingPage
 import com.ninecraft.booket.feature.onboarding.component.PagerIndicator
 import com.ninecraft.booket.feature.screens.OnboardingScreen
@@ -31,9 +32,14 @@ internal fun OnboardingUi(
     state: OnboardingUiState,
     modifier: Modifier = Modifier,
 ) {
-    ReedFullScreen(modifier = modifier) {
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+        containerColor = White,
+    ) { innerPadding ->
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             HorizontalPager(

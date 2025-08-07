@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -22,15 +23,19 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorSt
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
+import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.feature.library.component.FilterChipGroup
 import com.ninecraft.booket.feature.library.component.LibraryBookItem
 import com.ninecraft.booket.feature.library.component.LibraryHeader
 import com.ninecraft.booket.feature.screens.LibraryScreen
+import com.ninecraft.booket.feature.screens.component.MainBottomBar
+import com.ninecraft.booket.feature.screens.component.MainTab
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 @CircuitInject(LibraryScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -43,13 +48,37 @@ internal fun LibraryUi(
         eventSink = state.eventSink,
     )
 
-    Column(
+    ReedScaffold(
         modifier = modifier.fillMaxSize(),
-    ) {
-        LibraryContent(
-            state = state,
-            modifier = modifier,
-        )
+        bottomBar = {
+            MainBottomBar(
+                tabs = MainTab.entries.toImmutableList(),
+                currentTab = MainTab.LIBRARY,
+                onTabSelected = { tab ->
+                    state.eventSink(LibraryUiEvent.OnTabSelected(tab))
+                },
+            )
+        },
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+        ) {
+            LibraryHeader(
+                onSearchClick = {
+                    state.eventSink(LibraryUiEvent.OnLibrarySearchClick)
+                },
+                onSettingClick = {
+                    state.eventSink(LibraryUiEvent.OnSettingsClick)
+                },
+            )
+
+            LibraryContent(
+                state = state,
+                modifier = Modifier,
+            )
+        }
     }
 }
 
@@ -63,14 +92,6 @@ internal fun LibraryContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        LibraryHeader(
-            onSearchClick = {
-                state.eventSink(LibraryUiEvent.OnLibrarySearchClick)
-            },
-            onSettingClick = {
-                state.eventSink(LibraryUiEvent.OnSettingsClick)
-            },
-        )
         FilterChipGroup(
             filterList = state.filterChips,
             selectedChipOption = state.currentFilter,

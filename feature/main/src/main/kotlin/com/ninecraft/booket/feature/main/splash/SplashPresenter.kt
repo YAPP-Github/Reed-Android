@@ -1,24 +1,29 @@
 package com.ninecraft.booket.feature.main.splash
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.model.AutoLoginState
 import com.ninecraft.booket.core.model.OnboardingState
-import com.ninecraft.booket.feature.screens.BottomNavigationScreen
+import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.ninecraft.booket.feature.screens.SplashScreen
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
+import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.coroutines.delay
 
 class SplashPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -30,8 +35,16 @@ class SplashPresenter @AssistedInject constructor(
     override fun present(): SplashUiState {
         val onboardingState by userRepository.onboardingState.collectAsRetainedState(initial = OnboardingState.IDLE)
         val autoLoginState by authRepository.autoLoginState.collectAsRetainedState(initial = AutoLoginState.IDLE)
+        var isSplashTimeCompleted by rememberRetained { mutableStateOf(false) }
 
-        RememberedEffect(onboardingState, autoLoginState) {
+        LaunchedEffect(Unit) {
+            delay(1000L)
+            isSplashTimeCompleted = true
+        }
+
+        RememberedEffect(onboardingState, autoLoginState, isSplashTimeCompleted) {
+            if (!isSplashTimeCompleted) return@RememberedEffect
+
             when (onboardingState) {
                 OnboardingState.NOT_COMPLETED -> {
                     navigator.resetRoot(OnboardingScreen)
@@ -40,7 +53,7 @@ class SplashPresenter @AssistedInject constructor(
                 OnboardingState.COMPLETED -> {
                     when (autoLoginState) {
                         AutoLoginState.LOGGED_IN -> {
-                            navigator.resetRoot(BottomNavigationScreen)
+                            navigator.resetRoot(HomeScreen)
                         }
 
                         AutoLoginState.NOT_LOGGED_IN -> {
