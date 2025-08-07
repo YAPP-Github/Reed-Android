@@ -36,15 +36,23 @@ class HomePresenter @AssistedInject constructor(
     @Composable
     override fun present(): HomeUiState {
         val scope = rememberCoroutineScope()
+
+        var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var sideEffect by rememberRetained { mutableStateOf<HomeSideEffect?>(null) }
         var recentBooks by rememberRetained { mutableStateOf(persistentListOf<RecentBookModel>()) }
 
-        fun getHome() {
+        fun loadHomeContent() {
             scope.launch {
+                if (uiState == UiState.Idle || uiState == UiState.Error) {
+                    uiState = UiState.Loading
+                }
+
                 repository.getHome()
                     .onSuccess { result ->
+                        uiState = UiState.Success
                         recentBooks = result.recentBooks.toPersistentList()
                     }.onFailure { exception ->
+                        uiState = UiState.Error
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)
                             sideEffect = HomeSideEffect.ShowToast(message)
@@ -79,6 +87,10 @@ class HomePresenter @AssistedInject constructor(
                     navigator.goTo(BookDetailScreen(""))
                 }
 
+                is HomeUiEvent.OnRetryClick -> {
+                    loadHomeContent()
+                }
+
                 is HomeUiEvent.OnTabSelected -> {
                     navigator.resetRoot(
                         newRoot = event.tab.screen,
@@ -90,10 +102,11 @@ class HomePresenter @AssistedInject constructor(
         }
 
         LaunchedEffect(true) {
-            getHome()
+            loadHomeContent()
         }
 
         return HomeUiState(
+            uiState = uiState,
             recentBooks = recentBooks,
             eventSink = ::handleEvent,
         )

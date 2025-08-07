@@ -17,5 +17,7 @@ ksp {
 dependencies {
     implementations(
         libs.logger,
+
+        libs.lottie.compose,
     )
 }

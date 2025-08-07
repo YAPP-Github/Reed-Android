@@ -8,18 +8,24 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.component.ResourceImage
 import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.feature.home.R
@@ -30,11 +36,18 @@ fun HomeBanner(
     onBookRegisterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.home_seed))
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever,
+    )
+
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(160.dp)
-            .background(HomeBg),
+            .background(HomeBg)
+            .padding(end = ReedTheme.spacing.spacing5),
     ) {
         Column(
             modifier = Modifier.padding(
@@ -74,12 +87,12 @@ fun HomeBanner(
                 .background(ReedTheme.colors.baseSecondary)
                 .align(Alignment.BottomCenter),
         )
-        ResourceImage(
-            imageRes = R.drawable.img_home_seed,
-            contentDescription = "Home Seed Image",
+        LottieAnimation(
+            composition = composition,
+            progress = { progress },
             modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = ReedTheme.spacing.spacing5),
+                .size(144.dp)
+                .align(Alignment.BottomEnd),
         )
     }
 }

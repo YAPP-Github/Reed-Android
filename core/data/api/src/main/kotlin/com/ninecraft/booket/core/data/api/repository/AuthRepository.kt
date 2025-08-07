@@ -10,7 +10,5 @@ interface AuthRepository {
 
     suspend fun withdraw(): Result<Unit>
 
-    suspend fun agreeTerms(termsAgreed: Boolean): Result<Unit>
-
     val autoLoginState: Flow<AutoLoginState>
 }

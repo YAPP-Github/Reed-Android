@@ -15,6 +15,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 
 class OcrPresenter @AssistedInject constructor(
@@ -25,7 +26,6 @@ class OcrPresenter @AssistedInject constructor(
     @Composable
     override fun present(): OcrUiState {
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
-        var hasPermission by rememberRetained { mutableStateOf(false) }
         var isPermissionDialogVisible by rememberRetained { mutableStateOf(false) }
         var sentenceList by rememberRetained { mutableStateOf(emptyList<String>().toPersistentList()) }
         var recognizedText by rememberRetained { mutableStateOf("") }
@@ -54,16 +54,12 @@ class OcrPresenter @AssistedInject constructor(
                     navigator.pop()
                 }
 
-                is OcrUiEvent.OnCameraPermissionResult -> {
-                    hasPermission = event.isGranted
-
-                    if (hasPermission) {
-                        isPermissionDialogVisible = false
-                    }
+                is OcrUiEvent.OnShowPermissionDialog -> {
+                    isPermissionDialogVisible = true
                 }
 
-                is OcrUiEvent.OnRequestPermissionDialog -> {
-                    isPermissionDialogVisible = true
+                is OcrUiEvent.OnHidePermissionDialog -> {
+                    isPermissionDialogVisible = false
                 }
 
                 is OcrUiEvent.OnFrameReceived -> {
@@ -76,8 +72,11 @@ class OcrPresenter @AssistedInject constructor(
                     } else {
                         isTextDetectionFailed = false
 
-                        val parsedSentences = parseSentences(recognizedText)
-                        sentenceList = parsedSentences.toPersistentList()
+                        val sentences = recognizedText
+                            .split("\n")
+                            .map { it.trim() }
+                            .filter { it.isNotEmpty() }
+                        sentenceList = persistentListOf(*sentences.toTypedArray())
 
                         currentUi = OcrUi.RESULT
                     }
@@ -115,7 +114,6 @@ class OcrPresenter @AssistedInject constructor(
 
         return OcrUiState(
             currentUi = currentUi,
-            hasPermission = hasPermission,
             isPermissionDialogVisible = isPermissionDialogVisible,
             sentenceList = sentenceList,
             selectedIndices = selectedIndices,
@@ -129,20 +127,5 @@ class OcrPresenter @AssistedInject constructor(
     @AssistedFactory
     fun interface Factory {
         fun create(navigator: Navigator): OcrPresenter
-    }
-}
-
-fun parseSentences(text: String): List<String> {
-    val containsPunctuation = text.contains(Regex("[.!?]"))
-
-    return if (containsPunctuation) {
-        text.replace("\n", " ")
-            .split(Regex("(?<=[.!?])\\s+"))
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-    } else {
-        text.split("\n")
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
     }
 }
