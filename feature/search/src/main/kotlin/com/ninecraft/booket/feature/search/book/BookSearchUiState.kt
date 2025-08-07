@@ -50,7 +50,7 @@ sealed interface BookSearchUiEvent : CircuitUiEvent {
     data class OnRecentSearchRemoveClick(val query: String) : BookSearchUiEvent
     data class OnSearchClick(val text: String) : BookSearchUiEvent
     data object OnClearClick : BookSearchUiEvent
-    data class OnBookClick(val bookIsbn: String) : BookSearchUiEvent
+    data class OnBookClick(val isbn13: String) : BookSearchUiEvent
     data object OnLoadMore : BookSearchUiEvent
     data object OnRetryClick : BookSearchUiEvent
     data object OnBookRegisterBottomSheetDismiss : BookSearchUiEvent

@@ -97,7 +97,7 @@ internal fun BookUpsertResponse.toModel(): BookUpsertModel {
     return BookUpsertModel(
         userBookId = userBookId,
         userId = userId,
-        bookIsbn = bookIsbn,
+        isbn13 = isbn13,
         bookTitle = bookTitle,
         bookAuthor = bookAuthor,
         status = status,
@@ -105,6 +105,7 @@ internal fun BookUpsertResponse.toModel(): BookUpsertModel {
         publisher = publisher,
         createdAt = createdAt,
         updatedAt = updatedAt,
+        recordCount = recordCount,
     )
 }
 

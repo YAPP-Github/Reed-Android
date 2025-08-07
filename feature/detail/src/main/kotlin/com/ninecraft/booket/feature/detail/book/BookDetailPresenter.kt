@@ -116,9 +116,9 @@ class BookDetailPresenter @AssistedInject constructor(
             }
         }
 
-        fun upsertBook(bookIsbn: String, bookStatus: String) {
+        fun upsertBook(isbn13: String, bookStatus: String) {
             scope.launch {
-                bookRepository.upsertBook(bookIsbn, bookStatus)
+                bookRepository.upsertBook(isbn13, bookStatus)
                     .onSuccess {
                         currentBookStatus = BookStatus.fromValue(bookStatus) ?: BookStatus.BEFORE_READING
                         bookDetail = bookDetail.copy(userBookStatus = bookStatus)

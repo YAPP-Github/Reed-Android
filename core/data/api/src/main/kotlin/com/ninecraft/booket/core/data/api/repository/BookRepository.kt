@@ -19,10 +19,10 @@ interface BookRepository {
 
     suspend fun removeBookRecentSearch(query: String)
 
-    suspend fun getBookDetail(isbn: String): Result<BookDetailModel>
+    suspend fun getBookDetail(isbn13: String): Result<BookDetailModel>
 
     suspend fun upsertBook(
-        bookIsbn: String,
+        isbn13: String,
         bookStatus: String,
     ): Result<BookUpsertModel>
 

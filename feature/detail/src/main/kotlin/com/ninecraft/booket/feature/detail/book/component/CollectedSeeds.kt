@@ -99,8 +99,8 @@ private fun CollectedSeedPreview() {
             seedsStats = persistentListOf(
                 EmotionModel(Emotion.WARM, 3),
                 EmotionModel(Emotion.JOY, 2),
-                EmotionModel(Emotion.TENSION, 1),
-                EmotionModel(Emotion.SADNESS, 3),
+                EmotionModel(Emotion.SAD, 1),
+                EmotionModel(Emotion.INSIGHT, 3),
             ),
         )
     }

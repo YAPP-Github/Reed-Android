@@ -98,9 +98,9 @@ class BookSearchPresenter @AssistedInject constructor(
             }
         }
 
-        fun upsertBook(bookIsbn: String, bookStatus: String) {
+        fun upsertBook(isbn13: String, bookStatus: String) {
             scope.launch {
-                repository.upsertBook(bookIsbn, bookStatus)
+                repository.upsertBook(isbn13, bookStatus)
                     .onSuccess {
                         registeredUserBookId = it.userBookId
                         books = books.map { book ->
@@ -177,7 +177,7 @@ class BookSearchPresenter @AssistedInject constructor(
                 }
 
                 is BookSearchUiEvent.OnBookClick -> {
-                    selectedBookIsbn = event.bookIsbn
+                    selectedBookIsbn = event.isbn13
                     isBookRegisterBottomSheetVisible = true
                 }
 

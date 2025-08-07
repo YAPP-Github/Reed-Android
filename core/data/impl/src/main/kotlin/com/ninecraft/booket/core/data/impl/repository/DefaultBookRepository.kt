@@ -34,12 +34,12 @@ internal class DefaultBookRepository @Inject constructor(
         bookRecentSearchDataSource.removeRecentSearch(query)
     }
 
-    override suspend fun getBookDetail(isbn: String) = runSuspendCatching {
-        service.getBookDetail(isbn).toModel()
+    override suspend fun getBookDetail(isbn13: String) = runSuspendCatching {
+        service.getBookDetail(isbn13).toModel()
     }
 
-    override suspend fun upsertBook(bookIsbn: String, bookStatus: String) = runSuspendCatching {
-        service.upsertBook(BookUpsertRequest(bookIsbn, bookStatus)).toModel()
+    override suspend fun upsertBook(isbn13: String, bookStatus: String) = runSuspendCatching {
+        service.upsertBook(BookUpsertRequest(isbn13, bookStatus)).toModel()
     }
 
     override suspend fun filterLibraryBooks(status: String?, page: Int, size: Int) = runSuspendCatching {

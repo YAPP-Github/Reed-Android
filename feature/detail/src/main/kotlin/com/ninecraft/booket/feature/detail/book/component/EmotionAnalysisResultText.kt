@@ -15,8 +15,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.ninecraft.booket.core.common.util.analyzeEmotions
 import com.ninecraft.booket.core.common.util.EmotionDisplayType
+import com.ninecraft.booket.core.common.util.analyzeEmotions
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.Emotion
@@ -114,7 +114,7 @@ private fun EmotionTextAllCasesPreview() {
                 emotions = persistentListOf(
                     EmotionModel(name = Emotion.WARM, count = 5),
                     EmotionModel(name = Emotion.JOY, count = 5),
-                    EmotionModel(name = Emotion.SADNESS, count = 2),
+                    EmotionModel(name = Emotion.SAD, count = 2),
                 ),
                 brandColor = ReedTheme.colors.contentBrand,
                 secondaryColor = ReedTheme.colors.contentSecondary,
@@ -132,8 +132,8 @@ private fun EmotionTextAllCasesPreview() {
                 emotions = persistentListOf(
                     EmotionModel(name = Emotion.WARM, count = 3),
                     EmotionModel(name = Emotion.JOY, count = 3),
-                    EmotionModel(name = Emotion.SADNESS, count = 3),
-                    EmotionModel(name = Emotion.TENSION, count = 3),
+                    EmotionModel(name = Emotion.SAD, count = 3),
+                    EmotionModel(name = Emotion.INSIGHT, count = 3),
                 ),
                 brandColor = ReedTheme.colors.contentBrand,
                 secondaryColor = ReedTheme.colors.contentSecondary,
@@ -151,7 +151,7 @@ private fun EmotionTextAllCasesPreview() {
                 emotions = persistentListOf(
                     EmotionModel(name = Emotion.WARM, count = 0),
                     EmotionModel(name = Emotion.JOY, count = 0),
-                    EmotionModel(name = Emotion.SADNESS, count = 0),
+                    EmotionModel(name = Emotion.SAD, count = 0),
                 ),
                 brandColor = ReedTheme.colors.contentBrand,
                 secondaryColor = ReedTheme.colors.contentSecondary,

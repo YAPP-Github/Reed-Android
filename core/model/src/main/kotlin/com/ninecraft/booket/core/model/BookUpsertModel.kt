@@ -14,4 +14,5 @@ data class BookUpsertModel(
     val publisher: String,
     val createdAt: String,
     val updatedAt: String,
+    val recordCount: Int,
 )

@@ -18,8 +18,8 @@ enum class Emotion(
 ) {
     WARM("따뜻함"),
     JOY("즐거움"),
-    TENSION("긴장감"),
-    SADNESS("슬픔"),
+    SAD("슬픔"),
+    INSIGHT("깨달음"),
     ;
 
     companion object {
