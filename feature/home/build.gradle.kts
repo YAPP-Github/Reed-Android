@@ -18,6 +18,6 @@ dependencies {
     implementations(
         libs.logger,
 
-        libs.lottie.compose
+        libs.lottie.compose,
     )
 }
