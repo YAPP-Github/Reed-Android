@@ -31,6 +31,11 @@ internal class DefaultAuthRepository @Inject constructor(
         clearTokens()
     }
 
+    override suspend fun withdraw() = runSuspendCatching {
+        service.withdraw()
+        clearTokens()
+    }
+
     override suspend fun agreeTerms(termsAgreed: Boolean) = runSuspendCatching {
         service.agreeTerms(TermsAgreementRequest(termsAgreed))
         Unit
