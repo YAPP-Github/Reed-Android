@@ -32,6 +32,7 @@ internal fun BookItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = ReedTheme.spacing.spacing5),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         NetworkImage(
             imageUrl = bookDetail.coverImageUrl,

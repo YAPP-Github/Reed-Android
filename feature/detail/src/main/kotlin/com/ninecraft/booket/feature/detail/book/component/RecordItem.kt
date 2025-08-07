@@ -48,7 +48,7 @@ internal fun RecordItem(
             ),
     ) {
         Text(
-            text = "{$quote}",
+            text = "\"$quote\"",
             color = ReedTheme.colors.contentSecondary,
             overflow = TextOverflow.Ellipsis,
             maxLines = 4,

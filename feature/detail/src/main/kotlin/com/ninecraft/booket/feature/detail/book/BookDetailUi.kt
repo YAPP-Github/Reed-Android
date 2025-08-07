@@ -213,7 +213,7 @@ internal fun BookDetailContent(
                         state.eventSink(BookDetailUiEvent.OnRecordSortButtonClick)
                     },
                 )
-                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
             }
         }
 
