@@ -46,14 +46,6 @@ internal fun LibrarySearchUi(
 
     ReedScaffold(
         modifier = modifier,
-        topBar = {
-            ReedBackTopAppBar(
-                title = stringResource(R.string.library_search_title),
-                onBackClick = {
-                    state.eventSink(LibrarySearchUiEvent.OnBackClick)
-                },
-            )
-        },
         containerColor = White,
     ) { innerPadding ->
         LibrarySearchContent(
@@ -74,6 +66,12 @@ internal fun LibrarySearchContent(
             .fillMaxSize()
             .padding(innerPadding),
     ) {
+        ReedBackTopAppBar(
+            title = stringResource(R.string.library_search_title),
+            onBackClick = {
+                state.eventSink(LibrarySearchUiEvent.OnBackClick)
+            },
+        )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         ReedTextField(
             queryState = state.queryState,

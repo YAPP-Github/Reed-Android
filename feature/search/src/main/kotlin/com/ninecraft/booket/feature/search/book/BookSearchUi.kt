@@ -57,19 +57,23 @@ internal fun SearchUi(
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = White,
-        topBar = {
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+        ) {
             ReedBackTopAppBar(
                 title = stringResource(R.string.search_title),
                 onBackClick = {
                     state.eventSink(BookSearchUiEvent.OnBackClick)
                 },
             )
-        },
-    ) { innerPadding ->
-        SearchContent(
-            state = state,
-            modifier = Modifier.padding(innerPadding),
-        )
+            SearchContent(
+                state = state,
+                modifier = Modifier,
+            )
+        }
     }
 }
 

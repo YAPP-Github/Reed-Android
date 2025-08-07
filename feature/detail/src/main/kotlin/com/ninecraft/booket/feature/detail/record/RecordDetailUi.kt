@@ -50,16 +50,6 @@ internal fun RecordDetailUi(
 
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = {
-            ReedTopAppBar(
-                title = stringResource(R.string.review_detail_title),
-                startIconRes = designR.drawable.ic_close,
-                startIconDescription = "Close Icon",
-                startIconOnClick = {
-                    state.eventSink(RecordDetailUiEvent.OnCloseClicked)
-                },
-            )
-        },
         containerColor = White,
     ) { innerPadding ->
         ReviewDetailContent(
@@ -80,6 +70,14 @@ private fun ReviewDetailContent(
             .fillMaxSize()
             .padding(innerPadding),
     ) {
+        ReedTopAppBar(
+            title = stringResource(R.string.review_detail_title),
+            startIconRes = designR.drawable.ic_close,
+            startIconDescription = "Close Icon",
+            startIconOnClick = {
+                state.eventSink(RecordDetailUiEvent.OnCloseClicked)
+            },
+        )
         Row(
             modifier = modifier
                 .fillMaxWidth()

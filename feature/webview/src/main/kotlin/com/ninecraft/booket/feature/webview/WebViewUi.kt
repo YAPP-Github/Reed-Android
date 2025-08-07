@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -27,14 +27,6 @@ internal fun WebViewUi(
 ) {
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = {
-            ReedBackTopAppBar(
-                title = state.title,
-                onBackClick = {
-                    state.eventSink(WebViewUiEvent.OnBackButtonClick)
-                },
-            )
-        },
     ) { innerPadding ->
         WebViewContent(
             state = state,
@@ -50,11 +42,17 @@ internal fun WebViewContent(
     innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
-    Box(
+    Column(
         modifier = modifier
             .fillMaxSize()
             .padding(innerPadding),
     ) {
+        ReedBackTopAppBar(
+            title = state.title,
+            onBackClick = {
+                state.eventSink(WebViewUiEvent.OnBackButtonClick)
+            },
+        )
         AndroidView(
             factory = { context ->
                 WebView(context).apply {

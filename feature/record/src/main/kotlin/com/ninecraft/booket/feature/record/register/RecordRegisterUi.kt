@@ -47,13 +47,6 @@ internal fun RecordRegister(
 
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = {
-            ReedBackTopAppBar(
-                onBackClick = {
-                    state.eventSink(RecordRegisterUiEvent.OnBackButtonClick)
-                },
-            )
-        },
         containerColor = White,
     ) { innerPadding ->
         Column(
@@ -61,6 +54,11 @@ internal fun RecordRegister(
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
+            ReedBackTopAppBar(
+                onBackClick = {
+                    state.eventSink(RecordRegisterUiEvent.OnBackButtonClick)
+                },
+            )
             RecordProgressBar(
                 currentStep = state.currentStep,
                 modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),

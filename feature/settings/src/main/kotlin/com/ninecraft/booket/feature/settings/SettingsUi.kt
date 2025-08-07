@@ -61,14 +61,6 @@ internal fun SettingsUi(
         modifier = modifier
             .fillMaxSize()
             .background(White),
-        topBar = {
-            ReedBackTopAppBar(
-                title = stringResource(R.string.settings_title),
-                onBackClick = {
-                    state.eventSink(SettingsUiEvent.OnBackClick)
-                },
-            )
-        },
         containerColor = White,
     ) { innerPadding ->
         Column(
@@ -76,6 +68,12 @@ internal fun SettingsUi(
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
+            ReedBackTopAppBar(
+                title = stringResource(R.string.settings_title),
+                onBackClick = {
+                    state.eventSink(SettingsUiEvent.OnBackClick)
+                },
+            )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
             SettingItem(
                 title = stringResource(R.string.settings_privacy_policy),

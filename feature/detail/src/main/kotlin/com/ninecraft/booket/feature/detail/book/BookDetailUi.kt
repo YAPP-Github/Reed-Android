@@ -68,14 +68,6 @@ internal fun BookDetailUi(
 
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = {
-            ReedBackTopAppBar(
-                title = "",
-                onBackClick = {
-                    state.eventSink(BookDetailUiEvent.OnBackClick)
-                },
-            )
-        },
     ) { innerPadding ->
         BookDetailContent(
             state = state,
@@ -139,6 +131,12 @@ internal fun BookDetailContent(
             .padding(innerPadding)
             .verticalScroll(rememberScrollState()),
     ) {
+        ReedBackTopAppBar(
+            title = "",
+            onBackClick = {
+                state.eventSink(BookDetailUiEvent.OnBackClick)
+            },
+        )
         Row(
             modifier = modifier
                 .fillMaxWidth()

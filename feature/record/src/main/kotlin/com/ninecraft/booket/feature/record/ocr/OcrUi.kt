@@ -63,6 +63,7 @@ import com.ninecraft.booket.feature.record.ocr.component.SentenceBox
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @CircuitInject(OcrScreen::class, ActivityRetainedComponent::class)
@@ -113,6 +114,24 @@ private fun CameraPreview(
         }
     }
 
+    val systemUiController = rememberSystemUiController()
+
+    DisposableEffect(systemUiController) {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = false,
+            isNavigationBarContrastEnforced = false,
+        )
+
+        onDispose {
+            systemUiController.setSystemBarsColor(
+                color = Color.Transparent,
+                darkIcons = true,
+                isNavigationBarContrastEnforced = false,
+            )
+        }
+    }
+
     LaunchedEffect(Unit) {
         val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
         if (granted) {
@@ -137,15 +156,6 @@ private fun CameraPreview(
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = Neutral950,
-        topBar = {
-            ReedCloseTopAppBar(
-                modifier = Modifier.background(color = Color.Black),
-                isDark = true,
-                onClose = {
-                    state.eventSink(OcrUiEvent.OnCloseClick)
-                },
-            )
-        },
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -156,6 +166,12 @@ private fun CameraPreview(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                ReedCloseTopAppBar(
+                    isDark = true,
+                    onClose = {
+                        state.eventSink(OcrUiEvent.OnCloseClick)
+                    },
+                )
                 Text(
                     text = stringResource(R.string.ocr_guide),
                     color = ReedTheme.colors.contentInverse,
@@ -251,20 +267,18 @@ private fun TextScanResult(
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = White,
-        topBar = {
-            ReedCloseTopAppBar(
-                title = stringResource(R.string.ocr_sentence_selection),
-                onClose = {
-                    state.eventSink(OcrUiEvent.OnCloseClick)
-                },
-            )
-        },
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
+            ReedCloseTopAppBar(
+                title = stringResource(R.string.ocr_sentence_selection),
+                onClose = {
+                    state.eventSink(OcrUiEvent.OnCloseClick)
+                },
+            )
             LazyColumn(
                 modifier = Modifier
                     .weight(1f)
