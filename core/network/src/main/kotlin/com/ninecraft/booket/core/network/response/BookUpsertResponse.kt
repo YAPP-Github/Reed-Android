@@ -9,8 +9,8 @@ data class BookUpsertResponse(
     val userBookId: String,
     @SerialName("userId")
     val userId: String,
-    @SerialName("bookIsbn")
-    val bookIsbn: String,
+    @SerialName("isbn13")
+    val isbn13: String,
     @SerialName("bookTitle")
     val bookTitle: String,
     @SerialName("bookAuthor")
@@ -25,4 +25,6 @@ data class BookUpsertResponse(
     val createdAt: String,
     @SerialName("updatedAt")
     val updatedAt: String,
+    @SerialName("recordCount")
+    val recordCount: Int,
 )

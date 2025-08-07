@@ -15,8 +15,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.ninecraft.booket.core.common.util.analyzeEmotions
 import com.ninecraft.booket.core.common.util.EmotionDisplayType
+import com.ninecraft.booket.core.common.util.analyzeEmotions
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.Emotion
@@ -31,10 +31,12 @@ internal fun EmotionAnalysisResultText(
     secondaryColor: Color,
     emotionTextStyle: TextStyle,
     regularTextStyle: TextStyle,
-): AnnotatedString {
+): AnnotatedString? {
     val analysisResult = remember(emotions) { analyzeEmotions(emotions) }
 
     return when (analysisResult.displayType) {
+        EmotionDisplayType.NONE -> null
+
         EmotionDisplayType.SINGLE -> {
             val emotion = analysisResult.topEmotions.first()
             buildAnnotatedString {
@@ -42,7 +44,7 @@ internal fun EmotionAnalysisResultText(
                     append("이 책에서 ")
                 }
                 withStyle(SpanStyle(color = brandColor, fontSize = emotionTextStyle.fontSize, fontWeight = emotionTextStyle.fontWeight)) {
-                    append(emotion.type.displayName)
+                    append(emotion.name.displayName)
                 }
                 withStyle(SpanStyle(color = secondaryColor, fontSize = regularTextStyle.fontSize, fontWeight = regularTextStyle.fontWeight)) {
                     append(" 감정을 많이 느꼈어요")
@@ -63,7 +65,7 @@ internal fun EmotionAnalysisResultText(
                         }
                     }
                     withStyle(SpanStyle(color = brandColor, fontSize = emotionTextStyle.fontSize, fontWeight = emotionTextStyle.fontWeight)) {
-                        append(emotion.type.displayName)
+                        append(emotion.name.displayName)
                     }
                 }
                 withStyle(SpanStyle(color = secondaryColor, fontSize = regularTextStyle.fontSize, fontWeight = regularTextStyle.fontWeight)) {
@@ -91,51 +93,79 @@ private fun EmotionTextAllCasesPreview() {
     ReedTheme {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "1개의 감정이 1위인 경우:")
-            Text(
-                text = EmotionAnalysisResultText(
-                    emotions = persistentListOf(
-                        EmotionModel(type = Emotion.WARM, count = 5),
-                        EmotionModel(type = Emotion.JOY, count = 2),
-                    ),
-                    brandColor = ReedTheme.colors.contentBrand,
-                    secondaryColor = ReedTheme.colors.contentSecondary,
-                    emotionTextStyle = ReedTheme.typography.label2SemiBold,
-                    regularTextStyle = ReedTheme.typography.label2Regular,
+            EmotionAnalysisResultText(
+                emotions = persistentListOf(
+                    EmotionModel(name = Emotion.WARM, count = 5),
+                    EmotionModel(name = Emotion.JOY, count = 2),
                 ),
-                modifier = Modifier.padding(vertical = 8.dp),
-            )
+                brandColor = ReedTheme.colors.contentBrand,
+                secondaryColor = ReedTheme.colors.contentSecondary,
+                emotionTextStyle = ReedTheme.typography.label2SemiBold,
+                regularTextStyle = ReedTheme.typography.label2Regular,
+            )?.let { annotatedString ->
+                Text(
+                    text = annotatedString,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = "2개의 감정이 공동 1위인 경우:")
-            Text(
-                text = EmotionAnalysisResultText(
-                    emotions = persistentListOf(
-                        EmotionModel(type = Emotion.WARM, count = 5),
-                        EmotionModel(type = Emotion.JOY, count = 5),
-                        EmotionModel(type = Emotion.SADNESS, count = 2),
-                    ),
-                    brandColor = ReedTheme.colors.contentBrand,
-                    secondaryColor = ReedTheme.colors.contentSecondary,
-                    emotionTextStyle = ReedTheme.typography.label2SemiBold,
-                    regularTextStyle = ReedTheme.typography.label2Regular,
+            EmotionAnalysisResultText(
+                emotions = persistentListOf(
+                    EmotionModel(name = Emotion.WARM, count = 5),
+                    EmotionModel(name = Emotion.JOY, count = 5),
+                    EmotionModel(name = Emotion.SAD, count = 2),
                 ),
-                modifier = Modifier.padding(vertical = 8.dp),
-            )
+                brandColor = ReedTheme.colors.contentBrand,
+                secondaryColor = ReedTheme.colors.contentSecondary,
+                emotionTextStyle = ReedTheme.typography.label2SemiBold,
+                regularTextStyle = ReedTheme.typography.label2Regular,
+            )?.let { annotatedString ->
+                Text(
+                    text = annotatedString,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = "3~4개의 감정이 공동 1위인 경우:")
-            Text(
-                text = EmotionAnalysisResultText(
-                    emotions = persistentListOf(
-                        EmotionModel(type = Emotion.WARM, count = 3),
-                        EmotionModel(type = Emotion.JOY, count = 3),
-                        EmotionModel(type = Emotion.SADNESS, count = 3),
-                        EmotionModel(type = Emotion.TENSION, count = 3),
-                    ),
-                    brandColor = ReedTheme.colors.contentBrand,
-                    secondaryColor = ReedTheme.colors.contentSecondary,
-                    emotionTextStyle = ReedTheme.typography.label2SemiBold,
-                    regularTextStyle = ReedTheme.typography.label2Regular,
+            EmotionAnalysisResultText(
+                emotions = persistentListOf(
+                    EmotionModel(name = Emotion.WARM, count = 3),
+                    EmotionModel(name = Emotion.JOY, count = 3),
+                    EmotionModel(name = Emotion.SAD, count = 3),
+                    EmotionModel(name = Emotion.INSIGHT, count = 3),
                 ),
+                brandColor = ReedTheme.colors.contentBrand,
+                secondaryColor = ReedTheme.colors.contentSecondary,
+                emotionTextStyle = ReedTheme.typography.label2SemiBold,
+                regularTextStyle = ReedTheme.typography.label2Regular,
+            )?.let { annotatedString ->
+                Text(
+                    text = annotatedString,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = "모든 감정의 count가 0인 경우:")
+            EmotionAnalysisResultText(
+                emotions = persistentListOf(
+                    EmotionModel(name = Emotion.WARM, count = 0),
+                    EmotionModel(name = Emotion.JOY, count = 0),
+                    EmotionModel(name = Emotion.SAD, count = 0),
+                ),
+                brandColor = ReedTheme.colors.contentBrand,
+                secondaryColor = ReedTheme.colors.contentSecondary,
+                emotionTextStyle = ReedTheme.typography.label2SemiBold,
+                regularTextStyle = ReedTheme.typography.label2Regular,
+            )?.let { annotatedString ->
+                Text(
+                    text = annotatedString,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                )
+            } ?: Text(
+                text = "null 반환 - 표시되지 않음",
                 modifier = Modifier.padding(vertical = 8.dp),
+                color = ReedTheme.colors.contentSecondary,
             )
         }
     }

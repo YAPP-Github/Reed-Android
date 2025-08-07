@@ -15,14 +15,17 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.feature.detail.R
-import com.ninecraft.booket.feature.detail.book.BookDetailUiEvent
-import com.ninecraft.booket.feature.detail.book.BookDetailUiState
+import com.ninecraft.booket.feature.detail.book.RecordSort
+import kotlinx.collections.immutable.ImmutableList
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
-internal fun RecordsCollectionHeader(
-    state: BookDetailUiState,
+internal fun ReadingRecordsHeader(
+    readingRecords: ImmutableList<ReadingRecordModel>,
+    currentRecordSort: RecordSort,
+    onReadingRecordClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -38,18 +41,16 @@ internal fun RecordsCollectionHeader(
             )
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
             Text(
-                text = "${state.recordCollections.size}",
+                text = "${readingRecords.size}",
                 color = ReedTheme.colors.contentBrand,
                 style = ReedTheme.typography.headline2SemiBold,
             )
         }
         Row(
-            modifier = Modifier.clickable {
-                state.eventSink(BookDetailUiEvent.OnRecordSortButtonClick)
-            },
+            modifier = Modifier.clickable { onReadingRecordClick() },
         ) {
             Text(
-                text = stringResource(state.currentRecordSort.getDisplayNameRes()),
+                text = stringResource(currentRecordSort.getDisplayNameRes()),
                 color = ReedTheme.colors.contentSecondary,
                 style = ReedTheme.typography.label1Medium,
             )

@@ -45,5 +45,6 @@ include(
     ":feature:screens",
     ":feature:search",
     ":feature:settings",
+    ":feature:splash",
     ":feature:webview",
 )

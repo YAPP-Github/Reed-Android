@@ -119,7 +119,12 @@ class LibraryPresenter @AssistedInject constructor(
                 }
 
                 is LibraryUiEvent.OnBookClick -> {
-                    navigator.goTo(BookDetailScreen(isbn13 = event.isbn13))
+                    navigator.goTo(
+                        BookDetailScreen(
+                            userBookId = event.userBookId,
+                            isbn13 = event.isbn13,
+                        ),
+                    )
                 }
 
                 is LibraryUiEvent.OnLoadMore -> {

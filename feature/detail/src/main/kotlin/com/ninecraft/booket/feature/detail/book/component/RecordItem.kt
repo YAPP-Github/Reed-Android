@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.detail.book.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,16 +18,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.component.ResourceImage
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.feature.detail.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import com.ninecraft.booket.core.designsystem.R as designR
 
-@Suppress("unused")
 @Composable
 internal fun RecordItem(
     quote: String,
@@ -48,7 +48,7 @@ internal fun RecordItem(
             ),
     ) {
         Text(
-            text = quote,
+            text = "\"$quote\"",
             color = ReedTheme.colors.contentSecondary,
             overflow = TextOverflow.Ellipsis,
             maxLines = 4,
@@ -59,8 +59,8 @@ internal fun RecordItem(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ResourceImage(
-                imageRes = designR.drawable.ic_placeholder,
+            Image(
+                painter = painterResource(getEmotionImageResourceByDisplayName(emotionTags[0])),
                 contentDescription = "Emotion Graphic",
                 modifier = Modifier
                     .size(40.dp)
@@ -69,7 +69,7 @@ internal fun RecordItem(
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
             Column {
                 Text(
-                    text = "#감동·공감",
+                    text = "#${emotionTags[0]}",
                     color = ReedTheme.colors.contentBrand,
                     style = ReedTheme.typography.label1SemiBold,
                 )
@@ -86,6 +86,16 @@ internal fun RecordItem(
                 style = ReedTheme.typography.body2Medium,
             )
         }
+    }
+}
+
+private fun getEmotionImageResourceByDisplayName(displayName: String): Int {
+    return when (displayName) {
+        "따뜻함" -> R.drawable.img_warm
+        "즐거움" -> R.drawable.img_joy
+        "슬픔" -> R.drawable.img_sad
+        "깨달음" -> R.drawable.img_insight
+        else -> R.drawable.img_warm
     }
 }
 

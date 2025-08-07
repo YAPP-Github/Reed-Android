@@ -9,4 +9,5 @@
     <string name="record_collection">내 기록 모음</string>
     <string name="collected_seed_title">내가 모은 씨앗</string>
     <string name="records_collection_empty">첫 기록을 남겨 보세요!\n나만의 아카이브를 만들 수 있어요.</string>
+    <string name="register_book_record">독서 기록 추가</string>
 </resources>

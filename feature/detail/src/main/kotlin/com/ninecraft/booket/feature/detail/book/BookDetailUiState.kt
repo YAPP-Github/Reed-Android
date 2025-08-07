@@ -3,67 +3,44 @@ package com.ninecraft.booket.feature.detail.book
 import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.common.R
 import com.ninecraft.booket.core.common.constants.BookStatus
-import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.EmotionModel
-import com.ninecraft.booket.core.model.RecordRegisterModel
+import com.ninecraft.booket.core.model.ReadingRecordModel
+import com.ninecraft.booket.core.ui.component.FooterState
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
+sealed interface UiState {
+    data object Idle : UiState
+    data object Loading : UiState
+    data object Success : UiState
+    data class Error(val message: String) : UiState
+}
+
 data class BookDetailUiState(
+    val uiState: UiState = UiState.Idle,
+    val footerState: FooterState = FooterState.Idle,
+    val isLoading: Boolean = false,
+    val bookDetail: BookDetailModel = BookDetailModel(),
+    val seedsStats: ImmutableList<EmotionModel> = persistentListOf(),
+    val readingRecords: ImmutableList<ReadingRecordModel> = persistentListOf(),
+    val currentStartIndex: Int = 1,
+    val isLastPage: Boolean = false,
+    val currentBookStatus: BookStatus = BookStatus.BEFORE_READING,
+    val currentRecordSort: RecordSort = RecordSort.PAGE_NUMBER_ASC,
     val isBookUpdateBottomSheetVisible: Boolean = false,
     val isRecordSortBottomSheetVisible: Boolean = false,
-    val emotionList: ImmutableList<EmotionModel> = persistentListOf(
-        EmotionModel(
-            type = Emotion.WARM,
-            count = 3,
-        ),
-        EmotionModel(
-            type = Emotion.JOY,
-            count = 1,
-        ),
-        EmotionModel(
-            type = Emotion.TENSION,
-            count = 2,
-        ),
-        EmotionModel(
-            type = Emotion.SADNESS,
-            count = 2,
-        ),
-    ),
-    val currentBookStatus: BookStatus = BookStatus.BEFORE_READING,
-    val currentRecordSort: RecordSort = RecordSort.PAGE_ASCENDING,
-    val recordCollections: ImmutableList<RecordRegisterModel> = persistentListOf(
-        RecordRegisterModel(
-            id = "0",
-            pageNumber = 12,
-            quote = "“책을 읽으면 차분해지며 숲으로 둘러싸인 여름 별장 속으로 간 것 같은 기분이 든다. 그 곳에서 그들이 품은 건축에 대한 이상과 삶을 구경하는 것만으로도 충분했다.책을 읽으면 차분해지며 숲으로 둘러싸인 여름 별장 속으로 간 것 같은 기분이 든다. 그 곳에서 그들이 품은 건축에 대한 이상과 삶을 구경하는 것만으로도 충분했다.“",
-            createdAt = "2025.06.25",
-        ),
-        RecordRegisterModel(
-            id = "1",
-            pageNumber = 13,
-            quote = "“책을 읽으면 차분해지며 숲으로 둘러싸인 여름 별장 속으로 간 것 같은 기분이 든다. 그 곳에서 그들이 품은 건축에 대한 이상과 삶을 구경하는 것만으로도 충분했다.책을 읽으면 차분해지며 숲으로 둘러싸인 여름 별장 속으로 간 것 같은 기분이 든다. 그 곳에서 그들이 품은 건축에 대한 이상과 삶을 구경하는 것만으로도 충분했다.“",
-            createdAt = "2025.06.25",
-        ),
-        RecordRegisterModel(
-            id = "2",
-            pageNumber = 14,
-            quote = "“책을 읽으면 차분해지며 숲으로 둘러싸인 여름 별장 속으로 간 것 같은 기분이 든다. 그 곳에서 그들이 품은 건축에 대한 이상과 삶을 구경하는 것만으로도 충분했다.책을 읽으면 차분해지며 숲으로 둘러싸인 여름 별장 속으로 간 것 같은 기분이 든다. 그 곳에서 그들이 품은 건축에 대한 이상과 삶을 구경하는 것만으로도 충분했다.“",
-            createdAt = "2025.06.25",
-        ),
-        RecordRegisterModel(
-            id = "3",
-            pageNumber = 15,
-            quote = "“책을 읽으면 차분해지며 숲으로 둘러싸인 여름 별장 속으로 간 것 같은 기분이 든다. 그 곳에서 그들이 품은 건축에 대한 이상과 삶을 구경하는 것만으로도 충분했다.책을 읽으면 차분해지며 숲으로 둘러싸인 여름 별장 속으로 간 것 같은 기분이 든다. 그 곳에서 그들이 품은 건축에 대한 이상과 삶을 구경하는 것만으로도 충분했다.“",
-            createdAt = "2025.06.25",
-        ),
-    ),
     val sideEffect: BookDetailSideEffect? = null,
     val eventSink: (BookDetailUiEvent) -> Unit,
-) : CircuitUiState
+) : CircuitUiState {
+
+    fun hasEmotionData(): Boolean {
+        return seedsStats.any { it.count > 0 }
+    }
+}
 
 @Immutable
 sealed interface BookDetailSideEffect {
@@ -85,17 +62,18 @@ sealed interface BookDetailUiEvent : CircuitUiEvent {
     data object OnRecordSortBottomSheetDismiss : BookDetailUiEvent
     data class OnRecordSortItemSelected(val sortType: RecordSort) : BookDetailUiEvent
     data class OnRecordItemClick(val recordId: String) : BookDetailUiEvent
+    data object OnLoadMore : BookDetailUiEvent
 }
 
 enum class RecordSort(val value: String) {
-    PAGE_ASCENDING("PAGE_ASCENDING"),
-    RECENT_REGISTER("RECENT_REGISTER"),
+    PAGE_NUMBER_ASC("PAGE_NUMBER_ASC"),
+    CREATED_DATE_DESC("CREATED_DATE_DESC"),
     ;
 
     fun getDisplayNameRes(): Int {
         return when (this) {
-            PAGE_ASCENDING -> R.string.record_sort_page_ascending
-            RECENT_REGISTER -> R.string.record_sort_recent_register
+            PAGE_NUMBER_ASC -> R.string.record_sort_page_ascending
+            CREATED_DATE_DESC -> R.string.record_sort_recent_register
         }
     }
 

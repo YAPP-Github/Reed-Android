@@ -6,7 +6,7 @@ import androidx.compose.runtime.Stable
 data class BookUpsertModel(
     val userBookId: String,
     val userId: String,
-    val bookIsbn: String,
+    val isbn13: String,
     val bookTitle: String,
     val bookAuthor: String,
     val status: String,
@@ -14,4 +14,5 @@ data class BookUpsertModel(
     val publisher: String,
     val createdAt: String,
     val updatedAt: String,
+    val recordCount: Int,
 )

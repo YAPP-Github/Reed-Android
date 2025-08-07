@@ -6,27 +6,36 @@ import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.model.BookUpsertModel
+import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.EmotionModel
 import com.ninecraft.booket.core.model.HomeModel
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.model.LibraryBooksModel
 import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.PageInfoModel
+import com.ninecraft.booket.core.model.ReadingRecordModel
+import com.ninecraft.booket.core.model.ReadingRecordsModel
 import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.core.model.RecordDetailModel
 import com.ninecraft.booket.core.model.RecordRegisterModel
+import com.ninecraft.booket.core.model.SeedModel
 import com.ninecraft.booket.core.model.UserProfileModel
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookSummary
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
+import com.ninecraft.booket.core.network.response.Category
 import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryBookSummary
 import com.ninecraft.booket.core.network.response.LibraryBooks
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.PageInfo
+import com.ninecraft.booket.core.network.response.ReadingRecord
+import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RecentBook
 import com.ninecraft.booket.core.network.response.RecordDetailResponse
 import com.ninecraft.booket.core.network.response.RecordRegisterResponse
+import com.ninecraft.booket.core.network.response.SeedResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
 
 internal fun UserProfileResponse.toModel(): UserProfileModel {
@@ -74,18 +83,13 @@ internal fun BookDetailResponse.toModel(): BookDetailModel {
         author = author,
         pubDate = pubDate,
         description = description,
-        isbn = isbn,
         isbn13 = isbn13,
-        itemId = itemId,
-        priceSales = priceSales,
-        priceStandard = priceStandard,
         mallType = mallType,
-        stockStatus = stockStatus,
-        mileage = mileage,
-        cover = cover,
-        categoryId = categoryId,
+        coverImageUrl = coverImageUrl,
         categoryName = categoryName,
         publisher = publisher,
+        totalPage = totalPage,
+        userBookStatus = userBookStatus,
     )
 }
 
@@ -93,7 +97,7 @@ internal fun BookUpsertResponse.toModel(): BookUpsertModel {
     return BookUpsertModel(
         userBookId = userBookId,
         userId = userId,
-        bookIsbn = bookIsbn,
+        isbn13 = isbn13,
         bookTitle = bookTitle,
         bookAuthor = bookAuthor,
         status = status,
@@ -101,6 +105,7 @@ internal fun BookUpsertResponse.toModel(): BookUpsertModel {
         publisher = publisher,
         createdAt = createdAt,
         updatedAt = updatedAt,
+        recordCount = recordCount,
     )
 }
 
@@ -125,15 +130,15 @@ internal fun LibraryBookSummary.toModel(): LibraryBookSummaryModel {
     return LibraryBookSummaryModel(
         userBookId = userBookId,
         userId = userId,
-        bookIsbn = bookIsbn,
+        isbn13 = isbn13,
         bookTitle = bookTitle,
         bookAuthor = bookAuthor,
         status = status,
-        recordCount = recordCount,
         coverImageUrl = coverImageUrl,
         publisher = publisher,
         createdAt = createdAt,
         updatedAt = updatedAt,
+        recordCount = recordCount,
     )
 }
 
@@ -156,6 +161,29 @@ internal fun RecordRegisterResponse.toModel(): RecordRegisterModel {
         review = review,
         createdAt = createdAt,
         updatedAt = updatedAt,
+    )
+}
+
+internal fun ReadingRecordsResponse.toModel(): ReadingRecordsModel {
+    return ReadingRecordsModel(
+        content = content.map { it.toModel() },
+        page = page.toModel(),
+    )
+}
+
+internal fun ReadingRecord.toModel(): ReadingRecordModel {
+    return ReadingRecordModel(
+        id = id,
+        userBookId = userBookId,
+        pageNumber = pageNumber,
+        quote = quote,
+        review = review,
+        emotionTags = emotionTags,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        bookTitle = bookTitle,
+        bookPublisher = bookPublisher,
+        bookCoverImageUrl = bookCoverImageUrl,
     )
 }
 
@@ -185,11 +213,26 @@ internal fun HomeResponse.toModel(): HomeModel {
 internal fun RecentBook.toModel(): RecentBookModel {
     return RecentBookModel(
         userBookId = userBookId,
+        isbn13 = isbn13,
         title = title,
         author = author,
         publisher = publisher,
         coverImageUrl = coverImageUrl,
         lastRecordedAt = lastRecordedAt,
         recordCount = recordCount,
+    )
+}
+
+internal fun SeedResponse.toModel(): SeedModel {
+    return SeedModel(
+        categories = categories.mapNotNull { it.toEmotionModel() },
+    )
+}
+
+internal fun Category.toEmotionModel(): EmotionModel? {
+    val emotion = Emotion.fromDisplayName(name) ?: return null
+    return EmotionModel(
+        name = emotion,
+        count = count,
     )
 }

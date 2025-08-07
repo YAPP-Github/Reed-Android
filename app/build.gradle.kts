@@ -86,6 +86,7 @@ dependencies {
         projects.feature.screens,
         projects.feature.search,
         projects.feature.settings,
+        projects.feature.splash,
         projects.feature.webview,
 
         libs.androidx.activity.compose,

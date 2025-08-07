@@ -31,16 +31,14 @@ data class LibraryBookSummary(
     val userBookId: String,
     @SerialName("userId")
     val userId: String,
-    @SerialName("bookIsbn")
-    val bookIsbn: String,
+    @SerialName("isbn13")
+    val isbn13: String,
     @SerialName("bookTitle")
     val bookTitle: String,
     @SerialName("bookAuthor")
     val bookAuthor: String,
     @SerialName("status")
     val status: String,
-    @SerialName("recordCount")
-    val recordCount: Int,
     @SerialName("coverImageUrl")
     val coverImageUrl: String,
     @SerialName("publisher")
@@ -49,6 +47,8 @@ data class LibraryBookSummary(
     val createdAt: String,
     @SerialName("updatedAt")
     val updatedAt: String,
+    @SerialName("recordCount")
+    val recordCount: Int,
 )
 
 @Serializable

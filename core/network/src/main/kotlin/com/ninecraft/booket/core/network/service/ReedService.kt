@@ -11,9 +11,11 @@ import com.ninecraft.booket.core.network.response.BookUpsertResponse
 import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
+import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RecordDetailResponse
 import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.RefreshTokenResponse
+import com.ninecraft.booket.core.network.response.SeedResponse
 import com.ninecraft.booket.core.network.response.TermsAgreementResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
 import retrofit2.http.Body
@@ -61,9 +63,7 @@ interface ReedService {
 
     @GET("api/v1/books/detail")
     suspend fun getBookDetail(
-        @Query("itemId") itemId: String,
-        @Query("itemIdType") itemIdType: String = "ISBN",
-        @Query("optResult") optResult: String = "BookInfo,Toc,PreviewImg",
+        @Query("isbn13") isbn13: String,
     ): BookDetailResponse
 
     @PUT("api/v1/books/upsert")
@@ -84,6 +84,19 @@ interface ReedService {
         @Path("userBookId") userBookId: String,
         @Body recordRegisterRequest: RecordRegisterRequest,
     ): RecordRegisterResponse
+
+    @GET("api/v1/reading-records/{userBookId}")
+    suspend fun getReadingRecords(
+        @Path("userBookId") userBookId: String,
+        @Query("sort") sort: String = "CREATED_DATE_DESC",
+        @Query("page") page: Int,
+        @Query("size") size: Int = 20,
+    ): ReadingRecordsResponse
+
+    @GET("api/v1/reading-records/{userBookId}/seed/stats")
+    suspend fun getSeedsStats(
+        @Path("userBookId") userBookId: String,
+    ): SeedResponse
 
     @GET("api/v1/reading-records/detail/{readingRecordId}")
     suspend fun getRecordDetail(

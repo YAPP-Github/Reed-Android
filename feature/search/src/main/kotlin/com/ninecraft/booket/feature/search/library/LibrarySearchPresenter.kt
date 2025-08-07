@@ -149,10 +149,7 @@ class LibrarySearchPresenter @AssistedInject constructor(
                 }
 
                 is LibrarySearchUiEvent.OnBookClick -> {
-                    val userBookId = event.userBookId
-                    val isbn13 = event.isbn13
-                    // TODO: 도서 상세 화면에 isbn13, userBookId 넘겨야 함
-                    navigator.goTo(BookDetailScreen(isbn13 = isbn13))
+                    navigator.goTo(BookDetailScreen(event.userBookId, event.isbn13))
                 }
             }
         }

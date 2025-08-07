@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.utils.handleException
-import com.ninecraft.booket.core.data.api.repository.HomeRepository
+import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.HomeScreen
@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 
 class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val repository: HomeRepository,
+    private val repository: BookRepository,
 ) : Presenter<HomeUiState> {
 
     @Composable
@@ -84,7 +84,7 @@ class HomePresenter @AssistedInject constructor(
                 }
 
                 is HomeUiEvent.OnBookDetailClick -> {
-                    navigator.goTo(BookDetailScreen(""))
+                    navigator.goTo(BookDetailScreen(event.userBookId, event.isbn13))
                 }
 
                 is HomeUiEvent.OnRetryClick -> {

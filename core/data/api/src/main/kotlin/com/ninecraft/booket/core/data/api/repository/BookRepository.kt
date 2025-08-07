@@ -3,8 +3,10 @@ package com.ninecraft.booket.core.data.api.repository
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookUpsertModel
-import kotlinx.coroutines.flow.Flow
+import com.ninecraft.booket.core.model.HomeModel
 import com.ninecraft.booket.core.model.LibraryModel
+import com.ninecraft.booket.core.model.SeedModel
+import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
     val bookRecentSearches: Flow<List<String>>
@@ -17,10 +19,10 @@ interface BookRepository {
 
     suspend fun removeBookRecentSearch(query: String)
 
-    suspend fun getBookDetail(itemId: String): Result<BookDetailModel>
+    suspend fun getBookDetail(isbn13: String): Result<BookDetailModel>
 
     suspend fun upsertBook(
-        bookIsbn: String,
+        isbn13: String,
         bookStatus: String,
     ): Result<BookUpsertModel>
 
@@ -37,4 +39,8 @@ interface BookRepository {
     ): Result<LibraryModel>
 
     suspend fun removeLibraryRecentSearch(query: String)
+
+    suspend fun getHome(): Result<HomeModel>
+
+    suspend fun getSeedsStats(userBookId: String): Result<SeedModel>
 }

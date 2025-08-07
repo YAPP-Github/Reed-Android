@@ -26,8 +26,6 @@ data class BookSearchUiState(
     val recentSearches: ImmutableList<String> = persistentListOf(),
     val searchResult: BookSearchModel = BookSearchModel(),
     val books: ImmutableList<BookSummaryModel> = persistentListOf(),
-    val startIndex: Int = 0,
-    val isLastPage: Boolean = false,
     val selectedBookIsbn: String = "",
     val isBookRegisterBottomSheetVisible: Boolean = false,
     val selectedBookStatus: BookStatus? = null,
@@ -52,7 +50,7 @@ sealed interface BookSearchUiEvent : CircuitUiEvent {
     data class OnRecentSearchRemoveClick(val query: String) : BookSearchUiEvent
     data class OnSearchClick(val text: String) : BookSearchUiEvent
     data object OnClearClick : BookSearchUiEvent
-    data class OnBookClick(val bookIsbn: String) : BookSearchUiEvent
+    data class OnBookClick(val isbn13: String) : BookSearchUiEvent
     data object OnLoadMore : BookSearchUiEvent
     data object OnRetryClick : BookSearchUiEvent
     data object OnBookRegisterBottomSheetDismiss : BookSearchUiEvent

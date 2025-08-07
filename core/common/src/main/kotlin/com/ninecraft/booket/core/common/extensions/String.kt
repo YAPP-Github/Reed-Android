@@ -17,6 +17,11 @@ fun String.decodeHtmlEntities(): String {
         .replace("&nbsp;", " ")
 }
 
+fun String.formatPublishYear(): String {
+    val year = this.substringBefore("-")
+    return "${year}년"
+}
+
 fun String.toFormattedDate(): String {
     return try {
         val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")

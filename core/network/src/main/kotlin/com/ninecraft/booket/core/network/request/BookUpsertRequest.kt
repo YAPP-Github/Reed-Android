@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BookUpsertRequest(
-    @SerialName("bookIsbn")
-    val bookIsbn: String,
+    @SerialName("isbn13")
+    val isbn13: String,
     @SerialName("bookStatus")
     val bookStatus: String,
 )

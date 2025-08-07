@@ -1,5 +1,7 @@
 package com.ninecraft.booket.feature.detail.book
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,38 +13,40 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.constants.BookStatus
+import com.ninecraft.booket.core.common.extensions.toFormattedDate
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.ReedScaffold
+import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
+import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
+import com.ninecraft.booket.feature.detail.R
+import com.ninecraft.booket.feature.detail.book.component.BookItem
 import com.ninecraft.booket.feature.detail.book.component.BookUpdateBottomSheet
-import com.ninecraft.booket.feature.detail.book.component.CollectedSeed
+import com.ninecraft.booket.feature.detail.book.component.CollectedSeeds
+import com.ninecraft.booket.feature.detail.book.component.ReadingRecordsHeader
+import com.ninecraft.booket.feature.detail.book.component.RecordItem
 import com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet
-import com.ninecraft.booket.feature.detail.book.component.RecordsCollection
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -124,125 +128,142 @@ internal fun BookDetailContent(
     state: BookDetailUiState,
     innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
+    lazyListState: LazyListState = rememberLazyListState(),
 ) {
-    Column(
+    InfinityLazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(innerPadding)
-            .verticalScroll(rememberScrollState()),
+            .padding(innerPadding),
+        state = lazyListState,
+        loadMore = {
+            state.eventSink(BookDetailUiEvent.OnLoadMore)
+        },
     ) {
-        ReedBackTopAppBar(
-            title = "",
-            onBackClick = {
-                state.eventSink(BookDetailUiEvent.OnBackClick)
-            },
-        )
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = ReedTheme.spacing.spacing5),
-        ) {
-            NetworkImage(
-                imageUrl = "",
-                contentDescription = "Book CoverImage",
-                modifier = Modifier
-                    .padding(end = ReedTheme.spacing.spacing4)
-                    .width(70.dp)
-                    .height(99.dp)
-                    .clip(RoundedCornerShape(size = ReedTheme.radius.xs)),
-                placeholder = painterResource(designR.drawable.ic_placeholder),
+        item {
+            ReedBackTopAppBar(
+                title = "",
+                onBackClick = {
+                    state.eventSink(BookDetailUiEvent.OnBackClick)
+                },
             )
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "여름은 오래 그곳에 남아",
-                    color = ReedTheme.colors.contentPrimary,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 2,
-                    style = ReedTheme.typography.headline1SemiBold,
-                )
-                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+        }
+
+        item {
+            Column {
+                BookItem(bookDetail = state.bookDetail)
+                Spacer(Modifier.height(28.dp))
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = ReedTheme.spacing.spacing5),
                 ) {
-                    Text(
-                        text = "미쓰이에 마사시",
-                        color = ReedTheme.colors.contentTertiary,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1,
-                        style = ReedTheme.typography.label2Regular,
-                        modifier = Modifier.weight(0.7f, fill = false),
+                    ReedButton(
+                        onClick = {
+                            state.eventSink(BookDetailUiEvent.OnBookStatusButtonClick)
+                        },
+                        text = stringResource(
+                            BookStatus.fromValue(state.bookDetail.userBookStatus)?.getDisplayNameRes()
+                                ?: BookStatus.BEFORE_READING.getDisplayNameRes(),
+                        ),
+                        sizeStyle = largeButtonStyle,
+                        colorStyle = ReedButtonColorStyle.SECONDARY,
+                        modifier = Modifier.widthIn(min = 98.dp),
+                        trailingIcon = {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_down),
+                                contentDescription = "Dropdown Icon",
+                                modifier = Modifier.size(22.dp),
+                                tint = ReedTheme.colors.contentPrimary,
+                            )
+                        },
                     )
-                    Spacer(Modifier.width(ReedTheme.spacing.spacing1))
-                    VerticalDivider(
-                        modifier = Modifier.height(14.dp),
-                        thickness = 1.dp,
-                        color = ReedTheme.colors.contentTertiary,
-                    )
-                    Spacer(Modifier.width(ReedTheme.spacing.spacing1))
-                    Text(
-                        text = "비채",
-                        color = ReedTheme.colors.contentTertiary,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1,
-                        style = ReedTheme.typography.label2Regular,
-                        modifier = Modifier.weight(0.3f, fill = false),
+                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
+                    ReedButton(
+                        onClick = {
+                            state.eventSink(BookDetailUiEvent.OnRegisterRecordButtonClick)
+                        },
+                        text = stringResource(R.string.register_book_record),
+                        sizeStyle = largeButtonStyle,
+                        colorStyle = ReedButtonColorStyle.PRIMARY,
+                        modifier = Modifier.weight(1f),
                     )
                 }
-                Spacer(Modifier.width(ReedTheme.spacing.spacing05))
-                Text(
-                    text = "2024년",
-                    color = ReedTheme.colors.contentTertiary,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    style = ReedTheme.typography.label2Regular,
+            }
+        }
+
+        item {
+            if (state.hasEmotionData()) {
+                CollectedSeeds(seedsStats = state.seedsStats)
+            } else {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
+            }
+
+            ReedDivider()
+        }
+
+        item {
+            Column(
+                modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+            ) {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
+                ReadingRecordsHeader(
+                    readingRecords = state.readingRecords,
+                    currentRecordSort = state.currentRecordSort,
+                    onReadingRecordClick = {
+                        state.eventSink(BookDetailUiEvent.OnRecordSortButtonClick)
+                    },
+                )
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+            }
+        }
+
+        if (state.readingRecords.isEmpty()) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(324.dp)
+                        .padding(horizontal = ReedTheme.spacing.spacing5),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = stringResource(R.string.records_collection_empty),
+                        color = ReedTheme.colors.contentSecondary,
+                        textAlign = TextAlign.Center,
+                        style = ReedTheme.typography.body1Medium,
+                    )
+                }
+            }
+        } else {
+            items(
+                count = state.readingRecords.size,
+                key = { index -> state.readingRecords[index].id },
+            ) { index ->
+                val record = state.readingRecords[index]
+                RecordItem(
+                    quote = record.quote,
+                    emotionTags = record.emotionTags.toImmutableList(),
+                    pageNumber = record.pageNumber,
+                    createdAt = record.createdAt.toFormattedDate(),
+                    modifier = Modifier
+                        .padding(
+                            start = ReedTheme.spacing.spacing5,
+                            end = ReedTheme.spacing.spacing5,
+                            bottom = ReedTheme.spacing.spacing3,
+                        )
+                        .clickable {
+                            state.eventSink(BookDetailUiEvent.OnRecordItemClick(record.id))
+                        },
+                )
+            }
+
+            item {
+                LoadStateFooter(
+                    footerState = state.footerState,
+                    onRetryClick = { state.eventSink(BookDetailUiEvent.OnLoadMore) },
                 )
             }
         }
-        Spacer(Modifier.height(ReedTheme.spacing.spacing3))
-        Spacer(Modifier.height(ReedTheme.spacing.spacing4))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = ReedTheme.spacing.spacing5),
-        ) {
-            ReedButton(
-                onClick = {
-                    state.eventSink(BookDetailUiEvent.OnBookStatusButtonClick)
-                },
-                text = "읽는 중",
-                sizeStyle = largeButtonStyle,
-                colorStyle = ReedButtonColorStyle.SECONDARY,
-                modifier = Modifier.widthIn(min = 98.dp),
-                trailingIcon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_down),
-                        contentDescription = "Dropdown Icon",
-                        modifier = Modifier.size(22.dp),
-                        tint = ReedTheme.colors.contentPrimary,
-                    )
-                },
-            )
-            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-            ReedButton(
-                onClick = {
-                    state.eventSink(BookDetailUiEvent.OnRegisterRecordButtonClick)
-                },
-                text = "독서 기록 추가",
-                sizeStyle = largeButtonStyle,
-                colorStyle = ReedButtonColorStyle.PRIMARY,
-                modifier = Modifier.weight(1f),
-            )
-        }
-
-        if (state.recordCollections.isEmpty()) {
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
-        } else {
-            CollectedSeed(state = state)
-        }
-
-        ReedDivider()
-        RecordsCollection(state = state)
     }
 }
 

@@ -2,7 +2,6 @@
 
 plugins {
     alias(libs.plugins.booket.android.feature)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -15,13 +14,10 @@ ksp {
 
 dependencies {
     implementations(
-        libs.kotlinx.collections.immutable,
-
         libs.androidx.activity.compose,
         libs.androidx.splash,
 
         libs.compose.system.ui.controller,
-        libs.compose.shadow,
 
         libs.logger,
     )
