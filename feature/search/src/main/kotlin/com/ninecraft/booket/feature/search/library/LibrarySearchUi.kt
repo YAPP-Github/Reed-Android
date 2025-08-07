@@ -188,7 +188,7 @@ internal fun LibrarySearchContent(
                     ) {
                         items(
                             count = state.books.size,
-                            key = { index -> state.books[index].bookIsbn },
+                            key = { index -> state.books[index].isbn13 },
                         ) { index ->
                             Column {
                                 LibraryBookItem(
@@ -197,7 +197,7 @@ internal fun LibrarySearchContent(
                                         state.eventSink(
                                             LibrarySearchUiEvent.OnBookClick(
                                                 userBookId = book.userBookId,
-                                                isbn13 = book.bookIsbn,
+                                                isbn13 = book.isbn13,
                                             ),
                                         )
                                     },

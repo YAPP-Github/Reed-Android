@@ -130,15 +130,15 @@ internal fun LibraryBookSummary.toModel(): LibraryBookSummaryModel {
     return LibraryBookSummaryModel(
         userBookId = userBookId,
         userId = userId,
-        bookIsbn = bookIsbn,
+        isbn13 = isbn13,
         bookTitle = bookTitle,
         bookAuthor = bookAuthor,
         status = status,
-        recordCount = recordCount,
         coverImageUrl = coverImageUrl,
         publisher = publisher,
         createdAt = createdAt,
         updatedAt = updatedAt,
+        recordCount = recordCount,
     )
 }
 
