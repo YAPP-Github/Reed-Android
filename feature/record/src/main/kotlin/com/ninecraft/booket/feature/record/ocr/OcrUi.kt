@@ -18,10 +18,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -46,6 +46,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
@@ -85,27 +87,20 @@ private fun CameraPreview(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-
     val permission = android.Manifest.permission.CAMERA
+
+    // UI에서 항상 권한 최신 상태 확인
+    val isGranted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
-    ) { isGranted ->
-        if (isGranted) {
-            state.eventSink(OcrUiEvent.OnCameraPermissionResult(isGranted = isGranted))
-        } else {
-            state.eventSink(OcrUiEvent.OnRequestPermissionDialog)
+    ) { granted ->
+        if (!granted) {
+            state.eventSink(OcrUiEvent.OnShowPermissionDialog)
         }
     }
     val settingsLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
-    ) { _ ->
-        val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
-        if (granted) {
-            state.eventSink(OcrUiEvent.OnCameraPermissionResult(isGranted = granted))
-        } else {
-            state.eventSink(OcrUiEvent.OnRequestPermissionDialog)
-        }
-    }
+    ) { _ -> }
 
     val cameraController = remember { LifecycleCameraController(context) }
     val imageAnalyzer = remember {
@@ -132,13 +127,28 @@ private fun CameraPreview(
         }
     }
 
+    // 최초 진입 시 권한 요청
     LaunchedEffect(Unit) {
-        val granted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
-        if (granted) {
-            state.eventSink(OcrUiEvent.OnCameraPermissionResult(isGranted = true))
-        } else {
+        if (!isGranted) {
+            state.eventSink(OcrUiEvent.OnHidePermissionDialog)
             launcher.launch(permission)
         }
+    }
+
+    // 앱이 포그라운드로 북귀할 때 OS 권한 체크
+    DisposableEffect(Unit) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                val currentGrant = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+                if (currentGrant) {
+                    state.eventSink(OcrUiEvent.OnHidePermissionDialog)
+                } else {
+                    state.eventSink(OcrUiEvent.OnShowPermissionDialog)
+                }
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     DisposableEffect(lifecycleOwner, cameraController) {
@@ -162,30 +172,31 @@ private fun CameraPreview(
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                ReedCloseTopAppBar(
-                    isDark = true,
-                    onClose = {
-                        state.eventSink(OcrUiEvent.OnCloseClick)
-                    },
-                )
-                Text(
-                    text = stringResource(R.string.ocr_guide),
-                    color = ReedTheme.colors.contentInverse,
-                    textAlign = TextAlign.Center,
-                    style = ReedTheme.typography.headline2Medium,
-                )
-            }
+            ReedCloseTopAppBar(
+                modifier = Modifier
+                    .background(color = Color.Black)
+                    .align(Alignment.TopCenter),
+                isDark = true,
+                onClose = {
+                    state.eventSink(OcrUiEvent.OnCloseClick)
+                },
+            )
+            Text(
+                text = stringResource(R.string.ocr_guide),
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .offset(y = (-164).dp),
+                color = ReedTheme.colors.contentInverse,
+                textAlign = TextAlign.Center,
+                style = ReedTheme.typography.headline2Medium,
+            )
 
-            if (state.hasPermission) {
+            if (isGranted) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(White)
-                        .aspectRatio(1f)
+                        .height(200.dp)
                         .align(Alignment.Center),
                 ) {
                     AndroidView(

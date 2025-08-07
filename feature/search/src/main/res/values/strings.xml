@@ -9,9 +9,9 @@
     <string name="empty_results">검색어와 일치하는 도서가 없습니다</string>
     <string name="book_register_title">등록 옵션</string>
     <string name="book_register_success_title">도서가 등록되었어요!</string>
-    <string name="book_register_success_description">도서 기록을 시작할까요?</string>
-    <string name="book_register_success_cancel">아니요, 나중에요</string>
-    <string name="book_register_success_ok">네, 진행할게요!</string>
+    <string name="book_register_success_description">독서 기록을 바로 시작할까요?</string>
+    <string name="book_register_success_cancel">나중에 하기</string>
+    <string name="book_register_success_ok">기록 시작하기</string>
     <string name="book_register_ok">도서 등록</string>
     <string name="empty_recent_searches">최근 검색어 내역이 없습니다.</string>
     <string name="book_status_registered">이미 등록된 책입니다</string>

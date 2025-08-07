@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.constants.WebViewConstants
-import com.ninecraft.booket.core.data.api.repository.AuthRepository
+import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.ninecraft.booket.feature.screens.WebViewScreen
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 class TermsAgreementPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
 ) : Presenter<TermsAgreementUiState> {
 
     @Composable
@@ -68,7 +68,7 @@ class TermsAgreementPresenter @AssistedInject constructor(
 
                 is TermsAgreementUiEvent.OnStartButtonClick -> {
                     scope.launch {
-                        authRepository.agreeTerms(true)
+                        userRepository.agreeTerms(true)
                             .onSuccess {
                                 navigator.resetRoot(HomeScreen)
                             }.onFailure { exception ->

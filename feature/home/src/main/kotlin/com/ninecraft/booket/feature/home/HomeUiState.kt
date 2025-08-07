@@ -9,7 +9,15 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
+sealed interface UiState {
+    data object Idle : UiState
+    data object Loading : UiState
+    data object Success : UiState
+    data object Error : UiState
+}
+
 data class HomeUiState(
+    val uiState: UiState = UiState.Idle,
     val recentBooks: ImmutableList<RecentBookModel> = persistentListOf(),
     val sideEffect: HomeSideEffect? = null,
     val eventSink: (HomeUiEvent) -> Unit,
@@ -31,5 +39,6 @@ sealed interface HomeUiEvent : CircuitUiEvent {
         val userBookId: String,
         val isbn: String,
     ) : HomeUiEvent
+    data object OnRetryClick : HomeUiEvent
     data class OnTabSelected(val tab: MainTab) : HomeUiEvent
 }

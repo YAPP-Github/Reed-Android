@@ -49,7 +49,7 @@ internal fun OnboardingUi(
                 when (page) {
                     0 -> {
                         OnboardingPage(
-                            imageRes = R.drawable.img_onboarding_second_graphic,
+                            imageRes = R.drawable.img_onboarding_first,
                             titleRes = R.string.onboarding_first_page_title,
                             highlightTextRes = R.string.onboarding_first_highlight_text,
                             descriptionRes = R.string.onboarding_first_page_description,
@@ -58,7 +58,7 @@ internal fun OnboardingUi(
 
                     1 -> {
                         OnboardingPage(
-                            imageRes = R.drawable.img_onboarding_second_graphic,
+                            imageRes = R.drawable.img_onboarding_second,
                             titleRes = R.string.onboarding_second_page_title,
                             highlightTextRes = R.string.onboarding_second_highlight_text,
                             descriptionRes = R.string.onboarding_second_page_description,
@@ -67,7 +67,7 @@ internal fun OnboardingUi(
 
                     2 -> {
                         OnboardingPage(
-                            imageRes = R.drawable.img_onboarding_second_graphic,
+                            imageRes = R.drawable.img_onboarding_third,
                             titleRes = R.string.onboarding_third_page_title,
                             highlightTextRes = R.string.onboarding_third_highlight_text,
                             descriptionRes = R.string.onboarding_third_page_description,

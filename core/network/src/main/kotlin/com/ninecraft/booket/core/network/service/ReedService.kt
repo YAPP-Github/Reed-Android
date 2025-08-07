@@ -42,7 +42,7 @@ interface ReedService {
     suspend fun withdraw()
 
     // User endpoints (auth required)
-    @PUT("api/v1/users/terms-agreement")
+    @PUT("api/v1/users/me/terms-agreement")
     suspend fun agreeTerms(@Body termsAgreementRequest: TermsAgreementRequest): TermsAgreementResponse
 
     @GET("api/v1/users/me")

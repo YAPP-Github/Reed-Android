@@ -1,9 +1,9 @@
 package com.ninecraft.booket.feature.home.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -37,12 +38,10 @@ import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
-import com.ninecraft.booket.core.designsystem.component.ResourceImage
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
-import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
+import com.ninecraft.booket.core.designsystem.component.button.mediumButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.feature.home.R
 import com.ninecraft.booket.core.designsystem.R as designR
@@ -77,18 +76,17 @@ fun BookCard(
     ) {
         Column(
             modifier = Modifier
-                .padding(bottom = ReedTheme.spacing.spacing6)
                 .noRippleClickable { onBookDetailClick() }
                 .padding(horizontal = ReedTheme.spacing.spacing5),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
             NetworkImage(
                 imageUrl = recentBookInfo.coverImageUrl,
                 contentDescription = "Book CoverImage",
                 modifier = Modifier
-                    .width(86.dp)
-                    .height(125.dp)
+                    .width(95.64.dp)
+                    .height(140.dp)
                     .clip(RoundedCornerShape(size = ReedTheme.radius.sm))
                     .border(
                         width = 1.dp,
@@ -142,8 +140,8 @@ fun BookCard(
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
         }
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
         Row(
             modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
             verticalAlignment = Alignment.CenterVertically,
@@ -164,17 +162,22 @@ fun BookCard(
                     ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(34.dp)
-                        .background(White),
+                Image(
+                    painter = painterResource(R.drawable.img_seed_count),
+                    contentDescription = "Seed Count Image",
+                    modifier = Modifier.size(32.dp),
                 )
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
                 Text(
                     text = buildAnnotatedString {
                         append("${recentBookInfo.recordCount}")
-                        withStyle(style = SpanStyle(color = ReedTheme.colors.contentSecondary)) {
-                            append("개")
+                        withStyle(
+                            style = SpanStyle(
+                                color = ReedTheme.colors.contentSecondary,
+                                fontWeight = FontWeight.Normal,
+                            ),
+                        ) {
+                            append(stringResource(R.string.book_card_unit_count))
                         }
                     },
                     color = ReedTheme.colors.contentBrand,
@@ -186,7 +189,7 @@ fun BookCard(
                 onClick = {
                     onRecordButtonClick()
                 },
-                sizeStyle = largeButtonStyle,
+                sizeStyle = mediumButtonStyle,
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 modifier = Modifier.weight(1f),
                 text = stringResource(R.string.book_card_record),
@@ -233,8 +236,8 @@ fun EmptyBookCard(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(52.dp))
-        ResourceImage(
-            imageRes = R.drawable.img_empty_book,
+        Image(
+            painter = painterResource(R.drawable.img_empty_book),
             contentDescription = "Empty Book",
             modifier = Modifier.size(112.dp),
         )
@@ -255,7 +258,7 @@ fun EmptyBookCard(
             onClick = {
                 onBookRegisterClick()
             },
-            sizeStyle = largeButtonStyle,
+            sizeStyle = mediumButtonStyle,
             colorStyle = ReedButtonColorStyle.PRIMARY,
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.empty_book_card_register),
@@ -273,6 +276,7 @@ private fun BookCardPreview() {
                 author = "마쓰이에 마사시",
                 publisher = "비채",
                 coverImageUrl = "https://image.aladin.co.kr/product/7492/9/cover200/8934972203_1.jpg",
+                recordCount = 100,
             ),
             onBookDetailClick = {},
             onRecordButtonClick = {},
