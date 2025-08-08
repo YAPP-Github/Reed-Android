@@ -24,10 +24,10 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
 @Composable
 fun ReedDialog(
-    title: String,
     confirmButtonText: String,
     onConfirmRequest: () -> Unit,
     modifier: Modifier = Modifier,
+    title: String? = null,
     description: String? = null,
     dismissButtonText: String? = null,
     onDismissRequest: () -> Unit = {},
@@ -63,14 +63,16 @@ fun ReedDialog(
                 it()
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
             }
-            Text(
-                text = title,
-                color = ReedTheme.colors.contentPrimary,
-                textAlign = TextAlign.Center,
-                style = ReedTheme.typography.headline1SemiBold,
-            )
-            description?.let {
+            title?.let {
+                Text(
+                    text = title,
+                    color = ReedTheme.colors.contentPrimary,
+                    textAlign = TextAlign.Center,
+                    style = ReedTheme.typography.headline1SemiBold,
+                )
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+            }
+            description?.let {
                 Text(
                     text = description,
                     color = ReedTheme.colors.contentSecondary,

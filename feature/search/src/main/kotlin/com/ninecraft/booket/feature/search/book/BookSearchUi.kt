@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.search.book
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -33,6 +31,7 @@ import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
+import com.ninecraft.booket.core.ui.component.ReedErrorUi
 import com.ninecraft.booket.feature.screens.SearchScreen
 import com.ninecraft.booket.feature.search.R
 import com.ninecraft.booket.feature.search.book.component.BookItem
@@ -125,22 +124,10 @@ internal fun SearchContent(
             }
 
             is UiState.Error -> {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Text(
-                        text = state.uiState.message,
-                        style = ReedTheme.typography.body1Regular,
-                    )
-                    Button(
-                        onClick = { state.eventSink(BookSearchUiEvent.OnRetryClick) },
-                        modifier = Modifier.padding(top = ReedTheme.spacing.spacing3),
-                    ) {
-                        Text(text = stringResource(R.string.retry))
-                    }
-                }
+                ReedErrorUi(
+                    exception = state.uiState.exception,
+                    onRetryClick = { state.eventSink(BookSearchUiEvent.OnRetryClick) },
+                )
             }
 
             is UiState.Idle -> {

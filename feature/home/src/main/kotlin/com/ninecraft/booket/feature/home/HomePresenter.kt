@@ -6,16 +6,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.HomeScreen
-import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.SearchScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
-import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -38,12 +35,11 @@ class HomePresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
 
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
-        var sideEffect by rememberRetained { mutableStateOf<HomeSideEffect?>(null) }
         var recentBooks by rememberRetained { mutableStateOf(persistentListOf<RecentBookModel>()) }
 
         fun loadHomeContent() {
             scope.launch {
-                if (uiState == UiState.Idle || uiState == UiState.Error) {
+                if (uiState is UiState.Idle || uiState is UiState.Error) {
                     uiState = UiState.Loading
                 }
 
@@ -52,19 +48,7 @@ class HomePresenter @AssistedInject constructor(
                         uiState = UiState.Success
                         recentBooks = result.recentBooks.toPersistentList()
                     }.onFailure { exception ->
-                        uiState = UiState.Error
-                        val handleErrorMessage = { message: String ->
-                            Logger.e(message)
-                            sideEffect = HomeSideEffect.ShowToast(message)
-                        }
-
-                        handleException(
-                            exception = exception,
-                            onError = handleErrorMessage,
-                            onLoginRequired = {
-                                navigator.resetRoot(LoginScreen)
-                            },
-                        )
+                        uiState = UiState.Error(exception)
                     }
             }
         }

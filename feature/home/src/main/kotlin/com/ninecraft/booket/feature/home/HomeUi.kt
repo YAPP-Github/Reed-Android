@@ -24,12 +24,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.component.button.ReedButton
-import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
-import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.ReedScaffold
+import com.ninecraft.booket.core.ui.component.ReedErrorUi
 import com.ninecraft.booket.feature.home.component.BookCard
 import com.ninecraft.booket.feature.home.component.EmptyBookCard
 import com.ninecraft.booket.feature.home.component.HomeBanner
@@ -170,29 +168,10 @@ internal fun HomeContent(
             }
 
             is UiState.Error -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Text(
-                            text = stringResource(R.string.home_error_title),
-                            color = ReedTheme.colors.contentPrimary,
-                            style = ReedTheme.typography.headline1SemiBold,
-                        )
-                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-                        ReedButton(
-                            onClick = {
-                                state.eventSink(HomeUiEvent.OnRetryClick)
-                            },
-                            sizeStyle = largeButtonStyle,
-                            colorStyle = ReedButtonColorStyle.PRIMARY,
-                            text = stringResource(R.string.home_retry),
-                        )
-                    }
-                }
+                ReedErrorUi(
+                    exception = state.uiState.exception,
+                    onRetryClick = { state.eventSink(HomeUiEvent.OnRetryClick) },
+                )
             }
         }
     }

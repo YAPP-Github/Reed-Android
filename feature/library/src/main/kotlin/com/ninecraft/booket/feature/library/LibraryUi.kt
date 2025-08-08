@@ -18,14 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.designsystem.component.button.ReedButton
-import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
-import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
+import com.ninecraft.booket.core.ui.component.ReedErrorUi
 import com.ninecraft.booket.feature.library.component.FilterChipGroup
 import com.ninecraft.booket.feature.library.component.LibraryBookItem
 import com.ninecraft.booket.feature.library.component.LibraryHeader
@@ -149,7 +147,10 @@ internal fun LibraryContent(
             }
 
             is UiState.Error -> {
-                ErrorResult(state = state, errorMessage = state.uiState.message)
+                ReedErrorUi(
+                    exception = state.uiState.exception,
+                    onRetryClick = { state.eventSink(LibraryUiEvent.OnRetryClick) },
+                )
             }
         }
     }
@@ -174,39 +175,6 @@ private fun EmptyResult() {
                 text = stringResource(R.string.library_empty_book_description),
                 color = ReedTheme.colors.contentSecondary,
                 style = ReedTheme.typography.body1Medium,
-            )
-        }
-    }
-}
-
-@Composable
-private fun ErrorResult(state: LibraryUiState, errorMessage: String) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                text = stringResource(R.string.library_error_title),
-                color = ReedTheme.colors.contentPrimary,
-                style = ReedTheme.typography.headline1SemiBold,
-            )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-            Text(
-                text = errorMessage,
-                color = ReedTheme.colors.contentSecondary,
-                style = ReedTheme.typography.body1Medium,
-            )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-            ReedButton(
-                onClick = {
-                    state.eventSink(LibraryUiEvent.OnRetryClick)
-                },
-                sizeStyle = largeButtonStyle,
-                colorStyle = ReedButtonColorStyle.PRIMARY,
-                text = stringResource(R.string.library_retry),
             )
         }
     }

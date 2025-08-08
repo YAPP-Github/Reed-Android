@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.detail.record.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,8 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.feature.detail.book.component.getEmotionImageResourceByDisplayName
 
 @Composable
 fun ReviewBox(
@@ -44,14 +47,12 @@ fun ReviewBox(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Box(
+                Image(
+                    painter = painterResource(getEmotionImageResourceByDisplayName(emotion)),
+                    contentDescription = "Emotion Graphic",
                     modifier = Modifier
                         .size(ReedTheme.spacing.spacing10)
-                        .background(
-                            color = ReedTheme.colors.bgTertiary,
-                            shape = CircleShape,
-                        )
-                        .clip(shape = CircleShape),
+                        .clip(CircleShape),
                 )
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
                 Text(

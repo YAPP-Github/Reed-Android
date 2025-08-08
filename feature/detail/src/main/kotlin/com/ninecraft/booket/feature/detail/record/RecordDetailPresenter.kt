@@ -31,17 +31,21 @@ class RecordDetailPresenter @AssistedInject constructor(
     @Composable
     override fun present(): RecordDetailUiState {
         val scope = rememberCoroutineScope()
-
+        var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var recordDetailInfo by rememberRetained { mutableStateOf(RecordDetailModel()) }
         var sideEffect by rememberRetained { mutableStateOf<RecordDetailSideEffect?>(null) }
 
         fun getRecordDetail(readingRecordId: String) {
             scope.launch {
+                uiState = UiState.Loading
+
                 repository.getRecordDetail(readingRecordId = readingRecordId)
                     .onSuccess { result ->
                         recordDetailInfo = result
+                        uiState = UiState.Success
                     }
                     .onFailure { exception ->
+                        uiState = UiState.Error(exception)
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)
                             sideEffect = RecordDetailSideEffect.ShowToast(message)
@@ -63,6 +67,10 @@ class RecordDetailPresenter @AssistedInject constructor(
                 RecordDetailUiEvent.OnCloseClicked -> {
                     navigator.pop()
                 }
+
+                RecordDetailUiEvent.onRetryClick -> {
+                    getRecordDetail(screen.recordId)
+                }
             }
         }
 
@@ -71,6 +79,7 @@ class RecordDetailPresenter @AssistedInject constructor(
         }
 
         return RecordDetailUiState(
+            uiState = uiState,
             recordDetailInfo = recordDetailInfo,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,

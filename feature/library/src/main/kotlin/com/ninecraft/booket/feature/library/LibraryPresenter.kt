@@ -91,7 +91,7 @@ class LibraryPresenter @AssistedInject constructor(
                         Logger.d(exception)
                         val errorMessage = exception.message ?: "알 수 없는 오류가 발생했습니다."
                         if (page == START_INDEX) {
-                            uiState = UiState.Error(errorMessage)
+                            uiState = UiState.Error(exception)
                         } else {
                             footerState = FooterState.Error(errorMessage)
                         }
@@ -114,6 +114,10 @@ class LibraryPresenter @AssistedInject constructor(
                 }
 
                 is LibraryUiEvent.OnFilterClick -> {
+                    if (currentFilter == event.filterOption) {
+                        return
+                    }
+
                     currentFilter = event.filterOption
                     filterLibraryBooks(status = currentFilter.getApiValue(), page = START_INDEX, size = PAGE_SIZE)
                 }
@@ -148,13 +152,11 @@ class LibraryPresenter @AssistedInject constructor(
         }
 
         LaunchedEffect(Unit) {
-            if (uiState == UiState.Idle || uiState is UiState.Error) {
-                filterLibraryBooks(
-                    status = currentFilter.getApiValue(),
-                    page = START_INDEX,
-                    size = PAGE_SIZE,
-                )
-            }
+            filterLibraryBooks(
+                status = currentFilter.getApiValue(),
+                page = START_INDEX,
+                size = PAGE_SIZE,
+            )
         }
 
         return LibraryUiState(

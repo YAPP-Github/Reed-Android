@@ -12,6 +12,7 @@ android {
 dependencies {
     implementations(
         projects.core.designsystem,
+        projects.core.common,
 
         libs.compose.keyboard.state,
         libs.logger,

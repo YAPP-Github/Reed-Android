@@ -89,7 +89,7 @@ internal fun RecordItem(
     }
 }
 
-private fun getEmotionImageResourceByDisplayName(displayName: String): Int {
+fun getEmotionImageResourceByDisplayName(displayName: String): Int {
     return when (displayName) {
         "따뜻함" -> R.drawable.img_warm
         "즐거움" -> R.drawable.img_joy

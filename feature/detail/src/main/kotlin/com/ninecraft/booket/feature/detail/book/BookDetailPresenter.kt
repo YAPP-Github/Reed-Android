@@ -8,7 +8,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.constants.BookStatus
+import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.utils.handleException
+import com.ninecraft.booket.core.common.utils.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.BookDetailModel
@@ -32,6 +34,9 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
@@ -69,50 +74,52 @@ class BookDetailPresenter @AssistedInject constructor(
         var isRecordSortBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
 
-        fun getSeedsStats() {
-            scope.launch {
-                bookRepository.getSeedsStats(screen.userBookId)
-                    .onSuccess { result ->
-                        seedsStates = result.categories.toImmutableList()
-                    }
-                    .onFailure { exception ->
-                        val handleErrorMessage = { message: String ->
-                            Logger.e(message)
-                            sideEffect = BookDetailSideEffect.ShowToast(message)
-                        }
+        @Suppress("TooGenericExceptionCaught")
+        suspend fun initialLoad() {
+            uiState = UiState.Loading
 
-                        handleException(
-                            exception = exception,
-                            onError = handleErrorMessage,
-                            onLoginRequired = {
-                                navigator.resetRoot(LoginScreen)
-                            },
-                        )
+            try {
+                coroutineScope {
+                    val bookDetailDef = async { bookRepository.getBookDetail(screen.isbn13).getOrThrow() }
+                    val seedsDef = async { bookRepository.getSeedsStats(screen.userBookId).getOrThrow() }
+                    val readingRecordsDef = async {
+                        recordRepository.getReadingRecords(
+                            userBookId = screen.userBookId,
+                            sort = currentRecordSort.value,
+                            page = START_INDEX,
+                            size = PAGE_SIZE,
+                        ).getOrThrow()
                     }
-            }
-        }
+                    val detail = bookDetailDef.await()
+                    val seeds = seedsDef.await()
+                    val records = readingRecordsDef.await()
 
-        fun getBookDetail() {
-            scope.launch {
-                bookRepository.getBookDetail(screen.isbn13)
-                    .onSuccess { result ->
-                        bookDetail = result
-                        currentBookStatus = BookStatus.fromValue(result.userBookStatus) ?: BookStatus.BEFORE_READING
-                    }
-                    .onFailure { exception ->
-                        val handleErrorMessage = { message: String ->
-                            Logger.e(message)
-                            sideEffect = BookDetailSideEffect.ShowToast(message)
-                        }
+                    bookDetail = detail
+                    seedsStates = seeds.categories.toImmutableList()
+                    readingRecords = records.content.toPersistentList()
 
-                        handleException(
-                            exception = exception,
-                            onError = handleErrorMessage,
-                            onLoginRequired = {
-                                navigator.resetRoot(LoginScreen)
-                            },
-                        )
-                    }
+                    isLastPage = records.content.size < PAGE_SIZE
+                    currentStartIndex = START_INDEX
+
+                    uiState = UiState.Success
+                }
+            } catch (ce: CancellationException) {
+                throw ce
+            } catch (e: Throwable) {
+                uiState = UiState.Error(e)
+
+                val handleErrorMessage = { message: String ->
+                    Logger.e(message)
+                    sideEffect = BookDetailSideEffect.ShowToast(message)
+                }
+
+                handleException(
+                    exception = e,
+                    onError = handleErrorMessage,
+                    onLoginRequired = {
+                        navigator.resetRoot(LoginScreen)
+                    },
+                )
             }
         }
 
@@ -125,6 +132,11 @@ class BookDetailPresenter @AssistedInject constructor(
                         isBookUpdateBottomSheetVisible = false
                     }
                     .onFailure { exception ->
+                        postErrorDialog(
+                            errorScope = ErrorScope.BOOK_REGISTER,
+                            exception = exception,
+                        )
+
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)
                             sideEffect = BookDetailSideEffect.ShowToast(message)
@@ -141,13 +153,14 @@ class BookDetailPresenter @AssistedInject constructor(
             }
         }
 
-        fun getReadingRecords(startIndex: Int = START_INDEX) {
+        fun loadMoreReadingRecords(startIndex: Int) {
+            // 초기 페이지 로드는 initialLoad()에서 담당하므로 무시
+            if (startIndex == START_INDEX || isLastPage) {
+                return
+            }
+
             scope.launch {
-                if (startIndex == START_INDEX) {
-                    uiState = UiState.Loading
-                } else {
-                    footerState = FooterState.Loading
-                }
+                footerState = FooterState.Loading
 
                 recordRepository.getReadingRecords(
                     userBookId = screen.userBookId,
@@ -155,36 +168,20 @@ class BookDetailPresenter @AssistedInject constructor(
                     page = startIndex,
                     size = PAGE_SIZE,
                 ).onSuccess { result ->
-                    readingRecords = if (startIndex == START_INDEX) {
-                        result.content.toPersistentList()
-                    } else {
-                        (readingRecords + result.content).toPersistentList()
-                    }
-
+                    readingRecords = (readingRecords + result.content).toPersistentList()
                     currentStartIndex = startIndex
                     isLastPage = result.content.size < PAGE_SIZE
-
-                    if (startIndex == START_INDEX) {
-                        uiState = UiState.Success
-                    } else {
-                        footerState = if (isLastPage) FooterState.End else FooterState.Idle
-                    }
+                    footerState = if (isLastPage) FooterState.End else FooterState.Idle
                 }.onFailure { exception ->
                     Logger.d(exception)
                     val errorMessage = exception.message ?: "알 수 없는 오류가 발생했습니다."
-                    if (startIndex == START_INDEX) {
-                        uiState = UiState.Error(errorMessage)
-                    } else {
-                        footerState = FooterState.Error(errorMessage)
-                    }
+                    footerState = FooterState.Error(errorMessage)
                 }
             }
         }
 
         LaunchedEffect(Unit) {
-            getSeedsStats()
-            getBookDetail()
-            getReadingRecords()
+            initialLoad()
         }
 
         fun handleEvent(event: BookDetailUiEvent) {
@@ -202,7 +199,7 @@ class BookDetailPresenter @AssistedInject constructor(
                 }
 
                 is BookDetailUiEvent.OnRegisterRecordButtonClick -> {
-                    navigator.goTo(RecordScreen(""))
+                    navigator.goTo(RecordScreen(screen.userBookId))
                 }
 
                 is BookDetailUiEvent.OnRecordSortButtonClick -> {
@@ -237,7 +234,13 @@ class BookDetailPresenter @AssistedInject constructor(
 
                 is BookDetailUiEvent.OnLoadMore -> {
                     if (uiState != UiState.Loading && footerState !is FooterState.Loading && !isLastPage) {
-                        getReadingRecords(startIndex = currentStartIndex + 1)
+                        loadMoreReadingRecords(startIndex = currentStartIndex + 1)
+                    }
+                }
+
+                is BookDetailUiEvent.OnRetryClick -> {
+                    scope.launch {
+                        initialLoad()
                     }
                 }
             }
