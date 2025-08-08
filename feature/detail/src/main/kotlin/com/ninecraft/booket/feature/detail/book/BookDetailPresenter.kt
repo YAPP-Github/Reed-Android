@@ -98,6 +98,9 @@ class BookDetailPresenter @AssistedInject constructor(
                     seedsStates = seeds.categories.toImmutableList()
                     readingRecords = records.content.toPersistentList()
 
+                    isLastPage = records.content.size < PAGE_SIZE
+                    currentStartIndex = START_INDEX
+
                     uiState = UiState.Success
                 }
             } catch (ce: CancellationException) {

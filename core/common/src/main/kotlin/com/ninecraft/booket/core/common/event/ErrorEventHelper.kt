@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import java.util.UUID
 
 object ErrorEventHelper {
-    private val _errorEvent = Channel<ErrorEvent>(DEFAULT_BUFFER_SIZE)
+    private val _errorEvent = Channel<ErrorEvent>(Channel.BUFFERED)
     val errorEvent = _errorEvent.receiveAsFlow()
 
     fun sendError(event: ErrorEvent) {

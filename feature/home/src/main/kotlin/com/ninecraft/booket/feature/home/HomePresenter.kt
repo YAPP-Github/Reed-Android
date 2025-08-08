@@ -39,7 +39,7 @@ class HomePresenter @AssistedInject constructor(
 
         fun loadHomeContent() {
             scope.launch {
-                if (uiState == UiState.Idle) {
+                if (uiState is UiState.Idle || uiState is UiState.Error) {
                     uiState = UiState.Loading
                 }
 

@@ -75,6 +75,9 @@ class MainActivity : ComponentActivity() {
                             spec.action()
                             dialogSpec.value = null
                         },
+                        onDismissRequest = {
+                            dialogSpec.value = null
+                        },
                     )
                 }
 

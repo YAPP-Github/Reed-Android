@@ -41,8 +41,8 @@ class RecordDetailPresenter @AssistedInject constructor(
 
                 repository.getRecordDetail(readingRecordId = readingRecordId)
                     .onSuccess { result ->
-                        uiState = UiState.Success
                         recordDetailInfo = result
+                        uiState = UiState.Success
                     }
                     .onFailure { exception ->
                         uiState = UiState.Error(exception)
