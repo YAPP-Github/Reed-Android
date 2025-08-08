@@ -17,7 +17,7 @@ sealed interface UiState {
     data object Idle : UiState
     data object Loading : UiState
     data object Success : UiState
-    data class Error(val message: String) : UiState
+    data class Error(val exception: Throwable) : UiState
 }
 
 data class BookDetailUiState(
@@ -63,6 +63,7 @@ sealed interface BookDetailUiEvent : CircuitUiEvent {
     data class OnRecordSortItemSelected(val sortType: RecordSort) : BookDetailUiEvent
     data class OnRecordItemClick(val recordId: String) : BookDetailUiEvent
     data object OnLoadMore : BookDetailUiEvent
+    data object OnRetryClick : BookDetailUiEvent
 }
 
 enum class RecordSort(val value: String) {
