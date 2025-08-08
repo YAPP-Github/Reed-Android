@@ -6,7 +6,15 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import java.util.UUID
 
+sealed interface UiState {
+    data object Idle : UiState
+    data object Loading : UiState
+    data object Success : UiState
+    data class Error(val exception: Throwable) : UiState
+}
+
 data class RecordDetailUiState(
+    val uiState: UiState = UiState.Idle,
     val recordDetailInfo: RecordDetailModel = RecordDetailModel(),
     val sideEffect: RecordDetailSideEffect? = null,
     val eventSink: (RecordDetailUiEvent) -> Unit,
@@ -22,4 +30,5 @@ sealed interface RecordDetailSideEffect {
 
 sealed interface RecordDetailUiEvent : CircuitUiEvent {
     data object OnCloseClicked : RecordDetailUiEvent
+    data object onRetryClick: RecordDetailUiEvent
 }
