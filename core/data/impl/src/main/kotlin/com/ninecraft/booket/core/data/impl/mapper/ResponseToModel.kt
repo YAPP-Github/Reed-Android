@@ -19,6 +19,7 @@ import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.core.model.RecordDetailModel
 import com.ninecraft.booket.core.model.RecordRegisterModel
 import com.ninecraft.booket.core.model.SeedModel
+import com.ninecraft.booket.core.model.TermsAgreementModel
 import com.ninecraft.booket.core.model.UserProfileModel
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
@@ -36,6 +37,7 @@ import com.ninecraft.booket.core.network.response.RecentBook
 import com.ninecraft.booket.core.network.response.RecordDetailResponse
 import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.SeedResponse
+import com.ninecraft.booket.core.network.response.TermsAgreementResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
 
 internal fun UserProfileResponse.toModel(): UserProfileModel {
@@ -234,5 +236,15 @@ internal fun Category.toEmotionModel(): EmotionModel? {
     return EmotionModel(
         name = emotion,
         count = count,
+    )
+}
+
+internal fun TermsAgreementResponse.toModel(): TermsAgreementModel {
+    return TermsAgreementModel(
+        id = id,
+        email = email,
+        nickname = nickname,
+        provider = provider,
+        termsAgreed = termsAgreed,
     )
 }
