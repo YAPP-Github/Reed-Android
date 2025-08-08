@@ -195,7 +195,7 @@ class BookDetailPresenter @AssistedInject constructor(
                 }
 
                 is BookDetailUiEvent.OnRegisterRecordButtonClick -> {
-                    navigator.goTo(RecordScreen(""))
+                    navigator.goTo(RecordScreen(screen.userBookId))
                 }
 
                 is BookDetailUiEvent.OnRecordSortButtonClick -> {
