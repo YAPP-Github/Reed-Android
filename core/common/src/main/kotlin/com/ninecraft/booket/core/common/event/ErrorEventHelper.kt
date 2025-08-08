@@ -17,6 +17,6 @@ object ErrorEventHelper {
 sealed interface ErrorEvent {
     data class ShowDialog(
         val spec: ErrorDialogSpec,
-        val key: String = UUID.randomUUID().toString()
+        val key: String = UUID.randomUUID().toString(),
     ) : ErrorEvent
 }

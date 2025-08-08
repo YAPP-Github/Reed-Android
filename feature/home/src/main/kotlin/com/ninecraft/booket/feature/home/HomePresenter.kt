@@ -35,7 +35,6 @@ class HomePresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
 
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
-        var sideEffect by rememberRetained { mutableStateOf<HomeSideEffect?>(null) }
         var recentBooks by rememberRetained { mutableStateOf(persistentListOf<RecentBookModel>()) }
 
         fun loadHomeContent() {

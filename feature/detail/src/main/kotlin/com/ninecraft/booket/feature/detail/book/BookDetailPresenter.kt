@@ -74,6 +74,7 @@ class BookDetailPresenter @AssistedInject constructor(
         var isRecordSortBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
 
+        @Suppress("TooGenericExceptionCaught")
         suspend fun initialLoad() {
             uiState = UiState.Loading
 

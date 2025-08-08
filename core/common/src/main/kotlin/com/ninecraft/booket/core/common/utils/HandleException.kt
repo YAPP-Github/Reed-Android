@@ -66,6 +66,7 @@ private fun buildDialog(
         exception.isNetworkError() -> {
             "네트워크 연결이 불안정합니다.\n인터넷 연결을 확인해주세요"
         }
+
         exception is HttpException -> {
             when (scope) {
                 ErrorScope.GLOBAL -> {
@@ -85,12 +86,13 @@ private fun buildDialog(
                 }
             }
         }
+
         else -> {
             "알 수 없는 문제가 발생했어요.\n다시 시도해주세요"
         }
     }
 
-    return ErrorDialogSpec(message = message, buttonLabel ="확인" , action = action)
+    return ErrorDialogSpec(message = message, buttonLabel = "확인", action = action)
 }
 
 @Suppress("TooGenericExceptionCaught")

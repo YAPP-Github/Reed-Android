@@ -38,7 +38,6 @@ import com.ninecraft.booket.feature.detail.record.component.QuoteBox
 import com.ninecraft.booket.feature.detail.record.component.ReviewBox
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.runtime.ui.ui
 import dagger.hilt.android.components.ActivityRetainedComponent
 import com.ninecraft.booket.core.designsystem.R as designR
 
@@ -195,7 +194,6 @@ private fun ReviewDetailContent(
                     onRetryClick = { },
                 )
             }
-
         }
     }
 }

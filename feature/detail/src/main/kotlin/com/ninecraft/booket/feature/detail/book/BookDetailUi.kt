@@ -51,7 +51,6 @@ import com.ninecraft.booket.feature.detail.book.component.RecordItem
 import com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.runtime.ui.ui
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
@@ -289,7 +288,6 @@ internal fun BookDetailContent(
             )
         }
     }
-
 }
 
 @ComponentPreview

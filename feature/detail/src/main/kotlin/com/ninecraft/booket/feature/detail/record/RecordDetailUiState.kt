@@ -30,5 +30,5 @@ sealed interface RecordDetailSideEffect {
 
 sealed interface RecordDetailUiEvent : CircuitUiEvent {
     data object OnCloseClicked : RecordDetailUiEvent
-    data object onRetryClick: RecordDetailUiEvent
+    data object onRetryClick : RecordDetailUiEvent
 }
