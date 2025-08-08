@@ -6,10 +6,17 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.ninecraft.booket.core.common.constants.ErrorDialogSpec
+import com.ninecraft.booket.core.common.event.ErrorEvent
+import com.ninecraft.booket.core.common.event.ErrorEventHelper
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.feature.screens.SplashScreen
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
@@ -46,6 +53,30 @@ class MainActivity : ComponentActivity() {
             ReedTheme {
                 val backStack = rememberSaveableBackStack(root = SplashScreen)
                 val navigator = rememberCircuitNavigator(backStack)
+
+                val dialogSpec = remember { mutableStateOf<ErrorDialogSpec?>(null) }
+
+                // 전역 에러 수신
+                LaunchedEffect(Unit) {
+                    ErrorEventHelper.errorEvent.collect { event ->
+                        when (event) {
+                            is ErrorEvent.ShowDialog -> {
+                                dialogSpec.value = event.spec
+                            }
+                        }
+                    }
+                }
+
+                dialogSpec.value?.let { spec ->
+                    ReedDialog(
+                        description = spec.message,
+                        confirmButtonText = spec.buttonLabel,
+                        onConfirmRequest = {
+                            spec.action()
+                            dialogSpec.value = null
+                        },
+                    )
+                }
 
                 CircuitCompositionLocals(circuit) {
                     NavigableCircuitContent(
