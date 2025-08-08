@@ -13,8 +13,7 @@ internal class DefaultUserRepository @Inject constructor(
     private val onboardingDataSource: OnboardingDataSource,
 ) : UserRepository {
     override suspend fun agreeTerms(termsAgreed: Boolean) = runSuspendCatching {
-        service.agreeTerms(TermsAgreementRequest(termsAgreed))
-        Unit
+        service.agreeTerms(TermsAgreementRequest(termsAgreed)).toModel()
     }
 
     override suspend fun getUserProfile() = runSuspendCatching {
