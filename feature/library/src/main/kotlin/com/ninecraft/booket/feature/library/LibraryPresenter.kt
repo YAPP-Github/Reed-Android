@@ -91,7 +91,7 @@ class LibraryPresenter @AssistedInject constructor(
                         Logger.d(exception)
                         val errorMessage = exception.message ?: "알 수 없는 오류가 발생했습니다."
                         if (page == START_INDEX) {
-                            uiState = UiState.Error(errorMessage)
+                            uiState = UiState.Error(exception)
                         } else {
                             footerState = FooterState.Error(errorMessage)
                         }

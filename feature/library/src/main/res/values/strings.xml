@@ -8,6 +8,4 @@
     <string name="library_filter_completed">완독</string>
     <string name="library_empty_book_title">아직 등록된 책이 없어요</string>
     <string name="library_empty_book_description">도서 등록 후 나만의 아카이브를 만들어보세요</string>
-    <string name="library_error_title">책 정보를 가져오는데 실패했어요</string>
-    <string name="library_retry">다시 시도</string>
 </resources>
