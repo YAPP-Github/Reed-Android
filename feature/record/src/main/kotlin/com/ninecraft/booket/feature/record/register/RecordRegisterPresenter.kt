@@ -10,7 +10,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextRange
+import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.utils.handleException
+import com.ninecraft.booket.core.common.utils.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.RecordStep
@@ -79,9 +81,11 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     RecordStep.QUOTE -> {
                         recordPageState.text.isNotEmpty() && recordSentenceState.text.isNotEmpty() && !isPageError
                     }
+
                     RecordStep.EMOTION -> {
                         selectedEmotion != null
                     }
+
                     RecordStep.IMPRESSION -> {
                         impressionState.text.isNotEmpty()
                     }
@@ -114,6 +118,11 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     savedRecordId = result.id
                     isRecordSavedDialogVisible = true
                 }.onFailure { exception ->
+                    postErrorDialog(
+                        errorScope = ErrorScope.RECORD_REGISTER,
+                        exception = exception,
+                    )
+
                     val handleErrorMessage = { message: String ->
                         Logger.e(message)
                         sideEffect = RecordRegisterSideEffect.ShowToast(message)
