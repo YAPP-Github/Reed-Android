@@ -66,12 +66,12 @@ internal fun CollectedSeeds(
                 .padding(horizontal = ReedTheme.spacing.spacing4)
                 .clip(RoundedCornerShape(ReedTheme.radius.sm))
                 .background(ReedTheme.colors.basePrimary)
-                .padding(ReedTheme.spacing.spacing3)
                 .border(
                     width = 1.dp,
-                    color = ReedTheme.colors.basePrimary,
+                    color = ReedTheme.colors.borderPrimary,
                     shape = RoundedCornerShape(ReedTheme.radius.sm),
-                ),
+                )
+                .padding(ReedTheme.spacing.spacing3),
         ) {
             EmotionAnalysisResultText(
                 emotions = seedsStats,
