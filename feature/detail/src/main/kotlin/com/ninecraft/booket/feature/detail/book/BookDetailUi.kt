@@ -165,7 +165,7 @@ internal fun BookDetailContent(
                 item {
                     Column {
                         BookItem(bookDetail = state.bookDetail)
-                        Spacer(Modifier.height(28.dp))
+                        Spacer(Modifier.height(ReedTheme.spacing.spacing7))
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()

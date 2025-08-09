@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -105,7 +107,11 @@ internal fun HomeContent(
             }
 
             is UiState.Success -> {
-                Column(modifier = modifier.fillMaxSize()) {
+                Column(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState()),
+                ) {
                     Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
                     Text(
                         text = stringResource(R.string.home_content_label_reading_now),
@@ -163,6 +169,7 @@ internal fun HomeContent(
                                 )
                             }
                         }
+                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing7))
                     }
                 }
             }

@@ -14,6 +14,7 @@ data class ReedSpacing(
     val spacing4: Dp = 16.dp,
     val spacing5: Dp = 20.dp,
     val spacing6: Dp = 24.dp,
+    val spacing7: Dp = 28.dp,
     val spacing8: Dp = 32.dp,
     val spacing10: Dp = 40.dp,
     val spacing12: Dp = 48.dp,

@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,12 +28,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.DevicePreview
-import com.ninecraft.booket.core.ui.component.ReedDialog
-import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
-import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.ui.ReedScaffold
+import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
+import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.ninecraft.booket.feature.settings.component.WithdrawConfirmationBottomSheet
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -66,7 +68,8 @@ internal fun SettingsUi(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState()),
         ) {
             ReedBackTopAppBar(
                 title = stringResource(R.string.settings_title),

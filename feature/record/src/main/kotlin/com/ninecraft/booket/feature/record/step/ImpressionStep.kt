@@ -3,10 +3,13 @@ package com.ninecraft.booket.feature.record.step
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -27,18 +30,20 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
+import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
+import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.component.button.smallRoundedButtonStyle
 import com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordTextField
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.core.designsystem.R as designR
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.component.ImpressionGuideBottomSheet
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
 import kotlinx.coroutines.launch
+import com.ninecraft.booket.core.designsystem.R as designR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,8 +67,10 @@ fun ImpressionStep(
 
     Column(
         modifier = modifier
+            .fillMaxSize()
             .background(White)
-            .padding(horizontal = ReedTheme.spacing.spacing5),
+            .padding(horizontal = ReedTheme.spacing.spacing5)
+            .verticalScroll(rememberScrollState()),
     ) {
         Text(
             text = stringResource(R.string.impression_step_title),
@@ -105,6 +112,20 @@ fun ImpressionStep(
                 )
             },
         )
+        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(108.dp))
+        ReedButton(
+            onClick = {
+                state.eventSink(RecordRegisterUiEvent.OnNextButtonClick)
+            },
+            colorStyle = ReedButtonColorStyle.PRIMARY,
+            sizeStyle = largeButtonStyle,
+            modifier = Modifier.fillMaxWidth(),
+            enabled = state.isNextButtonEnabled,
+            text = stringResource(R.string.record_next_button),
+            multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
+        )
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
     }
 
     if (state.isImpressionGuideBottomSheetVisible) {
