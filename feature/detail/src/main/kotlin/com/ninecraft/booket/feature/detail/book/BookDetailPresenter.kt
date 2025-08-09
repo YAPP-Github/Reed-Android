@@ -35,9 +35,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
@@ -78,11 +76,11 @@ class BookDetailPresenter @AssistedInject constructor(
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
 
         @Suppress("TooGenericExceptionCaught")
-        suspend fun initialLoad() {
+        fun initialLoad() {
             uiState = UiState.Loading
 
             try {
-                coroutineScope {
+                scope.launch {
                     val bookDetailDef = async { bookRepository.getBookDetail(screen.isbn13).getOrThrow() }
                     val seedsDef = async { bookRepository.getSeedsStats(screen.userBookId).getOrThrow() }
                     val readingRecordsDef = async {
@@ -109,8 +107,6 @@ class BookDetailPresenter @AssistedInject constructor(
 
                     uiState = UiState.Success
                 }
-            } catch (ce: CancellationException) {
-                throw ce
             } catch (e: Throwable) {
                 uiState = UiState.Error(e)
 
