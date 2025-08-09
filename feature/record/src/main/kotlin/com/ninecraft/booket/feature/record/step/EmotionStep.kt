@@ -50,7 +50,8 @@ fun EmotionStep(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = ReedTheme.spacing.spacing5),
+                .padding(horizontal = ReedTheme.spacing.spacing5)
+                .padding(bottom = 80.dp),
         ) {
             item {
                 Text(

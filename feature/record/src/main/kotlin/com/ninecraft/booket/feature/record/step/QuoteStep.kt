@@ -60,6 +60,7 @@ internal fun QuoteStep(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = ReedTheme.spacing.spacing5)
+                .padding(bottom = 80.dp)
                 .verticalScroll(rememberScrollState()),
         ) {
             Text(
