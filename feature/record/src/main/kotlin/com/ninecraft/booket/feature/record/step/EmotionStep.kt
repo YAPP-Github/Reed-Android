@@ -42,74 +42,76 @@ fun EmotionStep(
     state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
+    Box(
         modifier = modifier
             .fillMaxSize()
-            .background(White)
-            .padding(horizontal = ReedTheme.spacing.spacing5),
+            .background(White),
     ) {
-        item {
-            Text(
-                text = stringResource(R.string.emotion_step_title),
-                color = ReedTheme.colors.contentPrimary,
-                style = ReedTheme.typography.heading1Bold,
-            )
-        }
-        item {
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
-        }
-        item {
-            Text(
-                text = stringResource(R.string.emotion_step_description),
-                color = ReedTheme.colors.contentTertiary,
-                style = ReedTheme.typography.label1Medium,
-            )
-        }
-        item {
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = ReedTheme.spacing.spacing5),
+        ) {
+            item {
+                Text(
+                    text = stringResource(R.string.emotion_step_title),
+                    color = ReedTheme.colors.contentPrimary,
+                    style = ReedTheme.typography.heading1Bold,
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
+            }
+            item {
+                Text(
+                    text = stringResource(R.string.emotion_step_description),
+                    color = ReedTheme.colors.contentTertiary,
+                    style = ReedTheme.typography.label1Medium,
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
+            }
+
+            val emotionPairs = state.emotionTags.chunked(2)
+            items(emotionPairs) { pair ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing3),
+                ) {
+                    pair.forEach { tag ->
+                        EmotionItem(
+                            emotionTag = tag,
+                            onClick = {
+                                state.eventSink(RecordRegisterUiEvent.OnSelectEmotion(tag))
+                            },
+                            isSelected = state.selectedEmotion == tag,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                    if (pair.size == 1) {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
+            }
         }
 
-        val emotionPairs = state.emotionTags.chunked(2)
-        items(emotionPairs) { pair ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing3),
-            ) {
-                pair.forEach { tag ->
-                    EmotionItem(
-                        emotionTag = tag,
-                        onClick = {
-                            state.eventSink(RecordRegisterUiEvent.OnSelectEmotion(tag))
-                        },
-                        isSelected = state.selectedEmotion == tag,
-                        modifier = Modifier.weight(1f),
-                    )
-                }
-                if (pair.size == 1) {
-                    Spacer(modifier = Modifier.weight(1f))
-                }
-            }
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
-        }
-        item {
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
-        }
-        item {
-            ReedButton(
-                onClick = {
-                    state.eventSink(RecordRegisterUiEvent.OnNextButtonClick)
-                },
-                colorStyle = ReedButtonColorStyle.PRIMARY,
-                sizeStyle = largeButtonStyle,
-                modifier = Modifier.fillMaxWidth(),
-                enabled = state.isNextButtonEnabled,
-                text = stringResource(R.string.record_next_button),
-                multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
-            )
-        }
-        item {
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
-        }
+        ReedButton(
+            onClick = {
+                state.eventSink(RecordRegisterUiEvent.OnNextButtonClick)
+            },
+            colorStyle = ReedButtonColorStyle.PRIMARY,
+            sizeStyle = largeButtonStyle,
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = ReedTheme.spacing.spacing5)
+                .padding(bottom = ReedTheme.spacing.spacing4),
+            enabled = state.isNextButtonEnabled,
+            text = stringResource(R.string.record_next_button),
+            multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
+        )
     }
 }
 

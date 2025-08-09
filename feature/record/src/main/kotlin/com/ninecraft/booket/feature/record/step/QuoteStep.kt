@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.record.step
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -48,96 +50,103 @@ internal fun QuoteStep(
 ) {
     val focusManager = LocalFocusManager.current
 
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .background(White)
-            .imePadding()
-            .padding(horizontal = ReedTheme.spacing.spacing5)
-            .verticalScroll(rememberScrollState()),
+            .imePadding(),
     ) {
-        Text(
-            text = stringResource(R.string.quote_step_title),
-            color = ReedTheme.colors.contentPrimary,
-            style = ReedTheme.typography.heading1Bold,
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
-        Text(
-            text = stringResource(R.string.quote_step_page_label),
-            color = ReedTheme.colors.contentPrimary,
-            style = ReedTheme.typography.body1Medium,
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-        ReedRecordTextField(
-            recordState = state.recordPageState,
-            recordHintRes = R.string.quote_step_page_hint,
-            inputTransformation = digitOnlyInputTransformation,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            lineLimits = TextFieldLineLimits.SingleLine,
-            isError = state.isPageError,
-            errorMessage = stringResource(R.string.quote_step_page_input_error),
-            onClear = {
-                state.eventSink(RecordRegisterUiEvent.OnClearClick)
-            },
-            onNext = {
-                focusManager.moveFocus(FocusDirection.Down)
-            },
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
-        Text(
-            text = stringResource(R.string.quote_step_sentence_label),
-            color = ReedTheme.colors.contentPrimary,
-            style = ReedTheme.typography.body1Medium,
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-        ReedRecordTextField(
-            recordState = state.recordSentenceState,
-            recordHintRes = R.string.quote_step_sentence_hint,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(140.dp),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Default,
-            ),
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End,
+                .fillMaxSize()
+                .padding(horizontal = ReedTheme.spacing.spacing5)
+                .verticalScroll(rememberScrollState()),
         ) {
-            ReedButton(
-                onClick = {
-                    state.eventSink(RecordRegisterUiEvent.OnSentenceScanButtonClick)
-                },
-                colorStyle = ReedButtonColorStyle.STROKE,
-                sizeStyle = smallRoundedButtonStyle,
-                text = stringResource(R.string.quote_step_scan_sentence),
-                leadingIcon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(designR.drawable.ic_maximize),
-                        contentDescription = "Scan Icon",
-                    )
-                },
+            Text(
+                text = stringResource(R.string.quote_step_title),
+                color = ReedTheme.colors.contentPrimary,
+                style = ReedTheme.typography.heading1Bold,
             )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
+            Text(
+                text = stringResource(R.string.quote_step_page_label),
+                color = ReedTheme.colors.contentPrimary,
+                style = ReedTheme.typography.body1Medium,
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+            ReedRecordTextField(
+                recordState = state.recordPageState,
+                recordHintRes = R.string.quote_step_page_hint,
+                inputTransformation = digitOnlyInputTransformation,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                lineLimits = TextFieldLineLimits.SingleLine,
+                isError = state.isPageError,
+                errorMessage = stringResource(R.string.quote_step_page_input_error),
+                onClear = {
+                    state.eventSink(RecordRegisterUiEvent.OnClearClick)
+                },
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Down)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
+            Text(
+                text = stringResource(R.string.quote_step_sentence_label),
+                color = ReedTheme.colors.contentPrimary,
+                style = ReedTheme.typography.body1Medium,
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+            ReedRecordTextField(
+                recordState = state.recordSentenceState,
+                recordHintRes = R.string.quote_step_sentence_hint,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(140.dp),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Default,
+                ),
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+            ) {
+                ReedButton(
+                    onClick = {
+                        state.eventSink(RecordRegisterUiEvent.OnSentenceScanButtonClick)
+                    },
+                    colorStyle = ReedButtonColorStyle.STROKE,
+                    sizeStyle = smallRoundedButtonStyle,
+                    text = stringResource(R.string.quote_step_scan_sentence),
+                    leadingIcon = {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(designR.drawable.ic_maximize),
+                            contentDescription = "Scan Icon",
+                        )
+                    },
+                )
+            }
         }
-        Spacer(modifier = Modifier.weight(1f))
-        Spacer(modifier = Modifier.height(108.dp))
+
         ReedButton(
             onClick = {
                 state.eventSink(RecordRegisterUiEvent.OnNextButtonClick)
             },
             colorStyle = ReedButtonColorStyle.PRIMARY,
             sizeStyle = largeButtonStyle,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = ReedTheme.spacing.spacing5)
+                .padding(bottom = ReedTheme.spacing.spacing4),
             enabled = state.isNextButtonEnabled,
             text = stringResource(R.string.record_next_button),
             multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
         )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
     }
 }
 
