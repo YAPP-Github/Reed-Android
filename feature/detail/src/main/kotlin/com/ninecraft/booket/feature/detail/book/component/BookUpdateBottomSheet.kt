@@ -48,6 +48,7 @@ internal fun BookUpdateBottomSheet(
     onCloseButtonClick: () -> Unit,
     bookStatuses: ImmutableList<BookStatus>,
     currentBookStatus: BookStatus?,
+    selectedBookStatus: BookStatus,
     onItemSelected: (BookStatus) -> Unit,
     onBookUpdateButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -94,9 +95,9 @@ internal fun BookUpdateBottomSheet(
                 bookStatuses.forEach { item ->
                     BookStatusItem(
                         item = item,
-                        selected = item == currentBookStatus,
+                        selected = item == selectedBookStatus,
                         onClick = {
-                            if (item != currentBookStatus) {
+                            if (item != selectedBookStatus) {
                                 onItemSelected(item)
                             }
                         },
@@ -112,7 +113,7 @@ internal fun BookUpdateBottomSheet(
                 sizeStyle = largeButtonStyle,
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 modifier = Modifier.fillMaxWidth(),
-                enabled = currentBookStatus != null,
+                enabled = currentBookStatus != selectedBookStatus,
                 text = stringResource(R.string.book_update_ok),
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
@@ -167,6 +168,7 @@ private fun BookUpdateBottomSheetPreview() {
             onCloseButtonClick = {},
             bookStatuses = BookStatus.entries.toImmutableList(),
             currentBookStatus = null,
+            selectedBookStatus = BookStatus.BEFORE_READING,
             onItemSelected = {},
             onBookUpdateButtonClick = {},
         )

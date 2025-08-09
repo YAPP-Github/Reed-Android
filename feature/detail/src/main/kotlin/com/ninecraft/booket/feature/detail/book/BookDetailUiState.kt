@@ -32,6 +32,7 @@ data class BookDetailUiState(
     val currentStartIndex: Int = 1,
     val isLastPage: Boolean = false,
     val currentBookStatus: BookStatus = BookStatus.BEFORE_READING,
+    val selectedBookStatus: BookStatus = BookStatus.BEFORE_READING,
     val currentRecordSort: RecordSort = RecordSort.PAGE_NUMBER_ASC,
     val isBookUpdateBottomSheetVisible: Boolean = false,
     val isRecordSortBottomSheetVisible: Boolean = false,

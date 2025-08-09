@@ -95,6 +95,7 @@ internal fun BookDetailUi(
             },
             bookStatuses = BookStatus.entries.toTypedArray().toImmutableList(),
             currentBookStatus = state.currentBookStatus,
+            selectedBookStatus = state.selectedBookStatus,
             onItemSelected = {
                 state.eventSink(BookDetailUiEvent.OnBookStatusItemSelected(it))
             },

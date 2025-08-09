@@ -71,6 +71,7 @@ class BookDetailPresenter @AssistedInject constructor(
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
         var isLastPage by rememberRetained { mutableStateOf(false) }
         var currentBookStatus by rememberRetained { mutableStateOf(BookStatus.READING) }
+        var selectedBookStatus by rememberRetained { mutableStateOf(BookStatus.READING) }
         var currentRecordSort by rememberRetained { mutableStateOf(RecordSort.PAGE_NUMBER_ASC) }
         var isBookUpdateBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isRecordSortBottomSheetVisible by rememberRetained { mutableStateOf(false) }
@@ -97,6 +98,8 @@ class BookDetailPresenter @AssistedInject constructor(
                     val records = readingRecordsDef.await()
 
                     bookDetail = detail
+                    currentBookStatus = BookStatus.fromValue(detail.userBookStatus) ?: BookStatus.BEFORE_READING
+                    selectedBookStatus = currentBookStatus
                     seedsStates = seeds.categories.toImmutableList()
                     readingRecords = records.content.toPersistentList()
                     readingRecordsPageInfo = records.page
@@ -214,11 +217,11 @@ class BookDetailPresenter @AssistedInject constructor(
                 }
 
                 is BookDetailUiEvent.OnBookStatusItemSelected -> {
-                    currentBookStatus = event.bookStatus
+                    selectedBookStatus = event.bookStatus
                 }
 
                 is BookDetailUiEvent.OnBookStatusUpdateButtonClick -> {
-                    upsertBook(screen.isbn13, currentBookStatus.value)
+                    upsertBook(screen.isbn13, selectedBookStatus.value)
                 }
 
                 is BookDetailUiEvent.OnRecordSortBottomSheetDismiss -> {
@@ -259,6 +262,7 @@ class BookDetailPresenter @AssistedInject constructor(
             isBookUpdateBottomSheetVisible = isBookUpdateBottomSheetVisible,
             isRecordSortBottomSheetVisible = isRecordSortBottomSheetVisible,
             currentBookStatus = currentBookStatus,
+            selectedBookStatus = selectedBookStatus,
             currentRecordSort = currentRecordSort,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
