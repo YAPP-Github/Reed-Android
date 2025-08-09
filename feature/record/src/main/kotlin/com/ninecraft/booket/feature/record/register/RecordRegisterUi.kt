@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -20,9 +21,9 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedDialog
-import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.step.EmotionStep
 import com.ninecraft.booket.feature.record.step.ImpressionStep
@@ -43,8 +44,15 @@ internal fun RecordRegisterUi(
         state.eventSink(RecordRegisterUiEvent.OnBackButtonClick)
     }
 
-    ReedFullScreen(modifier = modifier.fillMaxSize()) {
-        Column(modifier = Modifier.fillMaxSize()) {
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        containerColor = White,
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+        ) {
             ReedBackTopAppBar(
                 onBackClick = {
                     state.eventSink(RecordRegisterUiEvent.OnBackButtonClick)
