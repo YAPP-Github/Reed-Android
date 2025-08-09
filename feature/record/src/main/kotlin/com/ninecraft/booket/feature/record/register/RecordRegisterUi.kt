@@ -1,8 +1,8 @@
 package com.ninecraft.booket.feature.record.register
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,10 +20,9 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedDialog
+import com.ninecraft.booket.core.ui.component.ReedFullScreen
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.step.EmotionStep
 import com.ninecraft.booket.feature.record.step.ImpressionStep
@@ -34,7 +33,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 
 @CircuitInject(RecordScreen::class, ActivityRetainedComponent::class)
 @Composable
-internal fun RecordRegister(
+internal fun RecordRegisterUi(
     state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -44,15 +43,8 @@ internal fun RecordRegister(
         state.eventSink(RecordRegisterUiEvent.OnBackButtonClick)
     }
 
-    ReedScaffold(
-        modifier = modifier.fillMaxSize(),
-        containerColor = White,
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-        ) {
+    ReedFullScreen(modifier = modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
             ReedBackTopAppBar(
                 onBackClick = {
                     state.eventSink(RecordRegisterUiEvent.OnBackButtonClick)
@@ -136,7 +128,7 @@ internal fun RecordRegister(
 @Composable
 private fun RecordRegisterPreview() {
     ReedTheme {
-        RecordRegister(
+        RecordRegisterUi(
             state = RecordRegisterUiState(
                 eventSink = {},
             ),
