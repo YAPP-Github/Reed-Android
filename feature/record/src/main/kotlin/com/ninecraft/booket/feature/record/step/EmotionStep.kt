@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +43,8 @@ fun EmotionStep(
     state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
+    val emotionPairs = remember(state.emotionTags) { state.emotionTags.chunked(2) }
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -74,7 +77,6 @@ fun EmotionStep(
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
             }
 
-            val emotionPairs = state.emotionTags.chunked(2)
             items(emotionPairs) { pair ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
