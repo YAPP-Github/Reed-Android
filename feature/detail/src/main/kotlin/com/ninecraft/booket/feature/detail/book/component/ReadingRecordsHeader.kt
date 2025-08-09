@@ -15,15 +15,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.model.ReadingRecordModel
+import com.ninecraft.booket.core.model.PageInfoModel
 import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.book.RecordSort
-import kotlinx.collections.immutable.ImmutableList
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
 internal fun ReadingRecordsHeader(
-    readingRecords: ImmutableList<ReadingRecordModel>,
+    pageInfo: PageInfoModel,
     currentRecordSort: RecordSort,
     onReadingRecordClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -41,7 +40,7 @@ internal fun ReadingRecordsHeader(
             )
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
             Text(
-                text = "${readingRecords.size}",
+                text = "${pageInfo.totalElements}",
                 color = ReedTheme.colors.contentBrand,
                 style = ReedTheme.typography.headline2SemiBold,
             )
