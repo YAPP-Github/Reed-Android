@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -17,9 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.core.designsystem.component.RecordProgressBar
-import com.ninecraft.booket.core.designsystem.component.button.ReedButton
-import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
-import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
@@ -76,21 +72,6 @@ internal fun RecordRegisterUi(
                     ImpressionStep(state = state)
                 }
             }
-            Spacer(modifier = Modifier.weight(1f))
-            ReedButton(
-                onClick = {
-                    state.eventSink(RecordRegisterUiEvent.OnNextButtonClick)
-                },
-                colorStyle = ReedButtonColorStyle.PRIMARY,
-                sizeStyle = largeButtonStyle,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = ReedTheme.spacing.spacing5),
-                enabled = state.isNextButtonEnabled,
-                text = stringResource(R.string.record_next_button),
-                multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
-            )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
         }
     }
 
