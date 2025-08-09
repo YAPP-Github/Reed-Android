@@ -37,6 +37,7 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
@@ -298,6 +299,13 @@ private fun BookDetailPreview() {
         BookDetailUi(
             state = BookDetailUiState(
                 uiState = UiState.Success,
+                bookDetail = BookDetailModel(
+                    title = "데미안",
+                    author = "헤르만 헤세",
+                    publisher = "민음사",
+                    pubDate = "2023-01-01",
+                    coverImageUrl = "",
+                ),
                 eventSink = {},
             ),
         )

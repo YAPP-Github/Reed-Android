@@ -115,8 +115,8 @@ private fun BookItemPreview() {
                 author = "헤르만 헤세",
                 publisher = "민음사",
                 pubDate = "2023-01-01",
-                coverImageUrl = ""
-            )
+                coverImageUrl = "",
+            ),
         )
     }
 }
