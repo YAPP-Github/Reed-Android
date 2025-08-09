@@ -34,7 +34,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -89,11 +92,19 @@ private fun CameraPreview(
     val lifecycleOwner = LocalLifecycleOwner.current
     val permission = android.Manifest.permission.CAMERA
 
-    // UI에서 항상 권한 최신 상태 확인
-    val isGranted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
-    val launcher = rememberLauncherForActivityResult(
+    /**
+     * Camera Permission Request
+     */
+    var isGranted by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED,
+        )
+    }
+    val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
     ) { granted ->
+        isGranted = granted
+
         if (!granted) {
             state.eventSink(OcrUiEvent.OnShowPermissionDialog)
         }
@@ -102,6 +113,33 @@ private fun CameraPreview(
         contract = ActivityResultContracts.StartActivityForResult(),
     ) { _ -> }
 
+    // 최초 진입 시 권한 요청
+    LaunchedEffect(Unit) {
+        if (!isGranted) {
+            state.eventSink(OcrUiEvent.OnHidePermissionDialog)
+            permissionLauncher.launch(permission)
+        }
+    }
+
+    // 앱이 포그라운드로 북귀할 때 OS 권한 동기화
+    DisposableEffect(Unit) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                isGranted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+                if (isGranted) {
+                    state.eventSink(OcrUiEvent.OnHidePermissionDialog)
+                } else {
+                    state.eventSink(OcrUiEvent.OnShowPermissionDialog)
+                }
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
+    /**
+     * Camera Controller & ImageAnalyzer
+     */
     val cameraController = remember { LifecycleCameraController(context) }
     val imageAnalyzer = remember {
         ImageAnalysis.Analyzer { imageProxy ->
@@ -109,6 +147,24 @@ private fun CameraPreview(
         }
     }
 
+    DisposableEffect(isGranted, lifecycleOwner, cameraController) {
+        if (isGranted) {
+            cameraController.bindToLifecycle(lifecycleOwner)
+            cameraController.setImageAnalysisAnalyzer(
+                ContextCompat.getMainExecutor(context),
+                imageAnalyzer,
+            )
+        }
+
+        onDispose {
+            cameraController.unbind()
+            cameraController.clearImageAnalysisAnalyzer()
+        }
+    }
+
+    /**
+     * SystemStatusBar Color
+     */
     val systemUiController = rememberSystemUiController()
 
     DisposableEffect(systemUiController) {
@@ -124,42 +180,6 @@ private fun CameraPreview(
                 darkIcons = true,
                 isNavigationBarContrastEnforced = false,
             )
-        }
-    }
-
-    // 최초 진입 시 권한 요청
-    LaunchedEffect(Unit) {
-        if (!isGranted) {
-            state.eventSink(OcrUiEvent.OnHidePermissionDialog)
-            launcher.launch(permission)
-        }
-    }
-
-    // 앱이 포그라운드로 북귀할 때 OS 권한 체크
-    DisposableEffect(Unit) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                val currentGrant = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
-                if (currentGrant) {
-                    state.eventSink(OcrUiEvent.OnHidePermissionDialog)
-                } else {
-                    state.eventSink(OcrUiEvent.OnShowPermissionDialog)
-                }
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
-    }
-
-    DisposableEffect(lifecycleOwner, cameraController) {
-        cameraController.bindToLifecycle(lifecycleOwner)
-        cameraController.setImageAnalysisAnalyzer(
-            ContextCompat.getMainExecutor(context),
-            imageAnalyzer,
-        )
-        onDispose {
-            cameraController.unbind()
-            cameraController.clearImageAnalysisAnalyzer()
         }
     }
 
