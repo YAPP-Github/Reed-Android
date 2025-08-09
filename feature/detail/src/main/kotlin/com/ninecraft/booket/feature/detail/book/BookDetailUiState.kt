@@ -5,6 +5,7 @@ import com.ninecraft.booket.core.common.R
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.EmotionModel
+import com.ninecraft.booket.core.model.PageInfoModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.slack.circuit.runtime.CircuitUiEvent
@@ -27,9 +28,11 @@ data class BookDetailUiState(
     val bookDetail: BookDetailModel = BookDetailModel(),
     val seedsStats: ImmutableList<EmotionModel> = persistentListOf(),
     val readingRecords: ImmutableList<ReadingRecordModel> = persistentListOf(),
+    val readingRecordsPageInfo: PageInfoModel = PageInfoModel(),
     val currentStartIndex: Int = 1,
     val isLastPage: Boolean = false,
     val currentBookStatus: BookStatus = BookStatus.BEFORE_READING,
+    val selectedBookStatus: BookStatus = BookStatus.BEFORE_READING,
     val currentRecordSort: RecordSort = RecordSort.PAGE_NUMBER_ASC,
     val isBookUpdateBottomSheetVisible: Boolean = false,
     val isRecordSortBottomSheetVisible: Boolean = false,

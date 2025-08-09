@@ -15,6 +15,7 @@ import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.EmotionModel
+import com.ninecraft.booket.core.model.PageInfoModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
@@ -34,9 +35,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
@@ -66,20 +65,22 @@ class BookDetailPresenter @AssistedInject constructor(
         var bookDetail by rememberRetained { mutableStateOf(BookDetailModel()) }
         var seedsStates by rememberRetained { mutableStateOf<ImmutableList<EmotionModel>>(persistentListOf()) }
         var readingRecords by rememberRetained { mutableStateOf(persistentListOf<ReadingRecordModel>()) }
+        var readingRecordsPageInfo by rememberRetained { mutableStateOf(PageInfoModel()) }
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
         var isLastPage by rememberRetained { mutableStateOf(false) }
         var currentBookStatus by rememberRetained { mutableStateOf(BookStatus.READING) }
+        var selectedBookStatus by rememberRetained { mutableStateOf(BookStatus.READING) }
         var currentRecordSort by rememberRetained { mutableStateOf(RecordSort.PAGE_NUMBER_ASC) }
         var isBookUpdateBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isRecordSortBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
 
         @Suppress("TooGenericExceptionCaught")
-        suspend fun initialLoad() {
+        fun initialLoad() {
             uiState = UiState.Loading
 
             try {
-                coroutineScope {
+                scope.launch {
                     val bookDetailDef = async { bookRepository.getBookDetail(screen.isbn13).getOrThrow() }
                     val seedsDef = async { bookRepository.getSeedsStats(screen.userBookId).getOrThrow() }
                     val readingRecordsDef = async {
@@ -95,16 +96,17 @@ class BookDetailPresenter @AssistedInject constructor(
                     val records = readingRecordsDef.await()
 
                     bookDetail = detail
+                    currentBookStatus = BookStatus.fromValue(detail.userBookStatus) ?: BookStatus.BEFORE_READING
+                    selectedBookStatus = currentBookStatus
                     seedsStates = seeds.categories.toImmutableList()
                     readingRecords = records.content.toPersistentList()
+                    readingRecordsPageInfo = records.page
 
                     isLastPage = records.content.size < PAGE_SIZE
                     currentStartIndex = START_INDEX
 
                     uiState = UiState.Success
                 }
-            } catch (ce: CancellationException) {
-                throw ce
             } catch (e: Throwable) {
                 uiState = UiState.Error(e)
 
@@ -211,11 +213,11 @@ class BookDetailPresenter @AssistedInject constructor(
                 }
 
                 is BookDetailUiEvent.OnBookStatusItemSelected -> {
-                    currentBookStatus = event.bookStatus
+                    selectedBookStatus = event.bookStatus
                 }
 
                 is BookDetailUiEvent.OnBookStatusUpdateButtonClick -> {
-                    upsertBook(screen.isbn13, currentBookStatus.value)
+                    upsertBook(screen.isbn13, selectedBookStatus.value)
                 }
 
                 is BookDetailUiEvent.OnRecordSortBottomSheetDismiss -> {
@@ -252,9 +254,11 @@ class BookDetailPresenter @AssistedInject constructor(
             bookDetail = bookDetail,
             seedsStats = seedsStates,
             readingRecords = readingRecords,
+            readingRecordsPageInfo = readingRecordsPageInfo,
             isBookUpdateBottomSheetVisible = isBookUpdateBottomSheetVisible,
             isRecordSortBottomSheetVisible = isRecordSortBottomSheetVisible,
             currentBookStatus = currentBookStatus,
+            selectedBookStatus = selectedBookStatus,
             currentRecordSort = currentRecordSort,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,

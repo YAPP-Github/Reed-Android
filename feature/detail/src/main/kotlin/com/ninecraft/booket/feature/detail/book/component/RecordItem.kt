@@ -81,7 +81,7 @@ internal fun RecordItem(
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "${pageNumber}P",
+                text = "${pageNumber}p",
                 color = ReedTheme.colors.contentBrand,
                 style = ReedTheme.typography.body2Medium,
             )
