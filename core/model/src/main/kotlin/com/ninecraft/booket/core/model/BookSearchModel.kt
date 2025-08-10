@@ -6,7 +6,6 @@ import androidx.compose.runtime.Stable
 data class BookSearchModel(
     val version: String = "",
     val title: String = "",
-    val link: String = "",
     val pubDate: String = "",
     val totalResults: Int = 0,
     val startIndex: Int = 0,
@@ -14,6 +13,7 @@ data class BookSearchModel(
     val query: String = "",
     val searchCategoryId: Int = 0,
     val searchCategoryName: String = "",
+    val lastPage: Boolean = false,
     val books: List<BookSummaryModel> = emptyList(),
 )
 
@@ -24,5 +24,7 @@ data class BookSummaryModel(
     val author: String = "",
     val publisher: String = "",
     val coverImageUrl: String = "",
+    val link: String = "",
     val userBookStatus: String = "",
+    val key: String = "",
 )

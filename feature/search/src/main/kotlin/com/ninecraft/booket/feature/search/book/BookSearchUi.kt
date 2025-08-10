@@ -222,7 +222,7 @@ internal fun SearchContent(
                     ) {
                         items(
                             count = state.books.size,
-                            key = { index -> state.books[index].isbn13 },
+                            key = { index -> state.books[index].key },
                         ) { index ->
                             Column {
                                 BookItem(
