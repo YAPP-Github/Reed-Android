@@ -40,7 +40,6 @@ class BookSearchPresenter @AssistedInject constructor(
     private val repository: BookRepository,
 ) : Presenter<BookSearchUiState> {
     companion object {
-        private const val PAGE_SIZE = 20
         private const val START_INDEX = 1
     }
 
@@ -185,7 +184,12 @@ class BookSearchPresenter @AssistedInject constructor(
 
                 is BookSearchUiEvent.OnBookClick -> {
                     selectedBookIsbn = event.isbn13
-                    isBookRegisterBottomSheetVisible = true
+
+                    if (selectedBookIsbn.isEmpty()) {
+                        sideEffect = BookSearchSideEffect.ShowToast("isbn이 없는 도서는 등록할 수 없습니다")
+                    } else {
+                        isBookRegisterBottomSheetVisible = true
+                    }
                 }
 
                 is BookSearchUiEvent.OnBookRegisterBottomSheetDismiss -> {

@@ -75,6 +75,7 @@ internal fun BookSummary.toModel(): BookSummaryModel {
         coverImageUrl = coverImageUrl,
         link = link,
         userBookStatus = userBookStatus,
+        key = "$title-$isbn13",
     )
 }
 
