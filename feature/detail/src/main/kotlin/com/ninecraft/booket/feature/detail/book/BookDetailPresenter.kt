@@ -35,6 +35,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
@@ -75,11 +76,11 @@ class BookDetailPresenter @AssistedInject constructor(
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
 
         @Suppress("TooGenericExceptionCaught")
-        fun initialLoad() {
+        suspend fun initialLoad() {
             uiState = UiState.Loading
 
             try {
-                scope.launch {
+                coroutineScope {
                     val bookDetailDef = async { bookRepository.getBookDetail(screen.isbn13).getOrThrow() }
                     val seedsDef = async { bookRepository.getSeedsStats(screen.userBookId).getOrThrow() }
                     val readingRecordsDef = async {
