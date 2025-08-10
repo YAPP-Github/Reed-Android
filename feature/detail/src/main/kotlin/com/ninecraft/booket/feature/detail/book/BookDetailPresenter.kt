@@ -15,7 +15,6 @@ import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.EmotionModel
-import com.ninecraft.booket.core.model.PageInfoModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
@@ -65,7 +64,7 @@ class BookDetailPresenter @AssistedInject constructor(
         var bookDetail by rememberRetained { mutableStateOf(BookDetailModel()) }
         var seedsStates by rememberRetained { mutableStateOf<ImmutableList<EmotionModel>>(persistentListOf()) }
         var readingRecords by rememberRetained { mutableStateOf(persistentListOf<ReadingRecordModel>()) }
-        var readingRecordsPageInfo by rememberRetained { mutableStateOf(PageInfoModel()) }
+        var readingRecordsTotalCount by rememberRetained { mutableIntStateOf(0) }
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
         var isLastPage by rememberRetained { mutableStateOf(false) }
         var currentBookStatus by rememberRetained { mutableStateOf(BookStatus.READING) }
@@ -99,10 +98,10 @@ class BookDetailPresenter @AssistedInject constructor(
                     currentBookStatus = BookStatus.fromValue(detail.userBookStatus) ?: BookStatus.BEFORE_READING
                     selectedBookStatus = currentBookStatus
                     seedsStates = seeds.categories.toImmutableList()
-                    readingRecords = records.content.toPersistentList()
-                    readingRecordsPageInfo = records.page
+                    readingRecords = records.readingRecords.toPersistentList()
+                    readingRecordsTotalCount = records.totalResults
 
-                    isLastPage = records.content.size < PAGE_SIZE
+                    isLastPage = records.lastPage
                     currentStartIndex = START_INDEX
 
                     uiState = UiState.Success
@@ -170,9 +169,9 @@ class BookDetailPresenter @AssistedInject constructor(
                     page = startIndex,
                     size = PAGE_SIZE,
                 ).onSuccess { result ->
-                    readingRecords = (readingRecords + result.content).toPersistentList()
+                    readingRecords = (readingRecords + result.readingRecords).toPersistentList()
                     currentStartIndex = startIndex
-                    isLastPage = result.content.size < PAGE_SIZE
+                    isLastPage = result.lastPage
                     footerState = if (isLastPage) FooterState.End else FooterState.Idle
                 }.onFailure { exception ->
                     Logger.d(exception)
@@ -254,7 +253,7 @@ class BookDetailPresenter @AssistedInject constructor(
             bookDetail = bookDetail,
             seedsStats = seedsStates,
             readingRecords = readingRecords,
-            readingRecordsPageInfo = readingRecordsPageInfo,
+            readingRecordsTotalCount = readingRecordsTotalCount,
             isBookUpdateBottomSheetVisible = isBookUpdateBottomSheetVisible,
             isRecordSortBottomSheetVisible = isRecordSortBottomSheetVisible,
             currentBookStatus = currentBookStatus,
