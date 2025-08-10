@@ -170,8 +170,11 @@ internal fun RecordRegisterResponse.toModel(): RecordRegisterModel {
 
 internal fun ReadingRecordsResponse.toModel(): ReadingRecordsModel {
     return ReadingRecordsModel(
-        content = content.map { it.toModel() },
-        page = page.toModel(),
+        lastPage = lastPage,
+        totalResults = totalResults,
+        startIndex = startIndex,
+        itemsPerPage = itemsPerPage,
+        readingRecords = readingRecords.map { it.toModel() },
     )
 }
 
@@ -188,6 +191,7 @@ internal fun ReadingRecord.toModel(): ReadingRecordModel {
         bookTitle = bookTitle,
         bookPublisher = bookPublisher,
         bookCoverImageUrl = bookCoverImageUrl,
+        author = author,
     )
 }
 

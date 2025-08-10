@@ -1,8 +1,11 @@
 package com.ninecraft.booket.core.model
 
 data class ReadingRecordsModel(
-    val content: List<ReadingRecordModel> = emptyList(),
-    val page: PageInfoModel = PageInfoModel(),
+    val lastPage: Boolean = true,
+    val totalResults: Int = 0,
+    val startIndex: Int = 0,
+    val itemsPerPage: Int = 0,
+    val readingRecords: List<ReadingRecordModel> = emptyList(),
 )
 
 data class ReadingRecordModel(
@@ -17,4 +20,5 @@ data class ReadingRecordModel(
     val bookTitle: String = "",
     val bookPublisher: String = "",
     val bookCoverImageUrl: String = "",
+    val author: String = "",
 )

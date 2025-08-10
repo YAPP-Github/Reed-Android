@@ -5,10 +5,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ReadingRecordsResponse(
-    @SerialName("content")
-    val content: List<ReadingRecord>,
-    @SerialName("page")
-    val page: PageInfo,
+    @SerialName("lastPage")
+    val lastPage: Boolean,
+    @SerialName("totalResults")
+    val totalResults: Int,
+    @SerialName("startIndex")
+    val startIndex: Int,
+    @SerialName("itemsPerPage")
+    val itemsPerPage: Int,
+    @SerialName("readingRecords")
+    val readingRecords: List<ReadingRecord>,
 )
 
 @Serializable
@@ -35,4 +41,6 @@ data class ReadingRecord(
     val bookPublisher: String,
     @SerialName("bookCoverImageUrl")
     val bookCoverImageUrl: String,
+    @SerialName("author")
+    val author: String,
 )

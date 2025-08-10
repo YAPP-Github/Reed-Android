@@ -223,7 +223,7 @@ internal fun BookDetailContent(
                     ) {
                         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
                         ReadingRecordsHeader(
-                            pageInfo = state.readingRecordsPageInfo,
+                            totalCount = state.readingRecordsTotalCount,
                             currentRecordSort = state.currentRecordSort,
                             onReadingRecordClick = {
                                 state.eventSink(BookDetailUiEvent.OnRecordSortButtonClick)
