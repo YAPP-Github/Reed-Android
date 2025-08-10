@@ -9,8 +9,6 @@ data class BookSearchResponse(
     val version: String,
     @SerialName("title")
     val title: String,
-    @SerialName("link")
-    val link: String,
     @SerialName("pubDate")
     val pubDate: String,
     @SerialName("totalResults")
@@ -25,6 +23,8 @@ data class BookSearchResponse(
     val searchCategoryId: Int,
     @SerialName("searchCategoryName")
     val searchCategoryName: String,
+    @SerialName("lastPage")
+    val lastPage: Boolean,
     @SerialName("books")
     val books: List<BookSummary>,
 )
@@ -41,6 +41,8 @@ data class BookSummary(
     val publisher: String,
     @SerialName("coverImageUrl")
     val coverImageUrl: String,
+    @SerialName("link")
+    val link: String,
     @SerialName("userBookStatus")
     val userBookStatus: String,
 )

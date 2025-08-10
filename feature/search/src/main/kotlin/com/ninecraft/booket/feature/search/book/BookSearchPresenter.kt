@@ -80,7 +80,7 @@ class BookSearchPresenter @AssistedInject constructor(
                         }
 
                         currentStartIndex = startIndex
-                        isLastPage = result.books.size < PAGE_SIZE
+                        isLastPage = result.lastPage
 
                         if (startIndex == START_INDEX) {
                             uiState = UiState.Success

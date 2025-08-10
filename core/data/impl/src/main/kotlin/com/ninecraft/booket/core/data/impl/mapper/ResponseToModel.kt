@@ -54,7 +54,6 @@ internal fun BookSearchResponse.toModel(): BookSearchModel {
     return BookSearchModel(
         version = version,
         title = title,
-        link = link,
         pubDate = pubDate,
         totalResults = totalResults,
         startIndex = startIndex,
@@ -62,6 +61,7 @@ internal fun BookSearchResponse.toModel(): BookSearchModel {
         query = query,
         searchCategoryId = searchCategoryId,
         searchCategoryName = searchCategoryName,
+        lastPage = lastPage,
         books = books.map { it.toModel() },
     )
 }
@@ -73,6 +73,7 @@ internal fun BookSummary.toModel(): BookSummaryModel {
         author = author,
         publisher = publisher,
         coverImageUrl = coverImageUrl,
+        link = link,
         userBookStatus = userBookStatus,
     )
 }
