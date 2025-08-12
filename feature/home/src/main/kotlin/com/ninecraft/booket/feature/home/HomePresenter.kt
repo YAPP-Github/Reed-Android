@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.feature.screens.BookDetailScreen
@@ -17,6 +18,7 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -28,12 +30,12 @@ import kotlinx.coroutines.launch
 class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val repository: BookRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<HomeUiState> {
 
     @Composable
     override fun present(): HomeUiState {
         val scope = rememberCoroutineScope()
-
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var recentBooks by rememberRetained { mutableStateOf(persistentListOf<RecentBookModel>()) }
 
@@ -89,6 +91,10 @@ class HomePresenter @AssistedInject constructor(
             loadHomeContent()
         }
 
+        ImpressionEffect(HomeScreen) {
+            analyticsHelper.logScreenView(HomeScreen.name)
+        }
+        
         return HomeUiState(
             uiState = uiState,
             recentBooks = recentBooks,

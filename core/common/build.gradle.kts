@@ -18,6 +18,8 @@ dependencies {
 
         libs.kotlinx.collections.immutable,
 
+        platform(libs.firebase.bom),
+        libs.firebase.analytics,
         libs.logger,
     )
 }
