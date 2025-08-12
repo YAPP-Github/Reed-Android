@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.model.AutoLoginState
@@ -20,6 +21,7 @@ import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -31,6 +33,7 @@ class SplashPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<SplashUiState> {
 
     @Composable
@@ -89,6 +92,10 @@ class SplashPresenter @AssistedInject constructor(
                     // 온보딩 상태를 기다리는 중
                 }
             }
+        }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(SplashScreen.name)
         }
 
         return SplashUiState

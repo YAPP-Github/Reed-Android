@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.home
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -14,6 +13,7 @@ import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.SearchScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
+import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -36,6 +36,7 @@ class HomePresenter @AssistedInject constructor(
     @Composable
     override fun present(): HomeUiState {
         val scope = rememberCoroutineScope()
+
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var recentBooks by rememberRetained { mutableStateOf(persistentListOf<RecentBookModel>()) }
 
@@ -87,14 +88,14 @@ class HomePresenter @AssistedInject constructor(
             }
         }
 
-        LaunchedEffect(true) {
+        RememberedEffect(true) {
             loadHomeContent()
         }
 
-        ImpressionEffect(HomeScreen) {
+        ImpressionEffect {
             analyticsHelper.logScreenView(HomeScreen.name)
         }
-        
+
         return HomeUiState(
             uiState = uiState,
             recentBooks = recentBooks,

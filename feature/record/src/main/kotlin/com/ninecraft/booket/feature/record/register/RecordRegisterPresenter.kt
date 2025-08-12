@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextRange
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.common.utils.postErrorDialog
@@ -27,6 +28,7 @@ import com.slack.circuit.foundation.rememberAnsweringNavigator
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -38,6 +40,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
     @Assisted private val screen: RecordScreen,
     @Assisted private val navigator: Navigator,
     private val repository: RecordRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<RecordRegisterUiState> {
 
     @Composable
@@ -256,6 +259,10 @@ class RecordRegisterPresenter @AssistedInject constructor(
                     }
                 }
             }
+        }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(screen.name)
         }
 
         return RecordRegisterUiState(

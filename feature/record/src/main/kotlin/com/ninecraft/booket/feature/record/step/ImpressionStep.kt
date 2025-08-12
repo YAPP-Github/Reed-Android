@@ -16,7 +16,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -43,6 +42,7 @@ import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.component.ImpressionGuideBottomSheet
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
+import com.skydoves.compose.effects.RememberedEffect
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
@@ -59,7 +59,7 @@ fun ImpressionStep(
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    LaunchedEffect(Unit) {
+    RememberedEffect(Unit) {
         if (state.impressionState.text.isEmpty()) {
             focusRequester.requestFocus()
             keyboardController?.show()

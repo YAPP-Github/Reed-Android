@@ -23,7 +23,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -35,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.skydoves.compose.effects.RememberedEffect
 
 // 기기에서 평균적으로 한 화면에 보이는 아이템 개수
 private const val LIMIT_COUNT = 6
@@ -82,7 +82,7 @@ private fun LazyListState.onLoadMore(
         }
     }
 
-    LaunchedEffect(reached) {
+    RememberedEffect(reached) {
         if (reached && layoutInfo.totalItemsCount > limitCount) action()
     }
 }

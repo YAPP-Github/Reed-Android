@@ -1,21 +1,23 @@
 package com.ninecraft.booket.feature.detail.record
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.RecordDetailModel
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.orhanobut.logger.Logger
+import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -26,6 +28,7 @@ class RecordDetailPresenter @AssistedInject constructor(
     @Assisted private val screen: RecordDetailScreen,
     @Assisted private val navigator: Navigator,
     private val repository: RecordRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<RecordDetailUiState> {
 
     @Composable
@@ -74,8 +77,12 @@ class RecordDetailPresenter @AssistedInject constructor(
             }
         }
 
-        LaunchedEffect(Unit) {
+        RememberedEffect(Unit) {
             getRecordDetail(screen.recordId)
+        }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(screen.name)
         }
 
         return RecordDetailUiState(

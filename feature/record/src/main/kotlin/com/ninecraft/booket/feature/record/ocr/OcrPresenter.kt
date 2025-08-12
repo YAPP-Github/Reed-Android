@@ -5,12 +5,14 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.ocr.analyzer.LiveTextAnalyzer
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -21,6 +23,7 @@ import kotlinx.collections.immutable.toPersistentList
 class OcrPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val liveTextAnalyzer: LiveTextAnalyzer.Factory,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<OcrUiState> {
 
     @Composable
@@ -110,6 +113,10 @@ class OcrPresenter @AssistedInject constructor(
                     isRecaptureDialogVisible = false
                 }
             }
+        }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(OcrScreen.name)
         }
 
         return OcrUiState(

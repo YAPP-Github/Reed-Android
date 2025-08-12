@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.utils.handleException
@@ -26,6 +27,7 @@ import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -38,6 +40,7 @@ import kotlinx.coroutines.launch
 class BookSearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val repository: BookRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<BookSearchUiState> {
     companion object {
         private const val START_INDEX = 1
@@ -221,6 +224,10 @@ class BookSearchPresenter @AssistedInject constructor(
                     isBookRegisterSuccessBottomSheetVisible = false
                 }
             }
+        }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(SearchScreen.name)
         }
 
         return BookSearchUiState(

@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.utils.handleException
@@ -26,6 +27,7 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -44,6 +46,7 @@ class BookDetailPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val bookRepository: BookRepository,
     private val recordRepository: RecordRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<BookDetailUiState> {
     companion object {
         private const val PAGE_SIZE = 20
@@ -246,6 +249,10 @@ class BookDetailPresenter @AssistedInject constructor(
                     }
                 }
             }
+        }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(screen.name)
         }
 
         return BookDetailUiState(

@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.WebViewConstants
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
@@ -17,6 +18,7 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -26,6 +28,7 @@ import kotlinx.coroutines.launch
 class SettingsPresenter @AssistedInject constructor(
     @Assisted val navigator: Navigator,
     private val authRepository: AuthRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<SettingsUiState> {
 
     @Composable
@@ -134,6 +137,11 @@ class SettingsPresenter @AssistedInject constructor(
                 }
             }
         }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(SettingsScreen.name)
+        }
+
         return SettingsUiState(
             isLoading = isLoading,
             isLogoutDialogVisible = isLogoutDialogVisible,
