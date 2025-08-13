@@ -1,59 +1,106 @@
+@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
+
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.util.Properties
+
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.booket.android.application)
+    alias(libs.plugins.booket.android.application.compose)
+    alias(libs.plugins.booket.android.hilt)
+    alias(libs.plugins.booket.android.firebase)
 }
 
 android {
     namespace = "com.ninecraft.booket"
-    compileSdk = 35
 
-    defaultConfig {
-        applicationId = "com.ninecraft.booket"
-        minSdk = 28
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    signingConfigs {
+        create("release") {
+            val propertiesFile = rootProject.file("keystore.properties")
+            val properties = Properties()
+            properties.load(propertiesFile.inputStream())
+            storeFile = rootProject.file(properties["STORE_FILE"] as String)
+            storePassword = properties["STORE_PASSWORD"] as String
+            keyAlias = properties["KEY_ALIAS"] as String
+            keyPassword = properties["KEY_PASSWORD"] as String
+        }
     }
 
     buildTypes {
-        release {
-            isMinifyEnabled = false
+        getByName("debug") {
+            isDebuggable = true
+            applicationIdSuffix = ".dev"
+            manifestPlaceholders += mapOf(
+                "appName" to "@string/app_name_dev",
+            )
+        }
+
+        getByName("release") {
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
+            manifestPlaceholders += mapOf(
+                "appName" to "@string/app_name",
+            )
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+
+    defaultConfig {
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getApiKey("KAKAO_NATIVE_APP_KEY"))
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getApiKey("KAKAO_NATIVE_APP_KEY").trim('"')
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+
     buildFeatures {
-        compose = true
+        buildConfig = true
     }
 }
 
-dependencies {
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+dependencies {
+    implementations(
+        projects.core.common,
+        projects.core.data.api,
+        projects.core.data.impl,
+        projects.core.datastore.api,
+        projects.core.datastore.impl,
+        projects.core.designsystem,
+        projects.core.model,
+        projects.core.network,
+        projects.core.ui,
+        projects.core.ocr,
+
+        projects.feature.detail,
+        projects.feature.home,
+        projects.feature.library,
+        projects.feature.login,
+        projects.feature.main,
+        projects.feature.onboarding,
+        projects.feature.record,
+        projects.feature.screens,
+        projects.feature.search,
+        projects.feature.settings,
+        projects.feature.splash,
+        projects.feature.webview,
+
+        libs.androidx.activity.compose,
+        libs.androidx.startup,
+        libs.coil.compose,
+        libs.kakao.auth,
+        libs.logger,
+
+        libs.bundles.circuit,
+    )
+    api(libs.circuit.codegen.annotation)
+    ksp(libs.circuit.codegen.ksp)
+}
+
+fun getApiKey(propertyKey: String): String {
+    return gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
 }

@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Booket-Android</string>
+    <string name="app_name">Reed</string>
+    <string name="app_name_dev">Reed.dev</string>
 </resources>

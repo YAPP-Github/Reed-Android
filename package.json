@@ -1,0 +1,30 @@
+{
+  "name": "booketandroid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "jira-prepare-commit-msg": "^1.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YAPP-Github/26th-App-Team-1-Android.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/YAPP-Github/26th-App-Team-1-Android/issues"
+  },
+  "homepage": "https://github.com/YAPP-Github/26th-App-Team-1-Android#readme",
+  "jira-prepare-commit-msg": {
+    "messagePattern": "[$J] $M",
+    "allowEmptyCommitMessage": false,
+    "ignoredBranchesPattern": "^(master|main|dev|develop|development|release)$"
+  }
+}

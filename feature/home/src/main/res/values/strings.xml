@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_header_title">Reed</string>
+    <string name="home_banner_title">문장 기록하고\n씨앗을 모아볼까요?</string>
+    <string name="home_banner_book_register">책 등록하기</string>
+    <string name="home_content_label_reading_now">요즘 읽는 책</string>
+    <string name="empty_book_card_title">아직 등록된 책이 없어요</string>
+    <string name="empty_book_card_description">등록 후 나만의 독서 기록을 남겨 보세요.</string>
+    <string name="empty_book_card_register">등록하기</string>
+    <string name="book_card_record">기록하기</string>
+    <string name="book_card_unit_count">개</string>
+    <string name="home_error_title">책 정보를 가져오는데 실패했어요</string>
+    <string name="home_retry">다시 시도</string>
+</resources>

@@ -1,0 +1,102 @@
+package com.ninecraft.booket.splash
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.data.api.repository.AuthRepository
+import com.ninecraft.booket.core.data.api.repository.UserRepository
+import com.ninecraft.booket.core.model.AutoLoginState
+import com.ninecraft.booket.core.model.OnboardingState
+import com.ninecraft.booket.feature.screens.HomeScreen
+import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.OnboardingScreen
+import com.ninecraft.booket.feature.screens.SplashScreen
+import com.skydoves.compose.effects.RememberedEffect
+import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.collectAsRetainedState
+import com.slack.circuit.retained.rememberRetained
+import com.slack.circuit.runtime.Navigator
+import com.slack.circuit.runtime.presenter.Presenter
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+class SplashPresenter @AssistedInject constructor(
+    @Assisted private val navigator: Navigator,
+    private val userRepository: UserRepository,
+    private val authRepository: AuthRepository,
+) : Presenter<SplashUiState> {
+
+    @Composable
+    override fun present(): SplashUiState {
+        val scope = rememberCoroutineScope()
+        val onboardingState by userRepository.onboardingState.collectAsRetainedState(initial = OnboardingState.IDLE)
+        val autoLoginState by authRepository.autoLoginState.collectAsRetainedState(initial = AutoLoginState.IDLE)
+        var isSplashTimeCompleted by rememberRetained { mutableStateOf(false) }
+
+        fun checkTermsAgreement() {
+            scope.launch {
+                userRepository.getUserProfile()
+                    .onSuccess { userProfile ->
+                        if (userProfile.termsAgreed) {
+                            navigator.resetRoot(HomeScreen)
+                        } else {
+                            navigator.resetRoot(LoginScreen)
+                        }
+                    }
+                    .onFailure {
+                        navigator.resetRoot(LoginScreen)
+                    }
+            }
+        }
+
+        LaunchedEffect(Unit) {
+            delay(1000L)
+            isSplashTimeCompleted = true
+        }
+
+        RememberedEffect(onboardingState, autoLoginState, isSplashTimeCompleted) {
+            if (!isSplashTimeCompleted) return@RememberedEffect
+
+            when (onboardingState) {
+                OnboardingState.NOT_COMPLETED -> {
+                    navigator.resetRoot(OnboardingScreen)
+                }
+
+                OnboardingState.COMPLETED -> {
+                    when (autoLoginState) {
+                        AutoLoginState.LOGGED_IN -> {
+                            checkTermsAgreement()
+                        }
+
+                        AutoLoginState.NOT_LOGGED_IN -> {
+                            navigator.resetRoot(LoginScreen)
+                        }
+
+                        AutoLoginState.IDLE -> {
+                            // 자동 로그인 상태를 기다리는 중
+                        }
+                    }
+                }
+
+                OnboardingState.IDLE -> {
+                    // 온보딩 상태를 기다리는 중
+                }
+            }
+        }
+
+        return SplashUiState
+    }
+
+    @CircuitInject(SplashScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): SplashPresenter
+    }
+}

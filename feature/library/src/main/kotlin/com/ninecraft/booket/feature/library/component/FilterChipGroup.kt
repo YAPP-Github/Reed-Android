@@ -1,0 +1,61 @@
+package com.ninecraft.booket.feature.library.component
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import com.ninecraft.booket.core.designsystem.ComponentPreview
+import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.feature.library.LibraryFilterChip
+import com.ninecraft.booket.feature.library.LibraryFilterOption
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toPersistentList
+
+@Composable
+fun FilterChipGroup(
+    filterList: ImmutableList<LibraryFilterChip>,
+    selectedChipOption: LibraryFilterOption,
+    onChipClick: (LibraryFilterOption) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LazyRow(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                top = ReedTheme.spacing.spacing3,
+                bottom = ReedTheme.spacing.spacing3,
+            ),
+        contentPadding = PaddingValues(horizontal = ReedTheme.spacing.spacing5),
+        horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        items(filterList) { item ->
+            FilterChip(
+                option = item.option,
+                count = item.count,
+                isSelected = selectedChipOption == item.option,
+                onChipClick = { status ->
+                    onChipClick(status)
+                },
+            )
+        }
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun FilterChipGroupPreview() {
+    val filterList = LibraryFilterOption.entries.map { LibraryFilterChip(option = it, count = 0) }.toPersistentList()
+    ReedTheme {
+        FilterChipGroup(
+            filterList = filterList,
+            selectedChipOption = LibraryFilterOption.TOTAL,
+            onChipClick = {},
+        )
+    }
+}

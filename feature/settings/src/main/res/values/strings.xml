@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">설정</string>
+    <string name="settings_privacy_policy">개인정보 처리방침</string>
+    <string name="settings_terms_of_service">이용약관</string>
+    <string name="settings_open_source_license">오픈소스 라이선스</string>
+    <string name="settings_app_version">앱 버전</string>
+    <string name="settings_logout">로그아웃</string>
+    <string name="settings_withdraw">회원탈퇴</string>
+    <string name="settings_logout_title">정말 로그아웃 하시겠습니까?</string>
+    <string name="settings_withdraw_title">정말 탈퇴하시겠어요?</string>
+    <string name="settings_withdraw_detail">탈퇴 시, 개인 정보와 그동안의 독서기록이\n모두 삭제되며 복구가 어렵습니다.</string>
+    <string name="settings_withdraw_agreement">확인하였으며 이에 동의합니다.</string>
+    <string name="settings_cancel">취소</string>
+    <string name="settings_withdraw_action">탈퇴하기</string>
+    <string name="oss_licenses_title">오픈소스 라이선스</string>
+</resources>

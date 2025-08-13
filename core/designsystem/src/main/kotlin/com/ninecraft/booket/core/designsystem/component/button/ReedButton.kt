@@ -1,0 +1,853 @@
+package com.ninecraft.booket.core.designsystem.component.button
+
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.utils.MultipleEventsCutter
+import com.ninecraft.booket.core.common.utils.get
+import com.ninecraft.booket.core.designsystem.ComponentPreview
+
+@Composable
+fun ReedButton(
+    onClick: () -> Unit,
+    text: String,
+    sizeStyle: ButtonSizeStyle,
+    colorStyle: ReedButtonColorStyle,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    multipleEventsCutterEnabled: Boolean = true,
+) {
+    val multipleEventsCutter = remember { MultipleEventsCutter.get() }
+
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.96f else 1f,
+        animationSpec = tween(durationMillis = 100),
+        label = "Scale Animation",
+    )
+
+    Button(
+        onClick = {
+            if (multipleEventsCutterEnabled) {
+                multipleEventsCutter.processEvent { onClick() }
+            } else {
+                onClick()
+            }
+        },
+        modifier = modifier.graphicsLayer {
+            scaleX = scale
+            scaleY = scale
+        },
+        enabled = enabled,
+        shape = RoundedCornerShape(sizeStyle.radius),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colorStyle.containerColor(isPressed),
+            contentColor = colorStyle.contentColor(),
+            disabledContentColor = colorStyle.disabledContentColor(),
+            disabledContainerColor = colorStyle.disabledContainerColor(),
+        ),
+        border = colorStyle.borderStroke(),
+        contentPadding = sizeStyle.paddingValues,
+        interactionSource = interactionSource,
+    ) {
+        if (leadingIcon != null) {
+            Box(
+                modifier = Modifier.size(sizeStyle.iconSize),
+                contentAlignment = Alignment.Center,
+            ) {
+                leadingIcon()
+            }
+        }
+
+        if (leadingIcon != null && text.isNotEmpty()) {
+            Spacer(Modifier.width(sizeStyle.iconSpacing))
+        }
+
+        Text(
+            text = text,
+            style = sizeStyle.textStyle.copy(
+                color = if (enabled) colorStyle.contentColor() else colorStyle.disabledContentColor(),
+            ),
+        )
+
+        if (trailingIcon != null && text.isNotEmpty()) {
+            Spacer(Modifier.width(sizeStyle.iconSpacing))
+        }
+
+        if (trailingIcon != null) {
+            Box(
+                modifier = Modifier.size(sizeStyle.iconSize),
+                contentAlignment = Alignment.Center,
+            ) {
+                trailingIcon()
+            }
+        }
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun ReedLargeButtonPreview() {
+    Column(
+        modifier = Modifier.padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            ReedButton(
+                onClick = {},
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = largeButtonStyle,
+                text = "button",
+            )
+            ReedButton(
+                onClick = {},
+                colorStyle = ReedButtonColorStyle.SECONDARY,
+                sizeStyle = largeButtonStyle,
+                text = "button",
+            )
+            ReedButton(
+                onClick = {},
+                colorStyle = ReedButtonColorStyle.TERTIARY,
+                sizeStyle = largeButtonStyle,
+                text = "button",
+            )
+            ReedButton(
+                onClick = {},
+                colorStyle = ReedButtonColorStyle.STROKE,
+                sizeStyle = largeButtonStyle,
+                text = "button",
+            )
+        }
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = largeRoundedButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.SECONDARY,
+                sizeStyle = largeRoundedButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                colorStyle = ReedButtonColorStyle.TERTIARY,
+                sizeStyle = largeRoundedButtonStyle,
+                text = "button",
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.STROKE,
+                sizeStyle = largeRoundedButtonStyle,
+            )
+        }
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+            ) {
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.PRIMARY,
+                    sizeStyle = largeButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.SECONDARY,
+                    sizeStyle = largeButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.TERTIARY,
+                    sizeStyle = largeButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.STROKE,
+                    sizeStyle = largeButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+            }
+            Column(
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+            ) {
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.PRIMARY,
+                    sizeStyle = largeRoundedButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.SECONDARY,
+                    sizeStyle = largeRoundedButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.TERTIARY,
+                    sizeStyle = largeRoundedButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.STROKE,
+                    sizeStyle = largeRoundedButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+            }
+        }
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun ReedMediumButtonPreview() {
+    Column(
+        modifier = Modifier.padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = mediumButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.SECONDARY,
+                sizeStyle = mediumButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.TERTIARY,
+                sizeStyle = mediumButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.STROKE,
+                sizeStyle = mediumButtonStyle,
+            )
+        }
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = mediumRoundedButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.SECONDARY,
+                sizeStyle = mediumRoundedButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.TERTIARY,
+                sizeStyle = mediumRoundedButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.STROKE,
+                sizeStyle = mediumRoundedButtonStyle,
+            )
+        }
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+            ) {
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.PRIMARY,
+                    sizeStyle = mediumButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.SECONDARY,
+                    sizeStyle = mediumButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.TERTIARY,
+                    sizeStyle = mediumButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.STROKE,
+                    sizeStyle = mediumButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+            }
+            Column(
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+            ) {
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.PRIMARY,
+                    sizeStyle = mediumRoundedButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.SECONDARY,
+                    sizeStyle = mediumRoundedButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.TERTIARY,
+                    sizeStyle = mediumRoundedButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.STROKE,
+                    sizeStyle = mediumRoundedButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+            }
+        }
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun ReedSmallButtonPreview() {
+    Column(
+        modifier = Modifier.padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = smallButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.SECONDARY,
+                sizeStyle = smallButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.TERTIARY,
+                sizeStyle = smallButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.STROKE,
+                sizeStyle = smallButtonStyle,
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = smallRoundedButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.SECONDARY,
+                sizeStyle = smallRoundedButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.TERTIARY,
+                sizeStyle = smallRoundedButtonStyle,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.STROKE,
+                sizeStyle = smallRoundedButtonStyle,
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+            ) {
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.PRIMARY,
+                    sizeStyle = smallButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.SECONDARY,
+                    sizeStyle = smallButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.TERTIARY,
+                    sizeStyle = smallButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.STROKE,
+                    sizeStyle = smallButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+            }
+            Column(
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+            ) {
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.PRIMARY,
+                    sizeStyle = smallRoundedButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.SECONDARY,
+                    sizeStyle = smallRoundedButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.TERTIARY,
+                    sizeStyle = smallRoundedButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+                ReedButton(
+                    onClick = {},
+                    text = "button",
+                    colorStyle = ReedButtonColorStyle.STROKE,
+                    sizeStyle = smallRoundedButtonStyle,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Check icon",
+                        )
+                    },
+                )
+            }
+        }
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun ReedButtonDisabledPreview() {
+    Column(
+        modifier = Modifier.padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = largeButtonStyle,
+                enabled = false,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = largeRoundedButtonStyle,
+                enabled = false,
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = largeButtonStyle,
+                enabled = false,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = "Check icon",
+                    )
+                },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = "Check icon",
+                    )
+                },
+            )
+            ReedButton(
+                onClick = {},
+                text = "button",
+                colorStyle = ReedButtonColorStyle.PRIMARY,
+                sizeStyle = largeRoundedButtonStyle,
+                enabled = false,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = "Check icon",
+                    )
+                },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = "Check icon",
+                    )
+                },
+            )
+        }
+    }
+}

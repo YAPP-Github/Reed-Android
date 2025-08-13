@@ -1,0 +1,197 @@
+package com.ninecraft.booket.feature.home
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.designsystem.DevicePreview
+import com.ninecraft.booket.core.designsystem.theme.HomeBg
+import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.ui.ReedScaffold
+import com.ninecraft.booket.core.ui.component.ReedErrorUi
+import com.ninecraft.booket.feature.home.component.BookCard
+import com.ninecraft.booket.feature.home.component.EmptyBookCard
+import com.ninecraft.booket.feature.home.component.HomeBanner
+import com.ninecraft.booket.feature.home.component.HomeHeader
+import com.ninecraft.booket.feature.screens.HomeScreen
+import com.ninecraft.booket.feature.screens.component.MainBottomBar
+import com.ninecraft.booket.feature.screens.component.MainTab
+import com.slack.circuit.codegen.annotations.CircuitInject
+import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.collections.immutable.toImmutableList
+
+@CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)
+@Composable
+internal fun HomeUi(
+    state: HomeUiState,
+    modifier: Modifier = Modifier,
+) {
+    HandleHomeSideEffects(state = state)
+
+    ReedScaffold(
+        modifier = modifier.fillMaxSize(),
+        bottomBar = {
+            MainBottomBar(
+                tabs = MainTab.entries.toImmutableList(),
+                currentTab = MainTab.HOME,
+                onTabSelected = { tab ->
+                    state.eventSink(HomeUiEvent.OnTabSelected(tab))
+                },
+            )
+        },
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(HomeBg)
+                .padding(innerPadding),
+        ) {
+            HomeHeader(
+                onSettingsClick = {
+                    state.eventSink(HomeUiEvent.OnSettingsClick)
+                },
+            )
+            HomeBanner(
+                onBookRegisterClick = {
+                    state.eventSink(HomeUiEvent.OnBookRegisterClick)
+                },
+            )
+            HomeContent(
+                state = state,
+                modifier = Modifier,
+            )
+        }
+    }
+}
+
+@Composable
+internal fun HomeContent(
+    state: HomeUiState,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ReedTheme.colors.baseSecondary),
+    ) {
+        when (state.uiState) {
+            is UiState.Idle -> {}
+            is UiState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator(color = ReedTheme.colors.contentBrand)
+                }
+            }
+
+            is UiState.Success -> {
+                Column(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState()),
+                ) {
+                    Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
+                    Text(
+                        text = stringResource(R.string.home_content_label_reading_now),
+                        modifier = Modifier.padding(start = ReedTheme.spacing.spacing5),
+                        color = ReedTheme.colors.contentSecondary,
+                        style = ReedTheme.typography.headline2Medium,
+                    )
+                    Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
+
+                    if (state.recentBooks.isEmpty()) {
+                        EmptyBookCard(
+                            onBookRegisterClick = {
+                                state.eventSink(HomeUiEvent.OnBookRegisterClick)
+                            },
+                            modifier = Modifier.padding(ReedTheme.spacing.spacing5),
+                        )
+                    } else {
+                        val pagerState = rememberPagerState(pageCount = { state.recentBooks.size })
+
+                        HorizontalPager(
+                            state = pagerState,
+                            modifier = Modifier.fillMaxWidth(),
+                            contentPadding = PaddingValues(horizontal = ReedTheme.spacing.spacing5),
+                            pageSpacing = ReedTheme.spacing.spacing5,
+                        ) { page ->
+                            BookCard(
+                                recentBookInfo = state.recentBooks[page],
+                                onBookDetailClick = {
+                                    state.eventSink(
+                                        HomeUiEvent.OnBookDetailClick(
+                                            state.recentBooks[page].userBookId,
+                                            state.recentBooks[page].isbn13,
+                                        ),
+                                    )
+                                },
+                                onRecordButtonClick = {
+                                    state.eventSink(HomeUiEvent.OnRecordButtonClick(state.recentBooks[page].userBookId))
+                                },
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
+                            repeat(pagerState.pageCount) { iteration ->
+                                val color =
+                                    if (pagerState.currentPage == iteration) ReedTheme.colors.bgPrimary else ReedTheme.colors.bgSecondaryPressed
+                                Box(
+                                    modifier = Modifier
+                                        .size(12.dp)
+                                        .padding(3.dp)
+                                        .clip(CircleShape)
+                                        .background(color),
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing7))
+                    }
+                }
+            }
+
+            is UiState.Error -> {
+                ReedErrorUi(
+                    exception = state.uiState.exception,
+                    onRetryClick = { state.eventSink(HomeUiEvent.OnRetryClick) },
+                )
+            }
+        }
+    }
+}
+
+@DevicePreview
+@Composable
+private fun HomePreview() {
+    ReedTheme {
+        HomeUi(
+            state = HomeUiState(
+                eventSink = {},
+            ),
+        )
+    }
+}

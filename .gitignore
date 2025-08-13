@@ -29,6 +29,7 @@ render.experimental.xml
 # Keystore files
 *.jks
 *.keystore
+keystore.properties
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
@@ -204,3 +205,5 @@ secrets.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,android,androidstudio
+
+node_modules/
