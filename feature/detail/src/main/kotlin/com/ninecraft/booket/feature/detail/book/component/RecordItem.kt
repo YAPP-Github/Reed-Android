@@ -64,7 +64,8 @@ internal fun RecordItem(
                 contentDescription = "Emotion Graphic",
                 modifier = Modifier
                     .size(40.dp)
-                    .clip(CircleShape),
+                    .clip(CircleShape)
+                    .background(ReedTheme.colors.basePrimary),
             )
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
             Column {
