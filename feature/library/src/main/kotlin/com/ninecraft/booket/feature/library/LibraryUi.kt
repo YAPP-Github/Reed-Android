@@ -97,6 +97,7 @@ internal fun LibraryContent(
                 state.eventSink(LibraryUiEvent.OnFilterClick(status))
             },
         )
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
 
         when (state.uiState) {
             is UiState.Idle -> {
