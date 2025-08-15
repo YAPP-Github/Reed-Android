@@ -26,6 +26,7 @@ fun SentenceBox(
     val bgColor = if (isSelected) ReedTheme.colors.bgTertiary else ReedTheme.colors.bgSecondary
     val borderColor = if (isSelected) ReedTheme.colors.borderBrand else Color.Transparent
     val textColor = if (isSelected) ReedTheme.colors.contentBrand else ReedTheme.colors.contentPrimary
+    val textStyle = if (isSelected) ReedTheme.typography.body1Medium else ReedTheme.typography.body1Regular
 
     Box(
         modifier = modifier
@@ -51,7 +52,7 @@ fun SentenceBox(
         Text(
             text = sentence,
             color = textColor,
-            style = ReedTheme.typography.body1Regular,
+            style = textStyle,
         )
     }
 }
