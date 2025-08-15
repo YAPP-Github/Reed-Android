@@ -52,7 +52,8 @@ fun ReviewBox(
                     contentDescription = "Emotion Graphic",
                     modifier = Modifier
                         .size(ReedTheme.spacing.spacing10)
-                        .clip(CircleShape),
+                        .clip(CircleShape)
+                        .background(ReedTheme.colors.basePrimary),
                 )
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
                 Text(
