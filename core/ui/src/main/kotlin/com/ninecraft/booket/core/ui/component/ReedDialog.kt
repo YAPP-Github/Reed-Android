@@ -70,7 +70,10 @@ fun ReedDialog(
                     textAlign = TextAlign.Center,
                     style = ReedTheme.typography.headline1SemiBold,
                 )
-                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+
+                if (!description.isNullOrEmpty()) {
+                    Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+                }
             }
             description?.let {
                 Text(
