@@ -1,5 +1,7 @@
 package com.ninecraft.booket.core.model
 
+import androidx.compose.runtime.Stable
+
 data class ReadingRecordsModel(
     val lastPage: Boolean = true,
     val totalResults: Int = 0,
@@ -8,6 +10,7 @@ data class ReadingRecordsModel(
     val readingRecords: List<ReadingRecordModel> = emptyList(),
 )
 
+@Stable
 data class ReadingRecordModel(
     val id: String = "",
     val userBookId: String = "",

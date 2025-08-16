@@ -1,5 +1,7 @@
 package com.ninecraft.booket.core.common.utils
 
+import androidx.annotation.StringRes
+import com.ninecraft.booket.core.common.R
 import com.ninecraft.booket.core.common.constants.ErrorDialogSpec
 import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.event.ErrorEvent
@@ -46,11 +48,13 @@ fun handleException(
 fun postErrorDialog(
     errorScope: ErrorScope,
     exception: Throwable,
+    @StringRes buttonLabelResId: Int = R.string.confirm,
     action: () -> Unit = {},
 ) {
     val spec = buildDialog(
         scope = errorScope,
         exception = exception,
+        buttonLabelResId = buttonLabelResId,
         action = action,
     )
 
@@ -60,6 +64,7 @@ fun postErrorDialog(
 private fun buildDialog(
     scope: ErrorScope,
     exception: Throwable,
+    @StringRes buttonLabelResId: Int,
     action: () -> Unit,
 ): ErrorDialogSpec {
     val message = when {
@@ -92,7 +97,7 @@ private fun buildDialog(
         }
     }
 
-    return ErrorDialogSpec(message = message, buttonLabel = "확인", action = action)
+    return ErrorDialogSpec(message = message, buttonLabelResId = buttonLabelResId, action = action)
 }
 
 @Suppress("TooGenericExceptionCaught")
