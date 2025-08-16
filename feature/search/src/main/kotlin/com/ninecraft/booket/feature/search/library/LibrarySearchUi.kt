@@ -75,8 +75,8 @@ internal fun LibrarySearchContent(
         ReedTextField(
             queryState = state.queryState,
             queryHintRes = R.string.library_search_hint,
-            onSearch = { text ->
-                state.eventSink(LibrarySearchUiEvent.OnSearchClick(text))
+            onSearch = { query ->
+                state.eventSink(LibrarySearchUiEvent.OnSearchClick(query))
             },
             onClear = {
                 state.eventSink(LibrarySearchUiEvent.OnClearClick)

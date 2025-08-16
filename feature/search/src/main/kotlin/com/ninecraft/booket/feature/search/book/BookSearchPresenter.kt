@@ -158,7 +158,7 @@ class BookSearchPresenter @AssistedInject constructor(
                 }
 
                 is BookSearchUiEvent.OnSearchClick -> {
-                    val query = event.text.trim()
+                    val query = event.query.trim()
                     if (query.isNotEmpty()) {
                         searchBooks(query = query, startIndex = START_INDEX)
                     }

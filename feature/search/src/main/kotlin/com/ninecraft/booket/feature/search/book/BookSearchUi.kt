@@ -93,8 +93,8 @@ internal fun SearchContent(
         ReedTextField(
             queryState = state.queryState,
             queryHintRes = designR.string.search_book_hint,
-            onSearch = { text ->
-                state.eventSink(BookSearchUiEvent.OnSearchClick(text))
+            onSearch = { query ->
+                state.eventSink(BookSearchUiEvent.OnSearchClick(query))
             },
             onClear = {
                 state.eventSink(BookSearchUiEvent.OnClearClick)
