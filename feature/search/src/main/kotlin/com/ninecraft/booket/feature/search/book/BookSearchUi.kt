@@ -99,7 +99,7 @@ internal fun SearchContent(
             onClear = {
                 state.eventSink(BookSearchUiEvent.OnClearClick)
             },
-            modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+            modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
             borderStroke = BorderStroke(width = 1.dp, color = ReedTheme.colors.borderBrand),
             searchIconTint = ReedTheme.colors.contentBrand,
         )

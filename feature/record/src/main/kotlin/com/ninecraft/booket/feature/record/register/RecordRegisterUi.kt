@@ -56,7 +56,7 @@ internal fun RecordRegisterUi(
             )
             RecordProgressBar(
                 currentStep = state.currentStep,
-                modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+                modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
             when (state.currentStep) {

@@ -81,7 +81,7 @@ internal fun LibrarySearchContent(
             onClear = {
                 state.eventSink(LibrarySearchUiEvent.OnClearClick)
             },
-            modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+            modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
             backgroundColor = ReedTheme.colors.baseSecondary,
             borderStroke = null,
         )
