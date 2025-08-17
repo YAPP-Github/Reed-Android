@@ -1,7 +1,9 @@
 package com.ninecraft.booket.core.common.constants
 
+import androidx.annotation.StringRes
+
 data class ErrorDialogSpec(
     val message: String,
-    val buttonLabelResId: Int,
+    @StringRes val buttonLabelResId: Int,
     val action: () -> Unit,
 )
