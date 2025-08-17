@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -68,6 +69,7 @@ fun SplashUi(
             Text(
                 text = stringResource(R.string.splash_title),
                 color = ReedTheme.colors.contentInverse,
+                textAlign = TextAlign.Center,
                 style = ReedTheme.typography.heading2SemiBold,
             )
             Spacer(Modifier.height(ReedTheme.spacing.spacing8))
