@@ -9,12 +9,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
 @Composable
-internal fun QuoteBox(
+internal fun QuoteItem(
     quote: String,
     page: Int,
     modifier: Modifier = Modifier,
@@ -43,6 +44,7 @@ internal fun QuoteBox(
                 color = ReedTheme.colors.contentBrand,
                 textAlign = TextAlign.End,
                 style = ReedTheme.typography.label1Medium,
+                fontStyle = FontStyle.Italic,
             )
         }
     }
@@ -52,7 +54,7 @@ internal fun QuoteBox(
 @Composable
 private fun QuoteBoxPreview() {
     ReedTheme {
-        QuoteBox(
+        QuoteItem(
             quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
             page = 99,
         )

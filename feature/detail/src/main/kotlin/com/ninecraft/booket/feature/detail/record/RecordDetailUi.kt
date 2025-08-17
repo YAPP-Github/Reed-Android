@@ -28,9 +28,9 @@ import com.ninecraft.booket.core.ui.component.ReedErrorUi
 import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.record.component.BookItem
-import com.ninecraft.booket.feature.detail.record.component.QuoteBox
+import com.ninecraft.booket.feature.detail.record.component.QuoteItem
 import com.ninecraft.booket.feature.detail.record.component.RecordMenuBottomSheet
-import com.ninecraft.booket.feature.detail.record.component.ReviewBox
+import com.ninecraft.booket.feature.detail.record.component.ReviewItem
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -149,7 +149,7 @@ private fun RecordDetailContent(
                     style = ReedTheme.typography.body1Medium,
                 )
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-                QuoteBox(
+                QuoteItem(
                     quote = state.recordDetailInfo.quote,
                     page = state.recordDetailInfo.pageNumber,
                 )
@@ -160,7 +160,7 @@ private fun RecordDetailContent(
                     style = ReedTheme.typography.body1Medium,
                 )
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-                ReviewBox(
+                ReviewItem(
                     emotion = state.recordDetailInfo.emotionTags.getOrNull(0) ?: "",
                     createdAt = state.recordDetailInfo.createdAt,
                     review = state.recordDetailInfo.review,

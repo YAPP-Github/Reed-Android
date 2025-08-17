@@ -24,7 +24,7 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.feature.detail.book.component.getEmotionImageResourceByDisplayName
 
 @Composable
-internal fun ReviewBox(
+internal fun ReviewItem(
     emotion: String,
     createdAt: String,
     review: String,
@@ -81,7 +81,7 @@ internal fun ReviewBox(
 @Composable
 private fun ReviewBoxPreview() {
     ReedTheme {
-        ReviewBox(
+        ReviewItem(
             emotion = "따뜻함",
             review = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다",
             createdAt = "2025.06.25",
