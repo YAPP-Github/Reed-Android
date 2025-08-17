@@ -20,7 +20,9 @@ import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
+import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
+import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -71,8 +73,11 @@ class BookDetailPresenter @AssistedInject constructor(
         var currentBookStatus by rememberRetained { mutableStateOf(BookStatus.READING) }
         var selectedBookStatus by rememberRetained { mutableStateOf(BookStatus.READING) }
         var currentRecordSort by rememberRetained { mutableStateOf(RecordSort.PAGE_NUMBER_ASC) }
+        var selectedRecordInfo by rememberRetained { mutableStateOf(ReadingRecordModel()) }
         var isBookUpdateBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isRecordSortBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isRecordMenuBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isRecordDeleteDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
 
         @Suppress("TooGenericExceptionCaught")
@@ -182,6 +187,29 @@ class BookDetailPresenter @AssistedInject constructor(
             }
         }
 
+        fun deleteRecord(readingRecordId: String, onSuccess: () -> Unit) {
+            scope.launch {
+                recordRepository.deleteRecord(readingRecordId = readingRecordId)
+                    .onSuccess {
+                        onSuccess()
+                    }
+                    .onFailure { exception ->
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = BookDetailSideEffect.ShowToast(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen)
+                            },
+                        )
+                    }
+            }
+        }
+
         LaunchedEffect(Unit) {
             initialLoad()
         }
@@ -230,6 +258,54 @@ class BookDetailPresenter @AssistedInject constructor(
                     isRecordSortBottomSheetVisible = false
                 }
 
+                is BookDetailUiEvent.OnRecordMenuClick -> {
+                    selectedRecordInfo = event.selectedRecordInfo
+                    isRecordMenuBottomSheetVisible = true
+                }
+
+                is BookDetailUiEvent.OnRecordMenuBottomSheetDismiss -> {
+                    isRecordMenuBottomSheetVisible = false
+                }
+
+                is BookDetailUiEvent.OnRecordDeleteDialogDismiss -> {
+                    isRecordDeleteDialogVisible = false
+                }
+
+                is BookDetailUiEvent.OnEditRecordClick -> {
+                    isRecordMenuBottomSheetVisible = false
+                    navigator.goTo(
+                        RecordEditScreen(
+                            RecordEditArgs(
+                                id = selectedRecordInfo.id,
+                                userBookId = selectedRecordInfo.userBookId,
+                                pageNumber = selectedRecordInfo.pageNumber,
+                                quote = selectedRecordInfo.quote,
+                                review = selectedRecordInfo.review,
+                                emotionTags = selectedRecordInfo.emotionTags,
+                                bookTitle = selectedRecordInfo.bookTitle,
+                                bookPublisher = selectedRecordInfo.bookPublisher,
+                                bookCoverImageUrl = selectedRecordInfo.bookCoverImageUrl,
+                                author = selectedRecordInfo.author,
+                            ),
+                        ),
+                    )
+                }
+
+                is BookDetailUiEvent.OnDeleteRecordClick -> {
+                    isRecordMenuBottomSheetVisible = false
+                    isRecordDeleteDialogVisible = true
+                }
+
+                is BookDetailUiEvent.OnDelete -> {
+                    isRecordDeleteDialogVisible = false
+                    deleteRecord(
+                        readingRecordId = selectedRecordInfo.id,
+                        onSuccess = {
+                            // TODO: 리스트 업데이트
+                        },
+                    )
+                }
+
                 is BookDetailUiEvent.OnRecordItemClick -> {
                     navigator.goTo(RecordDetailScreen(event.recordId))
                 }
@@ -260,6 +336,9 @@ class BookDetailPresenter @AssistedInject constructor(
             currentBookStatus = currentBookStatus,
             selectedBookStatus = selectedBookStatus,
             currentRecordSort = currentRecordSort,
+            selectedRecordInfo = selectedRecordInfo,
+            isRecordMenuBottomSheetVisible = isRecordMenuBottomSheetVisible,
+            isRecordDeleteDialogVisible = isRecordDeleteDialogVisible,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
