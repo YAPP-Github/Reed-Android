@@ -33,6 +33,8 @@ class RecordDetailPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var recordDetailInfo by rememberRetained { mutableStateOf(RecordDetailModel()) }
+        var isRecordMenuBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isRecordDeleteDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<RecordDetailSideEffect?>(null) }
 
         fun getRecordDetail(readingRecordId: String) {
@@ -62,14 +64,68 @@ class RecordDetailPresenter @AssistedInject constructor(
             }
         }
 
+        fun deleteRecord(readingRecordId: String, onSuccess: () -> Unit) {
+            scope.launch {
+                repository.deleteRecord(readingRecordId = readingRecordId)
+                    .onSuccess {
+                        onSuccess()
+                    }
+                    .onFailure { exception ->
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = RecordDetailSideEffect.ShowToast(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen)
+                            },
+                        )
+                    }
+            }
+        }
+
         fun handleEvent(event: RecordDetailUiEvent) {
             when (event) {
-                RecordDetailUiEvent.OnCloseClicked -> {
+                RecordDetailUiEvent.OnCloseClick -> {
                     navigator.pop()
                 }
 
-                RecordDetailUiEvent.onRetryClick -> {
+                RecordDetailUiEvent.OnRetryClick -> {
                     getRecordDetail(screen.recordId)
+                }
+
+                RecordDetailUiEvent.OnMoreMenuClick -> {
+                    isRecordMenuBottomSheetVisible = true
+                }
+
+                RecordDetailUiEvent.OnRecordMenuBottomSheetDismiss -> {
+                    isRecordMenuBottomSheetVisible = false
+                }
+
+                RecordDetailUiEvent.OnRecordDeleteDialogDismiss -> {
+                    isRecordDeleteDialogVisible = false
+                }
+
+                RecordDetailUiEvent.OnEditRecordClick -> {
+
+                }
+
+                RecordDetailUiEvent.OnDeleteRecordClick -> {
+                    isRecordMenuBottomSheetVisible = false
+                    isRecordDeleteDialogVisible = true
+                }
+
+                RecordDetailUiEvent.OnDelete -> {
+                    isRecordDeleteDialogVisible = false
+                    deleteRecord(
+                        readingRecordId = screen.recordId,
+                        onSuccess = {
+                            navigator.pop()
+                        }
+                    )
                 }
             }
         }
@@ -81,6 +137,8 @@ class RecordDetailPresenter @AssistedInject constructor(
         return RecordDetailUiState(
             uiState = uiState,
             recordDetailInfo = recordDetailInfo,
+            isRecordMenuBottomSheetVisible = isRecordMenuBottomSheetVisible,
+            isRecordDeleteDialogVisible = isRecordDeleteDialogVisible,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )

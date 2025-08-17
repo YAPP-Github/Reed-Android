@@ -15,8 +15,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,9 +34,11 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.model.RecordDetailModel
 import com.ninecraft.booket.core.ui.ReedScaffold
+import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
 import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.detail.R
+import com.ninecraft.booket.feature.detail.record.component.RecordMenuBottomSheet
 import com.ninecraft.booket.feature.detail.record.component.QuoteBox
 import com.ninecraft.booket.feature.detail.record.component.ReviewBox
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
@@ -42,12 +46,15 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(RecordDetailScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun RecordDetailUi(
     state: RecordDetailUiState,
     modifier: Modifier = Modifier,
 ) {
+    val bottomSheetState = rememberModalBottomSheetState()
+
     HandleRecordDetailSideEffects(
         state = state,
     )
@@ -67,11 +74,44 @@ internal fun RecordDetailUi(
                 startIconRes = designR.drawable.ic_close,
                 startIconDescription = "Close Icon",
                 startIconOnClick = {
-                    state.eventSink(RecordDetailUiEvent.OnCloseClicked)
+                    state.eventSink(RecordDetailUiEvent.OnCloseClick)
                 },
+                endIconRes = designR.drawable.ic_more_vertical,
+                endIconDescription = "More Vertical Icon",
+                endIconOnClick = {
+                    state.eventSink(RecordDetailUiEvent.OnMoreMenuClick)
+                }
             )
             ReviewDetailContent(state = state)
         }
+    }
+
+    if (state.isRecordMenuBottomSheetVisible) {
+        RecordMenuBottomSheet(
+            onDismissRequest = {
+                state.eventSink(RecordDetailUiEvent.OnRecordMenuBottomSheetDismiss)
+            },
+            sheetState = bottomSheetState,
+            onShareRecordClick = {},
+            onEditRecordClick = {},
+            onDeleteRecordClick = {
+                state.eventSink(RecordDetailUiEvent.OnDeleteRecordClick)
+            },
+        )
+    }
+
+    if (state.isRecordDeleteDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.record_delete_dialog_title),
+            confirmButtonText = stringResource(R.string.record_delete_dialog_delete),
+            onConfirmRequest = {
+                state.eventSink(RecordDetailUiEvent.OnDelete)
+            },
+            dismissButtonText = stringResource(R.string.record_delete_dialog_cancel),
+            onDismissRequest = {
+                state.eventSink(RecordDetailUiEvent.OnRecordDeleteDialogDismiss)
+            },
+        )
     }
 }
 

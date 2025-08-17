@@ -16,6 +16,8 @@ sealed interface UiState {
 data class RecordDetailUiState(
     val uiState: UiState = UiState.Idle,
     val recordDetailInfo: RecordDetailModel = RecordDetailModel(),
+    val isRecordMenuBottomSheetVisible: Boolean = false,
+    val isRecordDeleteDialogVisible: Boolean = false,
     val sideEffect: RecordDetailSideEffect? = null,
     val eventSink: (RecordDetailUiEvent) -> Unit,
 ) : CircuitUiState
@@ -29,6 +31,12 @@ sealed interface RecordDetailSideEffect {
 }
 
 sealed interface RecordDetailUiEvent : CircuitUiEvent {
-    data object OnCloseClicked : RecordDetailUiEvent
-    data object onRetryClick : RecordDetailUiEvent
+    data object OnCloseClick : RecordDetailUiEvent
+    data object OnRetryClick : RecordDetailUiEvent
+    data object OnMoreMenuClick : RecordDetailUiEvent
+    data object OnRecordMenuBottomSheetDismiss: RecordDetailUiEvent
+    data object OnRecordDeleteDialogDismiss: RecordDetailUiEvent
+    data object OnEditRecordClick : RecordDetailUiEvent
+    data object OnDeleteRecordClick : RecordDetailUiEvent
+    data object OnDelete: RecordDetailUiEvent
 }
