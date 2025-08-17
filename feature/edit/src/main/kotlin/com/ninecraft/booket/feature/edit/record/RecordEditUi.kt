@@ -51,6 +51,10 @@ internal fun RecordEditUi(
     state: RecordEditUiState,
     modifier: Modifier = Modifier,
 ) {
+    HandleRecordEditSideEffects(
+        state = state,
+    )
+
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = White,
@@ -186,7 +190,9 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing16))
     }
     ReedButton(
-        onClick = {},
+        onClick = {
+            state.eventSink(RecordEditUiEvent.OnSaveButtonClick)
+        },
         text = stringResource(R.string.edit_record_save),
         sizeStyle = largeButtonStyle,
         colorStyle = ReedButtonColorStyle.PRIMARY,
@@ -196,6 +202,7 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
                 horizontal = ReedTheme.spacing.spacing5,
                 vertical = ReedTheme.spacing.spacing4,
             ),
+        enabled = state.isSaveButtonEnabled,
     )
 }
 

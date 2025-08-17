@@ -13,6 +13,7 @@ data class RecordEditUiState(
     val recordQuoteState: TextFieldState = TextFieldState(),
     val recordImpressionState: TextFieldState = TextFieldState(),
     val isPageError: Boolean = false,
+    val isSaveButtonEnabled: Boolean = false,
     val sideEffect: RecordEditSideEffect? = null,
     val eventSink: (RecordEditUiEvent) -> Unit,
 ) : CircuitUiState
@@ -29,4 +30,5 @@ sealed interface RecordEditUiEvent : CircuitUiEvent {
     data object OnCloseClick : RecordEditUiEvent
     data object OnClearClick : RecordEditUiEvent
     data object OnEmotionEditClick : RecordEditUiEvent
+    data object OnSaveButtonClick : RecordEditUiEvent
 }
