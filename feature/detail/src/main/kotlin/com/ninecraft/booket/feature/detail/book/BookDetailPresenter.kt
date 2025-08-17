@@ -301,7 +301,9 @@ class BookDetailPresenter @AssistedInject constructor(
                     deleteRecord(
                         readingRecordId = selectedRecordInfo.id,
                         onSuccess = {
-                            // TODO: 리스트 업데이트
+                            readingRecords = readingRecords
+                                .filterNot { it.id == selectedRecordInfo.id }
+                                .toPersistentList()
                         },
                     )
                 }
