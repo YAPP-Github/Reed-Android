@@ -12,6 +12,7 @@ import com.ninecraft.booket.core.model.RecordDetailModel
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordEditScreen
+import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -112,7 +113,22 @@ class RecordDetailPresenter @AssistedInject constructor(
 
                 RecordDetailUiEvent.OnEditRecordClick -> {
                     isRecordMenuBottomSheetVisible = false
-                    navigator.goTo(RecordEditScreen)
+                    navigator.goTo(
+                        RecordEditScreen(
+                            RecordEditArgs(
+                                id = recordDetailInfo.id,
+                                userBookId = recordDetailInfo.userBookId,
+                                pageNumber = recordDetailInfo.pageNumber,
+                                quote = recordDetailInfo.quote,
+                                review = recordDetailInfo.review,
+                                emotionTags = recordDetailInfo.emotionTags,
+                                bookTitle = recordDetailInfo.bookTitle,
+                                bookPublisher = recordDetailInfo.bookPublisher,
+                                bookCoverImageUrl = recordDetailInfo.bookCoverImageUrl,
+                                author = recordDetailInfo.author,
+                            ),
+                        ),
+                    )
                 }
 
                 RecordDetailUiEvent.OnDeleteRecordClick -> {
@@ -126,7 +142,7 @@ class RecordDetailPresenter @AssistedInject constructor(
                         readingRecordId = screen.recordId,
                         onSuccess = {
                             navigator.pop()
-                        }
+                        },
                     )
                 }
             }
@@ -145,13 +161,13 @@ class RecordDetailPresenter @AssistedInject constructor(
             eventSink = ::handleEvent,
         )
     }
-}
 
-@CircuitInject(RecordDetailScreen::class, ActivityRetainedComponent::class)
-@AssistedFactory
-fun interface Factory {
-    fun create(
-        screen: RecordDetailScreen,
-        navigator: Navigator,
-    ): RecordDetailPresenter
+    @CircuitInject(RecordDetailScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(
+            screen: RecordDetailScreen,
+            navigator: Navigator,
+        ): RecordDetailPresenter
+    }
 }

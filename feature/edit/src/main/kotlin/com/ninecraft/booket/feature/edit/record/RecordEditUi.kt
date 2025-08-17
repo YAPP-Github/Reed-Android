@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -35,10 +36,11 @@ import com.ninecraft.booket.core.designsystem.component.textfield.digitOnlyInput
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.ReedScaffold
-import com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar
+import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.edit.R
 import com.ninecraft.booket.feature.edit.record.component.BookItem
 import com.ninecraft.booket.feature.screens.RecordEditScreen
+import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import com.ninecraft.booket.core.designsystem.R as designR
@@ -56,13 +58,16 @@ internal fun RecordEditUi(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(innerPadding)
+                .imePadding(),
         ) {
-            ReedCloseTopAppBar(
-                onClose = {
+            ReedTopAppBar(
+                title = stringResource(R.string.edit_record_title),
+                startIconRes = designR.drawable.ic_close,
+                startIconDescription = "Close Icon",
+                startIconOnClick = {
                     state.eventSink(RecordEditUiEvent.OnCloseClick)
                 },
-                title = stringResource(R.string.edit_record_title),
             )
             RecordEditContent(state = state)
         }
@@ -72,10 +77,10 @@ internal fun RecordEditUi(
 @Composable
 private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
     BookItem(
-        imageUrl = "",
-        bookTitle = "",
-        author = "",
-        publisher = "",
+        imageUrl = state.recordInfo.bookCoverImageUrl,
+        bookTitle = state.recordInfo.bookTitle,
+        author = state.recordInfo.author,
+        publisher = state.recordInfo.bookPublisher,
     )
     Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
     HorizontalDivider(
@@ -102,10 +107,10 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
             inputTransformation = digitOnlyInputTransformation,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             lineLimits = TextFieldLineLimits.SingleLine,
-//            isError = state.isPageError,
-//            errorMessage = stringResource(R.string.quote_step_page_input_error),
+            isError = state.isPageError,
+            errorMessage = stringResource(R.string.edit_record_page_input_error),
             onClear = {
-//                state.eventSink(RecordRegisterUiEvent.OnClearClick)
+                state.eventSink(RecordEditUiEvent.OnClearClick)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -163,8 +168,10 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
                     state.eventSink(RecordEditUiEvent.OnEmotionEditClick)
                 },
             ) {
+                val emotion = state.recordInfo.emotionTags.firstOrNull() ?: ""
+
                 Text(
-                    text = "따뜻함",
+                    text = emotion,
                     color = ReedTheme.colors.contentSecondary,
                     style = ReedTheme.typography.body1Medium,
                 )
@@ -198,6 +205,18 @@ private fun RecordEditUiPreview() {
     ReedTheme {
         RecordEditUi(
             state = RecordEditUiState(
+                recordInfo = RecordEditArgs(
+                    id = "",
+                    userBookId = "",
+                    pageNumber = 33,
+                    quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
+                    review = "감동적이었다.",
+                    emotionTags = listOf("따뜻함"),
+                    bookTitle = "여름은 오래 그곳에 남아",
+                    bookPublisher = "비채",
+                    bookCoverImageUrl = "",
+                    author = "마쓰이에 마사시",
+                ),
                 eventSink = {},
             ),
         )

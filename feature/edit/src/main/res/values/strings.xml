@@ -6,6 +6,7 @@
     <string name="edit_record_impression_label">감상평</string>
     <string name="edit_record_emotion_label">감정</string>
     <string name="edit_record_page_hint">기록하고 싶은 페이지를 작성해보세요</string>
+    <string name="edit_record_page_input_error">해당 책의 마지막 페이지 수를 초과했습니다</string>
     <string name="edit_record_quote_hint">기록하고 싶은 문장을 작성해보세요</string>
     <string name="edit_record_impression_hint">내용을 입력해주세요.</string>
     <string name="edit_record_save">저장하기</string>
