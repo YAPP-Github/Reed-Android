@@ -14,7 +14,7 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
 @Composable
-fun QuoteBox(
+internal fun QuoteBox(
     quote: String,
     page: Int,
     modifier: Modifier = Modifier,

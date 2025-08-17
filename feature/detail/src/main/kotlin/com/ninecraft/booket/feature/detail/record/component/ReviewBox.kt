@@ -24,7 +24,7 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.feature.detail.book.component.getEmotionImageResourceByDisplayName
 
 @Composable
-fun ReviewBox(
+internal fun ReviewBox(
     emotion: String,
     createdAt: String,
     review: String,
