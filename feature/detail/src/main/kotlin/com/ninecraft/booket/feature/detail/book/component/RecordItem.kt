@@ -13,19 +13,23 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.feature.detail.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
 internal fun RecordItem(
@@ -47,6 +51,33 @@ internal fun RecordItem(
                 bottom = ReedTheme.spacing.spacing4,
             ),
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Image(
+                painter = painterResource(getEmotionImageResourceByDisplayName(emotionTags[0])),
+                contentDescription = "Emotion Graphic",
+                modifier = Modifier
+                    .size(ReedTheme.spacing.spacing8)
+                    .clip(CircleShape)
+                    .background(ReedTheme.colors.basePrimary),
+            )
+            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
+            Text(
+                text = "#${emotionTags[0]}",
+                color = ReedTheme.colors.contentBrand,
+                style = ReedTheme.typography.body1SemiBold,
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(
+                imageVector = ImageVector.vectorResource(designR.drawable.ic_more_vertical),
+                contentDescription = "More Vertical Icon",
+                modifier = Modifier.size(ReedTheme.spacing.spacing5),
+                tint = ReedTheme.colors.contentTertiary,
+            )
+        }
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         Text(
             text = "\"$quote\"",
             color = ReedTheme.colors.contentSecondary,
@@ -59,32 +90,17 @@ internal fun RecordItem(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(
-                painter = painterResource(getEmotionImageResourceByDisplayName(emotionTags[0])),
-                contentDescription = "Emotion Graphic",
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(ReedTheme.colors.basePrimary),
+            Text(
+                text = createdAt,
+                color = ReedTheme.colors.contentTertiary,
+                style = ReedTheme.typography.label1Medium,
             )
-            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-            Column {
-                Text(
-                    text = "#${emotionTags[0]}",
-                    color = ReedTheme.colors.contentBrand,
-                    style = ReedTheme.typography.label1SemiBold,
-                )
-                Text(
-                    text = createdAt,
-                    color = ReedTheme.colors.contentTertiary,
-                    style = ReedTheme.typography.caption1Regular,
-                )
-            }
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = "${pageNumber}p",
-                color = ReedTheme.colors.contentBrand,
+                color = ReedTheme.colors.contentTertiary,
                 style = ReedTheme.typography.body2Medium,
+                fontStyle = FontStyle.Italic,
             )
         }
     }
@@ -105,7 +121,7 @@ fun getEmotionImageResourceByDisplayName(displayName: String): Int {
 private fun RecordItemPreview() {
     ReedTheme {
         RecordItem(
-            quote = "",
+            quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
             emotionTags = persistentListOf(),
             pageNumber = 12,
             createdAt = "2025.06.25",
