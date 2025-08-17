@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -34,7 +35,7 @@ import com.ninecraft.booket.core.designsystem.component.textfield.digitOnlyInput
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.ReedScaffold
-import com.ninecraft.booket.core.ui.component.ReedTopAppBar
+import com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar
 import com.ninecraft.booket.feature.edit.R
 import com.ninecraft.booket.feature.edit.record.component.BookItem
 import com.ninecraft.booket.feature.screens.RecordEditScreen
@@ -57,13 +58,11 @@ internal fun RecordEditUi(
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            ReedTopAppBar(
-                title = "독서 기록 수정",
-                startIconRes = designR.drawable.ic_close,
-                startIconDescription = "Close Icon",
-                startIconOnClick = {
+            ReedCloseTopAppBar(
+                onClose = {
                     state.eventSink(RecordEditUiEvent.OnCloseClick)
                 },
+                title = stringResource(R.string.edit_record_title),
             )
             RecordEditContent(state = state)
         }
@@ -92,7 +91,7 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
     ) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
         Text(
-            text = "책 페이지",
+            text = stringResource(R.string.edit_record_page_label),
             color = ReedTheme.colors.contentPrimary,
             style = ReedTheme.typography.body1Medium,
         )
@@ -114,7 +113,7 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
         Text(
-            text = "문장 기록",
+            text = stringResource(R.string.edit_record_quote_label),
             color = ReedTheme.colors.contentPrimary,
             style = ReedTheme.typography.body1Medium,
         )
@@ -132,7 +131,7 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
         Text(
-            text = "감상평",
+            text = stringResource(R.string.edit_record_impression_label),
             color = ReedTheme.colors.contentPrimary,
             style = ReedTheme.typography.body1Medium,
         )
@@ -154,7 +153,7 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "감정",
+                text = stringResource(R.string.edit_record_emotion_label),
                 color = ReedTheme.colors.contentPrimary,
                 style = ReedTheme.typography.body1Medium,
             )
@@ -181,7 +180,7 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
     }
     ReedButton(
         onClick = {},
-        text = "저장하기",
+        text = stringResource(R.string.edit_record_save),
         sizeStyle = largeButtonStyle,
         colorStyle = ReedButtonColorStyle.PRIMARY,
         modifier = Modifier
