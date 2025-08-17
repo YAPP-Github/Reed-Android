@@ -10,4 +10,7 @@
     <string name="collected_seed_title">내가 모은 씨앗</string>
     <string name="records_collection_empty">첫 기록을 남겨 보세요!\n나만의 아카이브를 만들 수 있어요.</string>
     <string name="register_book_record">독서 기록 추가</string>
+    <string name="record_detail_share">공유하기</string>
+    <string name="record_detail_edit">수정하기</string>
+    <string name="record_detail_delete">삭제하기</string>
 </resources>
