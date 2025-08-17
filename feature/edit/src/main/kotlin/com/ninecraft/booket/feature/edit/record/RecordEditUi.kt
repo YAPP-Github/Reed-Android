@@ -1,5 +1,6 @@
-package com.ninecraft.booket.feature.detail.record.edit
+package com.ninecraft.booket.feature.edit.record
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -34,8 +35,8 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedTopAppBar
-import com.ninecraft.booket.feature.detail.R
-import com.ninecraft.booket.feature.detail.record.component.BookItem
+import com.ninecraft.booket.feature.edit.R
+import com.ninecraft.booket.feature.edit.record.component.BookItem
 import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -98,7 +99,7 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
         ReedRecordTextField(
             recordState = state.recordPageState,
-            recordHintRes = R.string.record_detail_edit,
+            recordHintRes = R.string.edit_record_page_hint,
             inputTransformation = digitOnlyInputTransformation,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             lineLimits = TextFieldLineLimits.SingleLine,
@@ -120,7 +121,7 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
         ReedRecordTextField(
             recordState = state.recordQuoteState,
-            recordHintRes = R.string.record_detail_edit,
+            recordHintRes = R.string.edit_record_quote_hint,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(140.dp),
@@ -138,7 +139,7 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
         ReedRecordTextField(
             recordState = state.recordImpressionState,
-            recordHintRes = R.string.record_detail_edit,
+            recordHintRes = R.string.edit_record_impression_hint,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(140.dp),
@@ -158,17 +159,23 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
                 style = ReedTheme.typography.body1Medium,
             )
             Spacer(modifier = Modifier.weight(1f))
-            Text(
-                text = "따뜻함",
-                color = ReedTheme.colors.contentSecondary,
-                style = ReedTheme.typography.body1Medium,
-            )
-            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
-            Icon(
-                imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_right),
-                contentDescription = "Chevron Right Icon",
-                tint = ReedTheme.colors.contentSecondary,
-            )
+            Row(
+                modifier = Modifier.clickable {
+                    state.eventSink(RecordEditUiEvent.OnEmotionEditClick)
+                },
+            ) {
+                Text(
+                    text = "따뜻함",
+                    color = ReedTheme.colors.contentSecondary,
+                    style = ReedTheme.typography.body1Medium,
+                )
+                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
+                Icon(
+                    imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_right),
+                    contentDescription = "Chevron Right Icon",
+                    tint = ReedTheme.colors.contentSecondary,
+                )
+            }
         }
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing16))
     }

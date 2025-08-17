@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.detail.record.edit
+package com.ninecraft.booket.feature.edit.record
 
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Immutable
@@ -24,4 +24,5 @@ sealed interface RecordEditSideEffect {
 
 sealed interface RecordEditUiEvent : CircuitUiEvent {
     data object OnCloseClick : RecordEditUiEvent
+    data object OnEmotionEditClick : RecordEditUiEvent
 }

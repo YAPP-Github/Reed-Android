@@ -47,4 +47,5 @@ include(
     ":feature:settings",
     ":feature:splash",
     ":feature:webview",
+    ":feature:edit"
 )

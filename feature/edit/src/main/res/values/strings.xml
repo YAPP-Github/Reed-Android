@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="edit_record_page_hint">기록하고 싶은 페이지를 작성해보세요</string>
+    <string name="edit_record_quote_hint">기록하고 싶은 문장을 작성해보세요</string>
+    <string name="edit_record_impression_hint">내용을 입력해주세요.</string>
+    <string name="edit_emotion_title">문장에 대해 어떤 감정이 드셨나요?</string>
+    <string name="edit_emotion_description">대표 감정을 한 가지 선택해주세요</string>
+</resources>
