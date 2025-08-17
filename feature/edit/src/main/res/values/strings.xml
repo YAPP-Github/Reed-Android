@@ -12,4 +12,5 @@
     <string name="edit_record_save">저장하기</string>
     <string name="edit_emotion_title">문장에 대해 어떤 감정이 드셨나요?</string>
     <string name="edit_emotion_description">대표 감정을 한 가지 선택해주세요</string>
+    <string name="edit_emotion_edit">수정하기</string>
 </resources>

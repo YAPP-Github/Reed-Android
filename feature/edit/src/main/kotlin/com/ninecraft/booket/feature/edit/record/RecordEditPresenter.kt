@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import com.ninecraft.booket.feature.screens.EmotionEditScreen
 import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.foundation.rememberAnsweringNavigator
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -25,7 +26,7 @@ class RecordEditPresenter @AssistedInject constructor(
 ) : Presenter<RecordEditUiState> {
     @Composable
     override fun present(): RecordEditUiState {
-        val recordInfo = screen.recordInfo
+        var recordInfo by rememberRetained { mutableStateOf(screen.recordInfo) }
         val recordPageState = rememberTextFieldState(recordInfo.pageNumber.toString())
         val recordQuoteState = rememberTextFieldState(recordInfo.quote)
         val recordImpressionState = rememberTextFieldState(recordInfo.review)
@@ -36,6 +37,10 @@ class RecordEditPresenter @AssistedInject constructor(
             }
         }
         var sideEffect by rememberRetained { mutableStateOf<RecordEditSideEffect?>(null) }
+
+        val emotionEditNavigator = rememberAnsweringNavigator<EmotionEditScreen.Result>(navigator) { result ->
+            recordInfo = recordInfo.copy(emotionTags = listOf(result.emotion))
+        }
 
         fun handleEvent(event: RecordEditUiEvent) {
             when (event) {
@@ -48,7 +53,9 @@ class RecordEditPresenter @AssistedInject constructor(
                 }
 
                 RecordEditUiEvent.OnEmotionEditClick -> {
-                    navigator.goTo(EmotionEditScreen)
+                    val emotion = recordInfo.emotionTags.firstOrNull() ?: ""
+
+                    emotionEditNavigator.goTo(EmotionEditScreen(emotion))
                 }
             }
         }

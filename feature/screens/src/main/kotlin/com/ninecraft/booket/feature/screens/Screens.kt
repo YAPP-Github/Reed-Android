@@ -49,7 +49,10 @@ data class RecordDetailScreen(val recordId: String) : ReedScreen(name = "RecordD
 data class RecordEditScreen(val recordInfo: RecordEditArgs) : ReedScreen(name = "RecordEdit()")
 
 @Parcelize
-data object EmotionEditScreen: ReedScreen(name = "EmotionEdit()")
+data class EmotionEditScreen(val emotion: String): ReedScreen(name = "EmotionEdit()") {
+    @Parcelize
+    data class Result(val emotion: String) : PopResult
+}
 
 @Parcelize
 data class WebViewScreen(
