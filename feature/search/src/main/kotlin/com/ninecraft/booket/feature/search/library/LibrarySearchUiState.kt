@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.search.library
 
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.slack.circuit.runtime.CircuitUiEvent
@@ -9,6 +10,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
+@Immutable
 sealed interface UiState {
     data object Idle : UiState
     data object Loading : UiState

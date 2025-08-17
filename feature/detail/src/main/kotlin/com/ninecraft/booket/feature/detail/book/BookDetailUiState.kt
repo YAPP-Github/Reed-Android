@@ -13,6 +13,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
+@Immutable
 sealed interface UiState {
     data object Idle : UiState
     data object Loading : UiState
