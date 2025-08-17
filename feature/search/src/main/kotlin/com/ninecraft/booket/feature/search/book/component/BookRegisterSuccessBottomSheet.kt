@@ -51,12 +51,13 @@ fun BookRegisterSuccessBottomSheet(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
             Image(
                 painter = painterResource(R.drawable.img_book_register_complete),
                 contentDescription = "Book Register Complete Image",
                 modifier = Modifier.height(120.dp),
             )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
             Text(
                 text = stringResource(R.string.book_register_success_title),
                 modifier = Modifier.fillMaxWidth(),

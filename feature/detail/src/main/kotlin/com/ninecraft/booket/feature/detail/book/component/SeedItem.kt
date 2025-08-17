@@ -52,14 +52,14 @@ internal fun SeedItem(
             Text(
                 text = emotion.name.displayName,
                 color = emotion.name.toTextColor(),
-                style = ReedTheme.typography.body2Medium,
+                style = ReedTheme.typography.label2SemiBold,
             )
         }
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
         Text(
             text = "${emotion.count}",
             color = ReedTheme.colors.contentSecondary,
-            style = ReedTheme.typography.body2Medium,
+            style = ReedTheme.typography.label2Regular,
         )
     }
 }

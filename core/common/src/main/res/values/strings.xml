@@ -5,4 +5,5 @@
     <string name="book_status_completed">독서 완료</string>
     <string name="record_sort_page_ascending">페이지순</string>
     <string name="record_sort_recent_register">최신 등록순</string>
+    <string name="confirm">확인</string>
 </resources>

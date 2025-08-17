@@ -93,25 +93,19 @@ internal fun SearchContent(
         ReedTextField(
             queryState = state.queryState,
             queryHintRes = designR.string.search_book_hint,
-            onSearch = { text ->
-                state.eventSink(BookSearchUiEvent.OnSearchClick(text))
+            onSearch = { query ->
+                state.eventSink(BookSearchUiEvent.OnSearchClick(query))
             },
             onClear = {
                 state.eventSink(BookSearchUiEvent.OnClearClick)
             },
-            modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+            modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
             borderStroke = BorderStroke(width = 1.dp, color = ReedTheme.colors.borderBrand),
             searchIconTint = ReedTheme.colors.contentBrand,
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-
-        ReedDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(ReedTheme.spacing.spacing2),
-        )
-
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+        ReedDivider()
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
 
         when (state.uiState) {
             is UiState.Loading -> {

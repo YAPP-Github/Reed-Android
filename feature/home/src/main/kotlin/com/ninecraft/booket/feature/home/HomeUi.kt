@@ -126,7 +126,7 @@ internal fun HomeContent(
                             onBookRegisterClick = {
                                 state.eventSink(HomeUiEvent.OnBookRegisterClick)
                             },
-                            modifier = Modifier.padding(ReedTheme.spacing.spacing5),
+                            modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
                         )
                     } else {
                         val pagerState = rememberPagerState(pageCount = { state.recentBooks.size })
@@ -190,6 +190,7 @@ private fun HomePreview() {
     ReedTheme {
         HomeUi(
             state = HomeUiState(
+                uiState = UiState.Success,
                 eventSink = {},
             ),
         )

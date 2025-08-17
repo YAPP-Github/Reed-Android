@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.component.ReedBottomSheet
@@ -52,15 +54,13 @@ internal fun RecordSortBottomSheet(
     ) {
         Column(
             modifier = modifier
-                .padding(
-                    start = ReedTheme.spacing.spacing5,
-                    top = ReedTheme.spacing.spacing5,
-                    end = ReedTheme.spacing.spacing5,
-                ),
+                .padding(top = ReedTheme.spacing.spacing5),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = ReedTheme.spacing.spacing5),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
@@ -77,12 +77,12 @@ internal fun RecordSortBottomSheet(
                     },
                 )
             }
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
             ) {
-                recordSortItems.forEach { item ->
+                recordSortItems.forEachIndexed { index, item ->
                     RecordSortItem(
                         item = item,
                         selected = item == currentRecordSort,
@@ -91,7 +91,16 @@ internal fun RecordSortBottomSheet(
                                 onItemSelected(item)
                             }
                         },
+                        modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
                     )
+
+                    if (index < recordSortItems.lastIndex) {
+                        HorizontalDivider(
+                            modifier = Modifier.fillMaxWidth(),
+                            thickness = 1.dp,
+                            color = ReedTheme.colors.dividerSm,
+                        )
+                    }
                 }
             }
         }
