@@ -7,7 +7,6 @@ import okhttp3.Response
 import javax.inject.Inject
 
 internal class TokenInterceptor @Inject constructor(
-    @Suppress("unused")
     private val tokenDataSource: TokenDataSource,
 ) : Interceptor {
 
