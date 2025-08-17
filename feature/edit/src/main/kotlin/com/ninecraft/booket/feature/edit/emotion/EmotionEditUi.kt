@@ -71,7 +71,7 @@ private fun EmotionEditContent(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(
                 start = ReedTheme.spacing.spacing5,

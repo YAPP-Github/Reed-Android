@@ -121,7 +121,7 @@ private fun RecordDetailContent(
         is UiState.Idle -> {}
         is UiState.Loading -> {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
                 CircularProgressIndicator(color = ReedTheme.colors.contentBrand)
