@@ -45,6 +45,9 @@ data object OcrScreen : ReedScreen(name = "Ocr()") {
 data class RecordDetailScreen(val recordId: String) : ReedScreen(name = "RecordDetail()")
 
 @Parcelize
+data object RecordEditScreen : ReedScreen(name = "RecordEdit()")
+
+@Parcelize
 data class WebViewScreen(
     val url: String,
     val title: String,

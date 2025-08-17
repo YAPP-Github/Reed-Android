@@ -11,6 +11,7 @@ import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.RecordDetailModel
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
+import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -110,7 +111,8 @@ class RecordDetailPresenter @AssistedInject constructor(
                 }
 
                 RecordDetailUiEvent.OnEditRecordClick -> {
-
+                    isRecordMenuBottomSheetVisible = false
+                    navigator.goTo(RecordEditScreen)
                 }
 
                 RecordDetailUiEvent.OnDeleteRecordClick -> {
