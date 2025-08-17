@@ -71,7 +71,7 @@ internal fun RecordDetailUi(
                 endIconRes = designR.drawable.ic_more_vertical,
                 endIconDescription = "More Vertical Icon",
                 endIconOnClick = {
-                    state.eventSink(RecordDetailUiEvent.OnMoreMenuClick)
+                    state.eventSink(RecordDetailUiEvent.OnRecordMenuClick)
                 },
             )
             RecordDetailContent(state = state)

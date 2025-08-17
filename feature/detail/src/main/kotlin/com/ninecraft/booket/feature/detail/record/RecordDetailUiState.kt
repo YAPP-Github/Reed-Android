@@ -33,7 +33,7 @@ sealed interface RecordDetailSideEffect {
 sealed interface RecordDetailUiEvent : CircuitUiEvent {
     data object OnCloseClick : RecordDetailUiEvent
     data object OnRetryClick : RecordDetailUiEvent
-    data object OnMoreMenuClick : RecordDetailUiEvent
+    data object OnRecordMenuClick : RecordDetailUiEvent
     data object OnRecordMenuBottomSheetDismiss: RecordDetailUiEvent
     data object OnRecordDeleteDialogDismiss: RecordDetailUiEvent
     data object OnEditRecordClick : RecordDetailUiEvent

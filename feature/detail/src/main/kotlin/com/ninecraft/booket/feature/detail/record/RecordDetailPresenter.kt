@@ -99,7 +99,7 @@ class RecordDetailPresenter @AssistedInject constructor(
                     getRecordDetail(screen.recordId)
                 }
 
-                RecordDetailUiEvent.OnMoreMenuClick -> {
+                RecordDetailUiEvent.OnRecordMenuClick -> {
                     isRecordMenuBottomSheetVisible = true
                 }
 
