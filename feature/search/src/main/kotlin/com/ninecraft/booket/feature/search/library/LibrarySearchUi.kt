@@ -86,12 +86,8 @@ internal fun LibrarySearchContent(
             borderStroke = null,
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-        ReedDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(ReedTheme.spacing.spacing2),
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+        ReedDivider()
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
 
         when (state.uiState) {
             is UiState.Loading -> {

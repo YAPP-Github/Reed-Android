@@ -35,7 +35,7 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
-import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
+import com.ninecraft.booket.core.designsystem.component.button.mediumButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.ui.ReedScaffold
@@ -181,7 +181,7 @@ internal fun BookDetailContent(
                                     BookStatus.fromValue(state.bookDetail.userBookStatus)?.getDisplayNameRes()
                                         ?: BookStatus.BEFORE_READING.getDisplayNameRes(),
                                 ),
-                                sizeStyle = largeButtonStyle,
+                                sizeStyle = mediumButtonStyle,
                                 colorStyle = ReedButtonColorStyle.SECONDARY,
                                 modifier = Modifier.widthIn(min = 98.dp),
                                 trailingIcon = {
@@ -199,7 +199,7 @@ internal fun BookDetailContent(
                                     state.eventSink(BookDetailUiEvent.OnRegisterRecordButtonClick)
                                 },
                                 text = stringResource(R.string.register_book_record),
-                                sizeStyle = largeButtonStyle,
+                                sizeStyle = mediumButtonStyle,
                                 colorStyle = ReedButtonColorStyle.PRIMARY,
                                 modifier = Modifier.weight(1f),
                             )

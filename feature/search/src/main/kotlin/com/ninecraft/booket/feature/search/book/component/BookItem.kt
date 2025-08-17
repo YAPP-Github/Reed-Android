@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -95,10 +96,13 @@ fun BookItem(
                 text = book.title,
                 color = titleColor,
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
-                style = ReedTheme.typography.body1SemiBold,
+                maxLines = 2,
+                style = ReedTheme.typography.body1SemiBold.copy(
+                    lineHeight = 16.sp * 1.4f,
+                    letterSpacing = 16.sp * 0.01f,
+                ),
             )
-            Spacer(Modifier.height(ReedTheme.spacing.spacing1))
+            Spacer(Modifier.height(ReedTheme.spacing.spacing2))
             BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
                 val authorMaxWidth = maxWidth * 0.7f
 
@@ -141,7 +145,7 @@ private fun BookItemPreview() {
     ReedTheme {
         BookItem(
             book = BookSummaryModel(
-                title = "여름은 오래 그곳에 남아",
+                title = "여름은 오래 그곳에 남아 여름은 오래 그곳에 남아 여름은 오래 그곳에 남아 여름은 오래 그곳에 남아",
                 author = "마쓰이에 마사시 마쓰이에 마사시",
                 publisher = "비채",
                 coverImageUrl = "https://example.com/sample-book-cover.jpg",

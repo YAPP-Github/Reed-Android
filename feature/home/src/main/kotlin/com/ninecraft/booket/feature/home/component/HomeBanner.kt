@@ -73,9 +73,11 @@ fun HomeBanner(
                     color = ReedTheme.colors.contentBrand,
                     style = ReedTheme.typography.body2Medium,
                 )
+                Spacer(modifier = Modifier.size(ReedTheme.spacing.spacing1))
                 Icon(
                     imageVector = ImageVector.vectorResource(id = designR.drawable.ic_chevron_right),
                     contentDescription = "Chevron Right Icon",
+                    modifier = Modifier.size(ReedTheme.spacing.spacing5),
                     tint = ReedTheme.colors.contentBrand,
                 )
             }
