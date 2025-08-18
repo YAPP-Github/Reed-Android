@@ -72,7 +72,7 @@ fun InfinityLazyColumn(
 @SuppressLint("ComposableNaming")
 @Composable
 private fun LazyListState.onLoadMore(
-    limitCount: Int = 6,
+    limitCount: Int = LIMIT_COUNT,
     loadOnBottom: Boolean = true,
     action: () -> Unit,
 ) {
