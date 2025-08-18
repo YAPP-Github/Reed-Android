@@ -6,7 +6,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class RecordEditArgs(
     val id: String,
-    val userBookId: String,
     val pageNumber: Int,
     val quote: String,
     val review: String,

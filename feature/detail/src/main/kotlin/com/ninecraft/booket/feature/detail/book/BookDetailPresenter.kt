@@ -277,7 +277,6 @@ class BookDetailPresenter @AssistedInject constructor(
                         RecordEditScreen(
                             RecordEditArgs(
                                 id = selectedRecordInfo.id,
-                                userBookId = selectedRecordInfo.userBookId,
                                 pageNumber = selectedRecordInfo.pageNumber,
                                 quote = selectedRecordInfo.quote,
                                 review = selectedRecordInfo.review,

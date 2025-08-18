@@ -219,7 +219,6 @@ private fun RecordEditUiPreview() {
             state = RecordEditUiState(
                 recordInfo = RecordEditArgs(
                     id = "",
-                    userBookId = "",
                     pageNumber = 33,
                     quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
                     review = "감동적이었다.",

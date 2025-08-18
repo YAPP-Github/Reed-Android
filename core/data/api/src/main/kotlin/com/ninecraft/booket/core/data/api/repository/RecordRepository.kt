@@ -27,7 +27,6 @@ interface RecordRepository {
 
     suspend fun editRecord(
         readingRecordId: String,
-        userBookId: String,
         pageNumber: Int,
         quote: String,
         emotionTags: List<String>,
