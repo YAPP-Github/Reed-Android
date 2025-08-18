@@ -81,52 +81,54 @@ class BookDetailPresenter @AssistedInject constructor(
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
 
         @Suppress("TooGenericExceptionCaught")
-        suspend fun initialLoad() {
+        fun initialLoad() {
             uiState = UiState.Loading
 
-            try {
-                coroutineScope {
-                    val bookDetailDef = async { bookRepository.getBookDetail(screen.isbn13).getOrThrow() }
-                    val seedsDef = async { bookRepository.getSeedsStats(screen.userBookId).getOrThrow() }
-                    val readingRecordsDef = async {
-                        recordRepository.getReadingRecords(
-                            userBookId = screen.userBookId,
-                            sort = currentRecordSort.value,
-                            page = START_INDEX,
-                            size = PAGE_SIZE,
-                        ).getOrThrow()
+            scope.launch {
+                try {
+                    coroutineScope {
+                        val bookDetailDeferred = async { bookRepository.getBookDetail(screen.isbn13).getOrThrow() }
+                        val seedsDeferred = async { bookRepository.getSeedsStats(screen.userBookId).getOrThrow() }
+                        val readingRecordsDeferred = async {
+                            recordRepository.getReadingRecords(
+                                userBookId = screen.userBookId,
+                                sort = currentRecordSort.value,
+                                page = START_INDEX,
+                                size = PAGE_SIZE,
+                            ).getOrThrow()
+                        }
+                        val detail = bookDetailDeferred.await()
+                        val seeds = seedsDeferred.await()
+                        val records = readingRecordsDeferred.await()
+
+                        bookDetail = detail
+                        currentBookStatus = BookStatus.fromValue(detail.userBookStatus) ?: BookStatus.BEFORE_READING
+                        selectedBookStatus = currentBookStatus
+                        seedsStates = seeds.categories.toImmutableList()
+                        readingRecords = records.readingRecords.toPersistentList()
+                        readingRecordsTotalCount = records.totalResults
+
+                        isLastPage = records.lastPage
+                        currentStartIndex = START_INDEX
+
+                        uiState = UiState.Success
                     }
-                    val detail = bookDetailDef.await()
-                    val seeds = seedsDef.await()
-                    val records = readingRecordsDef.await()
+                } catch (e: Throwable) {
+                    uiState = UiState.Error(e)
 
-                    bookDetail = detail
-                    currentBookStatus = BookStatus.fromValue(detail.userBookStatus) ?: BookStatus.BEFORE_READING
-                    selectedBookStatus = currentBookStatus
-                    seedsStates = seeds.categories.toImmutableList()
-                    readingRecords = records.readingRecords.toPersistentList()
-                    readingRecordsTotalCount = records.totalResults
+                    val handleErrorMessage = { message: String ->
+                        Logger.e(message)
+                        sideEffect = BookDetailSideEffect.ShowToast(message)
+                    }
 
-                    isLastPage = records.lastPage
-                    currentStartIndex = START_INDEX
-
-                    uiState = UiState.Success
+                    handleException(
+                        exception = e,
+                        onError = handleErrorMessage,
+                        onLoginRequired = {
+                            navigator.resetRoot(LoginScreen)
+                        },
+                    )
                 }
-            } catch (e: Throwable) {
-                uiState = UiState.Error(e)
-
-                val handleErrorMessage = { message: String ->
-                    Logger.e(message)
-                    sideEffect = BookDetailSideEffect.ShowToast(message)
-                }
-
-                handleException(
-                    exception = e,
-                    onError = handleErrorMessage,
-                    onLoginRequired = {
-                        navigator.resetRoot(LoginScreen)
-                    },
-                )
             }
         }
 
