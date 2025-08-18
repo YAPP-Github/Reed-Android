@@ -47,9 +47,9 @@ class RecordEditPresenter @AssistedInject constructor(
         }
         val hasChanges by remember {
             derivedStateOf {
-                val pageChanged = recordPageState.text != recordInfo.pageNumber.toString()
-                val quoteChanged = recordQuoteState.text != recordInfo.quote
-                val impressionChanged = recordImpressionState.text != recordInfo.review
+                val pageChanged = recordPageState.text.toString() != recordInfo.pageNumber.toString()
+                val quoteChanged = recordQuoteState.text.toString() != recordInfo.quote
+                val impressionChanged = recordImpressionState.text.toString() != recordInfo.review
                 val emotionChanged = recordInfo.emotionTags != screen.recordInfo.emotionTags
                 pageChanged || quoteChanged || impressionChanged || emotionChanged
             }
@@ -71,7 +71,6 @@ class RecordEditPresenter @AssistedInject constructor(
 
         fun editRecord(
             readingRecordId: String,
-            userBookId: String,
             pageNumber: Int,
             quote: String,
             emotionTags: List<String>,
@@ -81,7 +80,6 @@ class RecordEditPresenter @AssistedInject constructor(
             scope.launch {
                 repository.editRecord(
                     readingRecordId = readingRecordId,
-                    userBookId = userBookId,
                     pageNumber = pageNumber,
                     quote = quote,
                     emotionTags = emotionTags,
@@ -123,7 +121,6 @@ class RecordEditPresenter @AssistedInject constructor(
                 RecordEditUiEvent.OnSaveButtonClick -> {
                     editRecord(
                         readingRecordId = recordInfo.id,
-                        userBookId = recordInfo.userBookId,
                         pageNumber = recordPageState.text.toString().toIntOrNull() ?: 0,
                         quote = recordQuoteState.text.toString(),
                         emotionTags = recordInfo.emotionTags,

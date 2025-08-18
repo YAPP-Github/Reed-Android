@@ -127,7 +127,7 @@ private fun RecordItemPreview() {
         RecordItem(
             recordInfo = ReadingRecordModel(
                 quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
-                emotionTags = persistentListOf(),
+                emotionTags = persistentListOf("따뜻함"),
                 pageNumber = 12,
                 createdAt = "2025.06.25",
             ),

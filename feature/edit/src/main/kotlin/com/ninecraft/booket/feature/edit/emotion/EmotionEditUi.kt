@@ -104,7 +104,7 @@ private fun EmotionEditContent(
                             state.eventSink(EmotionEditUiEvent.OnSelectEmotion(tag.label))
                         },
                         isSelected = state.selectedEmotion == tag.label,
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
             },
