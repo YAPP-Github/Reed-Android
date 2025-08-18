@@ -11,6 +11,7 @@ import com.ninecraft.booket.core.network.response.BookUpsertResponse
 import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
+import com.ninecraft.booket.core.network.response.ReadingRecord
 import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RecordDetailResponse
 import com.ninecraft.booket.core.network.response.RecordRegisterResponse
@@ -21,6 +22,7 @@ import com.ninecraft.booket.core.network.response.UserProfileResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -102,6 +104,17 @@ interface ReedService {
     suspend fun getRecordDetail(
         @Path("readingRecordId") readingRecordId: String,
     ): RecordDetailResponse
+
+    @PATCH("api/v1/reading-records/{readingRecordId}")
+    suspend fun editRecord(
+        @Path("readingRecordId") readingRecordId: String,
+        @Body recordRegisterRequest: RecordRegisterRequest,
+    ): ReadingRecord
+
+    @DELETE("api/v1/reading-records/{readingRecordId}")
+    suspend fun deleteRecord(
+        @Path("readingRecordId") readingRecordId: String,
+    )
 
     // Home (auth required)
     @GET("api/v1/home")

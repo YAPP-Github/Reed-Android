@@ -30,7 +30,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.constants.BookStatus
-import com.ninecraft.booket.core.common.extensions.toFormattedDate
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
@@ -42,6 +41,7 @@ import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
+import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
 import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.book.component.BookItem
@@ -50,6 +50,7 @@ import com.ninecraft.booket.feature.detail.book.component.CollectedSeeds
 import com.ninecraft.booket.feature.detail.book.component.ReadingRecordsHeader
 import com.ninecraft.booket.feature.detail.book.component.RecordItem
 import com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet
+import com.ninecraft.booket.feature.detail.record.component.RecordMenuBottomSheet
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -66,6 +67,7 @@ internal fun BookDetailUi(
 ) {
     val bookUpdateBottomSheetState = rememberModalBottomSheetState()
     val recordSortBottomSheetState = rememberModalBottomSheetState()
+    val recordMenuBottomSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
 
     HandleBookDetailSideEffects(
@@ -122,6 +124,39 @@ internal fun BookDetailUi(
             currentRecordSort = state.currentRecordSort,
             onItemSelected = {
                 state.eventSink(BookDetailUiEvent.OnRecordSortItemSelected(it))
+            },
+        )
+    }
+
+    if (state.isRecordMenuBottomSheetVisible) {
+        RecordMenuBottomSheet(
+            onDismissRequest = {
+                state.eventSink(BookDetailUiEvent.OnRecordMenuBottomSheetDismiss)
+            },
+            sheetState = recordMenuBottomSheetState,
+            onShareRecordClick = {},
+            onEditRecordClick = {
+                coroutineScope.launch {
+                    recordMenuBottomSheetState.hide()
+                    state.eventSink(BookDetailUiEvent.OnEditRecordClick)
+                }
+            },
+            onDeleteRecordClick = {
+                state.eventSink(BookDetailUiEvent.OnDeleteRecordClick)
+            },
+        )
+    }
+
+    if (state.isRecordDeleteDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.record_delete_dialog_title),
+            confirmButtonText = stringResource(R.string.record_delete_dialog_delete),
+            onConfirmRequest = {
+                state.eventSink(BookDetailUiEvent.OnDelete)
+            },
+            dismissButtonText = stringResource(R.string.record_delete_dialog_cancel),
+            onDismissRequest = {
+                state.eventSink(BookDetailUiEvent.OnRecordDeleteDialogDismiss)
             },
         )
     }
@@ -257,10 +292,10 @@ internal fun BookDetailContent(
                     ) { index ->
                         val record = state.readingRecords[index]
                         RecordItem(
-                            quote = record.quote,
-                            emotionTags = record.emotionTags.toImmutableList(),
-                            pageNumber = record.pageNumber,
-                            createdAt = record.createdAt.toFormattedDate(),
+                            recordInfo = record,
+                            onRecordMenuClick = { recordInfo ->
+                                state.eventSink(BookDetailUiEvent.OnRecordMenuClick(recordInfo))
+                            },
                             modifier = Modifier
                                 .padding(
                                     start = ReedTheme.spacing.spacing5,
