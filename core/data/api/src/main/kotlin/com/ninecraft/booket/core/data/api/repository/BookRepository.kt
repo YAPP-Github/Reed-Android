@@ -43,4 +43,6 @@ interface BookRepository {
     suspend fun getHome(): Result<HomeModel>
 
     suspend fun getSeedsStats(userBookId: String): Result<SeedModel>
+
+    suspend fun removeBook(userBookId: String): Result<Unit>
 }

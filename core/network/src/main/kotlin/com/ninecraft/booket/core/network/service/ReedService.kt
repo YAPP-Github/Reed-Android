@@ -78,6 +78,11 @@ interface ReedService {
         @Query("sort") sort: String = "CREATED_DATE_DESC",
     ): LibraryResponse
 
+    @DELETE("api/v1/books/my-library/{userBookId}")
+    suspend fun removeBook(
+        @Path("userBookId") userBookId: String,
+    )
+
     // Reading-records endpoints (auth required)
     @POST("api/v1/reading-records/{userBookId}")
     suspend fun postRecord(
