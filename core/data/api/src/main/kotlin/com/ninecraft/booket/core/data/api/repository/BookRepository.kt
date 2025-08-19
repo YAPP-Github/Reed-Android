@@ -44,5 +44,5 @@ interface BookRepository {
 
     suspend fun getSeedsStats(userBookId: String): Result<SeedModel>
 
-    suspend fun removeBook(userBookId: String): Result<Unit>
+    suspend fun deleteBook(userBookId: String): Result<Unit>
 }

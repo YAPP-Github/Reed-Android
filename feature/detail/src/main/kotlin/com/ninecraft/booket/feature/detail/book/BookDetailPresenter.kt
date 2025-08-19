@@ -78,6 +78,8 @@ class BookDetailPresenter @AssistedInject constructor(
         var isRecordSortBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isRecordMenuBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isRecordDeleteDialogVisible by rememberRetained { mutableStateOf(false) }
+        var isDetailMenuBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isBookDeleteDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
 
         @Suppress("TooGenericExceptionCaught")
@@ -212,6 +214,29 @@ class BookDetailPresenter @AssistedInject constructor(
             }
         }
 
+        fun deleteBook(userBookId: String, onSuccess: () -> Unit) {
+            scope.launch {
+                bookRepository.deleteBook(userBookId = userBookId)
+                    .onSuccess {
+                        onSuccess()
+                    }
+                    .onFailure { exception ->
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = BookDetailSideEffect.ShowToast(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen)
+                            },
+                        )
+                    }
+            }
+        }
+
         LaunchedEffect(Unit) {
             initialLoad()
         }
@@ -297,7 +322,7 @@ class BookDetailPresenter @AssistedInject constructor(
                     isRecordDeleteDialogVisible = true
                 }
 
-                is BookDetailUiEvent.OnDelete -> {
+                is BookDetailUiEvent.OnDeleteRecord -> {
                     isRecordDeleteDialogVisible = false
                     deleteRecord(
                         readingRecordId = selectedRecordInfo.id,
@@ -311,6 +336,33 @@ class BookDetailPresenter @AssistedInject constructor(
 
                 is BookDetailUiEvent.OnRecordItemClick -> {
                     navigator.goTo(RecordDetailScreen(event.recordId))
+                }
+
+                is BookDetailUiEvent.OnDetailMenuClick -> {
+                    isDetailMenuBottomSheetVisible = true
+                }
+
+                is BookDetailUiEvent.OnDetailMenuBottomSheetDismiss -> {
+                    isDetailMenuBottomSheetVisible = false
+                }
+
+                is BookDetailUiEvent.OnDeleteBookClick -> {
+                    isDetailMenuBottomSheetVisible = false
+                    isBookDeleteDialogVisible = true
+                }
+
+                is BookDetailUiEvent.OnDeleteDialogDismiss -> {
+                    isBookDeleteDialogVisible = false
+                }
+
+                is BookDetailUiEvent.OnDeleteBook -> {
+                    isBookDeleteDialogVisible = false
+                    deleteBook(
+                        userBookId = screen.userBookId,
+                        onSuccess = {
+                            navigator.pop()
+                        },
+                    )
                 }
 
                 is BookDetailUiEvent.OnLoadMore -> {
@@ -342,6 +394,8 @@ class BookDetailPresenter @AssistedInject constructor(
             selectedRecordInfo = selectedRecordInfo,
             isRecordMenuBottomSheetVisible = isRecordMenuBottomSheetVisible,
             isRecordDeleteDialogVisible = isRecordDeleteDialogVisible,
+            isDetailMenuBottomSheetVisible = isDetailMenuBottomSheetVisible,
+            isBookDeleteDialogVisible = isBookDeleteDialogVisible,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )

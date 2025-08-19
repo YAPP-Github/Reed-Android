@@ -65,7 +65,7 @@ internal class DefaultBookRepository @Inject constructor(
         service.getSeedsStats(userBookId).toModel()
     }
 
-    override suspend fun removeBook(userBookId: String) = runSuspendCatching {
-        service.removeBook(userBookId)
+    override suspend fun deleteBook(userBookId: String) = runSuspendCatching {
+        service.deleteBook(userBookId)
     }
 }

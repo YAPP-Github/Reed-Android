@@ -81,7 +81,7 @@ interface ReedService {
     ): LibraryResponse
 
     @DELETE("api/v1/books/my-library/{userBookId}")
-    suspend fun removeBook(
+    suspend fun deleteBook(
         @Path("userBookId") userBookId: String,
     )
 
