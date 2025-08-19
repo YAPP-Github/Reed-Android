@@ -117,9 +117,9 @@ class LibrarySearchPresenter @AssistedInject constructor(
                     searchLibraryBooks(query = event.query, page = START_INDEX, size = PAGE_SIZE)
                 }
 
-                is LibrarySearchUiEvent.OnRecentSearchRemoveClick -> {
+                is LibrarySearchUiEvent.OnRecentSearchDeleteClick -> {
                     scope.launch {
-                        repository.removeLibraryRecentSearch(event.query)
+                        repository.deleteLibraryRecentSearch(event.query)
                     }
                 }
 

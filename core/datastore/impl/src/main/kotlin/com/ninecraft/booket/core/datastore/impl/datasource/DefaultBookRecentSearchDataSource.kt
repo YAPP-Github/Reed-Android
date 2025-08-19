@@ -67,7 +67,7 @@ class DefaultBookRecentSearchDataSource @Inject constructor(
     }
 
     @Suppress("TooGenericExceptionCaught")
-    override suspend fun removeRecentSearch(query: String) {
+    override suspend fun deleteRecentSearch(query: String) {
         dataStore.edit { prefs ->
             val currentSearches = prefs[BOOK_RECENT_SEARCHES]?.let { jsonString ->
                 try {

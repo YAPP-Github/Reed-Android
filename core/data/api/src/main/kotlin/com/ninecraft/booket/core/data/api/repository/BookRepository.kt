@@ -17,7 +17,7 @@ interface BookRepository {
         start: Int,
     ): Result<BookSearchModel>
 
-    suspend fun removeBookRecentSearch(query: String)
+    suspend fun deleteBookRecentSearch(query: String)
 
     suspend fun getBookDetail(isbn13: String): Result<BookDetailModel>
 
@@ -38,7 +38,7 @@ interface BookRepository {
         size: Int,
     ): Result<LibraryModel>
 
-    suspend fun removeLibraryRecentSearch(query: String)
+    suspend fun deleteLibraryRecentSearch(query: String)
 
     suspend fun getHome(): Result<HomeModel>
 
