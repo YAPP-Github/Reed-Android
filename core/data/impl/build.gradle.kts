@@ -18,6 +18,8 @@ dependencies {
         projects.core.model,
         projects.core.network,
 
+        platform(libs.firebase.bom),
+        libs.firebase.remote.config,
         libs.logger,
     )
 }

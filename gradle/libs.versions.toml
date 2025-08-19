@@ -150,6 +150,7 @@ androidx-test-runner = { group = "androidx.test", name = "runner", version.ref =
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-remote-config = { group = "com.google.firebase", name = "firebase-config-ktx" }
 
 [plugins]
 gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
