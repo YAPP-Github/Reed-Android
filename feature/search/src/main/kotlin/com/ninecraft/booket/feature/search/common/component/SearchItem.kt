@@ -48,7 +48,7 @@ fun SearchItem(
         Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing3))
         Icon(
             imageVector = ImageVector.vectorResource(id = designR.drawable.ic_close),
-            contentDescription = "Remove Icon",
+            contentDescription = "Delete Icon",
             tint = ReedTheme.colors.contentSecondary,
             modifier = Modifier
                 .size(18.dp)
