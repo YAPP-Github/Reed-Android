@@ -12,6 +12,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
+@Immutable
 sealed interface UiState {
     data object Idle : UiState
     data object Loading : UiState
@@ -47,7 +48,7 @@ sealed interface BookSearchSideEffect {
 sealed interface BookSearchUiEvent : CircuitUiEvent {
     data object OnBackClick : BookSearchUiEvent
     data class OnRecentSearchClick(val query: String) : BookSearchUiEvent
-    data class OnRecentSearchRemoveClick(val query: String) : BookSearchUiEvent
+    data class OnRecentSearchDeleteClick(val query: String) : BookSearchUiEvent
     data class OnSearchClick(val query: String) : BookSearchUiEvent
     data object OnClearClick : BookSearchUiEvent
     data class OnBookClick(val isbn13: String) : BookSearchUiEvent

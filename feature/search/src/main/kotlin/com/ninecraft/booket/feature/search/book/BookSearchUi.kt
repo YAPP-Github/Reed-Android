@@ -154,9 +154,9 @@ internal fun SearchContent(
                                     onQueryClick = { keyword ->
                                         state.eventSink(BookSearchUiEvent.OnRecentSearchClick(keyword))
                                     },
-                                    onRemoveIconClick = { keyword ->
+                                    onDeleteIconClick = { keyword ->
                                         state.eventSink(
-                                            BookSearchUiEvent.OnRecentSearchRemoveClick(keyword),
+                                            BookSearchUiEvent.OnRecentSearchDeleteClick(keyword),
                                         )
                                     },
                                 )

@@ -67,7 +67,7 @@ class DefaultLibraryRecentSearchDataSource @Inject constructor(
     }
 
     @Suppress("TooGenericExceptionCaught")
-    override suspend fun removeRecentSearch(query: String) {
+    override suspend fun deleteRecentSearch(query: String) {
         dataStore.edit { prefs ->
             val currentSearches = prefs[LIBRARY_RECENT_SEARCHES]?.let { jsonString ->
                 try {
@@ -76,7 +76,7 @@ class DefaultLibraryRecentSearchDataSource @Inject constructor(
                     Logger.e(e, "Failed to deserialize recent searches for removal")
                     mutableListOf()
                 } catch (e: Exception) {
-                    Logger.e(e, "Unexpected error while removing recent search")
+                    Logger.e(e, "Unexpected error while deleting recent search")
                     mutableListOf()
                 }
             } ?: mutableListOf()

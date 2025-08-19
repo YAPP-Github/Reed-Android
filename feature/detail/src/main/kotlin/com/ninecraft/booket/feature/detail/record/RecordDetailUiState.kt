@@ -6,6 +6,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import java.util.UUID
 
+@Immutable
 sealed interface UiState {
     data object Idle : UiState
     data object Loading : UiState

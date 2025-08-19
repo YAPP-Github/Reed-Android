@@ -136,8 +136,8 @@ internal fun LibrarySearchContent(
                                     onQueryClick = { keyword ->
                                         state.eventSink(LibrarySearchUiEvent.OnRecentSearchClick(keyword))
                                     },
-                                    onRemoveIconClick = { keyword ->
-                                        state.eventSink(LibrarySearchUiEvent.OnRecentSearchRemoveClick(keyword))
+                                    onDeleteIconClick = { keyword ->
+                                        state.eventSink(LibrarySearchUiEvent.OnRecentSearchDeleteClick(keyword))
                                     },
                                 )
                                 HorizontalDivider(

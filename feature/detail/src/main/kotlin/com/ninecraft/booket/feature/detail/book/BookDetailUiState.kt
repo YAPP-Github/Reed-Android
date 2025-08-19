@@ -13,6 +13,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
+@Immutable
 sealed interface UiState {
     data object Idle : UiState
     data object Loading : UiState
@@ -38,6 +39,8 @@ data class BookDetailUiState(
     val isRecordSortBottomSheetVisible: Boolean = false,
     val isRecordMenuBottomSheetVisible: Boolean = false,
     val isRecordDeleteDialogVisible: Boolean = false,
+    val isDetailMenuBottomSheetVisible: Boolean = false,
+    val isBookDeleteDialogVisible: Boolean = false,
     val sideEffect: BookDetailSideEffect? = null,
     val eventSink: (BookDetailUiEvent) -> Unit,
 ) : CircuitUiState {
@@ -71,7 +74,12 @@ sealed interface BookDetailUiEvent : CircuitUiEvent {
     data object OnRecordDeleteDialogDismiss : BookDetailUiEvent
     data object OnEditRecordClick : BookDetailUiEvent
     data object OnDeleteRecordClick : BookDetailUiEvent
-    data object OnDelete : BookDetailUiEvent
+    data object OnDeleteRecord : BookDetailUiEvent
+    data object OnDetailMenuClick : BookDetailUiEvent
+    data object OnDetailMenuBottomSheetDismiss : BookDetailUiEvent
+    data object OnDeleteBookClick : BookDetailUiEvent
+    data object OnDeleteDialogDismiss : BookDetailUiEvent
+    data object OnDeleteBook : BookDetailUiEvent
     data class OnRecordItemClick(val recordId: String) : BookDetailUiEvent
     data object OnLoadMore : BookDetailUiEvent
     data object OnRetryClick : BookDetailUiEvent

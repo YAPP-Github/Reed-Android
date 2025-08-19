@@ -16,4 +16,5 @@
     <string name="record_delete_dialog_title">삭제하면 기록을 복구할 수 없어요.\n정말 삭제하시겠어요?</string>
     <string name="record_delete_dialog_delete">삭제</string>
     <string name="record_delete_dialog_cancel">취소</string>
+    <string name="book_delete">도서 삭제하기</string>
 </resources>

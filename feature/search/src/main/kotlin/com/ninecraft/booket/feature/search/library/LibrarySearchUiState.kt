@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.search.library
 
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.slack.circuit.runtime.CircuitUiEvent
@@ -9,6 +10,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
+@Immutable
 sealed interface UiState {
     data object Idle : UiState
     data object Loading : UiState
@@ -36,7 +38,7 @@ sealed interface LibrarySearchSideEffect {
 sealed interface LibrarySearchUiEvent : CircuitUiEvent {
     data object OnBackClick : LibrarySearchUiEvent
     data class OnRecentSearchClick(val query: String) : LibrarySearchUiEvent
-    data class OnRecentSearchRemoveClick(val query: String) : LibrarySearchUiEvent
+    data class OnRecentSearchDeleteClick(val query: String) : LibrarySearchUiEvent
     data class OnSearchClick(val query: String) : LibrarySearchUiEvent
     data object OnClearClick : LibrarySearchUiEvent
     data object OnLoadMore : LibrarySearchUiEvent

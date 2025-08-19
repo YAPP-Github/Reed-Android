@@ -24,7 +24,7 @@ import com.ninecraft.booket.core.designsystem.R as designR
 fun SearchItem(
     query: String,
     onQueryClick: (String) -> Unit,
-    onRemoveIconClick: (String) -> Unit,
+    onDeleteIconClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -48,11 +48,11 @@ fun SearchItem(
         Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing3))
         Icon(
             imageVector = ImageVector.vectorResource(id = designR.drawable.ic_close),
-            contentDescription = "Remove Icon",
+            contentDescription = "Delete Icon",
             tint = ReedTheme.colors.contentSecondary,
             modifier = Modifier
                 .size(18.dp)
-                .clickable { onRemoveIconClick(query) },
+                .clickable { onDeleteIconClick(query) },
         )
     }
 }
@@ -64,7 +64,7 @@ private fun SearchItemPreview() {
         SearchItem(
             query = "최근 검색어 최근 검색어 최근 검색어 최근 검색어 최근 검색어",
             onQueryClick = {},
-            onRemoveIconClick = {},
+            onDeleteIconClick = {},
         )
     }
 }

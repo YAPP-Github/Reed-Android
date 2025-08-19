@@ -40,13 +40,14 @@ import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
-import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
+import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.book.component.BookItem
 import com.ninecraft.booket.feature.detail.book.component.BookUpdateBottomSheet
 import com.ninecraft.booket.feature.detail.book.component.CollectedSeeds
+import com.ninecraft.booket.feature.detail.book.component.DetailMenuBottomSheet
 import com.ninecraft.booket.feature.detail.book.component.ReadingRecordsHeader
 import com.ninecraft.booket.feature.detail.book.component.RecordItem
 import com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet
@@ -152,11 +153,37 @@ internal fun BookDetailUi(
             title = stringResource(R.string.record_delete_dialog_title),
             confirmButtonText = stringResource(R.string.record_delete_dialog_delete),
             onConfirmRequest = {
-                state.eventSink(BookDetailUiEvent.OnDelete)
+                state.eventSink(BookDetailUiEvent.OnDeleteRecord)
             },
             dismissButtonText = stringResource(R.string.record_delete_dialog_cancel),
             onDismissRequest = {
                 state.eventSink(BookDetailUiEvent.OnRecordDeleteDialogDismiss)
+            },
+        )
+    }
+
+    if (state.isDetailMenuBottomSheetVisible) {
+        DetailMenuBottomSheet(
+            onDismissRequest = {
+                state.eventSink(BookDetailUiEvent.OnDetailMenuBottomSheetDismiss)
+            },
+            sheetState = recordMenuBottomSheetState,
+            onDeleteBookClick = {
+                state.eventSink(BookDetailUiEvent.OnDeleteBookClick)
+            },
+        )
+    }
+
+    if (state.isBookDeleteDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.record_delete_dialog_title),
+            confirmButtonText = stringResource(R.string.record_delete_dialog_delete),
+            onConfirmRequest = {
+                state.eventSink(BookDetailUiEvent.OnDeleteBook)
+            },
+            dismissButtonText = stringResource(R.string.record_delete_dialog_cancel),
+            onDismissRequest = {
+                state.eventSink(BookDetailUiEvent.OnDeleteDialogDismiss)
             },
         )
     }
@@ -191,10 +218,16 @@ internal fun BookDetailContent(
                 },
             ) {
                 item {
-                    ReedBackTopAppBar(
+                    ReedTopAppBar(
                         title = "",
-                        onBackClick = {
+                        startIconRes = designR.drawable.ic_chevron_left,
+                        startIconOnClick = {
                             state.eventSink(BookDetailUiEvent.OnBackClick)
+                        },
+                        endIconRes = designR.drawable.ic_more_vertical,
+                        endIconDescription = "More Vertical Icon",
+                        endIconOnClick = {
+                            state.eventSink(BookDetailUiEvent.OnDetailMenuClick)
                         },
                     )
                 }
