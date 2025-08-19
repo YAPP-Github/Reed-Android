@@ -124,7 +124,7 @@ internal fun SettingsUi(
                     Text(
                         text = appVersion,
                         style = ReedTheme.typography.body1Medium,
-                        color = ReedTheme.colors.contentSecondary,
+                        color = ReedTheme.colors.contentBrand,
                     )
                 },
             )
