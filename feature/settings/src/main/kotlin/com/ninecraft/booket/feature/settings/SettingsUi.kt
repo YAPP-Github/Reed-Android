@@ -47,7 +47,10 @@ internal fun SettingsUi(
     state: SettingsUiState,
     modifier: Modifier = Modifier,
 ) {
-    HandleSettingsSideEffects(state = state)
+    HandleSettingsSideEffects(
+        state = state,
+        eventSink = state.eventSink,
+    )
 
     val withDrawSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
@@ -127,6 +130,13 @@ internal fun SettingsUi(
                         color = ReedTheme.colors.contentBrand,
                     )
                 },
+                description = {
+                    Text(
+                        text = stringResource(R.string.latest_version, state.latestVersion),
+                        color = ReedTheme.colors.contentTertiary,
+                        style = ReedTheme.typography.label1Medium,
+                    )
+                },
             )
             ReedDivider(modifier = Modifier.padding(vertical = ReedTheme.spacing.spacing4))
             SettingItem(
@@ -199,6 +209,7 @@ private fun SettingItem(
     isClickable: Boolean = true,
     onItemClick: () -> Unit = {},
     action: @Composable () -> Unit = {},
+    description: @Composable () -> Unit = {},
 ) {
     val combinedModifier = if (isClickable) {
         modifier
@@ -208,21 +219,27 @@ private fun SettingItem(
         modifier.fillMaxWidth()
     }
 
-    Row(
-        modifier = combinedModifier
-            .padding(
-                horizontal = ReedTheme.spacing.spacing5,
-                vertical = ReedTheme.spacing.spacing4,
-            ),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            modifier = Modifier.weight(1f),
-            text = title,
-            style = ReedTheme.typography.body1Medium,
-            color = ReedTheme.colors.contentPrimary,
-        )
-        action()
+    Column {
+        Row(
+            modifier = combinedModifier
+                .padding(
+                    horizontal = ReedTheme.spacing.spacing5,
+                    vertical = ReedTheme.spacing.spacing4,
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+            ) {
+                Text(
+                    text = title,
+                    style = ReedTheme.typography.body1Medium,
+                    color = ReedTheme.colors.contentPrimary,
+                )
+                description()
+            }
+            action()
+        }
     }
 }
 

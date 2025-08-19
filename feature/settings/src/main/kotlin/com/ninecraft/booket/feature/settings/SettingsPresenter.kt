@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.settings
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -8,6 +9,7 @@ import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.constants.WebViewConstants
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
+import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OssLicensesScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
@@ -26,19 +28,48 @@ import kotlinx.coroutines.launch
 class SettingsPresenter @AssistedInject constructor(
     @Assisted val navigator: Navigator,
     private val authRepository: AuthRepository,
+    private val remoteConfigRepository: RemoteConfigRepository,
 ) : Presenter<SettingsUiState> {
 
     @Composable
     override fun present(): SettingsUiState {
         val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
-        var sideEffect by rememberRetained { mutableStateOf<SettingsSideEffect?>(null) }
         var isLogoutDialogVisible by rememberRetained { mutableStateOf(false) }
         var isWithdrawBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isWithdrawConfirmed by rememberRetained { mutableStateOf(false) }
+        var latestVersion by rememberRetained { mutableStateOf("") }
+        var sideEffect by rememberRetained { mutableStateOf<SettingsSideEffect?>(null) }
+
+        suspend fun getLatestVersion() {
+            try {
+                isLoading = true
+                remoteConfigRepository.getLatestVersion()
+                    .onSuccess { version ->
+                        latestVersion = version
+                    }
+                    .onFailure { exception ->
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = SettingsSideEffect.ShowToast(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                        )
+                    }
+            } finally {
+                isLoading = false
+            }
+        }
 
         fun handleEvent(event: SettingsUiEvent) {
             when (event) {
+                is SettingsUiEvent.InitSideEffect -> {
+                    sideEffect = null
+                }
+
                 is SettingsUiEvent.OnBackClick -> {
                     navigator.pop()
                 }
@@ -134,11 +165,17 @@ class SettingsPresenter @AssistedInject constructor(
                 }
             }
         }
+
+        LaunchedEffect(Unit) {
+            getLatestVersion()
+        }
+
         return SettingsUiState(
             isLoading = isLoading,
             isLogoutDialogVisible = isLogoutDialogVisible,
             isWithdrawBottomSheetVisible = isWithdrawBottomSheetVisible,
             isWithdrawConfirmed = isWithdrawConfirmed,
+            latestVersion = latestVersion,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
