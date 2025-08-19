@@ -8,6 +8,10 @@ plugins {
 
 android {
     namespace = "com.ninecraft.booket.core.data.impl"
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {

@@ -1,10 +1,10 @@
 package com.ninecraft.booket.core.data.impl.di
 
 import com.google.firebase.Firebase
-import com.google.firebase.remoteconfig.BuildConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
+import com.ninecraft.booket.core.data.impl.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
