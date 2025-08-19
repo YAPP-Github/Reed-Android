@@ -34,8 +34,11 @@ data class BookDetailUiState(
     val currentBookStatus: BookStatus = BookStatus.BEFORE_READING,
     val selectedBookStatus: BookStatus = BookStatus.BEFORE_READING,
     val currentRecordSort: RecordSort = RecordSort.PAGE_NUMBER_ASC,
+    val selectedRecordInfo: ReadingRecordModel = ReadingRecordModel(),
     val isBookUpdateBottomSheetVisible: Boolean = false,
     val isRecordSortBottomSheetVisible: Boolean = false,
+    val isRecordMenuBottomSheetVisible: Boolean = false,
+    val isRecordDeleteDialogVisible: Boolean = false,
     val sideEffect: BookDetailSideEffect? = null,
     val eventSink: (BookDetailUiEvent) -> Unit,
 ) : CircuitUiState {
@@ -64,6 +67,12 @@ sealed interface BookDetailUiEvent : CircuitUiEvent {
     data object OnBookStatusUpdateButtonClick : BookDetailUiEvent
     data object OnRecordSortBottomSheetDismiss : BookDetailUiEvent
     data class OnRecordSortItemSelected(val sortType: RecordSort) : BookDetailUiEvent
+    data class OnRecordMenuClick(val selectedRecordInfo: ReadingRecordModel) : BookDetailUiEvent
+    data object OnRecordMenuBottomSheetDismiss : BookDetailUiEvent
+    data object OnRecordDeleteDialogDismiss : BookDetailUiEvent
+    data object OnEditRecordClick : BookDetailUiEvent
+    data object OnDeleteRecordClick : BookDetailUiEvent
+    data object OnDelete : BookDetailUiEvent
     data class OnRecordItemClick(val recordId: String) : BookDetailUiEvent
     data object OnLoadMore : BookDetailUiEvent
     data object OnRetryClick : BookDetailUiEvent
