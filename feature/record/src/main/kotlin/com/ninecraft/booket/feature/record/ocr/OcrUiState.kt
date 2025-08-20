@@ -1,10 +1,11 @@
 package com.ninecraft.booket.feature.record.ocr
 
-import androidx.camera.core.ImageProxy
+import androidx.compose.runtime.Immutable
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
+import java.util.UUID
 
 data class OcrUiState(
     val currentUi: OcrUi = OcrUi.CAMERA,
@@ -14,8 +15,17 @@ data class OcrUiState(
     val isTextDetectionFailed: Boolean = false,
     val isRecaptureDialogVisible: Boolean = false,
     val isLoading: Boolean = false,
+    val sideEffect: OcrSideEffect? = null,
     val eventSink: (OcrUiEvent) -> Unit,
 ) : CircuitUiState
+
+@Immutable
+sealed interface OcrSideEffect {
+    data class ShowToast(
+        val message: String,
+        private val key: String = UUID.randomUUID().toString(),
+    ) : OcrSideEffect
+}
 
 sealed interface OcrUiEvent : CircuitUiEvent {
     data object OnCloseClick : OcrUiEvent

@@ -81,6 +81,8 @@ internal fun OcrUi(
     state: OcrUiState,
     modifier: Modifier = Modifier,
 ) {
+    HandleOcrSideEffects(state = state)
+
     when (state.currentUi) {
         OcrUi.CAMERA -> CameraPreview(state = state, modifier = modifier)
         OcrUi.RESULT -> TextScanResult(state = state, modifier = modifier)

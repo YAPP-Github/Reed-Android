@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.ocr.analyzer.CloudOcrRecognizer
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.orhanobut.logger.Logger
@@ -38,6 +39,7 @@ class OcrPresenter @AssistedInject constructor(
         var isTextDetectionFailed by rememberRetained { mutableStateOf(false) }
         var isRecaptureDialogVisible by rememberRetained { mutableStateOf(false) }
         var isLoading by rememberRetained { mutableStateOf(false) }
+        var sideEffect by rememberRetained { mutableStateOf<OcrSideEffect?>(null) }
 
         fun recognizeText(base64Image: String) {
             scope.launch {
@@ -61,9 +63,19 @@ class OcrPresenter @AssistedInject constructor(
                                 isTextDetectionFailed = true
                             }
                         }
-                        .onFailure {
+                        .onFailure { exception ->
                             isTextDetectionFailed = true
-                            Logger.e("Cloud Vision API Error: ${it.message}")
+
+                            val handleErrorMessage = { message: String ->
+                                Logger.e("Cloud Vision API Error: ${exception.message}")
+                                sideEffect = OcrSideEffect.ShowToast(message)
+                            }
+
+                            handleException(
+                                exception = exception,
+                                onError = handleErrorMessage,
+                                onLoginRequired = {},
+                            )
                         }
                 } finally {
                     isLoading = false
@@ -86,6 +98,8 @@ class OcrPresenter @AssistedInject constructor(
                 }
 
                 is OcrUiEvent.OnCaptureButtonClick -> {
+                    isTextDetectionFailed = false
+
                     val base64Image = Base64.encodeToString(event.imageData, Base64.NO_WRAP)
                     recognizeText(base64Image)
                 }
@@ -128,6 +142,7 @@ class OcrPresenter @AssistedInject constructor(
             isTextDetectionFailed = isTextDetectionFailed,
             isRecaptureDialogVisible = isRecaptureDialogVisible,
             isLoading = isLoading,
+            sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
     }
