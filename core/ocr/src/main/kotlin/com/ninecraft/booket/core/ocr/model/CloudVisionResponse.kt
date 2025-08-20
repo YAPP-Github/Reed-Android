@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CloudVisionResponse(
-    val response: List<AnnotateImageResponse>,
+    val responses: List<AnnotateImageResponse>,
 )
 
 @Serializable
