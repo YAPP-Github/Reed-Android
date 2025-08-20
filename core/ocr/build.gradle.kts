@@ -2,6 +2,7 @@
 
 plugins {
     alias(libs.plugins.booket.android.library)
+    alias(libs.plugins.booket.android.retrofit)
     alias(libs.plugins.booket.android.hilt)
 }
 
