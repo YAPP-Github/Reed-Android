@@ -247,6 +247,7 @@ private fun CameraPreview(
                 }
 
                 Button(
+                    enabled = !state.isLoading,
                     onClick = {
                         val executor = ContextCompat.getMainExecutor(context)
                         val photoFile = File.createTempFile("ocr_", ".jpg", context.cacheDir)
