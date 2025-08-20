@@ -162,8 +162,7 @@ internal fun QuoteStep(
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = ReedTheme.spacing.spacing5)
-                .padding(bottom = ReedTheme.spacing.spacing4)
-                .imePadding(),
+                .padding(bottom = ReedTheme.spacing.spacing4),
             enabled = state.isNextButtonEnabled,
             text = stringResource(R.string.record_next_button),
             multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
