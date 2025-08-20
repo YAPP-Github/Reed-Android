@@ -1,5 +1,6 @@
 package com.ninecraft.booket.core.ocr.di
 
+import com.ninecraft.booket.core.ocr.BuildConfig
 import com.ninecraft.booket.core.ocr.service.CloudVisionService
 import dagger.Module
 import dagger.Provides
@@ -14,7 +15,7 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-
+private const val BASE_URL = "https://vision.googleapis.com/"
 private const val MaxTimeoutMillis = 15_000L
 
 private val jsonRule = Json {
@@ -39,7 +40,11 @@ object CloudVisionNetworkModule {
     @CloudVisionOkHttp
     fun provideOkHttp(): OkHttpClient {
         val log = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BASIC
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BASIC
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
         }
         return OkHttpClient.Builder()
             .addInterceptor(log)
@@ -61,7 +66,7 @@ object CloudVisionNetworkModule {
         @CloudVisionOkHttp okHttpClient: OkHttpClient,
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://vision.googleapis.com/")
+            .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(jsonConverterFactory)
             .build()

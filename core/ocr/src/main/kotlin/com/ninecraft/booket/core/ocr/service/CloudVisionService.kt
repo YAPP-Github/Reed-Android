@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface CloudVisionService {
     @POST("v1/images:annotate")
-    suspend fun annotate(
+    suspend fun batchAnnotateImage(
         @Query("key") key: String,
         @Body body: CloudVisionRequest
     ): CloudVisionResponse
