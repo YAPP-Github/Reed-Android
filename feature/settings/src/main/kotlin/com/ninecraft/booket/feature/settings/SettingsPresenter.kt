@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.settings
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -15,6 +14,7 @@ import com.ninecraft.booket.feature.screens.OssLicensesScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.ninecraft.booket.feature.screens.WebViewScreen
 import com.orhanobut.logger.Logger
+import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -41,26 +41,86 @@ class SettingsPresenter @AssistedInject constructor(
         var latestVersion by rememberRetained { mutableStateOf("") }
         var sideEffect by rememberRetained { mutableStateOf<SettingsSideEffect?>(null) }
 
-        suspend fun getLatestVersion() {
-            try {
-                isLoading = true
-                remoteConfigRepository.getLatestVersion()
-                    .onSuccess { version ->
-                        latestVersion = version
-                    }
-                    .onFailure { exception ->
-                        val handleErrorMessage = { message: String ->
-                            Logger.e(message)
-                            sideEffect = SettingsSideEffect.ShowToast(message)
+        fun logout() {
+            scope.launch {
+                try {
+                    isLoading = true
+                    authRepository.logout()
+                        .onSuccess {
+                            navigator.resetRoot(LoginScreen)
                         }
+                        .onFailure { exception ->
+                            val handleErrorMessage = { message: String ->
+                                Logger.e(message)
+                                sideEffect = SettingsSideEffect.ShowToast(message)
+                            }
 
-                        handleException(
-                            exception = exception,
-                            onError = handleErrorMessage,
-                        )
-                    }
-            } finally {
-                isLoading = false
+                            handleException(
+                                exception = exception,
+                                onError = handleErrorMessage,
+                                onLoginRequired = {
+                                    navigator.resetRoot(LoginScreen)
+                                },
+                            )
+                        }
+                } finally {
+                    isLoading = false
+                    isLogoutDialogVisible = false
+                }
+            }
+        }
+
+        fun withdraw() {
+            scope.launch {
+                try {
+                    isLoading = true
+                    authRepository.withdraw()
+                        .onSuccess {
+                            navigator.resetRoot(LoginScreen)
+                        }
+                        .onFailure { exception ->
+                            val handleErrorMessage = { message: String ->
+                                Logger.e(message)
+                                sideEffect = SettingsSideEffect.ShowToast(message)
+                            }
+
+                            handleException(
+                                exception = exception,
+                                onError = handleErrorMessage,
+                                onLoginRequired = {
+                                    navigator.resetRoot(LoginScreen)
+                                },
+                            )
+                        }
+                } finally {
+                    isLoading = false
+                    isWithdrawBottomSheetVisible = false
+                }
+            }
+        }
+
+        fun getLatestVersion() {
+            scope.launch {
+                try {
+                    isLoading = true
+                    remoteConfigRepository.getLatestVersion()
+                        .onSuccess { version ->
+                            latestVersion = version
+                        }
+                        .onFailure { exception ->
+                            val handleErrorMessage = { message: String ->
+                                Logger.e(message)
+                                sideEffect = SettingsSideEffect.ShowToast(message)
+                            }
+
+                            handleException(
+                                exception = exception,
+                                onError = handleErrorMessage,
+                            )
+                        }
+                } finally {
+                    isLoading = false
+                }
             }
         }
 
@@ -107,66 +167,16 @@ class SettingsPresenter @AssistedInject constructor(
                 }
 
                 is SettingsUiEvent.Logout -> {
-                    scope.launch {
-                        try {
-                            isLoading = true
-                            authRepository.logout()
-                                .onSuccess {
-                                    navigator.resetRoot(LoginScreen)
-                                }
-                                .onFailure { exception ->
-                                    val handleErrorMessage = { message: String ->
-                                        Logger.e(message)
-                                        sideEffect = SettingsSideEffect.ShowToast(message)
-                                    }
-
-                                    handleException(
-                                        exception = exception,
-                                        onError = handleErrorMessage,
-                                        onLoginRequired = {
-                                            navigator.resetRoot(LoginScreen)
-                                        },
-                                    )
-                                }
-                        } finally {
-                            isLoading = false
-                        }
-                    }
-                    isLogoutDialogVisible = false
+                    logout()
                 }
 
                 is SettingsUiEvent.Withdraw -> {
-                    scope.launch {
-                        try {
-                            isLoading = true
-                            authRepository.withdraw()
-                                .onSuccess {
-                                    navigator.resetRoot(LoginScreen)
-                                }
-                                .onFailure { exception ->
-                                    val handleErrorMessage = { message: String ->
-                                        Logger.e(message)
-                                        sideEffect = SettingsSideEffect.ShowToast(message)
-                                    }
-
-                                    handleException(
-                                        exception = exception,
-                                        onError = handleErrorMessage,
-                                        onLoginRequired = {
-                                            navigator.resetRoot(LoginScreen)
-                                        },
-                                    )
-                                }
-                        } finally {
-                            isLoading = false
-                        }
-                    }
-                    isWithdrawBottomSheetVisible = false
+                    withdraw()
                 }
             }
         }
 
-        LaunchedEffect(Unit) {
+        RememberedEffect(Unit) {
             getLatestVersion()
         }
 

@@ -95,6 +95,23 @@ class SplashPresenter @AssistedInject constructor(
             }
         }
 
+        fun checkForceUpdate() {
+            scope.launch {
+                remoteConfigRepository.shouldUpdate()
+                    .onSuccess { shouldUpdate ->
+                        if (shouldUpdate) {
+                            isForceUpdateDialogVisible = true
+                        } else {
+                            proceedToNextScreen()
+                        }
+                    }
+                    .onFailure { exception ->
+                        Logger.e("${exception.message}")
+                        proceedToNextScreen()
+                    }
+            }
+        }
+
         fun handleEvent(event: SplashUiEvent) {
             when (event) {
                 SplashUiEvent.OnUpdateButtonClick -> {
@@ -114,18 +131,7 @@ class SplashPresenter @AssistedInject constructor(
                 return@LaunchedEffect
             }
 
-            remoteConfigRepository.shouldUpdate()
-                .onSuccess { shouldUpdate ->
-                    if (shouldUpdate) {
-                        isForceUpdateDialogVisible = true
-                    } else {
-                        proceedToNextScreen()
-                    }
-                }
-                .onFailure { exception ->
-                    Logger.e("${exception.message}")
-                    proceedToNextScreen()
-                }
+            checkForceUpdate()
         }
 
         return SplashUiState(
