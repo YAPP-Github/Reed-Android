@@ -13,6 +13,7 @@ data class OcrUiState(
     val selectedIndices: Set<Int> = emptySet(),
     val isTextDetectionFailed: Boolean = false,
     val isRecaptureDialogVisible: Boolean = false,
+    val isLoading: Boolean = false,
     val eventSink: (OcrUiEvent) -> Unit,
 ) : CircuitUiState
 
@@ -20,8 +21,7 @@ sealed interface OcrUiEvent : CircuitUiEvent {
     data object OnCloseClick : OcrUiEvent
     data object OnShowPermissionDialog : OcrUiEvent
     data object OnHidePermissionDialog : OcrUiEvent
-    data class OnFrameReceived(val imageProxy: ImageProxy) : OcrUiEvent
-    data object OnCaptureButtonClick : OcrUiEvent
+    data class OnCaptureButtonClick(val imageData: ByteArray) : OcrUiEvent
     data object OnReCaptureButtonClick : OcrUiEvent
     data object OnSelectionConfirmed : OcrUiEvent
     data object OnRecaptureDialogConfirmed : OcrUiEvent

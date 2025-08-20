@@ -1,12 +1,14 @@
 package com.ninecraft.booket.feature.record.ocr
 
+import android.util.Base64
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.ninecraft.booket.core.ocr.analyzer.LiveTextAnalyzer
+import com.ninecraft.booket.core.ocr.analyzer.CloudOcrRecognizer
 import com.ninecraft.booket.feature.screens.OcrScreen
+import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -17,14 +19,16 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.launch
 
 class OcrPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val liveTextAnalyzer: LiveTextAnalyzer.Factory,
+    private val recognizer: CloudOcrRecognizer,
 ) : Presenter<OcrUiState> {
 
     @Composable
     override fun present(): OcrUiState {
+        val scope = rememberCoroutineScope()
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
         var isPermissionDialogVisible by rememberRetained { mutableStateOf(false) }
         var sentenceList by rememberRetained { mutableStateOf(emptyList<String>().toPersistentList()) }
@@ -33,18 +37,37 @@ class OcrPresenter @AssistedInject constructor(
         var mergedSentence by rememberRetained { mutableStateOf("") }
         var isTextDetectionFailed by rememberRetained { mutableStateOf(false) }
         var isRecaptureDialogVisible by rememberRetained { mutableStateOf(false) }
+        var isLoading by rememberRetained { mutableStateOf(false) }
 
-        val analyzer = rememberRetained {
-            liveTextAnalyzer.create(
-                onTextDetected = { text ->
-                    recognizedText = text
-                },
-            )
-        }
+        fun recognizeText(base64Image: String) {
+            scope.launch {
+                try {
+                    isLoading = true
+                    recognizer.recognizeText(base64Image)
+                        .onSuccess {
+                            val text = it.responses.firstOrNull()?.fullTextAnnotation?.text.orEmpty()
+                            recognizedText = text
 
-        DisposableEffect(Unit) {
-            onDispose {
-                analyzer.cancel()
+                            if (text.isNotBlank()) {
+                                isTextDetectionFailed = false
+                                val sentences = text
+                                    .split("\n")
+                                    .map { it.trim() }
+                                    .filter { it.isNotEmpty() }
+
+                                sentenceList = persistentListOf(*sentences.toTypedArray())
+                                currentUi = OcrUi.RESULT
+                            } else {
+                                isTextDetectionFailed = true
+                            }
+                        }
+                        .onFailure {
+                            isTextDetectionFailed = true
+                            Logger.e("Cloud Vision API Error: ${it.message}")
+                        }
+                } finally {
+                    isLoading = false
+                }
             }
         }
 
@@ -62,24 +85,9 @@ class OcrPresenter @AssistedInject constructor(
                     isPermissionDialogVisible = false
                 }
 
-                is OcrUiEvent.OnFrameReceived -> {
-                    analyzer.analyze(event.imageProxy)
-                }
-
                 is OcrUiEvent.OnCaptureButtonClick -> {
-                    if (recognizedText.isEmpty()) {
-                        isTextDetectionFailed = true
-                    } else {
-                        isTextDetectionFailed = false
-
-                        val sentences = recognizedText
-                            .split("\n")
-                            .map { it.trim() }
-                            .filter { it.isNotEmpty() }
-                        sentenceList = persistentListOf(*sentences.toTypedArray())
-
-                        currentUi = OcrUi.RESULT
-                    }
+                    val base64Image = Base64.encodeToString(event.imageData, Base64.NO_WRAP)
+                    recognizeText(base64Image)
                 }
 
                 is OcrUiEvent.OnReCaptureButtonClick -> {
@@ -119,6 +127,7 @@ class OcrPresenter @AssistedInject constructor(
             selectedIndices = selectedIndices,
             isTextDetectionFailed = isTextDetectionFailed,
             isRecaptureDialogVisible = isRecaptureDialogVisible,
+            isLoading = isLoading,
             eventSink = ::handleEvent,
         )
     }
