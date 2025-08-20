@@ -18,9 +18,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -41,6 +47,7 @@ import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
+import tech.thdev.compose.extensions.keyboard.state.foundation.rememberKeyboardVisible
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
@@ -49,6 +56,15 @@ internal fun QuoteStep(
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
+    val scrollState = rememberScrollState()
+    val keyboardState by rememberKeyboardVisible()
+    var isSentenceTextFieldFocused by remember { mutableStateOf(false) }
+
+    LaunchedEffect(keyboardState, isSentenceTextFieldFocused) {
+        if (keyboardState && isSentenceTextFieldFocused) {
+            scrollState.animateScrollTo(scrollState.maxValue)
+        }
+    }
 
     Box(
         modifier = modifier
@@ -61,7 +77,7 @@ internal fun QuoteStep(
                 .fillMaxSize()
                 .padding(horizontal = ReedTheme.spacing.spacing5)
                 .padding(bottom = 80.dp)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(scrollState),
         ) {
             Text(
                 text = stringResource(R.string.quote_step_title),
@@ -105,7 +121,10 @@ internal fun QuoteStep(
                 recordHintRes = R.string.quote_step_sentence_hint,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(140.dp),
+                    .height(140.dp)
+                    .onFocusChanged { focusState ->
+                        isSentenceTextFieldFocused = focusState.isFocused
+                    },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Default,
@@ -143,7 +162,8 @@ internal fun QuoteStep(
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = ReedTheme.spacing.spacing5)
-                .padding(bottom = ReedTheme.spacing.spacing4),
+                .padding(bottom = ReedTheme.spacing.spacing4)
+                .imePadding(),
             enabled = state.isNextButtonEnabled,
             text = stringResource(R.string.record_next_button),
             multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
