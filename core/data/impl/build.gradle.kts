@@ -12,6 +12,10 @@ android {
     buildFeatures {
         buildConfig = true
     }
+
+    defaultConfig {
+        buildConfigField("String", "APP_VERSION", "\"${libs.versions.versionName.get()}\"")
+    }
 }
 
 dependencies {

@@ -75,6 +75,14 @@ google-service = "4.4.3"
 firebase-bom = "33.16.0"
 firebase-crashlytics = "3.0.4"
 
+## App Configuration
+minSdk = "28"
+targetSdk = "35"
+compileSdk = "35"
+versionName = "1.0.0"
+versionCode = "3"
+packageName = "com.ninecraft.booket"
+
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
