@@ -19,10 +19,12 @@ import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.RecordCardScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
+import com.ninecraft.booket.feature.screens.extensions.delayedGoTo
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -296,6 +298,20 @@ class BookDetailPresenter @AssistedInject constructor(
 
                 is BookDetailUiEvent.OnRecordDeleteDialogDismiss -> {
                     isRecordDeleteDialogVisible = false
+                }
+
+                is BookDetailUiEvent.OnShareRecordClick -> {
+                    isRecordMenuBottomSheetVisible = false
+                    scope.launch {
+                        navigator.delayedGoTo(
+                            RecordCardScreen(
+                                quote = selectedRecordInfo.quote,
+                                bookTitle = selectedRecordInfo.bookTitle,
+                                author = selectedRecordInfo.author,
+                                emotionTag = selectedRecordInfo.emotionTags[0],
+                            ),
+                        )
+                    }
                 }
 
                 is BookDetailUiEvent.OnEditRecordClick -> {

@@ -135,7 +135,9 @@ internal fun BookDetailUi(
                 state.eventSink(BookDetailUiEvent.OnRecordMenuBottomSheetDismiss)
             },
             sheetState = recordMenuBottomSheetState,
-            onShareRecordClick = {},
+            onShareRecordClick = {
+                state.eventSink(BookDetailUiEvent.OnShareRecordClick)
+            },
             onEditRecordClick = {
                 coroutineScope.launch {
                     recordMenuBottomSheetState.hide()
@@ -219,7 +221,6 @@ internal fun BookDetailContent(
             ) {
                 item {
                     ReedTopAppBar(
-                        title = "",
                         startIconRes = designR.drawable.ic_chevron_left,
                         startIconOnClick = {
                             state.eventSink(BookDetailUiEvent.OnBackClick)

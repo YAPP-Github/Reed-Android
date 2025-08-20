@@ -84,7 +84,9 @@ internal fun RecordDetailUi(
                 state.eventSink(RecordDetailUiEvent.OnRecordMenuBottomSheetDismiss)
             },
             sheetState = recordMenuBottomSheetState,
-            onShareRecordClick = {},
+            onShareRecordClick = {
+                state.eventSink(RecordDetailUiEvent.OnShareRecordClick)
+            },
             onEditRecordClick = {
                 coroutineScope.launch {
                     recordMenuBottomSheetState.hide()

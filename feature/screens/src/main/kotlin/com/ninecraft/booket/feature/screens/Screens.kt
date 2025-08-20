@@ -71,3 +71,11 @@ data object OnboardingScreen : ReedScreen(name = "Onboarding()")
 
 @Parcelize
 data object SplashScreen : ReedScreen(name = "Splash()")
+
+@Parcelize
+data class RecordCardScreen(
+    val quote: String,
+    val bookTitle: String,
+    val author: String,
+    val emotionTag: String,
+) : ReedScreen(name = "RecordCard()")
