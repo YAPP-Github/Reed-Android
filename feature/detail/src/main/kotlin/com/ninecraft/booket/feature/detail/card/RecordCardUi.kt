@@ -16,11 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.extensions.captureToGraphicsLayer
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
@@ -42,6 +44,8 @@ internal fun RecordCardUi(
     state: RecordCardUiState,
     modifier: Modifier = Modifier,
 ) {
+    val recordCardGraphicsLayer = rememberGraphicsLayer()
+
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = White,
@@ -71,11 +75,13 @@ internal fun RecordCardUi(
                     bookTitle = state.bookTitle,
                     author = state.author,
                     emotionTag = state.emotionTag,
-                    modifier = Modifier.padding(
-                        top = ReedTheme.spacing.spacing5,
-                        start = ReedTheme.spacing.spacing5,
-                        end = ReedTheme.spacing.spacing5,
-                    )
+                    modifier = Modifier
+                        .padding(
+                            top = ReedTheme.spacing.spacing5,
+                            start = ReedTheme.spacing.spacing5,
+                            end = ReedTheme.spacing.spacing5,
+                        )
+                        .captureToGraphicsLayer(recordCardGraphicsLayer),
                 )
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
                 Text(

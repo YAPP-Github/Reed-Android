@@ -6,6 +6,9 @@ import androidx.compose.material3.ripple
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.layer.GraphicsLayer
+import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.semantics.Role
 import com.ninecraft.booket.core.common.utils.MultipleEventsCutter
@@ -45,3 +48,9 @@ fun Modifier.clickableSingle(
         interactionSource = remember { MutableInteractionSource() },
     )
 }
+
+fun Modifier.captureToGraphicsLayer(graphicsLayer: GraphicsLayer,) =
+    this.drawWithContent {
+        graphicsLayer.record { this@drawWithContent.drawContent() }
+        drawLayer(graphicsLayer)
+    }

@@ -21,7 +21,17 @@ class RecordCardPresenter @AssistedInject constructor(
     @Composable
     override fun present(): RecordCardUiState {
         var isLoading by rememberRetained { mutableStateOf(false) }
+        var isCapturing by rememberRetained { mutableStateOf(false) }
+        var isSharing by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<RecordCardSideEffect?>(null) }
+
+        fun captureRecordCard() {
+
+        }
+
+        fun shareRecordCard() {
+
+        }
 
         fun handleEvent(event: RecordCardUiEvent) {
             when (event) {
@@ -33,8 +43,15 @@ class RecordCardPresenter @AssistedInject constructor(
                     navigator.pop()
                 }
 
-                is RecordCardUiEvent.OnSaveClick -> {}
-                is RecordCardUiEvent.OnShareClick -> {}
+                is RecordCardUiEvent.OnSaveClick -> {
+                    isCapturing = true
+                }
+                is RecordCardUiEvent.OnShareClick -> {
+                    isSharing = true
+                }
+                is RecordCardUiEvent.CaptureRecordCard -> TODO()
+                is RecordCardUiEvent.SaveRecordCard -> TODO()
+                is RecordCardUiEvent.ShareRecordCard -> TODO()
             }
         }
 
@@ -44,6 +61,8 @@ class RecordCardPresenter @AssistedInject constructor(
             bookTitle = screen.bookTitle,
             author = screen.author,
             emotionTag = screen.emotionTag,
+            isCapturing = isCapturing,
+            isSharing = isSharing,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )

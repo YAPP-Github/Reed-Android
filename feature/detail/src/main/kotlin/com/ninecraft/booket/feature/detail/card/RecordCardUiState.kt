@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.detail.card
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.ImageBitmap
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import java.util.UUID
@@ -11,6 +12,8 @@ data class RecordCardUiState(
     val bookTitle: String = "",
     val author: String = "",
     val emotionTag: String = "",
+    val isCapturing: Boolean = false,
+    val isSharing: Boolean = false,
     val sideEffect: RecordCardSideEffect? = null,
     val eventSink: (RecordCardUiEvent) -> Unit,
 ) : CircuitUiState
@@ -28,4 +31,7 @@ sealed interface RecordCardUiEvent : CircuitUiEvent {
     data object OnBackClick : RecordCardUiEvent
     data object OnSaveClick : RecordCardUiEvent
     data object OnShareClick : RecordCardUiEvent
+    data class CaptureRecordCard(val bitmap: ImageBitmap) : RecordCardUiEvent
+    data class SaveRecordCard(val bitmap: ImageBitmap) : RecordCardUiEvent
+    data class ShareRecordCard(val bitmap: ImageBitmap) : RecordCardUiEvent
 }
