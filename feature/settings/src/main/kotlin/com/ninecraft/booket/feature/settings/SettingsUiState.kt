@@ -40,6 +40,4 @@ sealed interface SettingsUiEvent : CircuitUiEvent {
     data object Logout : SettingsUiEvent
     data object Withdraw : SettingsUiEvent
     data object OnVersionClick : SettingsUiEvent
-    data object OnOptionalUpdateDialogDismiss : SettingsUiEvent
-    data object OnUpdateButtonClick : SettingsUiEvent
 }

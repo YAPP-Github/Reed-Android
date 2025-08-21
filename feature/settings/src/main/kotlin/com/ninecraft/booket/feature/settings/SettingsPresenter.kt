@@ -188,14 +188,6 @@ class SettingsPresenter @AssistedInject constructor(
                 }
 
                 is SettingsUiEvent.OnVersionClick -> {
-                    isOptionalUpdateDialogVisible = true
-                }
-
-                is SettingsUiEvent.OnOptionalUpdateDialogDismiss -> {
-                    isOptionalUpdateDialogVisible = false
-                }
-
-                is SettingsUiEvent.OnUpdateButtonClick -> {
                     sideEffect = SettingsSideEffect.NavigateToPlayStore
                 }
             }
