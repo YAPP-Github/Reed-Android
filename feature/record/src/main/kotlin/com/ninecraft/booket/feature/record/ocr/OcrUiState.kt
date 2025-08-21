@@ -32,7 +32,9 @@ sealed interface OcrUiEvent : CircuitUiEvent {
     data object OnCloseClick : OcrUiEvent
     data object OnShowPermissionDialog : OcrUiEvent
     data object OnHidePermissionDialog : OcrUiEvent
-    data class OnCaptureButtonClick(val imageUri: Uri) : OcrUiEvent
+    data object OnCaptureStart : OcrUiEvent
+    data class OnCaptureFailed(val exception: Exception) : OcrUiEvent
+    data class OnImageCaptured(val imageUri: Uri) : OcrUiEvent
     data object OnReCaptureButtonClick : OcrUiEvent
     data object OnSelectionConfirmed : OcrUiEvent
     data object OnRecaptureDialogConfirmed : OcrUiEvent

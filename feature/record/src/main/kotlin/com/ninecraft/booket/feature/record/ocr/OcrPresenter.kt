@@ -97,7 +97,17 @@ class OcrPresenter @AssistedInject constructor(
                     isPermissionDialogVisible = false
                 }
 
-                is OcrUiEvent.OnCaptureButtonClick -> {
+                is OcrUiEvent.OnCaptureStart -> {
+                    isLoading = true
+                }
+
+                is OcrUiEvent.OnCaptureFailed -> {
+                    isLoading = false
+                    sideEffect = OcrSideEffect.ShowToast("이미지 캡처에 실패했어요")
+                    Logger.e("ImageCaptureException: ${event.exception.message}")
+                }
+
+                is OcrUiEvent.OnImageCaptured -> {
                     isTextDetectionFailed = false
 
                     recognizeText(event.imageUri)

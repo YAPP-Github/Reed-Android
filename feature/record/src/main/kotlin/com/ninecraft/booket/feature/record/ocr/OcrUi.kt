@@ -252,6 +252,8 @@ private fun CameraPreview(
                 Button(
                     enabled = !state.isLoading,
                     onClick = {
+                        state.eventSink(OcrUiEvent.OnCaptureStart)
+
                         val executor = ContextCompat.getMainExecutor(context)
                         val photoFile = File.createTempFile("ocr_", ".jpg", context.cacheDir)
                         val output = ImageCapture.OutputFileOptions.Builder(photoFile).build()
@@ -261,11 +263,11 @@ private fun CameraPreview(
                             executor,
                             object : ImageCapture.OnImageSavedCallback {
                                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                                    state.eventSink(OcrUiEvent.OnCaptureButtonClick(photoFile.toUri()))
+                                    state.eventSink(OcrUiEvent.OnImageCaptured(photoFile.toUri()))
                                 }
 
                                 override fun onError(exception: ImageCaptureException) {
-                                    Logger.e("ImageCaptureException: ${exception.message}")
+                                    state.eventSink(OcrUiEvent.OnCaptureFailed(exception))
                                 }
                             },
                         )
