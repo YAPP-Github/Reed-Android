@@ -46,7 +46,6 @@ class SplashPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         val onboardingState by userRepository.onboardingState.collectAsRetainedState(initial = OnboardingState.IDLE)
         val autoLoginState by authRepository.autoLoginState.collectAsRetainedState(initial = AutoLoginState.IDLE)
-        var isSplashTimeCompleted by rememberRetained { mutableStateOf(false) }
         var isForceUpdateDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<SplashSideEffect?>(null) }
 
@@ -136,6 +135,10 @@ class SplashPresenter @AssistedInject constructor(
             }
 
             checkForceUpdate()
+        }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(SplashScreen.name)
         }
 
         return SplashUiState(
