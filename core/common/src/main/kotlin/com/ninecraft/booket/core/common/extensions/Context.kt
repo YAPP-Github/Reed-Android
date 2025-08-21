@@ -31,7 +31,7 @@ fun Context.externalShareForBitmap(bitmap: ImageBitmap) {
 @Suppress("TooGenericExceptionCaught")
 fun Context.saveImageToGallery(bitmap: ImageBitmap) {
     try {
-        val fileName = "bandalart_${System.currentTimeMillis()}.png"
+        val fileName = "reed_record_${System.currentTimeMillis()}.png"
         val contentValues = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
             put(MediaStore.Images.Media.MIME_TYPE, "image/png")
