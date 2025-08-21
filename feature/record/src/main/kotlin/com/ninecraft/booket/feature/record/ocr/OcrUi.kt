@@ -267,7 +267,7 @@ private fun CameraPreview(
                                 override fun onError(exception: ImageCaptureException) {
                                     Logger.e("ImageCaptureException: ${exception.message}")
                                 }
-                            }
+                            },
                         )
                     },
                     modifier = Modifier.size(72.dp),

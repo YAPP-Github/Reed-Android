@@ -10,6 +10,6 @@ interface CloudVisionService {
     @POST("v1/images:annotate")
     suspend fun batchAnnotateImage(
         @Query("key") key: String,
-        @Body body: CloudVisionRequest
+        @Body body: CloudVisionRequest,
     ): CloudVisionResponse
 }

@@ -2,7 +2,6 @@ package com.ninecraft.booket.core.ocr.model
 
 import kotlinx.serialization.Serializable
 
-
 @Serializable
 data class CloudVisionRequest(
     val requests: List<AnnotateImageRequest>,
@@ -12,7 +11,7 @@ data class CloudVisionRequest(
 data class AnnotateImageRequest(
     val image: VisionImage,
     val features: List<Feature>,
-    val imageContext: ImageContext? = null
+    val imageContext: ImageContext? = null,
 )
 
 @Serializable
@@ -27,5 +26,5 @@ data class Feature(
 
 @Serializable
 data class ImageContext(
-    val languageHints: List<String>? = null
+    val languageHints: List<String>? = null,
 )
