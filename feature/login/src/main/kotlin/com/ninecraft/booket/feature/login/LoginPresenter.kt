@@ -30,6 +30,10 @@ class LoginPresenter @AssistedInject constructor(
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<LoginUiState> {
 
+    companion object {
+        private const val EVENT_ERROR_LOGIN = "error_login"
+    }
+
     @Composable
     override fun present(): LoginUiState {
         val scope = rememberCoroutineScope()
@@ -63,6 +67,7 @@ class LoginPresenter @AssistedInject constructor(
 
                 is LoginUiEvent.LoginFailure -> {
                     isLoading = false
+                    analyticsHelper.logEvent(EVENT_ERROR_LOGIN)
                     sideEffect = LoginSideEffect.ShowToast(event.message)
                 }
 
@@ -75,6 +80,7 @@ class LoginPresenter @AssistedInject constructor(
                                     navigateAfterLogin()
                                 }.onFailure { exception ->
                                     exception.message?.let { Logger.e(it) }
+                                    analyticsHelper.logEvent(EVENT_ERROR_LOGIN)
                                     sideEffect = exception.message?.let {
                                         LoginSideEffect.ShowToast(it)
                                     }

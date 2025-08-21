@@ -10,11 +10,17 @@ import javax.inject.Singleton
 class AnalyticsHelper @Inject constructor(
     private val firebaseAnalytics: FirebaseAnalytics
 ) {
+
     fun logScreenView(screenName: String) {
         Logger.d("Analytics - Screen View: $screenName")
-        
+
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
             param(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
         }
+    }
+
+    fun logEvent(eventName: String) {
+        Logger.d("Analytics - Event: $eventName")
+        firebaseAnalytics.logEvent(eventName) {}
     }
 }

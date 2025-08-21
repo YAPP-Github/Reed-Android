@@ -40,6 +40,7 @@ class LibrarySearchPresenter @AssistedInject constructor(
     companion object {
         private const val PAGE_SIZE = 20
         private const val START_INDEX = 0
+        private const val ERROR_SEARCH = "error_search"
     }
 
     @Composable
@@ -89,7 +90,7 @@ class LibrarySearchPresenter @AssistedInject constructor(
                         } else {
                             footerState = FooterState.Error(errorMessage)
                         }
-
+                        analyticsHelper.logEvent(ERROR_SEARCH)
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)
                             sideEffect = LibrarySearchSideEffect.ShowToast(message)
