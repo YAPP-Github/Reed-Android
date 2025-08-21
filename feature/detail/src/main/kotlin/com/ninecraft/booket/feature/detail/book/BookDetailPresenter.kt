@@ -8,9 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.constants.BookStatus
-import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.utils.handleException
-import com.ninecraft.booket.core.common.utils.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.BookDetailModel
@@ -145,11 +143,6 @@ class BookDetailPresenter @AssistedInject constructor(
                         isBookUpdateBottomSheetVisible = false
                     }
                     .onFailure { exception ->
-                        postErrorDialog(
-                            errorScope = ErrorScope.BOOK_REGISTER,
-                            exception = exception,
-                        )
-
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)
                             sideEffect = BookDetailSideEffect.ShowToast(message)
