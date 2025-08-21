@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -42,6 +41,7 @@ import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
+import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.book.component.BookItem
@@ -201,12 +201,7 @@ internal fun BookDetailContent(
     when (state.uiState) {
         is UiState.Idle -> {}
         is UiState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
-            ) {
-                CircularProgressIndicator(color = ReedTheme.colors.contentBrand)
-            }
+            ReedLoadingIndicator()
         }
 
         is UiState.Success -> {

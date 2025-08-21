@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.detail.record
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,13 +7,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ninecraft.booket.core.designsystem.ComponentPreview
@@ -25,6 +22,7 @@ import com.ninecraft.booket.core.model.RecordDetailModel
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
+import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.record.component.BookItem
@@ -122,12 +120,7 @@ private fun RecordDetailContent(
     when (state.uiState) {
         is UiState.Idle -> {}
         is UiState.Loading -> {
-            Box(
-                modifier = modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
-            ) {
-                CircularProgressIndicator(color = ReedTheme.colors.contentBrand)
-            }
+            ReedLoadingIndicator()
         }
 
         is UiState.Success -> {
@@ -141,7 +134,7 @@ private fun RecordDetailContent(
             ReedDivider()
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
             Column(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize()
                     .padding(horizontal = ReedTheme.spacing.spacing5),
             ) {

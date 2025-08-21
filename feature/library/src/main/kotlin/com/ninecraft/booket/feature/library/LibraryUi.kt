@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,6 +24,7 @@ import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
+import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.library.component.FilterChipGroup
 import com.ninecraft.booket.feature.library.component.LibraryBookItem
 import com.ninecraft.booket.feature.library.component.LibraryHeader
@@ -106,12 +106,7 @@ internal fun LibraryContent(
             }
 
             is UiState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    CircularProgressIndicator(color = ReedTheme.colors.contentBrand)
-                }
+                ReedLoadingIndicator()
             }
 
             is UiState.Success -> {
