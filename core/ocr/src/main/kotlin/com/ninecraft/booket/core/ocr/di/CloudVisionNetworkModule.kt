@@ -48,11 +48,6 @@ object CloudVisionNetworkModule {
         }
         return OkHttpClient.Builder()
             .addInterceptor(log)
-            .addInterceptor { chain ->
-                val req = chain.request().newBuilder()
-                    .build()
-                chain.proceed(req)
-            }
             .connectTimeout(MaxTimeoutMillis, TimeUnit.MILLISECONDS)
             .readTimeout(MaxTimeoutMillis, TimeUnit.MILLISECONDS)
             .writeTimeout(MaxTimeoutMillis, TimeUnit.MILLISECONDS)
