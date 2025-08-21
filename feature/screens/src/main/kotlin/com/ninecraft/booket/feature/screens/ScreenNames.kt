@@ -13,5 +13,6 @@ object ScreenNames {
     const val OCR = "record_OCR_camera"
     const val RECORD_DETAIL = "record_detail"
     const val BOOK_DETAIL = "library_book_detail"
-    const val ONBOARDING = "onboarding_1_search"
+    const val ONBOARDING = "onboarding"
+    const val RECORD_CARD = "record_view_card"
 }

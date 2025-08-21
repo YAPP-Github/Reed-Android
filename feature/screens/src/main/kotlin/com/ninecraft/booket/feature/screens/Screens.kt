@@ -77,4 +77,4 @@ data class RecordCardScreen(
     val quote: String,
     val bookTitle: String,
     val emotionTag: String,
-) : ReedScreen(name = "RecordCard()")
+) : ReedScreen(name = ScreenNames.RECORD_CARD)
