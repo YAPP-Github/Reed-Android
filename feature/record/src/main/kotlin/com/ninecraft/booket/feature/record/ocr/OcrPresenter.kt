@@ -1,12 +1,15 @@
 package com.ninecraft.booket.feature.record.ocr
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.ninecraft.booket.core.ocr.analyzer.LiveTextAnalyzer
+import com.ninecraft.booket.core.common.utils.handleException
+import com.ninecraft.booket.core.ocr.analyzer.CloudOcrRecognizer
 import com.ninecraft.booket.feature.screens.OcrScreen
+import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -17,34 +20,66 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.launch
 
 class OcrPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val liveTextAnalyzer: LiveTextAnalyzer.Factory,
+    private val recognizer: CloudOcrRecognizer,
 ) : Presenter<OcrUiState> {
 
     @Composable
     override fun present(): OcrUiState {
+        val scope = rememberCoroutineScope()
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
         var isPermissionDialogVisible by rememberRetained { mutableStateOf(false) }
-        var sentenceList by rememberRetained { mutableStateOf(emptyList<String>().toPersistentList()) }
+        var sentenceList by rememberRetained { mutableStateOf(persistentListOf<String>()) }
         var recognizedText by rememberRetained { mutableStateOf("") }
         var selectedIndices by rememberRetained { mutableStateOf(setOf<Int>()) }
         var mergedSentence by rememberRetained { mutableStateOf("") }
         var isTextDetectionFailed by rememberRetained { mutableStateOf(false) }
         var isRecaptureDialogVisible by rememberRetained { mutableStateOf(false) }
+        var isLoading by rememberRetained { mutableStateOf(false) }
+        var sideEffect by rememberRetained { mutableStateOf<OcrSideEffect?>(null) }
 
-        val analyzer = rememberRetained {
-            liveTextAnalyzer.create(
-                onTextDetected = { text ->
-                    recognizedText = text
-                },
-            )
-        }
+        fun recognizeText(imageUri: Uri) {
+            scope.launch {
+                try {
+                    isLoading = true
+                    recognizer.recognizeText(imageUri)
+                        .onSuccess {
+                            val text = it.responses.firstOrNull()?.fullTextAnnotation?.text.orEmpty()
+                            recognizedText = text
 
-        DisposableEffect(Unit) {
-            onDispose {
-                analyzer.cancel()
+                            if (text.isNotBlank()) {
+                                isTextDetectionFailed = false
+                                val sentences = text
+                                    .split("\n")
+                                    .map { it.trim() }
+                                    .filter { it.isNotEmpty() }
+
+                                sentenceList = sentences.toPersistentList()
+                                currentUi = OcrUi.RESULT
+                            } else {
+                                isTextDetectionFailed = true
+                            }
+                        }
+                        .onFailure { exception ->
+                            isTextDetectionFailed = true
+
+                            val handleErrorMessage = { message: String ->
+                                Logger.e("Cloud Vision API Error: ${exception.message}")
+                                sideEffect = OcrSideEffect.ShowToast(message)
+                            }
+
+                            handleException(
+                                exception = exception,
+                                onError = handleErrorMessage,
+                                onLoginRequired = {},
+                            )
+                        }
+                } finally {
+                    isLoading = false
+                }
             }
         }
 
@@ -62,24 +97,20 @@ class OcrPresenter @AssistedInject constructor(
                     isPermissionDialogVisible = false
                 }
 
-                is OcrUiEvent.OnFrameReceived -> {
-                    analyzer.analyze(event.imageProxy)
+                is OcrUiEvent.OnCaptureStart -> {
+                    isLoading = true
                 }
 
-                is OcrUiEvent.OnCaptureButtonClick -> {
-                    if (recognizedText.isEmpty()) {
-                        isTextDetectionFailed = true
-                    } else {
-                        isTextDetectionFailed = false
+                is OcrUiEvent.OnCaptureFailed -> {
+                    isLoading = false
+                    sideEffect = OcrSideEffect.ShowToast("이미지 캡처에 실패했어요")
+                    Logger.e("ImageCaptureException: ${event.exception.message}")
+                }
 
-                        val sentences = recognizedText
-                            .split("\n")
-                            .map { it.trim() }
-                            .filter { it.isNotEmpty() }
-                        sentenceList = persistentListOf(*sentences.toTypedArray())
+                is OcrUiEvent.OnImageCaptured -> {
+                    isTextDetectionFailed = false
 
-                        currentUi = OcrUi.RESULT
-                    }
+                    recognizeText(event.imageUri)
                 }
 
                 is OcrUiEvent.OnReCaptureButtonClick -> {
@@ -88,7 +119,7 @@ class OcrPresenter @AssistedInject constructor(
 
                 is OcrUiEvent.OnSelectionConfirmed -> {
                     mergedSentence = selectedIndices
-                        .sorted().joinToString(" ") { sentenceList[it] }
+                        .sorted().joinToString("") { sentenceList[it] }
                     navigator.pop(result = OcrScreen.OcrResult(mergedSentence))
                 }
 
@@ -119,6 +150,8 @@ class OcrPresenter @AssistedInject constructor(
             selectedIndices = selectedIndices,
             isTextDetectionFailed = isTextDetectionFailed,
             isRecaptureDialogVisible = isRecaptureDialogVisible,
+            isLoading = isLoading,
+            sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
     }
