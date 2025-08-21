@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.ui.component.ReedBottomSheet
@@ -139,7 +140,7 @@ fun RowScope.BookStatusItem(
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = onClick,
             )
-            .padding(vertical = ReedTheme.spacing.spacing3),
+            .padding(vertical = 14.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(

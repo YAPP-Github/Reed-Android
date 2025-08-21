@@ -75,23 +75,19 @@ internal fun LibrarySearchContent(
         ReedTextField(
             queryState = state.queryState,
             queryHintRes = R.string.library_search_hint,
-            onSearch = { text ->
-                state.eventSink(LibrarySearchUiEvent.OnSearchClick(text))
+            onSearch = { query ->
+                state.eventSink(LibrarySearchUiEvent.OnSearchClick(query))
             },
             onClear = {
                 state.eventSink(LibrarySearchUiEvent.OnClearClick)
             },
-            modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+            modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
             backgroundColor = ReedTheme.colors.baseSecondary,
             borderStroke = null,
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-        ReedDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(ReedTheme.spacing.spacing2),
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+        ReedDivider()
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
 
         when (state.uiState) {
             is UiState.Loading -> {
@@ -140,8 +136,8 @@ internal fun LibrarySearchContent(
                                     onQueryClick = { keyword ->
                                         state.eventSink(LibrarySearchUiEvent.OnRecentSearchClick(keyword))
                                     },
-                                    onRemoveIconClick = { keyword ->
-                                        state.eventSink(LibrarySearchUiEvent.OnRecentSearchRemoveClick(keyword))
+                                    onDeleteIconClick = { keyword ->
+                                        state.eventSink(LibrarySearchUiEvent.OnRecentSearchDeleteClick(keyword))
                                     },
                                 )
                                 HorizontalDivider(

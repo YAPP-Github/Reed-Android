@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -97,6 +98,7 @@ internal fun LibraryContent(
                 state.eventSink(LibraryUiEvent.OnFilterClick(status))
             },
         )
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
 
         when (state.uiState) {
             is UiState.Idle -> {
@@ -168,12 +170,14 @@ private fun EmptyResult() {
             Text(
                 text = stringResource(R.string.library_empty_book_title),
                 color = ReedTheme.colors.contentPrimary,
+                textAlign = TextAlign.Center,
                 style = ReedTheme.typography.headline1SemiBold,
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
             Text(
                 text = stringResource(R.string.library_empty_book_description),
                 color = ReedTheme.colors.contentSecondary,
+                textAlign = TextAlign.Center,
                 style = ReedTheme.typography.body1Medium,
             )
         }

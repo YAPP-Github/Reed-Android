@@ -11,6 +11,8 @@ import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.RecordDetailModel
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
+import com.ninecraft.booket.feature.screens.RecordEditScreen
+import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -36,6 +38,8 @@ class RecordDetailPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var recordDetailInfo by rememberRetained { mutableStateOf(RecordDetailModel()) }
+        var isRecordMenuBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isRecordDeleteDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<RecordDetailSideEffect?>(null) }
 
         fun getRecordDetail(readingRecordId: String) {
@@ -65,14 +69,83 @@ class RecordDetailPresenter @AssistedInject constructor(
             }
         }
 
+        fun deleteRecord(readingRecordId: String, onSuccess: () -> Unit) {
+            scope.launch {
+                repository.deleteRecord(readingRecordId = readingRecordId)
+                    .onSuccess {
+                        onSuccess()
+                    }
+                    .onFailure { exception ->
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = RecordDetailSideEffect.ShowToast(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen)
+                            },
+                        )
+                    }
+            }
+        }
+
         fun handleEvent(event: RecordDetailUiEvent) {
             when (event) {
-                RecordDetailUiEvent.OnCloseClicked -> {
+                RecordDetailUiEvent.OnCloseClick -> {
                     navigator.pop()
                 }
 
-                RecordDetailUiEvent.onRetryClick -> {
+                RecordDetailUiEvent.OnRetryClick -> {
                     getRecordDetail(screen.recordId)
+                }
+
+                RecordDetailUiEvent.OnRecordMenuClick -> {
+                    isRecordMenuBottomSheetVisible = true
+                }
+
+                RecordDetailUiEvent.OnRecordMenuBottomSheetDismiss -> {
+                    isRecordMenuBottomSheetVisible = false
+                }
+
+                RecordDetailUiEvent.OnRecordDeleteDialogDismiss -> {
+                    isRecordDeleteDialogVisible = false
+                }
+
+                RecordDetailUiEvent.OnEditRecordClick -> {
+                    isRecordMenuBottomSheetVisible = false
+                    navigator.goTo(
+                        RecordEditScreen(
+                            RecordEditArgs(
+                                id = recordDetailInfo.id,
+                                pageNumber = recordDetailInfo.pageNumber,
+                                quote = recordDetailInfo.quote,
+                                review = recordDetailInfo.review,
+                                emotionTags = recordDetailInfo.emotionTags,
+                                bookTitle = recordDetailInfo.bookTitle,
+                                bookPublisher = recordDetailInfo.bookPublisher,
+                                bookCoverImageUrl = recordDetailInfo.bookCoverImageUrl,
+                                author = recordDetailInfo.author,
+                            ),
+                        ),
+                    )
+                }
+
+                RecordDetailUiEvent.OnDeleteRecordClick -> {
+                    isRecordMenuBottomSheetVisible = false
+                    isRecordDeleteDialogVisible = true
+                }
+
+                RecordDetailUiEvent.OnDelete -> {
+                    isRecordDeleteDialogVisible = false
+                    deleteRecord(
+                        readingRecordId = screen.recordId,
+                        onSuccess = {
+                            navigator.pop()
+                        },
+                    )
                 }
             }
         }
@@ -88,17 +161,19 @@ class RecordDetailPresenter @AssistedInject constructor(
         return RecordDetailUiState(
             uiState = uiState,
             recordDetailInfo = recordDetailInfo,
+            isRecordMenuBottomSheetVisible = isRecordMenuBottomSheetVisible,
+            isRecordDeleteDialogVisible = isRecordDeleteDialogVisible,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
     }
-}
 
-@CircuitInject(RecordDetailScreen::class, ActivityRetainedComponent::class)
-@AssistedFactory
-fun interface Factory {
-    fun create(
-        screen: RecordDetailScreen,
-        navigator: Navigator,
-    ): RecordDetailPresenter
+    @CircuitInject(RecordDetailScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(
+            screen: RecordDetailScreen,
+            navigator: Navigator,
+        ): RecordDetailPresenter
+    }
 }

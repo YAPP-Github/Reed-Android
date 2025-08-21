@@ -74,7 +74,7 @@ fun EmotionStep(
                 )
             }
             item {
-                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
             }
 
             items(emotionPairs) { pair ->
@@ -134,7 +134,7 @@ private fun EmotionItem(
             )
             .then(
                 if (isSelected) Modifier.border(
-                    width = 2.dp,
+                    width = ReedTheme.border.border15,
                     color = ReedTheme.colors.borderBrand,
                     shape = RoundedCornerShape(ReedTheme.radius.md),
                 )

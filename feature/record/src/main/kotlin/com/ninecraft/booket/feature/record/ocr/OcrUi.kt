@@ -313,9 +313,13 @@ private fun TextScanResult(
             LazyColumn(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = ReedTheme.spacing.spacing3),
+                    .padding(horizontal = ReedTheme.spacing.spacing5),
                 verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
             ) {
+                item {
+                    Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
+                }
+
                 items(state.sentenceList.size) { index ->
                     SentenceBox(
                         onClick = {

@@ -59,7 +59,7 @@ internal fun TermsAgreementUi(
                 color = ReedTheme.colors.contentPrimary,
                 style = ReedTheme.typography.title2SemiBold,
             )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing7))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

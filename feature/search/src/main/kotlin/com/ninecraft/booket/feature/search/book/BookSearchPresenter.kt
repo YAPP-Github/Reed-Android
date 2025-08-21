@@ -154,14 +154,14 @@ class BookSearchPresenter @AssistedInject constructor(
                     searchBooks(query = event.query, startIndex = START_INDEX)
                 }
 
-                is BookSearchUiEvent.OnRecentSearchRemoveClick -> {
+                is BookSearchUiEvent.OnRecentSearchDeleteClick -> {
                     scope.launch {
-                        repository.removeBookRecentSearch(query = event.query)
+                        repository.deleteBookRecentSearch(query = event.query)
                     }
                 }
 
                 is BookSearchUiEvent.OnSearchClick -> {
-                    val query = event.text.trim()
+                    val query = event.query.trim()
                     if (query.isNotEmpty()) {
                         searchBooks(query = query, startIndex = START_INDEX)
                     }

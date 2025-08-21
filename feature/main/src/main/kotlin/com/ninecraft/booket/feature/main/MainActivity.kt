@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.ninecraft.booket.core.common.constants.ErrorDialogSpec
 import com.ninecraft.booket.core.common.event.ErrorEvent
@@ -70,7 +71,8 @@ class MainActivity : ComponentActivity() {
                 dialogSpec.value?.let { spec ->
                     ReedDialog(
                         description = spec.message,
-                        confirmButtonText = spec.buttonLabel,
+                        confirmButtonText = stringResource(spec.buttonLabelResId),
+
                         onConfirmRequest = {
                             spec.action()
                             dialogSpec.value = null

@@ -7,10 +7,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
+import com.ninecraft.booket.core.common.constants.ErrorScope
+import com.ninecraft.booket.core.common.utils.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.model.AutoLoginState
 import com.ninecraft.booket.core.model.OnboardingState
+import com.ninecraft.booket.core.ui.R
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
@@ -53,8 +56,13 @@ class SplashPresenter @AssistedInject constructor(
                             navigator.resetRoot(LoginScreen)
                         }
                     }
-                    .onFailure {
-                        navigator.resetRoot(LoginScreen)
+                    .onFailure { exception ->
+                        postErrorDialog(
+                            errorScope = ErrorScope.GLOBAL,
+                            exception = exception,
+                            buttonLabelResId = R.string.retry,
+                            action = { checkTermsAgreement() },
+                        )
                     }
             }
         }
