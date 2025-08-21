@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
@@ -29,6 +30,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,6 +50,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -69,6 +72,7 @@ import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
+import java.io.File
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @CircuitInject(OcrScreen::class, ActivityRetainedComponent::class)
@@ -77,6 +81,8 @@ internal fun OcrUi(
     state: OcrUiState,
     modifier: Modifier = Modifier,
 ) {
+    HandleOcrSideEffects(state = state)
+
     when (state.currentUi) {
         OcrUi.CAMERA -> CameraPreview(state = state, modifier = modifier)
         OcrUi.RESULT -> TextScanResult(state = state, modifier = modifier)
@@ -138,27 +144,17 @@ private fun CameraPreview(
     }
 
     /**
-     * Camera Controller & ImageAnalyzer
+     * Camera Controller
      */
     val cameraController = remember { LifecycleCameraController(context) }
-    val imageAnalyzer = remember {
-        ImageAnalysis.Analyzer { imageProxy ->
-            state.eventSink(OcrUiEvent.OnFrameReceived(imageProxy))
-        }
-    }
 
     DisposableEffect(isGranted, lifecycleOwner, cameraController) {
         if (isGranted) {
             cameraController.bindToLifecycle(lifecycleOwner)
-            cameraController.setImageAnalysisAnalyzer(
-                ContextCompat.getMainExecutor(context),
-                imageAnalyzer,
-            )
         }
 
         onDispose {
             cameraController.unbind()
-            cameraController.clearImageAnalysisAnalyzer()
         }
     }
 
@@ -253,8 +249,27 @@ private fun CameraPreview(
                 }
 
                 Button(
+                    enabled = !state.isLoading,
                     onClick = {
-                        state.eventSink(OcrUiEvent.OnCaptureButtonClick)
+                        state.eventSink(OcrUiEvent.OnCaptureStart)
+
+                        val executor = ContextCompat.getMainExecutor(context)
+                        val photoFile = File.createTempFile("ocr_", ".jpg", context.cacheDir)
+                        val output = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+
+                        cameraController.takePicture(
+                            output,
+                            executor,
+                            object : ImageCapture.OnImageSavedCallback {
+                                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                                    state.eventSink(OcrUiEvent.OnImageCaptured(photoFile.toUri()))
+                                }
+
+                                override fun onError(exception: ImageCaptureException) {
+                                    state.eventSink(OcrUiEvent.OnCaptureFailed(exception))
+                                }
+                            },
+                        )
                     },
                     modifier = Modifier.size(72.dp),
                     shape = CircleShape,
@@ -271,6 +286,15 @@ private fun CameraPreview(
                     )
                 }
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+            }
+
+            if (state.isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator(color = ReedTheme.colors.contentBrand)
+                }
             }
         }
     }
