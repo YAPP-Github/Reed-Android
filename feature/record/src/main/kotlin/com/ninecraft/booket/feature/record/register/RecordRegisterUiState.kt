@@ -27,6 +27,8 @@ data class RecordRegisterUiState(
     val isImpressionGuideBottomSheetVisible: Boolean = false,
     val isExitDialogVisible: Boolean = false,
     val isRecordSavedDialogVisible: Boolean = false,
+    val isScanTooltipVisible: Boolean = true,
+    val isImpressionGuideTooltipVisible: Boolean = true,
     val sideEffect: RecordRegisterSideEffect? = null,
     val eventSink: (RecordRegisterUiEvent) -> Unit,
 ) : CircuitUiState

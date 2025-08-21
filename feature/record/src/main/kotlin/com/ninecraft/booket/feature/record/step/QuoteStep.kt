@@ -45,6 +45,7 @@ import com.ninecraft.booket.core.designsystem.component.textfield.digitOnlyInput
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
+import com.ninecraft.booket.feature.record.component.CustomTooltipBox
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
 import tech.thdev.compose.extensions.keyboard.state.foundation.rememberKeyboardVisible
@@ -134,7 +135,12 @@ internal fun QuoteStep(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
+                if (state.isScanTooltipVisible) {
+                    CustomTooltipBox(messageResId = R.string.scan_tooltip_message)
+                }
+
                 ReedButton(
                     onClick = {
                         state.eventSink(RecordRegisterUiEvent.OnSentenceScanButtonClick)

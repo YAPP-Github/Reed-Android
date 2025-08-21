@@ -32,7 +32,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RecordRegisterPresenter @AssistedInject constructor(
@@ -94,6 +93,8 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
             }
         }
+        var isScanTooltipVisible by rememberRetained { mutableStateOf(true) }
+        var isImpressionGuideTooltipVisible by rememberRetained { mutableStateOf(true) }
 
         val ocrNavigator = rememberAnsweringNavigator<OcrScreen.OcrResult>(navigator) { result ->
             recordSentenceState.edit {
@@ -180,6 +181,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
 
                 is RecordRegisterUiEvent.OnSentenceScanButtonClick -> {
+                    isScanTooltipVisible = false
                     ocrNavigator.goTo(OcrScreen)
                 }
 
@@ -188,6 +190,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
 
                 is RecordRegisterUiEvent.OnImpressionGuideButtonClick -> {
+                    isImpressionGuideTooltipVisible = false
                     beforeSelectedImpressionGuide = selectedImpressionGuide
                     if (impressionState.text.isEmpty()) {
                         selectedImpressionGuide = ""
@@ -282,6 +285,8 @@ class RecordRegisterPresenter @AssistedInject constructor(
             isImpressionGuideBottomSheetVisible = isImpressionGuideBottomSheetVisible,
             isExitDialogVisible = isExitDialogVisible,
             isRecordSavedDialogVisible = isRecordSavedDialogVisible,
+            isScanTooltipVisible = isScanTooltipVisible,
+            isImpressionGuideTooltipVisible = isImpressionGuideTooltipVisible,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )

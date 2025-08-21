@@ -1,8 +1,10 @@
 package com.ninecraft.booket.feature.record.step
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,8 +46,8 @@ import com.ninecraft.booket.core.designsystem.component.button.smallRoundedButto
 import com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordTextField
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.record.R
+import com.ninecraft.booket.feature.record.component.CustomTooltipBox
 import com.ninecraft.booket.feature.record.component.ImpressionGuideBottomSheet
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
@@ -121,21 +123,32 @@ fun ImpressionStep(
                 ),
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
-            ReedButton(
-                onClick = {
-                    state.eventSink(RecordRegisterUiEvent.OnImpressionGuideButtonClick)
-                },
-                colorStyle = ReedButtonColorStyle.STROKE,
-                sizeStyle = smallRoundedButtonStyle,
-                modifier = Modifier.align(Alignment.End),
-                text = stringResource(R.string.impression_step_guide),
-                leadingIcon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(designR.drawable.ic_book_open),
-                        contentDescription = "Impression Guide Icon",
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                if (state.isImpressionGuideTooltipVisible) {
+                    CustomTooltipBox(
+                        messageResId = R.string.impression_guide_tooltip_message,
                     )
-                },
-            )
+                }
+
+                ReedButton(
+                    onClick = {
+                        state.eventSink(RecordRegisterUiEvent.OnImpressionGuideButtonClick)
+                    },
+                    colorStyle = ReedButtonColorStyle.STROKE,
+                    sizeStyle = smallRoundedButtonStyle,
+                    text = stringResource(R.string.impression_step_guide),
+                    leadingIcon = {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(designR.drawable.ic_book_open),
+                            contentDescription = "Impression Guide Icon",
+                        )
+                    },
+                )
+            }
         }
 
         ReedButton(
