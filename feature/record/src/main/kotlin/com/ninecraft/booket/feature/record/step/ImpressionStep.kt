@@ -18,12 +18,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -46,6 +50,7 @@ import com.ninecraft.booket.feature.record.component.ImpressionGuideBottomSheet
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
 import kotlinx.coroutines.launch
+import tech.thdev.compose.extensions.keyboard.state.foundation.rememberKeyboardVisible
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,11 +60,18 @@ fun ImpressionStep(
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val impressionGuideBottomSheetState =
-        rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
+    val impressionGuideBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val scrollState = rememberScrollState()
+    val keyboardState by rememberKeyboardVisible()
+    var isSentenceTextFieldFocused by remember { mutableStateOf(false) }
+
+    LaunchedEffect(keyboardState, isSentenceTextFieldFocused) {
+        if (keyboardState && isSentenceTextFieldFocused) {
+            scrollState.animateScrollTo(scrollState.maxValue)
+        }
+    }
 
     LaunchedEffect(Unit) {
         if (state.impressionState.text.isEmpty()) {
@@ -78,7 +90,8 @@ fun ImpressionStep(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = ReedTheme.spacing.spacing5)
-                .verticalScroll(rememberScrollState()),
+                .padding(bottom = 80.dp)
+                .verticalScroll(scrollState),
         ) {
             Text(
                 text = stringResource(R.string.impression_step_title),
@@ -98,7 +111,10 @@ fun ImpressionStep(
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester)
-                    .height(140.dp),
+                    .height(140.dp)
+                    .onFocusChanged { focusState ->
+                        isSentenceTextFieldFocused = focusState.isFocused
+                    },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Default,
