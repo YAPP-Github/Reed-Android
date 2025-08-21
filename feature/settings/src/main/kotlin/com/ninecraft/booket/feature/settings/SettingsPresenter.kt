@@ -33,7 +33,7 @@ class SettingsPresenter @AssistedInject constructor(
 
     companion object {
         private const val SETTINGS_LOGOUT_COMPLETE = "settings_logout_complete"
-        private const val SETTINGS_WITHDRAWAL_COMPLETE = "settings_withdrawal_warning"
+        private const val SETTINGS_WITHDRAWAL_COMPLETE = "settings_withdrawal_complete"
         private const val SETTINGS_WITHDRAWAL_WARNING = "settings_withdrawal_warning"
     }
 

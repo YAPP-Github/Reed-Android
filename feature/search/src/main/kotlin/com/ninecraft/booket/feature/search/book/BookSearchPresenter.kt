@@ -3,7 +3,6 @@ package com.ninecraft.booket.feature.search.book
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -98,6 +97,9 @@ class BookSearchPresenter @AssistedInject constructor(
                         }
 
                         analyticsHelper.logEvent(SEARCH_BOOK_RESULT)
+                        if (startIndex == START_INDEX && result.books.isEmpty()) {
+                            analyticsHelper.logEvent(SEARCH_BOOK_NO_RESULT)
+                        }
                     }
                     .onFailure { exception ->
                         Logger.d(exception)
@@ -237,12 +239,6 @@ class BookSearchPresenter @AssistedInject constructor(
                 is BookSearchUiEvent.OnBookRegisterSuccessCancelButtonClick -> {
                     isBookRegisterSuccessBottomSheetVisible = false
                 }
-            }
-        }
-
-        LaunchedEffect(recentSearches, uiState) {
-            if (recentSearches.isEmpty() && uiState is UiState.Idle) {
-                analyticsHelper.logEvent(SEARCH_BOOK_NO_RESULT)
             }
         }
 
