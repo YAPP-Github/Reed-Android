@@ -2,7 +2,6 @@ package com.ninecraft.booket.feature.record.step
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -48,6 +49,7 @@ import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.component.CustomTooltipBox
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
+import kotlinx.coroutines.delay
 import tech.thdev.compose.extensions.keyboard.state.foundation.rememberKeyboardVisible
 import com.ninecraft.booket.core.designsystem.R as designR
 
@@ -58,16 +60,18 @@ internal fun QuoteStep(
 ) {
     val focusManager = LocalFocusManager.current
     val scrollState = rememberScrollState()
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val keyboardState by rememberKeyboardVisible()
     var isSentenceTextFieldFocused by remember { mutableStateOf(false) }
 
     LaunchedEffect(keyboardState, isSentenceTextFieldFocused) {
         if (keyboardState && isSentenceTextFieldFocused) {
-            scrollState.animateScrollTo(scrollState.maxValue)
+            delay(100)
+            bringIntoViewRequester.bringIntoView()
         }
     }
 
-    Box(
+    Column(
         modifier = modifier
             .fillMaxSize()
             .background(White)
@@ -75,9 +79,9 @@ internal fun QuoteStep(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .weight(1f)
                 .padding(horizontal = ReedTheme.spacing.spacing5)
-                .padding(bottom = 80.dp)
                 .verticalScroll(scrollState),
         ) {
             Text(
@@ -133,7 +137,9 @@ internal fun QuoteStep(
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .bringIntoViewRequester(bringIntoViewRequester),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -166,9 +172,10 @@ internal fun QuoteStep(
             sizeStyle = largeButtonStyle,
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = ReedTheme.spacing.spacing5)
-                .padding(bottom = ReedTheme.spacing.spacing4),
+                .padding(
+                    horizontal = ReedTheme.spacing.spacing5,
+                    vertical = ReedTheme.spacing.spacing4,
+                ),
             enabled = state.isNextButtonEnabled,
             text = stringResource(R.string.record_next_button),
             multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,

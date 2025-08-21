@@ -2,7 +2,6 @@ package com.ninecraft.booket.feature.record.step
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -51,6 +52,7 @@ import com.ninecraft.booket.feature.record.component.CustomTooltipBox
 import com.ninecraft.booket.feature.record.component.ImpressionGuideBottomSheet
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import tech.thdev.compose.extensions.keyboard.state.foundation.rememberKeyboardVisible
 import com.ninecraft.booket.core.designsystem.R as designR
@@ -66,12 +68,14 @@ fun ImpressionStep(
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
     val scrollState = rememberScrollState()
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val keyboardState by rememberKeyboardVisible()
-    var isSentenceTextFieldFocused by remember { mutableStateOf(false) }
+    var isImpressionTextFieldFocused by remember { mutableStateOf(false) }
 
-    LaunchedEffect(keyboardState, isSentenceTextFieldFocused) {
-        if (keyboardState && isSentenceTextFieldFocused) {
-            scrollState.animateScrollTo(scrollState.maxValue)
+    LaunchedEffect(keyboardState, isImpressionTextFieldFocused) {
+        if (keyboardState && isImpressionTextFieldFocused) {
+            delay(100)
+            bringIntoViewRequester.bringIntoView()
         }
     }
 
@@ -82,7 +86,7 @@ fun ImpressionStep(
         }
     }
 
-    Box(
+    Column(
         modifier = modifier
             .fillMaxSize()
             .background(White)
@@ -90,9 +94,10 @@ fun ImpressionStep(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .weight(1f)
                 .padding(horizontal = ReedTheme.spacing.spacing5)
-                .padding(bottom = 80.dp)
+                .padding(bottom = 12.dp)
                 .verticalScroll(scrollState),
         ) {
             Text(
@@ -115,7 +120,7 @@ fun ImpressionStep(
                     .focusRequester(focusRequester)
                     .height(140.dp)
                     .onFocusChanged { focusState ->
-                        isSentenceTextFieldFocused = focusState.isFocused
+                        isImpressionTextFieldFocused = focusState.isFocused
                     },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
@@ -124,7 +129,9 @@ fun ImpressionStep(
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .bringIntoViewRequester(bringIntoViewRequester),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -159,9 +166,10 @@ fun ImpressionStep(
             sizeStyle = largeButtonStyle,
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = ReedTheme.spacing.spacing5)
-                .padding(bottom = ReedTheme.spacing.spacing4),
+                .padding(
+                    horizontal = ReedTheme.spacing.spacing5,
+                    vertical = ReedTheme.spacing.spacing4,
+                ),
             enabled = state.isNextButtonEnabled,
             text = stringResource(R.string.record_next_button),
             multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
