@@ -74,15 +74,8 @@ fun ImpressionStep(
 
     LaunchedEffect(keyboardState, isImpressionTextFieldFocused) {
         if (keyboardState && isImpressionTextFieldFocused) {
-            delay(100)
+            delay(150)
             bringIntoViewRequester.bringIntoView()
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        if (state.impressionState.text.isEmpty()) {
-            focusRequester.requestFocus()
-            keyboardController?.show()
         }
     }
 
@@ -97,7 +90,7 @@ fun ImpressionStep(
                 .fillMaxWidth()
                 .weight(1f)
                 .padding(horizontal = ReedTheme.spacing.spacing5)
-                .padding(bottom = 12.dp)
+                .padding(bottom = 16.dp)
                 .verticalScroll(scrollState),
         ) {
             Text(
