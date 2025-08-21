@@ -34,8 +34,7 @@ internal fun RecordCard(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(448.dp)
-            .clip(RoundedCornerShape(ReedTheme.radius.md)),
+            .height(448.dp),
     ) {
         Image(
             painter = painterResource(getEmotionCardImage(emotionTag)),
