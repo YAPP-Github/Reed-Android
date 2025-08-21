@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.feature.screens.EmotionEditScreen
@@ -20,6 +21,7 @@ import com.slack.circuit.foundation.rememberAnsweringNavigator
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -30,7 +32,14 @@ class RecordEditPresenter @AssistedInject constructor(
     @Assisted private val screen: RecordEditScreen,
     @Assisted private val navigator: Navigator,
     private val repository: RecordRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<RecordEditUiState> {
+
+    companion object {
+        private const val MAX_PAGE = 4032
+        private const val RECORD_EDIT = "record_edit_save"
+        private const val RECORD_EDIT_SAVE = "record_edit_save"
+    }
 
     @Composable
     override fun present(): RecordEditUiState {
@@ -85,6 +94,7 @@ class RecordEditPresenter @AssistedInject constructor(
                     emotionTags = emotionTags,
                     review = impression,
                 ).onSuccess {
+                    analyticsHelper.logEvent(RECORD_EDIT_SAVE)
                     onSuccess()
                 }.onFailure { exception ->
                     val handleErrorMessage = { message: String ->
@@ -133,6 +143,10 @@ class RecordEditPresenter @AssistedInject constructor(
             }
         }
 
+        ImpressionEffect {
+            analyticsHelper.logScreenView(RECORD_EDIT)
+        }
+
         return RecordEditUiState(
             recordInfo = recordInfo,
             recordPageState = recordPageState,
@@ -152,9 +166,5 @@ class RecordEditPresenter @AssistedInject constructor(
             screen: RecordEditScreen,
             navigator: Navigator,
         ): RecordEditPresenter
-    }
-
-    companion object {
-        const val MAX_PAGE = 4032
     }
 }

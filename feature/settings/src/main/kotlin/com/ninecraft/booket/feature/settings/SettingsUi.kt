@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -140,14 +139,6 @@ internal fun SettingsUi(
                             style = ReedTheme.typography.body1Medium,
                             color = ReedTheme.colors.contentBrand,
                         )
-                        if (isUpdateAvailable) {
-                            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-                            Icon(
-                                imageVector = ImageVector.vectorResource(id = designR.drawable.ic_chevron_right),
-                                contentDescription = "Right Chevron Icon",
-                                tint = Color.Unspecified,
-                            )
-                        }
                     }
                 },
                 description = {
@@ -209,20 +200,6 @@ internal fun SettingsUi(
                 },
                 onWithdrawButtonClick = {
                     state.eventSink(SettingsUiEvent.Withdraw)
-                },
-            )
-        }
-
-        if (state.isOptionalUpdateDialogVisible) {
-            ReedDialog(
-                onDismissRequest = {
-                    state.eventSink(SettingsUiEvent.OnOptionalUpdateDialogDismiss)
-                },
-                title = stringResource(R.string.settings_optional_update_title),
-                description = stringResource(R.string.settings_optional_update_message),
-                confirmButtonText = stringResource(R.string.settings_optional_update_button_text),
-                onConfirmRequest = {
-                    state.eventSink(SettingsUiEvent.OnUpdateButtonClick)
                 },
             )
         }

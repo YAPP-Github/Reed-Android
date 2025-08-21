@@ -35,7 +35,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,6 +68,7 @@ import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.ocr.component.CameraFrame
 import com.ninecraft.booket.feature.record.ocr.component.SentenceBox
 import com.ninecraft.booket.feature.screens.OcrScreen
+import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
@@ -120,7 +120,7 @@ private fun CameraPreview(
     ) { _ -> }
 
     // 최초 진입 시 권한 요청
-    LaunchedEffect(Unit) {
+    RememberedEffect(Unit) {
         if (!isGranted) {
             state.eventSink(OcrUiEvent.OnHidePermissionDialog)
             permissionLauncher.launch(permission)
