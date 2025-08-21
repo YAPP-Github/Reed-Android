@@ -32,7 +32,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
@@ -53,7 +52,6 @@ import com.ninecraft.booket.feature.record.component.ImpressionGuideBottomSheet
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
 import kotlinx.coroutines.delay
-import com.skydoves.compose.effects.RememberedEffect
 import kotlinx.coroutines.launch
 import tech.thdev.compose.extensions.keyboard.state.foundation.rememberKeyboardVisible
 import com.ninecraft.booket.core.designsystem.R as designR
@@ -67,7 +65,6 @@ fun ImpressionStep(
     val coroutineScope = rememberCoroutineScope()
     val impressionGuideBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val focusRequester = remember { FocusRequester() }
-    val keyboardController = LocalSoftwareKeyboardController.current
     val scrollState = rememberScrollState()
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val keyboardState by rememberKeyboardVisible()
@@ -75,15 +72,8 @@ fun ImpressionStep(
 
     LaunchedEffect(keyboardState, isImpressionTextFieldFocused) {
         if (keyboardState && isImpressionTextFieldFocused) {
-            delay(100)
+            delay(150)
             bringIntoViewRequester.bringIntoView()
-        }
-    }
-
-    RememberedEffect(Unit) {
-        if (state.impressionState.text.isEmpty()) {
-            focusRequester.requestFocus()
-            keyboardController?.show()
         }
     }
 
@@ -98,7 +88,7 @@ fun ImpressionStep(
                 .fillMaxWidth()
                 .weight(1f)
                 .padding(horizontal = ReedTheme.spacing.spacing5)
-                .padding(bottom = 12.dp)
+                .padding(bottom = 16.dp)
                 .verticalScroll(scrollState),
         ) {
             Text(
