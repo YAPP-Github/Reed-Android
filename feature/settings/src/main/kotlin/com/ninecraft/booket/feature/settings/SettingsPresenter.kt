@@ -39,6 +39,7 @@ class SettingsPresenter @AssistedInject constructor(
         var isWithdrawBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isWithdrawConfirmed by rememberRetained { mutableStateOf(false) }
         var latestVersion by rememberRetained { mutableStateOf("") }
+        var isOptionalUpdateDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<SettingsSideEffect?>(null) }
 
         fun logout() {
@@ -173,6 +174,18 @@ class SettingsPresenter @AssistedInject constructor(
                 is SettingsUiEvent.Withdraw -> {
                     withdraw()
                 }
+
+                is SettingsUiEvent.OnVersionClick -> {
+                    isOptionalUpdateDialogVisible = true
+                }
+
+                is SettingsUiEvent.OnOptionalUpdateDialogDismiss -> {
+                    isOptionalUpdateDialogVisible = false
+                }
+
+                is SettingsUiEvent.OnUpdateButtonClick -> {
+                    sideEffect = SettingsSideEffect.NavigateToPlayStore
+                }
             }
         }
 
@@ -186,6 +199,7 @@ class SettingsPresenter @AssistedInject constructor(
             isWithdrawBottomSheetVisible = isWithdrawBottomSheetVisible,
             isWithdrawConfirmed = isWithdrawConfirmed,
             latestVersion = latestVersion,
+            isOptionalUpdateDialogVisible = isOptionalUpdateDialogVisible,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )

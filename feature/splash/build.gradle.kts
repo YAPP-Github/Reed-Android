@@ -6,14 +6,6 @@ plugins {
 
 android {
     namespace = "com.ninecraft.booket.feature.splash"
-
-    buildFeatures {
-        buildConfig = true
-    }
-
-    defaultConfig {
-        buildConfigField("String", "PACKAGE_NAME", "\"${libs.versions.packageName.get()}\"")
-    }
 }
 
 ksp {

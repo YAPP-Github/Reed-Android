@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="splash_title">책 덮기 전 한 문장을 기록해보세요</string>
-    <string name="splash_force_update_title">최신 버전이 출시 되었습니다.</string>
-    <string name="splash_force_update_message">최적의 사용 환경을 위해 업데이트를 해주세요.</string>
+    <string name="splash_force_update_title">최신 버전이 출시되었습니다.</string>
+    <string name="splash_force_update_message">최적의 사용 환경을 위해 업데이트해주세요.</string>
     <string name="splash_force_update_button_text">업데이트 하기</string>
 </resources>
