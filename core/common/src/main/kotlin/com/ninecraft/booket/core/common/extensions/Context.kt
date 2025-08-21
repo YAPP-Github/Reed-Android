@@ -2,6 +2,9 @@ package com.ninecraft.booket.core.common.extensions
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
+import androidx.core.net.toUri
+import com.ninecraft.booket.core.common.BuildConfig
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Environment
@@ -41,7 +44,8 @@ fun Context.saveImageToGallery(bitmap: ImageBitmap) {
             }
         }
 
-        val imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        val imageUri =
+            contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
         imageUri?.let { uri ->
             contentResolver.openOutputStream(uri)?.use { outputStream ->
                 bitmap.asAndroidBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream)
@@ -56,4 +60,10 @@ fun Context.saveImageToGallery(bitmap: ImageBitmap) {
     } catch (e: Exception) {
         Logger.e("Failed to save image to gallery: ${e.message}")
     }
+}
+
+fun Context.openPlayStore() {
+    val intent =
+        Intent(Intent.ACTION_VIEW, "market://details?id=${BuildConfig.PACKAGE_NAME}".toUri())
+    startActivity(intent)
 }
