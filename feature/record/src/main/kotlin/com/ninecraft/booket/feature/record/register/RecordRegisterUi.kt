@@ -24,6 +24,7 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedDialog
+import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.step.EmotionStep
 import com.ninecraft.booket.feature.record.step.ImpressionStep
@@ -78,6 +79,10 @@ internal fun RecordRegisterUi(
                 }
             }
         }
+    }
+
+    if (state.isLoading) {
+        ReedLoadingIndicator()
     }
 
     if (state.isExitDialogVisible) {
