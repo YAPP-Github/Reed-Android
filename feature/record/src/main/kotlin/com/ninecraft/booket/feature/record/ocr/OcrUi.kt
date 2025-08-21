@@ -51,6 +51,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -260,8 +261,7 @@ private fun CameraPreview(
                             executor,
                             object : ImageCapture.OnImageSavedCallback {
                                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                                    val bytes = photoFile.readBytes()
-                                    state.eventSink(OcrUiEvent.OnCaptureButtonClick(bytes))
+                                    state.eventSink(OcrUiEvent.OnCaptureButtonClick(photoFile.toUri()))
                                 }
 
                                 override fun onError(exception: ImageCaptureException) {

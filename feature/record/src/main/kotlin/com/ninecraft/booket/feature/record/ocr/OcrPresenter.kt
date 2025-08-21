@@ -1,6 +1,6 @@
 package com.ninecraft.booket.feature.record.ocr
 
-import android.util.Base64
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,11 +41,11 @@ class OcrPresenter @AssistedInject constructor(
         var isLoading by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<OcrSideEffect?>(null) }
 
-        fun recognizeText(base64Image: String) {
+        fun recognizeText(imageUri: Uri) {
             scope.launch {
                 try {
                     isLoading = true
-                    recognizer.recognizeText(base64Image)
+                    recognizer.recognizeText(imageUri)
                         .onSuccess {
                             val text = it.responses.firstOrNull()?.fullTextAnnotation?.text.orEmpty()
                             recognizedText = text
@@ -100,8 +100,7 @@ class OcrPresenter @AssistedInject constructor(
                 is OcrUiEvent.OnCaptureButtonClick -> {
                     isTextDetectionFailed = false
 
-                    val base64Image = Base64.encodeToString(event.imageData, Base64.NO_WRAP)
-                    recognizeText(base64Image)
+                    recognizeText(event.imageUri)
                 }
 
                 is OcrUiEvent.OnReCaptureButtonClick -> {
