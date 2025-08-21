@@ -10,9 +10,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.BookStatus
-import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.utils.handleException
-import com.ninecraft.booket.core.common.utils.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
@@ -132,11 +130,6 @@ class BookSearchPresenter @AssistedInject constructor(
                         isBookRegisterSuccessBottomSheetVisible = true
                     }
                     .onFailure { exception ->
-                        postErrorDialog(
-                            errorScope = ErrorScope.BOOK_REGISTER,
-                            exception = exception,
-                        )
-
                         analyticsHelper.logEvent(ERROR_REGISTER_BOOK)
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)

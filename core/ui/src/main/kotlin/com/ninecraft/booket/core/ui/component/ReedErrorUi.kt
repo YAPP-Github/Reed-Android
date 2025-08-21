@@ -50,17 +50,21 @@ fun ReedErrorUi(
 @ComponentPreview
 @Composable
 private fun ReedNetworkErrorUiPreview() {
-    ReedErrorUi(
-        exception = java.io.IOException("네트워크 오류"),
-        onRetryClick = {},
-    )
+    ReedTheme {
+        ReedErrorUi(
+            exception = java.io.IOException("네트워크 오류"),
+            onRetryClick = {},
+        )
+    }
 }
 
 @ComponentPreview
 @Composable
 private fun ReedServerErrorUiPreview() {
-    ReedErrorUi(
-        exception = Exception("알 수 없는 문제"),
-        onRetryClick = {},
-    )
+    ReedTheme {
+        ReedErrorUi(
+            exception = Exception("알 수 없는 문제"),
+            onRetryClick = {},
+        )
+    }
 }

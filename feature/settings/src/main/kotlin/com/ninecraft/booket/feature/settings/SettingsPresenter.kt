@@ -9,11 +9,13 @@ import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.WebViewConstants
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
+import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OssLicensesScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.ninecraft.booket.feature.screens.WebViewScreen
 import com.orhanobut.logger.Logger
+import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -28,6 +30,7 @@ import kotlinx.coroutines.launch
 class SettingsPresenter @AssistedInject constructor(
     @Assisted val navigator: Navigator,
     private val authRepository: AuthRepository,
+    private val remoteConfigRepository: RemoteConfigRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<SettingsUiState> {
 
@@ -41,13 +44,102 @@ class SettingsPresenter @AssistedInject constructor(
     override fun present(): SettingsUiState {
         val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
-        var sideEffect by rememberRetained { mutableStateOf<SettingsSideEffect?>(null) }
         var isLogoutDialogVisible by rememberRetained { mutableStateOf(false) }
         var isWithdrawBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isWithdrawConfirmed by rememberRetained { mutableStateOf(false) }
+        var latestVersion by rememberRetained { mutableStateOf("") }
+        var isOptionalUpdateDialogVisible by rememberRetained { mutableStateOf(false) }
+        var sideEffect by rememberRetained { mutableStateOf<SettingsSideEffect?>(null) }
+
+        fun logout() {
+            scope.launch {
+                try {
+                    isLoading = true
+                    authRepository.logout()
+                        .onSuccess {
+                            navigator.resetRoot(LoginScreen)
+                        }
+                        .onFailure { exception ->
+                            val handleErrorMessage = { message: String ->
+                                Logger.e(message)
+                                sideEffect = SettingsSideEffect.ShowToast(message)
+                            }
+
+                            handleException(
+                                exception = exception,
+                                onError = handleErrorMessage,
+                                onLoginRequired = {
+                                    navigator.resetRoot(LoginScreen)
+                                },
+                            )
+                        }
+                } finally {
+                    isLoading = false
+                    isLogoutDialogVisible = false
+                }
+            }
+        }
+
+        fun withdraw() {
+            scope.launch {
+                try {
+                    isLoading = true
+                    authRepository.withdraw()
+                        .onSuccess {
+                            navigator.resetRoot(LoginScreen)
+                        }
+                        .onFailure { exception ->
+                            val handleErrorMessage = { message: String ->
+                                Logger.e(message)
+                                sideEffect = SettingsSideEffect.ShowToast(message)
+                            }
+
+                            handleException(
+                                exception = exception,
+                                onError = handleErrorMessage,
+                                onLoginRequired = {
+                                    navigator.resetRoot(LoginScreen)
+                                },
+                            )
+                        }
+                } finally {
+                    isLoading = false
+                    isWithdrawBottomSheetVisible = false
+                }
+            }
+        }
+
+        fun getLatestVersion() {
+            scope.launch {
+                try {
+                    isLoading = true
+                    remoteConfigRepository.getLatestVersion()
+                        .onSuccess { version ->
+                            latestVersion = version
+                        }
+                        .onFailure { exception ->
+                            val handleErrorMessage = { message: String ->
+                                Logger.e(message)
+                                sideEffect = SettingsSideEffect.ShowToast(message)
+                            }
+
+                            handleException(
+                                exception = exception,
+                                onError = handleErrorMessage,
+                            )
+                        }
+                } finally {
+                    isLoading = false
+                }
+            }
+        }
 
         fun handleEvent(event: SettingsUiEvent) {
             when (event) {
+                is SettingsUiEvent.InitSideEffect -> {
+                    sideEffect = null
+                }
+
                 is SettingsUiEvent.OnBackClick -> {
                     navigator.pop()
                 }
@@ -71,7 +163,6 @@ class SettingsPresenter @AssistedInject constructor(
                 }
 
                 is SettingsUiEvent.OnWithdrawClick -> {
-                    analyticsHelper.logEvent(SETTINGS_WITHDRAWAL_WARNING)
                     isWithdrawBottomSheetVisible = true
                 }
 
@@ -86,65 +177,29 @@ class SettingsPresenter @AssistedInject constructor(
                 }
 
                 is SettingsUiEvent.Logout -> {
-                    scope.launch {
-                        try {
-                            isLoading = true
-                            authRepository.logout()
-                                .onSuccess {
-                                    analyticsHelper.logEvent(SETTINGS_LOGOUT_COMPLETE)
-                                    navigator.resetRoot(LoginScreen)
-                                }
-                                .onFailure { exception ->
-                                    val handleErrorMessage = { message: String ->
-                                        Logger.e(message)
-                                        sideEffect = SettingsSideEffect.ShowToast(message)
-                                    }
-
-                                    handleException(
-                                        exception = exception,
-                                        onError = handleErrorMessage,
-                                        onLoginRequired = {
-                                            navigator.resetRoot(LoginScreen)
-                                        },
-                                    )
-                                }
-                        } finally {
-                            isLoading = false
-                        }
-                    }
-                    isLogoutDialogVisible = false
+                    logout()
                 }
 
                 is SettingsUiEvent.Withdraw -> {
-                    scope.launch {
-                        try {
-                            isLoading = true
-                            authRepository.withdraw()
-                                .onSuccess {
-                                    analyticsHelper.logEvent(SETTINGS_WITHDRAWAL_COMPLETE)
-                                    navigator.resetRoot(LoginScreen)
-                                }
-                                .onFailure { exception ->
-                                    val handleErrorMessage = { message: String ->
-                                        Logger.e(message)
-                                        sideEffect = SettingsSideEffect.ShowToast(message)
-                                    }
+                    withdraw()
+                }
 
-                                    handleException(
-                                        exception = exception,
-                                        onError = handleErrorMessage,
-                                        onLoginRequired = {
-                                            navigator.resetRoot(LoginScreen)
-                                        },
-                                    )
-                                }
-                        } finally {
-                            isLoading = false
-                        }
-                    }
-                    isWithdrawBottomSheetVisible = false
+                is SettingsUiEvent.OnVersionClick -> {
+                    isOptionalUpdateDialogVisible = true
+                }
+
+                is SettingsUiEvent.OnOptionalUpdateDialogDismiss -> {
+                    isOptionalUpdateDialogVisible = false
+                }
+
+                is SettingsUiEvent.OnUpdateButtonClick -> {
+                    sideEffect = SettingsSideEffect.NavigateToPlayStore
                 }
             }
+        }
+
+        RememberedEffect(Unit) {
+            getLatestVersion()
         }
 
         ImpressionEffect {
@@ -156,6 +211,8 @@ class SettingsPresenter @AssistedInject constructor(
             isLogoutDialogVisible = isLogoutDialogVisible,
             isWithdrawBottomSheetVisible = isWithdrawBottomSheetVisible,
             isWithdrawConfirmed = isWithdrawConfirmed,
+            latestVersion = latestVersion,
+            isOptionalUpdateDialogVisible = isOptionalUpdateDialogVisible,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )

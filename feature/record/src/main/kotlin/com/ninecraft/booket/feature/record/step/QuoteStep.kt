@@ -2,7 +2,6 @@ package com.ninecraft.booket.feature.record.step
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -18,9 +19,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -39,8 +46,11 @@ import com.ninecraft.booket.core.designsystem.component.textfield.digitOnlyInput
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
+import com.ninecraft.booket.feature.record.component.CustomTooltipBox
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
+import kotlinx.coroutines.delay
+import tech.thdev.compose.extensions.keyboard.state.foundation.rememberKeyboardVisible
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
@@ -49,8 +59,19 @@ internal fun QuoteStep(
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
+    val scrollState = rememberScrollState()
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
+    val keyboardState by rememberKeyboardVisible()
+    var isSentenceTextFieldFocused by remember { mutableStateOf(false) }
 
-    Box(
+    LaunchedEffect(keyboardState, isSentenceTextFieldFocused) {
+        if (keyboardState && isSentenceTextFieldFocused) {
+            delay(100)
+            bringIntoViewRequester.bringIntoView()
+        }
+    }
+
+    Column(
         modifier = modifier
             .fillMaxSize()
             .background(White)
@@ -58,10 +79,10 @@ internal fun QuoteStep(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .weight(1f)
                 .padding(horizontal = ReedTheme.spacing.spacing5)
-                .padding(bottom = 80.dp)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(scrollState),
         ) {
             Text(
                 text = stringResource(R.string.quote_step_title),
@@ -105,7 +126,10 @@ internal fun QuoteStep(
                 recordHintRes = R.string.quote_step_sentence_hint,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(140.dp),
+                    .height(140.dp)
+                    .onFocusChanged { focusState ->
+                        isSentenceTextFieldFocused = focusState.isFocused
+                    },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Default,
@@ -113,9 +137,16 @@ internal fun QuoteStep(
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .bringIntoViewRequester(bringIntoViewRequester),
                 horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
+                if (state.isScanTooltipVisible) {
+                    CustomTooltipBox(messageResId = R.string.scan_tooltip_message)
+                }
+
                 ReedButton(
                     onClick = {
                         state.eventSink(RecordRegisterUiEvent.OnSentenceScanButtonClick)
@@ -141,9 +172,10 @@ internal fun QuoteStep(
             sizeStyle = largeButtonStyle,
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = ReedTheme.spacing.spacing5)
-                .padding(bottom = ReedTheme.spacing.spacing4),
+                .padding(
+                    horizontal = ReedTheme.spacing.spacing5,
+                    vertical = ReedTheme.spacing.spacing4,
+                ),
             enabled = state.isNextButtonEnabled,
             text = stringResource(R.string.record_next_button),
             multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,

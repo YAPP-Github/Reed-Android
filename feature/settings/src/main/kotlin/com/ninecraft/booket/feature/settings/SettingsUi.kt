@@ -1,17 +1,15 @@
 package com.ninecraft.booket.feature.settings
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -26,7 +24,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import com.ninecraft.booket.core.common.extensions.clickableSingle
+import com.ninecraft.booket.core.common.util.compareVersions
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -34,11 +32,14 @@ import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedDialog
+import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.screens.SettingsScreen
+import com.ninecraft.booket.feature.settings.component.SettingItem
 import com.ninecraft.booket.feature.settings.component.WithdrawConfirmationBottomSheet
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.launch
+import com.ninecraft.booket.core.designsystem.R as designR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(SettingsScreen::class, ActivityRetainedComponent::class)
@@ -47,7 +48,10 @@ internal fun SettingsUi(
     state: SettingsUiState,
     modifier: Modifier = Modifier,
 ) {
-    HandleSettingsSideEffects(state = state)
+    HandleSettingsSideEffects(
+        state = state,
+        eventSink = state.eventSink,
+    )
 
     val withDrawSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
@@ -57,6 +61,10 @@ internal fun SettingsUi(
         runCatching {
             context.packageManager.getPackageInfo(context.packageName, 0)?.versionName
         }.getOrNull() ?: "Unknown"
+    }
+
+    val isUpdateAvailable = remember(appVersion, state.latestVersion) {
+        compareVersions(state.latestVersion, appVersion) > 0
     }
 
     ReedScaffold(
@@ -85,7 +93,7 @@ internal fun SettingsUi(
                 },
                 action = {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
+                        imageVector = ImageVector.vectorResource(id = designR.drawable.ic_chevron_right),
                         contentDescription = "Right Chevron Icon",
                         tint = Color.Unspecified,
                     )
@@ -98,7 +106,7 @@ internal fun SettingsUi(
                 },
                 action = {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
+                        imageVector = ImageVector.vectorResource(id = designR.drawable.ic_chevron_right),
                         contentDescription = "Right Chevron Icon",
                         tint = Color.Unspecified,
                     )
@@ -111,7 +119,7 @@ internal fun SettingsUi(
                 },
                 action = {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = com.ninecraft.booket.core.designsystem.R.drawable.ic_chevron_right),
+                        imageVector = ImageVector.vectorResource(id = designR.drawable.ic_chevron_right),
                         contentDescription = "Right Chevron Icon",
                         tint = Color.Unspecified,
                     )
@@ -119,12 +127,34 @@ internal fun SettingsUi(
             )
             SettingItem(
                 title = stringResource(R.string.settings_app_version),
-                isClickable = false,
+                isClickable = isUpdateAvailable,
+                onItemClick = {
+                    state.eventSink(SettingsUiEvent.OnVersionClick)
+                },
                 action = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = appVersion,
+                            style = ReedTheme.typography.body1Medium,
+                            color = ReedTheme.colors.contentBrand,
+                        )
+                        if (isUpdateAvailable) {
+                            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = designR.drawable.ic_chevron_right),
+                                contentDescription = "Right Chevron Icon",
+                                tint = Color.Unspecified,
+                            )
+                        }
+                    }
+                },
+                description = {
                     Text(
-                        text = appVersion,
-                        style = ReedTheme.typography.body1Medium,
-                        color = ReedTheme.colors.contentSecondary,
+                        text = stringResource(R.string.latest_version, state.latestVersion),
+                        color = ReedTheme.colors.contentTertiary,
+                        style = ReedTheme.typography.label1Medium,
                     )
                 },
             )
@@ -144,14 +174,7 @@ internal fun SettingsUi(
         }
 
         if (state.isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = ReedTheme.colors.contentBrand,
-                )
-            }
+            ReedLoadingIndicator()
         }
 
         if (state.isLogoutDialogVisible) {
@@ -189,40 +212,20 @@ internal fun SettingsUi(
                 },
             )
         }
-    }
-}
 
-@Composable
-private fun SettingItem(
-    title: String,
-    modifier: Modifier = Modifier,
-    isClickable: Boolean = true,
-    onItemClick: () -> Unit = {},
-    action: @Composable () -> Unit = {},
-) {
-    val combinedModifier = if (isClickable) {
-        modifier
-            .fillMaxWidth()
-            .clickableSingle { onItemClick() }
-    } else {
-        modifier.fillMaxWidth()
-    }
-
-    Row(
-        modifier = combinedModifier
-            .padding(
-                horizontal = ReedTheme.spacing.spacing5,
-                vertical = ReedTheme.spacing.spacing4,
-            ),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            modifier = Modifier.weight(1f),
-            text = title,
-            style = ReedTheme.typography.body1Medium,
-            color = ReedTheme.colors.contentPrimary,
-        )
-        action()
+        if (state.isOptionalUpdateDialogVisible) {
+            ReedDialog(
+                onDismissRequest = {
+                    state.eventSink(SettingsUiEvent.OnOptionalUpdateDialogDismiss)
+                },
+                title = stringResource(R.string.settings_optional_update_title),
+                description = stringResource(R.string.settings_optional_update_message),
+                confirmButtonText = stringResource(R.string.settings_optional_update_button_text),
+                onConfirmRequest = {
+                    state.eventSink(SettingsUiEvent.OnUpdateButtonClick)
+                },
+            )
+        }
     }
 }
 

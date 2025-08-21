@@ -3,6 +3,7 @@ import com.ninecraft.booket.convention.ApplicationConstants
 import com.ninecraft.booket.convention.Plugins
 import com.ninecraft.booket.convention.applyPlugins
 import com.ninecraft.booket.convention.configureAndroid
+import com.ninecraft.booket.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -19,9 +20,9 @@ internal class AndroidApplicationConventionPlugin : Plugin<Project> {
                 configureAndroid(this)
 
                 defaultConfig {
-                    targetSdk = ApplicationConstants.TARGET_SDK
-                    versionName = ApplicationConstants.VERSION_NAME
-                    versionCode = ApplicationConstants.VERSION_CODE
+                    targetSdk = libs.versions.targetSdk.get().toInt()
+                    versionName = libs.versions.versionName.get()
+                    versionCode = libs.versions.versionCode.get().toInt()
                 }
             }
         }

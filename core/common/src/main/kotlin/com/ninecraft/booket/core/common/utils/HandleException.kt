@@ -19,7 +19,7 @@ import java.net.UnknownHostException
 fun handleException(
     exception: Throwable,
     onError: (String) -> Unit,
-    onLoginRequired: () -> Unit,
+    onLoginRequired: () -> Unit = {},
 ) {
     when {
         exception is HttpException && exception.code() == 401 -> {

@@ -37,6 +37,7 @@ sealed interface RecordDetailUiEvent : CircuitUiEvent {
     data object OnRecordMenuClick : RecordDetailUiEvent
     data object OnRecordMenuBottomSheetDismiss : RecordDetailUiEvent
     data object OnRecordDeleteDialogDismiss : RecordDetailUiEvent
+    data object OnShareRecordClick : RecordDetailUiEvent
     data object OnEditRecordClick : RecordDetailUiEvent
     data object OnDeleteRecordClick : RecordDetailUiEvent
     data object OnDelete : RecordDetailUiEvent

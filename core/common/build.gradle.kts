@@ -9,6 +9,14 @@ plugins {
 
 android {
     namespace = "com.ninecraft.booket.core.common"
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    defaultConfig {
+        buildConfigField("String", "PACKAGE_NAME", "\"${libs.versions.packageName.get()}\"")
+    }
 }
 
 dependencies {

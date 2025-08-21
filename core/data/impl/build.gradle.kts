@@ -8,6 +8,14 @@ plugins {
 
 android {
     namespace = "com.ninecraft.booket.core.data.impl"
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    defaultConfig {
+        buildConfigField("String", "APP_VERSION", "\"${libs.versions.versionName.get()}\"")
+    }
 }
 
 dependencies {
@@ -18,6 +26,8 @@ dependencies {
         projects.core.model,
         projects.core.network,
 
+        platform(libs.firebase.bom),
+        libs.firebase.remote.config,
         libs.logger,
     )
 }
