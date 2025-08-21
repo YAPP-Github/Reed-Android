@@ -28,7 +28,6 @@ import com.ninecraft.booket.feature.detail.R
 internal fun RecordCard(
     quote: String,
     bookTitle: String,
-    author: String,
     emotionTag: String,
     modifier: Modifier = Modifier,
 ) {
@@ -90,7 +89,6 @@ private fun RecordCardPreview() {
         RecordCard(
             quote = "이 세상에 집이라 이름 붙일 수 없는 것이 있다면 그건 바로 여기, 내가 앉아 있는 이곳일 것이다.",
             bookTitle = "샤이닝",
-            author = "욘 포세 ",
             emotionTag = EmotionTag.WARMTH.label,
         )
     }

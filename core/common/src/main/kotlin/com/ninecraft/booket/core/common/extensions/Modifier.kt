@@ -49,7 +49,7 @@ fun Modifier.clickableSingle(
     )
 }
 
-fun Modifier.captureToGraphicsLayer(graphicsLayer: GraphicsLayer,) =
+fun Modifier.captureToGraphicsLayer(graphicsLayer: GraphicsLayer) =
     this.drawWithContent {
         graphicsLayer.record { this@drawWithContent.drawContent() }
         drawLayer(graphicsLayer)

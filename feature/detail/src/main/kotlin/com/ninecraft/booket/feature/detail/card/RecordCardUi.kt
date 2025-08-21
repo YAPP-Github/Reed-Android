@@ -46,6 +46,12 @@ internal fun RecordCardUi(
 ) {
     val recordCardGraphicsLayer = rememberGraphicsLayer()
 
+    HandleRecordCardSideEffects(
+        state = state,
+        recordCardGraphicsLayer = recordCardGraphicsLayer,
+        eventSink = state.eventSink,
+    )
+
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = White,
@@ -73,7 +79,6 @@ internal fun RecordCardUi(
                 RecordCard(
                     quote = state.quote,
                     bookTitle = state.bookTitle,
-                    author = state.author,
                     emotionTag = state.emotionTag,
                     modifier = Modifier
                         .padding(

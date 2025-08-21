@@ -18,6 +18,7 @@
     <string name="record_delete_dialog_cancel">취소</string>
     <string name="book_delete">도서 삭제하기</string>
     <string name="save_image">이미지 저장</string>
+    <string name="save_image_complete">이미지를 저장했습니다.</string>
     <string name="share_card">카드 공유</string>
     <string name="share_impressive_quote">인상 깊은 문장을\n공유해보세요!</string>
 </resources>

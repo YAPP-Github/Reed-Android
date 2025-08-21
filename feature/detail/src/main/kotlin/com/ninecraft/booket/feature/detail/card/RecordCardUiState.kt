@@ -24,6 +24,9 @@ sealed interface RecordCardSideEffect {
         val message: String,
         private val key: String = UUID.randomUUID().toString(),
     ) : RecordCardSideEffect
+
+    data class SaveImage(val bitmap: ImageBitmap) : RecordCardSideEffect
+    data class ShareImage(val bitmap: ImageBitmap) : RecordCardSideEffect
 }
 
 sealed interface RecordCardUiEvent : CircuitUiEvent {
@@ -31,7 +34,6 @@ sealed interface RecordCardUiEvent : CircuitUiEvent {
     data object OnBackClick : RecordCardUiEvent
     data object OnSaveClick : RecordCardUiEvent
     data object OnShareClick : RecordCardUiEvent
-    data class CaptureRecordCard(val bitmap: ImageBitmap) : RecordCardUiEvent
     data class SaveRecordCard(val bitmap: ImageBitmap) : RecordCardUiEvent
     data class ShareRecordCard(val bitmap: ImageBitmap) : RecordCardUiEvent
 }

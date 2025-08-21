@@ -25,14 +25,6 @@ class RecordCardPresenter @AssistedInject constructor(
         var isSharing by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<RecordCardSideEffect?>(null) }
 
-        fun captureRecordCard() {
-
-        }
-
-        fun shareRecordCard() {
-
-        }
-
         fun handleEvent(event: RecordCardUiEvent) {
             when (event) {
                 is RecordCardUiEvent.InitSideEffect -> {
@@ -46,12 +38,20 @@ class RecordCardPresenter @AssistedInject constructor(
                 is RecordCardUiEvent.OnSaveClick -> {
                     isCapturing = true
                 }
+
                 is RecordCardUiEvent.OnShareClick -> {
                     isSharing = true
                 }
-                is RecordCardUiEvent.CaptureRecordCard -> TODO()
-                is RecordCardUiEvent.SaveRecordCard -> TODO()
-                is RecordCardUiEvent.ShareRecordCard -> TODO()
+
+                is RecordCardUiEvent.SaveRecordCard -> {
+                    isCapturing = false
+                    sideEffect = RecordCardSideEffect.SaveImage(event.bitmap)
+                }
+
+                is RecordCardUiEvent.ShareRecordCard -> {
+                    isSharing = false
+                    sideEffect = RecordCardSideEffect.ShareImage(event.bitmap)
+                }
             }
         }
 
@@ -59,7 +59,6 @@ class RecordCardPresenter @AssistedInject constructor(
             isLoading = isLoading,
             quote = screen.quote,
             bookTitle = screen.bookTitle,
-            author = screen.author,
             emotionTag = screen.emotionTag,
             isCapturing = isCapturing,
             isSharing = isSharing,
