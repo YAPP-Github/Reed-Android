@@ -326,7 +326,7 @@ class BookDetailPresenter @AssistedInject constructor(
                 is BookDetailUiEvent.OnDeleteRecordClick -> {
                     isRecordMenuBottomSheetVisible = false
                     isRecordDeleteDialogVisible = true
-                    analyticsHelper.logScreenView(BOOK_DELETE)
+                    analyticsHelper.logEvent(BOOK_DELETE)
                 }
 
                 is BookDetailUiEvent.OnDeleteRecord -> {

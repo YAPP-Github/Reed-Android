@@ -13,7 +13,9 @@ class AnalyticsHelper @Inject constructor(
 
     fun logScreenView(screenName: String) {
         Logger.d("Analytics - Screen View: $screenName")
-        firebaseAnalytics.logEvent(screenName) {}
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+            param(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
+        }
     }
 
     fun logEvent(eventName: String) {
