@@ -8,9 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.constants.BookStatus
-import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.utils.handleException
-import com.ninecraft.booket.core.common.utils.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.BookDetailModel
@@ -19,10 +17,12 @@ import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.RecordCardScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
+import com.ninecraft.booket.feature.screens.extensions.delayedGoTo
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -143,11 +143,6 @@ class BookDetailPresenter @AssistedInject constructor(
                         isBookUpdateBottomSheetVisible = false
                     }
                     .onFailure { exception ->
-                        postErrorDialog(
-                            errorScope = ErrorScope.BOOK_REGISTER,
-                            exception = exception,
-                        )
-
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)
                             sideEffect = BookDetailSideEffect.ShowToast(message)
@@ -296,6 +291,19 @@ class BookDetailPresenter @AssistedInject constructor(
 
                 is BookDetailUiEvent.OnRecordDeleteDialogDismiss -> {
                     isRecordDeleteDialogVisible = false
+                }
+
+                is BookDetailUiEvent.OnShareRecordClick -> {
+                    isRecordMenuBottomSheetVisible = false
+                    scope.launch {
+                        navigator.delayedGoTo(
+                            RecordCardScreen(
+                                quote = selectedRecordInfo.quote,
+                                bookTitle = selectedRecordInfo.bookTitle,
+                                emotionTag = selectedRecordInfo.emotionTags[0],
+                            ),
+                        )
+                    }
                 }
 
                 is BookDetailUiEvent.OnEditRecordClick -> {

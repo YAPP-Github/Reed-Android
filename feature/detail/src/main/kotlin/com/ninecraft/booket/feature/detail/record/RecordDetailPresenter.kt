@@ -10,9 +10,11 @@ import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.RecordDetailModel
 import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.RecordCardScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
+import com.ninecraft.booket.feature.screens.extensions.delayedGoTo
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -91,27 +93,40 @@ class RecordDetailPresenter @AssistedInject constructor(
 
         fun handleEvent(event: RecordDetailUiEvent) {
             when (event) {
-                RecordDetailUiEvent.OnCloseClick -> {
+                is RecordDetailUiEvent.OnCloseClick -> {
                     navigator.pop()
                 }
 
-                RecordDetailUiEvent.OnRetryClick -> {
+                is RecordDetailUiEvent.OnRetryClick -> {
                     getRecordDetail(screen.recordId)
                 }
 
-                RecordDetailUiEvent.OnRecordMenuClick -> {
+                is RecordDetailUiEvent.OnRecordMenuClick -> {
                     isRecordMenuBottomSheetVisible = true
                 }
 
-                RecordDetailUiEvent.OnRecordMenuBottomSheetDismiss -> {
+                is RecordDetailUiEvent.OnRecordMenuBottomSheetDismiss -> {
                     isRecordMenuBottomSheetVisible = false
                 }
 
-                RecordDetailUiEvent.OnRecordDeleteDialogDismiss -> {
+                is RecordDetailUiEvent.OnRecordDeleteDialogDismiss -> {
                     isRecordDeleteDialogVisible = false
                 }
 
-                RecordDetailUiEvent.OnEditRecordClick -> {
+                is RecordDetailUiEvent.OnShareRecordClick -> {
+                    isRecordMenuBottomSheetVisible = false
+                    scope.launch {
+                        navigator.delayedGoTo(
+                            RecordCardScreen(
+                                quote = recordDetailInfo.quote,
+                                bookTitle = recordDetailInfo.bookTitle,
+                                emotionTag = recordDetailInfo.emotionTags[0],
+                            ),
+                        )
+                    }
+                }
+
+                is RecordDetailUiEvent.OnEditRecordClick -> {
                     isRecordMenuBottomSheetVisible = false
                     navigator.goTo(
                         RecordEditScreen(
@@ -130,12 +145,12 @@ class RecordDetailPresenter @AssistedInject constructor(
                     )
                 }
 
-                RecordDetailUiEvent.OnDeleteRecordClick -> {
+                is RecordDetailUiEvent.OnDeleteRecordClick -> {
                     isRecordMenuBottomSheetVisible = false
                     isRecordDeleteDialogVisible = true
                 }
 
-                RecordDetailUiEvent.OnDelete -> {
+                is RecordDetailUiEvent.OnDelete -> {
                     isRecordDeleteDialogVisible = false
                     deleteRecord(
                         readingRecordId = screen.recordId,

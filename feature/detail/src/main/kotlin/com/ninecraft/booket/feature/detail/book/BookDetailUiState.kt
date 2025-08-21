@@ -72,6 +72,7 @@ sealed interface BookDetailUiEvent : CircuitUiEvent {
     data class OnRecordMenuClick(val selectedRecordInfo: ReadingRecordModel) : BookDetailUiEvent
     data object OnRecordMenuBottomSheetDismiss : BookDetailUiEvent
     data object OnRecordDeleteDialogDismiss : BookDetailUiEvent
+    data object OnShareRecordClick : BookDetailUiEvent
     data object OnEditRecordClick : BookDetailUiEvent
     data object OnDeleteRecordClick : BookDetailUiEvent
     data object OnDeleteRecord : BookDetailUiEvent

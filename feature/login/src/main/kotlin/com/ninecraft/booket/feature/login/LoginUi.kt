@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +29,7 @@ import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.ReedScaffold
+import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -102,10 +102,7 @@ internal fun LoginUi(
                 }
 
                 if (state.isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                        color = ReedTheme.colors.contentBrand,
-                    )
+                    ReedLoadingIndicator()
                 }
             }
         }
