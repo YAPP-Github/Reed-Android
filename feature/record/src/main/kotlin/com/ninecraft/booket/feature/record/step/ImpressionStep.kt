@@ -53,6 +53,7 @@ import com.ninecraft.booket.feature.record.component.ImpressionGuideBottomSheet
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
 import kotlinx.coroutines.delay
+import com.skydoves.compose.effects.RememberedEffect
 import kotlinx.coroutines.launch
 import tech.thdev.compose.extensions.keyboard.state.foundation.rememberKeyboardVisible
 import com.ninecraft.booket.core.designsystem.R as designR
@@ -79,7 +80,7 @@ fun ImpressionStep(
         }
     }
 
-    LaunchedEffect(Unit) {
+    RememberedEffect(Unit) {
         if (state.impressionState.text.isEmpty()) {
             focusRequester.requestFocus()
             keyboardController?.show()

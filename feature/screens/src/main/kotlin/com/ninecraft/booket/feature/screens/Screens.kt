@@ -10,40 +10,40 @@ abstract class ReedScreen(val name: String) : Screen {
 }
 
 @Parcelize
-data object HomeScreen : ReedScreen(name = "Home()")
+data object HomeScreen : ReedScreen(name = ScreenNames.HOME)
 
 @Parcelize
-data object LibraryScreen : ReedScreen(name = "Library()")
+data object LibraryScreen : ReedScreen(name = ScreenNames.LIBRARY)
 
 @Parcelize
-data object LoginScreen : ReedScreen(name = "Login()")
+data object LoginScreen : ReedScreen(name = ScreenNames.LOGIN)
 
 @Parcelize
-data object SearchScreen : ReedScreen(name = "Search()")
+data object SearchScreen : ReedScreen(name = ScreenNames.SEARCH)
 
 @Parcelize
-data object LibrarySearchScreen : ReedScreen(name = "LibrarySearch()")
+data object LibrarySearchScreen : ReedScreen(name = ScreenNames.LIBRARY_SEARCH)
 
 @Parcelize
-data object TermsAgreementScreen : ReedScreen(name = "TermsAgreement()")
+data object TermsAgreementScreen : ReedScreen(name = ScreenNames.TERMS_AGREEMENT)
 
 @Parcelize
-data object SettingsScreen : ReedScreen(name = "Settings()")
+data object SettingsScreen : ReedScreen(name = ScreenNames.SETTINGS)
 
 @Parcelize
 data object OssLicensesScreen : ReedScreen(name = "OssLicenses()")
 
 @Parcelize
-data class RecordScreen(val userBookId: String) : ReedScreen(name = "Record")
+data class RecordScreen(val userBookId: String) : ReedScreen(name = ScreenNames.RECORD)
 
 @Parcelize
-data object OcrScreen : ReedScreen(name = "Ocr()") {
+data object OcrScreen : ReedScreen(name = ScreenNames.OCR) {
     @Parcelize
     data class OcrResult(val sentence: String) : PopResult
 }
 
 @Parcelize
-data class RecordDetailScreen(val recordId: String) : ReedScreen(name = "RecordDetail()")
+data class RecordDetailScreen(val recordId: String) : ReedScreen(name = ScreenNames.RECORD_DETAIL)
 
 @Parcelize
 data class RecordEditScreen(val recordInfo: RecordEditArgs) : ReedScreen(name = "RecordEdit()")
@@ -64,17 +64,17 @@ data class WebViewScreen(
 data class BookDetailScreen(
     val userBookId: String,
     val isbn13: String,
-) : ReedScreen(name = "BookDetail()")
+) : ReedScreen(name = ScreenNames.BOOK_DETAIL)
 
 @Parcelize
-data object OnboardingScreen : ReedScreen(name = "Onboarding()")
+data object OnboardingScreen : ReedScreen(name = ScreenNames.ONBOARDING)
 
 @Parcelize
-data object SplashScreen : ReedScreen(name = "Splash()")
+data object SplashScreen : ReedScreen(name = ScreenNames.SPLASH)
 
 @Parcelize
 data class RecordCardScreen(
     val quote: String,
     val bookTitle: String,
     val emotionTag: String,
-) : ReedScreen(name = "RecordCard()")
+) : ReedScreen(name = ScreenNames.RECORD_CARD)

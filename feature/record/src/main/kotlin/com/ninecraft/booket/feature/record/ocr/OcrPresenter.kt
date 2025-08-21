@@ -8,12 +8,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.ocr.analyzer.CloudOcrRecognizer
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -25,7 +27,12 @@ import kotlinx.coroutines.launch
 class OcrPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val recognizer: CloudOcrRecognizer,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<OcrUiState> {
+
+    companion object {
+        private const val RECORD_OCR_SENTENCE = "record_OCR_sentence"
+    }
 
     @Composable
     override fun present(): OcrUiState {
@@ -59,6 +66,7 @@ class OcrPresenter @AssistedInject constructor(
 
                                 sentenceList = sentences.toPersistentList()
                                 currentUi = OcrUi.RESULT
+                                analyticsHelper.logScreenView(RECORD_OCR_SENTENCE)
                             } else {
                                 isTextDetectionFailed = true
                             }
@@ -141,6 +149,10 @@ class OcrPresenter @AssistedInject constructor(
                     isRecaptureDialogVisible = false
                 }
             }
+        }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(OcrScreen.name)
         }
 
         return OcrUiState(

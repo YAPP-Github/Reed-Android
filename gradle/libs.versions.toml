@@ -72,15 +72,15 @@ androidx-test-runner = "1.6.2"
 
 ## Firebase
 google-service = "4.4.3"
-firebase-bom = "33.16.0"
+firebase-bom = "34.1.0"
 firebase-crashlytics = "3.0.4"
 
 ## App Configuration
 minSdk = "28"
 targetSdk = "35"
 compileSdk = "35"
-versionName = "1.0.0"
-versionCode = "3"
+versionName = "1.1.0"
+versionCode = "4"
 packageName = "com.ninecraft.booket"
 
 [libraries]
@@ -156,9 +156,9 @@ androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx-test-runner" }
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
-firebase-remote-config = { group = "com.google.firebase", name = "firebase-config-ktx" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+firebase-remote-config = { group = "com.google.firebase", name = "firebase-config" }
 
 [plugins]
 gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
