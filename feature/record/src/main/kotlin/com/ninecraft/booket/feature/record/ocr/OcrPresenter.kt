@@ -32,7 +32,7 @@ class OcrPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
         var isPermissionDialogVisible by rememberRetained { mutableStateOf(false) }
-        var sentenceList by rememberRetained { mutableStateOf(emptyList<String>().toPersistentList()) }
+        var sentenceList by rememberRetained { mutableStateOf(persistentListOf<String>()) }
         var recognizedText by rememberRetained { mutableStateOf("") }
         var selectedIndices by rememberRetained { mutableStateOf(setOf<Int>()) }
         var mergedSentence by rememberRetained { mutableStateOf("") }
@@ -57,7 +57,7 @@ class OcrPresenter @AssistedInject constructor(
                                     .map { it.trim() }
                                     .filter { it.isNotEmpty() }
 
-                                sentenceList = persistentListOf(*sentences.toTypedArray())
+                                sentenceList = sentences.toPersistentList()
                                 currentUi = OcrUi.RESULT
                             } else {
                                 isTextDetectionFailed = true

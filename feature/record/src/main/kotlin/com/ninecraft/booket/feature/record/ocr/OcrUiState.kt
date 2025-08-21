@@ -4,13 +4,13 @@ import androidx.compose.runtime.Immutable
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 data class OcrUiState(
     val currentUi: OcrUi = OcrUi.CAMERA,
     val isPermissionDialogVisible: Boolean = false,
-    val sentenceList: ImmutableList<String> = emptyList<String>().toPersistentList(),
+    val sentenceList: ImmutableList<String> = persistentListOf(),
     val selectedIndices: Set<Int> = emptySet(),
     val isTextDetectionFailed: Boolean = false,
     val isRecaptureDialogVisible: Boolean = false,
