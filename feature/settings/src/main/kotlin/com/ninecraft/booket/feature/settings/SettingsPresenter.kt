@@ -57,6 +57,7 @@ class SettingsPresenter @AssistedInject constructor(
                     isLoading = true
                     authRepository.logout()
                         .onSuccess {
+                            analyticsHelper.logEvent(SETTINGS_LOGOUT_COMPLETE)
                             navigator.resetRoot(LoginScreen)
                         }
                         .onFailure { exception ->
@@ -86,6 +87,7 @@ class SettingsPresenter @AssistedInject constructor(
                     isLoading = true
                     authRepository.withdraw()
                         .onSuccess {
+                            analyticsHelper.logEvent(SETTINGS_WITHDRAWAL_COMPLETE)
                             navigator.resetRoot(LoginScreen)
                         }
                         .onFailure { exception ->
@@ -163,6 +165,7 @@ class SettingsPresenter @AssistedInject constructor(
                 }
 
                 is SettingsUiEvent.OnWithdrawClick -> {
+                    analyticsHelper.logEvent(SETTINGS_WITHDRAWAL_WARNING)
                     isWithdrawBottomSheetVisible = true
                 }
 
