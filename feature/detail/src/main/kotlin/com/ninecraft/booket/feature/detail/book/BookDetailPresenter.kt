@@ -53,6 +53,8 @@ class BookDetailPresenter @AssistedInject constructor(
     companion object {
         private const val PAGE_SIZE = 20
         private const val START_INDEX = 0
+        private const val BOOK_DELETE = "library_book_delete"
+        private const val BOOK_DELETE_COMPLETE = "library_book_delete_complete"
     }
 
     private fun getRecordComparator(sortType: RecordSort): Comparator<ReadingRecordModel> {
@@ -221,6 +223,7 @@ class BookDetailPresenter @AssistedInject constructor(
             scope.launch {
                 bookRepository.deleteBook(userBookId = userBookId)
                     .onSuccess {
+                        analyticsHelper.logEvent(BOOK_DELETE_COMPLETE)
                         onSuccess()
                     }
                     .onFailure { exception ->
@@ -323,6 +326,7 @@ class BookDetailPresenter @AssistedInject constructor(
                 is BookDetailUiEvent.OnDeleteRecordClick -> {
                     isRecordMenuBottomSheetVisible = false
                     isRecordDeleteDialogVisible = true
+                    analyticsHelper.logScreenView(BOOK_DELETE)
                 }
 
                 is BookDetailUiEvent.OnDeleteRecord -> {

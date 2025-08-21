@@ -26,6 +26,10 @@ class OcrPresenter @AssistedInject constructor(
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<OcrUiState> {
 
+    companion object {
+        private const val RECORD_OCR_SENTENCE = "record_OCR_sentence"
+    }
+
     @Composable
     override fun present(): OcrUiState {
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
@@ -82,6 +86,7 @@ class OcrPresenter @AssistedInject constructor(
                         sentenceList = persistentListOf(*sentences.toTypedArray())
 
                         currentUi = OcrUi.RESULT
+                        analyticsHelper.logScreenView(RECORD_OCR_SENTENCE)
                     }
                 }
 

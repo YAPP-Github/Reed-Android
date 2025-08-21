@@ -31,6 +31,12 @@ class SettingsPresenter @AssistedInject constructor(
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<SettingsUiState> {
 
+    companion object {
+        private const val SETTINGS_LOGOUT_COMPLETE = "settings_logout_complete"
+        private const val SETTINGS_WITHDRAWAL_COMPLETE = "settings_withdrawal_warning"
+        private const val SETTINGS_WITHDRAWAL_WARNING = "settings_withdrawal_warning"
+    }
+
     @Composable
     override fun present(): SettingsUiState {
         val scope = rememberCoroutineScope()
@@ -65,6 +71,7 @@ class SettingsPresenter @AssistedInject constructor(
                 }
 
                 is SettingsUiEvent.OnWithdrawClick -> {
+                    analyticsHelper.logEvent(SETTINGS_WITHDRAWAL_WARNING)
                     isWithdrawBottomSheetVisible = true
                 }
 
@@ -84,6 +91,7 @@ class SettingsPresenter @AssistedInject constructor(
                             isLoading = true
                             authRepository.logout()
                                 .onSuccess {
+                                    analyticsHelper.logEvent(SETTINGS_LOGOUT_COMPLETE)
                                     navigator.resetRoot(LoginScreen)
                                 }
                                 .onFailure { exception ->
@@ -113,6 +121,7 @@ class SettingsPresenter @AssistedInject constructor(
                             isLoading = true
                             authRepository.withdraw()
                                 .onSuccess {
+                                    analyticsHelper.logEvent(SETTINGS_WITHDRAWAL_COMPLETE)
                                     navigator.resetRoot(LoginScreen)
                                 }
                                 .onFailure { exception ->

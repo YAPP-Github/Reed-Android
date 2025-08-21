@@ -3,6 +3,7 @@ package com.ninecraft.booket.feature.search.book
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +28,6 @@ import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -44,6 +44,13 @@ class BookSearchPresenter @AssistedInject constructor(
 ) : Presenter<BookSearchUiState> {
     companion object {
         private const val START_INDEX = 1
+        private const val SEARCH_BOOK_INPUT = "search_book_input"
+        private const val SEARCH_BOOK_RESULT = "search_book_result"
+        private const val SEARCH_BOOK_NO_RESULT = "search_book_noresult"
+        private const val ERROR_SEARCH_LOADING = "error_search_loading"
+        private const val REGISTER_BOOK_OPTION = "register_book_option"
+        private const val REGISTER_BOOK_COMPLETE = "register_book_complete"
+        private const val ERROR_REGISTER_BOOK = "error_register_book"
     }
 
     @Composable
@@ -89,9 +96,12 @@ class BookSearchPresenter @AssistedInject constructor(
                         } else {
                             footerState = if (isLastPage) FooterState.End else FooterState.Idle
                         }
+
+                        analyticsHelper.logEvent(SEARCH_BOOK_RESULT)
                     }
                     .onFailure { exception ->
                         Logger.d(exception)
+                        analyticsHelper.logEvent(ERROR_SEARCH_LOADING)
                         val errorMessage = exception.message ?: "알 수 없는 오류가 발생했습니다."
                         if (startIndex == START_INDEX) {
                             uiState = UiState.Error(exception)
@@ -113,6 +123,7 @@ class BookSearchPresenter @AssistedInject constructor(
                             } else book
                         }.toPersistentList()
 
+                        analyticsHelper.logEvent(REGISTER_BOOK_COMPLETE)
                         selectedBookIsbn = ""
                         selectedBookStatus = null
                         isBookRegisterBottomSheetVisible = false
@@ -124,6 +135,7 @@ class BookSearchPresenter @AssistedInject constructor(
                             exception = exception,
                         )
 
+                        analyticsHelper.logEvent(ERROR_REGISTER_BOOK)
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)
                             sideEffect = BookSearchSideEffect.ShowToast(message)
@@ -163,6 +175,7 @@ class BookSearchPresenter @AssistedInject constructor(
                 is BookSearchUiEvent.OnSearchClick -> {
                     val query = event.query.trim()
                     if (query.isNotEmpty()) {
+                        analyticsHelper.logEvent(SEARCH_BOOK_INPUT)
                         searchBooks(query = query, startIndex = START_INDEX)
                     }
                 }
@@ -202,6 +215,7 @@ class BookSearchPresenter @AssistedInject constructor(
                 }
 
                 is BookSearchUiEvent.OnBookStatusSelect -> {
+                    analyticsHelper.logEvent(REGISTER_BOOK_OPTION)
                     selectedBookStatus = event.bookStatus
                 }
 
@@ -226,8 +240,10 @@ class BookSearchPresenter @AssistedInject constructor(
             }
         }
 
-        ImpressionEffect {
-            analyticsHelper.logScreenView(SearchScreen.name)
+        LaunchedEffect(recentSearches, uiState) {
+            if (recentSearches.isEmpty() && uiState is UiState.Idle) {
+                analyticsHelper.logEvent(SEARCH_BOOK_NO_RESULT)
+            }
         }
 
         return BookSearchUiState(

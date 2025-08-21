@@ -33,6 +33,11 @@ class RecordDetailPresenter @AssistedInject constructor(
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<RecordDetailUiState> {
 
+    companion object {
+        private const val RECORD_DELETE = "record_delete"
+        private const val RECORD_DELETE_COMPLETE = "record_delete_complete"
+    }
+
     @Composable
     override fun present(): RecordDetailUiState {
         val scope = rememberCoroutineScope()
@@ -73,6 +78,7 @@ class RecordDetailPresenter @AssistedInject constructor(
             scope.launch {
                 repository.deleteRecord(readingRecordId = readingRecordId)
                     .onSuccess {
+                        analyticsHelper.logEvent(RECORD_DELETE_COMPLETE)
                         onSuccess()
                     }
                     .onFailure { exception ->
@@ -134,6 +140,7 @@ class RecordDetailPresenter @AssistedInject constructor(
                 }
 
                 RecordDetailUiEvent.OnDeleteRecordClick -> {
+                    analyticsHelper.logEvent(RECORD_DELETE)
                     isRecordMenuBottomSheetVisible = false
                     isRecordDeleteDialogVisible = true
                 }
