@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -44,9 +45,11 @@ internal fun RecordCard(
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing16))
             Text(
                 text = quote,
-                style = ReedTheme.typography.quoteMedium,
-                color = ReedTheme.colors.contentPrimary,
                 modifier = Modifier.fillMaxWidth(),
+                color = ReedTheme.colors.contentPrimary,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 7,
+                style = ReedTheme.typography.quoteMedium,
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
             Row(
@@ -56,8 +59,8 @@ internal fun RecordCard(
             ) {
                 Text(
                     text = "『$bookTitle』",
-                    style = ReedTheme.typography.quoteMedium,
                     color = ReedTheme.colors.contentPrimary,
+                    style = ReedTheme.typography.quoteMedium,
                 )
             }
         }
