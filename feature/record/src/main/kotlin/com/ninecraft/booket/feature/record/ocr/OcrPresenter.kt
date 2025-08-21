@@ -119,7 +119,7 @@ class OcrPresenter @AssistedInject constructor(
 
                 is OcrUiEvent.OnSelectionConfirmed -> {
                     mergedSentence = selectedIndices
-                        .sorted().joinToString(" ") { sentenceList[it] }
+                        .sorted().joinToString("") { sentenceList[it] }
                     navigator.pop(result = OcrScreen.OcrResult(mergedSentence))
                 }
 
