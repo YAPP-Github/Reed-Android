@@ -81,11 +81,7 @@ internal fun RecordCardUi(
                     bookTitle = state.bookTitle,
                     emotionTag = state.emotionTag,
                     modifier = Modifier
-                        .padding(
-                            top = ReedTheme.spacing.spacing5,
-                            start = ReedTheme.spacing.spacing5,
-                            end = ReedTheme.spacing.spacing5,
-                        )
+                        .padding(top = ReedTheme.spacing.spacing5)
                         .captureToGraphicsLayer(recordCardGraphicsLayer),
                 )
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
