@@ -40,6 +40,7 @@ object CloudVisionNetworkModule {
     @CloudVisionOkHttp
     fun provideOkHttp(): OkHttpClient {
         val log = HttpLoggingInterceptor().apply {
+            redactHeader("X-Goog-Api-Key")
             level = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor.Level.BASIC
             } else {

@@ -26,7 +26,7 @@ class CloudOcrRecognizer @Inject constructor(
         )
 
         service.batchAnnotateImage(
-            key = BuildConfig.CLOUD_VISION_API_KEY,
+            apiKey = BuildConfig.CLOUD_VISION_API_KEY,
             body = request,
         )
     }
