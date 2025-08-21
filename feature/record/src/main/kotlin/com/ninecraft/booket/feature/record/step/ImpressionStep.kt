@@ -40,6 +40,7 @@ import com.ninecraft.booket.core.designsystem.component.button.smallRoundedButto
 import com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordTextField
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.component.ImpressionGuideBottomSheet
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent

@@ -32,6 +32,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RecordRegisterPresenter @AssistedInject constructor(
@@ -43,6 +44,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
     @Composable
     override fun present(): RecordRegisterUiState {
         val scope = rememberCoroutineScope()
+        var isLoading by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<RecordRegisterSideEffect?>(null) }
         var currentStep by rememberRetained { mutableStateOf(RecordStep.QUOTE) }
         val recordPageState = rememberTextFieldState()
@@ -108,33 +110,38 @@ class RecordRegisterPresenter @AssistedInject constructor(
             impression: String,
         ) {
             scope.launch {
-                repository.postRecord(
-                    userBookId = userBookId,
-                    pageNumber = pageNumber,
-                    quote = quote,
-                    emotionTags = emotionTags,
-                    review = impression,
-                ).onSuccess { result ->
-                    savedRecordId = result.id
-                    isRecordSavedDialogVisible = true
-                }.onFailure { exception ->
-                    postErrorDialog(
-                        errorScope = ErrorScope.RECORD_REGISTER,
-                        exception = exception,
-                    )
+                try {
+                    isLoading = true
+                    repository.postRecord(
+                        userBookId = userBookId,
+                        pageNumber = pageNumber,
+                        quote = quote,
+                        emotionTags = emotionTags,
+                        review = impression,
+                    ).onSuccess { result ->
+                        savedRecordId = result.id
+                        isRecordSavedDialogVisible = true
+                    }.onFailure { exception ->
+                        postErrorDialog(
+                            errorScope = ErrorScope.RECORD_REGISTER,
+                            exception = exception,
+                        )
 
-                    val handleErrorMessage = { message: String ->
-                        Logger.e(message)
-                        sideEffect = RecordRegisterSideEffect.ShowToast(message)
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = RecordRegisterSideEffect.ShowToast(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen)
+                            },
+                        )
                     }
-
-                    handleException(
-                        exception = exception,
-                        onError = handleErrorMessage,
-                        onLoginRequired = {
-                            navigator.resetRoot(LoginScreen)
-                        },
-                    )
+                } finally {
+                    isLoading = false
                 }
             }
         }
@@ -259,6 +266,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
         }
 
         return RecordRegisterUiState(
+            isLoading = isLoading,
             currentStep = currentStep,
             recordPageState = recordPageState,
             recordSentenceState = recordSentenceState,

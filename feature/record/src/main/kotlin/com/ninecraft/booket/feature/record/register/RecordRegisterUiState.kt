@@ -11,6 +11,7 @@ import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 data class RecordRegisterUiState(
+    val isLoading: Boolean = false,
     val currentStep: RecordStep = RecordStep.QUOTE,
     val recordPageState: TextFieldState = TextFieldState(),
     val recordSentenceState: TextFieldState = TextFieldState(),
