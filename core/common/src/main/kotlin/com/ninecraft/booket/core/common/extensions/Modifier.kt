@@ -66,13 +66,17 @@ fun Modifier.preventMultiTouch() = pointerInput(Unit) {
     // awaitEachGesture: 한 번의 제스쳐 세션을 추상화
     awaitEachGesture {
         val first = awaitFirstDown(requireUnconsumed = false)
-        do {
+
+        while (true) {
             // 이벤트 전파 초기 단계(PointerEventPass.Initial)에서 하위 컴포저블로 이벤트가 내려가기 전에 가로채 소비한다
             val event = awaitPointerEvent(pass = PointerEventPass.Initial)
             event.changes.forEach { change ->
-                if (change.id != first.id && change.pressed) change.consume()
+                if (change.id != first.id && change.pressed) {
+                    change.consume()
+                }
             }
-            // 루프 조건: 첫 포인터가 pressed 상태일 동안만 유지한다 (up이거나 cancel되면 pressed=false로 루프 종료)
-        } while (event.changes.any { it.id == first.id && it.pressed })
+            // 첫 포인터가 pressed 상태일 동안만 유지한다 (up이거나 cancel되면 pressed=false로 루프 종료)
+            if (event.changes.none { it.id == first.id && it.pressed }) break
+        }
     }
 }
