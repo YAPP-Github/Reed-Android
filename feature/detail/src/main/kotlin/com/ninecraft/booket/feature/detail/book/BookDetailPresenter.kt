@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.detail.book
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +24,7 @@ import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.ninecraft.booket.feature.screens.extensions.delayedGoTo
 import com.orhanobut.logger.Logger
+import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -241,7 +241,7 @@ class BookDetailPresenter @AssistedInject constructor(
             }
         }
 
-        LaunchedEffect(Unit) {
+        RememberedEffect(Unit) {
             initialLoad()
         }
 

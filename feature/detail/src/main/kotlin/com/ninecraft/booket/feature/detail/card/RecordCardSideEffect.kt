@@ -2,7 +2,6 @@ package com.ninecraft.booket.feature.detail.card
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import com.ninecraft.booket.core.common.extensions.externalShareForBitmap
@@ -41,13 +40,13 @@ internal fun HandleRecordCardSideEffects(
         }
     }
 
-    LaunchedEffect(state.isCapturing) {
+    RememberedEffect(state.isCapturing) {
         if (state.isCapturing) {
             eventSink(RecordCardUiEvent.SaveRecordCard(recordCardGraphicsLayer.toImageBitmap()))
         }
     }
 
-    LaunchedEffect(state.isSharing) {
+    RememberedEffect(state.isSharing) {
         if (state.isSharing) {
             eventSink(RecordCardUiEvent.ShareRecordCard(recordCardGraphicsLayer.toImageBitmap()))
         }
