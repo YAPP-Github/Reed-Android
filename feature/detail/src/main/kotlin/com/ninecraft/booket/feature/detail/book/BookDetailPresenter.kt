@@ -7,10 +7,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.BookStatus
-import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.utils.handleException
-import com.ninecraft.booket.core.common.utils.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.BookDetailModel
@@ -19,13 +18,18 @@ import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.RecordCardScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
+import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
+import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
+import com.ninecraft.booket.feature.screens.extensions.delayedGoTo
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -44,10 +48,13 @@ class BookDetailPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val bookRepository: BookRepository,
     private val recordRepository: RecordRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<BookDetailUiState> {
     companion object {
         private const val PAGE_SIZE = 20
         private const val START_INDEX = 0
+        private const val BOOK_DELETE = "library_book_delete"
+        private const val BOOK_DELETE_COMPLETE = "library_book_delete_complete"
     }
 
     private fun getRecordComparator(sortType: RecordSort): Comparator<ReadingRecordModel> {
@@ -71,57 +78,64 @@ class BookDetailPresenter @AssistedInject constructor(
         var currentBookStatus by rememberRetained { mutableStateOf(BookStatus.READING) }
         var selectedBookStatus by rememberRetained { mutableStateOf(BookStatus.READING) }
         var currentRecordSort by rememberRetained { mutableStateOf(RecordSort.PAGE_NUMBER_ASC) }
+        var selectedRecordInfo by rememberRetained { mutableStateOf(ReadingRecordModel()) }
         var isBookUpdateBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isRecordSortBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isRecordMenuBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isRecordDeleteDialogVisible by rememberRetained { mutableStateOf(false) }
+        var isDetailMenuBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isBookDeleteDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
 
         @Suppress("TooGenericExceptionCaught")
-        suspend fun initialLoad() {
+        fun initialLoad() {
             uiState = UiState.Loading
 
-            try {
-                coroutineScope {
-                    val bookDetailDef = async { bookRepository.getBookDetail(screen.isbn13).getOrThrow() }
-                    val seedsDef = async { bookRepository.getSeedsStats(screen.userBookId).getOrThrow() }
-                    val readingRecordsDef = async {
-                        recordRepository.getReadingRecords(
-                            userBookId = screen.userBookId,
-                            sort = currentRecordSort.value,
-                            page = START_INDEX,
-                            size = PAGE_SIZE,
-                        ).getOrThrow()
+            scope.launch {
+                try {
+                    coroutineScope {
+                        val bookDetailDeferred = async { bookRepository.getBookDetail(screen.isbn13).getOrThrow() }
+                        val seedsDeferred = async { bookRepository.getSeedsStats(screen.userBookId).getOrThrow() }
+                        val readingRecordsDeferred = async {
+                            recordRepository.getReadingRecords(
+                                userBookId = screen.userBookId,
+                                sort = currentRecordSort.value,
+                                page = START_INDEX,
+                                size = PAGE_SIZE,
+                            ).getOrThrow()
+                        }
+                        val detail = bookDetailDeferred.await()
+                        val seeds = seedsDeferred.await()
+                        val records = readingRecordsDeferred.await()
+
+                        bookDetail = detail
+                        currentBookStatus = BookStatus.fromValue(detail.userBookStatus) ?: BookStatus.BEFORE_READING
+                        selectedBookStatus = currentBookStatus
+                        seedsStates = seeds.categories.toImmutableList()
+                        readingRecords = records.readingRecords.toPersistentList()
+                        readingRecordsTotalCount = records.totalResults
+
+                        isLastPage = records.lastPage
+                        currentStartIndex = START_INDEX
+
+                        uiState = UiState.Success
                     }
-                    val detail = bookDetailDef.await()
-                    val seeds = seedsDef.await()
-                    val records = readingRecordsDef.await()
+                } catch (e: Throwable) {
+                    uiState = UiState.Error(e)
 
-                    bookDetail = detail
-                    currentBookStatus = BookStatus.fromValue(detail.userBookStatus) ?: BookStatus.BEFORE_READING
-                    selectedBookStatus = currentBookStatus
-                    seedsStates = seeds.categories.toImmutableList()
-                    readingRecords = records.readingRecords.toPersistentList()
-                    readingRecordsTotalCount = records.totalResults
+                    val handleErrorMessage = { message: String ->
+                        Logger.e(message)
+                        sideEffect = BookDetailSideEffect.ShowToast(message)
+                    }
 
-                    isLastPage = records.lastPage
-                    currentStartIndex = START_INDEX
-
-                    uiState = UiState.Success
+                    handleException(
+                        exception = e,
+                        onError = handleErrorMessage,
+                        onLoginRequired = {
+                            navigator.resetRoot(LoginScreen)
+                        },
+                    )
                 }
-            } catch (e: Throwable) {
-                uiState = UiState.Error(e)
-
-                val handleErrorMessage = { message: String ->
-                    Logger.e(message)
-                    sideEffect = BookDetailSideEffect.ShowToast(message)
-                }
-
-                handleException(
-                    exception = e,
-                    onError = handleErrorMessage,
-                    onLoginRequired = {
-                        navigator.resetRoot(LoginScreen)
-                    },
-                )
             }
         }
 
@@ -134,11 +148,6 @@ class BookDetailPresenter @AssistedInject constructor(
                         isBookUpdateBottomSheetVisible = false
                     }
                     .onFailure { exception ->
-                        postErrorDialog(
-                            errorScope = ErrorScope.BOOK_REGISTER,
-                            exception = exception,
-                        )
-
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)
                             sideEffect = BookDetailSideEffect.ShowToast(message)
@@ -179,6 +188,53 @@ class BookDetailPresenter @AssistedInject constructor(
                     val errorMessage = exception.message ?: "알 수 없는 오류가 발생했습니다."
                     footerState = FooterState.Error(errorMessage)
                 }
+            }
+        }
+
+        fun deleteRecord(readingRecordId: String, onSuccess: () -> Unit) {
+            scope.launch {
+                recordRepository.deleteRecord(readingRecordId = readingRecordId)
+                    .onSuccess {
+                        onSuccess()
+                    }
+                    .onFailure { exception ->
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = BookDetailSideEffect.ShowToast(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen)
+                            },
+                        )
+                    }
+            }
+        }
+
+        fun deleteBook(userBookId: String, onSuccess: () -> Unit) {
+            scope.launch {
+                bookRepository.deleteBook(userBookId = userBookId)
+                    .onSuccess {
+                        analyticsHelper.logEvent(BOOK_DELETE_COMPLETE)
+                        onSuccess()
+                    }
+                    .onFailure { exception ->
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = BookDetailSideEffect.ShowToast(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen)
+                            },
+                        )
+                    }
             }
         }
 
@@ -230,8 +286,98 @@ class BookDetailPresenter @AssistedInject constructor(
                     isRecordSortBottomSheetVisible = false
                 }
 
+                is BookDetailUiEvent.OnRecordMenuClick -> {
+                    selectedRecordInfo = event.selectedRecordInfo
+                    isRecordMenuBottomSheetVisible = true
+                }
+
+                is BookDetailUiEvent.OnRecordMenuBottomSheetDismiss -> {
+                    isRecordMenuBottomSheetVisible = false
+                }
+
+                is BookDetailUiEvent.OnRecordDeleteDialogDismiss -> {
+                    isRecordDeleteDialogVisible = false
+                }
+
+                is BookDetailUiEvent.OnShareRecordClick -> {
+                    isRecordMenuBottomSheetVisible = false
+                    scope.launch {
+                        navigator.delayedGoTo(
+                            RecordCardScreen(
+                                quote = selectedRecordInfo.quote,
+                                bookTitle = selectedRecordInfo.bookTitle,
+                                emotionTag = selectedRecordInfo.emotionTags[0],
+                            ),
+                        )
+                    }
+                }
+
+                is BookDetailUiEvent.OnEditRecordClick -> {
+                    isRecordMenuBottomSheetVisible = false
+                    navigator.goTo(
+                        RecordEditScreen(
+                            RecordEditArgs(
+                                id = selectedRecordInfo.id,
+                                pageNumber = selectedRecordInfo.pageNumber,
+                                quote = selectedRecordInfo.quote,
+                                review = selectedRecordInfo.review,
+                                emotionTags = selectedRecordInfo.emotionTags,
+                                bookTitle = selectedRecordInfo.bookTitle,
+                                bookPublisher = selectedRecordInfo.bookPublisher,
+                                bookCoverImageUrl = selectedRecordInfo.bookCoverImageUrl,
+                                author = selectedRecordInfo.author,
+                            ),
+                        ),
+                    )
+                }
+
+                is BookDetailUiEvent.OnDeleteRecordClick -> {
+                    isRecordMenuBottomSheetVisible = false
+                    isRecordDeleteDialogVisible = true
+                    analyticsHelper.logEvent(BOOK_DELETE)
+                }
+
+                is BookDetailUiEvent.OnDeleteRecord -> {
+                    isRecordDeleteDialogVisible = false
+                    deleteRecord(
+                        readingRecordId = selectedRecordInfo.id,
+                        onSuccess = {
+                            readingRecords = readingRecords
+                                .filterNot { it.id == selectedRecordInfo.id }
+                                .toPersistentList()
+                        },
+                    )
+                }
+
                 is BookDetailUiEvent.OnRecordItemClick -> {
                     navigator.goTo(RecordDetailScreen(event.recordId))
+                }
+
+                is BookDetailUiEvent.OnDetailMenuClick -> {
+                    isDetailMenuBottomSheetVisible = true
+                }
+
+                is BookDetailUiEvent.OnDetailMenuBottomSheetDismiss -> {
+                    isDetailMenuBottomSheetVisible = false
+                }
+
+                is BookDetailUiEvent.OnDeleteBookClick -> {
+                    isDetailMenuBottomSheetVisible = false
+                    isBookDeleteDialogVisible = true
+                }
+
+                is BookDetailUiEvent.OnDeleteDialogDismiss -> {
+                    isBookDeleteDialogVisible = false
+                }
+
+                is BookDetailUiEvent.OnDeleteBook -> {
+                    isBookDeleteDialogVisible = false
+                    deleteBook(
+                        userBookId = screen.userBookId,
+                        onSuccess = {
+                            navigator.pop()
+                        },
+                    )
                 }
 
                 is BookDetailUiEvent.OnLoadMore -> {
@@ -248,6 +394,10 @@ class BookDetailPresenter @AssistedInject constructor(
             }
         }
 
+        ImpressionEffect {
+            analyticsHelper.logScreenView(screen.name)
+        }
+
         return BookDetailUiState(
             uiState = uiState,
             footerState = footerState,
@@ -260,6 +410,11 @@ class BookDetailPresenter @AssistedInject constructor(
             currentBookStatus = currentBookStatus,
             selectedBookStatus = selectedBookStatus,
             currentRecordSort = currentRecordSort,
+            selectedRecordInfo = selectedRecordInfo,
+            isRecordMenuBottomSheetVisible = isRecordMenuBottomSheetVisible,
+            isRecordDeleteDialogVisible = isRecordDeleteDialogVisible,
+            isDetailMenuBottomSheetVisible = isDetailMenuBottomSheetVisible,
+            isBookDeleteDialogVisible = isBookDeleteDialogVisible,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )

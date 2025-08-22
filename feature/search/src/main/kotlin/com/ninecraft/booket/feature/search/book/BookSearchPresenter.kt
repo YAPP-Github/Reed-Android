@@ -8,10 +8,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.BookStatus
-import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.utils.handleException
-import com.ninecraft.booket.core.common.utils.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
@@ -38,9 +37,17 @@ import kotlinx.coroutines.launch
 class BookSearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val repository: BookRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<BookSearchUiState> {
     companion object {
         private const val START_INDEX = 1
+        private const val SEARCH_BOOK_INPUT = "search_book_input"
+        private const val SEARCH_BOOK_RESULT = "search_book_result"
+        private const val SEARCH_BOOK_NO_RESULT = "search_book_noresult"
+        private const val ERROR_SEARCH_LOADING = "error_search_loading"
+        private const val REGISTER_BOOK_OPTION = "register_book_option"
+        private const val REGISTER_BOOK_COMPLETE = "register_book_complete"
+        private const val ERROR_REGISTER_BOOK = "error_register_book"
     }
 
     @Composable
@@ -86,9 +93,15 @@ class BookSearchPresenter @AssistedInject constructor(
                         } else {
                             footerState = if (isLastPage) FooterState.End else FooterState.Idle
                         }
+
+                        analyticsHelper.logEvent(SEARCH_BOOK_RESULT)
+                        if (startIndex == START_INDEX && result.books.isEmpty()) {
+                            analyticsHelper.logEvent(SEARCH_BOOK_NO_RESULT)
+                        }
                     }
                     .onFailure { exception ->
                         Logger.d(exception)
+                        analyticsHelper.logEvent(ERROR_SEARCH_LOADING)
                         val errorMessage = exception.message ?: "알 수 없는 오류가 발생했습니다."
                         if (startIndex == START_INDEX) {
                             uiState = UiState.Error(exception)
@@ -110,17 +123,14 @@ class BookSearchPresenter @AssistedInject constructor(
                             } else book
                         }.toPersistentList()
 
+                        analyticsHelper.logEvent(REGISTER_BOOK_COMPLETE)
                         selectedBookIsbn = ""
                         selectedBookStatus = null
                         isBookRegisterBottomSheetVisible = false
                         isBookRegisterSuccessBottomSheetVisible = true
                     }
                     .onFailure { exception ->
-                        postErrorDialog(
-                            errorScope = ErrorScope.BOOK_REGISTER,
-                            exception = exception,
-                        )
-
+                        analyticsHelper.logEvent(ERROR_REGISTER_BOOK)
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)
                             sideEffect = BookSearchSideEffect.ShowToast(message)
@@ -151,15 +161,16 @@ class BookSearchPresenter @AssistedInject constructor(
                     searchBooks(query = event.query, startIndex = START_INDEX)
                 }
 
-                is BookSearchUiEvent.OnRecentSearchRemoveClick -> {
+                is BookSearchUiEvent.OnRecentSearchDeleteClick -> {
                     scope.launch {
-                        repository.removeBookRecentSearch(query = event.query)
+                        repository.deleteBookRecentSearch(query = event.query)
                     }
                 }
 
                 is BookSearchUiEvent.OnSearchClick -> {
-                    val query = event.text.trim()
+                    val query = event.query.trim()
                     if (query.isNotEmpty()) {
+                        analyticsHelper.logEvent(SEARCH_BOOK_INPUT)
                         searchBooks(query = query, startIndex = START_INDEX)
                     }
                 }
@@ -199,6 +210,7 @@ class BookSearchPresenter @AssistedInject constructor(
                 }
 
                 is BookSearchUiEvent.OnBookStatusSelect -> {
+                    analyticsHelper.logEvent(REGISTER_BOOK_OPTION)
                     selectedBookStatus = event.bookStatus
                 }
 

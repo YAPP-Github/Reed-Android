@@ -10,9 +10,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextRange
-import com.ninecraft.booket.core.common.constants.ErrorScope
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.utils.handleException
-import com.ninecraft.booket.core.common.utils.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.RecordStep
@@ -27,6 +26,7 @@ import com.slack.circuit.foundation.rememberAnsweringNavigator
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -38,11 +38,24 @@ class RecordRegisterPresenter @AssistedInject constructor(
     @Assisted private val screen: RecordScreen,
     @Assisted private val navigator: Navigator,
     private val repository: RecordRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<RecordRegisterUiState> {
+
+    companion object {
+        private const val MAX_PAGE = 4032
+        private const val RECORD_INPUT_SENTENCE = "record_input_sentence"
+        private const val RECORD_SELECT_EMOTION = "record_select_emotion"
+        private const val RECORD_INPUT_OPINION = "record_input_opinion"
+        private const val RECORD_INPUT_HELP = "record_input_help"
+        private const val RECORD_COMPLETE = "record_complete"
+        private const val RECORD_DETAIL = "record_detail"
+        private const val ERROR_RECORD_SAVE = "error_record_save"
+    }
 
     @Composable
     override fun present(): RecordRegisterUiState {
         val scope = rememberCoroutineScope()
+        var isLoading by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<RecordRegisterSideEffect?>(null) }
         var currentStep by rememberRetained { mutableStateOf(RecordStep.QUOTE) }
         val recordPageState = rememberTextFieldState()
@@ -92,6 +105,8 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
             }
         }
+        var isScanTooltipVisible by rememberRetained { mutableStateOf(true) }
+        var isImpressionGuideTooltipVisible by rememberRetained { mutableStateOf(true) }
 
         val ocrNavigator = rememberAnsweringNavigator<OcrScreen.OcrResult>(navigator) { result ->
             recordSentenceState.edit {
@@ -108,33 +123,35 @@ class RecordRegisterPresenter @AssistedInject constructor(
             impression: String,
         ) {
             scope.launch {
-                repository.postRecord(
-                    userBookId = userBookId,
-                    pageNumber = pageNumber,
-                    quote = quote,
-                    emotionTags = emotionTags,
-                    review = impression,
-                ).onSuccess { result ->
-                    savedRecordId = result.id
-                    isRecordSavedDialogVisible = true
-                }.onFailure { exception ->
-                    postErrorDialog(
-                        errorScope = ErrorScope.RECORD_REGISTER,
-                        exception = exception,
-                    )
+                try {
+                    isLoading = true
+                    repository.postRecord(
+                        userBookId = userBookId,
+                        pageNumber = pageNumber,
+                        quote = quote,
+                        emotionTags = emotionTags,
+                        review = impression,
+                    ).onSuccess { result ->
+                        analyticsHelper.logEvent(RECORD_COMPLETE)
+                        savedRecordId = result.id
+                        isRecordSavedDialogVisible = true
+                    }.onFailure { exception ->
+                        analyticsHelper.logEvent(ERROR_RECORD_SAVE)
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = RecordRegisterSideEffect.ShowToast(message)
+                        }
 
-                    val handleErrorMessage = { message: String ->
-                        Logger.e(message)
-                        sideEffect = RecordRegisterSideEffect.ShowToast(message)
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen)
+                            },
+                        )
                     }
-
-                    handleException(
-                        exception = exception,
-                        onError = handleErrorMessage,
-                        onLoginRequired = {
-                            navigator.resetRoot(LoginScreen)
-                        },
-                    )
+                } finally {
+                    isLoading = false
                 }
             }
         }
@@ -173,6 +190,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
 
                 is RecordRegisterUiEvent.OnSentenceScanButtonClick -> {
+                    isScanTooltipVisible = false
                     ocrNavigator.goTo(OcrScreen)
                 }
 
@@ -181,6 +199,8 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
 
                 is RecordRegisterUiEvent.OnImpressionGuideButtonClick -> {
+                    analyticsHelper.logScreenView(RECORD_INPUT_HELP)
+                    isImpressionGuideTooltipVisible = false
                     beforeSelectedImpressionGuide = selectedImpressionGuide
                     if (impressionState.text.isEmpty()) {
                         selectedImpressionGuide = ""
@@ -244,6 +264,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 }
 
                 is RecordRegisterUiEvent.OnRecordSavedDialogConfirm -> {
+                    analyticsHelper.logScreenView(RECORD_DETAIL)
                     isRecordSavedDialogVisible = false
                     navigator.pop()
                     navigator.goTo(RecordDetailScreen(event.recordId))
@@ -258,7 +279,17 @@ class RecordRegisterPresenter @AssistedInject constructor(
             }
         }
 
+        ImpressionEffect(currentStep) {
+            val screenName = when (currentStep) {
+                RecordStep.QUOTE -> RECORD_INPUT_SENTENCE
+                RecordStep.EMOTION -> RECORD_SELECT_EMOTION
+                RecordStep.IMPRESSION -> RECORD_INPUT_OPINION
+            }
+            analyticsHelper.logScreenView(screenName)
+        }
+
         return RecordRegisterUiState(
+            isLoading = isLoading,
             currentStep = currentStep,
             recordPageState = recordPageState,
             recordSentenceState = recordSentenceState,
@@ -274,6 +305,8 @@ class RecordRegisterPresenter @AssistedInject constructor(
             isImpressionGuideBottomSheetVisible = isImpressionGuideBottomSheetVisible,
             isExitDialogVisible = isExitDialogVisible,
             isRecordSavedDialogVisible = isRecordSavedDialogVisible,
+            isScanTooltipVisible = isScanTooltipVisible,
+            isImpressionGuideTooltipVisible = isImpressionGuideTooltipVisible,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
@@ -286,9 +319,5 @@ class RecordRegisterPresenter @AssistedInject constructor(
             screen: RecordScreen,
             navigator: Navigator,
         ): RecordRegisterPresenter
-    }
-
-    companion object {
-        const val MAX_PAGE = 4032
     }
 }

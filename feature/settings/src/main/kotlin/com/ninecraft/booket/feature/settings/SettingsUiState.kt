@@ -10,6 +10,9 @@ data class SettingsUiState(
     val isLogoutDialogVisible: Boolean = false,
     val isWithdrawBottomSheetVisible: Boolean = false,
     val isWithdrawConfirmed: Boolean = false,
+    val latestVersion: String = "",
+    val isUpdateAvailable: Boolean = false,
+    val isOptionalUpdateDialogVisible: Boolean = false,
     val sideEffect: SettingsSideEffect? = null,
     val eventSink: (SettingsUiEvent) -> Unit,
 ) : CircuitUiState
@@ -20,9 +23,12 @@ sealed interface SettingsSideEffect {
         val message: String,
         private val key: String = UUID.randomUUID().toString(),
     ) : SettingsSideEffect
+
+    data object NavigateToPlayStore : SettingsSideEffect
 }
 
 sealed interface SettingsUiEvent : CircuitUiEvent {
+    data object InitSideEffect : SettingsUiEvent
     data object OnBackClick : SettingsUiEvent
     data object OnPolicyClick : SettingsUiEvent
     data object OnTermClick : SettingsUiEvent
@@ -33,4 +39,5 @@ sealed interface SettingsUiEvent : CircuitUiEvent {
     data object OnWithdrawConfirmationToggled : SettingsUiEvent
     data object Logout : SettingsUiEvent
     data object Withdraw : SettingsUiEvent
+    data object OnVersionClick : SettingsUiEvent
 }

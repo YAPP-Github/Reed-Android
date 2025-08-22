@@ -38,4 +38,6 @@
     <string name="record_saved_dialog_move_to_detail">기록 보러가기</string>
     <string name="record_saved_dialog_close">닫기</string>
     <string name="quote_step_page_input_error">해당 책의 마지막 페이지 수를 초과했습니다</string>
+    <string name="impression_guide_tooltip_message">예시 문장을 알려드려요</string>
+    <string name="scan_tooltip_message">스캔으로 빠르게 입력해요</string>
 </resources>

@@ -4,12 +4,14 @@ package com.ninecraft.booket.feature.onboarding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -21,6 +23,7 @@ const val ONBOARDING_STEPS_COUNT = 3
 class OnboardingPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val repository: UserRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<OnboardingUiState> {
 
     @Composable
@@ -45,6 +48,10 @@ class OnboardingPresenter @AssistedInject constructor(
                     }
                 }
             }
+        }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(OnboardingScreen.name)
         }
 
         return OnboardingUiState(

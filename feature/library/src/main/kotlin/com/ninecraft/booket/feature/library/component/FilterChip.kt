@@ -30,7 +30,9 @@ fun FilterChip(
     modifier: Modifier = Modifier,
 ) {
     val chipColor = if (isSelected) ReedTheme.colors.bgPrimary else ReedTheme.colors.basePrimary
-    val textColor = if (isSelected) White else ReedTheme.colors.contentSecondary
+    val labelColor = if (isSelected) White else ReedTheme.colors.contentSecondary
+    val countColor = if (isSelected) White else ReedTheme.colors.contentTertiary
+    val labelStyle = if (isSelected) ReedTheme.typography.label1SemiBold else ReedTheme.typography.label1Medium
 
     Box(
         modifier = modifier
@@ -59,13 +61,13 @@ fun FilterChip(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = stringResource(option.getDisplayNameRes()),
-                color = textColor,
-                style = ReedTheme.typography.label1SemiBold,
+                color = labelColor,
+                style = labelStyle,
             )
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
             Text(
                 text = "$count",
-                color = textColor,
+                color = countColor,
                 style = ReedTheme.typography.label1SemiBold,
             )
         }

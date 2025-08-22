@@ -1,12 +1,12 @@
 package com.ninecraft.booket.feature.library
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
@@ -15,10 +15,12 @@ import com.ninecraft.booket.feature.screens.LibraryScreen
 import com.ninecraft.booket.feature.screens.LibrarySearchScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.orhanobut.logger.Logger
+import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -30,6 +32,7 @@ import kotlinx.coroutines.launch
 class LibraryPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val repository: BookRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<LibraryUiState> {
     companion object {
         private const val PAGE_SIZE = 20
@@ -151,12 +154,16 @@ class LibraryPresenter @AssistedInject constructor(
             }
         }
 
-        LaunchedEffect(Unit) {
+        RememberedEffect(Unit) {
             filterLibraryBooks(
                 status = currentFilter.getApiValue(),
                 page = START_INDEX,
                 size = PAGE_SIZE,
             )
+        }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(LibraryScreen.name)
         }
 
         return LibraryUiState(

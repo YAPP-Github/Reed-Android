@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -30,26 +29,29 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.constants.BookStatus
-import com.ninecraft.booket.core.common.extensions.toFormattedDate
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
-import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
+import com.ninecraft.booket.core.designsystem.component.button.mediumButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
-import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
+import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
+import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
+import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.book.component.BookItem
 import com.ninecraft.booket.feature.detail.book.component.BookUpdateBottomSheet
 import com.ninecraft.booket.feature.detail.book.component.CollectedSeeds
+import com.ninecraft.booket.feature.detail.book.component.DetailMenuBottomSheet
 import com.ninecraft.booket.feature.detail.book.component.ReadingRecordsHeader
 import com.ninecraft.booket.feature.detail.book.component.RecordItem
 import com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet
+import com.ninecraft.booket.feature.detail.record.component.RecordMenuBottomSheet
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -66,6 +68,7 @@ internal fun BookDetailUi(
 ) {
     val bookUpdateBottomSheetState = rememberModalBottomSheetState()
     val recordSortBottomSheetState = rememberModalBottomSheetState()
+    val recordMenuBottomSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
 
     HandleBookDetailSideEffects(
@@ -125,6 +128,67 @@ internal fun BookDetailUi(
             },
         )
     }
+
+    if (state.isRecordMenuBottomSheetVisible) {
+        RecordMenuBottomSheet(
+            onDismissRequest = {
+                state.eventSink(BookDetailUiEvent.OnRecordMenuBottomSheetDismiss)
+            },
+            sheetState = recordMenuBottomSheetState,
+            onShareRecordClick = {
+                state.eventSink(BookDetailUiEvent.OnShareRecordClick)
+            },
+            onEditRecordClick = {
+                coroutineScope.launch {
+                    recordMenuBottomSheetState.hide()
+                    state.eventSink(BookDetailUiEvent.OnEditRecordClick)
+                }
+            },
+            onDeleteRecordClick = {
+                state.eventSink(BookDetailUiEvent.OnDeleteRecordClick)
+            },
+        )
+    }
+
+    if (state.isRecordDeleteDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.record_delete_dialog_title),
+            confirmButtonText = stringResource(R.string.record_delete_dialog_delete),
+            onConfirmRequest = {
+                state.eventSink(BookDetailUiEvent.OnDeleteRecord)
+            },
+            dismissButtonText = stringResource(R.string.record_delete_dialog_cancel),
+            onDismissRequest = {
+                state.eventSink(BookDetailUiEvent.OnRecordDeleteDialogDismiss)
+            },
+        )
+    }
+
+    if (state.isDetailMenuBottomSheetVisible) {
+        DetailMenuBottomSheet(
+            onDismissRequest = {
+                state.eventSink(BookDetailUiEvent.OnDetailMenuBottomSheetDismiss)
+            },
+            sheetState = recordMenuBottomSheetState,
+            onDeleteBookClick = {
+                state.eventSink(BookDetailUiEvent.OnDeleteBookClick)
+            },
+        )
+    }
+
+    if (state.isBookDeleteDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.record_delete_dialog_title),
+            confirmButtonText = stringResource(R.string.record_delete_dialog_delete),
+            onConfirmRequest = {
+                state.eventSink(BookDetailUiEvent.OnDeleteBook)
+            },
+            dismissButtonText = stringResource(R.string.record_delete_dialog_cancel),
+            onDismissRequest = {
+                state.eventSink(BookDetailUiEvent.OnDeleteDialogDismiss)
+            },
+        )
+    }
 }
 
 @Composable
@@ -137,12 +201,7 @@ internal fun BookDetailContent(
     when (state.uiState) {
         is UiState.Idle -> {}
         is UiState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
-            ) {
-                CircularProgressIndicator(color = ReedTheme.colors.contentBrand)
-            }
+            ReedLoadingIndicator()
         }
 
         is UiState.Success -> {
@@ -156,10 +215,15 @@ internal fun BookDetailContent(
                 },
             ) {
                 item {
-                    ReedBackTopAppBar(
-                        title = "",
-                        onBackClick = {
+                    ReedTopAppBar(
+                        startIconRes = designR.drawable.ic_chevron_left,
+                        startIconOnClick = {
                             state.eventSink(BookDetailUiEvent.OnBackClick)
+                        },
+                        endIconRes = designR.drawable.ic_more_vertical,
+                        endIconDescription = "More Vertical Icon",
+                        endIconOnClick = {
+                            state.eventSink(BookDetailUiEvent.OnDetailMenuClick)
                         },
                     )
                 }
@@ -181,7 +245,7 @@ internal fun BookDetailContent(
                                     BookStatus.fromValue(state.bookDetail.userBookStatus)?.getDisplayNameRes()
                                         ?: BookStatus.BEFORE_READING.getDisplayNameRes(),
                                 ),
-                                sizeStyle = largeButtonStyle,
+                                sizeStyle = mediumButtonStyle,
                                 colorStyle = ReedButtonColorStyle.SECONDARY,
                                 modifier = Modifier.widthIn(min = 98.dp),
                                 trailingIcon = {
@@ -199,7 +263,7 @@ internal fun BookDetailContent(
                                     state.eventSink(BookDetailUiEvent.OnRegisterRecordButtonClick)
                                 },
                                 text = stringResource(R.string.register_book_record),
-                                sizeStyle = largeButtonStyle,
+                                sizeStyle = mediumButtonStyle,
                                 colorStyle = ReedButtonColorStyle.PRIMARY,
                                 modifier = Modifier.weight(1f),
                             )
@@ -257,10 +321,10 @@ internal fun BookDetailContent(
                     ) { index ->
                         val record = state.readingRecords[index]
                         RecordItem(
-                            quote = record.quote,
-                            emotionTags = record.emotionTags.toImmutableList(),
-                            pageNumber = record.pageNumber,
-                            createdAt = record.createdAt.toFormattedDate(),
+                            recordInfo = record,
+                            onRecordMenuClick = { recordInfo ->
+                                state.eventSink(BookDetailUiEvent.OnRecordMenuClick(recordInfo))
+                            },
                             modifier = Modifier
                                 .padding(
                                     start = ReedTheme.spacing.spacing5,

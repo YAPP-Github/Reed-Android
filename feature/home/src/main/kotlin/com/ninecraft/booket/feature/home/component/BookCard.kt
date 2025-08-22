@@ -158,14 +158,14 @@ fun BookCard(
                     }
                     .padding(
                         horizontal = ReedTheme.spacing.spacing3,
-                        vertical = ReedTheme.spacing.spacing2,
+                        vertical = 9.dp,
                     ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
                     painter = painterResource(R.drawable.img_seed_count),
                     contentDescription = "Seed Count Image",
-                    modifier = Modifier.size(32.dp),
+                    modifier = Modifier.size(ReedTheme.spacing.spacing7),
                 )
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
                 Text(
@@ -224,8 +224,8 @@ fun EmptyBookCard(
                 shape = RoundedCornerShape(ReedTheme.radius.sm),
             )
             .border(
-                width = 1.dp,
-                color = ReedTheme.colors.borderSecondary,
+                width = ReedTheme.border.border1,
+                color = ReedTheme.colors.borderPrimary,
                 shape = RoundedCornerShape(ReedTheme.radius.sm),
             )
             .padding(
@@ -253,7 +253,7 @@ fun EmptyBookCard(
             color = ReedTheme.colors.contentTertiary,
             style = ReedTheme.typography.label1Medium,
         )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
         ReedButton(
             onClick = {
                 onBookRegisterClick()

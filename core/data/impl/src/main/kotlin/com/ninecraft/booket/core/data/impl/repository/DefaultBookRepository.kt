@@ -30,8 +30,8 @@ internal class DefaultBookRepository @Inject constructor(
         result
     }
 
-    override suspend fun removeBookRecentSearch(query: String) {
-        bookRecentSearchDataSource.removeRecentSearch(query)
+    override suspend fun deleteBookRecentSearch(query: String) {
+        bookRecentSearchDataSource.deleteRecentSearch(query)
     }
 
     override suspend fun getBookDetail(isbn13: String) = runSuspendCatching {
@@ -53,8 +53,8 @@ internal class DefaultBookRepository @Inject constructor(
         result
     }
 
-    override suspend fun removeLibraryRecentSearch(query: String) {
-        libraryRecentSearchDataSource.removeRecentSearch(query)
+    override suspend fun deleteLibraryRecentSearch(query: String) {
+        libraryRecentSearchDataSource.deleteRecentSearch(query)
     }
 
     override suspend fun getHome() = runSuspendCatching {
@@ -63,5 +63,9 @@ internal class DefaultBookRepository @Inject constructor(
 
     override suspend fun getSeedsStats(userBookId: String) = runSuspendCatching {
         service.getSeedsStats(userBookId).toModel()
+    }
+
+    override suspend fun deleteBook(userBookId: String) = runSuspendCatching {
+        service.deleteBook(userBookId)
     }
 }

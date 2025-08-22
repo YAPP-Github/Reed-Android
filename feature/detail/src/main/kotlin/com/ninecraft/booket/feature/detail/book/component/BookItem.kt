@@ -94,6 +94,7 @@ internal fun BookItem(
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing05))
             Text(
                 text = bookDetail.pubDate.formatPublishYear(),
                 color = ReedTheme.colors.contentTertiary,

@@ -22,13 +22,13 @@ fun ReedScaffold(
     content: @Composable (PaddingValues) -> Unit,
 ) {
     Scaffold(
+        modifier = modifier.keyboardHide(),
         topBar = topBar,
         bottomBar = bottomBar,
         snackbarHost = snackbarHost,
         floatingActionButton = floatingActionButton,
         containerColor = containerColor,
         contentWindowInsets = contentWindowInsets,
-        modifier = modifier.keyboardHide(),
     ) { innerPadding ->
         content(innerPadding)
     }

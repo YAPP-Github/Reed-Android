@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.WebViewConstants
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.feature.screens.HomeScreen
@@ -17,6 +18,7 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -28,6 +30,7 @@ import kotlinx.coroutines.launch
 class TermsAgreementPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val userRepository: UserRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<TermsAgreementUiState> {
 
     @Composable
@@ -80,6 +83,10 @@ class TermsAgreementPresenter @AssistedInject constructor(
                     }
                 }
             }
+        }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(TermsAgreementScreen.name)
         }
 
         return TermsAgreementUiState(

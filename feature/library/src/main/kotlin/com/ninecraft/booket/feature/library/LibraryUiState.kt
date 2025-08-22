@@ -10,6 +10,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 
+@Immutable
 sealed interface UiState {
     data object Idle : UiState
     data object Loading : UiState

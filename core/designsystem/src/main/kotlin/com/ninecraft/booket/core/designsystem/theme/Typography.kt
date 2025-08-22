@@ -17,6 +17,10 @@ val pretendardFamily = FontFamily(
     Font(R.font.pretendard_semi_bold, FontWeight.SemiBold, FontStyle.Normal),
 )
 
+val hakgyoansimFamily = FontFamily(
+    Font(R.font.hakgyoansim_santteutbatang_m, FontWeight.Medium, FontStyle.Normal),
+)
+
 private val defaultLineHeightStyle = LineHeightStyle(
     alignment = LineHeightStyle.Alignment.Center,
     trim = LineHeightStyle.Trim.None,
@@ -73,4 +77,13 @@ data class ReedTypography(
     // Caption
     val caption1Regular: TextStyle = style(12, 16, -0.12f, FontWeight.Normal),
     val caption2Regular: TextStyle = style(11, 14, -0.11f, FontWeight.Normal),
+
+    val quoteMedium: TextStyle = TextStyle(
+        fontFamily = hakgyoansimFamily,
+        lineHeightStyle = defaultLineHeightStyle,
+        fontSize = 18.sp,
+        lineHeight = 28.sp,
+        letterSpacing = (-0.27f).sp,
+        fontWeight = FontWeight.Medium,
+    ),
 )

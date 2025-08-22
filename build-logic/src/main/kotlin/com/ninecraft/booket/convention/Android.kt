@@ -8,10 +8,10 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 
 internal fun Project.configureAndroid(extension: CommonExtension<*, *, *, *, *, *>) {
     extension.apply {
-        compileSdk = ApplicationConstants.COMPILE_SDK
+        compileSdk = libs.versions.compileSdk.get().toInt()
 
         defaultConfig {
-            minSdk = ApplicationConstants.MIN_SDK
+            minSdk = libs.versions.minSdk.get().toInt()
         }
 
         compileOptions {

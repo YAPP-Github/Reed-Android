@@ -1,5 +1,6 @@
 package com.ninecraft.booket.splash
 
+import android.R.attr.description
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -17,9 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.feature.screens.SplashScreen
 import com.ninecraft.booket.feature.splash.R
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -29,6 +32,7 @@ import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiControll
 @CircuitInject(SplashScreen::class, ActivityRetainedComponent::class)
 @Composable
 fun SplashUi(
+    state: SplashUiState,
     modifier: Modifier = Modifier,
 ) {
     val systemUiController = rememberSystemUiController()
@@ -49,6 +53,11 @@ fun SplashUi(
         }
     }
 
+    HandleSplashSideEffects(
+        state = state,
+        eventSink = state.eventSink,
+    )
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -68,9 +77,21 @@ fun SplashUi(
             Text(
                 text = stringResource(R.string.splash_title),
                 color = ReedTheme.colors.contentInverse,
+                textAlign = TextAlign.Center,
                 style = ReedTheme.typography.heading2SemiBold,
             )
             Spacer(Modifier.height(ReedTheme.spacing.spacing8))
+        }
+
+        if (state.isForceUpdateDialogVisible) {
+            ReedDialog(
+                title = stringResource(R.string.splash_force_update_title),
+                description = stringResource(R.string.splash_force_update_message),
+                confirmButtonText = stringResource(R.string.splash_force_update_button_text),
+                onConfirmRequest = {
+                    state.eventSink(SplashUiEvent.OnUpdateButtonClick)
+                },
+            )
         }
     }
 }
@@ -79,6 +100,10 @@ fun SplashUi(
 @Composable
 private fun SplashPreview() {
     ReedTheme {
-        SplashUi()
+        SplashUi(
+            state = SplashUiState(
+                eventSink = {},
+            ),
+        )
     }
 }

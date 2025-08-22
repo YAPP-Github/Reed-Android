@@ -46,12 +46,14 @@ internal fun ReadingRecordsHeader(
         }
         Row(
             modifier = Modifier.clickable { onReadingRecordClick() },
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = stringResource(currentRecordSort.getDisplayNameRes()),
                 color = ReedTheme.colors.contentSecondary,
                 style = ReedTheme.typography.label1Medium,
             )
+            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
             Icon(
                 imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_down),
                 contentDescription = "Dropdown Icon",

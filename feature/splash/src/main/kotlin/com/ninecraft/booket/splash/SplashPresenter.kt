@@ -6,20 +6,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
+import com.ninecraft.booket.core.common.constants.ErrorScope
+import com.ninecraft.booket.core.common.utils.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
+import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.model.AutoLoginState
 import com.ninecraft.booket.core.model.OnboardingState
+import com.ninecraft.booket.core.ui.R
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.ninecraft.booket.feature.screens.SplashScreen
-import com.skydoves.compose.effects.RememberedEffect
+import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -31,6 +37,8 @@ class SplashPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository,
+    private val remoteConfigRepository: RemoteConfigRepository,
+    private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<SplashUiState> {
 
     @Composable
@@ -38,7 +46,8 @@ class SplashPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         val onboardingState by userRepository.onboardingState.collectAsRetainedState(initial = OnboardingState.IDLE)
         val autoLoginState by authRepository.autoLoginState.collectAsRetainedState(initial = AutoLoginState.IDLE)
-        var isSplashTimeCompleted by rememberRetained { mutableStateOf(false) }
+        var isForceUpdateDialogVisible by rememberRetained { mutableStateOf(false) }
+        var sideEffect by rememberRetained { mutableStateOf<SplashSideEffect?>(null) }
 
         fun checkTermsAgreement() {
             scope.launch {
@@ -50,20 +59,18 @@ class SplashPresenter @AssistedInject constructor(
                             navigator.resetRoot(LoginScreen)
                         }
                     }
-                    .onFailure {
-                        navigator.resetRoot(LoginScreen)
+                    .onFailure { exception ->
+                        postErrorDialog(
+                            errorScope = ErrorScope.GLOBAL,
+                            exception = exception,
+                            buttonLabelResId = R.string.retry,
+                            action = { checkTermsAgreement() },
+                        )
                     }
             }
         }
 
-        LaunchedEffect(Unit) {
-            delay(1000L)
-            isSplashTimeCompleted = true
-        }
-
-        RememberedEffect(onboardingState, autoLoginState, isSplashTimeCompleted) {
-            if (!isSplashTimeCompleted) return@RememberedEffect
-
+        fun proceedToNextScreen() {
             when (onboardingState) {
                 OnboardingState.NOT_COMPLETED -> {
                     navigator.resetRoot(OnboardingScreen)
@@ -91,7 +98,54 @@ class SplashPresenter @AssistedInject constructor(
             }
         }
 
-        return SplashUiState
+        fun checkForceUpdate() {
+            scope.launch {
+                remoteConfigRepository.shouldUpdate()
+                    .onSuccess { shouldUpdate ->
+                        if (shouldUpdate) {
+                            isForceUpdateDialogVisible = true
+                        } else {
+                            proceedToNextScreen()
+                        }
+                    }
+                    .onFailure { exception ->
+                        Logger.e("${exception.message}")
+                        proceedToNextScreen()
+                    }
+            }
+        }
+
+        fun handleEvent(event: SplashUiEvent) {
+            when (event) {
+                SplashUiEvent.OnUpdateButtonClick -> {
+                    sideEffect = SplashSideEffect.NavigateToPlayStore
+                }
+
+                SplashUiEvent.InitSideEffect -> {
+                    sideEffect = null
+                }
+            }
+        }
+
+        LaunchedEffect(onboardingState, autoLoginState) {
+            delay(1000L)
+
+            if (onboardingState == OnboardingState.IDLE || autoLoginState == AutoLoginState.IDLE) {
+                return@LaunchedEffect
+            }
+
+            checkForceUpdate()
+        }
+
+        ImpressionEffect {
+            analyticsHelper.logScreenView(SplashScreen.name)
+        }
+
+        return SplashUiState(
+            isForceUpdateDialogVisible = isForceUpdateDialogVisible,
+            sideEffect = sideEffect,
+            eventSink = ::handleEvent,
+        )
     }
 
     @CircuitInject(SplashScreen::class, ActivityRetainedComponent::class)

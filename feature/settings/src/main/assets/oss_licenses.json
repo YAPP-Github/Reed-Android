@@ -45,6 +45,56 @@
         "url": "https://github.com/coil-kt/coil"
     },
     {
+        "name": "Landscapist",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/skydoves/landscapist"
+    },
+    {
+        "name": "Google Analytics",
+        "license": "Apache License 2.0",
+        "url": "https://firebase.google.com/docs/analytics"
+    },
+    {
+        "name": "Firebase Crashlytics",
+        "license": "Apache License 2.0",
+        "url": "https://firebase.google.com/docs/crashlytics"
+    },
+    {
+        "name": "ML Kit Text Recognition",
+        "license": "Apache License 2.0",
+        "url": "https://developers.google.com/ml-kit/vision/text-recognition"
+    },
+    {
+        "name": "Compose System UI Controller",
+        "license": "MIT License",
+        "url": "https://github.com/taehwandev/ComposeExtensions"
+    },
+    {
+        "name": "Compose Keyboard State",
+        "license": "MIT License",
+        "url": "https://github.com/taehwandev/ComposeExtensions"
+    },
+    {
+        "name": "Lottie Compose",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/airbnb/lottie-android"
+    },
+    {
+        "name": "Kakao SDK",
+        "license": "Apache License 2.0",
+        "url": "https://developers.kakao.com/docs/latest/ko/android/getting-started"
+    },
+    {
+        "name": "Kotlinx Collections Immutable",
+        "license": "Apache License 2.0",
+        "url": "https://github.com/Kotlin/kotlinx.collections.immutable"
+    },
+    {
+        "name": "Compose Shadow",
+        "license": "MIT License",
+        "url": "https://github.com/adamglin0/compose-shadow"
+    },
+    {
         "name": "Detekt",
         "license": "Apache License 2.0",
         "url": "https://github.com/detekt/detekt"

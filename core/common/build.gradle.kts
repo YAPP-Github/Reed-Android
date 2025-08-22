@@ -9,6 +9,14 @@ plugins {
 
 android {
     namespace = "com.ninecraft.booket.core.common"
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    defaultConfig {
+        buildConfigField("String", "PACKAGE_NAME", "\"${libs.versions.packageName.get()}\"")
+    }
 }
 
 dependencies {
@@ -18,6 +26,8 @@ dependencies {
 
         libs.kotlinx.collections.immutable,
 
+        platform(libs.firebase.bom),
+        libs.firebase.analytics,
         libs.logger,
     )
 }

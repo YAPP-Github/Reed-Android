@@ -38,16 +38,16 @@ jobs:
             -   name: Generate google-services.json
                 run: echo '${{ secrets.GOOGLE_SERVICES }}' | base64 -d > ./app/google-services.json
 
-            -   name: Extract Version Name from ApplicationConstants.kt
+            -   name: Extract Version Name from libs.versions.toml
                 run: |
                     set -euo pipefail
-                    VERSION=$(grep "VERSION_NAME" build-logic/src/main/kotlin/com/ninecraft/booket/convention/ApplicationConstants.kt | sed -E 's/.*VERSION_NAME\s*=\s*"([^"]+)".*/\1/')
+                    VERSION=$(grep "versionName" gradle/libs.versions.toml | sed -E 's/.*versionName\s*=\s*"([^"]+)".*/\1/')
                     if [[ -z "$VERSION" ]]; then
-                      echo "Error: ApplicationConstants.kt에서 VERSION_NAME 값을 추출하지 못했습니다." >&2
+                      echo "Error: toml에서 versionName 값을 추출하지 못했습니다." >&2
                       exit 1
                     fi
                     echo "version=v${VERSION}" >> "$GITHUB_OUTPUT"
-                    echo "Version extracted from ApplicationConstants.kt: v${VERSION}"
+                    echo "Version extracted from toml: v${VERSION}"
                 id: extract_version
 
             -   name: Generate Firebase Release Note

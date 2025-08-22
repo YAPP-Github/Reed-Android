@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -32,6 +31,7 @@ import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
+import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.screens.SearchScreen
 import com.ninecraft.booket.feature.search.R
 import com.ninecraft.booket.feature.search.book.component.BookItem
@@ -93,34 +93,23 @@ internal fun SearchContent(
         ReedTextField(
             queryState = state.queryState,
             queryHintRes = designR.string.search_book_hint,
-            onSearch = { text ->
-                state.eventSink(BookSearchUiEvent.OnSearchClick(text))
+            onSearch = { query ->
+                state.eventSink(BookSearchUiEvent.OnSearchClick(query))
             },
             onClear = {
                 state.eventSink(BookSearchUiEvent.OnClearClick)
             },
-            modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+            modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
             borderStroke = BorderStroke(width = 1.dp, color = ReedTheme.colors.borderBrand),
             searchIconTint = ReedTheme.colors.contentBrand,
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-
-        ReedDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(ReedTheme.spacing.spacing2),
-        )
-
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+        ReedDivider()
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
 
         when (state.uiState) {
             is UiState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    CircularProgressIndicator(color = ReedTheme.colors.contentBrand)
-                }
+                ReedLoadingIndicator()
             }
 
             is UiState.Error -> {
@@ -160,9 +149,9 @@ internal fun SearchContent(
                                     onQueryClick = { keyword ->
                                         state.eventSink(BookSearchUiEvent.OnRecentSearchClick(keyword))
                                     },
-                                    onRemoveIconClick = { keyword ->
+                                    onDeleteIconClick = { keyword ->
                                         state.eventSink(
-                                            BookSearchUiEvent.OnRecentSearchRemoveClick(keyword),
+                                            BookSearchUiEvent.OnRecentSearchDeleteClick(keyword),
                                         )
                                     },
                                 )

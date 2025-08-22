@@ -4,10 +4,14 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -20,6 +24,7 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedDialog
+import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.step.EmotionStep
 import com.ninecraft.booket.feature.record.step.ImpressionStep
@@ -43,6 +48,7 @@ internal fun RecordRegisterUi(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = White,
+        contentWindowInsets = ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets.ime),
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -56,7 +62,7 @@ internal fun RecordRegisterUi(
             )
             RecordProgressBar(
                 currentStep = state.currentStep,
-                modifier = modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+                modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
             when (state.currentStep) {
@@ -73,6 +79,10 @@ internal fun RecordRegisterUi(
                 }
             }
         }
+    }
+
+    if (state.isLoading) {
+        ReedLoadingIndicator()
     }
 
     if (state.isExitDialogVisible) {

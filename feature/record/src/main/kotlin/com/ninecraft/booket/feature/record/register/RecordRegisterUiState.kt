@@ -11,6 +11,7 @@ import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 data class RecordRegisterUiState(
+    val isLoading: Boolean = false,
     val currentStep: RecordStep = RecordStep.QUOTE,
     val recordPageState: TextFieldState = TextFieldState(),
     val recordSentenceState: TextFieldState = TextFieldState(),
@@ -26,6 +27,8 @@ data class RecordRegisterUiState(
     val isImpressionGuideBottomSheetVisible: Boolean = false,
     val isExitDialogVisible: Boolean = false,
     val isRecordSavedDialogVisible: Boolean = false,
+    val isScanTooltipVisible: Boolean = true,
+    val isImpressionGuideTooltipVisible: Boolean = true,
     val sideEffect: RecordRegisterSideEffect? = null,
     val eventSink: (RecordRegisterUiEvent) -> Unit,
 ) : CircuitUiState

@@ -10,12 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -24,6 +24,7 @@ import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
+import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.library.component.FilterChipGroup
 import com.ninecraft.booket.feature.library.component.LibraryBookItem
 import com.ninecraft.booket.feature.library.component.LibraryHeader
@@ -97,6 +98,7 @@ internal fun LibraryContent(
                 state.eventSink(LibraryUiEvent.OnFilterClick(status))
             },
         )
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
 
         when (state.uiState) {
             is UiState.Idle -> {
@@ -104,12 +106,7 @@ internal fun LibraryContent(
             }
 
             is UiState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    CircularProgressIndicator(color = ReedTheme.colors.contentBrand)
-                }
+                ReedLoadingIndicator()
             }
 
             is UiState.Success -> {
@@ -168,12 +165,14 @@ private fun EmptyResult() {
             Text(
                 text = stringResource(R.string.library_empty_book_title),
                 color = ReedTheme.colors.contentPrimary,
+                textAlign = TextAlign.Center,
                 style = ReedTheme.typography.headline1SemiBold,
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
             Text(
                 text = stringResource(R.string.library_empty_book_description),
                 color = ReedTheme.colors.contentSecondary,
+                textAlign = TextAlign.Center,
                 style = ReedTheme.typography.body1Medium,
             )
         }

@@ -15,6 +15,7 @@ dependencies {
         projects.core.common,
 
         libs.compose.keyboard.state,
+        libs.compose.effects,
         libs.logger,
     )
 }
