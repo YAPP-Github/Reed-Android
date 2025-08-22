@@ -8,5 +8,5 @@ data class OssLicensesUiState(
 ) : CircuitUiState
 
 sealed interface OssLicensesUiEvent : CircuitUiEvent {
-    data object OnBackClicked : OssLicensesUiEvent
+    data object OnBackClick : OssLicensesUiEvent
 }

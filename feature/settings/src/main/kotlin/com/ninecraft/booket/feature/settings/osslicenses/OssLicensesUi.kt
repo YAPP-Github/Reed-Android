@@ -71,7 +71,7 @@ internal fun OssLicenses(
             ReedBackTopAppBar(
                 title = stringResource(R.string.oss_licenses_title),
                 onBackClick = {
-                    state.eventSink(OssLicensesUiEvent.OnBackClicked)
+                    state.eventSink(OssLicensesUiEvent.OnBackClick)
                 },
             )
             LazyColumn {
