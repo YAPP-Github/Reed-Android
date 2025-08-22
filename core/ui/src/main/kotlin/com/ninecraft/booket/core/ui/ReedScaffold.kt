@@ -7,6 +7,7 @@ import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.ninecraft.booket.core.common.extensions.preventMultiTouch
 import com.ninecraft.booket.core.designsystem.theme.White
 import tech.thdev.compose.extensions.keyboard.state.foundation.keyboardHide
 
@@ -22,7 +23,9 @@ fun ReedScaffold(
     content: @Composable (PaddingValues) -> Unit,
 ) {
     Scaffold(
-        modifier = modifier.keyboardHide(),
+        modifier = modifier
+            .keyboardHide()
+            .preventMultiTouch(),
         topBar = topBar,
         bottomBar = bottomBar,
         snackbarHost = snackbarHost,
