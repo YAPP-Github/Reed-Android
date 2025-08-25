@@ -10,7 +10,6 @@ val digitOnlyInputTransformation = { text: TextFieldBuffer ->
 
     val transformed = when {
         filtered.isEmpty() -> ""
-        filtered == "0" -> "0" // 0 하나만 허용
         filtered.startsWith("0") -> filtered.trimStart('0') // 선행 0 제거
         else -> filtered
     }

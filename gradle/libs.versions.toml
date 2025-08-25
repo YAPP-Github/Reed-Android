@@ -1,4 +1,12 @@
 [versions]
+## App Configuration
+minSdk = "28"
+targetSdk = "35"
+compileSdk = "35"
+versionName = "1.1.2"
+versionCode = "6"
+packageName = "com.ninecraft.booket"
+
 ## Android gradle plugin
 android-gradle-plugin = "8.9.3"
 
@@ -74,14 +82,6 @@ androidx-test-runner = "1.6.2"
 google-service = "4.4.3"
 firebase-bom = "34.1.0"
 firebase-crashlytics = "3.0.4"
-
-## App Configuration
-minSdk = "28"
-targetSdk = "35"
-compileSdk = "35"
-versionName = "1.1.1"
-versionCode = "5"
-packageName = "com.ninecraft.booket"
 
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
