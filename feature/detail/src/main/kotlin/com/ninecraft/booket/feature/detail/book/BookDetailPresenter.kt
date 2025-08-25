@@ -38,6 +38,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -120,6 +121,8 @@ class BookDetailPresenter @AssistedInject constructor(
 
                         uiState = UiState.Success
                     }
+                } catch (ce: CancellationException) {
+                    throw ce
                 } catch (e: Throwable) {
                     uiState = UiState.Error(e)
 
