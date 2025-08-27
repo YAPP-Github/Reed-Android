@@ -5,6 +5,7 @@ import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.impl.mapper.toModel
 import com.ninecraft.booket.core.datastore.api.datasource.BookRecentSearchDataSource
 import com.ninecraft.booket.core.datastore.api.datasource.LibraryRecentSearchDataSource
+import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
 import com.ninecraft.booket.core.network.request.BookUpsertRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import javax.inject.Inject
@@ -13,6 +14,7 @@ internal class DefaultBookRepository @Inject constructor(
     private val service: ReedService,
     private val bookRecentSearchDataSource: BookRecentSearchDataSource,
     private val libraryRecentSearchDataSource: LibraryRecentSearchDataSource,
+    private val tokenDataSource: TokenDataSource,
 ) : BookRepository {
     override val bookRecentSearches = bookRecentSearchDataSource.recentSearches
     override val libraryRecentSearches = libraryRecentSearchDataSource.recentSearches
@@ -21,10 +23,17 @@ internal class DefaultBookRepository @Inject constructor(
         query: String,
         start: Int,
     ) = runSuspendCatching {
-        val result = service.searchBook(
-            query = query,
-            start = start,
-        ).toModel()
+        val result = if (tokenDataSource.getAccessToken().isEmpty()) {
+            service.searchBookAsGuest(
+                query = query,
+                start = start,
+            ).toModel()
+        } else {
+            service.searchBook(
+                query = query,
+                start = start,
+            ).toModel()
+        }
 
         bookRecentSearchDataSource.addRecentSearch(query)
         result

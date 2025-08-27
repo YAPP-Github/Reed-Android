@@ -50,6 +50,19 @@ interface ReedService {
     @GET("api/v1/users/me")
     suspend fun getUserProfile(): UserProfileResponse
 
+    // Book endpoints (no auth required)
+    @GET("api/v1/books/guest/search")
+    suspend fun searchBookAsGuest(
+        @Query("query") query: String,
+        @Query("queryType") queryType: String = "Title",
+        @Query("searchTarget") searchTarget: String = "Book",
+        @Query("maxResults") maxResults: Int = 20,
+        @Query("start") start: Int = 1,
+        @Query("sort") sort: String = "Accuracy",
+        @Query("cover") cover: String? = "Big",
+        @Query("categoryId") categoryId: Int = 0,
+    ): BookSearchResponse
+
     // Book endpoints (auth required)
     @GET("api/v1/books/search")
     suspend fun searchBook(

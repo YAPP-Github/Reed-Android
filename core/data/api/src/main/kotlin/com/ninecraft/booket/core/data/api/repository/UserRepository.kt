@@ -13,4 +13,6 @@ interface UserRepository {
     val onboardingState: Flow<OnboardingState>
 
     suspend fun setOnboardingCompleted(isCompleted: Boolean)
+
+    val isLoggedIn: Flow<Boolean>
 }
