@@ -90,6 +90,10 @@ class LoginPresenter @AssistedInject constructor(
                         }
                     }
                 }
+
+                is LoginUiEvent.OnGuestLoginButtonClick -> {
+                    navigator.resetRoot(HomeScreen)
+                }
             }
         }
 

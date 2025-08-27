@@ -165,14 +165,39 @@ internal fun HomeContent(
                         }
                         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing7))
                     }
+                    Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
                 }
             }
 
             is UiState.Error -> {
-                ReedErrorUi(
-                    exception = state.uiState.exception,
-                    onRetryClick = { state.eventSink(HomeUiEvent.OnRetryClick) },
-                )
+                if (state.isGuestMode) {
+                    Column(
+                        modifier = modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState()),
+                    ) {
+                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
+                        Text(
+                            text = stringResource(R.string.home_content_label_reading_now),
+                            modifier = Modifier.padding(start = ReedTheme.spacing.spacing5),
+                            color = ReedTheme.colors.contentSecondary,
+                            style = ReedTheme.typography.headline2Medium,
+                        )
+                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
+                        EmptyBookCard(
+                            onBookRegisterClick = {
+                                state.eventSink(HomeUiEvent.OnBookRegisterClick)
+                            },
+                            modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+                        )
+                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
+                    }
+                } else {
+                    ReedErrorUi(
+                        exception = state.uiState.exception,
+                        onRetryClick = { state.eventSink(HomeUiEvent.OnRetryClick) },
+                    )
+                }
             }
         }
     }

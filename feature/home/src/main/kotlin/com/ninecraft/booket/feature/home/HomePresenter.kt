@@ -6,8 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
+import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.RecentBookModel
+import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
@@ -15,6 +17,7 @@ import com.ninecraft.booket.feature.screens.SearchScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -29,14 +32,15 @@ import kotlinx.coroutines.launch
 
 class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val repository: BookRepository,
+    private val bookRepository: BookRepository,
+    private val authRepository: AuthRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<HomeUiState> {
 
     @Composable
     override fun present(): HomeUiState {
         val scope = rememberCoroutineScope()
-
+        val userState by authRepository.userState.collectAsRetainedState(initial = UserState.Guest)
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var recentBooks by rememberRetained { mutableStateOf(persistentListOf<RecentBookModel>()) }
 
@@ -46,7 +50,7 @@ class HomePresenter @AssistedInject constructor(
                     uiState = UiState.Loading
                 }
 
-                repository.getHome()
+                bookRepository.getHome()
                     .onSuccess { result ->
                         uiState = UiState.Success
                         recentBooks = result.recentBooks.toPersistentList()
@@ -99,6 +103,7 @@ class HomePresenter @AssistedInject constructor(
         return HomeUiState(
             uiState = uiState,
             recentBooks = recentBooks,
+            isGuestMode = userState is UserState.Guest,
             eventSink = ::handleEvent,
         )
     }

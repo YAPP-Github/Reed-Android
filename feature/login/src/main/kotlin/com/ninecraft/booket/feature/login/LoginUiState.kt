@@ -24,4 +24,5 @@ sealed interface LoginUiEvent : CircuitUiEvent {
     data object OnKakaoLoginButtonClick : LoginUiEvent
     data class Login(val accessToken: String) : LoginUiEvent
     data class LoginFailure(val message: String) : LoginUiEvent
+    data object OnGuestLoginButtonClick : LoginUiEvent
 }

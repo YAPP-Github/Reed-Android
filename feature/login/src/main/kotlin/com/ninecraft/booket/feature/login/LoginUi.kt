@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
+import com.ninecraft.booket.core.designsystem.component.button.ReedTextButton
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
@@ -52,7 +53,7 @@ internal fun LoginUi(
             modifier = modifier
                 .fillMaxSize()
                 .background(White)
-                .systemBarsPadding(),
+                .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
@@ -77,28 +78,47 @@ internal fun LoginUi(
                             style = ReedTheme.typography.headline2SemiBold,
                         )
                     }
-                    ReedButton(
-                        onClick = {
-                            state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
-                        },
-                        sizeStyle = largeButtonStyle,
-                        colorStyle = ReedButtonColorStyle.KAKAO,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                start = ReedTheme.spacing.spacing5,
-                                end = ReedTheme.spacing.spacing5,
-                                bottom = ReedTheme.spacing.spacing8,
-                            ),
-                        text = stringResource(id = R.string.kakao_login),
-                        leadingIcon = {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
-                                contentDescription = "Kakao Icon",
-                                tint = Color.Unspecified,
+                    Column {
+                        ReedButton(
+                            onClick = {
+                                state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
+                            },
+                            sizeStyle = largeButtonStyle,
+                            colorStyle = ReedButtonColorStyle.KAKAO,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = ReedTheme.spacing.spacing5,
+                                    end = ReedTheme.spacing.spacing5,
+                                ),
+                            text = stringResource(id = R.string.kakao_login),
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
+                                    contentDescription = "Kakao Icon",
+                                    tint = Color.Unspecified,
+                                )
+                            },
+                        )
+                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+                        ReedTextButton(
+                            onClick = {
+                                state.eventSink(LoginUiEvent.OnGuestLoginButtonClick)
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = ReedTheme.spacing.spacing5,
+                                    end = ReedTheme.spacing.spacing5,
+                                ),
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.guest_login),
+                                color = ReedTheme.colors.contentSecondary,
+                                style = ReedTheme.typography.body1Medium,
                             )
-                        },
-                    )
+                        }
+                    }
                 }
 
                 if (state.isLoading) {
