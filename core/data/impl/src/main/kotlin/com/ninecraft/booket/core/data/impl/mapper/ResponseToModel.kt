@@ -26,6 +26,8 @@ import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookSummary
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
 import com.ninecraft.booket.core.network.response.Category
+import com.ninecraft.booket.core.network.response.GuestBookSearchResponse
+import com.ninecraft.booket.core.network.response.GuestBookSummary
 import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryBookSummary
 import com.ninecraft.booket.core.network.response.LibraryBooks
@@ -75,6 +77,35 @@ internal fun BookSummary.toModel(): BookSummaryModel {
         coverImageUrl = coverImageUrl,
         link = link,
         userBookStatus = userBookStatus,
+        key = "$title-$isbn13",
+    )
+}
+
+internal fun GuestBookSearchResponse.toModel(): BookSearchModel {
+    return BookSearchModel(
+        version = version,
+        title = title,
+        pubDate = pubDate,
+        totalResults = totalResults,
+        startIndex = startIndex,
+        itemsPerPage = itemsPerPage,
+        query = query,
+        searchCategoryId = searchCategoryId,
+        searchCategoryName = searchCategoryName,
+        lastPage = lastPage,
+        books = books.map { it.toModel() },
+    )
+}
+
+internal fun GuestBookSummary.toModel(): BookSummaryModel {
+    return BookSummaryModel(
+        isbn13 = isbn13,
+        title = title.decodeHtmlEntities(),
+        author = author,
+        publisher = publisher,
+        coverImageUrl = coverImageUrl,
+        link = link,
+        userBookStatus = "BEFORE_REGISTRATION",
         key = "$title-$isbn13",
     )
 }

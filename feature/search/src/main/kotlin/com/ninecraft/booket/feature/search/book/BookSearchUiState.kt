@@ -31,6 +31,7 @@ data class BookSearchUiState(
     val isBookRegisterBottomSheetVisible: Boolean = false,
     val selectedBookStatus: BookStatus? = null,
     val isBookRegisterSuccessBottomSheetVisible: Boolean = false,
+    val isGuestMode: Boolean = false,
     val sideEffect: BookSearchSideEffect? = null,
     val eventSink: (BookSearchUiEvent) -> Unit,
 ) : CircuitUiState {

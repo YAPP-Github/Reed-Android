@@ -8,6 +8,7 @@ import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
+import com.ninecraft.booket.core.network.response.GuestBookSearchResponse
 import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
@@ -61,7 +62,7 @@ interface ReedService {
         @Query("sort") sort: String = "Accuracy",
         @Query("cover") cover: String? = "Big",
         @Query("categoryId") categoryId: Int = 0,
-    ): BookSearchResponse
+    ): GuestBookSearchResponse
 
     // Book endpoints (auth required)
     @GET("api/v1/books/search")

@@ -11,9 +11,11 @@ import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.common.utils.handleException
+import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
+import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
@@ -37,6 +39,7 @@ import kotlinx.coroutines.launch
 class BookSearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val repository: BookRepository,
+    private val authRepository: AuthRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<BookSearchUiState> {
     companion object {
@@ -53,6 +56,7 @@ class BookSearchPresenter @AssistedInject constructor(
     @Composable
     override fun present(): BookSearchUiState {
         val scope = rememberCoroutineScope()
+        val userState by authRepository.userState.collectAsRetainedState(initial = UserState.Guest)
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
         val queryState = rememberTextFieldState()
@@ -76,7 +80,11 @@ class BookSearchPresenter @AssistedInject constructor(
                     footerState = FooterState.Loading
                 }
 
-                repository.searchBook(query = query, start = startIndex)
+                if (userState is UserState.Guest) {
+                    repository.searchBookAsGuest(query = query, start = startIndex)
+                } else {
+                    repository.searchBook(query = query, start = startIndex)
+                }
                     .onSuccess { result ->
                         searchResult = result
                         books = if (startIndex == START_INDEX) {
@@ -113,6 +121,11 @@ class BookSearchPresenter @AssistedInject constructor(
         }
 
         fun upsertBook(isbn13: String, bookStatus: String) {
+            if (userState is UserState.Guest) {
+                sideEffect = BookSearchSideEffect.ShowToast("로그인 필요한 기능입니다.")
+                return
+            }
+
             scope.launch {
                 repository.upsertBook(isbn13, bookStatus)
                     .onSuccess {
@@ -246,6 +259,7 @@ class BookSearchPresenter @AssistedInject constructor(
             isBookRegisterBottomSheetVisible = isBookRegisterBottomSheetVisible,
             selectedBookStatus = selectedBookStatus,
             isBookRegisterSuccessBottomSheetVisible = isBookRegisterSuccessBottomSheetVisible,
+            isGuestMode = userState is UserState.Guest,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
