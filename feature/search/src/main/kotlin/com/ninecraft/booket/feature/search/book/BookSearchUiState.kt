@@ -32,6 +32,7 @@ data class BookSearchUiState(
     val selectedBookStatus: BookStatus? = null,
     val isBookRegisterSuccessBottomSheetVisible: Boolean = false,
     val isGuestMode: Boolean = false,
+    val isLoginDialogVisible: Boolean = false,
     val sideEffect: BookSearchSideEffect? = null,
     val eventSink: (BookSearchUiEvent) -> Unit,
 ) : CircuitUiState {
@@ -61,6 +62,8 @@ sealed interface BookSearchUiEvent : CircuitUiEvent {
     data object OnBookRegisterButtonClick : BookSearchUiEvent
     data object OnBookRegisterSuccessOkButtonClick : BookSearchUiEvent
     data object OnBookRegisterSuccessCancelButtonClick : BookSearchUiEvent
+    data object OnLoginDialogDismiss : BookSearchUiEvent
+    data object OnKakaoLoginButtonClick : BookSearchUiEvent
 }
 
 enum class BookRegisteredState(val value: String) {

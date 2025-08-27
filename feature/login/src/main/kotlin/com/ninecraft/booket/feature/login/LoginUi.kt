@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +33,7 @@ import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import com.ninecraft.booket.core.designsystem.R as designR
 
 @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -67,13 +67,13 @@ internal fun LoginUi(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Image(
-                            painter = painterResource(R.drawable.img_reed_logo_big),
+                            painter = painterResource(designR.drawable.img_reed_logo_big),
                             contentDescription = "Reed Logo",
                             modifier = Modifier.height(67.14.dp),
                         )
                         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
                         Text(
-                            text = stringResource(R.string.login_reed_slogan),
+                            text = stringResource(designR.string.login_reed_slogan),
                             color = ReedTheme.colors.contentBrand,
                             style = ReedTheme.typography.headline2SemiBold,
                         )
@@ -91,10 +91,10 @@ internal fun LoginUi(
                                     start = ReedTheme.spacing.spacing5,
                                     end = ReedTheme.spacing.spacing5,
                                 ),
-                            text = stringResource(id = R.string.kakao_login),
+                            text = stringResource(id = designR.string.kakao_login),
                             leadingIcon = {
                                 Icon(
-                                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
+                                    imageVector = ImageVector.vectorResource(id = designR.drawable.ic_kakao),
                                     contentDescription = "Kakao Icon",
                                     tint = Color.Unspecified,
                                 )

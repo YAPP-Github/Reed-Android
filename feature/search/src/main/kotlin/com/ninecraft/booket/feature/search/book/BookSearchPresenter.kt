@@ -70,6 +70,7 @@ class BookSearchPresenter @AssistedInject constructor(
         var isBookRegisterBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var selectedBookStatus by rememberRetained { mutableStateOf<BookStatus?>(null) }
         var isBookRegisterSuccessBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isLoginDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<BookSearchSideEffect?>(null) }
 
         fun searchBooks(query: String, startIndex: Int = START_INDEX) {
@@ -122,7 +123,7 @@ class BookSearchPresenter @AssistedInject constructor(
 
         fun upsertBook(isbn13: String, bookStatus: String) {
             if (userState is UserState.Guest) {
-                sideEffect = BookSearchSideEffect.ShowToast("로그인 필요한 기능입니다.")
+                isLoginDialogVisible = true
                 return
             }
 
@@ -245,6 +246,12 @@ class BookSearchPresenter @AssistedInject constructor(
                 is BookSearchUiEvent.OnBookRegisterSuccessCancelButtonClick -> {
                     isBookRegisterSuccessBottomSheetVisible = false
                 }
+
+                is BookSearchUiEvent.OnLoginDialogDismiss -> {
+                    isLoginDialogVisible = false
+                }
+
+                is BookSearchUiEvent.OnKakaoLoginButtonClick -> {}
             }
         }
 
@@ -260,6 +267,7 @@ class BookSearchPresenter @AssistedInject constructor(
             selectedBookStatus = selectedBookStatus,
             isBookRegisterSuccessBottomSheetVisible = isBookRegisterSuccessBottomSheetVisible,
             isGuestMode = userState is UserState.Guest,
+            isLoginDialogVisible = isLoginDialogVisible,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
