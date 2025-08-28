@@ -58,7 +58,7 @@ internal fun LoginUi(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            Box(modifier = modifier.fillMaxSize()) {
+            Box(modifier = Modifier.fillMaxSize()) {
                 Column {
                     if (state.returnToScreen != null) {
                         ReedCloseTopAppBar(
@@ -90,29 +90,31 @@ internal fun LoginUi(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
+                        ReedButton(
+                            onClick = {
+                                state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
+                            },
+                            sizeStyle = largeButtonStyle,
+                            colorStyle = ReedButtonColorStyle.KAKAO,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = ReedTheme.spacing.spacing5,
+                                    end = ReedTheme.spacing.spacing5,
+                                ),
+                            text = stringResource(id = R.string.kakao_login),
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
+                                    contentDescription = "Kakao Icon",
+                                    tint = Color.Unspecified,
+                                )
+                            },
+                        )
+                        Spacer(
+                            modifier = Modifier.height(if (state.returnToScreen == null) ReedTheme.spacing.spacing2 else ReedTheme.spacing.spacing8),
+                        )
                         if (state.returnToScreen == null) {
-                            ReedButton(
-                                onClick = {
-                                    state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
-                                },
-                                sizeStyle = largeButtonStyle,
-                                colorStyle = ReedButtonColorStyle.KAKAO,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        start = ReedTheme.spacing.spacing5,
-                                        end = ReedTheme.spacing.spacing5,
-                                    ),
-                                text = stringResource(id = R.string.kakao_login),
-                                leadingIcon = {
-                                    Icon(
-                                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
-                                        contentDescription = "Kakao Icon",
-                                        tint = Color.Unspecified,
-                                    )
-                                },
-                            )
-                            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
                             ReedTextButton(
                                 onClick = {
                                     state.eventSink(LoginUiEvent.OnGuestLoginButtonClick)
@@ -121,29 +123,6 @@ internal fun LoginUi(
                                 sizeStyle = smallButtonStyle,
                                 colorStyle = ReedButtonColorStyle.TEXT,
                             )
-                        } else {
-                            ReedButton(
-                                onClick = {
-                                    state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
-                                },
-                                sizeStyle = largeButtonStyle,
-                                colorStyle = ReedButtonColorStyle.KAKAO,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        start = ReedTheme.spacing.spacing5,
-                                        end = ReedTheme.spacing.spacing5,
-                                    ),
-                                text = stringResource(id = R.string.kakao_login),
-                                leadingIcon = {
-                                    Icon(
-                                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
-                                        contentDescription = "Kakao Icon",
-                                        tint = Color.Unspecified,
-                                    )
-                                },
-                            )
-                            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
                         }
                     }
                 }

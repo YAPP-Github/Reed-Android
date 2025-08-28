@@ -152,7 +152,7 @@ internal fun SettingsUi(
             ReedDivider(modifier = Modifier.padding(vertical = ReedTheme.spacing.spacing4))
             if (state.isGuestMode) {
                 SettingItem(
-                    title = stringResource(R.string.login),
+                    title = stringResource(R.string.settings_login),
                     onItemClick = {
                         state.eventSink(SettingsUiEvent.OnLoginClick)
                     },
