@@ -26,6 +26,7 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.ReedTextButton
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
+import com.ninecraft.booket.core.designsystem.component.button.smallButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.ReedScaffold
@@ -62,7 +63,7 @@ internal fun LoginUi(
                     ReedCloseTopAppBar(
                         onClose = {
                             state.eventSink(LoginUiEvent.OnCloseButtonClick)
-                        }
+                        },
                     )
                     Column(
                         modifier = Modifier
@@ -83,7 +84,10 @@ internal fun LoginUi(
                             style = ReedTheme.typography.headline2SemiBold,
                         )
                     }
-                    Column {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
                         ReedButton(
                             onClick = {
                                 state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
@@ -105,25 +109,16 @@ internal fun LoginUi(
                                 )
                             },
                         )
-                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
                         if (state.returnToScreen == null) {
                             ReedTextButton(
                                 onClick = {
                                     state.eventSink(LoginUiEvent.OnGuestLoginButtonClick)
                                 },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        start = ReedTheme.spacing.spacing5,
-                                        end = ReedTheme.spacing.spacing5,
-                                    ),
-                            ) {
-                                Text(
-                                    text = stringResource(id = R.string.guest_login),
-                                    color = ReedTheme.colors.contentSecondary,
-                                    style = ReedTheme.typography.body1Medium,
-                                )
-                            }
+                                text = stringResource(R.string.guest_login),
+                                sizeStyle = smallButtonStyle,
+                                colorStyle = ReedButtonColorStyle.TEXT,
+                            )
                         }
                     }
                 }
