@@ -94,13 +94,8 @@ internal fun HomeContent(
             .fillMaxSize()
             .background(ReedTheme.colors.baseSecondary),
     ) {
-        when (state.uiState) {
-            is UiState.Idle -> {}
-            is UiState.Loading -> {
-                ReedLoadingIndicator()
-            }
-
-            is UiState.Success -> {
+        if (state.isGuestMode) {
+            if (state.isGuestMode) {
                 Column(
                     modifier = modifier
                         .fillMaxSize()
@@ -114,63 +109,23 @@ internal fun HomeContent(
                         style = ReedTheme.typography.headline2Medium,
                     )
                     Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
-
-                    if (state.recentBooks.isEmpty()) {
-                        EmptyBookCard(
-                            onBookRegisterClick = {
-                                state.eventSink(HomeUiEvent.OnBookRegisterClick)
-                            },
-                            modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
-                        )
-                    } else {
-                        val pagerState = rememberPagerState(pageCount = { state.recentBooks.size })
-
-                        HorizontalPager(
-                            state = pagerState,
-                            modifier = Modifier.fillMaxWidth(),
-                            contentPadding = PaddingValues(horizontal = ReedTheme.spacing.spacing5),
-                            pageSpacing = ReedTheme.spacing.spacing5,
-                        ) { page ->
-                            BookCard(
-                                recentBookInfo = state.recentBooks[page],
-                                onBookDetailClick = {
-                                    state.eventSink(
-                                        HomeUiEvent.OnBookDetailClick(
-                                            state.recentBooks[page].userBookId,
-                                            state.recentBooks[page].isbn13,
-                                        ),
-                                    )
-                                },
-                                onRecordButtonClick = {
-                                    state.eventSink(HomeUiEvent.OnRecordButtonClick(state.recentBooks[page].userBookId))
-                                },
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center,
-                        ) {
-                            repeat(pagerState.pageCount) { iteration ->
-                                val color =
-                                    if (pagerState.currentPage == iteration) ReedTheme.colors.bgPrimary else ReedTheme.colors.bgSecondaryPressed
-                                Box(
-                                    modifier = Modifier
-                                        .size(12.dp)
-                                        .padding(3.dp)
-                                        .clip(CircleShape)
-                                        .background(color),
-                                )
-                            }
-                        }
-                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing7))
-                    }
+                    EmptyBookCard(
+                        onBookRegisterClick = {
+                            state.eventSink(HomeUiEvent.OnBookRegisterClick)
+                        },
+                        modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+                    )
                     Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
                 }
             }
+        } else {
+            when (state.uiState) {
+                is UiState.Idle -> {}
+                is UiState.Loading -> {
+                    ReedLoadingIndicator()
+                }
 
-            is UiState.Error -> {
-                if (state.isGuestMode) {
+                is UiState.Success -> {
                     Column(
                         modifier = modifier
                             .fillMaxSize()
@@ -184,15 +139,62 @@ internal fun HomeContent(
                             style = ReedTheme.typography.headline2Medium,
                         )
                         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
-                        EmptyBookCard(
-                            onBookRegisterClick = {
-                                state.eventSink(HomeUiEvent.OnBookRegisterClick)
-                            },
-                            modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
-                        )
+
+                        if (state.recentBooks.isEmpty()) {
+                            EmptyBookCard(
+                                onBookRegisterClick = {
+                                    state.eventSink(HomeUiEvent.OnBookRegisterClick)
+                                },
+                                modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
+                            )
+                        } else {
+                            val pagerState = rememberPagerState(pageCount = { state.recentBooks.size })
+
+                            HorizontalPager(
+                                state = pagerState,
+                                modifier = Modifier.fillMaxWidth(),
+                                contentPadding = PaddingValues(horizontal = ReedTheme.spacing.spacing5),
+                                pageSpacing = ReedTheme.spacing.spacing5,
+                            ) { page ->
+                                BookCard(
+                                    recentBookInfo = state.recentBooks[page],
+                                    onBookDetailClick = {
+                                        state.eventSink(
+                                            HomeUiEvent.OnBookDetailClick(
+                                                state.recentBooks[page].userBookId,
+                                                state.recentBooks[page].isbn13,
+                                            ),
+                                        )
+                                    },
+                                    onRecordButtonClick = {
+                                        state.eventSink(HomeUiEvent.OnRecordButtonClick(state.recentBooks[page].userBookId))
+                                    },
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                repeat(pagerState.pageCount) { iteration ->
+                                    val color =
+                                        if (pagerState.currentPage == iteration) ReedTheme.colors.bgPrimary else ReedTheme.colors.bgSecondaryPressed
+                                    Box(
+                                        modifier = Modifier
+                                            .size(12.dp)
+                                            .padding(3.dp)
+                                            .clip(CircleShape)
+                                            .background(color),
+                                    )
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing7))
+                        }
                         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
                     }
-                } else {
+                }
+
+                is UiState.Error -> {
                     ReedErrorUi(
                         exception = state.uiState.exception,
                         onRetryClick = { state.eventSink(HomeUiEvent.OnRetryClick) },

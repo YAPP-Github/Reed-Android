@@ -103,81 +103,81 @@ internal fun LibraryContent(
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
 
-        when (state.uiState) {
-            is UiState.Idle -> {
-                EmptyResult()
-            }
-
-            is UiState.Loading -> {
-                ReedLoadingIndicator()
-            }
-
-            is UiState.Success -> {
-                if (state.books.isEmpty()) {
-                    EmptyResult()
-                } else {
-                    InfinityLazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        loadMore = {
-                            state.eventSink(LibraryUiEvent.OnLoadMore)
+        if (state.isGuestMode) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = stringResource(R.string.library_login_required_title),
+                        color = ReedTheme.colors.contentPrimary,
+                        textAlign = TextAlign.Center,
+                        style = ReedTheme.typography.headline1SemiBold,
+                    )
+                    Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+                    Text(
+                        text = stringResource(R.string.library_login_required_description),
+                        color = ReedTheme.colors.contentSecondary,
+                        textAlign = TextAlign.Center,
+                        style = ReedTheme.typography.body1Medium,
+                    )
+                    Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+                    ReedButton(
+                        onClick = {
+                            state.eventSink(LibraryUiEvent.OnLoginClick)
                         },
-                    ) {
-                        items(state.books) {
-                            LibraryBookItem(
-                                book = it,
-                                onBookClick = {
-                                    state.eventSink(LibraryUiEvent.OnBookClick(it.userBookId, it.isbn13))
-                                },
-                            )
-                            Box(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .height(1.dp)
-                                    .background(ReedTheme.colors.borderPrimary),
-                            )
-                        }
-                        item {
-                            LoadStateFooter(
-                                footerState = state.footerState,
-                                onRetryClick = { state.eventSink(LibraryUiEvent.OnLoadMore) },
-                            )
+                        text = stringResource(R.string.login),
+                        colorStyle = ReedButtonColorStyle.SECONDARY,
+                        sizeStyle = mediumButtonStyle,
+                    )
+                }
+            }
+        } else {
+            when (state.uiState) {
+                is UiState.Idle -> {
+                    EmptyResult()
+                }
+
+                is UiState.Loading -> {
+                    ReedLoadingIndicator()
+                }
+
+                is UiState.Success -> {
+                    if (state.books.isEmpty()) {
+                        EmptyResult()
+                    } else {
+                        InfinityLazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            loadMore = {
+                                state.eventSink(LibraryUiEvent.OnLoadMore)
+                            },
+                        ) {
+                            items(state.books) {
+                                LibraryBookItem(
+                                    book = it,
+                                    onBookClick = {
+                                        state.eventSink(LibraryUiEvent.OnBookClick(it.userBookId, it.isbn13))
+                                    },
+                                )
+                                Box(
+                                    modifier = modifier
+                                        .fillMaxWidth()
+                                        .height(1.dp)
+                                        .background(ReedTheme.colors.borderPrimary),
+                                )
+                            }
+                            item {
+                                LoadStateFooter(
+                                    footerState = state.footerState,
+                                    onRetryClick = { state.eventSink(LibraryUiEvent.OnLoadMore) },
+                                )
+                            }
                         }
                     }
                 }
-            }
 
-            is UiState.Error -> {
-                if (state.isGuestMode) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = stringResource(R.string.library_login_required_title),
-                                color = ReedTheme.colors.contentPrimary,
-                                textAlign = TextAlign.Center,
-                                style = ReedTheme.typography.headline1SemiBold,
-                            )
-                            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-                            Text(
-                                text = stringResource(R.string.library_login_required_description),
-                                color = ReedTheme.colors.contentSecondary,
-                                textAlign = TextAlign.Center,
-                                style = ReedTheme.typography.body1Medium,
-                            )
-                            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
-                            ReedButton(
-                                onClick = {
-                                    state.eventSink(LibraryUiEvent.OnLoginClick)
-                                },
-                                text = stringResource(R.string.login),
-                                colorStyle = ReedButtonColorStyle.SECONDARY,
-                                sizeStyle = mediumButtonStyle,
-                            )
-                        }
-                    }
-                } else {
+                is UiState.Error -> {
                     ReedErrorUi(
                         exception = state.uiState.exception,
                         onRetryClick = { state.eventSink(LibraryUiEvent.OnRetryClick) },

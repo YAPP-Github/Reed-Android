@@ -175,11 +175,13 @@ class LibraryPresenter @AssistedInject constructor(
         }
 
         RememberedEffect(Unit) {
-            filterLibraryBooks(
-                status = currentFilter.getApiValue(),
-                page = START_INDEX,
-                size = PAGE_SIZE,
-            )
+            if (userState !is UserState.Guest) {
+                filterLibraryBooks(
+                    status = currentFilter.getApiValue(),
+                    page = START_INDEX,
+                    size = PAGE_SIZE,
+                )
+            }
         }
 
         ImpressionEffect {

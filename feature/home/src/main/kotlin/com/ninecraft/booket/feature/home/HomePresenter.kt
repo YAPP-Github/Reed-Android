@@ -92,8 +92,10 @@ class HomePresenter @AssistedInject constructor(
             }
         }
 
-        RememberedEffect(true) {
-            loadHomeContent()
+        RememberedEffect(userState) {
+            if (userState !is UserState.Guest) {
+                loadHomeContent()
+            }
         }
 
         ImpressionEffect {
