@@ -4,6 +4,7 @@ import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
 import com.ninecraft.booket.core.model.AutoLoginState
+import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.core.network.request.LoginRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import kotlinx.coroutines.flow.map
@@ -48,9 +49,16 @@ internal class DefaultAuthRepository @Inject constructor(
 
     override val autoLoginState = tokenDataSource.accessToken
         .map { accessToken ->
-            when {
-                accessToken.isBlank() -> AutoLoginState.NOT_LOGGED_IN
-                else -> AutoLoginState.LOGGED_IN
-            }
+            if (accessToken.isBlank()) AutoLoginState.NOT_LOGGED_IN else AutoLoginState.LOGGED_IN
         }
+
+    override val userState = tokenDataSource.accessToken
+        .map { accessToken ->
+            if (accessToken.isBlank()) UserState.Guest else UserState.LoggedIn
+        }
+
+    override suspend fun getCurrentUserState(): UserState {
+        val accessToken = tokenDataSource.getAccessToken()
+        return if (accessToken.isBlank()) UserState.Guest else UserState.LoggedIn
+    }
 }

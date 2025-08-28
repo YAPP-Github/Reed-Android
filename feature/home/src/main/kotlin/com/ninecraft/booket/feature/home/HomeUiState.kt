@@ -20,6 +20,7 @@ sealed interface UiState {
 data class HomeUiState(
     val uiState: UiState = UiState.Idle,
     val recentBooks: ImmutableList<RecentBookModel> = persistentListOf(),
+    val isGuestMode: Boolean = false,
     val sideEffect: HomeSideEffect? = null,
     val eventSink: (HomeUiEvent) -> Unit,
 ) : CircuitUiState

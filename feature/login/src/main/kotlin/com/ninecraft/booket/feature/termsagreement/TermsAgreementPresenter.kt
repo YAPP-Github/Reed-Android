@@ -17,6 +17,7 @@ import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
+import com.slack.circuit.runtime.popUntil
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
@@ -28,6 +29,7 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
 class TermsAgreementPresenter @AssistedInject constructor(
+    @Assisted private val screen: TermsAgreementScreen,
     @Assisted private val navigator: Navigator,
     private val userRepository: UserRepository,
     private val analyticsHelper: AnalyticsHelper,
@@ -73,7 +75,11 @@ class TermsAgreementPresenter @AssistedInject constructor(
                     scope.launch {
                         userRepository.agreeTerms(true)
                             .onSuccess {
-                                navigator.resetRoot(HomeScreen)
+                                if (screen.returnToScreen != null) {
+                                    navigator.popUntil { it == screen.returnToScreen }
+                                } else {
+                                    navigator.resetRoot(HomeScreen)
+                                }
                             }.onFailure { exception ->
                                 exception.message?.let { Logger.e(it) }
                                 sideEffect = exception.message?.let {
@@ -86,7 +92,7 @@ class TermsAgreementPresenter @AssistedInject constructor(
         }
 
         ImpressionEffect {
-            analyticsHelper.logScreenView(TermsAgreementScreen.name)
+            analyticsHelper.logScreenView(screen.name)
         }
 
         return TermsAgreementUiState(
@@ -99,6 +105,9 @@ class TermsAgreementPresenter @AssistedInject constructor(
     @CircuitInject(TermsAgreementScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(navigator: Navigator): TermsAgreementPresenter
+        fun create(
+            screen: TermsAgreementScreen,
+            navigator: Navigator,
+        ): TermsAgreementPresenter
     }
 }

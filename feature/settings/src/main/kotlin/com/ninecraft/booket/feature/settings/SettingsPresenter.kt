@@ -10,13 +10,16 @@ import com.ninecraft.booket.core.common.constants.WebViewConstants
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
+import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OssLicensesScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.ninecraft.booket.feature.screens.WebViewScreen
+import com.ninecraft.booket.feature.screens.extensions.redirectToLogin
 import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -43,6 +46,7 @@ class SettingsPresenter @AssistedInject constructor(
     @Composable
     override fun present(): SettingsUiState {
         val scope = rememberCoroutineScope()
+        val userState by authRepository.userState.collectAsRetainedState(initial = UserState.Guest)
         var isLoading by rememberRetained { mutableStateOf(false) }
         var isLogoutDialogVisible by rememberRetained { mutableStateOf(false) }
         var isWithdrawBottomSheetVisible by rememberRetained { mutableStateOf(false) }
@@ -58,7 +62,7 @@ class SettingsPresenter @AssistedInject constructor(
                     authRepository.logout()
                         .onSuccess {
                             analyticsHelper.logEvent(SETTINGS_LOGOUT_COMPLETE)
-                            navigator.resetRoot(LoginScreen)
+                            navigator.resetRoot(LoginScreen())
                         }
                         .onFailure { exception ->
                             val handleErrorMessage = { message: String ->
@@ -70,13 +74,12 @@ class SettingsPresenter @AssistedInject constructor(
                                 exception = exception,
                                 onError = handleErrorMessage,
                                 onLoginRequired = {
-                                    navigator.resetRoot(LoginScreen)
+                                    navigator.resetRoot(LoginScreen())
                                 },
                             )
                         }
                 } finally {
                     isLoading = false
-                    isLogoutDialogVisible = false
                 }
             }
         }
@@ -88,7 +91,7 @@ class SettingsPresenter @AssistedInject constructor(
                     authRepository.withdraw()
                         .onSuccess {
                             analyticsHelper.logEvent(SETTINGS_WITHDRAWAL_COMPLETE)
-                            navigator.resetRoot(LoginScreen)
+                            navigator.resetRoot(LoginScreen())
                         }
                         .onFailure { exception ->
                             val handleErrorMessage = { message: String ->
@@ -100,13 +103,12 @@ class SettingsPresenter @AssistedInject constructor(
                                 exception = exception,
                                 onError = handleErrorMessage,
                                 onLoginRequired = {
-                                    navigator.resetRoot(LoginScreen)
+                                    navigator.resetRoot(LoginScreen())
                                 },
                             )
                         }
                 } finally {
                     isLoading = false
-                    isWithdrawBottomSheetVisible = false
                 }
             }
         }
@@ -180,15 +182,23 @@ class SettingsPresenter @AssistedInject constructor(
                 }
 
                 is SettingsUiEvent.Logout -> {
+                    isLogoutDialogVisible = false
                     logout()
                 }
 
                 is SettingsUiEvent.Withdraw -> {
+                    isWithdrawBottomSheetVisible = false
                     withdraw()
                 }
 
                 is SettingsUiEvent.OnVersionClick -> {
                     sideEffect = SettingsSideEffect.NavigateToPlayStore
+                }
+
+                is SettingsUiEvent.OnLoginClick -> {
+                    scope.launch {
+                        navigator.redirectToLogin()
+                    }
                 }
             }
         }
@@ -208,6 +218,7 @@ class SettingsPresenter @AssistedInject constructor(
             isWithdrawConfirmed = isWithdrawConfirmed,
             latestVersion = latestVersion,
             isOptionalUpdateDialogVisible = isOptionalUpdateDialogVisible,
+            isGuestMode = userState is UserState.Guest,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )

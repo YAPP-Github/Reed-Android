@@ -17,6 +17,19 @@ internal class DefaultBookRepository @Inject constructor(
     override val bookRecentSearches = bookRecentSearchDataSource.recentSearches
     override val libraryRecentSearches = libraryRecentSearchDataSource.recentSearches
 
+    override suspend fun searchBookAsGuest(
+        query: String,
+        start: Int,
+    ) = runSuspendCatching {
+        val result = service.searchBookAsGuest(
+            query = query,
+            start = start,
+        ).toModel()
+
+        bookRecentSearchDataSource.addRecentSearch(query)
+        result
+    }
+
     override suspend fun searchBook(
         query: String,
         start: Int,

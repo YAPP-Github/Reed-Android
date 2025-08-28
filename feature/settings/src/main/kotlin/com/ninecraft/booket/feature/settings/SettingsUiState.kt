@@ -13,6 +13,7 @@ data class SettingsUiState(
     val latestVersion: String = "",
     val isUpdateAvailable: Boolean = false,
     val isOptionalUpdateDialogVisible: Boolean = false,
+    val isGuestMode: Boolean = false,
     val sideEffect: SettingsSideEffect? = null,
     val eventSink: (SettingsUiEvent) -> Unit,
 ) : CircuitUiState
@@ -40,4 +41,5 @@ sealed interface SettingsUiEvent : CircuitUiEvent {
     data object Logout : SettingsUiEvent
     data object Withdraw : SettingsUiEvent
     data object OnVersionClick : SettingsUiEvent
+    data object OnLoginClick : SettingsUiEvent
 }

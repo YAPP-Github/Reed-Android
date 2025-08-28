@@ -37,7 +37,7 @@ class OnboardingPresenter @AssistedInject constructor(
                     if (event.currentPage == 2) {
                         scope.launch {
                             repository.setOnboardingCompleted(true)
-                            navigator.resetRoot(LoginScreen)
+                            navigator.resetRoot(LoginScreen())
                         }
                     } else {
                         pagerState.let { state ->

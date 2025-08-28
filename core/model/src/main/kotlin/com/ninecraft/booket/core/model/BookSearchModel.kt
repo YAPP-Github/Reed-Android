@@ -27,4 +27,11 @@ data class BookSummaryModel(
     val link: String = "",
     val userBookStatus: String = "",
     val key: String = "",
-)
+) {
+    val isRegistered: Boolean
+        get() = userBookStatus != BEFORE_REGISTRATION
+
+    companion object {
+        const val BEFORE_REGISTRATION = "BEFORE_REGISTRATION"
+    }
+}

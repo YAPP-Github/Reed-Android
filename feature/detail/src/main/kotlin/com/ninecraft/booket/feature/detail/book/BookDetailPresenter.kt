@@ -135,7 +135,7 @@ class BookDetailPresenter @AssistedInject constructor(
                         exception = e,
                         onError = handleErrorMessage,
                         onLoginRequired = {
-                            navigator.resetRoot(LoginScreen)
+                            navigator.resetRoot(LoginScreen())
                         },
                     )
                 }
@@ -160,7 +160,7 @@ class BookDetailPresenter @AssistedInject constructor(
                             exception = exception,
                             onError = handleErrorMessage,
                             onLoginRequired = {
-                                navigator.resetRoot(LoginScreen)
+                                navigator.resetRoot(LoginScreen())
                             },
                         )
                     }
@@ -210,7 +210,7 @@ class BookDetailPresenter @AssistedInject constructor(
                             exception = exception,
                             onError = handleErrorMessage,
                             onLoginRequired = {
-                                navigator.resetRoot(LoginScreen)
+                                navigator.resetRoot(LoginScreen())
                             },
                         )
                     }
@@ -234,7 +234,7 @@ class BookDetailPresenter @AssistedInject constructor(
                             exception = exception,
                             onError = handleErrorMessage,
                             onLoginRequired = {
-                                navigator.resetRoot(LoginScreen)
+                                navigator.resetRoot(LoginScreen())
                             },
                         )
                     }
