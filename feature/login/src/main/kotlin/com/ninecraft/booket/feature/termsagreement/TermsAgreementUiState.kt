@@ -9,7 +9,6 @@ import java.util.UUID
 data class TermsAgreementUiState(
     val isAllAgreed: Boolean,
     val agreedTerms: ImmutableList<Boolean>,
-    val isGuestMode: Boolean = false,
     val sideEffect: TermsAgreementSideEffect? = null,
     val eventSink: (TermsAgreementUiEvent) -> Unit,
 ) : CircuitUiState

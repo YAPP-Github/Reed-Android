@@ -42,7 +42,6 @@ class LoginPresenter @AssistedInject constructor(
     @Composable
     override fun present(): LoginUiState {
         val scope = rememberCoroutineScope()
-        val userState by authRepository.userState.collectAsRetainedState(initial = UserState.Guest)
         var isLoading by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<LoginSideEffect?>(null) }
 
@@ -117,7 +116,6 @@ class LoginPresenter @AssistedInject constructor(
 
         return LoginUiState(
             isLoading = isLoading,
-            isGuestMode = userState is UserState.Guest,
             returnToScreen = screen.returnToScreen,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,

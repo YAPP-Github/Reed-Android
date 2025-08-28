@@ -9,22 +9,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.WebViewConstants
-import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
-import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.feature.screens.HomeScreen
-import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.ninecraft.booket.feature.screens.WebViewScreen
-import com.ninecraft.booket.feature.screens.extensions.popUntilOrGoTo
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
-import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.popUntil
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -38,14 +32,12 @@ class TermsAgreementPresenter @AssistedInject constructor(
     @Assisted private val screen: TermsAgreementScreen,
     @Assisted private val navigator: Navigator,
     private val userRepository: UserRepository,
-    private val authRepository: AuthRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<TermsAgreementUiState> {
 
     @Composable
     override fun present(): TermsAgreementUiState {
         val scope = rememberCoroutineScope()
-        val userState by authRepository.userState.collectAsRetainedState(initial = UserState.Guest)
         var sideEffect by rememberRetained { mutableStateOf<TermsAgreementSideEffect?>(null) }
 
         var agreedTerms by rememberRetained {
@@ -83,7 +75,7 @@ class TermsAgreementPresenter @AssistedInject constructor(
                     scope.launch {
                         userRepository.agreeTerms(true)
                             .onSuccess {
-                                if (userState is UserState.Guest) {
+                                if (screen.returnToScreen != null) {
                                     navigator.popUntil { it == screen.returnToScreen }
                                 } else {
                                     navigator.resetRoot(HomeScreen)
@@ -106,7 +98,6 @@ class TermsAgreementPresenter @AssistedInject constructor(
         return TermsAgreementUiState(
             isAllAgreed = isAllAgreed,
             agreedTerms = agreedTerms,
-            isGuestMode = userState is UserState.Guest,
             eventSink = ::handleEvent,
         )
     }

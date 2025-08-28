@@ -8,7 +8,6 @@ import java.util.UUID
 
 data class LoginUiState(
     val isLoading: Boolean = false,
-    val isGuestMode: Boolean = false,
     val returnToScreen: Screen? = null,
     val sideEffect: LoginSideEffect? = null,
     val eventSink: (LoginUiEvent) -> Unit,

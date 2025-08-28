@@ -60,11 +60,13 @@ internal fun LoginUi(
         ) {
             Box(modifier = modifier.fillMaxSize()) {
                 Column {
-                    ReedCloseTopAppBar(
-                        onClose = {
-                            state.eventSink(LoginUiEvent.OnCloseButtonClick)
-                        },
-                    )
+                    if (state.returnToScreen != null) {
+                        ReedCloseTopAppBar(
+                            onClose = {
+                                state.eventSink(LoginUiEvent.OnCloseButtonClick)
+                            },
+                        )
+                    }
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
