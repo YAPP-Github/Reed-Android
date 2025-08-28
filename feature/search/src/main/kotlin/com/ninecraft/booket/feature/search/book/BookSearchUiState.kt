@@ -64,14 +64,3 @@ sealed interface BookSearchUiEvent : CircuitUiEvent {
     data object OnBookRegisterSuccessOkButtonClick : BookSearchUiEvent
     data object OnBookRegisterSuccessCancelButtonClick : BookSearchUiEvent
 }
-
-enum class BookRegisteredState(val value: String) {
-    BEFORE_REGISTRATION("BEFORE_REGISTRATION"),
-    ;
-
-    companion object {
-        fun from(value: String?): BookRegisteredState? {
-            return entries.find { it.value == value }
-        }
-    }
-}
