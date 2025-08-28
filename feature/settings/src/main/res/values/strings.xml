@@ -18,4 +18,5 @@
     <string name="settings_optional_update_title">최신 버전이 출시되었습니다.</string>
     <string name="settings_optional_update_message">최적의 사용 환경을 위해 업데이트해주세요.</string>
     <string name="settings_optional_update_button_text">업데이트하기</string>
+    <string name="login">로그인</string>
 </resources>

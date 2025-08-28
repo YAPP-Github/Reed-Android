@@ -1,5 +1,7 @@
 package com.ninecraft.booket.feature.library
 
+import android.R.attr.onClick
+import android.R.id.message
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,7 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.utils.isNetworkError
 import com.ninecraft.booket.core.designsystem.DevicePreview
+import com.ninecraft.booket.core.designsystem.component.button.ReedButton
+import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
+import com.ninecraft.booket.core.designsystem.component.button.mediumButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.ReedScaffold
@@ -144,10 +150,42 @@ internal fun LibraryContent(
             }
 
             is UiState.Error -> {
-                ReedErrorUi(
-                    exception = state.uiState.exception,
-                    onRetryClick = { state.eventSink(LibraryUiEvent.OnRetryClick) },
-                )
+                if (state.isGuestMode) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = stringResource(R.string.library_login_required_title),
+                                color = ReedTheme.colors.contentPrimary,
+                                textAlign = TextAlign.Center,
+                                style = ReedTheme.typography.headline1SemiBold,
+                            )
+                            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+                            Text(
+                                text = stringResource(R.string.library_login_required_description),
+                                color = ReedTheme.colors.contentSecondary,
+                                textAlign = TextAlign.Center,
+                                style = ReedTheme.typography.body1Medium,
+                            )
+                            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+                            ReedButton(
+                                onClick = {
+                                    state.eventSink(LibraryUiEvent.OnLoginClick)
+                                },
+                                text = stringResource(R.string.login),
+                                colorStyle = ReedButtonColorStyle.SECONDARY,
+                                sizeStyle = mediumButtonStyle,
+                            )
+                        }
+                    }
+                } else {
+                    ReedErrorUi(
+                        exception = state.uiState.exception,
+                        onRetryClick = { state.eventSink(LibraryUiEvent.OnRetryClick) },
+                    )
+                }
             }
         }
     }

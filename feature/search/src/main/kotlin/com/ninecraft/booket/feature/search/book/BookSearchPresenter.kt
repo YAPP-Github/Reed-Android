@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.search.book
 
+import android.text.TextUtils.replace
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
@@ -10,6 +11,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.BookStatus
+import com.ninecraft.booket.core.common.utils.UiText
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
@@ -21,6 +23,8 @@ import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.SearchScreen
 import com.ninecraft.booket.feature.screens.extensions.delayedGoTo
+import com.ninecraft.booket.feature.screens.extensions.redirectToLogin
+import com.ninecraft.booket.feature.search.R
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
@@ -35,7 +39,9 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
+import com.ninecraft.booket.core.designsystem.R as designR
 
+// TODO 도서 검색 화면 진입 로그와, 도서 검색 이벤트 로그를 분리
 class BookSearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val repository: BookRepository,
@@ -122,12 +128,13 @@ class BookSearchPresenter @AssistedInject constructor(
         }
 
         fun upsertBook(isbn13: String, bookStatus: String) {
-            if (userState is UserState.Guest) {
-                isLoginDialogVisible = true
-                return
-            }
-
             scope.launch {
+                if (userState is UserState.Guest) {
+                    sideEffect = BookSearchSideEffect.ShowToast(UiText.StringResource(designR.string.login_required))
+                    navigator.redirectToLogin()
+                    return@launch
+                }
+
                 repository.upsertBook(isbn13, bookStatus)
                     .onSuccess {
                         registeredUserBookId = it.userBookId
@@ -147,14 +154,14 @@ class BookSearchPresenter @AssistedInject constructor(
                         analyticsHelper.logEvent(ERROR_REGISTER_BOOK)
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)
-                            sideEffect = BookSearchSideEffect.ShowToast(message)
+                            sideEffect = BookSearchSideEffect.ShowToast(UiText.DirectString(message))
                         }
 
                         handleException(
                             exception = exception,
                             onError = handleErrorMessage,
                             onLoginRequired = {
-                                navigator.resetRoot(LoginScreen)
+                                navigator.resetRoot(LoginScreen())
                             },
                         )
                     }
@@ -163,6 +170,10 @@ class BookSearchPresenter @AssistedInject constructor(
 
         fun handleEvent(event: BookSearchUiEvent) {
             when (event) {
+                is BookSearchUiEvent.InitSideEffect -> {
+                    sideEffect = null
+                }
+
                 is BookSearchUiEvent.OnBackClick -> {
                     navigator.pop()
                 }
@@ -211,7 +222,7 @@ class BookSearchPresenter @AssistedInject constructor(
                     selectedBookIsbn = event.isbn13
 
                     if (selectedBookIsbn.isEmpty()) {
-                        sideEffect = BookSearchSideEffect.ShowToast("isbn이 없는 도서는 등록할 수 없습니다")
+                        sideEffect = BookSearchSideEffect.ShowToast(UiText.StringResource(R.string.error_book_no_isbn))
                     } else {
                         isBookRegisterBottomSheetVisible = true
                     }
@@ -246,12 +257,6 @@ class BookSearchPresenter @AssistedInject constructor(
                 is BookSearchUiEvent.OnBookRegisterSuccessCancelButtonClick -> {
                     isBookRegisterSuccessBottomSheetVisible = false
                 }
-
-                is BookSearchUiEvent.OnLoginDialogDismiss -> {
-                    isLoginDialogVisible = false
-                }
-
-                is BookSearchUiEvent.OnKakaoLoginButtonClick -> {}
             }
         }
 
@@ -267,7 +272,6 @@ class BookSearchPresenter @AssistedInject constructor(
             selectedBookStatus = selectedBookStatus,
             isBookRegisterSuccessBottomSheetVisible = isBookRegisterSuccessBottomSheetVisible,
             isGuestMode = userState is UserState.Guest,
-            isLoginDialogVisible = isLoginDialogVisible,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )

@@ -150,18 +150,28 @@ internal fun SettingsUi(
                 },
             )
             ReedDivider(modifier = Modifier.padding(vertical = ReedTheme.spacing.spacing4))
-            SettingItem(
-                title = stringResource(R.string.settings_logout),
-                onItemClick = {
-                    state.eventSink(SettingsUiEvent.OnLogoutClick)
-                },
-            )
-            SettingItem(
-                title = stringResource(R.string.settings_withdraw),
-                onItemClick = {
-                    state.eventSink(SettingsUiEvent.OnWithdrawClick)
-                },
-            )
+            if (state.isGuestMode) {
+                SettingItem(
+                    title = stringResource(R.string.login),
+                    onItemClick = {
+                        state.eventSink(SettingsUiEvent.OnLoginClick)
+                    },
+                )
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+            } else {
+                SettingItem(
+                    title = stringResource(R.string.settings_logout),
+                    onItemClick = {
+                        state.eventSink(SettingsUiEvent.OnLogoutClick)
+                    },
+                )
+                SettingItem(
+                    title = stringResource(R.string.settings_withdraw),
+                    onItemClick = {
+                        state.eventSink(SettingsUiEvent.OnWithdrawClick)
+                    },
+                )
+            }
         }
 
         if (state.isLoading) {

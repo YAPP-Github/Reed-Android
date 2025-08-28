@@ -29,6 +29,7 @@ import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.ReedScaffold
+import com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -59,6 +60,11 @@ internal fun LoginUi(
         ) {
             Box(modifier = modifier.fillMaxSize()) {
                 Column {
+                    ReedCloseTopAppBar(
+                        onClose = {
+                            state.eventSink(LoginUiEvent.OnCloseButtonClick)
+                        }
+                    )
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -67,13 +73,13 @@ internal fun LoginUi(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Image(
-                            painter = painterResource(designR.drawable.img_reed_logo_big),
+                            painter = painterResource(R.drawable.img_reed_logo_big),
                             contentDescription = "Reed Logo",
                             modifier = Modifier.height(67.14.dp),
                         )
                         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
                         Text(
-                            text = stringResource(designR.string.login_reed_slogan),
+                            text = stringResource(R.string.login_reed_slogan),
                             color = ReedTheme.colors.contentBrand,
                             style = ReedTheme.typography.headline2SemiBold,
                         )
@@ -91,32 +97,34 @@ internal fun LoginUi(
                                     start = ReedTheme.spacing.spacing5,
                                     end = ReedTheme.spacing.spacing5,
                                 ),
-                            text = stringResource(id = designR.string.kakao_login),
+                            text = stringResource(id = R.string.kakao_login),
                             leadingIcon = {
                                 Icon(
-                                    imageVector = ImageVector.vectorResource(id = designR.drawable.ic_kakao),
+                                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
                                     contentDescription = "Kakao Icon",
                                     tint = Color.Unspecified,
                                 )
                             },
                         )
                         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
-                        ReedTextButton(
-                            onClick = {
-                                state.eventSink(LoginUiEvent.OnGuestLoginButtonClick)
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    start = ReedTheme.spacing.spacing5,
-                                    end = ReedTheme.spacing.spacing5,
-                                ),
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.guest_login),
-                                color = ReedTheme.colors.contentSecondary,
-                                style = ReedTheme.typography.body1Medium,
-                            )
+                        if (state.returnToScreen == null) {
+                            ReedTextButton(
+                                onClick = {
+                                    state.eventSink(LoginUiEvent.OnGuestLoginButtonClick)
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        start = ReedTheme.spacing.spacing5,
+                                        end = ReedTheme.spacing.spacing5,
+                                    ),
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.guest_login),
+                                    color = ReedTheme.colors.contentSecondary,
+                                    style = ReedTheme.typography.body1Medium,
+                                )
+                            }
                         }
                     }
                 }

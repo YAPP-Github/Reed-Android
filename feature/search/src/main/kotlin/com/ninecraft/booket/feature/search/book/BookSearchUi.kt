@@ -37,7 +37,6 @@ import com.ninecraft.booket.feature.search.R
 import com.ninecraft.booket.feature.search.book.component.BookItem
 import com.ninecraft.booket.feature.search.book.component.BookRegisterBottomSheet
 import com.ninecraft.booket.feature.search.book.component.BookRegisterSuccessBottomSheet
-import com.ninecraft.booket.feature.search.book.component.LoginDialog
 import com.ninecraft.booket.feature.search.common.component.RecentSearchTitle
 import com.ninecraft.booket.feature.search.common.component.SearchItem
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -52,43 +51,31 @@ internal fun SearchUi(
     state: BookSearchUiState,
     modifier: Modifier = Modifier,
 ) {
-    HandleBookSearchSideEffects(state = state)
+    HandleBookSearchSideEffects(
+        state = state,
+        eventSink = state.eventSink,
+    )
 
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = White,
     ) { innerPadding ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                ReedBackTopAppBar(
-                    title = stringResource(R.string.search_title),
-                    onBackClick = {
-                        state.eventSink(BookSearchUiEvent.OnBackClick)
-                    },
-                )
-                SearchContent(
-                    state = state,
-                    modifier = Modifier,
-                )
-            }
+            ReedBackTopAppBar(
+                title = stringResource(R.string.search_title),
+                onBackClick = {
+                    state.eventSink(BookSearchUiEvent.OnBackClick)
+                },
+            )
+            SearchContent(
+                state = state,
+                modifier = Modifier,
+            )
         }
-    }
-
-    if (state.isLoginDialogVisible) {
-        LoginDialog(
-            onDismissRequest = {
-                state.eventSink(BookSearchUiEvent.OnLoginDialogDismiss)
-            },
-            onKakaoLoginButtonClick = {
-                state.eventSink(BookSearchUiEvent.OnKakaoLoginButtonClick)
-            },
-        )
     }
 }
 

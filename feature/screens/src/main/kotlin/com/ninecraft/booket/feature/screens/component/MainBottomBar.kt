@@ -132,23 +132,6 @@ private fun RowScope.MainBottomBarItem(
     }
 }
 
-@Suppress("unused")
-fun Navigator.popUntilOrGoTo(screen: Screen) {
-    if (screen in peekBackStack()) {
-        popUntil { it == screen }
-    } else {
-        goTo(screen)
-    }
-}
-
-@Composable
-fun getCurrentTab(backStack: SaveableBackStack): MainTab? {
-    val currentScreen = backStack.topRecord?.screen
-    return currentScreen?.let { screen ->
-        MainTab.entries.find { it.screen::class == currentScreen::class }
-    }
-}
-
 @ComponentPreview
 @Composable
 private fun MainBottomBarPreview() {

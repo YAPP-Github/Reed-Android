@@ -8,16 +8,21 @@ import com.skydoves.compose.effects.RememberedEffect
 @Composable
 internal fun HandleBookSearchSideEffects(
     state: BookSearchUiState,
+    eventSink: (BookSearchUiEvent) -> Unit,
 ) {
     val context = LocalContext.current
 
     RememberedEffect(state.sideEffect) {
         when (state.sideEffect) {
             is BookSearchSideEffect.ShowToast -> {
-                Toast.makeText(context, state.sideEffect.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, state.sideEffect.message.asString(context), Toast.LENGTH_SHORT).show()
             }
 
             null -> {}
+        }
+
+        if (state.sideEffect != null) {
+            eventSink(BookSearchUiEvent.InitSideEffect)
         }
     }
 }

@@ -56,7 +56,7 @@ class SplashPresenter @AssistedInject constructor(
                         if (userProfile.termsAgreed) {
                             navigator.resetRoot(HomeScreen)
                         } else {
-                            navigator.resetRoot(LoginScreen)
+                            navigator.resetRoot(LoginScreen())
                         }
                     }
                     .onFailure { exception ->
@@ -83,7 +83,7 @@ class SplashPresenter @AssistedInject constructor(
                         }
 
                         AutoLoginState.NOT_LOGGED_IN -> {
-                            navigator.resetRoot(LoginScreen)
+                            navigator.resetRoot(LoginScreen())
                         }
 
                         AutoLoginState.IDLE -> {
