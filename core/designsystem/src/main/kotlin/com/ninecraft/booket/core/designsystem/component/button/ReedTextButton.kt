@@ -47,7 +47,7 @@ fun ReedTextButton(
         },
         modifier = modifier,
         enabled = enabled,
-        colors = ButtonDefaults.buttonColors(
+        colors = ButtonDefaults.textButtonColors(
             containerColor = colorStyle.containerColor(isPressed),
             contentColor = colorStyle.contentColor(),
             disabledContentColor = colorStyle.disabledContentColor(),
