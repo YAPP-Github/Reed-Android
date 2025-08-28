@@ -63,9 +63,9 @@ Reed(리드) - 문장과 감정을 함께 담는 독서 기록 [PlayStore](https
 
 - [Circuit](https://github.com/slackhq/circuit)
 - Dagger Hilt
-- Retrofit, OkHttp
+- Retrofit, OkHttp3
 - Coil-Compose, [Landscapist](https://github.com/skydoves/landscapist)
-- Google-ML Kit
+- Google ML Kit
 - Lottie-Compose
 - Firebase(Analytics, Crashlytics, Remote Config)
 - Kakao-Auth
