@@ -18,7 +18,6 @@ enum class ReedButtonColorStyle {
         STROKE -> if (isPressed) ReedTheme.colors.basePrimary else ReedTheme.colors.basePrimary
         TEXT -> Color.Transparent
         KAKAO -> Kakao
-
     }
 
     @Composable

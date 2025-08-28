@@ -51,12 +51,12 @@ internal class DefaultAuthRepository @Inject constructor(
         .map { accessToken ->
             if (accessToken.isBlank()) AutoLoginState.NOT_LOGGED_IN else AutoLoginState.LOGGED_IN
         }
-    
+
     override val userState = tokenDataSource.accessToken
         .map { accessToken ->
             if (accessToken.isBlank()) UserState.Guest else UserState.LoggedIn
         }
-    
+
     override suspend fun getCurrentUserState(): UserState {
         val accessToken = tokenDataSource.getAccessToken()
         return if (accessToken.isBlank()) UserState.Guest else UserState.LoggedIn

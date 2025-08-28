@@ -44,4 +44,3 @@ data class GuestBookSummary(
     @SerialName("link")
     val link: String,
 )
-

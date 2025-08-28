@@ -30,10 +30,6 @@ import com.adamglin.composeshadow.dropShadow
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.slack.circuit.backstack.SaveableBackStack
-import com.slack.circuit.runtime.Navigator
-import com.slack.circuit.runtime.popUntil
-import com.slack.circuit.runtime.screen.Screen
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

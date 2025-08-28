@@ -48,11 +48,12 @@ sealed interface LibraryUiEvent : CircuitUiEvent {
         val userBookId: String,
         val isbn13: String,
     ) : LibraryUiEvent
+
     data object OnLoadMore : LibraryUiEvent
     data object OnRetryClick : LibraryUiEvent
     data class OnFilterClick(val filterOption: LibraryFilterOption) : LibraryUiEvent
     data class OnTabSelected(val tab: MainTab) : LibraryUiEvent
-    data object OnLoginClick: LibraryUiEvent
+    data object OnLoginClick : LibraryUiEvent
 }
 
 data class LibraryFilterChip(

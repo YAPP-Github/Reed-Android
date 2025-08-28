@@ -12,8 +12,8 @@ interface AuthRepository {
     suspend fun withdraw(): Result<Unit>
 
     val autoLoginState: Flow<AutoLoginState>
-    
+
     val userState: Flow<UserState>
-    
+
     suspend fun getCurrentUserState(): UserState
 }
