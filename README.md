@@ -55,7 +55,7 @@ Reed(리드) - 문장과 감정을 함께 담는 독서 기록 [PlayStore](https
   - DataStore
   - StartUp
   - Splash
-  - Camera
+  - CameraX
 
 - Kotlin Libraries (Coroutine, Serialization, Immutable Collection)
 - Compose
@@ -65,7 +65,7 @@ Reed(리드) - 문장과 감정을 함께 담는 독서 기록 [PlayStore](https
 - Dagger Hilt
 - Retrofit, OkHttp3
 - Coil-Compose, [Landscapist](https://github.com/skydoves/landscapist)
-- Google ML Kit
+- ~~Google ML Kit~~ Google Cloud Vision
 - Lottie-Compose
 - Firebase(Analytics, Crashlytics, Remote Config)
 - Kakao-Auth
@@ -106,8 +106,10 @@ Reed(리드) - 문장과 감정을 함께 담는 독서 기록 [PlayStore](https
 ├── build-logic
 ├── core
 │   ├── common
-│   ├── data
-│   ├── datastore
+│   ├── data-api
+│   ├── data-impl
+│   ├── datastore-api
+│   ├── datastore-impl
 │   ├── designsystem
 │   ├── model
 │   ├── network
