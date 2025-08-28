@@ -174,7 +174,7 @@ class LibraryPresenter @AssistedInject constructor(
             }
         }
 
-        RememberedEffect(Unit) {
+        RememberedEffect(userState) {
             if (userState !is UserState.Guest) {
                 filterLibraryBooks(
                     status = currentFilter.getApiValue(),
