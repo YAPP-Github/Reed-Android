@@ -18,9 +18,9 @@ import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.core.ui.component.FooterState
+import com.ninecraft.booket.feature.screens.BookSearchScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
-import com.ninecraft.booket.feature.screens.BookSearchScreen
 import com.ninecraft.booket.feature.screens.extensions.delayedGoTo
 import com.ninecraft.booket.feature.screens.extensions.redirectToLogin
 import com.ninecraft.booket.feature.search.R
@@ -50,7 +50,6 @@ class BookSearchPresenter @AssistedInject constructor(
     companion object {
         private const val START_INDEX = 1
         private const val SEARCH_BOOK_RESULT = "search_book_result"
-        private const val SEARCH_BOOK_NO_RESULT = "search_book_noresult"
         private const val ERROR_SEARCH_LOADING = "error_search_loading"
         private const val REGISTER_BOOK_OPTION = "register_book_option"
         private const val REGISTER_BOOK_COMPLETE = "register_book_complete"
@@ -103,9 +102,6 @@ class BookSearchPresenter @AssistedInject constructor(
                         if (startIndex == START_INDEX) {
                             uiState = UiState.Success
                             analyticsHelper.logEvent(SEARCH_BOOK_RESULT)
-                            if (result.books.isEmpty()) {
-                                analyticsHelper.logEvent(SEARCH_BOOK_NO_RESULT)
-                            }
                         } else {
                             footerState = if (isLastPage) FooterState.End else FooterState.Idle
                         }
