@@ -34,7 +34,6 @@ import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
-import com.ninecraft.booket.core.designsystem.R as designR
 
 @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
 @Composable

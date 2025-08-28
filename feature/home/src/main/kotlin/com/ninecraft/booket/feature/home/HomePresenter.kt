@@ -13,7 +13,7 @@ import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
-import com.ninecraft.booket.feature.screens.SearchScreen
+import com.ninecraft.booket.feature.screens.BookSearchScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -67,7 +67,7 @@ class HomePresenter @AssistedInject constructor(
                 }
 
                 is HomeUiEvent.OnBookRegisterClick -> {
-                    navigator.goTo(SearchScreen)
+                    navigator.goTo(BookSearchScreen)
                 }
 
                 is HomeUiEvent.OnRecordButtonClick -> {

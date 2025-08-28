@@ -5,7 +5,7 @@ object ScreenNames {
     const val HOME = "home_main"
     const val LIBRARY = "library_main"
     const val LOGIN = "login_select_method"
-    const val SEARCH = "search_book_input"
+    const val BOOK_SEARCH = "search_book_start"
     const val LIBRARY_SEARCH = "library_search_book"
     const val TERMS_AGREEMENT = "login_terms_agreement"
     const val SETTINGS = "settings_main"

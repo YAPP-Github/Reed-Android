@@ -19,7 +19,7 @@ data object LibraryScreen : ReedScreen(name = ScreenNames.LIBRARY)
 data class LoginScreen(val returnToScreen: Screen? = null) : ReedScreen(name = ScreenNames.LOGIN)
 
 @Parcelize
-data object SearchScreen : ReedScreen(name = ScreenNames.SEARCH)
+data object BookSearchScreen : ReedScreen(name = ScreenNames.BOOK_SEARCH)
 
 @Parcelize
 data object LibrarySearchScreen : ReedScreen(name = ScreenNames.LIBRARY_SEARCH)

@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.search.book
 
-import android.text.TextUtils.replace
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
@@ -21,7 +20,7 @@ import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
-import com.ninecraft.booket.feature.screens.SearchScreen
+import com.ninecraft.booket.feature.screens.BookSearchScreen
 import com.ninecraft.booket.feature.screens.extensions.delayedGoTo
 import com.ninecraft.booket.feature.screens.extensions.redirectToLogin
 import com.ninecraft.booket.feature.search.R
@@ -31,6 +30,7 @@ import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -41,7 +41,6 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
-// TODO 도서 검색 화면 진입 로그와, 도서 검색 이벤트 로그를 분리
 class BookSearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val repository: BookRepository,
@@ -50,7 +49,6 @@ class BookSearchPresenter @AssistedInject constructor(
 ) : Presenter<BookSearchUiState> {
     companion object {
         private const val START_INDEX = 1
-        private const val SEARCH_BOOK_INPUT = "search_book_input"
         private const val SEARCH_BOOK_RESULT = "search_book_result"
         private const val SEARCH_BOOK_NO_RESULT = "search_book_noresult"
         private const val ERROR_SEARCH_LOADING = "error_search_loading"
@@ -76,7 +74,6 @@ class BookSearchPresenter @AssistedInject constructor(
         var isBookRegisterBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var selectedBookStatus by rememberRetained { mutableStateOf<BookStatus?>(null) }
         var isBookRegisterSuccessBottomSheetVisible by rememberRetained { mutableStateOf(false) }
-        var isLoginDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<BookSearchSideEffect?>(null) }
 
         fun searchBooks(query: String, startIndex: Int = START_INDEX) {
@@ -105,13 +102,12 @@ class BookSearchPresenter @AssistedInject constructor(
 
                         if (startIndex == START_INDEX) {
                             uiState = UiState.Success
+                            analyticsHelper.logEvent(SEARCH_BOOK_RESULT)
+                            if (result.books.isEmpty()) {
+                                analyticsHelper.logEvent(SEARCH_BOOK_NO_RESULT)
+                            }
                         } else {
                             footerState = if (isLastPage) FooterState.End else FooterState.Idle
-                        }
-
-                        analyticsHelper.logEvent(SEARCH_BOOK_RESULT)
-                        if (startIndex == START_INDEX && result.books.isEmpty()) {
-                            analyticsHelper.logEvent(SEARCH_BOOK_NO_RESULT)
                         }
                     }
                     .onFailure { exception ->
@@ -195,7 +191,6 @@ class BookSearchPresenter @AssistedInject constructor(
                 is BookSearchUiEvent.OnSearchClick -> {
                     val query = event.query.trim()
                     if (query.isNotEmpty()) {
-                        analyticsHelper.logEvent(SEARCH_BOOK_INPUT)
                         searchBooks(query = query, startIndex = START_INDEX)
                     }
                 }
@@ -260,6 +255,10 @@ class BookSearchPresenter @AssistedInject constructor(
             }
         }
 
+        ImpressionEffect {
+            analyticsHelper.logScreenView(BookSearchScreen.name)
+        }
+
         return BookSearchUiState(
             uiState = uiState,
             footerState = footerState,
@@ -277,7 +276,7 @@ class BookSearchPresenter @AssistedInject constructor(
         )
     }
 
-    @CircuitInject(SearchScreen::class, ActivityRetainedComponent::class)
+    @CircuitInject(BookSearchScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
         fun create(navigator: Navigator): BookSearchPresenter

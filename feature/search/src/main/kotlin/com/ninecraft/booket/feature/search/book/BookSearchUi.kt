@@ -32,7 +32,7 @@ import com.ninecraft.booket.core.ui.component.LoadStateFooter
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
 import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
-import com.ninecraft.booket.feature.screens.SearchScreen
+import com.ninecraft.booket.feature.screens.BookSearchScreen
 import com.ninecraft.booket.feature.search.R
 import com.ninecraft.booket.feature.search.book.component.BookItem
 import com.ninecraft.booket.feature.search.book.component.BookRegisterBottomSheet
@@ -45,9 +45,9 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
-@CircuitInject(SearchScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(BookSearchScreen::class, ActivityRetainedComponent::class)
 @Composable
-internal fun SearchUi(
+internal fun BookSearchUi(
     state: BookSearchUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -71,7 +71,7 @@ internal fun SearchUi(
                     state.eventSink(BookSearchUiEvent.OnBackClick)
                 },
             )
-            SearchContent(
+            BookSearchContent(
                 state = state,
                 modifier = Modifier,
             )
@@ -81,7 +81,7 @@ internal fun SearchUi(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SearchContent(
+internal fun BookSearchContent(
     state: BookSearchUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -282,9 +282,9 @@ internal fun SearchContent(
 
 @DevicePreview
 @Composable
-private fun SearchPreview() {
+private fun BookSearchPreview() {
     ReedTheme {
-        SearchUi(
+        BookSearchUi(
             state = BookSearchUiState(
                 eventSink = {},
             ),
