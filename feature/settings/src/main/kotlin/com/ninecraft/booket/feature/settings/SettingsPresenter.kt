@@ -80,7 +80,6 @@ class SettingsPresenter @AssistedInject constructor(
                         }
                 } finally {
                     isLoading = false
-                    isLogoutDialogVisible = false
                 }
             }
         }
@@ -110,7 +109,6 @@ class SettingsPresenter @AssistedInject constructor(
                         }
                 } finally {
                     isLoading = false
-                    isWithdrawBottomSheetVisible = false
                 }
             }
         }
@@ -184,10 +182,12 @@ class SettingsPresenter @AssistedInject constructor(
                 }
 
                 is SettingsUiEvent.Logout -> {
+                    isLogoutDialogVisible = false
                     logout()
                 }
 
                 is SettingsUiEvent.Withdraw -> {
+                    isWithdrawBottomSheetVisible = false
                     withdraw()
                 }
 
