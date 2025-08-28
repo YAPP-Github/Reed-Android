@@ -39,7 +39,7 @@ Reed(리드) - 문장과 감정을 함께 담는 독서 기록 [PlayStore](https
 
 - IDE : Android Studio 최신 버전
 - JDK : Java 17을 실행할 수 있는 JDK
-    - (권장) Android Studio 설치 시 Embeded 된 JDK (Open JDK)
+    - (권장) Android Studio 설치 시 Embedded 된 JDK (Open JDK)
     - Java 17을 사용하는 JDK (Open JDK, AdoptOpenJDK, GraalVM)     
 - Kotlin Language : 2.2.0
 
@@ -62,10 +62,9 @@ Reed(리드) - 문장과 감정을 함께 담는 독서 기록 [PlayStore](https
   - Material3
 
 - [Circuit](https://github.com/slackhq/circuit)
+- ~~Google ML Kit~~ Google Cloud Vision
 - Dagger Hilt
 - Retrofit, OkHttp3
-- Coil-Compose, [Landscapist](https://github.com/skydoves/landscapist)
-- ~~Google ML Kit~~ Google Cloud Vision
 - Lottie-Compose
 - Firebase(Analytics, Crashlytics, Remote Config)
 - Kakao-Auth
