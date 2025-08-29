@@ -18,4 +18,5 @@
     <string name="library_search_hint">등록한 책을 검색해보세요</string>
     <string name="library_book_item_records">남긴 기록</string>
     <string name="library_empty_result">내 서재에 해당 도서가 없습니다.</string>
+    <string name="error_book_no_isbn">isbn이 없는 도서는 등록할 수 없습니다</string>
 </resources>

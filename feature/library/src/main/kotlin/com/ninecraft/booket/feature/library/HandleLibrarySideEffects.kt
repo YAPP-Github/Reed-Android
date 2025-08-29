@@ -15,7 +15,7 @@ internal fun HandleLibrarySideEffects(
     RememberedEffect(state.sideEffect) {
         when (state.sideEffect) {
             is LibrarySideEffect.ShowToast -> {
-                Toast.makeText(context, state.sideEffect.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, state.sideEffect.message.asString(context), Toast.LENGTH_SHORT).show()
             }
 
             null -> {}

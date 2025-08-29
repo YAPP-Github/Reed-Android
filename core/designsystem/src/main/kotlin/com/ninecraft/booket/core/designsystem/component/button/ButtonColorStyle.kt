@@ -2,12 +2,13 @@ package com.ninecraft.booket.core.designsystem.component.button
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.theme.Kakao
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
 enum class ReedButtonColorStyle {
-    PRIMARY, SECONDARY, TERTIARY, STROKE, KAKAO;
+    PRIMARY, SECONDARY, TERTIARY, STROKE, TEXT, KAKAO;
 
     @Composable
     fun containerColor(isPressed: Boolean) = when (this) {
@@ -15,6 +16,7 @@ enum class ReedButtonColorStyle {
         SECONDARY -> if (isPressed) ReedTheme.colors.bgSecondaryPressed else ReedTheme.colors.bgSecondary
         TERTIARY -> if (isPressed) ReedTheme.colors.bgTertiaryPressed else ReedTheme.colors.bgTertiary
         STROKE -> if (isPressed) ReedTheme.colors.basePrimary else ReedTheme.colors.basePrimary
+        TEXT -> Color.Transparent
         KAKAO -> Kakao
     }
 
@@ -24,11 +26,15 @@ enum class ReedButtonColorStyle {
         SECONDARY -> ReedTheme.colors.contentPrimary
         TERTIARY -> ReedTheme.colors.contentBrand
         STROKE -> ReedTheme.colors.contentBrand
+        TEXT -> ReedTheme.colors.borderBrand
         KAKAO -> ReedTheme.colors.contentPrimary
     }
 
     @Composable
-    fun disabledContainerColor() = ReedTheme.colors.bgDisabled
+    fun disabledContainerColor() = when (this) {
+        TEXT -> Color.Transparent
+        else -> ReedTheme.colors.bgDisabled
+    }
 
     @Composable
     fun disabledContentColor() = ReedTheme.colors.contentDisabled

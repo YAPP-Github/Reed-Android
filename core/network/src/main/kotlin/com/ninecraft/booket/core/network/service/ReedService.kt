@@ -8,6 +8,7 @@ import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
+import com.ninecraft.booket.core.network.response.GuestBookSearchResponse
 import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
@@ -49,6 +50,19 @@ interface ReedService {
 
     @GET("api/v1/users/me")
     suspend fun getUserProfile(): UserProfileResponse
+
+    // Book endpoints (no auth required)
+    @GET("api/v1/books/guest/search")
+    suspend fun searchBookAsGuest(
+        @Query("query") query: String,
+        @Query("queryType") queryType: String = "Title",
+        @Query("searchTarget") searchTarget: String = "Book",
+        @Query("maxResults") maxResults: Int = 20,
+        @Query("start") start: Int = 1,
+        @Query("sort") sort: String = "Accuracy",
+        @Query("cover") cover: String? = "Big",
+        @Query("categoryId") categoryId: Int = 0,
+    ): GuestBookSearchResponse
 
     // Book endpoints (auth required)
     @GET("api/v1/books/search")
