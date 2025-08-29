@@ -1,4 +1,5 @@
-# Reed-Android
+# Reed - 문장과 감정을 함께 담는 독서 기록
+
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.2.0-blue.svg)](https://kotlinlang.org)
 [![Gradle](https://img.shields.io/badge/gradle-8.11.1-green.svg)](https://gradle.org/)
 [![Android Studio](https://img.shields.io/badge/Android%20Studio-2025.1.2%20%28Narwhal%29-green)](https://developer.android.com/studio)
@@ -6,9 +7,11 @@
 [![targetSdkVersion](https://img.shields.io/badge/targetSdkVersion-35-orange)](https://developer.android.com/distribute/best-practices/develop/target-sdk)
 ![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/YAPP-Github/Reed-Android?utm_source=oss&utm_medium=github&utm_campaign=YAPP-Github%2FReed-Android&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 <br/>
+<img width="1024" height="500" alt="reed_graphic" src="https://github.com/user-attachments/assets/357cab12-db36-4de0-8fad-664abc5df8c8" />
 
-Reed(리드) - 문장과 감정을 함께 담는 독서 기록 [PlayStore](https://play.google.com/store/apps/details?id=com.ninecraft.booket&hl=ko)
-<img width="1024" height="500" alt="reed_graphic" src="https://github.com/user-attachments/assets/9e4e6f0a-46b0-4409-b2f9-d3c5f0a3a8b1" />
+<a href="https://play.google.com/store/apps/details?id=com.ninecraft.booket&hl=ko">
+    <img src="https://github.com/user-attachments/assets/8699ffd3-3399-45eb-9e2b-88818ba62091" width="200" />
+</a>
 
 <p align="center">
 <img src="https://github.com/user-attachments/assets/f31d5681-bbf0-4de4-93a6-37a2adf54df7" width="30%"/>
@@ -21,6 +24,17 @@ Reed(리드) - 문장과 감정을 함께 담는 독서 기록 [PlayStore](https
 </p>
 
 ## Features
+|  홈  |  도서 검색 및 등록  |  내서재  |
+|:---:|:---:|:---:|
+| <img width="230" alt="홈" src="https://github.com/user-attachments/assets/657e14e1-e578-4d7c-8c38-3591d61b1429" /> | <img width="230" alt="도서 검색 및 등록" src="https://github.com/user-attachments/assets/7a166abf-1160-4cdf-8ec5-f8071d7f0891" /> | <img width="230" alt="내서재" src="https://github.com/user-attachments/assets/d4679cd4-0188-4763-9adc-e210bef44ef0" /> |
+
+|  OCR  |  기록 등록  |  도서 & 기록 상세  |
+|:---:|:---:|:---:|
+| <img width="230" alt="OCR" src="https://github.com/user-attachments/assets/8861b7ea-a0f6-4e26-91be-c15450259752" /> | <img width="230" alt="기록 등록" src="https://github.com/user-attachments/assets/32774861-c9fa-439c-a889-ccbc842eb528" /> | <img width="230" alt="도서 & 기록 상세" src="https://github.com/user-attachments/assets/34304a37-7de1-4876-bd55-f041077b3266" /> |
+
+| 기록 카드 공유 |
+|:---:|
+| <img width="230" alt="기록 카드 공유" src="https://github.com/user-attachments/assets/4c01a5ed-e5a2-4be4-b950-96a457c87ad7" /> |
 
 ## TroubleShooting
 - [[Compose] M3 ModalBottomSheet 드래그(터치 이벤트) 막는 법](https://velog.io/@mraz3068/Compose-M3-ModalBottomSheet-Drag-Disabled)
@@ -40,7 +54,7 @@ Reed(리드) - 문장과 감정을 함께 담는 독서 기록 [PlayStore](https
 - IDE : Android Studio 최신 버전
 - JDK : Java 17을 실행할 수 있는 JDK
     - (권장) Android Studio 설치 시 Embedded 된 JDK (Open JDK)
-    - Java 17을 사용하는 JDK (Open JDK, AdoptOpenJDK, GraalVM)     
+    - Java 17을 사용하는 JDK (Open JDK, AdoptOpenJDK, GraalVM)
 - Kotlin Language : 2.2.0
 
 ### Language
@@ -50,16 +64,16 @@ Reed(리드) - 문장과 감정을 함께 담는 독서 기록 [PlayStore](https
 ### Libraries
 
 - AndroidX
-  - Activity Compose
-  - Core
-  - DataStore
-  - StartUp
-  - Splash
-  - CameraX
+    - Activity Compose
+    - Core
+    - DataStore
+    - StartUp
+    - Splash
+    - CameraX
 
 - Kotlin Libraries (Coroutine, Serialization, Immutable Collection)
 - Compose
-  - Material3
+    - Material3
 
 - [Circuit](https://github.com/slackhq/circuit)
 - ~~Google ML Kit~~ Google Cloud Vision
