@@ -35,6 +35,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -120,7 +121,7 @@ private fun CameraPreview(
     ) { _ -> }
 
     // 최초 진입 시 권한 요청
-    RememberedEffect(Unit) {
+    LaunchedEffect(Unit) {
         if (!isGranted) {
             state.eventSink(OcrUiEvent.OnHidePermissionDialog)
             permissionLauncher.launch(permission)
