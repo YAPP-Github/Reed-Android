@@ -38,7 +38,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
@@ -163,7 +162,7 @@ fun ImpressionStep(
                 ),
             enabled = state.isNextButtonEnabled,
             text = stringResource(R.string.record_next_button),
-            multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
+            multipleEventsCutterEnabled = true,
         )
     }
 
@@ -190,6 +189,7 @@ fun ImpressionStep(
                 coroutineScope.launch {
                     impressionGuideBottomSheetState.hide()
                     state.eventSink(RecordRegisterUiEvent.OnImpressionGuideConfirmed)
+                    focusRequester.requestFocus()
                 }
             },
         )
