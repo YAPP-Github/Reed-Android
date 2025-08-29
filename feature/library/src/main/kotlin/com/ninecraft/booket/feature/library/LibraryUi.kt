@@ -89,7 +89,6 @@ internal fun LibraryContent(
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
     ) {
         FilterChipGroup(
             filterList = state.filterChips,
