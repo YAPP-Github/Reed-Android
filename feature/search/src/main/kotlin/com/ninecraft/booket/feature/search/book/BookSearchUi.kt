@@ -271,7 +271,12 @@ internal fun SearchContent(
                         state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss)
                     }
                 },
-                onOKButtonClick = { state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessOkButtonClick) },
+                onOKButtonClick = {
+                    coroutineScope.launch {
+                        bookRegisterSuccessBottomSheetState.hide()
+                        state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessOkButtonClick)
+                    }
+                },
             )
         }
     }
