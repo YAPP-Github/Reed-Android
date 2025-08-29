@@ -26,9 +26,6 @@ dependencies {
         projects.core.common,
 
         libs.logger,
-        libs.androidx.camera.core,
-
-        libs.google.mlkit.text.recognition.korean,
     )
 }
 
