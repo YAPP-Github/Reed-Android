@@ -4,7 +4,7 @@ minSdk = "28"
 targetSdk = "35"
 compileSdk = "35"
 versionName = "1.2.0"
-versionCode = "7"
+versionCode = "8"
 packageName = "com.ninecraft.booket"
 
 ## Android gradle plugin
