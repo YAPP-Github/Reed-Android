@@ -4,11 +4,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
@@ -21,11 +18,9 @@ fun ReedLoadingIndicator(
     modifier: Modifier = Modifier,
     delayMillis: Long = 500L,
 ) {
-    var showProgressBar by remember { mutableStateOf(false) }
-
-    LaunchedEffect(Unit) {
+    val showProgressBar by produceState(initialValue = false, key1 = delayMillis) {
         delay(delayMillis)
-        showProgressBar = true
+        value = true
     }
 
     if (showProgressBar) {
