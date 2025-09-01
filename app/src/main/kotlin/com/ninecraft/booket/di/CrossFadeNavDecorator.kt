@@ -15,7 +15,7 @@ import com.slack.circuit.foundation.animation.AnimatedNavDecorator
 import com.slack.circuit.foundation.animation.AnimatedNavEvent
 import com.slack.circuit.foundation.animation.AnimatedNavState
 
-data class CrossFadeNavDecoratorFactory(val durationMillis: Int = 300) :
+data class CrossFadeNavDecoratorFactory(val durationMillis: Int = 500) :
     AnimatedNavDecorator.Factory {
     override fun <T : NavArgument> create(): AnimatedNavDecorator<T, *> =
         CrossFadeNavDecorator(durationMillis)
