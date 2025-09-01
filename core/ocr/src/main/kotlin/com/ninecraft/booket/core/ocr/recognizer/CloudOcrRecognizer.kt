@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.ocr.analyzer
+package com.ninecraft.booket.core.ocr.recognizer
 
 import android.net.Uri
 import android.util.Base64

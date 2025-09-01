@@ -12,6 +12,11 @@ interface BookRepository {
     val bookRecentSearches: Flow<List<String>>
     val libraryRecentSearches: Flow<List<String>>
 
+    suspend fun searchBookAsGuest(
+        query: String,
+        start: Int,
+    ): Result<BookSearchModel>
+
     suspend fun searchBook(
         query: String,
         start: Int,

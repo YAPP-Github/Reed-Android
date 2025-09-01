@@ -85,7 +85,7 @@ internal fun RecordRegisterUi(
     }
 
     if (state.isLoading) {
-        ReedLoadingIndicator()
+        ReedLoadingIndicator(delayMillis = 0L)
     }
 
     if (state.isExitDialogVisible) {

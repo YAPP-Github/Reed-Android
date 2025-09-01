@@ -15,6 +15,7 @@ import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
+import com.slack.circuit.runtime.popUntil
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
 import dagger.assisted.Assisted
@@ -24,6 +25,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.launch
 
 class LoginPresenter @AssistedInject constructor(
+    @Assisted private val screen: LoginScreen,
     @Assisted private val navigator: Navigator,
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
@@ -45,9 +47,13 @@ class LoginPresenter @AssistedInject constructor(
                 userRepository.getUserProfile()
                     .onSuccess { userProfile ->
                         if (userProfile.termsAgreed) {
-                            navigator.resetRoot(HomeScreen)
+                            if (screen.returnToScreen == null) {
+                                navigator.resetRoot(HomeScreen)
+                            } else {
+                                navigator.popUntil { it == screen.returnToScreen }
+                            }
                         } else {
-                            navigator.resetRoot(TermsAgreementScreen)
+                            navigator.resetRoot(TermsAgreementScreen(screen.returnToScreen))
                         }
                     }.onFailure { exception ->
                         exception.message?.let { Logger.e(it) }
@@ -90,15 +96,24 @@ class LoginPresenter @AssistedInject constructor(
                         }
                     }
                 }
+
+                is LoginUiEvent.OnGuestLoginButtonClick -> {
+                    navigator.resetRoot(HomeScreen)
+                }
+
+                is LoginUiEvent.OnCloseButtonClick -> {
+                    navigator.pop()
+                }
             }
         }
 
         ImpressionEffect {
-            analyticsHelper.logScreenView(LoginScreen.name)
+            analyticsHelper.logScreenView(screen.name)
         }
 
         return LoginUiState(
             isLoading = isLoading,
+            returnToScreen = screen.returnToScreen,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
@@ -107,6 +122,9 @@ class LoginPresenter @AssistedInject constructor(
     @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(navigator: Navigator): LoginPresenter
+        fun create(
+            screen: LoginScreen,
+            navigator: Navigator,
+        ): LoginPresenter
     }
 }

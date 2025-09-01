@@ -14,7 +14,6 @@ import com.ninecraft.booket.feature.screens.RecordCardScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
-import com.ninecraft.booket.feature.screens.extensions.delayedGoTo
 import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -69,7 +68,7 @@ class RecordDetailPresenter @AssistedInject constructor(
                             exception = exception,
                             onError = handleErrorMessage,
                             onLoginRequired = {
-                                navigator.resetRoot(LoginScreen)
+                                navigator.resetRoot(LoginScreen())
                             },
                         )
                     }
@@ -93,7 +92,7 @@ class RecordDetailPresenter @AssistedInject constructor(
                             exception = exception,
                             onError = handleErrorMessage,
                             onLoginRequired = {
-                                navigator.resetRoot(LoginScreen)
+                                navigator.resetRoot(LoginScreen())
                             },
                         )
                     }
@@ -124,15 +123,13 @@ class RecordDetailPresenter @AssistedInject constructor(
 
                 is RecordDetailUiEvent.OnShareRecordClick -> {
                     isRecordMenuBottomSheetVisible = false
-                    scope.launch {
-                        navigator.delayedGoTo(
-                            RecordCardScreen(
-                                quote = recordDetailInfo.quote,
-                                bookTitle = recordDetailInfo.bookTitle,
-                                emotionTag = recordDetailInfo.emotionTags[0],
-                            ),
-                        )
-                    }
+                    navigator.goTo(
+                        RecordCardScreen(
+                            quote = recordDetailInfo.quote,
+                            bookTitle = recordDetailInfo.bookTitle,
+                            emotionTag = recordDetailInfo.emotionTags[0],
+                        ),
+                    )
                 }
 
                 is RecordDetailUiEvent.OnEditRecordClick -> {

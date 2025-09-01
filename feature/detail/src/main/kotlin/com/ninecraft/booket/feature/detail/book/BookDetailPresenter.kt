@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.detail.book
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -23,8 +22,8 @@ import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
-import com.ninecraft.booket.feature.screens.extensions.delayedGoTo
 import com.orhanobut.logger.Logger
+import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -135,7 +134,7 @@ class BookDetailPresenter @AssistedInject constructor(
                         exception = e,
                         onError = handleErrorMessage,
                         onLoginRequired = {
-                            navigator.resetRoot(LoginScreen)
+                            navigator.resetRoot(LoginScreen())
                         },
                     )
                 }
@@ -160,7 +159,7 @@ class BookDetailPresenter @AssistedInject constructor(
                             exception = exception,
                             onError = handleErrorMessage,
                             onLoginRequired = {
-                                navigator.resetRoot(LoginScreen)
+                                navigator.resetRoot(LoginScreen())
                             },
                         )
                     }
@@ -210,7 +209,7 @@ class BookDetailPresenter @AssistedInject constructor(
                             exception = exception,
                             onError = handleErrorMessage,
                             onLoginRequired = {
-                                navigator.resetRoot(LoginScreen)
+                                navigator.resetRoot(LoginScreen())
                             },
                         )
                     }
@@ -234,14 +233,14 @@ class BookDetailPresenter @AssistedInject constructor(
                             exception = exception,
                             onError = handleErrorMessage,
                             onLoginRequired = {
-                                navigator.resetRoot(LoginScreen)
+                                navigator.resetRoot(LoginScreen())
                             },
                         )
                     }
             }
         }
 
-        LaunchedEffect(Unit) {
+        RememberedEffect(Unit) {
             initialLoad()
         }
 
@@ -304,15 +303,13 @@ class BookDetailPresenter @AssistedInject constructor(
 
                 is BookDetailUiEvent.OnShareRecordClick -> {
                     isRecordMenuBottomSheetVisible = false
-                    scope.launch {
-                        navigator.delayedGoTo(
-                            RecordCardScreen(
-                                quote = selectedRecordInfo.quote,
-                                bookTitle = selectedRecordInfo.bookTitle,
-                                emotionTag = selectedRecordInfo.emotionTags[0],
-                            ),
-                        )
-                    }
+                    navigator.goTo(
+                        RecordCardScreen(
+                            quote = selectedRecordInfo.quote,
+                            bookTitle = selectedRecordInfo.bookTitle,
+                            emotionTag = selectedRecordInfo.emotionTags[0],
+                        ),
+                    )
                 }
 
                 is BookDetailUiEvent.OnEditRecordClick -> {

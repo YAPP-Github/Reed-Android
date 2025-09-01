@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.library
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +17,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
+import com.ninecraft.booket.core.designsystem.component.button.ReedButton
+import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
+import com.ninecraft.booket.core.designsystem.component.button.mediumButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.ReedScaffold
@@ -89,7 +91,6 @@ internal fun LibraryContent(
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
     ) {
         FilterChipGroup(
             filterList = state.filterChips,
@@ -100,54 +101,86 @@ internal fun LibraryContent(
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
 
-        when (state.uiState) {
-            is UiState.Idle -> {
-                EmptyResult()
-            }
-
-            is UiState.Loading -> {
-                ReedLoadingIndicator()
-            }
-
-            is UiState.Success -> {
-                if (state.books.isEmpty()) {
-                    EmptyResult()
-                } else {
-                    InfinityLazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        loadMore = {
-                            state.eventSink(LibraryUiEvent.OnLoadMore)
+        if (state.isGuestMode) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = stringResource(R.string.library_login_required_title),
+                        color = ReedTheme.colors.contentPrimary,
+                        textAlign = TextAlign.Center,
+                        style = ReedTheme.typography.headline1SemiBold,
+                    )
+                    Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+                    Text(
+                        text = stringResource(R.string.library_login_required_description),
+                        color = ReedTheme.colors.contentSecondary,
+                        textAlign = TextAlign.Center,
+                        style = ReedTheme.typography.body1Medium,
+                    )
+                    Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+                    ReedButton(
+                        onClick = {
+                            state.eventSink(LibraryUiEvent.OnLoginClick)
                         },
-                    ) {
-                        items(state.books) {
-                            LibraryBookItem(
-                                book = it,
-                                onBookClick = {
-                                    state.eventSink(LibraryUiEvent.OnBookClick(it.userBookId, it.isbn13))
-                                },
-                            )
-                            Box(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .height(1.dp)
-                                    .background(ReedTheme.colors.borderPrimary),
-                            )
-                        }
-                        item {
-                            LoadStateFooter(
-                                footerState = state.footerState,
-                                onRetryClick = { state.eventSink(LibraryUiEvent.OnLoadMore) },
-                            )
+                        text = stringResource(R.string.login),
+                        colorStyle = ReedButtonColorStyle.SECONDARY,
+                        sizeStyle = mediumButtonStyle,
+                    )
+                }
+            }
+        } else {
+            when (state.uiState) {
+                is UiState.Idle -> {
+                    EmptyResult()
+                }
+
+                is UiState.Loading -> {
+                    ReedLoadingIndicator()
+                }
+
+                is UiState.Success -> {
+                    if (state.books.isEmpty()) {
+                        EmptyResult()
+                    } else {
+                        InfinityLazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            loadMore = {
+                                state.eventSink(LibraryUiEvent.OnLoadMore)
+                            },
+                        ) {
+                            items(state.books) {
+                                LibraryBookItem(
+                                    book = it,
+                                    onBookClick = {
+                                        state.eventSink(LibraryUiEvent.OnBookClick(it.userBookId, it.isbn13))
+                                    },
+                                )
+                                Box(
+                                    modifier = modifier
+                                        .fillMaxWidth()
+                                        .height(1.dp)
+                                        .background(ReedTheme.colors.borderPrimary),
+                                )
+                            }
+                            item {
+                                LoadStateFooter(
+                                    footerState = state.footerState,
+                                    onRetryClick = { state.eventSink(LibraryUiEvent.OnLoadMore) },
+                                )
+                            }
                         }
                     }
                 }
-            }
 
-            is UiState.Error -> {
-                ReedErrorUi(
-                    exception = state.uiState.exception,
-                    onRetryClick = { state.eventSink(LibraryUiEvent.OnRetryClick) },
-                )
+                is UiState.Error -> {
+                    ReedErrorUi(
+                        exception = state.uiState.exception,
+                        onRetryClick = { state.eventSink(LibraryUiEvent.OnRetryClick) },
+                    )
+                }
             }
         }
     }

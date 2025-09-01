@@ -3,6 +3,7 @@ package com.ninecraft.booket.feature.search.book
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.common.constants.BookStatus
+import com.ninecraft.booket.core.common.utils.UiText
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
@@ -31,6 +32,7 @@ data class BookSearchUiState(
     val isBookRegisterBottomSheetVisible: Boolean = false,
     val selectedBookStatus: BookStatus? = null,
     val isBookRegisterSuccessBottomSheetVisible: Boolean = false,
+    val isGuestMode: Boolean = false,
     val sideEffect: BookSearchSideEffect? = null,
     val eventSink: (BookSearchUiEvent) -> Unit,
 ) : CircuitUiState {
@@ -40,12 +42,13 @@ data class BookSearchUiState(
 @Immutable
 sealed interface BookSearchSideEffect {
     data class ShowToast(
-        val message: String,
+        val message: UiText,
         private val key: String = UUID.randomUUID().toString(),
     ) : BookSearchSideEffect
 }
 
 sealed interface BookSearchUiEvent : CircuitUiEvent {
+    data object InitSideEffect : BookSearchUiEvent
     data object OnBackClick : BookSearchUiEvent
     data class OnRecentSearchClick(val query: String) : BookSearchUiEvent
     data class OnRecentSearchDeleteClick(val query: String) : BookSearchUiEvent
@@ -60,15 +63,4 @@ sealed interface BookSearchUiEvent : CircuitUiEvent {
     data object OnBookRegisterButtonClick : BookSearchUiEvent
     data object OnBookRegisterSuccessOkButtonClick : BookSearchUiEvent
     data object OnBookRegisterSuccessCancelButtonClick : BookSearchUiEvent
-}
-
-enum class BookRegisteredState(val value: String) {
-    BEFORE_REGISTRATION("BEFORE_REGISTRATION"),
-    ;
-
-    companion object {
-        fun from(value: String?): BookRegisteredState? {
-            return entries.find { it.value == value }
-        }
-    }
 }

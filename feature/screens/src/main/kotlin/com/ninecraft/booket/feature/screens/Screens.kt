@@ -16,16 +16,16 @@ data object HomeScreen : ReedScreen(name = ScreenNames.HOME)
 data object LibraryScreen : ReedScreen(name = ScreenNames.LIBRARY)
 
 @Parcelize
-data object LoginScreen : ReedScreen(name = ScreenNames.LOGIN)
+data class LoginScreen(val returnToScreen: Screen? = null) : ReedScreen(name = ScreenNames.LOGIN)
 
 @Parcelize
-data object SearchScreen : ReedScreen(name = ScreenNames.SEARCH)
+data object BookSearchScreen : ReedScreen(name = ScreenNames.BOOK_SEARCH)
 
 @Parcelize
 data object LibrarySearchScreen : ReedScreen(name = ScreenNames.LIBRARY_SEARCH)
 
 @Parcelize
-data object TermsAgreementScreen : ReedScreen(name = ScreenNames.TERMS_AGREEMENT)
+data class TermsAgreementScreen(val returnToScreen: Screen? = null) : ReedScreen(name = ScreenNames.TERMS_AGREEMENT)
 
 @Parcelize
 data object SettingsScreen : ReedScreen(name = ScreenNames.SETTINGS)

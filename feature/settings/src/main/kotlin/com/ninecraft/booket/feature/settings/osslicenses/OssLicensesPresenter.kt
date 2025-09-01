@@ -17,7 +17,7 @@ class OssLicensesPresenter @AssistedInject constructor(
     override fun present(): OssLicensesUiState {
         fun handleEvent(event: OssLicensesUiEvent) {
             when (event) {
-                is OssLicensesUiEvent.OnBackClicked -> {
+                is OssLicensesUiEvent.OnBackClick -> {
                     navigator.pop()
                 }
             }

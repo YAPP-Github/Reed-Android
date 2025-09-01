@@ -30,10 +30,6 @@ import com.adamglin.composeshadow.dropShadow
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.slack.circuit.backstack.SaveableBackStack
-import com.slack.circuit.runtime.Navigator
-import com.slack.circuit.runtime.popUntil
-import com.slack.circuit.runtime.screen.Screen
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -129,23 +125,6 @@ private fun RowScope.MainBottomBarItem(
                 style = ReedTheme.typography.caption2Regular,
             )
         }
-    }
-}
-
-@Suppress("unused")
-fun Navigator.popUntilOrGoTo(screen: Screen) {
-    if (screen in peekBackStack()) {
-        popUntil { it == screen }
-    } else {
-        goTo(screen)
-    }
-}
-
-@Composable
-fun getCurrentTab(backStack: SaveableBackStack): MainTab? {
-    val currentScreen = backStack.topRecord?.screen
-    return currentScreen?.let { screen ->
-        MainTab.entries.find { it.screen::class == currentScreen::class }
     }
 }
 

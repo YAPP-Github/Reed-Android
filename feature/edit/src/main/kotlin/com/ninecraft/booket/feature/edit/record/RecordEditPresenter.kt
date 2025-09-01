@@ -106,7 +106,7 @@ class RecordEditPresenter @AssistedInject constructor(
                         exception = exception,
                         onError = handleErrorMessage,
                         onLoginRequired = {
-                            navigator.resetRoot(LoginScreen)
+                            navigator.resetRoot(LoginScreen())
                         },
                     )
                 }

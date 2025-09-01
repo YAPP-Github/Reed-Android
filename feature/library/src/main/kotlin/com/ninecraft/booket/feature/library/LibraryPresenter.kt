@@ -7,16 +7,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
+import com.ninecraft.booket.core.common.utils.UiText
+import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
+import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LibraryScreen
 import com.ninecraft.booket.feature.screens.LibrarySearchScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
+import com.ninecraft.booket.feature.screens.extensions.redirectToLogin
 import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -28,10 +33,12 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
+import com.ninecraft.booket.core.designsystem.R as designR
 
 class LibraryPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val repository: BookRepository,
+    private val bookRepository: BookRepository,
+    private val authRepository: AuthRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<LibraryUiState> {
     companion object {
@@ -42,7 +49,7 @@ class LibraryPresenter @AssistedInject constructor(
     @Composable
     override fun present(): LibraryUiState {
         val scope = rememberCoroutineScope()
-
+        val userState by authRepository.userState.collectAsRetainedState(initial = UserState.Guest)
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
         var filterChips by rememberRetained {
@@ -63,7 +70,7 @@ class LibraryPresenter @AssistedInject constructor(
                     footerState = FooterState.Loading
                 }
 
-                repository.filterLibraryBooks(status = status, page = page, size = size)
+                bookRepository.filterLibraryBooks(status = status, page = page, size = size)
                     .onSuccess { result ->
                         filterChips = filterChips.map { chip ->
                             when (chip.option) {
@@ -109,7 +116,14 @@ class LibraryPresenter @AssistedInject constructor(
                 }
 
                 is LibraryUiEvent.OnLibrarySearchClick -> {
-                    navigator.goTo(LibrarySearchScreen)
+                    if (userState is UserState.Guest) {
+                        scope.launch {
+                            sideEffect = LibrarySideEffect.ShowToast(UiText.StringResource(designR.string.login_required))
+                            navigator.redirectToLogin()
+                        }
+                    } else {
+                        navigator.goTo(LibrarySearchScreen)
+                    }
                 }
 
                 is LibraryUiEvent.OnSettingsClick -> {
@@ -151,15 +165,23 @@ class LibraryPresenter @AssistedInject constructor(
                         restoreState = true,
                     )
                 }
+
+                is LibraryUiEvent.OnLoginClick -> {
+                    scope.launch {
+                        navigator.redirectToLogin()
+                    }
+                }
             }
         }
 
-        RememberedEffect(Unit) {
-            filterLibraryBooks(
-                status = currentFilter.getApiValue(),
-                page = START_INDEX,
-                size = PAGE_SIZE,
-            )
+        RememberedEffect(userState) {
+            if (userState !is UserState.Guest) {
+                filterLibraryBooks(
+                    status = currentFilter.getApiValue(),
+                    page = START_INDEX,
+                    size = PAGE_SIZE,
+                )
+            }
         }
 
         ImpressionEffect {
@@ -172,6 +194,7 @@ class LibraryPresenter @AssistedInject constructor(
             filterChips = filterChips,
             currentFilter = currentFilter,
             books = books,
+            isGuestMode = userState is UserState.Guest,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )

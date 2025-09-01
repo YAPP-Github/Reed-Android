@@ -35,10 +35,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -68,7 +68,6 @@ import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.ocr.component.CameraFrame
 import com.ninecraft.booket.feature.record.ocr.component.SentenceBox
 import com.ninecraft.booket.feature.screens.OcrScreen
-import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
@@ -101,16 +100,31 @@ private fun CameraPreview(
     /**
      * Camera Permission Request
      */
-    var isGranted by remember {
-        mutableStateOf(
-            ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED,
-        )
+    val isGranted by produceState(
+        initialValue = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED,
+        key1 = lifecycleOwner, // lifecycle 변경 시 재설정
+    ) {
+        // 최초 동기화
+        value = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+
+        // 포그라운드 복귀 시 OS 권한 동기화
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                value = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+                if (value) {
+                    state.eventSink(OcrUiEvent.OnHidePermissionDialog)
+                } else {
+                    state.eventSink(OcrUiEvent.OnShowPermissionDialog)
+                }
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        awaitDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
+
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
     ) { granted ->
-        isGranted = granted
-
         if (!granted) {
             state.eventSink(OcrUiEvent.OnShowPermissionDialog)
         }
@@ -120,27 +134,11 @@ private fun CameraPreview(
     ) { _ -> }
 
     // 최초 진입 시 권한 요청
-    RememberedEffect(Unit) {
+    LaunchedEffect(Unit) {
         if (!isGranted) {
             state.eventSink(OcrUiEvent.OnHidePermissionDialog)
             permissionLauncher.launch(permission)
         }
-    }
-
-    // 앱이 포그라운드로 북귀할 때 OS 권한 동기화
-    DisposableEffect(Unit) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                isGranted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
-                if (isGranted) {
-                    state.eventSink(OcrUiEvent.OnHidePermissionDialog)
-                } else {
-                    state.eventSink(OcrUiEvent.OnShowPermissionDialog)
-                }
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     /**

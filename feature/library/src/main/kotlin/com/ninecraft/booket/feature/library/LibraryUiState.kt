@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.library
 
 import androidx.compose.runtime.Immutable
+import com.ninecraft.booket.core.common.utils.UiText
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.component.MainTab
@@ -9,6 +10,7 @@ import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import java.util.UUID
 
 @Immutable
 sealed interface UiState {
@@ -25,13 +27,17 @@ data class LibraryUiState(
         LibraryFilterOption.entries.map { LibraryFilterChip(option = it, count = 0) }.toPersistentList(),
     val currentFilter: LibraryFilterOption = LibraryFilterOption.TOTAL,
     val books: ImmutableList<LibraryBookSummaryModel> = persistentListOf(),
+    val isGuestMode: Boolean = false,
     val sideEffect: LibrarySideEffect? = null,
     val eventSink: (LibraryUiEvent) -> Unit,
 ) : CircuitUiState
 
 @Immutable
 sealed interface LibrarySideEffect {
-    data class ShowToast(val message: String) : LibrarySideEffect
+    data class ShowToast(
+        val message: UiText,
+        private val key: String = UUID.randomUUID().toString(),
+    ) : LibrarySideEffect
 }
 
 sealed interface LibraryUiEvent : CircuitUiEvent {
@@ -42,10 +48,12 @@ sealed interface LibraryUiEvent : CircuitUiEvent {
         val userBookId: String,
         val isbn13: String,
     ) : LibraryUiEvent
+
     data object OnLoadMore : LibraryUiEvent
     data object OnRetryClick : LibraryUiEvent
     data class OnFilterClick(val filterOption: LibraryFilterOption) : LibraryUiEvent
     data class OnTabSelected(val tab: MainTab) : LibraryUiEvent
+    data object OnLoginClick : LibraryUiEvent
 }
 
 data class LibraryFilterChip(
