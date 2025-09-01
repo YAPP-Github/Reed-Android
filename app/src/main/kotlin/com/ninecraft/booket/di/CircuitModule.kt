@@ -28,7 +28,7 @@ abstract class CircuitModule {
         ): Circuit = Circuit.Builder()
             .addPresenterFactories(presenterFactories)
             .addUiFactories(uiFactories)
-            // .setAnimatedNavDecoratorFactory(CrossFadeNavDecoratorFactory())
+            .setAnimatedNavDecoratorFactory(CrossFadeNavDecoratorFactory())
             .build()
     }
 }
