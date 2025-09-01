@@ -53,7 +53,11 @@ class LoginPresenter @AssistedInject constructor(
                                 navigator.popUntil { it == screen.returnToScreen }
                             }
                         } else {
-                            navigator.resetRoot(TermsAgreementScreen(screen.returnToScreen))
+                            if (screen.returnToScreen == null) {
+                                navigator.resetRoot(TermsAgreementScreen())
+                            } else {
+                                navigator.goTo(TermsAgreementScreen(screen.returnToScreen))
+                            }
                         }
                     }.onFailure { exception ->
                         exception.message?.let { Logger.e(it) }

@@ -4,7 +4,7 @@ minSdk = "28"
 targetSdk = "35"
 compileSdk = "35"
 versionName = "1.2.0"
-versionCode = "7"
+versionCode = "8"
 packageName = "com.ninecraft.booket"
 
 ## Android gradle plugin
@@ -43,7 +43,7 @@ okhttp = "5.1.0"
 retrofit = "3.0.0"
 
 ## Circuit
-circuit = "0.29.1"
+circuit = "0.30.0"
 
 ## Logging
 logger = "2.2.0"

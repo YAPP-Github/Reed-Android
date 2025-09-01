@@ -1,6 +1,5 @@
 package com.ninecraft.booket.splash
 
-import android.R.attr.description
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
