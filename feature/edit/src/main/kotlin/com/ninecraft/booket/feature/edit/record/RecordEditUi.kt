@@ -85,114 +85,119 @@ internal fun RecordEditUi(
 
 @Composable
 private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
-    BookItem(
-        imageUrl = state.recordInfo.bookCoverImageUrl,
-        bookTitle = state.recordInfo.bookTitle,
-        author = state.recordInfo.author,
-        publisher = state.recordInfo.bookPublisher,
-    )
-    Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-    HorizontalDivider(
-        modifier = Modifier.fillMaxWidth(),
-        thickness = ReedTheme.border.border1,
-        color = ReedTheme.colors.dividerSm,
-    )
     Column(
         modifier = Modifier
             .weight(1f)
-            .padding(horizontal = ReedTheme.spacing.spacing5)
             .verticalScroll(rememberScrollState()),
     ) {
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
-        Text(
-            text = stringResource(R.string.edit_record_page_label),
-            color = ReedTheme.colors.contentPrimary,
-            style = ReedTheme.typography.body1Medium,
+        BookItem(
+            imageUrl = state.recordInfo.bookCoverImageUrl,
+            bookTitle = state.recordInfo.bookTitle,
+            author = state.recordInfo.author,
+            publisher = state.recordInfo.bookPublisher,
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-        ReedRecordTextField(
-            recordState = state.recordPageState,
-            recordHintRes = R.string.edit_record_page_hint,
-            inputTransformation = digitOnlyInputTransformation,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            lineLimits = TextFieldLineLimits.SingleLine,
-            isError = state.isPageError,
-            errorMessage = stringResource(R.string.edit_record_page_input_error),
-            onClear = {
-                state.eventSink(RecordEditUiEvent.OnClearClick)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
-        Text(
-            text = stringResource(R.string.edit_record_quote_label),
-            color = ReedTheme.colors.contentPrimary,
-            style = ReedTheme.typography.body1Medium,
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-        ReedRecordTextField(
-            recordState = state.recordQuoteState,
-            recordHintRes = R.string.edit_record_quote_hint,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(140.dp),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Default,
-            ),
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
-        Text(
-            text = stringResource(R.string.edit_record_impression_label),
-            color = ReedTheme.colors.contentPrimary,
-            style = ReedTheme.typography.body1Medium,
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-        ReedRecordTextField(
-            recordState = state.recordImpressionState,
-            recordHintRes = R.string.edit_record_impression_hint,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(140.dp),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Default,
-            ),
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
-        Row(
+        HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
+            thickness = ReedTheme.border.border1,
+            color = ReedTheme.colors.dividerSm,
+        )
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = ReedTheme.spacing.spacing5),
         ) {
             Text(
-                text = stringResource(R.string.edit_record_emotion_label),
+                text = stringResource(R.string.edit_record_page_label),
                 color = ReedTheme.colors.contentPrimary,
                 style = ReedTheme.typography.body1Medium,
             )
-            Spacer(modifier = Modifier.weight(1f))
-            Row(
-                modifier = Modifier.clickable {
-                    state.eventSink(RecordEditUiEvent.OnEmotionEditClick)
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+            ReedRecordTextField(
+                recordState = state.recordPageState,
+                recordHintRes = R.string.edit_record_page_hint,
+                inputTransformation = digitOnlyInputTransformation,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                lineLimits = TextFieldLineLimits.SingleLine,
+                isError = state.isPageError,
+                errorMessage = stringResource(R.string.edit_record_page_input_error),
+                onClear = {
+                    state.eventSink(RecordEditUiEvent.OnClearClick)
                 },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
+            Text(
+                text = stringResource(R.string.edit_record_quote_label),
+                color = ReedTheme.colors.contentPrimary,
+                style = ReedTheme.typography.body1Medium,
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+            ReedRecordTextField(
+                recordState = state.recordQuoteState,
+                recordHintRes = R.string.edit_record_quote_hint,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(140.dp),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Default,
+                ),
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
+            Text(
+                text = stringResource(R.string.edit_record_impression_label),
+                color = ReedTheme.colors.contentPrimary,
+                style = ReedTheme.typography.body1Medium,
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+            ReedRecordTextField(
+                recordState = state.recordImpressionState,
+                recordHintRes = R.string.edit_record_impression_hint,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(140.dp),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Default,
+                ),
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                val emotion = state.recordInfo.emotionTags.firstOrNull() ?: ""
-
                 Text(
-                    text = emotion,
-                    color = ReedTheme.colors.contentSecondary,
+                    text = stringResource(R.string.edit_record_emotion_label),
+                    color = ReedTheme.colors.contentPrimary,
                     style = ReedTheme.typography.body1Medium,
                 )
-                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
-                Icon(
-                    imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_right),
-                    contentDescription = "Chevron Right Icon",
-                    tint = ReedTheme.colors.contentSecondary,
-                )
+                Spacer(modifier = Modifier.weight(1f))
+                Row(
+                    modifier = Modifier.clickable {
+                        state.eventSink(RecordEditUiEvent.OnEmotionEditClick)
+                    },
+                ) {
+                    val emotion = state.recordInfo.emotionTags.firstOrNull() ?: ""
+
+                    Text(
+                        text = emotion,
+                        color = ReedTheme.colors.contentSecondary,
+                        style = ReedTheme.typography.body1Medium,
+                    )
+                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
+                    Icon(
+                        imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_right),
+                        contentDescription = "Chevron Right Icon",
+                        tint = ReedTheme.colors.contentSecondary,
+                    )
+                }
             }
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing16))
         }
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing16))
     }
     ReedButton(
         onClick = {

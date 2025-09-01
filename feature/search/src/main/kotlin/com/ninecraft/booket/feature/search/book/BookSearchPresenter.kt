@@ -21,7 +21,6 @@ import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookSearchScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
-import com.ninecraft.booket.feature.screens.extensions.delayedGoTo
 import com.ninecraft.booket.feature.screens.extensions.redirectToLogin
 import com.ninecraft.booket.feature.search.R
 import com.orhanobut.logger.Logger
@@ -240,9 +239,7 @@ class BookSearchPresenter @AssistedInject constructor(
 
                 is BookSearchUiEvent.OnBookRegisterSuccessOkButtonClick -> {
                     isBookRegisterSuccessBottomSheetVisible = false
-                    scope.launch {
-                        navigator.delayedGoTo(RecordScreen(registeredUserBookId))
-                    }
+                    navigator.goTo(RecordScreen(registeredUserBookId))
                 }
 
                 is BookSearchUiEvent.OnBookRegisterSuccessCancelButtonClick -> {

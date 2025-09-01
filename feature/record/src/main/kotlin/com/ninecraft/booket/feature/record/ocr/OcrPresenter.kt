@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.utils.handleException
-import com.ninecraft.booket.core.ocr.analyzer.CloudOcrRecognizer
+import com.ninecraft.booket.core.ocr.recognizer.CloudOcrRecognizer
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.orhanobut.logger.Logger

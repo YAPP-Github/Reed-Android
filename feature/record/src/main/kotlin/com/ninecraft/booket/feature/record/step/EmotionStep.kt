@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.EmotionTag
-import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
@@ -113,7 +112,7 @@ fun EmotionStep(
                 .padding(bottom = ReedTheme.spacing.spacing4),
             enabled = state.isNextButtonEnabled,
             text = stringResource(R.string.record_next_button),
-            multipleEventsCutterEnabled = state.currentStep == RecordStep.IMPRESSION,
+            multipleEventsCutterEnabled = false,
         )
     }
 }
