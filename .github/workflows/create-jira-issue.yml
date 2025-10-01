@@ -85,7 +85,7 @@ jobs:
         uses: atlassian/gajira-create@v3
         with:
           project: BOOK
-          issuetype: Task
+          issuetype: 하위 작업
           summary: '${{ steps.clean.outputs.title }}'
           description: '${{ steps.md2jira.outputs.output-text }}'
           fields: |
