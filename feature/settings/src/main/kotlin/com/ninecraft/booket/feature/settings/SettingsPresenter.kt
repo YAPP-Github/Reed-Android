@@ -12,6 +12,7 @@ import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
 import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.NotificationScreen
 import com.ninecraft.booket.feature.screens.OssLicensesScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.ninecraft.booket.feature.screens.WebViewScreen
@@ -151,6 +152,10 @@ class SettingsPresenter @AssistedInject constructor(
                 is SettingsUiEvent.OnPolicyClick -> {
                     val policy = WebViewConstants.PRIVACY_POLICY
                     navigator.goTo(WebViewScreen(url = policy.url, title = policy.title))
+                }
+
+                is SettingsUiEvent.OnNotificationClick -> {
+                    navigator.goTo(NotificationScreen)
                 }
 
                 is SettingsUiEvent.OnTermClick -> {
