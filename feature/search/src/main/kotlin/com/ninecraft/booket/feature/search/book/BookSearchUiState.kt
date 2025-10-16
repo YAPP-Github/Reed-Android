@@ -31,6 +31,7 @@ data class BookSearchUiState(
     val selectedBookIsbn: String = "",
     val isBookRegisterBottomSheetVisible: Boolean = false,
     val selectedBookStatus: BookStatus? = null,
+    val upsertedBookStatus: BookStatus? = null,
     val isBookRegisterSuccessBottomSheetVisible: Boolean = false,
     val isGuestMode: Boolean = false,
     val sideEffect: BookSearchSideEffect? = null,
