@@ -99,9 +99,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                         selectedEmotion != null
                     }
 
-                    RecordStep.IMPRESSION -> {
-                        impressionState.text.isNotEmpty()
-                    }
+                    RecordStep.IMPRESSION -> true
                 }
             }
         }
