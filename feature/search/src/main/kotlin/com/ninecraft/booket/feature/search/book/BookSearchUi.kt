@@ -265,22 +265,25 @@ internal fun BookSearchContent(
         }
 
         if (state.isBookRegisterSuccessBottomSheetVisible) {
-            BookRegisterSuccessBottomSheet(
-                onDismissRequest = { state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss) },
-                sheetState = bookRegisterSuccessBottomSheetState,
-                onCancelButtonClick = {
-                    coroutineScope.launch {
-                        bookRegisterSuccessBottomSheetState.hide()
-                        state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss)
-                    }
-                },
-                onOKButtonClick = {
-                    coroutineScope.launch {
-                        bookRegisterSuccessBottomSheetState.hide()
-                        state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessOkButtonClick)
-                    }
-                },
-            )
+            state.upsertedBookStatus?.let { upsertedBookStatus ->
+                BookRegisterSuccessBottomSheet(
+                    onDismissRequest = { state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss) },
+                    sheetState = bookRegisterSuccessBottomSheetState,
+                    upsertedBookStatus = upsertedBookStatus,
+                    onCancelButtonClick = {
+                        coroutineScope.launch {
+                            bookRegisterSuccessBottomSheetState.hide()
+                            state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss)
+                        }
+                    },
+                    onOKButtonClick = {
+                        coroutineScope.launch {
+                            bookRegisterSuccessBottomSheetState.hide()
+                            state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessOkButtonClick)
+                        }
+                    },
+                )
+            }
         }
     }
 }

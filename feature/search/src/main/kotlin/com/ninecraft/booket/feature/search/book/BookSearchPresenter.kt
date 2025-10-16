@@ -71,6 +71,7 @@ class BookSearchPresenter @AssistedInject constructor(
         var registeredUserBookId by rememberRetained { mutableStateOf("") }
         var isBookRegisterBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var selectedBookStatus by rememberRetained { mutableStateOf<BookStatus?>(null) }
+        var upsertedBookStatus by rememberRetained { mutableStateOf<BookStatus?>(null) }
         var isBookRegisterSuccessBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<BookSearchSideEffect?>(null) }
 
@@ -137,6 +138,7 @@ class BookSearchPresenter @AssistedInject constructor(
 
                         analyticsHelper.logEvent(REGISTER_BOOK_COMPLETE)
                         selectedBookIsbn = ""
+                        upsertedBookStatus = selectedBookStatus
                         selectedBookStatus = null
                         isBookRegisterBottomSheetVisible = false
                         isBookRegisterSuccessBottomSheetVisible = true
@@ -262,6 +264,7 @@ class BookSearchPresenter @AssistedInject constructor(
             selectedBookIsbn = selectedBookIsbn,
             isBookRegisterBottomSheetVisible = isBookRegisterBottomSheetVisible,
             selectedBookStatus = selectedBookStatus,
+            upsertedBookStatus = upsertedBookStatus,
             isBookRegisterSuccessBottomSheetVisible = isBookRegisterSuccessBottomSheetVisible,
             isGuestMode = userState is UserState.Guest,
             sideEffect = sideEffect,
