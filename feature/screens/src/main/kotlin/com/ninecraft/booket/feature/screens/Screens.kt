@@ -34,7 +34,7 @@ data object SettingsScreen : ReedScreen(name = ScreenNames.SETTINGS)
 data object OssLicensesScreen : ReedScreen(name = "OssLicenses()")
 
 @Parcelize
-data object NotificationScreen: ReedScreen(name = "Notification()")
+data object NotificationScreen : ReedScreen(name = "Notification()")
 
 @Parcelize
 data class RecordScreen(val userBookId: String) : ReedScreen(name = ScreenNames.RECORD)
