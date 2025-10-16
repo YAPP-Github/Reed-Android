@@ -28,7 +28,7 @@ class NotificationPresenter @AssistedInject constructor(
                 }
 
                 is NotificationUiEvent.OnNotificationToggle -> {
-                    isNotificationEnabled = !isNotificationEnabled
+                    isNotificationEnabled = event.enabled
                 }
             }
         }

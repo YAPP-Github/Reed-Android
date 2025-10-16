@@ -3,8 +3,8 @@ package com.ninecraft.booket.feature.settings.notification
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,7 +32,7 @@ import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.feature.screens.NotificationScreen
 import com.ninecraft.booket.feature.settings.R
-import com.ninecraft.booket.feature.settings.component.ReedSwitch
+import com.ninecraft.booket.feature.settings.component.ToggleItem
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import com.ninecraft.booket.core.designsystem.R as designR
@@ -62,35 +62,14 @@ internal fun NotificationUi(
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
             NotificationGuideItem()
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(
-                        vertical = ReedTheme.spacing.spacing4,
-                        horizontal = ReedTheme.spacing.spacing5,
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Column {
-                    Text(
-                        text = stringResource(R.string.notification_toggle_title),
-                        color = ReedTheme.colors.contentPrimary,
-                        style = ReedTheme.typography.body1Medium,
-                    )
-                    Text(
-                        text = stringResource(R.string.notification_toggle_description),
-                        color = ReedTheme.colors.contentTertiary,
-                        style = ReedTheme.typography.label1Medium,
-                    )
-                }
-                ReedSwitch(
-                    checked = state.isNotificationEnabled,
-                    onCheckedChange = {
-                        state.eventSink(NotificationUiEvent.OnNotificationToggle)
-                    },
-                )
-            }
+            ToggleItem(
+                title = stringResource(R.string.notification_toggle_title),
+                description = stringResource(R.string.notification_toggle_description),
+                isChecked = state.isNotificationEnabled,
+                onCheckedChange = { enabled ->
+                    state.eventSink(NotificationUiEvent.OnNotificationToggle(enabled))
+                },
+            )
         }
     }
 }

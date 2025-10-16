@@ -10,5 +10,5 @@ data class NotificationUiState(
 
 sealed interface NotificationUiEvent : CircuitUiEvent {
     data object OnBackClick : NotificationUiEvent
-    data object OnNotificationToggle : NotificationUiEvent
+    data class OnNotificationToggle(val enabled: Boolean) : NotificationUiEvent
 }
