@@ -2,7 +2,9 @@ package com.ninecraft.booket.feature.record.step
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,9 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,6 +32,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -90,11 +95,34 @@ fun ImpressionStep(
                 .padding(bottom = 16.dp)
                 .verticalScroll(scrollState),
         ) {
-            Text(
-                text = stringResource(R.string.impression_step_title),
-                color = ReedTheme.colors.contentPrimary,
-                style = ReedTheme.typography.heading1Bold,
-            )
+            FlowRow(
+                itemVerticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(
+                    text = stringResource(R.string.impression_step_title),
+                    color = ReedTheme.colors.contentPrimary,
+                    style = ReedTheme.typography.heading1Bold,
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(ReedTheme.radius.xs))
+                        .background(ReedTheme.colors.bgTertiary),
+                ) {
+                    Text(
+                        text = stringResource(R.string.select),
+                        modifier = Modifier.padding(
+                            start = ReedTheme.spacing.spacing2,
+                            top = ReedTheme.spacing.spacing05,
+                            end = ReedTheme.spacing.spacing2,
+                            bottom = ReedTheme.spacing.spacing05,
+                        ),
+                        color = ReedTheme.colors.contentBrand,
+                        style = ReedTheme.typography.caption1Regular,
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
             Text(
                 text = stringResource(R.string.impression_step_description),

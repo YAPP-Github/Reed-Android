@@ -75,6 +75,7 @@ data class ReedTypography(
     val label2Regular: TextStyle = style(13, 18, -0.13f, FontWeight.Normal),
 
     // Caption
+    val caption1Medium: TextStyle = style(12, 16, -0.12f, FontWeight.Medium),
     val caption1Regular: TextStyle = style(12, 16, -0.12f, FontWeight.Normal),
     val caption2Regular: TextStyle = style(11, 14, -0.11f, FontWeight.Normal),
 
