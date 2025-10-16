@@ -32,6 +32,7 @@ sealed interface SettingsUiEvent : CircuitUiEvent {
     data object InitSideEffect : SettingsUiEvent
     data object OnBackClick : SettingsUiEvent
     data object OnPolicyClick : SettingsUiEvent
+    data object OnNotificationClick : SettingsUiEvent
     data object OnTermClick : SettingsUiEvent
     data object OnOssLicensesClick : SettingsUiEvent
     data object OnLogoutClick : SettingsUiEvent

@@ -19,4 +19,5 @@
     <string name="settings_optional_update_message">최적의 사용 환경을 위해 업데이트해주세요.</string>
     <string name="settings_optional_update_button_text">업데이트하기</string>
     <string name="settings_login">로그인</string>
+    <string name="settings_notification">알림</string>
 </resources>
