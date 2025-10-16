@@ -119,7 +119,7 @@ fun ImpressionStep(
                             bottom = ReedTheme.spacing.spacing05,
                         ),
                         color = ReedTheme.colors.contentBrand,
-                        style = ReedTheme.typography.caption1Regular,
+                        style = ReedTheme.typography.caption1Medium,
                     )
                 }
             }
