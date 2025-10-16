@@ -1,5 +1,8 @@
 package com.ninecraft.booket.feature.home
 
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +22,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -36,6 +40,7 @@ import com.ninecraft.booket.feature.home.component.HomeHeader
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.component.MainBottomBar
 import com.ninecraft.booket.feature.screens.component.MainTab
+import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
@@ -47,6 +52,21 @@ internal fun HomeUi(
     modifier: Modifier = Modifier,
 ) {
     HandleHomeSideEffects(state = state)
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val permission = android.Manifest.permission.POST_NOTIFICATIONS
+        val permissionLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission(),
+        ) { granted ->
+            if (!granted) {
+                Logger.d("Notification permission not granted")
+            }
+        }
+
+        LaunchedEffect(Unit) {
+            permissionLauncher.launch(permission)
+        }
+    }
 
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
