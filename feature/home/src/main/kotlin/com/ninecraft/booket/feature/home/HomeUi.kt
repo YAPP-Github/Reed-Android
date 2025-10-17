@@ -43,7 +43,6 @@ import com.ninecraft.booket.feature.home.component.HomeHeader
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.component.MainBottomBar
 import com.ninecraft.booket.feature.screens.component.MainTab
-import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
