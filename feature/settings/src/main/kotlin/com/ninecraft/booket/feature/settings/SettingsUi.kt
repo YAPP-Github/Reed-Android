@@ -98,19 +98,21 @@ internal fun SettingsUi(
                     )
                 },
             )
-            SettingItem(
-                title = stringResource(R.string.settings_notification),
-                onItemClick = {
-                    state.eventSink(SettingsUiEvent.OnNotificationClick)
-                },
-                action = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = designR.drawable.ic_chevron_right),
-                        contentDescription = "Right Chevron Icon",
-                        tint = Color.Unspecified,
-                    )
-                },
-            )
+            if (!state.isGuestMode) {
+                SettingItem(
+                    title = stringResource(R.string.settings_notification),
+                    onItemClick = {
+                        state.eventSink(SettingsUiEvent.OnNotificationClick)
+                    },
+                    action = {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = designR.drawable.ic_chevron_right),
+                            contentDescription = "Right Chevron Icon",
+                            tint = Color.Unspecified,
+                        )
+                    },
+                )
+            }
             SettingItem(
                 title = stringResource(R.string.settings_terms_of_service),
                 onItemClick = {
