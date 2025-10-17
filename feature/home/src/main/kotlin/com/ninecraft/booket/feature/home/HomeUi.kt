@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.home
 
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,8 +26,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -53,18 +56,25 @@ internal fun HomeUi(
 ) {
     HandleHomeSideEffects(state = state)
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        val permission = android.Manifest.permission.POST_NOTIFICATIONS
-        val permissionLauncher = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.RequestPermission(),
-        ) { granted ->
-            if (!granted) {
-                Logger.d("Notification permission not granted")
-            }
-        }
+    val context = LocalContext.current
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+    ) { granted ->
+        state.eventSink(HomeUiEvent.OnNotificationPermissionResult(granted))
+    }
 
+    if (!state.isGuestMode) {
         LaunchedEffect(Unit) {
-            permissionLauncher.launch(permission)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val permission = android.Manifest.permission.POST_NOTIFICATIONS
+                val isGranted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+
+                if (!isGranted) {
+                    permissionLauncher.launch(permission)
+                }
+            } else {
+                state.eventSink(HomeUiEvent.OnNotificationPermissionResult(true))
+            }
         }
     }
 
