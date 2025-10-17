@@ -17,7 +17,7 @@ class DefaultNotificationDataSource @Inject constructor(
     override val isNotificationEnabled: Flow<Boolean> = dataStore.data
         .handleIOException()
         .map { prefs ->
-            prefs[NOTIFICATION_ENABLED] ?: false
+            prefs[NOTIFICATION_ENABLED] ?: true
         }
 
     override suspend fun setNotificationEnabled(isEnabled: Boolean) {
