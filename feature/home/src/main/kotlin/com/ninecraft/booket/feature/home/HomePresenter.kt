@@ -11,9 +11,9 @@ import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
+import com.ninecraft.booket.feature.screens.BookSearchScreen
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
-import com.ninecraft.booket.feature.screens.BookSearchScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -88,6 +88,10 @@ class HomePresenter @AssistedInject constructor(
                         saveState = true,
                         restoreState = true,
                     )
+                }
+
+                is HomeUiEvent.OnNotificationPermissionResult -> {
+                    // TODO: 서버 동기화, FCM 토큰 전송
                 }
             }
         }

@@ -1,10 +1,12 @@
 package com.ninecraft.booket.feature.settings.notification
 
+import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,12 +20,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -43,6 +51,31 @@ internal fun NotificationUi(
     state: NotificationUiState,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val isGranted by produceState(
+        initialValue = checkNotificationPermission(context),
+        key1 = lifecycleOwner,
+    ) {
+        // 포그라운드 복귀 시 OS 권한 동기화
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                value = checkNotificationPermission(context)
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        awaitDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
+    val settingsLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+    ) { _ -> }
+
+    val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+    }
+
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = White,
@@ -59,15 +92,24 @@ internal fun NotificationUi(
                     state.eventSink(NotificationUiEvent.OnBackClick)
                 },
             )
+            if (!isGranted) {
+                NotificationGuideItem(
+                    onClick = {
+                        settingsLauncher.launch(intent)
+                    },
+                )
+            }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-            NotificationGuideItem()
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
             ToggleItem(
                 title = stringResource(R.string.notification_toggle_title),
                 description = stringResource(R.string.notification_toggle_description),
-                isChecked = state.isNotificationEnabled,
+                isChecked = isGranted && state.isNotificationEnabled,
                 onCheckedChange = { enabled ->
-                    state.eventSink(NotificationUiEvent.OnNotificationToggle(enabled))
+                    if (isGranted) {
+                        state.eventSink(NotificationUiEvent.OnNotificationToggle(enabled))
+                    } else {
+                        settingsLauncher.launch(intent)
+                    }
                 },
             )
         }
@@ -75,26 +117,22 @@ internal fun NotificationUi(
 }
 
 @Composable
-internal fun NotificationGuideItem() {
-    val context = LocalContext.current
-    val settingsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult(),
-    ) { _ -> }
-
+internal fun NotificationGuideItem(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Row(
-        modifier = Modifier
-            .padding(horizontal = ReedTheme.spacing.spacing5)
+        modifier = modifier
+            .padding(
+                vertical = ReedTheme.spacing.spacing2,
+                horizontal = ReedTheme.spacing.spacing5,
+            )
             .fillMaxWidth()
             .background(
                 color = ReedTheme.colors.baseSecondary,
                 shape = RoundedCornerShape(ReedTheme.radius.md),
             )
-            .noRippleClickable {
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                    data = Uri.fromParts("package", context.packageName, null)
-                }
-                settingsLauncher.launch(intent)
-            }
+            .noRippleClickable { onClick() }
             .padding(
                 vertical = ReedTheme.spacing.spacing6,
                 horizontal = ReedTheme.spacing.spacing5,
@@ -122,6 +160,12 @@ internal fun NotificationGuideItem() {
     }
 }
 
+private fun checkNotificationPermission(context: Context): Boolean {
+    val notificationManager = NotificationManagerCompat.from(context)
+    return notificationManager.areNotificationsEnabled()
+}
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @DevicePreview
 @Composable
 private fun NotificationUiPreview() {

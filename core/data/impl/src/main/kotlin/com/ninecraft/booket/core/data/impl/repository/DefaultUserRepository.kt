@@ -3,6 +3,7 @@ package com.ninecraft.booket.core.data.impl.repository
 import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.data.impl.mapper.toModel
+import com.ninecraft.booket.core.datastore.api.datasource.NotificationDataSource
 import com.ninecraft.booket.core.datastore.api.datasource.OnboardingDataSource
 import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.service.ReedService
@@ -11,6 +12,7 @@ import javax.inject.Inject
 internal class DefaultUserRepository @Inject constructor(
     private val service: ReedService,
     private val onboardingDataSource: OnboardingDataSource,
+    private val notificationDataSource: NotificationDataSource,
 ) : UserRepository {
     override suspend fun agreeTerms(termsAgreed: Boolean) = runSuspendCatching {
         service.agreeTerms(TermsAgreementRequest(termsAgreed)).toModel()
@@ -24,5 +26,11 @@ internal class DefaultUserRepository @Inject constructor(
 
     override suspend fun setOnboardingCompleted(isCompleted: Boolean) {
         onboardingDataSource.setOnboardingCompleted(isCompleted)
+    }
+
+    override val isNotificationEnabled = notificationDataSource.isNotificationEnabled
+
+    override suspend fun setNotificationEnabled(isEnabled: Boolean) {
+        notificationDataSource.setNotificationEnabled(isEnabled)
     }
 }

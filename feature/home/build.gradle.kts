@@ -18,6 +18,7 @@ dependencies {
     implementations(
         libs.logger,
 
+        libs.androidx.activity.compose,
         libs.lottie.compose,
     )
 }
