@@ -149,6 +149,7 @@ androidx-test-runner = { group = "androidx.test", name = "runner", version.ref =
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
 firebase-remote-config = { group = "com.google.firebase", name = "firebase-config" }
 
 [plugins]
