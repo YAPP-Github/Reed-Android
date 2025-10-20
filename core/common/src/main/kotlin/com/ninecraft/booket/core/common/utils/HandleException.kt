@@ -28,7 +28,7 @@ fun handleException(
                 exception = exception,
                 action = {
                     onLoginRequired()
-                }
+                },
             )
         }
 

@@ -75,7 +75,7 @@ class LoginPresenter @AssistedInject constructor(
             when (event) {
                 is LoginUiEvent.OnKakaoLoginButtonClick -> {
                     isLoading = true
-                    sideEffect = LoginSideEffect.KakaoLogin
+                    sideEffect = LoginSideEffect.KakaoLogin()
                 }
 
                 is LoginUiEvent.LoginFailure -> {
