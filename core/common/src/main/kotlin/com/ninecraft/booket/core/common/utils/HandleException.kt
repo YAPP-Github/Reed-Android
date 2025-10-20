@@ -66,14 +66,6 @@ fun postErrorDialog(
                     val loginErrorTitle = "로그인 오류"
                     loginErrorTitle to "예기치 않은 오류가 발생했습니다.\n다시 로그인 해주세요."
                 }
-
-                ErrorScope.BOOK_REGISTER -> {
-                    null to "도서 등록 중 오류가 발생했어요.\n다시 시도해주세요"
-                }
-
-                ErrorScope.RECORD_REGISTER -> {
-                    null to "기록 저장에 실패했어요.\n다시 시도해주세요"
-                }
             }
         }
 
