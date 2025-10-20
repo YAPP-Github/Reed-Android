@@ -51,53 +51,45 @@ fun postErrorDialog(
     @StringRes buttonLabelResId: Int = R.string.confirm,
     action: () -> Unit = {},
 ) {
-    val spec = buildDialog(
-        scope = errorScope,
-        exception = exception,
-        buttonLabelResId = buttonLabelResId,
-        action = action,
-    )
-
-    ErrorEventHelper.sendError(event = ErrorEvent.ShowDialog(spec))
-}
-
-private fun buildDialog(
-    scope: ErrorScope,
-    exception: Throwable,
-    @StringRes buttonLabelResId: Int,
-    action: () -> Unit,
-): ErrorDialogSpec {
-    val message = when {
+    val (title, message) = when {
         exception.isNetworkError() -> {
-            "네트워크 연결이 불안정합니다.\n인터넷 연결을 확인해주세요"
+            null to "네트워크 연결이 불안정합니다.\n인터넷 연결을 확인해주세요"
         }
 
         exception is HttpException -> {
-            when (scope) {
+            when (errorScope) {
                 ErrorScope.GLOBAL -> {
-                    "알 수 없는 문제가 발생했어요.\n다시 시도해주세요"
+                    null to "알 수 없는 문제가 발생했어요.\n다시 시도해주세요"
                 }
 
                 ErrorScope.LOGIN -> {
-                    "예기치 않은 오류가 발생했습니다.\n다시 로그인 해주세요."
+                    val loginErrorTitle = "로그인 오류"
+                    loginErrorTitle to "예기치 않은 오류가 발생했습니다.\n다시 로그인 해주세요."
                 }
 
                 ErrorScope.BOOK_REGISTER -> {
-                    "도서 등록 중 오류가 발생했어요.\n다시 시도해주세요"
+                    null to "도서 등록 중 오류가 발생했어요.\n다시 시도해주세요"
                 }
 
                 ErrorScope.RECORD_REGISTER -> {
-                    "기록 저장에 실패했어요.\n다시 시도해주세요"
+                    null to "기록 저장에 실패했어요.\n다시 시도해주세요"
                 }
             }
         }
 
         else -> {
-            "알 수 없는 문제가 발생했어요.\n다시 시도해주세요"
+            null to "알 수 없는 문제가 발생했어요.\n다시 시도해주세요"
         }
     }
 
-    return ErrorDialogSpec(message = message, buttonLabelResId = buttonLabelResId, action = action)
+    val spec = ErrorDialogSpec(
+        title = title,
+        message = message,
+        buttonLabelResId = buttonLabelResId,
+        action = action,
+    )
+
+    ErrorEventHelper.sendError(event = ErrorEvent.ShowDialog(spec))
 }
 
 @Suppress("TooGenericExceptionCaught")

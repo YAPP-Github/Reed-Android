@@ -70,6 +70,7 @@ class MainActivity : ComponentActivity() {
 
                 dialogSpec.value?.let { spec ->
                     ReedDialog(
+                        title = spec.title,
                         description = spec.message,
                         confirmButtonText = stringResource(spec.buttonLabelResId),
 
