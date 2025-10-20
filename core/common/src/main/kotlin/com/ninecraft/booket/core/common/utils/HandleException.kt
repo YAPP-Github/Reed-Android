@@ -23,7 +23,13 @@ fun handleException(
 ) {
     when {
         exception is HttpException && exception.code() == 401 -> {
-            onLoginRequired()
+            postErrorDialog(
+                errorScope = ErrorScope.AUTH_SESSION_EXPIRED,
+                exception = exception,
+                action = {
+                    onLoginRequired()
+                }
+            )
         }
 
         exception is HttpException -> {
@@ -65,6 +71,10 @@ fun postErrorDialog(
                 ErrorScope.LOGIN -> {
                     val loginErrorTitle = "로그인 오류"
                     loginErrorTitle to "예기치 않은 오류가 발생했습니다.\n다시 로그인 해주세요."
+                }
+
+                ErrorScope.AUTH_SESSION_EXPIRED -> {
+                    null to "세션이 만료되었어요.\n다시 로그인 해주세요"
                 }
             }
         }
