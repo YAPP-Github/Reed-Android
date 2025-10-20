@@ -108,15 +108,13 @@ class LibraryPresenter @AssistedInject constructor(
                             footerState = FooterState.Error(errorMessage)
                         }
 
-                        if (userState !is UserState.Guest) {
-                            handleException(
-                                exception = exception,
-                                onError = {},
-                                onLoginRequired = {
-                                    navigator.resetRoot(LoginScreen())
-                                },
-                            )
-                        }
+                        handleException(
+                            exception = exception,
+                            onError = {},
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen())
+                            },
+                        )
                     }
             }
         }
@@ -148,7 +146,10 @@ class LibraryPresenter @AssistedInject constructor(
                     }
 
                     currentFilter = event.filterOption
-                    filterLibraryBooks(status = currentFilter.getApiValue(), page = START_INDEX, size = PAGE_SIZE)
+
+                    if (userState !is UserState.Guest) {
+                        filterLibraryBooks(status = currentFilter.getApiValue(), page = START_INDEX, size = PAGE_SIZE)
+                    }
                 }
 
                 is LibraryUiEvent.OnBookClick -> {
