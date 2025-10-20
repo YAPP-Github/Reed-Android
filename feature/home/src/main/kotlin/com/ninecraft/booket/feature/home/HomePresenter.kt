@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
+import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.RecentBookModel
@@ -13,6 +14,7 @@ import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.BookSearchScreen
 import com.ninecraft.booket.feature.screens.HomeScreen
+import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.skydoves.compose.effects.RememberedEffect
@@ -56,6 +58,14 @@ class HomePresenter @AssistedInject constructor(
                         recentBooks = result.recentBooks.toPersistentList()
                     }.onFailure { exception ->
                         uiState = UiState.Error(exception)
+
+                        handleException(
+                            exception = exception,
+                            onError = {},
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen())
+                            },
+                        )
                     }
             }
         }
