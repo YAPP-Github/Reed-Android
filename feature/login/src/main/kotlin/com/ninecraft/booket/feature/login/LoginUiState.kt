@@ -15,7 +15,7 @@ data class LoginUiState(
 
 @Immutable
 sealed interface LoginSideEffect {
-    data object KakaoLogin : LoginSideEffect
+    data class KakaoLogin(private val key: String = UUID.randomUUID().toString()) : LoginSideEffect
     data class ShowToast(
         val message: String,
         private val key: String = UUID.randomUUID().toString(),
