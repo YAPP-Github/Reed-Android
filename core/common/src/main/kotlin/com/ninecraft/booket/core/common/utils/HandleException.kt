@@ -69,8 +69,7 @@ fun postErrorDialog(
                 }
 
                 ErrorScope.LOGIN -> {
-                    val loginErrorTitle = "로그인 오류"
-                    loginErrorTitle to "예기치 않은 오류가 발생했습니다.\n다시 로그인 해주세요."
+                    "로그인 오류" to "예기치 않은 오류가 발생했습니다.\n다시 로그인 해주세요."
                 }
 
                 ErrorScope.AUTH_SESSION_EXPIRED -> {
