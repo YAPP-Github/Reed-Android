@@ -73,6 +73,7 @@
                 tools:replace="android:resource" />
         </provider>
 
+        <service android:name="com.ninecraft.booket.ReedFirebaseMessagingService" />
     </application>
 
 </manifest>
