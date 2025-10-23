@@ -49,6 +49,7 @@ internal fun UserProfileResponse.toModel(): UserProfileModel {
         nickname = nickname,
         provider = provider,
         termsAgreed = termsAgreed,
+        notificationEnabled = notificationEnabled,
     )
 }
 
