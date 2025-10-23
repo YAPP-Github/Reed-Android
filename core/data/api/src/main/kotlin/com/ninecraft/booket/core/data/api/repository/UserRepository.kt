@@ -17,4 +17,8 @@ interface UserRepository {
     val isNotificationEnabled: Flow<Boolean>
 
     suspend fun setNotificationEnabled(isEnabled: Boolean)
+
+    suspend fun updateFcmToken(fcmToken: String): Result<UserProfileModel>
+
+    suspend fun updateNotificationSettings(notificationEnabled: Boolean): Result<UserProfileModel>
 }
