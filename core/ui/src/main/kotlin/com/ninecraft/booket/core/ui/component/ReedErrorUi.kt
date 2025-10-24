@@ -7,11 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import com.ninecraft.booket.core.common.utils.isNetworkError
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
@@ -19,12 +19,22 @@ import com.ninecraft.booket.core.designsystem.component.button.mediumButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.R
 
+@Immutable
+sealed interface ErrorType {
+    data object NetworkError : ErrorType
+    data object ServerError : ErrorType
+}
+
 @Composable
 fun ReedErrorUi(
-    exception: Throwable,
+    errorType: ErrorType,
     onRetryClick: () -> Unit,
 ) {
-    val message = if (exception.isNetworkError()) stringResource(R.string.network_error_message) else stringResource(R.string.server_error_message)
+    val message = when (errorType) {
+        ErrorType.NetworkError -> stringResource(R.string.network_error_message)
+        ErrorType.ServerError -> stringResource(R.string.server_error_message)
+    }
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
@@ -52,7 +62,7 @@ fun ReedErrorUi(
 private fun ReedNetworkErrorUiPreview() {
     ReedTheme {
         ReedErrorUi(
-            exception = java.io.IOException("네트워크 오류"),
+            errorType = ErrorType.NetworkError,
             onRetryClick = {},
         )
     }
@@ -63,7 +73,7 @@ private fun ReedNetworkErrorUiPreview() {
 private fun ReedServerErrorUiPreview() {
     ReedTheme {
         ReedErrorUi(
-            exception = Exception("알 수 없는 문제"),
+            errorType = ErrorType.ServerError,
             onRetryClick = {},
         )
     }
