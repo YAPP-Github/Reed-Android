@@ -29,6 +29,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.constants.BookStatus
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
@@ -352,7 +353,7 @@ internal fun BookDetailContent(
 
         is UiState.Error -> {
             ReedErrorUi(
-                exception = state.uiState.exception,
+                errorType = state.uiState.exception.toErrorType(),
                 onRetryClick = { state.eventSink(BookDetailUiEvent.OnRetryClick) },
             )
         }

@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.component.textfield.ReedTextField
@@ -96,7 +97,7 @@ internal fun LibrarySearchContent(
 
             is UiState.Error -> {
                 ReedErrorUi(
-                    exception = state.uiState.exception,
+                    errorType = state.uiState.exception.toErrorType(),
                     onRetryClick = { state.eventSink(LibrarySearchUiEvent.OnRetryClick) },
                 )
             }

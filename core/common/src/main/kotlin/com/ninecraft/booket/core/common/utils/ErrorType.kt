@@ -7,3 +7,4 @@ sealed interface ErrorType {
     data object NetworkError : ErrorType
     data object ServerError : ErrorType
 }
+
