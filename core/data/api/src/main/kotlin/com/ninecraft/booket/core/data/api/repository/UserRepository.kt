@@ -18,7 +18,9 @@ interface UserRepository {
 
     suspend fun setNotificationEnabled(isEnabled: Boolean)
 
-    suspend fun updateFcmToken(fcmToken: String): Result<UserProfileModel>
+    suspend fun getFcmToken(): String
+
+    suspend fun updateFcmToken(): Result<UserProfileModel>
 
     suspend fun updateNotificationSettings(notificationEnabled: Boolean): Result<UserProfileModel>
 }

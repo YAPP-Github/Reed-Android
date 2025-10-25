@@ -11,7 +11,10 @@ import com.ninecraft.booket.core.network.request.NotificationSettingsRequest
 import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import com.orhanobut.logger.Logger
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 internal class DefaultUserRepository @Inject constructor(
     private val service: ReedService,
@@ -39,7 +42,30 @@ internal class DefaultUserRepository @Inject constructor(
         notificationDataSource.setNotificationEnabled(isEnabled)
     }
 
-    override suspend fun updateFcmToken(fcmToken: String) = runSuspendCatching {
+    override suspend fun getFcmToken(): String {
+        return try {
+            suspendCancellableCoroutine { continuation ->
+                firebaseMessaging.token.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        continuation.resume(task.result ?: "")
+                        Logger.d("getFcmToken: ${task.result}")
+                    } else {
+                        task.exception?.let { exception ->
+                            continuation.resumeWithException(exception)
+                        } ?: continuation.resumeWithException(
+                            Exception("Unknown error occurred while fetching FCM token"),
+                        )
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Logger.e(e, "Failed to get FCM token")
+            ""
+        }
+    }
+
+    override suspend fun updateFcmToken() = runSuspendCatching {
+        val fcmToken = getFcmToken()
         service.updateFcmToken(FcmTokenRequest(fcmToken)).toModel()
     }
 

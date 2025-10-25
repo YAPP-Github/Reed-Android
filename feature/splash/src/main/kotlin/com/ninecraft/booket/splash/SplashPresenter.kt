@@ -54,6 +54,7 @@ class SplashPresenter @AssistedInject constructor(
                 userRepository.getUserProfile()
                     .onSuccess { userProfile ->
                         if (userProfile.termsAgreed) {
+                            userRepository.updateFcmToken()
                             navigator.resetRoot(HomeScreen)
                         } else {
                             navigator.resetRoot(LoginScreen())

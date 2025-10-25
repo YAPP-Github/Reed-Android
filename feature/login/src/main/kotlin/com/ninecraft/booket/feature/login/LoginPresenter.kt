@@ -87,6 +87,7 @@ class LoginPresenter @AssistedInject constructor(
                             isLoading = true
                             authRepository.login(event.accessToken)
                                 .onSuccess {
+                                    userRepository.updateFcmToken()
                                     navigateAfterLogin()
                                 }.onFailure { exception ->
                                     exception.message?.let { Logger.e(it) }
