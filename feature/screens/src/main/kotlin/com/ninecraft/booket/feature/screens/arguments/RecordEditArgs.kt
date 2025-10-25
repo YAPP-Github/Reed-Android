@@ -1,8 +1,10 @@
 package com.ninecraft.booket.feature.screens.arguments
 
 import android.os.Parcelable
+import androidx.compose.runtime.Immutable
 import kotlinx.parcelize.Parcelize
 
+@Immutable
 @Parcelize
 data class RecordEditArgs(
     val id: String,
