@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.feature.screens.NotificationScreen
+import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
@@ -24,6 +25,19 @@ class NotificationPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         val isNotificationEnabled by userRepository.isNotificationEnabled.collectAsRetainedState(initial = false)
 
+        fun updateNotificationSettings(enabled: Boolean) {
+            scope.launch {
+                userRepository.setNotificationEnabled(enabled)
+                userRepository.updateNotificationSettings(enabled)
+                    .onSuccess {
+                        Logger.d("Notification settings updated successfully")
+                    }
+                    .onFailure { exception ->
+                        Logger.d(exception.message.toString())
+                    }
+            }
+        }
+
         fun handleEvent(event: NotificationUiEvent) {
             when (event) {
                 is NotificationUiEvent.OnBackClick -> {
@@ -31,9 +45,7 @@ class NotificationPresenter @AssistedInject constructor(
                 }
 
                 is NotificationUiEvent.OnNotificationToggle -> {
-                    scope.launch {
-                        userRepository.setNotificationEnabled(event.enabled)
-                    }
+                    updateNotificationSettings(event.enabled)
                 }
             }
         }
