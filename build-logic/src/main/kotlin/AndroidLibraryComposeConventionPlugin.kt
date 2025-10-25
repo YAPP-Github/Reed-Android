@@ -12,6 +12,7 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
             applyPlugins(
                 Plugins.ANDROID_LIBRARY,
                 Plugins.KOTLIN_COMPOSE,
+                Plugins.COMPOSE_STABILITY_ANALYZER,
             )
 
             extensions.configure<LibraryExtension> {

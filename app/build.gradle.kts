@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.booket.android.application.compose)
     alias(libs.plugins.booket.android.hilt)
     alias(libs.plugins.booket.android.firebase)
-    alias(libs.plugins.compose.stability.analyzer)
 }
 
 android {
