@@ -17,8 +17,10 @@ import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.checkbox.TickOnlyCheckBox
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @Composable
 internal fun TermItem(
     title: String,

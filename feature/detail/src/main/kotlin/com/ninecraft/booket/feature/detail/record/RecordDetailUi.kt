@@ -31,11 +31,13 @@ import com.ninecraft.booket.feature.detail.record.component.QuoteItem
 import com.ninecraft.booket.feature.detail.record.component.RecordMenuBottomSheet
 import com.ninecraft.booket.feature.detail.record.component.ReviewItem
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(RecordDetailScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -116,6 +118,7 @@ internal fun RecordDetailUi(
     }
 }
 
+@TraceRecomposition
 @Composable
 private fun RecordDetailContent(
     state: RecordDetailUiState,

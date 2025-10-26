@@ -13,9 +13,11 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.feature.library.LibraryFilterChip
 import com.ninecraft.booket.feature.library.LibraryFilterOption
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 
+@TraceRecomposition
 @Composable
 fun FilterChipGroup(
     filterList: ImmutableList<LibraryFilterChip>,

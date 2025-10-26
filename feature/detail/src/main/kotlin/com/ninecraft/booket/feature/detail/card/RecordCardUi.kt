@@ -36,10 +36,12 @@ import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.card.component.RecordCard
 import com.ninecraft.booket.feature.screens.RecordCardScreen
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @CircuitInject(RecordCardScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun RecordCardUi(

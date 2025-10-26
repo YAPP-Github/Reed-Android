@@ -35,8 +35,10 @@ import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import kotlinx.collections.immutable.toPersistentList
 
+@TraceRecomposition
 @Composable
 fun EmotionStep(
     state: RecordRegisterUiState,

@@ -68,12 +68,14 @@ import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.ocr.component.CameraFrame
 import com.ninecraft.booket.feature.record.ocr.component.SentenceBox
 import com.ninecraft.booket.feature.screens.OcrScreen
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
 import java.io.File
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @CircuitInject(OcrScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun OcrUi(
@@ -88,6 +90,7 @@ internal fun OcrUi(
     }
 }
 
+@TraceRecomposition
 @Composable
 private fun CameraPreview(
     state: OcrUiState,
@@ -312,6 +315,7 @@ private fun CameraPreview(
     }
 }
 
+@TraceRecomposition
 @Composable
 private fun TextScanResult(
     state: OcrUiState,

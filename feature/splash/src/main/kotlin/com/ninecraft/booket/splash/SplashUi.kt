@@ -24,10 +24,12 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.feature.screens.SplashScreen
 import com.ninecraft.booket.feature.splash.R
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
 
+@TraceRecomposition
 @CircuitInject(SplashScreen::class, ActivityRetainedComponent::class)
 @Composable
 fun SplashUi(
