@@ -6,9 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.ocr.recognizer.CloudOcrRecognizer
-import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -21,7 +21,9 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.launch
 
 class OcrPresenter @AssistedInject constructor(
@@ -40,8 +42,7 @@ class OcrPresenter @AssistedInject constructor(
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
         var isPermissionDialogVisible by rememberRetained { mutableStateOf(false) }
         var sentenceList by rememberRetained { mutableStateOf(persistentListOf<String>()) }
-        var recognizedText by rememberRetained { mutableStateOf("") }
-        var selectedIndices by rememberRetained { mutableStateOf(setOf<Int>()) }
+        var selectedIndices by rememberRetained { mutableStateOf(persistentSetOf<Int>()) }
         var mergedSentence by rememberRetained { mutableStateOf("") }
         var isTextDetectionFailed by rememberRetained { mutableStateOf(false) }
         var isRecaptureDialogVisible by rememberRetained { mutableStateOf(false) }
@@ -55,7 +56,6 @@ class OcrPresenter @AssistedInject constructor(
                     recognizer.recognizeText(imageUri)
                         .onSuccess {
                             val text = it.responses.firstOrNull()?.fullTextAnnotation?.text.orEmpty()
-                            recognizedText = text
 
                             if (text.isNotBlank()) {
                                 isTextDetectionFailed = false
@@ -136,11 +136,11 @@ class OcrPresenter @AssistedInject constructor(
                         selectedIndices - event.index
                     } else {
                         selectedIndices + event.index
-                    }
+                    }.toPersistentSet()
                 }
 
                 is OcrUiEvent.OnRecaptureDialogConfirmed -> {
-                    selectedIndices = emptySet()
+                    selectedIndices = persistentSetOf()
                     isRecaptureDialogVisible = false
                     currentUi = OcrUi.CAMERA
                 }

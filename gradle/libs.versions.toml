@@ -24,6 +24,7 @@ androidx-compose-material3 = "1.4.0-alpha18"
 compose-stable-marker = "1.0.6"
 compose-effects = "0.1.1"
 compose-shadow = "2.0.4"
+compose-stability-analyzer = "0.3.0"
 
 ## Kotlin Symbol Processing
 ksp = "2.2.0-2.0.2"
@@ -171,6 +172,8 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 google-service = { id = "com.google.gms.google-services", version.ref = "google-service" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
+
+compose-stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version.ref = "compose-stability-analyzer"}
 
 # Plugins defined by this project
 booket-android-application = { id = "booket.android.application", version = "unspecified" }

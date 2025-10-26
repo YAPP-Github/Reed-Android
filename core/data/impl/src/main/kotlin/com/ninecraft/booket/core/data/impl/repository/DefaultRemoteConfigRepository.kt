@@ -2,7 +2,7 @@ package com.ninecraft.booket.core.data.impl.repository
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.get
-import com.ninecraft.booket.core.common.util.isUpdateRequired
+import com.ninecraft.booket.core.common.utils.isUpdateRequired
 import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
 import com.ninecraft.booket.core.data.impl.BuildConfig
 import com.orhanobut.logger.Logger

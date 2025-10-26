@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -169,7 +170,7 @@ private fun RecordDetailContent(
 
         is UiState.Error -> {
             ReedErrorUi(
-                exception = state.uiState.exception,
+                errorType = state.uiState.exception.toErrorType(),
                 onRetryClick = { },
             )
         }

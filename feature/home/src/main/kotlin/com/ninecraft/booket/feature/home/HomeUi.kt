@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -223,7 +224,7 @@ internal fun HomeContent(
 
                 is UiState.Error -> {
                     ReedErrorUi(
-                        exception = state.uiState.exception,
+                        errorType = state.uiState.exception.toErrorType(),
                         onRetryClick = { state.eventSink(HomeUiEvent.OnRetryClick) },
                     )
                 }
