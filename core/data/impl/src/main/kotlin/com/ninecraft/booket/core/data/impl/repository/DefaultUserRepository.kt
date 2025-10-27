@@ -11,7 +11,7 @@ import com.ninecraft.booket.core.network.request.NotificationSettingsRequest
 import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import com.orhanobut.logger.Logger
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
@@ -38,13 +38,24 @@ internal class DefaultUserRepository @Inject constructor(
         onboardingDataSource.setOnboardingCompleted(isCompleted)
     }
 
+    override suspend fun syncFcmToken() = runSuspendCatching {
+        val newToken = getRemoteFcmToken()
+        val localToken = getLocalFcmToken()
+
+        if (newToken == localToken) {
+            Logger.d("Skip FCM token sync (already up-to-date)")
+            return@runSuspendCatching
+        }
+
+        service.updateFcmToken(FcmTokenRequest(newToken)).toModel()
+        setFcmToken(newToken)
+    }
+
     override val isUserNotificationEnabled = notificationDataSource.isUserNotificationEnabled
 
     override suspend fun setUserNotificationEnabled(isEnabled: Boolean) {
         notificationDataSource.setUserNotificationEnabled(isEnabled)
     }
-
-    override val lastSyncedNotificationEnabled: Flow<Boolean?> = notificationDataSource.lastSyncedNotificationEnabled
 
     override suspend fun getLastSyncedNotificationEnabled(): Boolean? =
         notificationDataSource.lastSyncedNotificationEnabled.firstOrNull()
@@ -53,34 +64,27 @@ internal class DefaultUserRepository @Inject constructor(
         notificationDataSource.setLastSyncedNotificationEnabled(isEnabled)
     }
 
-    override suspend fun getFcmToken(): String {
-        return try {
-            suspendCancellableCoroutine { continuation ->
-                firebaseMessaging.token.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        continuation.resume(task.result ?: "")
-                        Logger.d("getFcmToken: ${task.result}")
-                    } else {
-                        task.exception?.let { exception ->
-                            continuation.resumeWithException(exception)
-                        } ?: continuation.resumeWithException(
-                            Exception("Unknown error occurred while fetching FCM token"),
-                        )
-                    }
-                }
+    override suspend fun updateNotificationSettings(notificationEnabled: Boolean) = runSuspendCatching {
+        service.updateNotificationSettings(NotificationSettingsRequest(notificationEnabled)).toModel()
+    }
+
+    private suspend fun getRemoteFcmToken(): String = suspendCancellableCoroutine { continuation ->
+        firebaseMessaging.token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                continuation.resume(task.result)
+            } else {
+                task.exception?.let { exception ->
+                    continuation.resumeWithException(exception)
+                } ?: continuation.resumeWithException(
+                    Exception("Unknown error occurred while fetching FCM token")
+                )
             }
-        } catch (e: Exception) {
-            Logger.e(e, "Failed to get FCM token")
-            ""
         }
     }
 
-    override suspend fun updateFcmToken() = runSuspendCatching {
-        val fcmToken = getFcmToken()
-        service.updateFcmToken(FcmTokenRequest(fcmToken)).toModel()
-    }
+    private suspend fun getLocalFcmToken(): String = notificationDataSource.fcmToken.first()
 
-    override suspend fun updateNotificationSettings(notificationEnabled: Boolean) = runSuspendCatching {
-        service.updateNotificationSettings(NotificationSettingsRequest(notificationEnabled)).toModel()
+    private suspend fun setFcmToken(fcmToken: String) {
+        notificationDataSource.setFcmToken(fcmToken)
     }
 }
