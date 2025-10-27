@@ -2,12 +2,17 @@ package com.ninecraft.booket.feature.settings.notification
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.UserRepository
+import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.NotificationScreen
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
+import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dagger.assisted.Assisted
@@ -23,23 +28,39 @@ class NotificationPresenter @AssistedInject constructor(
     @Composable
     override fun present(): NotificationUiState {
         val scope = rememberCoroutineScope()
-        val isNotificationEnabled by userRepository.isNotificationEnabled.collectAsRetainedState(initial = false)
+        val isNotificationEnabled by userRepository.isUserNotificationEnabled.collectAsRetainedState(initial = false)
+        var sideEffect by rememberRetained { mutableStateOf<NotificationSideEffect?>(null) }
 
         fun updateNotificationSettings(enabled: Boolean) {
             scope.launch {
-                userRepository.setNotificationEnabled(enabled)
                 userRepository.updateNotificationSettings(enabled)
                     .onSuccess {
-                        Logger.d("Notification settings updated successfully")
+                        userRepository.setUserNotificationEnabled(enabled)
+                        userRepository.setLastNotificationSyncedEnabled(enabled)
                     }
                     .onFailure { exception ->
-                        Logger.d(exception.message.toString())
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                            sideEffect = NotificationSideEffect.ShowToast(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen())
+                            },
+                        )
                     }
             }
         }
 
         fun handleEvent(event: NotificationUiEvent) {
             when (event) {
+                is NotificationUiEvent.InitSideEffect -> {
+                    sideEffect = null
+                }
+
                 is NotificationUiEvent.OnBackClick -> {
                     navigator.pop()
                 }
@@ -51,6 +72,7 @@ class NotificationPresenter @AssistedInject constructor(
         }
         return NotificationUiState(
             isNotificationEnabled = isNotificationEnabled,
+            sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
     }
