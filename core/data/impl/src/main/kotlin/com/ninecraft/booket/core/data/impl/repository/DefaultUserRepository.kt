@@ -11,6 +11,8 @@ import com.ninecraft.booket.core.network.request.NotificationSettingsRequest
 import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import com.orhanobut.logger.Logger
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -36,10 +38,19 @@ internal class DefaultUserRepository @Inject constructor(
         onboardingDataSource.setOnboardingCompleted(isCompleted)
     }
 
-    override val isNotificationEnabled = notificationDataSource.isNotificationEnabled
+    override val isUserNotificationEnabled = notificationDataSource.isUserNotificationEnabled
 
-    override suspend fun setNotificationEnabled(isEnabled: Boolean) {
-        notificationDataSource.setNotificationEnabled(isEnabled)
+    override suspend fun setUserNotificationEnabled(isEnabled: Boolean) {
+        notificationDataSource.setUserNotificationEnabled(isEnabled)
+    }
+
+    override val lastSyncedNotificationEnabled: Flow<Boolean?> = notificationDataSource.lastSyncedNotificationEnabled
+
+    override suspend fun getLastSyncedNotificationEnabled(): Boolean? =
+        notificationDataSource.lastSyncedNotificationEnabled.firstOrNull()
+
+    override suspend fun setLastNotificationSyncedEnabled(isEnabled: Boolean) {
+        notificationDataSource.setLastSyncedNotificationEnabled(isEnabled)
     }
 
     override suspend fun getFcmToken(): String {

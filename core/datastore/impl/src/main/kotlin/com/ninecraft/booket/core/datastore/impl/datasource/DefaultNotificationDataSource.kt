@@ -14,19 +14,32 @@ import javax.inject.Inject
 class DefaultNotificationDataSource @Inject constructor(
     @NotificationDataStore private val dataStore: DataStore<Preferences>,
 ) : NotificationDataSource {
-    override val isNotificationEnabled: Flow<Boolean> = dataStore.data
+    override val isUserNotificationEnabled: Flow<Boolean> = dataStore.data
         .handleIOException()
         .map { prefs ->
-            prefs[NOTIFICATION_ENABLED] ?: true
+            prefs[USER_NOTIFICATION_ENABLED] ?: true
         }
 
-    override suspend fun setNotificationEnabled(isEnabled: Boolean) {
+    override suspend fun setUserNotificationEnabled(isEnabled: Boolean) {
         dataStore.edit { prefs ->
-            prefs[NOTIFICATION_ENABLED] = isEnabled
+            prefs[USER_NOTIFICATION_ENABLED] = isEnabled
+        }
+    }
+
+    override val lastSyncedNotificationEnabled: Flow<Boolean?> = dataStore.data
+        .handleIOException()
+        .map { prefs ->
+            prefs[LAST_SYNCED_NOTIFICATION_ENABLED]
+        }
+
+    override suspend fun setLastSyncedNotificationEnabled(isEnabled: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[LAST_SYNCED_NOTIFICATION_ENABLED] = isEnabled
         }
     }
 
     companion object Companion {
-        private val NOTIFICATION_ENABLED = booleanPreferencesKey("NOTIFICATION_ENABLED")
+        private val USER_NOTIFICATION_ENABLED = booleanPreferencesKey("USER_NOTIFICATION_ENABLED")
+        private val LAST_SYNCED_NOTIFICATION_ENABLED = booleanPreferencesKey("LAST_SYNCED_NOTIFICATION_ENABLED")
     }
 }

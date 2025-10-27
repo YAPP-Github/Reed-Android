@@ -63,16 +63,13 @@ class HomePresenter @AssistedInject constructor(
             }
         }
 
-        fun updateNotificationSettings(isGranted: Boolean) {
-            scope.launch {
-                userRepository.updateNotificationSettings(isGranted)
-                    .onSuccess {
-                        Logger.d("Notification settings updated successfully")
-                    }
-                    .onFailure { exception ->
-                        Logger.d(exception.message.toString())
-                    }
-            }
+        suspend fun syncNotificationSettings(isGranted: Boolean) {
+            userRepository.updateNotificationSettings(isGranted)
+                .onSuccess {
+                    userRepository.setLastNotificationSyncedEnabled(isGranted)
+                }.onFailure { exception ->
+                    Logger.e("Failed to update notification settings: $exception")
+                }
         }
 
         fun handleEvent(event: HomeUiEvent) {
@@ -106,7 +103,14 @@ class HomePresenter @AssistedInject constructor(
                 }
 
                 is HomeUiEvent.OnNotificationPermissionResult -> {
-                    updateNotificationSettings(event.isGranted)
+                    scope.launch {
+                        val isPermissionGranted = event.isGranted
+                        val lastSyncedServerEnabled = userRepository.getLastSyncedNotificationEnabled()
+
+                        if (lastSyncedServerEnabled == null || isPermissionGranted != lastSyncedServerEnabled) {
+                            syncNotificationSettings(isPermissionGranted)
+                        }
+                    }
                 }
             }
         }

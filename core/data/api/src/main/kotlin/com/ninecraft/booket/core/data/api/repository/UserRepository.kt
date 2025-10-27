@@ -14,9 +14,15 @@ interface UserRepository {
 
     suspend fun setOnboardingCompleted(isCompleted: Boolean)
 
-    val isNotificationEnabled: Flow<Boolean>
+    val isUserNotificationEnabled: Flow<Boolean>
 
-    suspend fun setNotificationEnabled(isEnabled: Boolean)
+    suspend fun setUserNotificationEnabled(isEnabled: Boolean)
+
+    val lastSyncedNotificationEnabled: Flow<Boolean?>
+
+    suspend fun getLastSyncedNotificationEnabled(): Boolean?
+
+    suspend fun setLastNotificationSyncedEnabled(isEnabled: Boolean)
 
     suspend fun getFcmToken(): String
 
