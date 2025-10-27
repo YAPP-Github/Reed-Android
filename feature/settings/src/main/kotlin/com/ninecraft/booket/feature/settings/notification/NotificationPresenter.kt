@@ -33,9 +33,10 @@ class NotificationPresenter @AssistedInject constructor(
 
         fun updateNotificationSettings(enabled: Boolean) {
             scope.launch {
+                userRepository.setUserNotificationEnabled(enabled)
+
                 userRepository.updateNotificationSettings(enabled)
                     .onSuccess {
-                        userRepository.setUserNotificationEnabled(enabled)
                         userRepository.setLastNotificationSyncedEnabled(enabled)
                     }
                     .onFailure { exception ->
@@ -51,6 +52,7 @@ class NotificationPresenter @AssistedInject constructor(
                                 navigator.resetRoot(LoginScreen())
                             },
                         )
+                        userRepository.setUserNotificationEnabled(!enabled)
                     }
             }
         }
