@@ -70,6 +70,7 @@ internal fun NotificationUi(
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 value = checkSystemNotificationEnabled(context)
+                state.eventSink(NotificationUiEvent.OnNotificationPermissionResult(value))
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)

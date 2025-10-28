@@ -57,6 +57,27 @@ class NotificationPresenter @AssistedInject constructor(
             }
         }
 
+        suspend fun syncNotificationSettings(enabled: Boolean) {
+            userRepository.updateNotificationSettings(enabled)
+                .onSuccess {
+                    userRepository.setLastNotificationSyncedEnabled(enabled)
+                }
+                .onFailure { exception ->
+                    val handleErrorMessage = { message: String ->
+                        Logger.e(message)
+                        sideEffect = NotificationSideEffect.ShowToast(message)
+                    }
+
+                    handleException(
+                        exception = exception,
+                        onError = handleErrorMessage,
+                        onLoginRequired = {
+                            navigator.resetRoot(LoginScreen())
+                        },
+                    )
+                }
+        }
+
         fun handleEvent(event: NotificationUiEvent) {
             when (event) {
                 is NotificationUiEvent.InitSideEffect -> {
@@ -65,6 +86,21 @@ class NotificationPresenter @AssistedInject constructor(
 
                 is NotificationUiEvent.OnBackClick -> {
                     navigator.pop()
+                }
+
+                is NotificationUiEvent.OnNotificationPermissionResult -> {
+                    scope.launch {
+                        val isPermissionGranted = event.granted
+                        val userEnabled = userRepository.getUserNotificationEnabled()
+                        val lastSyncedServerEnabled = userRepository.getLastSyncedNotificationEnabled()
+
+                        val shouldSync = (!isPermissionGranted && lastSyncedServerEnabled != false)
+                            || (userEnabled && (lastSyncedServerEnabled == null || lastSyncedServerEnabled != isPermissionGranted))
+
+                        if (shouldSync) {
+                            syncNotificationSettings(isPermissionGranted)
+                        }
+                    }
                 }
 
                 is NotificationUiEvent.OnNotificationToggle -> {

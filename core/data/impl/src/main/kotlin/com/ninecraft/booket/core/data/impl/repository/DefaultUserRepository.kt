@@ -58,6 +58,8 @@ internal class DefaultUserRepository @Inject constructor(
 
     override val isUserNotificationEnabled = notificationDataSource.isUserNotificationEnabled
 
+    override suspend fun getUserNotificationEnabled(): Boolean = isUserNotificationEnabled.first()
+
     override suspend fun setUserNotificationEnabled(isEnabled: Boolean) {
         notificationDataSource.setUserNotificationEnabled(isEnabled)
     }

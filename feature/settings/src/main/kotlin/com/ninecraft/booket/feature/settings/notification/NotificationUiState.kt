@@ -23,5 +23,6 @@ sealed interface NotificationSideEffect {
 sealed interface NotificationUiEvent : CircuitUiEvent {
     data object InitSideEffect : NotificationUiEvent
     data object OnBackClick : NotificationUiEvent
+    data class OnNotificationPermissionResult(val granted: Boolean) : NotificationUiEvent
     data class OnNotificationToggle(val enabled: Boolean) : NotificationUiEvent
 }

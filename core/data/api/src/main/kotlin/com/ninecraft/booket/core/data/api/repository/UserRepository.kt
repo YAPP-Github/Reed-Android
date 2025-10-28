@@ -20,6 +20,8 @@ interface UserRepository {
 
     val isUserNotificationEnabled: Flow<Boolean>
 
+    suspend fun getUserNotificationEnabled(): Boolean
+
     suspend fun setUserNotificationEnabled(isEnabled: Boolean)
 
     suspend fun getLastSyncedNotificationEnabled(): Boolean?

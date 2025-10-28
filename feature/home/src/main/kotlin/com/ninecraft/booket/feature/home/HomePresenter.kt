@@ -104,7 +104,7 @@ class HomePresenter @AssistedInject constructor(
 
                 is HomeUiEvent.OnNotificationPermissionResult -> {
                     scope.launch {
-                        val isPermissionGranted = event.isGranted
+                        val isPermissionGranted = event.granted
                         val lastSyncedServerEnabled = userRepository.getLastSyncedNotificationEnabled()
 
                         if (lastSyncedServerEnabled == null || isPermissionGranted != lastSyncedServerEnabled) {
