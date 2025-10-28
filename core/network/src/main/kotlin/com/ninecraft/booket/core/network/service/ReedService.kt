@@ -91,7 +91,7 @@ interface ReedService {
         @Query("title") title: String? = null,
         @Query("page") page: Int,
         @Query("size") size: Int,
-        @Query("sort") sort: String = "CREATED_DATE_DESC",
+        @Query("sort") sort: String = "UPDATED_DATE_DESC",
     ): LibraryResponse
 
     @DELETE("api/v1/books/my-library/{userBookId}")
