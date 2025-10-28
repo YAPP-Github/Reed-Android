@@ -38,6 +38,10 @@ internal class DefaultUserRepository @Inject constructor(
         onboardingDataSource.setOnboardingCompleted(isCompleted)
     }
 
+    override suspend fun updateFcmToken(fcmToken: String) = runSuspendCatching {
+        service.updateFcmToken(FcmTokenRequest(fcmToken)).toModel()
+    }
+
     override suspend fun syncFcmToken() = runSuspendCatching {
         val newToken = getRemoteFcmToken()
         val localToken = getLocalFcmToken()
@@ -47,7 +51,7 @@ internal class DefaultUserRepository @Inject constructor(
             return@runSuspendCatching
         }
 
-        service.updateFcmToken(FcmTokenRequest(newToken)).toModel()
+        updateFcmToken(newToken)
         setFcmToken(newToken)
     }
 
