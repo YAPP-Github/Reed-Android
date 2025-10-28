@@ -14,9 +14,9 @@ interface UserRepository {
 
     suspend fun setOnboardingCompleted(isCompleted: Boolean)
 
-    suspend fun updateFcmToken(fcmToken: String): Result<UserProfileModel>
-
     suspend fun syncFcmToken(): Result<Unit>
+
+    suspend fun syncFcmToken(fcmToken: String): Result<Unit>
 
     val isUserNotificationEnabled: Flow<Boolean>
 

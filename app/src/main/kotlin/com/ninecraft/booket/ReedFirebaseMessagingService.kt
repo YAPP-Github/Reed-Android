@@ -32,7 +32,7 @@ class ReedFirebaseMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
 
         scope.launch {
-            userRepository.updateFcmToken(token)
+            userRepository.syncFcmToken(token)
         }
     }
 

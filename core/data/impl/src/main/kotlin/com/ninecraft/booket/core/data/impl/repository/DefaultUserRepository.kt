@@ -38,10 +38,6 @@ internal class DefaultUserRepository @Inject constructor(
         onboardingDataSource.setOnboardingCompleted(isCompleted)
     }
 
-    override suspend fun updateFcmToken(fcmToken: String) = runSuspendCatching {
-        service.updateFcmToken(FcmTokenRequest(fcmToken)).toModel()
-    }
-
     override suspend fun syncFcmToken() = runSuspendCatching {
         val newToken = getRemoteFcmToken()
         val localToken = getLocalFcmToken()
@@ -53,6 +49,11 @@ internal class DefaultUserRepository @Inject constructor(
 
         updateFcmToken(newToken)
         setFcmToken(newToken)
+    }
+
+    override suspend fun syncFcmToken(fcmToken: String): Result<Unit> = runSuspendCatching {
+        updateFcmToken(fcmToken)
+        setFcmToken(fcmToken)
     }
 
     override val isUserNotificationEnabled = notificationDataSource.isUserNotificationEnabled
@@ -90,5 +91,9 @@ internal class DefaultUserRepository @Inject constructor(
 
     private suspend fun setFcmToken(fcmToken: String) {
         notificationDataSource.setFcmToken(fcmToken)
+    }
+
+    private suspend fun updateFcmToken(fcmToken: String) = runSuspendCatching {
+        service.updateFcmToken(FcmTokenRequest(fcmToken)).toModel()
     }
 }
