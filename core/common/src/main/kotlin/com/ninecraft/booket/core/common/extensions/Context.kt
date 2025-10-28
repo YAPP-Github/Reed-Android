@@ -16,7 +16,6 @@ import androidx.core.content.FileProvider
 import com.orhanobut.logger.Logger
 import java.io.File
 
-@Suppress("TooGenericExceptionCaught")
 fun Context.externalShareForBitmap(bitmap: ImageBitmap) {
     try {
         val file = File(bitmap.saveToDisk(this))
@@ -31,7 +30,6 @@ fun Context.externalShareForBitmap(bitmap: ImageBitmap) {
     }
 }
 
-@Suppress("TooGenericExceptionCaught")
 fun Context.saveImageToGallery(bitmap: ImageBitmap) {
     try {
         val fileName = "reed_record_${System.currentTimeMillis()}.png"

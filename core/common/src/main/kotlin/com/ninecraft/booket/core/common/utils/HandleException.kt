@@ -93,7 +93,6 @@ fun postErrorDialog(
     ErrorEventHelper.sendError(event = ErrorEvent.ShowDialog(spec))
 }
 
-@Suppress("TooGenericExceptionCaught")
 private fun HttpException.parseErrorMessage(): String? {
     return try {
         val errorBody = response()?.errorBody()?.string()

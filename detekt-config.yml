@@ -68,6 +68,10 @@ style:
   MaxLineLength:
     active: false
 
+exceptions:
+    TooGenericExceptionCaught:
+        active: false
+
 naming:
   TopLevelPropertyNaming:
     constantPattern: '[A-Z][A-Za-z0-9_]*'
