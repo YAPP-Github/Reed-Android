@@ -69,11 +69,15 @@ internal fun HomeUi(
         LaunchedEffect(Unit) {
             val isGranted = checkSystemNotificationEnabled(context)
 
-            if (isGranted) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (isGranted) {
+                    state.eventSink(HomeUiEvent.OnNotificationPermissionResult(isGranted))
+                } else {
+                    val permission = Manifest.permission.POST_NOTIFICATIONS
+                    permissionLauncher.launch(permission)
+                }
+            } else {
                 state.eventSink(HomeUiEvent.OnNotificationPermissionResult(isGranted))
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val permission = Manifest.permission.POST_NOTIFICATIONS
-                permissionLauncher.launch(permission)
             }
         }
     }
