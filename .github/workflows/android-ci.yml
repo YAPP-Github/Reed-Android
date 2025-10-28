@@ -54,12 +54,12 @@ jobs:
     stability_check:
         name: Compose Stability Check
         runs-on: macos-latest
-        needs: build
+        needs: ci-build
         steps:
             -   name: Check out code
-                uses: actions/checkout@v5.0.0
+                uses: actions/checkout@v5
             -   name: Set up JDK
-                uses: actions/setup-java@v5.0.0
+                uses: actions/setup-java@v5
                 with:
                     distribution: 'zulu'
                     java-version: 21
