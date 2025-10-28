@@ -67,7 +67,6 @@ class RecordEditPresenter @AssistedInject constructor(
             derivedStateOf {
                 recordPageState.text.isNotEmpty() &&
                     recordQuoteState.text.isNotEmpty() &&
-                    recordImpressionState.text.isNotEmpty() &&
                     !isPageError &&
                     hasChanges
             }

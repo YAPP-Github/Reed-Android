@@ -12,7 +12,6 @@ import okhttp3.Route
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Suppress("TooGenericExceptionCaught")
 class TokenAuthenticator @Inject constructor(
     private val tokenDataSource: TokenDataSource,
     private val serviceProvider: Provider<ReedService>,
