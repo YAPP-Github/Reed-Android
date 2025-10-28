@@ -33,6 +33,7 @@ class NotificationPresenter @AssistedInject constructor(
 
         fun updateNotificationSettings(enabled: Boolean) {
             scope.launch {
+                val prevNotificationEnabled = userRepository.getUserNotificationEnabled()
                 userRepository.setUserNotificationEnabled(enabled)
 
                 userRepository.updateNotificationSettings(enabled)
@@ -52,7 +53,7 @@ class NotificationPresenter @AssistedInject constructor(
                                 navigator.resetRoot(LoginScreen())
                             },
                         )
-                        userRepository.setUserNotificationEnabled(!enabled)
+                        userRepository.setUserNotificationEnabled(prevNotificationEnabled)
                     }
             }
         }
