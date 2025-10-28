@@ -95,7 +95,7 @@ internal class DefaultUserRepository @Inject constructor(
         notificationDataSource.setFcmToken(fcmToken)
     }
 
-    private suspend fun updateFcmToken(fcmToken: String) = runSuspendCatching {
-        service.updateFcmToken(FcmTokenRequest(fcmToken)).toModel()
+    private suspend fun updateFcmToken(fcmToken: String) {
+        service.updateFcmToken(FcmTokenRequest(fcmToken))
     }
 }
