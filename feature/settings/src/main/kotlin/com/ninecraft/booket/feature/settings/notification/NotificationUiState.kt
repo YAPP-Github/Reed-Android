@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.settings.notification
 
 import androidx.compose.runtime.Immutable
-import com.ninecraft.booket.core.common.utils.UiText
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import java.util.UUID

@@ -94,8 +94,8 @@ class NotificationPresenter @AssistedInject constructor(
                         val userEnabled = userRepository.getUserNotificationEnabled()
                         val lastSyncedServerEnabled = userRepository.getLastSyncedNotificationEnabled()
 
-                        val shouldSync = (!isPermissionGranted && lastSyncedServerEnabled != false)
-                            || (userEnabled && (lastSyncedServerEnabled == null || lastSyncedServerEnabled != isPermissionGranted))
+                        val shouldSync = (!isPermissionGranted && lastSyncedServerEnabled != false) ||
+                            (userEnabled && (lastSyncedServerEnabled == null || lastSyncedServerEnabled != isPermissionGranted))
 
                         if (shouldSync) {
                             syncNotificationSettings(isPermissionGranted)

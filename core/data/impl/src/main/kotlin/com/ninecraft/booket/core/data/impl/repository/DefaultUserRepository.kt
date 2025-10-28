@@ -83,7 +83,7 @@ internal class DefaultUserRepository @Inject constructor(
                 task.exception?.let { exception ->
                     continuation.resumeWithException(exception)
                 } ?: continuation.resumeWithException(
-                    Exception("Unknown error occurred while fetching FCM token")
+                    Exception("Unknown error occurred while fetching FCM token"),
                 )
             }
         }
