@@ -1,5 +1,7 @@
 package com.ninecraft.booket.feature.home
 
+import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -29,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.DevicePreview
@@ -65,15 +68,17 @@ internal fun HomeUi(
 
     if (!state.isGuestMode) {
         LaunchedEffect(Unit) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val permission = android.Manifest.permission.POST_NOTIFICATIONS
-                val isGranted = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+            val isGranted = checkSystemNotificationEnabled(context)
 
-                if (!isGranted) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (isGranted) {
+                    state.eventSink(HomeUiEvent.OnNotificationPermissionResult(isGranted))
+                } else {
+                    val permission = Manifest.permission.POST_NOTIFICATIONS
                     permissionLauncher.launch(permission)
                 }
             } else {
-                state.eventSink(HomeUiEvent.OnNotificationPermissionResult(true))
+                state.eventSink(HomeUiEvent.OnNotificationPermissionResult(isGranted))
             }
         }
     }
@@ -230,6 +235,14 @@ internal fun HomeContent(
                 }
             }
         }
+    }
+}
+
+private fun checkSystemNotificationEnabled(context: Context): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+    } else {
+        NotificationManagerCompat.from(context).areNotificationsEnabled()
     }
 }
 

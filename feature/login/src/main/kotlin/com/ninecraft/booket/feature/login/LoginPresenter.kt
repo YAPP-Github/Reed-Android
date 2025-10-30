@@ -90,6 +90,7 @@ class LoginPresenter @AssistedInject constructor(
                             isLoading = true
                             authRepository.login(event.accessToken)
                                 .onSuccess {
+                                    userRepository.syncFcmToken()
                                     navigateAfterLogin()
                                 }.onFailure { exception ->
                                     Logger.e(exception.message ?: "Login failed")

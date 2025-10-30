@@ -15,4 +15,6 @@ data class UserProfileResponse(
     val provider: String,
     @SerialName("termsAgreed")
     val termsAgreed: Boolean,
+    @SerialName("notificationEnabled")
+    val notificationEnabled: Boolean,
 )

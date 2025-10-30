@@ -9,4 +9,5 @@ data class UserProfileModel(
     val nickname: String,
     val provider: String,
     val termsAgreed: Boolean,
+    val notificationEnabled: Boolean,
 )

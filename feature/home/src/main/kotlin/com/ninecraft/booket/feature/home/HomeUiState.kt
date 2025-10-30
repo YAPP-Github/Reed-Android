@@ -43,5 +43,5 @@ sealed interface HomeUiEvent : CircuitUiEvent {
     ) : HomeUiEvent
     data object OnRetryClick : HomeUiEvent
     data class OnTabSelected(val tab: MainTab) : HomeUiEvent
-    data class OnNotificationPermissionResult(val isGranted: Boolean) : HomeUiEvent
+    data class OnNotificationPermissionResult(val granted: Boolean) : HomeUiEvent
 }
