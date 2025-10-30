@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.common.util
+package com.ninecraft.booket.core.common.utils
 
 import com.ninecraft.booket.core.model.EmotionModel
 

@@ -11,6 +11,8 @@ object Plugins {
     const val ANDROID_APPLICATION = "com.android.application"
     const val ANDROID_LIBRARY = "com.android.library"
 
+    const val COMPOSE_STABILITY_ANALYZER = "com.github.skydoves.compose.stability.analyzer"
+
     const val HILT = "dagger.hilt.android.plugin"
     const val KSP = "com.google.devtools.ksp"
     const val GOOGLE_SERVICES = "com.google.gms.google-services"

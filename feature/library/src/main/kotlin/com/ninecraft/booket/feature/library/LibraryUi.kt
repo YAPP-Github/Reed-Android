@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
@@ -177,7 +178,7 @@ internal fun LibraryContent(
 
                 is UiState.Error -> {
                     ReedErrorUi(
-                        exception = state.uiState.exception,
+                        errorType = state.uiState.exception.toErrorType(),
                         onRetryClick = { state.eventSink(LibraryUiEvent.OnRetryClick) },
                     )
                 }

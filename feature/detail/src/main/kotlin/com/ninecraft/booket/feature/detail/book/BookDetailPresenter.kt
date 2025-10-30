@@ -87,7 +87,6 @@ class BookDetailPresenter @AssistedInject constructor(
         var isBookDeleteDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
 
-        @Suppress("TooGenericExceptionCaught")
         fun initialLoad() {
             uiState = UiState.Loading
 

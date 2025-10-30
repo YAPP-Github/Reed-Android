@@ -28,6 +28,7 @@ data class LibrarySearchUiState(
     val eventSink: (LibrarySearchUiEvent) -> Unit,
 ) : CircuitUiState
 
+@Immutable
 sealed interface LibrarySearchSideEffect {
     data class ShowToast(
         val message: String,
