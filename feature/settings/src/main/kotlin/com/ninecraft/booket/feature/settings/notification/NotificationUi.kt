@@ -10,7 +10,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -147,9 +146,8 @@ internal fun NotificationGuideItem(
                 horizontal = ReedTheme.spacing.spacing5,
             ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Column {
+        Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = stringResource(R.string.notification_guide_title),
                 color = ReedTheme.colors.contentBrand,
