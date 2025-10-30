@@ -67,8 +67,8 @@ class ReedFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         scope.cancel()
+        super.onDestroy()
     }
 
     companion object {
