@@ -51,6 +51,12 @@ class DefaultNotificationDataSource @Inject constructor(
         }
     }
 
+    override suspend fun clearNotificationDataStore() {
+        dataStore.edit { prefs ->
+            prefs.clear()
+        }
+    }
+
     companion object Companion {
         private val FCM_TOKEN = stringPreferencesKey("FCM_TOKEN")
         private val USER_NOTIFICATION_ENABLED = booleanPreferencesKey("USER_NOTIFICATION_ENABLED")

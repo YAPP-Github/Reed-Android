@@ -11,4 +11,6 @@ interface NotificationDataSource {
 
     val lastSyncedNotificationEnabled: Flow<Boolean?>
     suspend fun setLastSyncedNotificationEnabled(isEnabled: Boolean)
+
+    suspend fun clearNotificationDataStore()
 }
