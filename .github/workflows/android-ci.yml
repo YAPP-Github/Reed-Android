@@ -59,8 +59,14 @@ jobs:
             -   name: Check out code
                 uses: actions/checkout@v5
 
+            -   name: Generate local.properties
+                run: echo '${{ secrets.LOCAL_PROPERTIES }}' | base64 -d > ./local.properties
+
             -   name: Generate keystore.properties
                 run: echo '${{ secrets.KEYSTORE_PROPERTIES }}' | base64 -d > ./keystore.properties
+
+            -   name: Generate google-services.json
+                run: echo '${{ secrets.GOOGLE_SERVICES }}' | base64 -d > ./app/google-services.json
 
             -   name: Set up JDK
                 uses: actions/setup-java@v5
