@@ -58,10 +58,15 @@ jobs:
         steps:
             -   name: Check out code
                 uses: actions/checkout@v5
+
+            -   name: Generate keystore.properties
+                run: echo '${{ secrets.KEYSTORE_PROPERTIES }}' | base64 -d > ./keystore.properties
+
             -   name: Set up JDK
                 uses: actions/setup-java@v5
                 with:
                     distribution: 'zulu'
                     java-version: 21
+
             -   name: compose stability check
                 run: ./gradlew stabilityCheck
