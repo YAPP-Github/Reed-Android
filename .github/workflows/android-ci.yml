@@ -74,5 +74,5 @@ jobs:
                     distribution: 'zulu'
                     java-version: 21
 
-            -   name: compose stability check
+            -   name: Compose Stability Check
                 run: ./gradlew stabilityCheck
