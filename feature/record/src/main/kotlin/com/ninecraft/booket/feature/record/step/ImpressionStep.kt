@@ -191,7 +191,7 @@ fun ImpressionStep(
                     vertical = ReedTheme.spacing.spacing4,
                 ),
             enabled = state.isNextButtonEnabled,
-            text = stringResource(R.string.record_next_button),
+            text = stringResource(R.string.record_finish_button_text),
             multipleEventsCutterEnabled = true,
         )
     }

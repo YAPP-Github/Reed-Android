@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.settings.component
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,9 +29,8 @@ internal fun ToggleItem(
                 horizontal = ReedTheme.spacing.spacing5,
             ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Column {
+        Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
                 color = ReedTheme.colors.contentPrimary,

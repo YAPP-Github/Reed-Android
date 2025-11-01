@@ -16,7 +16,8 @@
     <string name="permission_dialog_title">카메라 권한이 필요해요</string>
     <string name="permission_dialog_description">문장 인식을 위해 설정에서 권한을 허용해주세요.</string>
     <string name="permission_dialog_move_to_settings">설정으로 이동하기</string>
-    <string name="record_next_button">다음</string>
+    <string name="record_next_button_text">다음</string>
+    <string name="record_finish_button_text">기록 완료</string>
     <string name="quote_step_title">기록하고 싶은 페이지와\n문장을 등록해보세요</string>
     <string name="quote_step_page_label">책 페이지</string>
     <string name="quote_step_sentence_label">문장 기록</string>

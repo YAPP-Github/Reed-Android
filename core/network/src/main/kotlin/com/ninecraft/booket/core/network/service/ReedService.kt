@@ -1,7 +1,9 @@
 package com.ninecraft.booket.core.network.service
 
 import com.ninecraft.booket.core.network.request.BookUpsertRequest
+import com.ninecraft.booket.core.network.request.FcmTokenRequest
 import com.ninecraft.booket.core.network.request.LoginRequest
+import com.ninecraft.booket.core.network.request.NotificationSettingsRequest
 import com.ninecraft.booket.core.network.request.RecordRegisterRequest
 import com.ninecraft.booket.core.network.request.RefreshTokenRequest
 import com.ninecraft.booket.core.network.request.TermsAgreementRequest
@@ -51,6 +53,12 @@ interface ReedService {
     @GET("api/v1/users/me")
     suspend fun getUserProfile(): UserProfileResponse
 
+    @PUT("api/v1/users/me/fcm-token")
+    suspend fun updateFcmToken(@Body fcmTokenRequest: FcmTokenRequest): UserProfileResponse
+
+    @PUT("api/v1/users/me/notification-settings")
+    suspend fun updateNotificationSettings(@Body notificationSettingsRequest: NotificationSettingsRequest): UserProfileResponse
+
     // Book endpoints (no auth required)
     @GET("api/v1/books/guest/search")
     suspend fun searchBookAsGuest(
@@ -91,7 +99,7 @@ interface ReedService {
         @Query("title") title: String? = null,
         @Query("page") page: Int,
         @Query("size") size: Int,
-        @Query("sort") sort: String = "CREATED_DATE_DESC",
+        @Query("sort") sort: String = "UPDATED_DATE_DESC",
     ): LibraryResponse
 
     @DELETE("api/v1/books/my-library/{userBookId}")

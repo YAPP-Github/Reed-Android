@@ -16,7 +16,7 @@ data class RecordRegisterResponse(
     @SerialName("emotionTags")
     val emotionTags: List<String>,
     @SerialName("review")
-    val review: String,
+    val review: String?,
     @SerialName("createdAt")
     val createdAt: String,
     @SerialName("updatedAt")

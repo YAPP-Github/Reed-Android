@@ -9,6 +9,7 @@ import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
+import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
@@ -17,6 +18,7 @@ import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
+import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
@@ -36,6 +38,7 @@ class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val bookRepository: BookRepository,
     private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<HomeUiState> {
 
@@ -70,6 +73,15 @@ class HomePresenter @AssistedInject constructor(
             }
         }
 
+        suspend fun syncNotificationSettings(isGranted: Boolean) {
+            userRepository.updateNotificationSettings(isGranted)
+                .onSuccess {
+                    userRepository.setLastNotificationSyncedEnabled(isGranted)
+                }.onFailure { exception ->
+                    Logger.e("Failed to update notification settings: $exception")
+                }
+        }
+
         fun handleEvent(event: HomeUiEvent) {
             when (event) {
                 is HomeUiEvent.OnSettingsClick -> {
@@ -101,7 +113,18 @@ class HomePresenter @AssistedInject constructor(
                 }
 
                 is HomeUiEvent.OnNotificationPermissionResult -> {
-                    // TODO: 서버 동기화, FCM 토큰 전송
+                    scope.launch {
+                        val isPermissionGranted = event.granted
+                        val userEnabled = userRepository.getUserNotificationEnabled()
+                        val lastSyncedServerEnabled = userRepository.getLastSyncedNotificationEnabled()
+
+                        val shouldSync = (!isPermissionGranted && lastSyncedServerEnabled != false) ||
+                            (userEnabled && (lastSyncedServerEnabled == null || lastSyncedServerEnabled != isPermissionGranted))
+
+                        if (shouldSync) {
+                            syncNotificationSettings(isPermissionGranted)
+                        }
+                    }
                 }
             }
         }

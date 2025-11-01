@@ -113,7 +113,7 @@ fun EmotionStep(
                 .padding(horizontal = ReedTheme.spacing.spacing5)
                 .padding(bottom = ReedTheme.spacing.spacing4),
             enabled = state.isNextButtonEnabled,
-            text = stringResource(R.string.record_next_button),
+            text = stringResource(R.string.record_next_button_text),
             multipleEventsCutterEnabled = false,
         )
     }

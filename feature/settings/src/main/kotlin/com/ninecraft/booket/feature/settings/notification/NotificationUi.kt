@@ -1,14 +1,15 @@
 package com.ninecraft.booket.feature.settings.notification
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -53,17 +55,23 @@ internal fun NotificationUi(
     state: NotificationUiState,
     modifier: Modifier = Modifier,
 ) {
+    HandleNotificationSideEffects(
+        state = state,
+        eventSink = state.eventSink,
+    )
+
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val isGranted by produceState(
-        initialValue = checkNotificationPermission(context),
+        initialValue = checkSystemNotificationEnabled(context),
         key1 = lifecycleOwner,
     ) {
         // 포그라운드 복귀 시 OS 권한 동기화
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                value = checkNotificationPermission(context)
+                value = checkSystemNotificationEnabled(context)
+                state.eventSink(NotificationUiEvent.OnNotificationPermissionResult(value))
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -140,9 +148,8 @@ internal fun NotificationGuideItem(
                 horizontal = ReedTheme.spacing.spacing5,
             ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Column {
+        Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = stringResource(R.string.notification_guide_title),
                 color = ReedTheme.colors.contentBrand,
@@ -162,9 +169,12 @@ internal fun NotificationGuideItem(
     }
 }
 
-private fun checkNotificationPermission(context: Context): Boolean {
-    val notificationManager = NotificationManagerCompat.from(context)
-    return notificationManager.areNotificationsEnabled()
+private fun checkSystemNotificationEnabled(context: Context): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+    } else {
+        NotificationManagerCompat.from(context).areNotificationsEnabled()
+    }
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
