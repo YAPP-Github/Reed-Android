@@ -31,8 +31,10 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.feature.search.R
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @Composable
 fun BookItem(
     book: BookSummaryModel,

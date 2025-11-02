@@ -37,6 +37,7 @@ import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.settings.R
 import com.ninecraft.booket.feature.screens.OssLicensesScreen
 import com.orhanobut.logger.Logger
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.Dispatchers
@@ -44,6 +45,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import java.io.IOException
 
+@TraceRecomposition
 @CircuitInject(OssLicensesScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun OssLicenses(

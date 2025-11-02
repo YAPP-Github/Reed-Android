@@ -26,7 +26,9 @@ import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 
+@TraceRecomposition
 @SuppressLint("UseOfNonLambdaOffsetOverload")
 @Composable
 internal fun ReedSwitch(

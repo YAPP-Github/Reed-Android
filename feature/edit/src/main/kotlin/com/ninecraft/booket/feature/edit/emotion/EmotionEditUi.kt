@@ -36,10 +36,12 @@ import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.feature.edit.R
 import com.ninecraft.booket.feature.screens.EmotionEditScreen
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toPersistentList
 
+@TraceRecomposition
 @CircuitInject(EmotionEditScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun EmotionEditUi(
@@ -65,6 +67,7 @@ internal fun EmotionEditUi(
     }
 }
 
+@TraceRecomposition
 @Composable
 private fun EmotionEditContent(
     state: EmotionEditUiState,

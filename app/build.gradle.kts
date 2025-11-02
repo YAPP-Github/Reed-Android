@@ -59,6 +59,10 @@ android {
     }
 }
 
+composeStabilityAnalyzer {
+    enabled.set(true)
+}
+
 ksp {
     arg("circuit.codegen.mode", "hilt")
 }

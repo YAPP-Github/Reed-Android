@@ -35,11 +35,13 @@ import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.ninecraft.booket.feature.settings.component.SettingItem
 import com.ninecraft.booket.feature.settings.component.WithdrawConfirmationBottomSheet
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(SettingsScreen::class, ActivityRetainedComponent::class)
 @Composable

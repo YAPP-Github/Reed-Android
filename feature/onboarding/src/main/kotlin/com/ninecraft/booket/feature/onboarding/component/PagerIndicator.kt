@@ -18,7 +18,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 
+@TraceRecomposition
 @Composable
 internal fun PagerIndicator(
     pageCount: Int,

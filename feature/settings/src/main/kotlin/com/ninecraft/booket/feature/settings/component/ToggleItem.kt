@@ -10,7 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 
+@TraceRecomposition
 @Composable
 internal fun ToggleItem(
     title: String,

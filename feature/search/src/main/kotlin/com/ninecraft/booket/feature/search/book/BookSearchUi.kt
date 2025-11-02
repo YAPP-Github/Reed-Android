@@ -40,12 +40,14 @@ import com.ninecraft.booket.feature.search.book.component.BookRegisterBottomShee
 import com.ninecraft.booket.feature.search.book.component.BookRegisterSuccessBottomSheet
 import com.ninecraft.booket.feature.search.common.component.RecentSearchTitle
 import com.ninecraft.booket.feature.search.common.component.SearchItem
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @CircuitInject(BookSearchScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun BookSearchUi(
@@ -80,6 +82,7 @@ internal fun BookSearchUi(
     }
 }
 
+@TraceRecomposition
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun BookSearchContent(

@@ -20,7 +20,9 @@ import com.ninecraft.booket.core.designsystem.theme.Blank
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 
+@TraceRecomposition
 @Composable
 fun ImpressionGuideBox(
     onClick: () -> Unit,

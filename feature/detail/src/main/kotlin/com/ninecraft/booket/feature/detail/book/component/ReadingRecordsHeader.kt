@@ -14,11 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.feature.detail.book.RecordSort
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @Composable
 internal fun ReadingRecordsHeader(
     totalCount: Int,
@@ -60,5 +63,17 @@ internal fun ReadingRecordsHeader(
                 tint = ReedTheme.colors.contentSecondary,
             )
         }
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun ReadingRecordsHeaderPreview() {
+    ReedTheme {
+        ReadingRecordsHeader(
+            totalCount = 4,
+            currentRecordSort = RecordSort.PAGE_NUMBER_ASC,
+            onReadingRecordClick = {},
+        )
     }
 }

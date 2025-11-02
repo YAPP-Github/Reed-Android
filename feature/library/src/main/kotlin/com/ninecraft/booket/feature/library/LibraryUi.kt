@@ -34,11 +34,13 @@ import com.ninecraft.booket.feature.library.component.LibraryHeader
 import com.ninecraft.booket.feature.screens.LibraryScreen
 import com.ninecraft.booket.feature.screens.component.MainBottomBar
 import com.ninecraft.booket.feature.screens.component.MainTab
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
+@TraceRecomposition
 @CircuitInject(LibraryScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun LibraryUi(
@@ -84,6 +86,7 @@ internal fun LibraryUi(
     }
 }
 
+@TraceRecomposition
 @Composable
 internal fun LibraryContent(
     state: LibraryUiState,
@@ -187,6 +190,7 @@ internal fun LibraryContent(
     }
 }
 
+@TraceRecomposition
 @Composable
 private fun EmptyResult() {
     Box(

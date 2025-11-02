@@ -29,10 +29,12 @@ import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.feature.login.R
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
 import com.ninecraft.booket.feature.termsagreement.component.TermItem
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
 
+@TraceRecomposition
 @CircuitInject(TermsAgreementScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun TermsAgreementUi(
