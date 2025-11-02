@@ -70,7 +70,8 @@ jobs:
                 with:
                     actions: 'update-issue'
                     token: ${{ secrets.PAT_TOKEN }}
-                    title: '[${{ steps.extract.outputs.jira_key }}] ${{ github.event.issue.title }}'
+                    title: '[${{ steps.extract.outputs.jira_key }}/${{ github.event.issue.title }}'
+
             -   name: Add Jira link comment to GitHub issue
                 uses: actions-cool/issues-helper@v3
                 with:
