@@ -1,0 +1,97 @@
+name: Link Existing Jira Issue
+on:
+    issues:
+        types:
+            - opened
+
+jobs:
+    link-jira:
+        # qa 라벨이 있을 때만 Jira 연동 로직 실행
+        if: contains(github.event.issue.labels.*.name, 'qa')
+        name: Link Existing Jira Issue
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Extract Jira Key
+                id: extract
+                run: |
+                    title="${{ github.event.issue.title }}"
+                    body="${{ github.event.issue.body }}"
+                    jira_key=$(echo "$title" "$body" | grep -oE '([A-Z]+-[0-9]+)' | head -1)
+
+                    if [ -z "$jira_key" ]; then
+                      echo "❌ Jira key not found in issue."
+                      echo "jira_key=" >> $GITHUB_OUTPUT
+                    else
+                      echo "✅ Found Jira key: $jira_key"
+                      echo "jira_key=$jira_key" >> $GITHUB_OUTPUT
+                    fi
+
+            -   name: Stop if no Jira key
+                if: steps.extract.outputs.jira_key == ''
+                run: |
+                    echo "No Jira key found. Exiting workflow."
+                    exit 0
+
+            -   name: Jira Login
+                uses: atlassian/gajira-login@v3
+                env:
+                    JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+                    JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+                    JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+
+            -   name: Checkout both branches
+                uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0
+
+            -   name: Switch to develop
+                run: |
+                    git fetch origin develop
+                    git checkout develop
+
+            -   name: Generate Branch Name
+                id: branch
+                run: |
+                    issue_number=${{ github.event.issue.number }}
+                    jira_key="${{ steps.extract.outputs.jira_key }}"
+                    branch_name="${jira_key}-fix/#${issue_number}"
+                    echo "branch=${branch_name}" >> $GITHUB_OUTPUT
+
+            -   name: Create and push branch
+                run: |
+                    git config user.name "github-actions[bot]"
+                    git config user.email "github-actions[bot]@users.noreply.github.com"
+                    git checkout -b "${{ steps.branch.outputs.branch }}"
+                    git push origin "${{ steps.branch.outputs.branch }}"
+
+            -   name: Update GitHub issue title
+                uses: actions-cool/issues-helper@v3
+                with:
+                    actions: 'update-issue'
+                    token: ${{ secrets.PAT_TOKEN }}
+                    title: '[${{ steps.extract.outputs.jira_key }}] ${{ github.event.issue.title }}'
+            -   name: Add Jira link comment to GitHub issue
+                uses: actions-cool/issues-helper@v3
+                with:
+                    actions: 'create-comment'
+                    token: ${{ secrets.PAT_TOKEN }}
+                    issue-number: ${{ github.event.issue.number }}
+                    body: |
+                        🧩 Linked to Jira Issue: [${{ steps.extract.outputs.jira_key }}](${{ secrets.JIRA_BASE_URL }}/browse/${{ steps.extract.outputs.jira_key }})
+
+            -   name: Add comment with Branch Name
+                uses: actions-cool/issues-helper@v3
+                with:
+                    actions: 'create-comment'
+                    token: ${{ secrets.PAT_TOKEN }}
+                    issue-number: ${{ github.event.issue.number }}
+                    body: '🔀 Branch Created: `${{ steps.branch.outputs.branch }}`'
+
+            -   name: Assign issue author
+                uses: actions-cool/issues-helper@v3
+                with:
+                    actions: 'add-assignees'
+                    token: ${{ secrets.PAT_TOKEN }}
+                    issue-number: ${{ github.event.issue.number }}
+                    assignees: ${{ github.event.issue.user.login }}
