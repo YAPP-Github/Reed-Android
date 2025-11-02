@@ -1,7 +1,7 @@
 name: QA Task
 description: QA용 이슈 템플릿입니다.(기존 JIRA의 이슈와 연동됩니다)
 title: "fix] "
-labels: ["qa"]
+labels: ["🐞 fix", "qa"]
 body:
     - type: input
       id: parentKey
