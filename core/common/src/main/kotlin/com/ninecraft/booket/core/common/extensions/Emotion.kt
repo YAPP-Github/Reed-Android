@@ -8,7 +8,7 @@ fun Emotion.toTextColor(): Color {
         Emotion.WARM -> Color(0xFFE3931B)
         Emotion.JOY -> Color(0xFFEE6B33)
         Emotion.SAD -> Color(0xFF2872E9)
-        Emotion.INSIGHT ->  Color(0xFF9A55E4)
+        Emotion.INSIGHT -> Color(0xFF9A55E4)
     }
 }
 
