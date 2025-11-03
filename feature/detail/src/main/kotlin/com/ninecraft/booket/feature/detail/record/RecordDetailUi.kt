@@ -206,3 +206,30 @@ private fun ReviewDetailPreview() {
         )
     }
 }
+
+@ComponentPreview
+@Composable
+private fun ReviewDetailEmptyPreview() {
+    ReedTheme {
+        RecordDetailUi(
+            state = RecordDetailUiState(
+                uiState = UiState.Success,
+                recordDetailInfo = RecordDetailModel(
+                    id = "",
+                    userBookId = "",
+                    pageNumber = 90,
+                    quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
+                    review = "",
+                    emotionTags = listOf("따뜻함"),
+                    createdAt = "2023.10.10",
+                    updatedAt = "",
+                    bookTitle = "여름은 오래 그곳에 남아",
+                    bookPublisher = "비채 비채 비채 비채",
+                    bookCoverImageUrl = "",
+                    author = "미쓰이에 마사시, 미쓰이에 마사시, 미쓰이에 마사시, 미쓰이에 마사시",
+                ),
+                eventSink = {},
+            ),
+        )
+    }
+}

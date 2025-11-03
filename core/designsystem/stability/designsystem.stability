@@ -231,7 +231,7 @@ private fun com.ninecraft.booket.core.designsystem.component.checkbox.TickOnlyCh
 
 @Composable
 public fun com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordTextField(recordState: androidx.compose.foundation.text.input.TextFieldState, recordHintRes: kotlin.Int, modifier: androidx.compose.ui.Modifier, inputTransformation: androidx.compose.foundation.text.input.InputTransformation?, keyboardOptions: androidx.compose.foundation.text.KeyboardOptions, lineLimits: androidx.compose.foundation.text.input.TextFieldLineLimits, isError: kotlin.Boolean, errorMessage: kotlin.String, onClear: kotlin.Function0<kotlin.Unit>?, onNext: kotlin.Function0<kotlin.Unit>, backgroundColor: androidx.compose.ui.graphics.Color, textColor: androidx.compose.ui.graphics.Color, cornerShape: androidx.compose.foundation.shape.RoundedCornerShape, borderStroke: androidx.compose.foundation.BorderStroke): kotlin.Unit
-  skippable: false
+  skippable: true
   restartable: true
   params:
     - recordState: STABLE (marked @Stable or @Immutable)
@@ -246,7 +246,7 @@ public fun com.ninecraft.booket.core.designsystem.component.textfield.ReedRecord
     - onNext: STABLE (function type)
     - backgroundColor: STABLE (marked @Stable or @Immutable)
     - textColor: STABLE (marked @Stable or @Immutable)
-    - cornerShape: RUNTIME (requires runtime check)
+    - cornerShape: STABLE (known stable type)
     - borderStroke: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -257,7 +257,7 @@ private fun com.ninecraft.booket.core.designsystem.component.textfield.ReedRecor
 
 @Composable
 public fun com.ninecraft.booket.core.designsystem.component.textfield.ReedTextField(queryState: androidx.compose.foundation.text.input.TextFieldState, queryHintRes: kotlin.Int, onSearch: kotlin.Function1<kotlin.String, kotlin.Unit>, onClear: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier, backgroundColor: androidx.compose.ui.graphics.Color, textColor: androidx.compose.ui.graphics.Color, cornerShape: androidx.compose.foundation.shape.RoundedCornerShape, borderStroke: androidx.compose.foundation.BorderStroke?, searchIconTint: androidx.compose.ui.graphics.Color): kotlin.Unit
-  skippable: false
+  skippable: true
   restartable: true
   params:
     - queryState: STABLE (marked @Stable or @Immutable)
@@ -267,7 +267,7 @@ public fun com.ninecraft.booket.core.designsystem.component.textfield.ReedTextFi
     - modifier: STABLE (marked @Stable or @Immutable)
     - backgroundColor: STABLE (marked @Stable or @Immutable)
     - textColor: STABLE (marked @Stable or @Immutable)
-    - cornerShape: RUNTIME (requires runtime check)
+    - cornerShape: STABLE (known stable type)
     - borderStroke: STABLE (marked @Stable or @Immutable)
     - searchIconTint: STABLE (marked @Stable or @Immutable)
 

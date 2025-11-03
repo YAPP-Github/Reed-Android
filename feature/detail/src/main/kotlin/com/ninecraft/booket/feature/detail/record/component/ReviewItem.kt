@@ -39,7 +39,7 @@ internal fun ReviewItem(
             )
             .padding(
                 horizontal = ReedTheme.spacing.spacing4,
-                vertical = ReedTheme.spacing.spacing3,
+                vertical = ReedTheme.spacing.spacing4,
             ),
     ) {
         Column {
@@ -68,12 +68,14 @@ internal fun ReviewItem(
                     style = ReedTheme.typography.label2Regular,
                 )
             }
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
-            Text(
-                text = review,
-                color = ReedTheme.colors.contentSecondary,
-                style = ReedTheme.typography.label1Medium,
-            )
+            if (review.isNotBlank()) {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
+                Text(
+                    text = review,
+                    color = ReedTheme.colors.contentSecondary,
+                    style = ReedTheme.typography.label1Medium,
+                )
+            }
         }
     }
 }
@@ -85,6 +87,18 @@ private fun ReviewBoxPreview() {
         ReviewItem(
             emotion = "따뜻함",
             review = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다",
+            createdAt = "2025.06.25",
+        )
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun ReviewBoxEmptyPreview() {
+    ReedTheme {
+        ReviewItem(
+            emotion = "따뜻함",
+            review = "",
             createdAt = "2025.06.25",
         )
     }

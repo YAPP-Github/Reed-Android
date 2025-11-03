@@ -24,7 +24,7 @@ androidx-compose-material3 = "1.4.0-alpha18"
 compose-stable-marker = "1.0.6"
 compose-effects = "0.1.1"
 compose-shadow = "2.0.4"
-compose-stability-analyzer = "0.4.0"
+compose-stability-analyzer = "0.4.1"
 
 ## Kotlin Symbol Processing
 ksp = "2.3.0"
