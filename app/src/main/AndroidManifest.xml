@@ -45,6 +45,10 @@
                 android:name="com.ninecraft.booket.initializer.NotificationChannelInitializer"
                 android:value="androidx.startup" />
 
+            <meta-data
+                android:name="com.ninecraft.booket.initializer.ComposeStabilityAnalyzerInitializer"
+                android:value="androidx.startup" />
+
         </provider>
 
         <activity
