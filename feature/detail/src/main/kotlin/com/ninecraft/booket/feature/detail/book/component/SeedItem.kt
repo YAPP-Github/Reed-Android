@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.ninecraft.booket.core.common.extensions.toBackgroundColor
-import com.ninecraft.booket.core.common.extensions.toTextColor
 import com.ninecraft.booket.core.designsystem.ComponentPreview
+import com.ninecraft.booket.core.designsystem.bgColor
+import com.ninecraft.booket.core.designsystem.textColor
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.model.EmotionModel
@@ -42,7 +42,7 @@ internal fun SeedItem(
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(ReedTheme.radius.full))
-                .background(emotion.name.toBackgroundColor())
+                .background(emotion.name.bgColor)
                 .padding(
                     horizontal = ReedTheme.spacing.spacing2,
                     vertical = ReedTheme.spacing.spacing1,
@@ -51,7 +51,7 @@ internal fun SeedItem(
         ) {
             Text(
                 text = emotion.name.displayName,
-                color = emotion.name.toTextColor(),
+                color = emotion.name.textColor,
                 style = ReedTheme.typography.label2SemiBold,
             )
         }

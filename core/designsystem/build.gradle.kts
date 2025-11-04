@@ -12,6 +12,7 @@ android {
 dependencies {
     implementations(
         projects.core.common,
+        projects.core.model,
 
         libs.androidx.splash,
 

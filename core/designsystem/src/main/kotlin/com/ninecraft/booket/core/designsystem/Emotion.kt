@@ -1,0 +1,28 @@
+package com.ninecraft.booket.core.designsystem
+
+import androidx.compose.ui.graphics.Color
+import com.ninecraft.booket.core.designsystem.theme.InsightBgColor
+import com.ninecraft.booket.core.designsystem.theme.InsightTextColor
+import com.ninecraft.booket.core.designsystem.theme.JoyBgColor
+import com.ninecraft.booket.core.designsystem.theme.JoyTextColor
+import com.ninecraft.booket.core.designsystem.theme.SadnessBgColor
+import com.ninecraft.booket.core.designsystem.theme.SadnessTextColor
+import com.ninecraft.booket.core.designsystem.theme.WarmthBgColor
+import com.ninecraft.booket.core.designsystem.theme.WarmthTextColor
+import com.ninecraft.booket.core.model.Emotion
+
+val Emotion.bgColor: Color
+    get() = when (this) {
+        Emotion.WARM -> WarmthBgColor
+        Emotion.JOY -> JoyBgColor
+        Emotion.SAD -> SadnessBgColor
+        Emotion.INSIGHT -> InsightBgColor
+    }
+
+val Emotion.textColor: Color
+    get() = when (this) {
+        Emotion.WARM -> WarmthTextColor
+        Emotion.JOY -> JoyTextColor
+        Emotion.SAD -> SadnessTextColor
+        Emotion.INSIGHT -> InsightTextColor
+    }
