@@ -295,6 +295,12 @@ internal fun com.ninecraft.booket.feature.detail.record.RecordDetailUi(state: co
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
+private fun com.ninecraft.booket.feature.detail.record.ReviewDetailEmptyPreview(): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
 private fun com.ninecraft.booket.feature.detail.record.ReviewDetailPreview(): kotlin.Unit
   skippable: true
   restartable: true
@@ -361,6 +367,12 @@ private fun com.ninecraft.booket.feature.detail.record.component.RecordMenuItem(
     - color: STABLE (marked @Stable or @Immutable)
     - onClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
+
+@Composable
+private fun com.ninecraft.booket.feature.detail.record.component.ReviewBoxEmptyPreview(): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
 
 @Composable
 private fun com.ninecraft.booket.feature.detail.record.component.ReviewBoxPreview(): kotlin.Unit
