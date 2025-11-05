@@ -46,3 +46,14 @@ fun postErrorDialog(
 
     EventHelper.sendEvent(event = ReedEvent.ShowDialog(spec))
 }
+
+fun postLoginRequiredDialog(onConfirm: () -> Unit) {
+    val spec = DialogSpec(
+        message = "로그인이 필요한 기능입니다.\n로그인 해주세요.",
+        confirmLabel = "로그인 하기",
+        onConfirm = onConfirm,
+        dismissLabel = "닫기"
+    )
+
+    EventHelper.sendEvent(event = ReedEvent.ShowDialog(spec))
+}
