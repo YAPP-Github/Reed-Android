@@ -10,6 +10,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.BookStatus
+import com.ninecraft.booket.core.common.event.postLoginRequiredDialog
 import com.ninecraft.booket.core.common.utils.UiText
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
@@ -38,7 +39,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
-import com.ninecraft.booket.core.designsystem.R as designR
 
 class BookSearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -120,13 +120,18 @@ class BookSearchPresenter @AssistedInject constructor(
         }
 
         fun upsertBook(isbn13: String, bookStatus: String) {
-            scope.launch {
-                if (userState is UserState.Guest) {
-                    sideEffect = BookSearchSideEffect.ShowToast(UiText.StringResource(designR.string.login_required))
-                    navigator.redirectToLogin()
-                    return@launch
-                }
+            if (userState is UserState.Guest) {
+                postLoginRequiredDialog(
+                    onConfirm = {
+                        scope.launch {
+                            navigator.redirectToLogin()
+                        }
+                    },
+                )
+                return
+            }
 
+            scope.launch {
                 repository.upsertBook(isbn13, bookStatus)
                     .onSuccess {
                         registeredUserBookId = it.userBookId

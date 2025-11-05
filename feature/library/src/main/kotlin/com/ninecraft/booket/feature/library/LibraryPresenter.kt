@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
-import com.ninecraft.booket.core.common.utils.UiText
+import com.ninecraft.booket.core.common.event.postLoginRequiredDialog
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
@@ -35,7 +35,6 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
-import com.ninecraft.booket.core.designsystem.R as designR
 
 class LibraryPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -127,10 +126,13 @@ class LibraryPresenter @AssistedInject constructor(
 
                 is LibraryUiEvent.OnLibrarySearchClick -> {
                     if (userState is UserState.Guest) {
-                        scope.launch {
-                            sideEffect = LibrarySideEffect.ShowToast(UiText.StringResource(designR.string.login_required))
-                            navigator.redirectToLogin()
-                        }
+                        postLoginRequiredDialog(
+                            onConfirm = {
+                                scope.launch {
+                                    navigator.redirectToLogin()
+                                }
+                            },
+                        )
                     } else {
                         navigator.goTo(LibrarySearchScreen)
                     }
