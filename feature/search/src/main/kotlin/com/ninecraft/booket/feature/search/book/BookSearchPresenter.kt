@@ -39,7 +39,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
-import com.ninecraft.booket.core.designsystem.R as designR
 
 class BookSearchPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
