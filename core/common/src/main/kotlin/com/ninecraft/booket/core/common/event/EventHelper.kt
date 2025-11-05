@@ -2,7 +2,6 @@ package com.ninecraft.booket.core.common.event
 
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
-import java.util.UUID
 
 object EventHelper {
     private val _eventFlow = Channel<ReedEvent>(Channel.BUFFERED)
@@ -14,8 +13,5 @@ object EventHelper {
 }
 
 sealed interface ReedEvent {
-    data class ShowDialog(
-        val spec: DialogSpec,
-        val key: String = UUID.randomUUID().toString(),
-    ) : ReedEvent
+    data class ShowDialog(val spec: DialogSpec) : ReedEvent
 }

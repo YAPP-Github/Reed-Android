@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
 
                 val dialogSpec = remember { mutableStateOf<DialogSpec?>(null) }
 
-                // 전역 에러 수신
+                // 전역 이벤트 수신
                 LaunchedEffect(Unit) {
                     EventHelper.eventFlow.collect { event ->
                         when (event) {
