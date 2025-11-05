@@ -74,7 +74,7 @@ class RecordCardPresenter @AssistedInject constructor(
             isLoading = isLoading,
             quote = screen.quote,
             bookTitle = screen.bookTitle,
-            emotionTag = screen.emotionTag,
+            emotion = screen.emotion,
             isCapturing = isCapturing,
             isSharing = isSharing,
             sideEffect = sideEffect,

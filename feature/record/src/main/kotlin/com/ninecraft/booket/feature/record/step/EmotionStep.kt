@@ -26,12 +26,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
+import com.ninecraft.booket.core.designsystem.graphicRes
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
@@ -44,7 +45,7 @@ fun EmotionStep(
     state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
-    val emotionPairs = remember(state.emotionTags) { state.emotionTags.chunked(2) }
+    val emotionPairs = remember(state.emotions) { state.emotions.chunked(2) }
 
     Box(
         modifier = modifier
@@ -85,7 +86,7 @@ fun EmotionStep(
                 ) {
                     pair.forEach { tag ->
                         EmotionItem(
-                            emotionTag = tag,
+                            emotion = tag,
                             onClick = {
                                 state.eventSink(RecordRegisterUiEvent.OnSelectEmotion(tag))
                             },
@@ -121,7 +122,7 @@ fun EmotionStep(
 
 @Composable
 private fun EmotionItem(
-    emotionTag: EmotionTag,
+    emotion: Emotion,
     onClick: () -> Unit,
     isSelected: Boolean,
     modifier: Modifier = Modifier,
@@ -148,7 +149,7 @@ private fun EmotionItem(
         contentAlignment = Alignment.Center,
     ) {
         Image(
-            painter = painterResource(emotionTag.graphic),
+            painter = painterResource(emotion.graphicRes),
             contentDescription = "Emotion Image",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
@@ -159,12 +160,12 @@ private fun EmotionItem(
 @ComponentPreview
 @Composable
 private fun RecordRegisterPreview() {
-    val emotionTags = EmotionTag.entries.toPersistentList()
+    val emotions = Emotion.entries.toPersistentList()
 
     ReedTheme {
         EmotionStep(
             state = RecordRegisterUiState(
-                emotionTags = emotionTags,
+                emotions = emotions,
                 eventSink = {},
             ),
         )

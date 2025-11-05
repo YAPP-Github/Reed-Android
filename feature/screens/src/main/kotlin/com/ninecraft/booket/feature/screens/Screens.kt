@@ -79,5 +79,5 @@ data object SplashScreen : ReedScreen(name = ScreenNames.SPLASH)
 data class RecordCardScreen(
     val quote: String,
     val bookTitle: String,
-    val emotionTag: String,
+    val emotion: String,
 ) : ReedScreen(name = ScreenNames.RECORD_CARD)

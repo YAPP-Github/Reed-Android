@@ -26,3 +26,11 @@ val Emotion.textColor: Color
         Emotion.SAD -> SadnessTextColor
         Emotion.INSIGHT -> InsightTextColor
     }
+
+val Emotion.graphicRes: Int
+    get() = when (this) {
+        Emotion.WARM -> R.drawable.img_emotion_warmth
+        Emotion.JOY -> R.drawable.img_emotion_joy
+        Emotion.SAD -> R.drawable.img_emotion_sadness
+        Emotion.INSIGHT -> R.drawable.img_emotion_insight
+    }

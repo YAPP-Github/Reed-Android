@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.ninecraft.booket.core.designsystem.EmotionTag
+import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.feature.screens.EmotionEditScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -25,7 +25,7 @@ class EmotionEditPresenter @AssistedInject constructor(
     @Composable
     override fun present(): EmotionEditUiState {
         var selectedEmotion by rememberRetained { mutableStateOf(screen.emotion) }
-        val emotionTags by rememberRetained { mutableStateOf(EmotionTag.entries.toPersistentList()) }
+        val emotions by rememberRetained { mutableStateOf(Emotion.entries.toPersistentList()) }
         val isEditButtonEnabled by remember {
             derivedStateOf {
                 selectedEmotion != screen.emotion
@@ -50,7 +50,7 @@ class EmotionEditPresenter @AssistedInject constructor(
 
         return EmotionEditUiState(
             selectedEmotion = selectedEmotion,
-            emotionTags = emotionTags,
+            emotions = emotions,
             isEditButtonEnabled = isEditButtonEnabled,
             eventSink = ::handleEvent,
         )
