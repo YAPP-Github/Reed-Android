@@ -13,8 +13,8 @@ import androidx.compose.ui.text.TextRange
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
-import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.RecordStep
+import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
@@ -73,8 +73,8 @@ class RecordRegisterPresenter @AssistedInject constructor(
                 ).toPersistentList(),
             )
         }
-        val emotionTags by rememberRetained { mutableStateOf(EmotionTag.entries.toPersistentList()) }
-        var selectedEmotion by rememberRetained { mutableStateOf<EmotionTag?>(null) }
+        val emotions by rememberRetained { mutableStateOf(Emotion.entries.toPersistentList()) }
+        var selectedEmotion by rememberRetained { mutableStateOf<Emotion?>(null) }
         var selectedImpressionGuide by rememberRetained { mutableStateOf("") }
         var beforeSelectedImpressionGuide by rememberRetained { mutableStateOf(selectedImpressionGuide) }
         val impressionState = rememberTextFieldState()
@@ -254,7 +254,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
                                 userBookId = screen.userBookId,
                                 pageNumber = recordPageState.text.toString().toIntOrNull() ?: 0,
                                 quote = recordSentenceState.text.toString(),
-                                emotionTags = selectedEmotion?.let { listOf(it.label) } ?: emptyList(),
+                                emotionTags = selectedEmotion?.let { listOf(it.displayName) } ?: emptyList(),
                                 impression = impressionState.text.toString(),
                             )
                         }
@@ -292,7 +292,7 @@ class RecordRegisterPresenter @AssistedInject constructor(
             recordPageState = recordPageState,
             recordSentenceState = recordSentenceState,
             isPageError = isPageError,
-            emotionTags = emotionTags,
+            emotions = emotions,
             selectedEmotion = selectedEmotion,
             impressionState = impressionState,
             impressionGuideList = impressionGuideList,

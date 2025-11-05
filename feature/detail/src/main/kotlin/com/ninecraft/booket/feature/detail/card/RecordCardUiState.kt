@@ -11,7 +11,7 @@ data class RecordCardUiState(
     val quote: String = "",
     val bookTitle: String = "",
     val author: String = "",
-    val emotionTag: String = "",
+    val emotion: String = "",
     val isCapturing: Boolean = false,
     val isSharing: Boolean = false,
     val sideEffect: RecordCardSideEffect? = null,

@@ -2,8 +2,8 @@ package com.ninecraft.booket.feature.record.register
 
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Immutable
-import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.RecordStep
+import com.ninecraft.booket.core.model.Emotion
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
@@ -16,8 +16,8 @@ data class RecordRegisterUiState(
     val recordPageState: TextFieldState = TextFieldState(),
     val recordSentenceState: TextFieldState = TextFieldState(),
     val isPageError: Boolean = false,
-    val emotionTags: ImmutableList<EmotionTag> = persistentListOf(),
-    val selectedEmotion: EmotionTag? = null,
+    val emotions: ImmutableList<Emotion> = persistentListOf(),
+    val selectedEmotion: Emotion? = null,
     val impressionState: TextFieldState = TextFieldState(),
     val impressionGuideList: ImmutableList<String> = persistentListOf(),
     val selectedImpressionGuide: String = "",
@@ -46,7 +46,7 @@ sealed interface RecordRegisterUiEvent : CircuitUiEvent {
     data object OnClearClick : RecordRegisterUiEvent
     data object OnNextButtonClick : RecordRegisterUiEvent
     data object OnSentenceScanButtonClick : RecordRegisterUiEvent
-    data class OnSelectEmotion(val emotion: EmotionTag) : RecordRegisterUiEvent
+    data class OnSelectEmotion(val emotion: Emotion) : RecordRegisterUiEvent
     data object OnImpressionGuideButtonClick : RecordRegisterUiEvent
     data object OnImpressionGuideBottomSheetDismiss : RecordRegisterUiEvent
     data class OnSelectImpressionGuide(val index: Int) : RecordRegisterUiEvent
