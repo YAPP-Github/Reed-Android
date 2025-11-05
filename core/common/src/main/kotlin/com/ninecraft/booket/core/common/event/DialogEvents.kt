@@ -1,6 +1,5 @@
 package com.ninecraft.booket.core.common.event
 
-import com.ninecraft.booket.core.common.constants.DialogSpec
 import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.utils.isNetworkError
 import retrofit2.HttpException

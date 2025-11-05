@@ -12,7 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.ninecraft.booket.core.common.constants.DialogSpec
+import com.ninecraft.booket.core.common.event.DialogSpec
 import com.ninecraft.booket.core.common.event.EventHelper
 import com.ninecraft.booket.core.common.event.ReedEvent
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme

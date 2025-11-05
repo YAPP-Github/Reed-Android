@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.common.constants
+package com.ninecraft.booket.core.common.event
 
 data class DialogSpec(
     val message: String,

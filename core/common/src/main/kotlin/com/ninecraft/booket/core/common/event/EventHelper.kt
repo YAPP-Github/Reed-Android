@@ -1,6 +1,5 @@
 package com.ninecraft.booket.core.common.event
 
-import com.ninecraft.booket.core.common.constants.DialogSpec
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import java.util.UUID
