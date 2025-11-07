@@ -1,7 +1,7 @@
 package com.ninecraft.booket.core.network.service
 
 import com.ninecraft.booket.core.network.request.BookUpsertRequest
-import com.ninecraft.booket.core.network.request.FcmTokenRequest
+import com.ninecraft.booket.core.network.request.DeviceRegistrationRequest
 import com.ninecraft.booket.core.network.request.LoginRequest
 import com.ninecraft.booket.core.network.request.NotificationSettingsRequest
 import com.ninecraft.booket.core.network.request.RecordRegisterRequest
@@ -53,8 +53,8 @@ interface ReedService {
     @GET("api/v1/users/me")
     suspend fun getUserProfile(): UserProfileResponse
 
-    @PUT("api/v1/users/me/fcm-token")
-    suspend fun updateFcmToken(@Body fcmTokenRequest: FcmTokenRequest): UserProfileResponse
+    @PUT("api/v1/users/me/devices")
+    suspend fun upsertDevice(@Body deviceRegistrationRequest: DeviceRegistrationRequest): UserProfileResponse
 
     @PUT("api/v1/users/me/notification-settings")
     suspend fun updateNotificationSettings(@Body notificationSettingsRequest: NotificationSettingsRequest): UserProfileResponse
