@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.library.component
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -52,7 +53,12 @@ fun LibraryBookItem(
                 )
                 .width(68.dp)
                 .height(100.dp)
-                .clip(RoundedCornerShape(size = ReedTheme.radius.sm)),
+                .clip(RoundedCornerShape(size = ReedTheme.radius.sm))
+                .border(
+                    width = 1.dp,
+                    color = ReedTheme.colors.borderPrimary,
+                    shape = RoundedCornerShape(ReedTheme.radius.sm),
+                ),
             placeholder = painterResource(designR.drawable.ic_placeholder),
         )
         Column(modifier = Modifier.weight(1f)) {
