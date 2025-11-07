@@ -1,12 +1,13 @@
 package com.ninecraft.booket.core.data.impl.repository
 
+import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.data.impl.mapper.toModel
 import com.ninecraft.booket.core.datastore.api.datasource.NotificationDataSource
 import com.ninecraft.booket.core.datastore.api.datasource.OnboardingDataSource
-import com.ninecraft.booket.core.network.request.FcmTokenRequest
+import com.ninecraft.booket.core.network.request.DeviceRegistrationRequest
 import com.ninecraft.booket.core.network.request.NotificationSettingsRequest
 import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.service.ReedService
@@ -21,6 +22,7 @@ internal class DefaultUserRepository @Inject constructor(
     private val onboardingDataSource: OnboardingDataSource,
     private val notificationDataSource: NotificationDataSource,
     private val firebaseMessaging: FirebaseMessaging,
+    private val firebaseInstallations: FirebaseInstallations,
 ) : UserRepository {
     override suspend fun agreeTerms(termsAgreed: Boolean) = runSuspendCatching {
         service.agreeTerms(TermsAgreementRequest(termsAgreed)).toModel()
@@ -45,12 +47,12 @@ internal class DefaultUserRepository @Inject constructor(
             return@runSuspendCatching
         }
 
-        updateFcmToken(newToken)
+        registerDevice(newToken)
         setFcmToken(newToken)
     }
 
     override suspend fun syncFcmToken(fcmToken: String): Result<Unit> = runSuspendCatching {
-        updateFcmToken(fcmToken)
+        registerDevice(fcmToken)
         setFcmToken(fcmToken)
     }
 
@@ -88,7 +90,17 @@ internal class DefaultUserRepository @Inject constructor(
         notificationDataSource.setFcmToken(fcmToken)
     }
 
-    private suspend fun updateFcmToken(fcmToken: String) {
-        service.updateFcmToken(FcmTokenRequest(fcmToken))
+    private suspend fun getDeviceId(): String {
+        return try {
+            firebaseInstallations.id.await()
+        } catch (e: Exception) {
+            Logger.e("Failed to fetch device ID: ${e.message}")
+            throw e
+        }
+    }
+
+    private suspend fun registerDevice(fcmToken: String) {
+        val deviceId = getDeviceId()
+        service.upsertDevice(DeviceRegistrationRequest(deviceId, fcmToken))
     }
 }
