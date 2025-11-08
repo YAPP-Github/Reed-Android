@@ -2,7 +2,6 @@ package com.ninecraft.booket.core.data.impl.repository
 
 import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
-import com.ninecraft.booket.core.datastore.api.datasource.NotificationDataSource
 import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
 import com.ninecraft.booket.core.model.AutoLoginState
 import com.ninecraft.booket.core.model.UserState
@@ -16,7 +15,6 @@ private const val KAKAO_PROVIDER_TYPE = "KAKAO"
 internal class DefaultAuthRepository @Inject constructor(
     private val service: ReedService,
     private val tokenDataSource: TokenDataSource,
-    private val notificationDataSource: NotificationDataSource,
 ) : AuthRepository {
     override suspend fun login(accessToken: String) = runSuspendCatching {
         val response = service.login(
@@ -31,7 +29,6 @@ internal class DefaultAuthRepository @Inject constructor(
     override suspend fun logout() = runSuspendCatching {
         service.logout()
         clearTokens()
-        clearNotificationDataStore()
     }
 
     override suspend fun withdraw() = runSuspendCatching {
@@ -63,9 +60,5 @@ internal class DefaultAuthRepository @Inject constructor(
     override suspend fun getCurrentUserState(): UserState {
         val accessToken = tokenDataSource.getAccessToken()
         return if (accessToken.isBlank()) UserState.Guest else UserState.LoggedIn
-    }
-
-    private suspend fun clearNotificationDataStore() {
-        notificationDataSource.clearNotificationDataStore()
     }
 }

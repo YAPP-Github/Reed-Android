@@ -10,6 +10,7 @@ import com.ninecraft.booket.core.common.constants.WebViewConstants
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
+import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.NotificationScreen
@@ -34,6 +35,7 @@ import kotlinx.coroutines.launch
 class SettingsPresenter @AssistedInject constructor(
     @Assisted val navigator: Navigator,
     private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
     private val remoteConfigRepository: RemoteConfigRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<SettingsUiState> {
@@ -62,6 +64,7 @@ class SettingsPresenter @AssistedInject constructor(
                     isLoading = true
                     authRepository.logout()
                         .onSuccess {
+                            userRepository.resetNotificationData()
                             analyticsHelper.logEvent(SETTINGS_LOGOUT_COMPLETE)
                             navigator.resetRoot(LoginScreen())
                         }
@@ -91,6 +94,7 @@ class SettingsPresenter @AssistedInject constructor(
                     isLoading = true
                     authRepository.withdraw()
                         .onSuccess {
+                            userRepository.resetNotificationData()
                             analyticsHelper.logEvent(SETTINGS_WITHDRAWAL_COMPLETE)
                             navigator.resetRoot(LoginScreen())
                         }

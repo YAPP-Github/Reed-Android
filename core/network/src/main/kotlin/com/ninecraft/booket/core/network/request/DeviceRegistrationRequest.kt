@@ -4,7 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class FcmTokenRequest(
+data class DeviceRegistrationRequest(
+    @SerialName("deviceId")
+    val deviceId: String,
     @SerialName("fcmToken")
     val fcmToken: String,
 )

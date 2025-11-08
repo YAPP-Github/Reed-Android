@@ -1,6 +1,8 @@
 package com.ninecraft.booket.core.data.impl.di
 
 import com.google.firebase.Firebase
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.installations.installations
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.messaging
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -32,4 +34,8 @@ internal object FirebaseModule {
     @Singleton
     @Provides
     fun provideFirebaseMessaging(): FirebaseMessaging = Firebase.messaging
+
+    @Singleton
+    @Provides
+    fun provideFirebaseInstallation(): FirebaseInstallations = Firebase.installations
 }
