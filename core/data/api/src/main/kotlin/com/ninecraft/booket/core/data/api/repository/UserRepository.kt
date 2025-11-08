@@ -28,5 +28,7 @@ interface UserRepository {
 
     suspend fun setLastNotificationSyncedEnabled(isEnabled: Boolean)
 
+    suspend fun resetNotificationData()
+
     suspend fun updateNotificationSettings(notificationEnabled: Boolean): Result<UserProfileModel>
 }

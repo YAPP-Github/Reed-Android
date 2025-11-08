@@ -71,6 +71,11 @@ internal class DefaultUserRepository @Inject constructor(
         notificationDataSource.setLastSyncedNotificationEnabled(isEnabled)
     }
 
+    override suspend fun resetNotificationData() {
+        deleteRemoteFcmToken()
+        clearNotificationDataStore()
+    }
+
     override suspend fun updateNotificationSettings(notificationEnabled: Boolean) = runSuspendCatching {
         service.updateNotificationSettings(NotificationSettingsRequest(notificationEnabled)).toModel()
     }
@@ -102,5 +107,17 @@ internal class DefaultUserRepository @Inject constructor(
     private suspend fun registerDevice(fcmToken: String) {
         val deviceId = getDeviceId()
         service.upsertDevice(DeviceRegistrationRequest(deviceId, fcmToken))
+    }
+
+    private suspend fun deleteRemoteFcmToken() {
+        try {
+            firebaseMessaging.deleteToken().await()
+        } catch (e: Exception) {
+            Logger.e("Failed to delete FCM token: ${e.message}")
+        }
+    }
+
+    private suspend fun clearNotificationDataStore() {
+        notificationDataSource.clearNotificationDataStore()
     }
 }
