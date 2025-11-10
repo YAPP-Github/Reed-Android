@@ -8,7 +8,7 @@ import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
 import com.ninecraft.booket.core.data.impl.BuildConfig
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 class DefaultRemoteConfigRepository @Inject constructor(
     private val remoteConfig: FirebaseRemoteConfig,

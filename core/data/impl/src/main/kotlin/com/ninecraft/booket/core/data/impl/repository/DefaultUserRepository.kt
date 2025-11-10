@@ -15,7 +15,7 @@ import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 internal class DefaultUserRepository @Inject constructor(
     private val service: ReedService,

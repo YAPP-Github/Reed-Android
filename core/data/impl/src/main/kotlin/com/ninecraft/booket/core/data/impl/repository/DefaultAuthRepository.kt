@@ -8,7 +8,7 @@ import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.core.network.request.LoginRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 private const val KAKAO_PROVIDER_TYPE = "KAKAO"
 

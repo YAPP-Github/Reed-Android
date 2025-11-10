@@ -6,7 +6,7 @@ import com.ninecraft.booket.core.data.impl.mapper.toModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.network.request.RecordRegisterRequest
 import com.ninecraft.booket.core.network.service.ReedService
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 
 class DefaultRecordRepository @Inject constructor(
     private val service: ReedService,

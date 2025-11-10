@@ -2,6 +2,16 @@ package com.ninecraft.booket.di
 
 import android.app.Application
 import android.content.Context
+import com.ninecraft.booket.core.data.api.repository.AuthRepository
+import com.ninecraft.booket.core.data.api.repository.BookRepository
+import com.ninecraft.booket.core.data.api.repository.RecordRepository
+import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
+import com.ninecraft.booket.core.data.api.repository.UserRepository
+import com.ninecraft.booket.core.data.impl.repository.DefaultAuthRepository
+import com.ninecraft.booket.core.data.impl.repository.DefaultBookRepository
+import com.ninecraft.booket.core.data.impl.repository.DefaultRecordRepository
+import com.ninecraft.booket.core.data.impl.repository.DefaultRemoteConfigRepository
+import com.ninecraft.booket.core.data.impl.repository.DefaultUserRepository
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.ui.Ui
@@ -33,6 +43,21 @@ interface AppGraph {
             .setAnimatedNavDecoratorFactory(CrossFadeNavDecoratorFactory())
             .build()
     }
+    
+    @Provides
+    fun provideAuthRepository(impl: DefaultAuthRepository): AuthRepository = impl
+
+    @Provides
+    fun provideUserRepository(impl: DefaultUserRepository): UserRepository = impl
+
+    @Provides
+    fun provideBookRepository(impl: DefaultBookRepository): BookRepository = impl
+
+    @Provides
+    fun provideRecordRepository(impl: DefaultRecordRepository): RecordRepository = impl
+
+    @Provides
+    fun provideRemoteConfigRepository(impl: DefaultRemoteConfigRepository): RemoteConfigRepository = impl
 
     val circuit: Circuit
 
