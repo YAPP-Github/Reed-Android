@@ -39,6 +39,9 @@ kotlinx-collections-immutable = "0.4.0"
 hilt = "2.57"
 hilt-navigation-compose = "1.2.0"
 
+## Metro
+metro = "0.7.5"
+
 ## Network
 okhttp = "5.1.0"
 retrofit = "3.0.0"
@@ -171,10 +174,12 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
+metro = { id = "dev.zacsweers.metro", version.ref = "metro" }
+
 google-service = { id = "com.google.gms.google-services", version.ref = "google-service" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
 
-compose-stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version.ref = "compose-stability-analyzer"}
+compose-stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version.ref = "compose-stability-analyzer" }
 
 # Plugins defined by this project
 booket-android-application = { id = "booket.android.application", version = "unspecified" }
