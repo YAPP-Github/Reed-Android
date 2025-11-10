@@ -9,6 +9,7 @@ dependencies {
     compileOnly(libs.android.gradle.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
     compileOnly(libs.compose.compiler.gradle.plugin)
+    compileOnly(libs.ksp.gradle.plugin)
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
 
@@ -21,6 +22,7 @@ gradlePlugin {
         "android.feature" to "AndroidFeatureConventionPlugin",
         "android.firebase" to "AndroidFirebaseConventionPlugin",
         "android.hilt" to "AndroidHiltConventionPlugin",
+        "metro" to "MetroConventionPlugin",
         "android.retrofit" to "AndroidRetrofitConventionPlugin",
         "jvm.library" to "JvmLibraryConventionPlugin",
         "kotlin.library.serialization" to "KotlinLibrarySerializationConventionPlugin",

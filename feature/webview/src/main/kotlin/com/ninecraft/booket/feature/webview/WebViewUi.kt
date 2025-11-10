@@ -17,9 +17,9 @@ import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.feature.screens.WebViewScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 
-@CircuitInject(WebViewScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(WebViewScreen::class, AppScope::class)
 @Composable
 internal fun WebViewUi(
     state: WebViewUiState,

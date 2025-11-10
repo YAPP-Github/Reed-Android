@@ -12,13 +12,15 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.Inject
 import kotlinx.collections.immutable.toPersistentList
 
-class EmotionEditPresenter @AssistedInject constructor(
+@Inject
+@CircuitInject(EmotionEditScreen::class, AppScope::class)
+class EmotionEditPresenter(
     @Assisted private val screen: EmotionEditScreen,
     @Assisted private val navigator: Navigator,
 ) : Presenter<EmotionEditUiState> {
@@ -55,13 +57,4 @@ class EmotionEditPresenter @AssistedInject constructor(
             eventSink = ::handleEvent,
         )
     }
-}
-
-@CircuitInject(EmotionEditScreen::class, ActivityRetainedComponent::class)
-@AssistedFactory
-fun interface Factory {
-    fun create(
-        screen: EmotionEditScreen,
-        navigator: Navigator,
-    ): EmotionEditPresenter
 }

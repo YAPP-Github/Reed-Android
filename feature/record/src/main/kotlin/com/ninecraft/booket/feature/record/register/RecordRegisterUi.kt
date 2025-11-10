@@ -33,10 +33,10 @@ import com.ninecraft.booket.feature.record.step.QuoteStep
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 
 @TraceRecomposition
-@CircuitInject(RecordScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(RecordScreen::class, AppScope::class)
 @Composable
 internal fun RecordRegisterUi(
     state: RecordRegisterUiState,

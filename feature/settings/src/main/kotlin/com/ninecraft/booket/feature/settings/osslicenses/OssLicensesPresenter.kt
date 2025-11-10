@@ -5,12 +5,14 @@ import com.ninecraft.booket.feature.screens.OssLicensesScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.Inject
 
-class OssLicensesPresenter @AssistedInject constructor(
+@Inject
+@CircuitInject(OssLicensesScreen::class, AppScope::class)
+class OssLicensesPresenter(
     @Assisted val navigator: Navigator,
 ) : Presenter<OssLicensesUiState> {
     @Composable
@@ -25,11 +27,5 @@ class OssLicensesPresenter @AssistedInject constructor(
         return OssLicensesUiState(
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(OssLicensesScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): OssLicensesPresenter
     }
 }

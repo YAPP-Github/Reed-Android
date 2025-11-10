@@ -20,13 +20,15 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.popUntil
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.launch
 
-class LoginPresenter @AssistedInject constructor(
+@Inject
+@CircuitInject(LoginScreen::class, AppScope::class)
+class LoginPresenter(
     @Assisted private val screen: LoginScreen,
     @Assisted private val navigator: Navigator,
     private val authRepository: AuthRepository,
@@ -126,14 +128,5 @@ class LoginPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: LoginScreen,
-            navigator: Navigator,
-        ): LoginPresenter
     }
 }

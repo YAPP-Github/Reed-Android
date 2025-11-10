@@ -22,13 +22,15 @@ import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.launch
 
-class RecordEditPresenter @AssistedInject constructor(
+@Inject
+@CircuitInject(RecordEditScreen::class, AppScope::class)
+class RecordEditPresenter(
     @Assisted private val screen: RecordEditScreen,
     @Assisted private val navigator: Navigator,
     private val repository: RecordRepository,
@@ -156,14 +158,5 @@ class RecordEditPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(RecordEditScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: RecordEditScreen,
-            navigator: Navigator,
-        ): RecordEditPresenter
     }
 }

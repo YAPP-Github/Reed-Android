@@ -5,12 +5,14 @@ import com.ninecraft.booket.feature.screens.WebViewScreen
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.Inject
 
-class WebViewPresenter @AssistedInject constructor(
+@Inject
+@CircuitInject(WebViewScreen::class, AppScope::class)
+class WebViewPresenter(
     @Assisted private val screen: WebViewScreen,
     @Assisted private val navigator: Navigator,
 ) : Presenter<WebViewUiState> {
@@ -30,14 +32,5 @@ class WebViewPresenter @AssistedInject constructor(
             title = screen.title,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(WebViewScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: WebViewScreen,
-            navigator: Navigator,
-        ): WebViewPresenter
     }
 }

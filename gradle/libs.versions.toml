@@ -86,6 +86,7 @@ firebase-crashlytics = "3.0.4"
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
@@ -190,6 +191,7 @@ booket-android-retrofit = { id = "booket.android.retrofit", version = "unspecifi
 booket-android-feature = { id = "booket.android.feature", version = "unspecified" }
 booket-android-firebase = { id = "booket.android.firebase", version = "unspecified" }
 booket-android-hilt = { id = "booket.android.hilt", version = "unspecified" }
+booket-metro = { id = "booket.metro", version = "unspecified" }
 booket-jvm-library = { id = "booket.jvm.library", version = "unspecified" }
 booket-kotlin-library-serialization = { id = "booket.kotlin.library.serialization", version = "unspecified" }
 

@@ -5,10 +5,15 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.util.DebugLogger
+import com.ninecraft.booket.di.AppGraph
 import dagger.hilt.android.HiltAndroidApp
+import dev.zacsweers.metro.createGraphFactory
 
 @HiltAndroidApp
 class BooketApplication : Application(), ImageLoaderFactory {
+
+    /** Metro dependency graph - will replace Hilt after migration */
+    val appGraph by lazy { createGraphFactory<AppGraph.Factory>().create(this) }
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(this)
             .diskCache {

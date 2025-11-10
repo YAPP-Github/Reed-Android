@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.booket.android.application)
     alias(libs.plugins.booket.android.application.compose)
     alias(libs.plugins.booket.android.hilt)
+    alias(libs.plugins.booket.metro)
     alias(libs.plugins.booket.android.firebase)
 }
 
@@ -64,7 +65,7 @@ composeStabilityAnalyzer {
 }
 
 ksp {
-    arg("circuit.codegen.mode", "hilt")
+    arg("circuit.codegen.mode", "metro")
 }
 
 dependencies {

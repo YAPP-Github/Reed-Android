@@ -20,15 +20,17 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.popUntil
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.Inject
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
-class TermsAgreementPresenter @AssistedInject constructor(
+@Inject
+@CircuitInject(TermsAgreementScreen::class, AppScope::class)
+class TermsAgreementPresenter(
     @Assisted private val screen: TermsAgreementScreen,
     @Assisted private val navigator: Navigator,
     private val userRepository: UserRepository,
@@ -100,14 +102,5 @@ class TermsAgreementPresenter @AssistedInject constructor(
             agreedTerms = agreedTerms,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(TermsAgreementScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: TermsAgreementScreen,
-            navigator: Navigator,
-        ): TermsAgreementPresenter
     }
 }

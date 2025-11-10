@@ -33,13 +33,13 @@ import com.ninecraft.booket.feature.detail.record.component.ReviewItem
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @TraceRecomposition
 @OptIn(ExperimentalMaterial3Api::class)
-@CircuitInject(RecordDetailScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(RecordDetailScreen::class, AppScope::class)
 @Composable
 internal fun RecordDetailUi(
     state: RecordDetailUiState,

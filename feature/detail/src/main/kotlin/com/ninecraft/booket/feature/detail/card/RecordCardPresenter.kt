@@ -11,12 +11,14 @@ import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.Inject
 
-class RecordCardPresenter @AssistedInject constructor(
+@Inject
+@CircuitInject(RecordCardScreen::class, AppScope::class)
+class RecordCardPresenter(
     @Assisted private val screen: RecordCardScreen,
     @Assisted private val navigator: Navigator,
     private val analyticsHelper: AnalyticsHelper,
@@ -81,13 +83,4 @@ class RecordCardPresenter @AssistedInject constructor(
             eventSink = ::handleEvent,
         )
     }
-}
-
-@CircuitInject(RecordCardScreen::class, ActivityRetainedComponent::class)
-@AssistedFactory
-fun interface Factory {
-    fun create(
-        screen: RecordCardScreen,
-        navigator: Navigator,
-    ): RecordCardPresenter
 }

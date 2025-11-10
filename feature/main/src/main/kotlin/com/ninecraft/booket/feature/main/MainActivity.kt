@@ -15,6 +15,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.ninecraft.booket.core.common.event.DialogSpec
 import com.ninecraft.booket.core.common.event.EventHelper
 import com.ninecraft.booket.core.common.event.ReedEvent
+import com.ninecraft.booket.BooketApplication
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.feature.screens.SplashScreen
@@ -25,14 +26,15 @@ import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject
-    lateinit var circuit: Circuit
+    private lateinit var circuit: Circuit
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Get Circuit from Metro AppGraph
+        val appGraph = (application as BooketApplication).appGraph
+        circuit = appGraph.circuit
         installSplashScreen()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
