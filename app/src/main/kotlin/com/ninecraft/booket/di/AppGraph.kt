@@ -11,7 +11,9 @@ import com.slack.circuit.runtime.ui.Ui
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Multibinds
+import dev.zacsweers.metro.Provider
 import dev.zacsweers.metro.Provides
+import kotlin.reflect.KClass
 
 @DependencyGraph(
     scope = AppScope::class,
@@ -29,10 +31,10 @@ interface AppGraph {
     val uiFactories: Set<Ui.Factory>
 
     @Multibinds(allowEmpty = true)
-    val activityProviders: Map<kotlin.reflect.KClass<out Activity>, dev.zacsweers.metro.Provider<Activity>>
+    val activityProviders: Map<KClass<out Activity>, Provider<Activity>>
 
     @Multibinds(allowEmpty = true)
-    val serviceProviders: Map<kotlin.reflect.KClass<out Service>, dev.zacsweers.metro.Provider<Service>>
+    val serviceProviders: Map<KClass<out Service>, Provider<Service>>
 
     @Provides
     fun provideCircuit(

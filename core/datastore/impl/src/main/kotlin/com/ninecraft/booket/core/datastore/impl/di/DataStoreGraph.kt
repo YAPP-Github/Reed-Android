@@ -15,6 +15,7 @@ import com.ninecraft.booket.core.datastore.impl.datasource.DefaultNotificationDa
 import com.ninecraft.booket.core.datastore.impl.datasource.DefaultOnboardingDataSource
 import com.ninecraft.booket.core.datastore.impl.datasource.DefaultTokenDataSource
 import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.Binds
 import dev.zacsweers.metro.ContributesTo
 import dev.zacsweers.metro.Provides
 
@@ -63,28 +64,18 @@ interface DataStoreGraph {
         context: Context,
     ): DataStore<Preferences> = context.notificationDataStore
 
-    @Provides
-    fun provideTokenDataSource(
-        defaultTokenDataSource: DefaultTokenDataSource,
-    ): TokenDataSource = defaultTokenDataSource
+    @Binds
+    val DefaultTokenDataSource.bind: TokenDataSource
 
-    @Provides
-    fun provideBookRecentSearchDataSource(
-        defaultBookRecentSearchDataSource: DefaultBookRecentSearchDataSource,
-    ): BookRecentSearchDataSource = defaultBookRecentSearchDataSource
+    @Binds
+    val DefaultBookRecentSearchDataSource.bind: BookRecentSearchDataSource
 
-    @Provides
-    fun provideLibraryRecentSearchDataSource(
-        defaultLibraryRecentSearchDataSource: DefaultLibraryRecentSearchDataSource,
-    ): LibraryRecentSearchDataSource = defaultLibraryRecentSearchDataSource
+    @Binds
+    val DefaultLibraryRecentSearchDataSource.bind: LibraryRecentSearchDataSource
 
-    @Provides
-    fun provideOnboardingDataSource(
-        defaultOnboardingDataSource: DefaultOnboardingDataSource,
-    ): OnboardingDataSource = defaultOnboardingDataSource
+    @Binds
+    val DefaultOnboardingDataSource.bind: OnboardingDataSource
 
-    @Provides
-    fun provideNotificationDataSource(
-        defaultNotificationDataSource: DefaultNotificationDataSource,
-    ): NotificationDataSource = defaultNotificationDataSource
+    @Binds
+    val DefaultNotificationDataSource.bind: NotificationDataSource
 }

@@ -11,6 +11,7 @@ import dev.zacsweers.metro.createGraphFactory
 class BooketApplication : Application(), ImageLoaderFactory {
 
     val appGraph by lazy { createGraphFactory<AppGraph.Factory>().create(this) }
+
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(this)
             .diskCache {

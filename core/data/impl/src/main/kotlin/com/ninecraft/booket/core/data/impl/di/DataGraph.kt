@@ -18,17 +18,17 @@ import dev.zacsweers.metro.ContributesTo
 interface DataGraph {
 
     @Binds
-    val DefaultAuthRepository.bindAuthRepository: AuthRepository
+    val DefaultAuthRepository.bind: AuthRepository
 
     @Binds
-    val DefaultBookRepository.bindBookRepository: BookRepository
+    val DefaultBookRepository.bind: BookRepository
 
     @Binds
-    val DefaultRecordRepository.bindRecordRepository: RecordRepository
+    val DefaultRecordRepository.bind: RecordRepository
 
     @Binds
-    val DefaultRemoteConfigRepository.bindRemoteConfigRepository: RemoteConfigRepository
+    val DefaultRemoteConfigRepository.bind: RemoteConfigRepository
 
     @Binds
-    val DefaultUserRepository.bindUserRepository: UserRepository
+    val DefaultUserRepository.bind: UserRepository
 }
