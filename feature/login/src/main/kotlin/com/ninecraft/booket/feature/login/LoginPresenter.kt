@@ -23,10 +23,10 @@ import com.slack.circuitx.effects.ImpressionEffect
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.launch
 
-@Inject
+@AssistedInject
 class LoginPresenter(
     @Assisted private val screen: LoginScreen,
     @Assisted private val navigator: Navigator,

@@ -18,10 +18,10 @@ import com.slack.circuit.runtime.presenter.Presenter
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.launch
 
-@Inject
+@AssistedInject
 class NotificationPresenter(
     @Assisted val navigator: Navigator,
     private val userRepository: UserRepository,

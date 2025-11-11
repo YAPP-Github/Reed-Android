@@ -30,11 +30,11 @@ import com.slack.circuitx.effects.ImpressionEffect
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
-@Inject
+@AssistedInject
 class RecordRegisterPresenter(
     @Assisted private val screen: RecordScreen,
     @Assisted private val navigator: Navigator,
