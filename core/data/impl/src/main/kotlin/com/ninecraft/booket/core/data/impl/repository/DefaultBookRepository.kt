@@ -13,7 +13,7 @@ import dev.zacsweers.metro.SingleIn
 
 @SingleIn(DataScope::class)
 @Inject
-internal class DefaultBookRepository(
+class DefaultBookRepository(
     private val service: ReedService,
     private val bookRecentSearchDataSource: BookRecentSearchDataSource,
     private val libraryRecentSearchDataSource: LibraryRecentSearchDataSource,

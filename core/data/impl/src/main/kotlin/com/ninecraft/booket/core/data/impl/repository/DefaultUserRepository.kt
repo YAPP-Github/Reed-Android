@@ -21,7 +21,7 @@ import kotlinx.coroutines.tasks.await
 
 @SingleIn(DataScope::class)
 @Inject
-internal class DefaultUserRepository(
+class DefaultUserRepository(
     private val service: ReedService,
     private val onboardingDataSource: OnboardingDataSource,
     private val notificationDataSource: NotificationDataSource,

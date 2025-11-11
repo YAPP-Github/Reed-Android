@@ -16,7 +16,7 @@ private const val KAKAO_PROVIDER_TYPE = "KAKAO"
 
 @SingleIn(DataScope::class)
 @Inject
-internal class DefaultAuthRepository(
+class DefaultAuthRepository(
     private val service: ReedService,
     private val tokenDataSource: TokenDataSource,
 ) : AuthRepository {
