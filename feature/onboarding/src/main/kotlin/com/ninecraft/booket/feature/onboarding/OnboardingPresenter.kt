@@ -14,19 +14,24 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.launch
 
 const val ONBOARDING_STEPS_COUNT = 3
 
 @Inject
-@CircuitInject(OnboardingScreen::class, AppScope::class)
 class OnboardingPresenter(
     @Assisted private val navigator: Navigator,
     private val repository: UserRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<OnboardingUiState> {
+
+    @CircuitInject(OnboardingScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): OnboardingPresenter
+    }
 
     @Composable
     override fun present(): OnboardingUiState {

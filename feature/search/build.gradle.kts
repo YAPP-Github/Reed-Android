@@ -10,9 +10,6 @@ android {
     namespace = "com.ninecraft.booket.feature.search"
 }
 
-ksp {
-    arg("circuit.codegen.mode", "hilt")
-}
 
 dependencies {
     implementations(

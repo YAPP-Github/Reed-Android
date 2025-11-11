@@ -17,10 +17,10 @@ internal class AndroidFeatureConventionPlugin : Plugin<Project> {
             applyPlugins(
                 "booket.android.library",
                 "booket.android.library.compose",
-                "booket.android.hilt",
                 "booket.metro",
+                "com.google.devtools.ksp",
             )
-            
+
             extensions.configure<KspExtension> {
                 arg("circuit.codegen.mode", "metro")
             }

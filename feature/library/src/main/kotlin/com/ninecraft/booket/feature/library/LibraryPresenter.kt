@@ -30,20 +30,26 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.Inject
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
 @Inject
-@CircuitInject(LibraryScreen::class, AppScope::class)
 class LibraryPresenter(
     @Assisted private val navigator: Navigator,
     private val bookRepository: BookRepository,
     private val authRepository: AuthRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<LibraryUiState> {
+
+    @CircuitInject(LibraryScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): LibraryPresenter
+    }
+
     companion object {
         private const val PAGE_SIZE = 20
         private const val START_INDEX = 0

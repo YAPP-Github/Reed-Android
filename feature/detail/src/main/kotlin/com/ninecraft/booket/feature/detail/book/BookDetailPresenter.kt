@@ -31,7 +31,7 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.Inject
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -44,7 +44,6 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 @Inject
-@CircuitInject(BookDetailScreen::class, AppScope::class)
 class BookDetailPresenter(
     @Assisted private val screen: BookDetailScreen,
     @Assisted private val navigator: Navigator,
@@ -52,6 +51,13 @@ class BookDetailPresenter(
     private val recordRepository: RecordRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<BookDetailUiState> {
+
+    @CircuitInject(BookDetailScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(screen: BookDetailScreen, navigator: Navigator): BookDetailPresenter
+    }
+
     companion object {
         private const val PAGE_SIZE = 20
         private const val START_INDEX = 0

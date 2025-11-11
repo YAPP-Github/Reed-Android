@@ -8,12 +8,11 @@ android {
     namespace = "com.ninecraft.booket.feature.main"
 }
 
-ksp {
-    arg("circuit.codegen.mode", "hilt")
-}
 
 dependencies {
     implementations(
+        projects.core.di,
+
         libs.androidx.activity.compose,
         libs.androidx.splash,
 

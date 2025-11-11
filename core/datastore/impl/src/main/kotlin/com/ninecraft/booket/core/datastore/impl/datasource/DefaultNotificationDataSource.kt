@@ -8,11 +8,15 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.ninecraft.booket.core.datastore.api.datasource.NotificationDataSource
 import com.ninecraft.booket.core.datastore.impl.di.NotificationDataStore
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
+import dev.zacsweers.metro.Inject
+import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-class DefaultNotificationDataSource @Inject constructor(
+@SingleIn(DataScope::class)
+@Inject
+class DefaultNotificationDataSource(
     @NotificationDataStore private val dataStore: DataStore<Preferences>,
 ) : NotificationDataSource {
     override val fcmToken: Flow<String> = dataStore.data

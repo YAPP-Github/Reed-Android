@@ -1,17 +1,20 @@
 package com.ninecraft.booket.di
 
+import android.app.Activity
 import android.app.Application
+import android.app.Service
 import android.content.Context
-import com.ninecraft.booket.core.data.api.repository.AuthRepository
-import com.ninecraft.booket.core.data.api.repository.BookRepository
-import com.ninecraft.booket.core.data.api.repository.RecordRepository
-import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
-import com.ninecraft.booket.core.data.api.repository.UserRepository
-import com.ninecraft.booket.core.data.impl.repository.DefaultAuthRepository
-import com.ninecraft.booket.core.data.impl.repository.DefaultBookRepository
-import com.ninecraft.booket.core.data.impl.repository.DefaultRecordRepository
-import com.ninecraft.booket.core.data.impl.repository.DefaultRemoteConfigRepository
-import com.ninecraft.booket.core.data.impl.repository.DefaultUserRepository
+import com.ninecraft.booket.core.di.DataScope
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.installations.installations
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.messaging
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.ui.Ui
@@ -20,7 +23,10 @@ import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Multibinds
 import dev.zacsweers.metro.Provides
 
-@DependencyGraph(AppScope::class)
+@DependencyGraph(
+    scope = AppScope::class,
+    additionalScopes = [DataScope::class],
+)
 interface AppGraph {
 
     @Provides
@@ -31,6 +37,12 @@ interface AppGraph {
 
     @Multibinds(allowEmpty = true)
     val uiFactories: Set<Ui.Factory>
+
+    @Multibinds(allowEmpty = true)
+    val activityProviders: Map<kotlin.reflect.KClass<out Activity>, dev.zacsweers.metro.Provider<Activity>>
+
+    @Multibinds(allowEmpty = true)
+    val serviceProviders: Map<kotlin.reflect.KClass<out Service>, dev.zacsweers.metro.Provider<Service>>
 
     @Provides
     fun provideCircuit(
@@ -43,21 +55,27 @@ interface AppGraph {
             .setAnimatedNavDecoratorFactory(CrossFadeNavDecoratorFactory())
             .build()
     }
-    
-    @Provides
-    fun provideAuthRepository(impl: DefaultAuthRepository): AuthRepository = impl
 
     @Provides
-    fun provideUserRepository(impl: DefaultUserRepository): UserRepository = impl
+    fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
+        return Firebase.remoteConfig.apply {
+            val configSettings by lazy {
+                remoteConfigSettings {
+                    minimumFetchIntervalInSeconds = if (com.ninecraft.booket.BuildConfig.DEBUG) 0 else 60
+                }
+            }
+            setConfigSettingsAsync(configSettings)
+        }
+    }
 
     @Provides
-    fun provideBookRepository(impl: DefaultBookRepository): BookRepository = impl
+    fun provideFirebaseMessaging(): FirebaseMessaging = Firebase.messaging
 
     @Provides
-    fun provideRecordRepository(impl: DefaultRecordRepository): RecordRepository = impl
+    fun provideFirebaseInstallations(): FirebaseInstallations = Firebase.installations
 
     @Provides
-    fun provideRemoteConfigRepository(impl: DefaultRemoteConfigRepository): RemoteConfigRepository = impl
+    fun provideFirebaseAnalytics(): FirebaseAnalytics = Firebase.analytics
 
     val circuit: Circuit
 

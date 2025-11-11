@@ -28,14 +28,13 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.Inject
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
 @Inject
-@CircuitInject(HomeScreen::class, AppScope::class)
 class HomePresenter(
     @Assisted private val navigator: Navigator,
     private val bookRepository: BookRepository,
@@ -43,6 +42,12 @@ class HomePresenter(
     private val userRepository: UserRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<HomeUiState> {
+
+    @CircuitInject(HomeScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): HomePresenter
+    }
 
     @Composable
     override fun present(): HomeUiState {

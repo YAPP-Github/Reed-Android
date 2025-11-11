@@ -22,20 +22,25 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.Inject
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
 @Inject
-@CircuitInject(TermsAgreementScreen::class, AppScope::class)
 class TermsAgreementPresenter(
     @Assisted private val screen: TermsAgreementScreen,
     @Assisted private val navigator: Navigator,
     private val userRepository: UserRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<TermsAgreementUiState> {
+
+    @CircuitInject(TermsAgreementScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(screen: TermsAgreementScreen, navigator: Navigator): TermsAgreementPresenter
+    }
 
     @Composable
     override fun present(): TermsAgreementUiState {

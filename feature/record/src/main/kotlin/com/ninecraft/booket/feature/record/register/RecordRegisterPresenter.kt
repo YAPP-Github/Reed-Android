@@ -29,19 +29,24 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.Inject
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
 @Inject
-@CircuitInject(RecordScreen::class, AppScope::class)
 class RecordRegisterPresenter(
     @Assisted private val screen: RecordScreen,
     @Assisted private val navigator: Navigator,
     private val repository: RecordRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<RecordRegisterUiState> {
+
+    @CircuitInject(RecordScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(screen: RecordScreen, navigator: Navigator): RecordRegisterPresenter
+    }
 
     companion object {
         private const val MAX_PAGE = 4032

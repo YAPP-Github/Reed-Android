@@ -6,7 +6,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     alias(libs.plugins.booket.android.library)
     alias(libs.plugins.booket.android.retrofit)
-    alias(libs.plugins.booket.android.hilt)
+    alias(libs.plugins.booket.metro)
 }
 
 android {
@@ -30,7 +30,9 @@ android {
 dependencies {
     implementations(
         projects.core.datastore.api,
+        projects.core.di,
 
+        libs.kotlinx.coroutines.core,
         libs.logger,
     )
 }

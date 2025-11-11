@@ -13,16 +13,21 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.Inject
 
 @Inject
-@CircuitInject(RecordCardScreen::class, AppScope::class)
 class RecordCardPresenter(
     @Assisted private val screen: RecordCardScreen,
     @Assisted private val navigator: Navigator,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<RecordCardUiState> {
+
+    @CircuitInject(RecordCardScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(screen: RecordCardScreen, navigator: Navigator): RecordCardPresenter
+    }
 
     companion object {
         private const val RECORD_CARD_SAVE = "record_card_save"

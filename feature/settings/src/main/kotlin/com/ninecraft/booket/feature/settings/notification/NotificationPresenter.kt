@@ -17,16 +17,22 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.launch
 
 @Inject
-@CircuitInject(NotificationScreen::class, AppScope::class)
 class NotificationPresenter(
     @Assisted val navigator: Navigator,
     private val userRepository: UserRepository,
 ) : Presenter<NotificationUiState> {
+
+    @CircuitInject(NotificationScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): NotificationPresenter
+    }
+
     @Composable
     override fun present(): NotificationUiState {
         val scope = rememberCoroutineScope()

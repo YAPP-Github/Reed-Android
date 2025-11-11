@@ -2,7 +2,7 @@
 
 plugins {
     alias(libs.plugins.booket.android.library)
-    alias(libs.plugins.booket.android.hilt)
+    alias(libs.plugins.booket.metro)
     alias(libs.plugins.booket.kotlin.library.serialization)
 }
 
@@ -23,6 +23,7 @@ dependencies {
         projects.core.common,
         projects.core.data.api,
         projects.core.datastore.api,
+        projects.core.di,
         projects.core.model,
         projects.core.network,
 

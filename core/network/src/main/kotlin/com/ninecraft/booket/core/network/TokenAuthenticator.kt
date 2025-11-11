@@ -4,15 +4,19 @@ import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
 import com.ninecraft.booket.core.network.request.RefreshTokenRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import com.orhanobut.logger.Logger
+import dev.zacsweers.metro.Inject
+import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.SingleIn
+import dev.zacsweers.metro.Provider
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import javax.inject.Inject
-import javax.inject.Provider
 
-class TokenAuthenticator @Inject constructor(
+@SingleIn(DataScope::class)
+@Inject
+class TokenAuthenticator(
     private val tokenDataSource: TokenDataSource,
     private val serviceProvider: Provider<ReedService>,
 ) : Authenticator {
@@ -28,7 +32,7 @@ class TokenAuthenticator @Inject constructor(
                 }
 
                 val refreshTokenRequest = RefreshTokenRequest(refreshToken)
-                val refreshResponse = serviceProvider.get().refreshToken(refreshTokenRequest)
+                val refreshResponse = serviceProvider().refreshToken(refreshTokenRequest)
 
                 tokenDataSource.apply {
                     setAccessToken(refreshResponse.accessToken)

@@ -25,7 +25,8 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.Inject
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -33,12 +34,18 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
 @Inject
-@CircuitInject(LibrarySearchScreen::class, AppScope::class)
 class LibrarySearchPresenter(
     @Assisted private val navigator: Navigator,
     private val repository: BookRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<LibrarySearchUiState> {
+
+    @CircuitInject(LibrarySearchScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): LibrarySearchPresenter
+    }
+
     companion object {
         private const val PAGE_SIZE = 20
         private const val START_INDEX = 0

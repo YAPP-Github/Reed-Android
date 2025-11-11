@@ -28,12 +28,11 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.launch
 
 @Inject
-@CircuitInject(SettingsScreen::class, AppScope::class)
 class SettingsPresenter(
     @Assisted val navigator: Navigator,
     private val authRepository: AuthRepository,
@@ -41,6 +40,12 @@ class SettingsPresenter(
     private val remoteConfigRepository: RemoteConfigRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<SettingsUiState> {
+
+    @CircuitInject(SettingsScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): SettingsPresenter
+    }
 
     companion object {
         private const val SETTINGS_LOGOUT_COMPLETE = "settings_logout_complete"

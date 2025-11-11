@@ -14,9 +14,13 @@ import com.ninecraft.booket.core.ocr.service.CloudVisionService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
+import com.ninecraft.booket.core.di.DataScope
 
-class CloudOcrRecognizer @Inject constructor(
+@SingleIn(DataScope::class)
+@Inject
+class CloudOcrRecognizer(
     private val service: CloudVisionService,
 ) {
     suspend fun recognizeText(imageUri: Uri): Result<CloudVisionResponse> = runSuspendCatching {

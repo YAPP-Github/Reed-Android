@@ -1,14 +1,16 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.google.devtools.ksp.gradle.KspExtension
+import org.gradle.kotlin.dsl.configure
 import java.util.Properties
 
 plugins {
     alias(libs.plugins.booket.android.application)
     alias(libs.plugins.booket.android.application.compose)
-    alias(libs.plugins.booket.android.hilt)
-    alias(libs.plugins.booket.metro)
     alias(libs.plugins.booket.android.firebase)
+    alias(libs.plugins.booket.metro)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -64,7 +66,7 @@ composeStabilityAnalyzer {
     enabled.set(true)
 }
 
-ksp {
+extensions.configure<KspExtension> {
     arg("circuit.codegen.mode", "metro")
 }
 
@@ -76,6 +78,7 @@ dependencies {
         projects.core.datastore.api,
         projects.core.datastore.impl,
         projects.core.designsystem,
+        projects.core.di,
         projects.core.model,
         projects.core.network,
         projects.core.ui,

@@ -7,12 +7,16 @@ import com.ninecraft.booket.core.model.AutoLoginState
 import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.core.network.request.LoginRequest
 import com.ninecraft.booket.core.network.service.ReedService
-import kotlinx.coroutines.flow.map
 import dev.zacsweers.metro.Inject
+import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.SingleIn
+import kotlinx.coroutines.flow.map
 
 private const val KAKAO_PROVIDER_TYPE = "KAKAO"
 
-internal class DefaultAuthRepository @Inject constructor(
+@SingleIn(DataScope::class)
+@Inject
+internal class DefaultAuthRepository(
     private val service: ReedService,
     private val tokenDataSource: TokenDataSource,
 ) : AuthRepository {

@@ -18,7 +18,7 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.Inject
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
@@ -27,12 +27,17 @@ import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.launch
 
 @Inject
-@CircuitInject(OcrScreen::class, AppScope::class)
 class OcrPresenter(
     @Assisted private val navigator: Navigator,
     private val recognizer: CloudOcrRecognizer,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<OcrUiState> {
+
+    @CircuitInject(OcrScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): OcrPresenter
+    }
 
     companion object {
         private const val RECORD_OCR_SENTENCE = "record_OCR_sentence"

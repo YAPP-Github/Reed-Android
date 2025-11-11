@@ -3,16 +3,18 @@ package com.ninecraft.booket.core.datastore.impl.security
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
+import dev.zacsweers.metro.Inject
+import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.SingleIn
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class CryptoManager @Inject constructor() {
+@SingleIn(DataScope::class)
+@Inject
+class CryptoManager {
     private val keyStore = KeyStore
         .getInstance("AndroidKeyStore")
         .apply {
