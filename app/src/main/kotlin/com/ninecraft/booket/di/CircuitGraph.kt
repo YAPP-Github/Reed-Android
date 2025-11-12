@@ -23,20 +23,16 @@ interface CircuitGraph {
     @Multibinds(allowEmpty = true)
     fun uiFactories(): Set<Ui.Factory>
 
-    @Provides
-    fun provideCrossFadeNavDecoratorFactory(): CrossFadeNavDecoratorFactory = CrossFadeNavDecoratorFactory()
-
     companion object {
         @Provides
         fun provideCircuit(
             presenterFactories: Set<Presenter.Factory>,
             uiFactories: Set<Ui.Factory>,
-            crossFadeNavDecoratorFactory: CrossFadeNavDecoratorFactory,
         ): Circuit {
             return Circuit.Builder()
                 .addPresenterFactories(presenterFactories)
                 .addUiFactories(uiFactories)
-                .setAnimatedNavDecoratorFactory(crossFadeNavDecoratorFactory)
+                .setAnimatedNavDecoratorFactory(CrossFadeNavDecoratorFactory())
                 .setOnUnavailableContent { screen, modifier ->
                     val circuit = LocalCircuit.current
                     BasicText(
