@@ -24,8 +24,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-@ServiceKey(ReedFirebaseMessagingService::class)
 @ContributesIntoMap(AppScope::class, binding = binding<Service>())
+@ServiceKey(ReedFirebaseMessagingService::class)
 @Inject
 class ReedFirebaseMessagingService(
     private val userRepository: UserRepository

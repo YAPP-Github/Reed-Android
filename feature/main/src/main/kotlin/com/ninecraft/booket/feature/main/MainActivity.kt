@@ -31,11 +31,11 @@ import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
 
-@ActivityKey(MainActivity::class)
 @ContributesIntoMap(AppScope::class, binding = binding<Activity>())
+@ActivityKey(MainActivity::class)
 @Inject
 class MainActivity(
-    private val circuit: Circuit
+    private val circuit: Circuit,
 ) : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
