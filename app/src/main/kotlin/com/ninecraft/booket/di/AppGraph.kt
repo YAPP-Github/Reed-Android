@@ -1,12 +1,11 @@
 package com.ninecraft.booket.di
 
 import android.app.Activity
-import android.app.Application
 import android.app.Service
 import android.content.Context
+import com.ninecraft.booket.core.di.ApplicationContext
 import com.ninecraft.booket.core.di.DataScope
 import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Binds
 import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Multibinds
 import dev.zacsweers.metro.Provider
@@ -19,12 +18,6 @@ import kotlin.reflect.KClass
 )
 interface AppGraph {
 
-//    @Provides
-//    fun provideApplicationContext(application: Application): Context = application
-
-    @Binds
-    fun bindContext(application: Application): Context
-
     @Multibinds(allowEmpty = true)
     val activityProviders: Map<KClass<out Activity>, Provider<Activity>>
 
@@ -33,6 +26,6 @@ interface AppGraph {
 
     @DependencyGraph.Factory
     fun interface Factory {
-        fun create(@Provides application: Application): AppGraph
+        fun create(@ApplicationContext @Provides context: Context): AppGraph
     }
 }

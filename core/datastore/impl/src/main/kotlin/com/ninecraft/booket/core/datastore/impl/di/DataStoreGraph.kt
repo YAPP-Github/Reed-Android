@@ -14,6 +14,7 @@ import com.ninecraft.booket.core.datastore.impl.datasource.DefaultLibraryRecentS
 import com.ninecraft.booket.core.datastore.impl.datasource.DefaultNotificationDataSource
 import com.ninecraft.booket.core.datastore.impl.datasource.DefaultOnboardingDataSource
 import com.ninecraft.booket.core.datastore.impl.datasource.DefaultTokenDataSource
+import com.ninecraft.booket.core.di.ApplicationContext
 import com.ninecraft.booket.core.di.DataScope
 import dev.zacsweers.metro.Binds
 import dev.zacsweers.metro.ContributesTo
@@ -37,31 +38,31 @@ interface DataStoreGraph {
     @TokenDataStore
     @Provides
     fun provideTokenDataStore(
-        context: Context,
+        @ApplicationContext context: Context,
     ): DataStore<Preferences> = context.tokenDataStore
 
     @BookRecentSearchDataStore
     @Provides
     fun provideBookRecentSearchDataStore(
-        context: Context,
+        @ApplicationContext context: Context,
     ): DataStore<Preferences> = context.bookRecentSearchDataStore
 
     @LibraryRecentSearchDataStore
     @Provides
     fun provideLibraryRecentSearchDataStore(
-        context: Context,
+        @ApplicationContext context: Context,
     ): DataStore<Preferences> = context.libraryRecentSearchDataStore
 
     @OnboardingDataStore
     @Provides
     fun provideOnboardingDataStore(
-        context: Context,
+        @ApplicationContext context: Context,
     ): DataStore<Preferences> = context.onboardingDataStore
 
     @NotificationDataStore
     @Provides
     fun provideNotificationDataStore(
-        context: Context,
+        @ApplicationContext context: Context,
     ): DataStore<Preferences> = context.notificationDataStore
 
     @Binds
