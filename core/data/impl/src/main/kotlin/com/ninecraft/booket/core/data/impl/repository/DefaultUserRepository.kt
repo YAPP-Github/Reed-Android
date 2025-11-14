@@ -40,20 +40,11 @@ internal class DefaultUserRepository @Inject constructor(
 
     override suspend fun syncFcmToken() = runSuspendCatching {
         val newToken = getRemoteFcmToken()
-        val localToken = getLocalFcmToken()
-
-        if (newToken == localToken) {
-            Logger.d("Skip FCM token sync (already up-to-date)")
-            return@runSuspendCatching
-        }
-
         registerDevice(newToken)
-        setFcmToken(newToken)
     }
 
     override suspend fun syncFcmToken(fcmToken: String): Result<Unit> = runSuspendCatching {
         registerDevice(fcmToken)
-        setFcmToken(fcmToken)
     }
 
     override val isUserNotificationEnabled = notificationDataSource.isUserNotificationEnabled
@@ -93,11 +84,11 @@ internal class DefaultUserRepository @Inject constructor(
         }
     }
 
-    private suspend fun getLocalFcmToken(): String = notificationDataSource.fcmToken.first()
-
-    private suspend fun setFcmToken(fcmToken: String) {
-        notificationDataSource.setFcmToken(fcmToken)
-    }
+//    private suspend fun getLocalFcmToken(): String = notificationDataSource.fcmToken.first()
+//
+//    private suspend fun setFcmToken(fcmToken: String) {
+//        notificationDataSource.setFcmToken(fcmToken)
+//    }
 
     private suspend fun getDeviceId(): String {
         return try {
