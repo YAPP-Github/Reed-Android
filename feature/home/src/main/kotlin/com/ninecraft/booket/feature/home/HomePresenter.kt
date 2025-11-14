@@ -7,6 +7,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.utils.handleException
+import com.ninecraft.booket.core.common.utils.shouldSyncNotification
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
@@ -115,14 +116,15 @@ class HomePresenter @AssistedInject constructor(
                 is HomeUiEvent.OnNotificationPermissionResult -> {
                     scope.launch {
                         val isPermissionGranted = event.granted
-                        val userEnabled = userRepository.getUserNotificationEnabled()
+                        val userSettingEnabled = userRepository.getUserNotificationEnabled()
                         val lastSyncedServerEnabled = userRepository.getLastSyncedNotificationEnabled()
 
-                        val shouldSync = (!isPermissionGranted && lastSyncedServerEnabled != false) ||
-                            (userEnabled && (lastSyncedServerEnabled == null || lastSyncedServerEnabled != isPermissionGranted))
+                        val effectiveNotificationEnabled = userSettingEnabled && isPermissionGranted
+
+                        val shouldSync = shouldSyncNotification(effectiveNotificationEnabled, lastSyncedServerEnabled)
 
                         if (shouldSync) {
-                            syncNotificationSettings(isPermissionGranted)
+                            syncNotificationSettings(effectiveNotificationEnabled)
                         }
                     }
                 }
