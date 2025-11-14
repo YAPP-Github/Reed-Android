@@ -84,12 +84,6 @@ internal class DefaultUserRepository @Inject constructor(
         }
     }
 
-//    private suspend fun getLocalFcmToken(): String = notificationDataSource.fcmToken.first()
-//
-//    private suspend fun setFcmToken(fcmToken: String) {
-//        notificationDataSource.setFcmToken(fcmToken)
-//    }
-
     private suspend fun getDeviceId(): String {
         return try {
             firebaseInstallations.id.await()
