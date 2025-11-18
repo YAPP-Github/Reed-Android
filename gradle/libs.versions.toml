@@ -40,7 +40,7 @@ hilt = "2.57"
 hilt-navigation-compose = "1.2.0"
 
 ## Metro
-metro = "0.7.5"
+metro = "0.7.6"
 
 ## Network
 okhttp = "5.1.0"
