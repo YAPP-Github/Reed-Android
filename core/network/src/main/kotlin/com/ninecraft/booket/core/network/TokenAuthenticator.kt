@@ -1,13 +1,13 @@
 package com.ninecraft.booket.core.network
 
 import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
+import com.ninecraft.booket.core.di.DataScope
 import com.ninecraft.booket.core.network.request.RefreshTokenRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import com.orhanobut.logger.Logger
 import dev.zacsweers.metro.Inject
-import com.ninecraft.booket.core.di.DataScope
-import dev.zacsweers.metro.SingleIn
 import dev.zacsweers.metro.Provider
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request

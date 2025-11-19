@@ -77,7 +77,7 @@
 
 - [Circuit](https://github.com/slackhq/circuit)
 - ~~Google ML Kit~~ Google Cloud Vision
-- Dagger Hilt
+- ~~Dagger Hilt~~ Metro
 - Retrofit, OkHttp3
 - Lottie-Compose
 - Firebase(Analytics, Crashlytics, Remote Config)

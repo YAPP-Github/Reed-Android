@@ -15,9 +15,9 @@
         "url": "https://github.com/skydoves/compose-stable-marker"
     },
     {
-        "name": "Hilt",
+        "name": "Metro",
         "license": "Apache License 2.0",
-        "url": "https://dagger.dev/hilt/"
+        "url": "https://zacsweers.github.io/metro"
     },
     {
         "name": "Logger",
