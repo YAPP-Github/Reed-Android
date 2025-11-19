@@ -180,7 +180,6 @@ booket-android-library-compose = { id = "booket.android.library.compose", versio
 booket-android-retrofit = { id = "booket.android.retrofit", version = "unspecified" }
 booket-android-feature = { id = "booket.android.feature", version = "unspecified" }
 booket-android-firebase = { id = "booket.android.firebase", version = "unspecified" }
-booket-metro = { id = "booket.metro", version = "unspecified" }
 booket-jvm-library = { id = "booket.jvm.library", version = "unspecified" }
 booket-kotlin-library-serialization = { id = "booket.kotlin.library.serialization", version = "unspecified" }
 

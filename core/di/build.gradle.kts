@@ -2,7 +2,7 @@
 
 plugins {
     alias(libs.plugins.booket.android.library)
-    alias(libs.plugins.booket.metro)
+    alias(libs.plugins.metro)
 }
 
 android {

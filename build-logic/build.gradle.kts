@@ -21,7 +21,6 @@ gradlePlugin {
         "android.library.compose" to "AndroidLibraryComposeConventionPlugin",
         "android.feature" to "AndroidFeatureConventionPlugin",
         "android.firebase" to "AndroidFirebaseConventionPlugin",
-        "metro" to "MetroConventionPlugin",
         "android.retrofit" to "AndroidRetrofitConventionPlugin",
         "jvm.library" to "JvmLibraryConventionPlugin",
         "kotlin.library.serialization" to "KotlinLibrarySerializationConventionPlugin",

@@ -17,7 +17,7 @@ internal class AndroidFeatureConventionPlugin : Plugin<Project> {
             applyPlugins(
                 "booket.android.library",
                 "booket.android.library.compose",
-                "booket.metro",
+                "dev.zacsweers.metro",
                 "com.google.devtools.ksp",
             )
 

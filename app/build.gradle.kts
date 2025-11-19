@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.booket.android.application)
     alias(libs.plugins.booket.android.application.compose)
     alias(libs.plugins.booket.android.firebase)
-    alias(libs.plugins.booket.metro)
+    alias(libs.plugins.metro)
     alias(libs.plugins.ksp)
 }
 

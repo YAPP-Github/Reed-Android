@@ -6,7 +6,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     alias(libs.plugins.booket.android.library)
     alias(libs.plugins.booket.android.retrofit)
-    alias(libs.plugins.booket.metro)
+    alias(libs.plugins.metro)
 }
 
 android {
