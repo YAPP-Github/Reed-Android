@@ -21,10 +21,13 @@ dependencies {
         projects.core.di,
         projects.core.model,
 
-        libs.androidx.datastore.preferences,
-
         libs.logger,
     )
+
+    // API because DataStore<Preferences> is exposed in public API (DataStoreGraph)
+    // Metro compiler needs to resolve Preferences type across modules
+    // See: https://github.com/ZacSweers/metro/discussions/1358#discussioncomment-15020091
+    api(libs.androidx.datastore.preferences)
 
     androidTestImplementations(
         libs.androidx.test.ext.junit,
