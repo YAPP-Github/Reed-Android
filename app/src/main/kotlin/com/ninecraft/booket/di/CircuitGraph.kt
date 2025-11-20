@@ -23,32 +23,30 @@ interface CircuitGraph {
     @Multibinds(allowEmpty = true)
     fun uiFactories(): Set<Ui.Factory>
 
-    companion object {
-        @Provides
-        fun provideCircuit(
-            presenterFactories: Set<Presenter.Factory>,
-            uiFactories: Set<Ui.Factory>,
-        ): Circuit {
-            return Circuit.Builder()
-                .addPresenterFactories(presenterFactories)
-                .addUiFactories(uiFactories)
-                .setAnimatedNavDecoratorFactory(CrossFadeNavDecoratorFactory())
-                .setOnUnavailableContent { screen, modifier ->
-                    val circuit = LocalCircuit.current
-                    BasicText(
-                        text = """
-                          Route not available: ${screen.javaClass.name}.
-                          Presenter: ${circuit?.presenter(screen, Navigator.NoOp)?.javaClass}
-                          UI: ${circuit?.ui(screen)?.javaClass}
-                          All presenterFactories: ${circuit?.newBuilder()?.presenterFactories}
-                          All uiFactories: ${circuit?.newBuilder()?.uiFactories}
-                          """
-                            .trimIndent(),
-                        modifier = modifier.background(Color.Red),
-                        style = TextStyle(color = Color.Yellow),
-                    )
-                }
-                .build()
-        }
+    @Provides
+    fun provideCircuit(
+        presenterFactories: Set<Presenter.Factory>,
+        uiFactories: Set<Ui.Factory>,
+    ): Circuit {
+        return Circuit.Builder()
+            .addPresenterFactories(presenterFactories)
+            .addUiFactories(uiFactories)
+            .setAnimatedNavDecoratorFactory(CrossFadeNavDecoratorFactory())
+            .setOnUnavailableContent { screen, modifier ->
+                val circuit = LocalCircuit.current
+                BasicText(
+                    text = """
+                      Route not available: ${screen.javaClass.name}.
+                      Presenter: ${circuit?.presenter(screen, Navigator.NoOp)?.javaClass}
+                      UI: ${circuit?.ui(screen)?.javaClass}
+                      All presenterFactories: ${circuit?.newBuilder()?.presenterFactories}
+                      All uiFactories: ${circuit?.newBuilder()?.uiFactories}
+                      """
+                        .trimIndent(),
+                    modifier = modifier.background(Color.Red),
+                    style = TextStyle(color = Color.Yellow),
+                )
+            }
+            .build()
     }
 }
