@@ -59,7 +59,7 @@ private fun com.ninecraft.booket.feature.record.ocr.CameraPreview(state: com.nin
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -73,7 +73,7 @@ internal fun com.ninecraft.booket.feature.record.ocr.HandleOcrSideEffects(state:
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
 
 @Composable
 public fun com.ninecraft.booket.feature.record.ocr.OcrPresenter.present(): com.ninecraft.booket.feature.record.ocr.OcrUiState
@@ -86,7 +86,7 @@ internal fun com.ninecraft.booket.feature.record.ocr.OcrUi(state: com.ninecraft.
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -100,7 +100,7 @@ private fun com.ninecraft.booket.feature.record.ocr.TextScanResult(state: com.ni
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -137,7 +137,7 @@ internal fun com.ninecraft.booket.feature.record.register.HandleRecordRegisterSi
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
 
 @Composable
 public fun com.ninecraft.booket.feature.record.register.RecordRegisterPresenter.present(): com.ninecraft.booket.feature.record.register.RecordRegisterUiState
@@ -156,15 +156,15 @@ internal fun com.ninecraft.booket.feature.record.register.RecordRegisterUi(state
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.record.step.EmotionItem(emotionTag: com.ninecraft.booket.core.designsystem.EmotionTag, onClick: kotlin.Function0<kotlin.Unit>, isSelected: kotlin.Boolean, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+private fun com.ninecraft.booket.feature.record.step.EmotionItem(emotion: com.ninecraft.booket.core.model.Emotion, onClick: kotlin.Function0<kotlin.Unit>, isSelected: kotlin.Boolean, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
-    - emotionTag: STABLE
+    - emotion: STABLE (class with no mutable properties)
     - onClick: STABLE (function type)
     - isSelected: STABLE (primitive type)
     - modifier: STABLE (marked @Stable or @Immutable)
@@ -174,7 +174,7 @@ public fun com.ninecraft.booket.feature.record.step.EmotionStep(state: com.ninec
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -182,7 +182,7 @@ public fun com.ninecraft.booket.feature.record.step.ImpressionStep(state: com.ni
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -196,7 +196,7 @@ internal fun com.ninecraft.booket.feature.record.step.QuoteStep(state: com.ninec
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable

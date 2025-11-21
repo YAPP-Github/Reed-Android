@@ -9,7 +9,7 @@ internal fun com.ninecraft.booket.feature.search.book.BookSearchContent(state: c
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -29,7 +29,7 @@ internal fun com.ninecraft.booket.feature.search.book.BookSearchUi(state: com.ni
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -37,7 +37,7 @@ internal fun com.ninecraft.booket.feature.search.book.HandleBookSearchSideEffect
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - eventSink: STABLE (function type)
 
 @Composable
@@ -65,7 +65,7 @@ public fun com.ninecraft.booket.feature.search.book.component.BookRegisterBottom
     - sheetState: STABLE (marked @Stable or @Immutable)
     - onCloseButtonClick: STABLE (function type)
     - bookStatuses: STABLE (known stable type)
-    - currentBookStatus: STABLE
+    - currentBookStatus: STABLE (class with no mutable properties)
     - onItemSelected: STABLE (function type)
     - onBookRegisterButtonClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
@@ -89,7 +89,7 @@ public fun com.ninecraft.booket.feature.search.book.component.BookRegisterSucces
   params:
     - onDismissRequest: STABLE (function type)
     - sheetState: STABLE (marked @Stable or @Immutable)
-    - upsertedBookStatus: STABLE
+    - upsertedBookStatus: STABLE (class with no mutable properties)
     - onCancelButtonClick: STABLE (function type)
     - onOKButtonClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
@@ -111,7 +111,7 @@ public fun com.ninecraft.booket.feature.search.book.component.BookStatusItem(ite
   skippable: true
   restartable: true
   params:
-    - item: STABLE
+    - item: STABLE (class with no mutable properties)
     - selected: STABLE (primitive type)
     - onClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
@@ -150,14 +150,14 @@ internal fun com.ninecraft.booket.feature.search.library.HandlingLibrarySearchSi
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
 
 @Composable
 internal fun com.ninecraft.booket.feature.search.library.LibrarySearchContent(state: com.ninecraft.booket.feature.search.library.LibrarySearchUiState, innerPadding: androidx.compose.foundation.layout.PaddingValues, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - innerPadding: STABLE (marked @Stable or @Immutable)
     - modifier: STABLE (marked @Stable or @Immutable)
 
@@ -178,7 +178,7 @@ internal fun com.ninecraft.booket.feature.search.library.LibrarySearchUi(state: 
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
