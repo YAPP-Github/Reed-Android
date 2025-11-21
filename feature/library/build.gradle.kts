@@ -10,7 +10,6 @@ android {
     namespace = "com.ninecraft.booket.feature.library"
 }
 
-
 dependencies {
     implementations(
         libs.logger,

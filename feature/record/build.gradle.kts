@@ -10,7 +10,6 @@ android {
     namespace = "com.ninecraft.booket.feature.record"
 }
 
-
 dependencies {
     implementations(
         projects.core.ocr,

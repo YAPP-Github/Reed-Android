@@ -10,7 +10,6 @@ android {
     namespace = "com.ninecraft.booket.feature.webview"
 }
 
-
 dependencies {
     implementations(
         libs.logger,

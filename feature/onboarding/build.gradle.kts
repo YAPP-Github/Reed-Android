@@ -10,7 +10,6 @@ android {
     namespace = "com.ninecraft.booket.feature.onboarding"
 }
 
-
 dependencies {
     implementations(
         libs.logger,

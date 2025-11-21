@@ -8,7 +8,6 @@ android {
     namespace = "com.ninecraft.booket.feature.main"
 }
 
-
 dependencies {
     implementations(
         projects.core.di,

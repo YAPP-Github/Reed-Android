@@ -18,8 +18,8 @@ import okhttp3.Route
 @Inject
 class TokenAuthenticator(
     private val tokenDataSource: TokenDataSource,
-    // private val serviceProvider: Provider<ReedService>,
-    private val serviceLazy: Lazy<ReedService>,
+    private val serviceProvider: Provider<ReedService>,
+    // private val serviceLazy: Lazy<ReedService>,
 ) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
         return runBlocking {
@@ -33,8 +33,8 @@ class TokenAuthenticator(
                 }
 
                 val refreshTokenRequest = RefreshTokenRequest(refreshToken)
+                val refreshResponse = serviceProvider().refreshToken(refreshTokenRequest)
                 // val refreshResponse = serviceProvider().refreshToken(refreshTokenRequest)
-                val refreshResponse = serviceLazy.value.refreshToken(refreshTokenRequest)
 
                 tokenDataSource.apply {
                     setAccessToken(refreshResponse.accessToken)

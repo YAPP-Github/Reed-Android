@@ -10,7 +10,6 @@ android {
     namespace = "com.ninecraft.booket.feature.edit"
 }
 
-
 dependencies {
     implementations(
         libs.kotlinx.collections.immutable,

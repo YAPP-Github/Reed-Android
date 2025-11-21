@@ -8,7 +8,6 @@ android {
     namespace = "com.ninecraft.booket.feature.splash"
 }
 
-
 dependencies {
     implementations(
         libs.compose.system.ui.controller,

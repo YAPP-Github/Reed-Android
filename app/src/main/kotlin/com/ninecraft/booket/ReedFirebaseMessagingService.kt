@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 @ServiceKey(ReedFirebaseMessagingService::class)
 @Inject
 class ReedFirebaseMessagingService(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) : FirebaseMessagingService() {
 
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())

@@ -31,7 +31,7 @@ class MetroAppComponentFactory : AppComponentFactory() {
     override fun instantiateActivityCompat(
         cl: ClassLoader,
         className: String,
-        intent: Intent?
+        intent: Intent?,
     ): Activity {
         return getInstance(cl, className, activityProviders)
             ?: super.instantiateActivityCompat(cl, className, intent)
@@ -40,7 +40,7 @@ class MetroAppComponentFactory : AppComponentFactory() {
     override fun instantiateServiceCompat(
         cl: ClassLoader,
         className: String,
-        intent: Intent?
+        intent: Intent?,
     ): Service {
         return getInstance(cl, className, serviceProviders)
             ?: super.instantiateServiceCompat(cl, className, intent)
