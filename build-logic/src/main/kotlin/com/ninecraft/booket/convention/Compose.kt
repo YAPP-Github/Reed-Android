@@ -25,7 +25,7 @@ internal fun Project.configureCompose(
             reportsDestination.file("build/composeReports")
 
             stabilityConfigurationFiles.addAll(
-                project.layout.projectDirectory.file("stability.config.conf"),
+                project.rootProject.layout.projectDirectory.file("stability.config.conf"),
             )
         }
 
