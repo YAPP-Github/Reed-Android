@@ -28,6 +28,7 @@ dependencies {
 
         platform(libs.firebase.bom),
         libs.firebase.remote.config,
+        libs.firebase.messaging,
         libs.logger,
     )
 }

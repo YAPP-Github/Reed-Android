@@ -14,7 +14,7 @@ import kotlin.contracts.ExperimentalContracts
  */
 
 @OptIn(ExperimentalContracts::class)
-@Suppress("WRONG_INVOCATION_KIND", "TooGenericExceptionCaught")
+@Suppress("WRONG_INVOCATION_KIND")
 inline fun <T> runSuspendCatching(block: () -> T): Result<T> {
     // 계약(contract): 컴파일러에게 'block' 람다의 실행 시점과 횟수를 명시적으로 알림
     // 'callsInPlace'와 'EXACTLY_ONCE'는 'block'이 이 함수 내에서 즉시, 그리고 정확히 한 번만 실행됨을 보장

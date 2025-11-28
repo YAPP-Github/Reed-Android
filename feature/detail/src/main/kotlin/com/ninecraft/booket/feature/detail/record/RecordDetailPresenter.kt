@@ -127,7 +127,7 @@ class RecordDetailPresenter @AssistedInject constructor(
                         RecordCardScreen(
                             quote = recordDetailInfo.quote,
                             bookTitle = recordDetailInfo.bookTitle,
-                            emotionTag = recordDetailInfo.emotionTags[0],
+                            emotion = recordDetailInfo.emotionTags[0],
                         ),
                     )
                 }

@@ -29,6 +29,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.constants.BookStatus
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
@@ -53,12 +54,14 @@ import com.ninecraft.booket.feature.detail.book.component.RecordItem
 import com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet
 import com.ninecraft.booket.feature.detail.record.component.RecordMenuBottomSheet
 import com.ninecraft.booket.feature.screens.BookDetailScreen
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(BookDetailScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -194,6 +197,7 @@ internal fun BookDetailUi(
     }
 }
 
+@TraceRecomposition
 @Composable
 internal fun BookDetailContent(
     state: BookDetailUiState,
@@ -352,7 +356,7 @@ internal fun BookDetailContent(
 
         is UiState.Error -> {
             ReedErrorUi(
-                exception = state.uiState.exception,
+                errorType = state.uiState.exception.toErrorType(),
                 onRetryClick = { state.eventSink(BookDetailUiEvent.OnRetryClick) },
             )
         }

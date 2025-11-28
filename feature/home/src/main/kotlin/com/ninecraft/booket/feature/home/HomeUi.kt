@@ -1,5 +1,11 @@
 package com.ninecraft.booket.feature.home
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,10 +25,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.theme.HomeBg
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -36,10 +47,12 @@ import com.ninecraft.booket.feature.home.component.HomeHeader
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.component.MainBottomBar
 import com.ninecraft.booket.feature.screens.component.MainTab
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
 
+@TraceRecomposition
 @CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun HomeUi(
@@ -47,6 +60,30 @@ internal fun HomeUi(
     modifier: Modifier = Modifier,
 ) {
     HandleHomeSideEffects(state = state)
+
+    val context = LocalContext.current
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+    ) { granted ->
+        state.eventSink(HomeUiEvent.OnNotificationPermissionResult(granted))
+    }
+
+    if (!state.isGuestMode) {
+        LaunchedEffect(Unit) {
+            val isGranted = checkSystemNotificationEnabled(context)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (isGranted) {
+                    state.eventSink(HomeUiEvent.OnNotificationPermissionResult(isGranted))
+                } else {
+                    val permission = Manifest.permission.POST_NOTIFICATIONS
+                    permissionLauncher.launch(permission)
+                }
+            } else {
+                state.eventSink(HomeUiEvent.OnNotificationPermissionResult(isGranted))
+            }
+        }
+    }
 
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
@@ -194,12 +231,20 @@ internal fun HomeContent(
 
                 is UiState.Error -> {
                     ReedErrorUi(
-                        exception = state.uiState.exception,
+                        errorType = state.uiState.exception.toErrorType(),
                         onRetryClick = { state.eventSink(HomeUiEvent.OnRetryClick) },
                     )
                 }
             }
         }
+    }
+}
+
+private fun checkSystemNotificationEnabled(context: Context): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+    } else {
+        NotificationManagerCompat.from(context).areNotificationsEnabled()
     }
 }
 

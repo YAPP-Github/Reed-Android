@@ -7,7 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
-import com.ninecraft.booket.core.common.utils.UiText
+import com.ninecraft.booket.core.common.event.postLoginRequiredDialog
+import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
@@ -16,6 +17,7 @@ import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LibraryScreen
 import com.ninecraft.booket.feature.screens.LibrarySearchScreen
+import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.ninecraft.booket.feature.screens.extensions.redirectToLogin
 import com.orhanobut.logger.Logger
@@ -33,7 +35,6 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
-import com.ninecraft.booket.core.designsystem.R as designR
 
 class LibraryPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -105,6 +106,14 @@ class LibraryPresenter @AssistedInject constructor(
                         } else {
                             footerState = FooterState.Error(errorMessage)
                         }
+
+                        handleException(
+                            exception = exception,
+                            onError = {},
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen())
+                            },
+                        )
                     }
             }
         }
@@ -117,10 +126,13 @@ class LibraryPresenter @AssistedInject constructor(
 
                 is LibraryUiEvent.OnLibrarySearchClick -> {
                     if (userState is UserState.Guest) {
-                        scope.launch {
-                            sideEffect = LibrarySideEffect.ShowToast(UiText.StringResource(designR.string.login_required))
-                            navigator.redirectToLogin()
-                        }
+                        postLoginRequiredDialog(
+                            onConfirm = {
+                                scope.launch {
+                                    navigator.redirectToLogin()
+                                }
+                            },
+                        )
                     } else {
                         navigator.goTo(LibrarySearchScreen)
                     }
@@ -136,7 +148,10 @@ class LibraryPresenter @AssistedInject constructor(
                     }
 
                     currentFilter = event.filterOption
-                    filterLibraryBooks(status = currentFilter.getApiValue(), page = START_INDEX, size = PAGE_SIZE)
+
+                    if (userState !is UserState.Guest) {
+                        filterLibraryBooks(status = currentFilter.getApiValue(), page = START_INDEX, size = PAGE_SIZE)
+                    }
                 }
 
                 is LibraryUiEvent.OnBookClick -> {

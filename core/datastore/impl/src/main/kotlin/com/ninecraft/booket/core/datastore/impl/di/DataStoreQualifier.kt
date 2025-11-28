@@ -17,3 +17,7 @@ annotation class LibraryRecentSearchDataStore
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class OnboardingDataStore
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class NotificationDataStore

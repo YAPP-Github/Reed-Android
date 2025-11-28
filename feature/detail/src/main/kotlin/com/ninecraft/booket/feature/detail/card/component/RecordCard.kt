@@ -19,20 +19,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.feature.detail.R
 
 @Composable
 internal fun RecordCard(
     quote: String,
     bookTitle: String,
-    emotionTag: String,
+    emotion: String,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxWidth()) {
         Image(
-            painter = painterResource(getEmotionCardImage(emotionTag)),
+            painter = painterResource(getEmotionCardImage(emotion)),
             contentDescription = "Record Card Image",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
@@ -74,12 +74,12 @@ internal fun RecordCard(
     }
 }
 
-private fun getEmotionCardImage(emotionTag: String): Int {
-    return when (emotionTag) {
-        EmotionTag.WARMTH.label -> R.drawable.img_record_card_warm
-        EmotionTag.JOY.label -> R.drawable.img_record_card_joy
-        EmotionTag.SADNESS.label -> R.drawable.img_record_card_sad
-        EmotionTag.INSIGHT.label -> R.drawable.img_record_card_insight
+private fun getEmotionCardImage(emotion: String): Int {
+    return when (emotion) {
+        Emotion.WARM.displayName -> R.drawable.img_record_card_warm
+        Emotion.JOY.displayName -> R.drawable.img_record_card_joy
+        Emotion.SAD.displayName -> R.drawable.img_record_card_sad
+        Emotion.INSIGHT.displayName -> R.drawable.img_record_card_insight
         else -> R.drawable.img_record_card_warm
     }
 }
@@ -91,7 +91,7 @@ private fun RecordCardPreview() {
         RecordCard(
             quote = "이 세상에 집이라 이름 붙일 수 없는 것이 있다면 그건 바로 여기, 내가 앉아 있는 이곳일 것이다.",
             bookTitle = "샤이닝",
-            emotionTag = EmotionTag.WARMTH.label,
+            emotion = Emotion.WARM.displayName,
         )
     }
 }

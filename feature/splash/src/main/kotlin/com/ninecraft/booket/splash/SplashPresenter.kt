@@ -8,13 +8,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.constants.ErrorScope
-import com.ninecraft.booket.core.common.utils.postErrorDialog
+import com.ninecraft.booket.core.common.event.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.model.AutoLoginState
 import com.ninecraft.booket.core.model.OnboardingState
-import com.ninecraft.booket.core.ui.R
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
@@ -54,6 +53,7 @@ class SplashPresenter @AssistedInject constructor(
                 userRepository.getUserProfile()
                     .onSuccess { userProfile ->
                         if (userProfile.termsAgreed) {
+                            userRepository.syncFcmToken()
                             navigator.resetRoot(HomeScreen)
                         } else {
                             navigator.resetRoot(LoginScreen())
@@ -63,8 +63,8 @@ class SplashPresenter @AssistedInject constructor(
                         postErrorDialog(
                             errorScope = ErrorScope.GLOBAL,
                             exception = exception,
-                            buttonLabelResId = R.string.retry,
-                            action = { checkTermsAgreement() },
+                            confirmLabel = "다시 시도하기",
+                            onConfirm = { checkTermsAgreement() },
                         )
                     }
             }

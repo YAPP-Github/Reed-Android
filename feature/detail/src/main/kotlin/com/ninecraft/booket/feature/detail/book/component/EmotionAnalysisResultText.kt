@@ -15,8 +15,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.ninecraft.booket.core.common.util.EmotionDisplayType
-import com.ninecraft.booket.core.common.util.analyzeEmotions
+import com.ninecraft.booket.core.common.utils.EmotionDisplayType
+import com.ninecraft.booket.core.common.utils.analyzeEmotions
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.Emotion

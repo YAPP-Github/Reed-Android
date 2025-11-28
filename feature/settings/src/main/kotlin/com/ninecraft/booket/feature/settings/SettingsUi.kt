@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import com.ninecraft.booket.core.common.util.compareVersions
+import com.ninecraft.booket.core.common.utils.compareVersions
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -35,11 +35,13 @@ import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.screens.SettingsScreen
 import com.ninecraft.booket.feature.settings.component.SettingItem
 import com.ninecraft.booket.feature.settings.component.WithdrawConfirmationBottomSheet
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(SettingsScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -98,6 +100,21 @@ internal fun SettingsUi(
                     )
                 },
             )
+            if (!state.isGuestMode) {
+                SettingItem(
+                    title = stringResource(R.string.settings_notification),
+                    onItemClick = {
+                        state.eventSink(SettingsUiEvent.OnNotificationClick)
+                    },
+                    action = {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = designR.drawable.ic_chevron_right),
+                            contentDescription = "Right Chevron Icon",
+                            tint = Color.Unspecified,
+                        )
+                    },
+                )
+            }
             SettingItem(
                 title = stringResource(R.string.settings_terms_of_service),
                 onItemClick = {

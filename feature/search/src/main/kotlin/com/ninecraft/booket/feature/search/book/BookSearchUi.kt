@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.constants.BookStatus
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.component.textfield.ReedTextField
@@ -39,12 +40,14 @@ import com.ninecraft.booket.feature.search.book.component.BookRegisterBottomShee
 import com.ninecraft.booket.feature.search.book.component.BookRegisterSuccessBottomSheet
 import com.ninecraft.booket.feature.search.common.component.RecentSearchTitle
 import com.ninecraft.booket.feature.search.common.component.SearchItem
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @CircuitInject(BookSearchScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun BookSearchUi(
@@ -79,6 +82,7 @@ internal fun BookSearchUi(
     }
 }
 
+@TraceRecomposition
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun BookSearchContent(
@@ -117,7 +121,7 @@ internal fun BookSearchContent(
 
             is UiState.Error -> {
                 ReedErrorUi(
-                    exception = state.uiState.exception,
+                    errorType = state.uiState.exception.toErrorType(),
                     onRetryClick = { state.eventSink(BookSearchUiEvent.OnRetryClick) },
                 )
             }
@@ -265,22 +269,25 @@ internal fun BookSearchContent(
         }
 
         if (state.isBookRegisterSuccessBottomSheetVisible) {
-            BookRegisterSuccessBottomSheet(
-                onDismissRequest = { state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss) },
-                sheetState = bookRegisterSuccessBottomSheetState,
-                onCancelButtonClick = {
-                    coroutineScope.launch {
-                        bookRegisterSuccessBottomSheetState.hide()
-                        state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss)
-                    }
-                },
-                onOKButtonClick = {
-                    coroutineScope.launch {
-                        bookRegisterSuccessBottomSheetState.hide()
-                        state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessOkButtonClick)
-                    }
-                },
-            )
+            state.upsertedBookStatus?.let { upsertedBookStatus ->
+                BookRegisterSuccessBottomSheet(
+                    onDismissRequest = { state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss) },
+                    sheetState = bookRegisterSuccessBottomSheetState,
+                    upsertedBookStatus = upsertedBookStatus,
+                    onCancelButtonClick = {
+                        coroutineScope.launch {
+                            bookRegisterSuccessBottomSheetState.hide()
+                            state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessBottomSheetDismiss)
+                        }
+                    },
+                    onOKButtonClick = {
+                        coroutineScope.launch {
+                            bookRegisterSuccessBottomSheetState.hide()
+                            state.eventSink(BookSearchUiEvent.OnBookRegisterSuccessOkButtonClick)
+                        }
+                    },
+                )
+            }
         }
     }
 }

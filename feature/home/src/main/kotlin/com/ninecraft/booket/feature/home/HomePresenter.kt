@@ -6,15 +6,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
+import com.ninecraft.booket.core.common.utils.handleException
+import com.ninecraft.booket.core.common.utils.shouldSyncNotification
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
+import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
-import com.ninecraft.booket.feature.screens.HomeScreen
-import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.BookSearchScreen
+import com.ninecraft.booket.feature.screens.HomeScreen
+import com.ninecraft.booket.feature.screens.LoginScreen
+import com.ninecraft.booket.feature.screens.RecordScreen
 import com.ninecraft.booket.feature.screens.SettingsScreen
+import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
@@ -34,6 +39,7 @@ class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val bookRepository: BookRepository,
     private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<HomeUiState> {
 
@@ -56,8 +62,25 @@ class HomePresenter @AssistedInject constructor(
                         recentBooks = result.recentBooks.toPersistentList()
                     }.onFailure { exception ->
                         uiState = UiState.Error(exception)
+
+                        handleException(
+                            exception = exception,
+                            onError = {},
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen())
+                            },
+                        )
                     }
             }
+        }
+
+        suspend fun syncNotificationSettings(isGranted: Boolean) {
+            userRepository.updateNotificationSettings(isGranted)
+                .onSuccess {
+                    userRepository.setLastNotificationSyncedEnabled(isGranted)
+                }.onFailure { exception ->
+                    Logger.e("Failed to update notification settings: $exception")
+                }
         }
 
         fun handleEvent(event: HomeUiEvent) {
@@ -88,6 +111,22 @@ class HomePresenter @AssistedInject constructor(
                         saveState = true,
                         restoreState = true,
                     )
+                }
+
+                is HomeUiEvent.OnNotificationPermissionResult -> {
+                    scope.launch {
+                        val isPermissionGranted = event.granted
+                        val userSettingEnabled = userRepository.getUserNotificationEnabled()
+                        val lastSyncedServerEnabled = userRepository.getLastSyncedNotificationEnabled()
+
+                        val effectiveNotificationEnabled = userSettingEnabled && isPermissionGranted
+
+                        val shouldSync = shouldSyncNotification(effectiveNotificationEnabled, lastSyncedServerEnabled)
+
+                        if (shouldSync) {
+                            syncNotificationSettings(effectiveNotificationEnabled)
+                        }
+                    }
                 }
             }
         }

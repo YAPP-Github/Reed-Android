@@ -14,7 +14,7 @@ data class RecordDetailResponse(
     @SerialName("quote")
     val quote: String,
     @SerialName("review")
-    val review: String,
+    val review: String?,
     @SerialName("emotionTags")
     val emotionTags: List<String>,
     @SerialName("createdAt")

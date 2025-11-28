@@ -26,20 +26,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.EmotionTag
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
+import com.ninecraft.booket.core.designsystem.graphicRes
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.feature.edit.R
 import com.ninecraft.booket.feature.screens.EmotionEditScreen
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toPersistentList
 
+@TraceRecomposition
 @CircuitInject(EmotionEditScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun EmotionEditUi(
@@ -65,6 +68,7 @@ internal fun EmotionEditUi(
     }
 }
 
+@TraceRecomposition
 @Composable
 private fun EmotionEditContent(
     state: EmotionEditUiState,
@@ -97,13 +101,13 @@ private fun EmotionEditContent(
             verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing3),
             horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing3),
             content = {
-                items(state.emotionTags) { tag ->
+                items(state.emotions) { tag ->
                     EmotionItem(
-                        emotionTag = tag,
+                        emotion = tag,
                         onClick = {
-                            state.eventSink(EmotionEditUiEvent.OnSelectEmotion(tag.label))
+                            state.eventSink(EmotionEditUiEvent.OnSelectEmotion(tag.displayName))
                         },
-                        isSelected = state.selectedEmotion == tag.label,
+                        isSelected = state.selectedEmotion == tag.displayName,
                         modifier = Modifier.fillMaxWidth(),
                     )
                 }
@@ -126,7 +130,7 @@ private fun EmotionEditContent(
 
 @Composable
 private fun EmotionItem(
-    emotionTag: EmotionTag,
+    emotion: Emotion,
     onClick: () -> Unit,
     isSelected: Boolean,
     modifier: Modifier = Modifier,
@@ -153,7 +157,7 @@ private fun EmotionItem(
         contentAlignment = Alignment.Center,
     ) {
         Image(
-            painter = painterResource(emotionTag.graphic),
+            painter = painterResource(emotion.graphicRes),
             contentDescription = "Emotion Image",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
@@ -165,11 +169,11 @@ private fun EmotionItem(
 @Composable
 private fun EmotionEditUiPreview() {
     ReedTheme {
-        val emotionTags = EmotionTag.entries.toPersistentList()
+        val emotions = Emotion.entries.toPersistentList()
 
         EmotionEditUi(
             state = EmotionEditUiState(
-                emotionTags = emotionTags,
+                emotions = emotions,
                 eventSink = {},
             ),
         )

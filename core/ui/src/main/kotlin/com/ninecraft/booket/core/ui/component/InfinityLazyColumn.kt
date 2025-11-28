@@ -35,10 +35,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.skydoves.compose.effects.RememberedEffect
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 
 // 기기에서 평균적으로 한 화면에 보이는 아이템 개수
 private const val LIMIT_COUNT = 6
 
+@TraceRecomposition
 @Composable
 fun InfinityLazyColumn(
     modifier: Modifier = Modifier,

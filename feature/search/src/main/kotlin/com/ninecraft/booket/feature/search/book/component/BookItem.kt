@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.search.book.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -31,8 +32,10 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.feature.search.R
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @Composable
 fun BookItem(
     book: BookSummaryModel,
@@ -63,7 +66,12 @@ fun BookItem(
                 )
                 .width(68.dp)
                 .height(100.dp)
-                .clip(RoundedCornerShape(size = ReedTheme.radius.sm)),
+                .clip(RoundedCornerShape(size = ReedTheme.radius.sm))
+                .border(
+                    width = 1.dp,
+                    color = ReedTheme.colors.borderPrimary,
+                    shape = RoundedCornerShape(ReedTheme.radius.sm),
+                ),
         ) {
             NetworkImage(
                 imageUrl = book.coverImageUrl,

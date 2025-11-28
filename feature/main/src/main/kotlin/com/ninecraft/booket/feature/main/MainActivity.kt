@@ -11,11 +11,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.ninecraft.booket.core.common.constants.ErrorDialogSpec
-import com.ninecraft.booket.core.common.event.ErrorEvent
-import com.ninecraft.booket.core.common.event.ErrorEventHelper
+import com.ninecraft.booket.core.common.event.DialogSpec
+import com.ninecraft.booket.core.common.event.EventHelper
+import com.ninecraft.booket.core.common.event.ReedEvent
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.feature.screens.SplashScreen
@@ -55,13 +54,13 @@ class MainActivity : ComponentActivity() {
                 val backStack = rememberSaveableBackStack(root = SplashScreen)
                 val navigator = rememberCircuitNavigator(backStack)
 
-                val dialogSpec = remember { mutableStateOf<ErrorDialogSpec?>(null) }
+                val dialogSpec = remember { mutableStateOf<DialogSpec?>(null) }
 
-                // 전역 에러 수신
+                // 전역 이벤트 수신
                 LaunchedEffect(Unit) {
-                    ErrorEventHelper.errorEvent.collect { event ->
+                    EventHelper.eventFlow.collect { event ->
                         when (event) {
-                            is ErrorEvent.ShowDialog -> {
+                            is ReedEvent.ShowDialog -> {
                                 dialogSpec.value = event.spec
                             }
                         }
@@ -70,11 +69,12 @@ class MainActivity : ComponentActivity() {
 
                 dialogSpec.value?.let { spec ->
                     ReedDialog(
+                        title = spec.title,
                         description = spec.message,
-                        confirmButtonText = stringResource(spec.buttonLabelResId),
-
+                        confirmButtonText = spec.confirmLabel,
+                        dismissButtonText = spec.dismissLabel,
                         onConfirmRequest = {
-                            spec.action()
+                            spec.onConfirm()
                             dialogSpec.value = null
                         },
                         onDismissRequest = {

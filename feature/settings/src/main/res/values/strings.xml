@@ -19,4 +19,9 @@
     <string name="settings_optional_update_message">최적의 사용 환경을 위해 업데이트해주세요.</string>
     <string name="settings_optional_update_button_text">업데이트하기</string>
     <string name="settings_login">로그인</string>
+    <string name="settings_notification">알림</string>
+    <string name="notification_guide_title">알림을 켜주세요.</string>
+    <string name="notification_guide_description">기기 설정에서 Reed 알림을 설정하세요.\n독서 기록에 도움되는 알림을 받을 수 있어요.</string>
+    <string name="notification_toggle_title">알림 받기</string>
+    <string name="notification_toggle_description">리드에서 알림을 보내드려요.</string>
 </resources>

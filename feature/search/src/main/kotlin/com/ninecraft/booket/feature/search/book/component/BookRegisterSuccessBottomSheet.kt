@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
@@ -33,8 +34,10 @@ import com.ninecraft.booket.feature.search.R
 fun BookRegisterSuccessBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
+    upsertedBookStatus: BookStatus,
     onCancelButtonClick: () -> Unit,
     onOKButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     ReedBottomSheet(
         onDismissRequest = {
@@ -43,7 +46,7 @@ fun BookRegisterSuccessBottomSheet(
         sheetState = sheetState,
     ) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .padding(
                     start = ReedTheme.spacing.spacing5,
                     top = ReedTheme.spacing.spacing5,
@@ -67,38 +70,63 @@ fun BookRegisterSuccessBottomSheet(
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
             Text(
-                text = stringResource(R.string.book_register_success_description),
+                text = stringResource(
+                    when (upsertedBookStatus) {
+                        BookStatus.BEFORE_READING -> R.string.book_register_success_description_before_reading
+                        BookStatus.READING -> R.string.book_register_success_description
+                        BookStatus.COMPLETED -> R.string.book_register_success_description_completed
+                    },
+                ),
                 modifier = Modifier.fillMaxWidth(),
                 color = ReedTheme.colors.contentSecondary,
                 textAlign = TextAlign.Center,
                 style = ReedTheme.typography.body1Medium,
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = ReedTheme.spacing.spacing4),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
+
+            if (upsertedBookStatus == BookStatus.BEFORE_READING) {
                 ReedButton(
                     onClick = {
                         onCancelButtonClick()
                     },
                     sizeStyle = largeButtonStyle,
-                    colorStyle = ReedButtonColorStyle.SECONDARY,
-                    modifier = Modifier.weight(1f),
-                    text = stringResource(R.string.book_register_success_cancel),
-                )
-                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-                ReedButton(
-                    onClick = {
-                        onOKButtonClick()
-                    },
-                    sizeStyle = largeButtonStyle,
                     colorStyle = ReedButtonColorStyle.PRIMARY,
-                    modifier = Modifier.weight(1f),
-                    text = stringResource(R.string.book_register_success_ok),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = ReedTheme.spacing.spacing4),
+                    text = stringResource(R.string.book_register_success_ok_before_reading),
                 )
+            } else {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = ReedTheme.spacing.spacing4),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    ReedButton(
+                        onClick = {
+                            onCancelButtonClick()
+                        },
+                        sizeStyle = largeButtonStyle,
+                        colorStyle = ReedButtonColorStyle.SECONDARY,
+                        modifier = Modifier.weight(1f),
+                        text = stringResource(R.string.book_register_success_cancel),
+                    )
+                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
+                    ReedButton(
+                        onClick = {
+                            onOKButtonClick()
+                        },
+                        sizeStyle = largeButtonStyle,
+                        colorStyle = ReedButtonColorStyle.PRIMARY,
+                        modifier = Modifier.weight(1f),
+                        text = if (upsertedBookStatus == BookStatus.READING) {
+                            stringResource(R.string.book_register_success_ok)
+                        } else {
+                            stringResource(R.string.book_register_success_ok_completed)
+                        },
+                    )
+                }
             }
         }
     }
@@ -107,7 +135,7 @@ fun BookRegisterSuccessBottomSheet(
 @OptIn(ExperimentalMaterial3Api::class)
 @ComponentPreview
 @Composable
-private fun BookRegisterSuccessBottomSheetPreview() {
+private fun BookRegisterSuccessBeforeReadingBottomSheetPreview() {
     val sheetState = SheetState(
         skipPartiallyExpanded = true,
         initialValue = SheetValue.Expanded,
@@ -118,6 +146,49 @@ private fun BookRegisterSuccessBottomSheetPreview() {
         BookRegisterSuccessBottomSheet(
             onDismissRequest = {},
             sheetState = sheetState,
+            upsertedBookStatus = BookStatus.BEFORE_READING,
+            onCancelButtonClick = {},
+            onOKButtonClick = {},
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@ComponentPreview
+@Composable
+private fun BookRegisterSuccessReadingBottomSheetPreview() {
+    val sheetState = SheetState(
+        skipPartiallyExpanded = true,
+        initialValue = SheetValue.Expanded,
+        positionalThreshold = { 0f },
+        velocityThreshold = { 0f },
+    )
+    ReedTheme {
+        BookRegisterSuccessBottomSheet(
+            onDismissRequest = {},
+            sheetState = sheetState,
+            upsertedBookStatus = BookStatus.READING,
+            onCancelButtonClick = {},
+            onOKButtonClick = {},
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@ComponentPreview
+@Composable
+private fun BookRegisterSuccessCompletedBottomSheetPreview() {
+    val sheetState = SheetState(
+        skipPartiallyExpanded = true,
+        initialValue = SheetValue.Expanded,
+        positionalThreshold = { 0f },
+        velocityThreshold = { 0f },
+    )
+    ReedTheme {
+        BookRegisterSuccessBottomSheet(
+            onDismissRequest = {},
+            sheetState = sheetState,
+            upsertedBookStatus = BookStatus.COMPLETED,
             onCancelButtonClick = {},
             onOKButtonClick = {},
         )

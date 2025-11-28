@@ -48,10 +48,12 @@ import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.component.CustomTooltipBox
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import kotlinx.coroutines.delay
 import tech.thdev.compose.extensions.keyboard.state.foundation.rememberKeyboardVisible
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @Composable
 internal fun QuoteStep(
     state: RecordRegisterUiState,
@@ -176,7 +178,7 @@ internal fun QuoteStep(
                     vertical = ReedTheme.spacing.spacing4,
                 ),
             enabled = state.isNextButtonEnabled,
-            text = stringResource(R.string.record_next_button),
+            text = stringResource(R.string.record_next_button_text),
             multipleEventsCutterEnabled = false,
         )
     }

@@ -87,7 +87,6 @@ class BookDetailPresenter @AssistedInject constructor(
         var isBookDeleteDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<BookDetailSideEffect?>(null) }
 
-        @Suppress("TooGenericExceptionCaught")
         fun initialLoad() {
             uiState = UiState.Loading
 
@@ -307,7 +306,7 @@ class BookDetailPresenter @AssistedInject constructor(
                         RecordCardScreen(
                             quote = selectedRecordInfo.quote,
                             bookTitle = selectedRecordInfo.bookTitle,
-                            emotionTag = selectedRecordInfo.emotionTags[0],
+                            emotion = selectedRecordInfo.emotionTags[0],
                         ),
                     )
                 }

@@ -49,6 +49,7 @@ internal fun UserProfileResponse.toModel(): UserProfileModel {
         nickname = nickname,
         provider = provider,
         termsAgreed = termsAgreed,
+        notificationEnabled = notificationEnabled,
     )
 }
 
@@ -193,7 +194,7 @@ internal fun RecordRegisterResponse.toModel(): RecordRegisterModel {
         pageNumber = pageNumber,
         quote = quote,
         emotionTags = emotionTags,
-        review = review,
+        review = review ?: "",
         createdAt = createdAt,
         updatedAt = updatedAt,
     )
@@ -215,7 +216,7 @@ internal fun ReadingRecord.toModel(): ReadingRecordModel {
         userBookId = userBookId,
         pageNumber = pageNumber,
         quote = quote,
-        review = review,
+        review = review ?: "",
         emotionTags = emotionTags,
         createdAt = createdAt,
         updatedAt = updatedAt,
@@ -232,7 +233,7 @@ internal fun RecordDetailResponse.toModel(): RecordDetailModel {
         userBookId = userBookId,
         pageNumber = pageNumber,
         quote = quote,
-        review = review,
+        review = review ?: "",
         emotionTags = emotionTags,
         createdAt = createdAt.toFormattedDate(),
         updatedAt = updatedAt.toFormattedDate(),

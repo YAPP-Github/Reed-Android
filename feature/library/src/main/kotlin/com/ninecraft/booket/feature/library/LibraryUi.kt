@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
@@ -33,11 +34,13 @@ import com.ninecraft.booket.feature.library.component.LibraryHeader
 import com.ninecraft.booket.feature.screens.LibraryScreen
 import com.ninecraft.booket.feature.screens.component.MainBottomBar
 import com.ninecraft.booket.feature.screens.component.MainTab
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
+@TraceRecomposition
 @CircuitInject(LibraryScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun LibraryUi(
@@ -83,6 +86,7 @@ internal fun LibraryUi(
     }
 }
 
+@TraceRecomposition
 @Composable
 internal fun LibraryContent(
     state: LibraryUiState,
@@ -177,7 +181,7 @@ internal fun LibraryContent(
 
                 is UiState.Error -> {
                     ReedErrorUi(
-                        exception = state.uiState.exception,
+                        errorType = state.uiState.exception.toErrorType(),
                         onRetryClick = { state.eventSink(LibraryUiEvent.OnRetryClick) },
                     )
                 }
@@ -186,6 +190,7 @@ internal fun LibraryContent(
     }
 }
 
+@TraceRecomposition
 @Composable
 private fun EmptyResult() {
     Box(

@@ -16,7 +16,8 @@
     <string name="permission_dialog_title">카메라 권한이 필요해요</string>
     <string name="permission_dialog_description">문장 인식을 위해 설정에서 권한을 허용해주세요.</string>
     <string name="permission_dialog_move_to_settings">설정으로 이동하기</string>
-    <string name="record_next_button">다음</string>
+    <string name="record_next_button_text">다음</string>
+    <string name="record_finish_button_text">기록 완료</string>
     <string name="quote_step_title">기록하고 싶은 페이지와\n문장을 등록해보세요</string>
     <string name="quote_step_page_label">책 페이지</string>
     <string name="quote_step_sentence_label">문장 기록</string>
@@ -26,7 +27,7 @@
     <string name="emotion_step_title">문장에 대해 어떤 감정이 드셨나요?</string>
     <string name="emotion_step_description">대표 감정을 한 가지 선택해주세요</string>
     <string name="impression_step_title">문장에 대한 감상을 남겨주세요</string>
-    <string name="impression_step_description">감상평 가이드로 쉽게 남길 수 있어요</string>
+    <string name="impression_step_description">떠오르는 생각이 있다면 자유롭게 작성해 주세요.</string>
     <string name="impression_step_hint">내용을 입력해주세요.</string>
     <string name="impression_step_guide">감상평 가이드</string>
     <string name="impression_guide_description">아래 문장 중 하나를 선택해 이어서 감상을 적어보세요</string>
@@ -40,4 +41,5 @@
     <string name="quote_step_page_input_error">해당 책의 마지막 페이지 수를 초과했습니다</string>
     <string name="impression_guide_tooltip_message">예시 문장을 알려드려요</string>
     <string name="scan_tooltip_message">스캔으로 빠르게 입력해요</string>
+    <string name="select">선택</string>
 </resources>

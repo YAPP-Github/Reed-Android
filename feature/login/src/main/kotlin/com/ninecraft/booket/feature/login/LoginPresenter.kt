@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
+import com.ninecraft.booket.core.common.constants.ErrorScope
+import com.ninecraft.booket.core.common.event.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.feature.screens.HomeScreen
@@ -53,13 +55,18 @@ class LoginPresenter @AssistedInject constructor(
                                 navigator.popUntil { it == screen.returnToScreen }
                             }
                         } else {
-                            navigator.resetRoot(TermsAgreementScreen(screen.returnToScreen))
+                            if (screen.returnToScreen == null) {
+                                navigator.resetRoot(TermsAgreementScreen())
+                            } else {
+                                navigator.goTo(TermsAgreementScreen(screen.returnToScreen))
+                            }
                         }
                     }.onFailure { exception ->
-                        exception.message?.let { Logger.e(it) }
-                        sideEffect = exception.message?.let {
-                            LoginSideEffect.ShowToast(it)
-                        }
+                        Logger.e(exception.message ?: "Failed to get user profile")
+                        postErrorDialog(
+                            errorScope = ErrorScope.LOGIN,
+                            exception = exception,
+                        )
                     }
             }
         }
@@ -68,7 +75,7 @@ class LoginPresenter @AssistedInject constructor(
             when (event) {
                 is LoginUiEvent.OnKakaoLoginButtonClick -> {
                     isLoading = true
-                    sideEffect = LoginSideEffect.KakaoLogin
+                    sideEffect = LoginSideEffect.KakaoLogin()
                 }
 
                 is LoginUiEvent.LoginFailure -> {
@@ -83,13 +90,15 @@ class LoginPresenter @AssistedInject constructor(
                             isLoading = true
                             authRepository.login(event.accessToken)
                                 .onSuccess {
+                                    userRepository.syncFcmToken()
                                     navigateAfterLogin()
                                 }.onFailure { exception ->
-                                    exception.message?.let { Logger.e(it) }
+                                    Logger.e(exception.message ?: "Login failed")
                                     analyticsHelper.logEvent(EVENT_ERROR_LOGIN)
-                                    sideEffect = exception.message?.let {
-                                        LoginSideEffect.ShowToast(it)
-                                    }
+                                    postErrorDialog(
+                                        errorScope = ErrorScope.LOGIN,
+                                        exception = exception,
+                                    )
                                 }
                         } finally {
                             isLoading = false

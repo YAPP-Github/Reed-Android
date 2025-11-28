@@ -23,9 +23,11 @@ import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.feature.onboarding.component.OnboardingPage
 import com.ninecraft.booket.feature.onboarding.component.PagerIndicator
 import com.ninecraft.booket.feature.screens.OnboardingScreen
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 
+@TraceRecomposition
 @CircuitInject(OnboardingScreen::class, ActivityRetainedComponent::class)
 @Composable
 internal fun OnboardingUi(

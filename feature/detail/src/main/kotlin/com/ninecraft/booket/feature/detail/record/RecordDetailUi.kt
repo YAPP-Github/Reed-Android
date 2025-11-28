@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -30,11 +31,13 @@ import com.ninecraft.booket.feature.detail.record.component.QuoteItem
 import com.ninecraft.booket.feature.detail.record.component.RecordMenuBottomSheet
 import com.ninecraft.booket.feature.detail.record.component.ReviewItem
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
+@TraceRecomposition
 @OptIn(ExperimentalMaterial3Api::class)
 @CircuitInject(RecordDetailScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -115,6 +118,7 @@ internal fun RecordDetailUi(
     }
 }
 
+@TraceRecomposition
 @Composable
 private fun RecordDetailContent(
     state: RecordDetailUiState,
@@ -169,7 +173,7 @@ private fun RecordDetailContent(
 
         is UiState.Error -> {
             ReedErrorUi(
-                exception = state.uiState.exception,
+                errorType = state.uiState.exception.toErrorType(),
                 onRetryClick = { },
             )
         }
@@ -189,6 +193,33 @@ private fun ReviewDetailPreview() {
                     pageNumber = 90,
                     quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
                     review = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다",
+                    emotionTags = listOf("따뜻함"),
+                    createdAt = "2023.10.10",
+                    updatedAt = "",
+                    bookTitle = "여름은 오래 그곳에 남아",
+                    bookPublisher = "비채 비채 비채 비채",
+                    bookCoverImageUrl = "",
+                    author = "미쓰이에 마사시, 미쓰이에 마사시, 미쓰이에 마사시, 미쓰이에 마사시",
+                ),
+                eventSink = {},
+            ),
+        )
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun ReviewDetailEmptyPreview() {
+    ReedTheme {
+        RecordDetailUi(
+            state = RecordDetailUiState(
+                uiState = UiState.Success,
+                recordDetailInfo = RecordDetailModel(
+                    id = "",
+                    userBookId = "",
+                    pageNumber = 90,
+                    quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
+                    review = "",
                     emotionTags = listOf("따뜻함"),
                     createdAt = "2023.10.10",
                     updatedAt = "",

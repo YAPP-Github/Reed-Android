@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.skydoves.compose.stability.runtime.TraceRecomposition
 
+@TraceRecomposition
 @Composable
 fun SentenceBox(
     onClick: () -> Unit,
@@ -25,7 +27,6 @@ fun SentenceBox(
 ) {
     val bgColor = if (isSelected) ReedTheme.colors.bgTertiary else ReedTheme.colors.bgSecondary
     val borderColor = if (isSelected) ReedTheme.colors.borderBrand else Color.Transparent
-    val textColor = if (isSelected) ReedTheme.colors.contentBrand else ReedTheme.colors.contentPrimary
     val textStyle = if (isSelected) ReedTheme.typography.body1Medium else ReedTheme.typography.body1Regular
 
     Box(
@@ -51,7 +52,7 @@ fun SentenceBox(
     ) {
         Text(
             text = sentence,
-            color = textColor,
+            color = ReedTheme.colors.contentPrimary,
             style = textStyle,
         )
     }

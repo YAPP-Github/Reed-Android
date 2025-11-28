@@ -17,7 +17,6 @@ import javax.inject.Inject
 class DefaultBookRecentSearchDataSource @Inject constructor(
     @BookRecentSearchDataStore private val dataStore: DataStore<Preferences>,
 ) : BookRecentSearchDataSource {
-    @Suppress("TooGenericExceptionCaught")
     override val recentSearches: Flow<List<String>> = dataStore.data
         .handleIOException()
         .map { prefs ->
@@ -34,7 +33,6 @@ class DefaultBookRecentSearchDataSource @Inject constructor(
             } ?: emptyList()
         }
 
-    @Suppress("TooGenericExceptionCaught")
     override suspend fun addRecentSearch(query: String) {
         if (query.isBlank()) return
 
@@ -66,7 +64,6 @@ class DefaultBookRecentSearchDataSource @Inject constructor(
         }
     }
 
-    @Suppress("TooGenericExceptionCaught")
     override suspend fun deleteRecentSearch(query: String) {
         dataStore.edit { prefs ->
             val currentSearches = prefs[BOOK_RECENT_SEARCHES]?.let { jsonString ->
