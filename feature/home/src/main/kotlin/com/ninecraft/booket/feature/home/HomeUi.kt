@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -219,7 +220,7 @@ internal fun HomeContent(
                                             .size(12.dp)
                                             .padding(3.dp)
                                             .clip(CircleShape)
-                                            .background(color),
+                                            .drawBehind { drawRect(color) },
                                     )
                                 }
                             }
