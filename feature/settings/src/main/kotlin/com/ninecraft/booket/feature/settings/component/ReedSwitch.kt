@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.settings.component
 
+import android.R.attr.x
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.animateDp
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.DevicePreview
@@ -57,7 +59,12 @@ internal fun ReedSwitch(
     ) {
         Box(
             modifier = Modifier
-                .offset(x = thumbOffset)
+                .offset {
+                    IntOffset(
+                        x = thumbOffset.roundToPx(),
+                        y = 0,
+                    )
+                }
                 .size(27.dp)
                 .shadow(elevation = 1.dp, shape = CircleShape)
                 .clip(CircleShape)

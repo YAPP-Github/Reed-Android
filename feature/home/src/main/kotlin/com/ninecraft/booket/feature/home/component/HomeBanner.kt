@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -48,7 +49,7 @@ fun HomeBanner(
         modifier = modifier
             .fillMaxWidth()
             .height(160.dp)
-            .background(HomeBg)
+            .drawBehind { drawRect(HomeBg) }
             .padding(end = ReedTheme.spacing.spacing5),
     ) {
         Column(

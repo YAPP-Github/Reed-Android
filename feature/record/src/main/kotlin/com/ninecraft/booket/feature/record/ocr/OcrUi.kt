@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.record.ocr
 
+import android.R.attr.x
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -41,12 +42,14 @@ import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
@@ -191,7 +194,7 @@ private fun CameraPreview(
         ) {
             ReedCloseTopAppBar(
                 modifier = Modifier
-                    .background(color = Color.Black)
+                    .drawBehind { drawRect(color = Color.Black) }
                     .align(Alignment.TopCenter),
                 isDark = true,
                 onClose = {
@@ -202,7 +205,12 @@ private fun CameraPreview(
                 text = stringResource(R.string.ocr_guide),
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .offset(y = (-164).dp),
+                    .offset {
+                        IntOffset(
+                            x = 0,
+                            y = (-164).dp.roundToPx(),
+                        )
+                    },
                 color = ReedTheme.colors.contentInverse,
                 textAlign = TextAlign.Center,
                 style = ReedTheme.typography.headline2Medium,
@@ -212,7 +220,7 @@ private fun CameraPreview(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(White)
+                        .drawBehind { drawRect(color = White) }
                         .height(200.dp)
                         .align(Alignment.Center),
                 ) {

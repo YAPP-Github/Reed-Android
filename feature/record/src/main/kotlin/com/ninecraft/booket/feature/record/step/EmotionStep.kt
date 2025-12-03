@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -50,7 +51,7 @@ fun EmotionStep(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(White),
+            .drawBehind { drawRect(color = White) },
     ) {
         LazyColumn(
             modifier = Modifier

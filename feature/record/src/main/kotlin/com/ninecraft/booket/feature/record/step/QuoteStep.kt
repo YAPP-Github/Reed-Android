@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.record.step
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -75,7 +75,7 @@ internal fun QuoteStep(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(White)
+            .drawBehind { drawRect(color = White) }
             .imePadding(),
     ) {
         Column(

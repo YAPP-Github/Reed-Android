@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.settings
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -71,7 +71,7 @@ internal fun SettingsUi(
     ReedScaffold(
         modifier = modifier
             .fillMaxSize()
-            .background(White),
+            .drawBehind { drawRect(color = White) },
         containerColor = White,
     ) { innerPadding ->
         Column(

@@ -10,8 +10,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
@@ -47,8 +47,11 @@ fun CameraFrame(modifier: Modifier = Modifier) {
             painter = painterResource(R.drawable.img_frame_marker),
             contentDescription = "Frame Marker",
             modifier = Modifier
-                .scale(scaleX = -1f, scaleY = 1f)
                 .align(Alignment.TopEnd)
+                .graphicsLayer {
+                    scaleX = -1f
+                    scaleY = 1f
+                }
                 .padding(
                     start = ReedTheme.spacing.spacing5,
                     top = ReedTheme.spacing.spacing5,
@@ -59,8 +62,11 @@ fun CameraFrame(modifier: Modifier = Modifier) {
             painter = painterResource(R.drawable.img_frame_marker),
             contentDescription = "Frame Marker",
             modifier = Modifier
-                .scale(scaleX = 1f, scaleY = -1f)
                 .align(Alignment.BottomStart)
+                .graphicsLayer {
+                    scaleX = 1f
+                    scaleY = -1f
+                }
                 .padding(
                     start = ReedTheme.spacing.spacing5,
                     top = ReedTheme.spacing.spacing5,
@@ -71,8 +77,11 @@ fun CameraFrame(modifier: Modifier = Modifier) {
             painter = painterResource(R.drawable.img_frame_marker),
             contentDescription = "Frame Marker",
             modifier = Modifier
-                .scale(scaleX = -1f, scaleY = -1f)
                 .align(Alignment.BottomEnd)
+                .graphicsLayer {
+                    scaleX = -1f
+                    scaleY = -1f
+                }
                 .padding(
                     start = ReedTheme.spacing.spacing5,
                     top = ReedTheme.spacing.spacing5,
