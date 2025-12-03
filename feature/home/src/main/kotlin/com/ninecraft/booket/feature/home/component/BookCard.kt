@@ -62,11 +62,8 @@ fun BookCard(
                 ambientColor = Color(0xFFBCC4BE).copy(alpha = 0.2f),
                 spotColor = Color(0xFFBCC4BE).copy(alpha = 0.2f),
             )
-            .background(
-                color = ReedTheme.colors.basePrimary,
-                shape = RoundedCornerShape(ReedTheme.radius.sm),
-            )
             .clip(shape = RoundedCornerShape(ReedTheme.radius.sm))
+            .background(color = ReedTheme.colors.basePrimary)
             .border(
                 width = 1.dp,
                 color = ReedTheme.colors.borderSecondary,
@@ -148,11 +145,8 @@ fun BookCard(
         ) {
             Row(
                 modifier = Modifier
-                    .background(
-                        color = ReedTheme.colors.baseSecondary,
-                        shape = RoundedCornerShape(ReedTheme.radius.sm),
-                    )
-                    .clip(shape = RoundedCornerShape(ReedTheme.radius.sm))
+                    .clip(RoundedCornerShape(ReedTheme.radius.sm))
+                    .background(color = ReedTheme.colors.baseSecondary)
                     .clickableSingle {
                         onBookDetailClick()
                     }
@@ -219,10 +213,8 @@ fun EmptyBookCard(
                 ambientColor = Color(0xFFBCC4BE).copy(alpha = 0.2f),
                 spotColor = Color(0xFFBCC4BE).copy(alpha = 0.2f),
             )
-            .background(
-                color = ReedTheme.colors.basePrimary,
-                shape = RoundedCornerShape(ReedTheme.radius.sm),
-            )
+            .clip(RoundedCornerShape(ReedTheme.radius.sm))
+            .background(color = ReedTheme.colors.basePrimary)
             .border(
                 width = ReedTheme.border.border1,
                 color = ReedTheme.colors.borderPrimary,

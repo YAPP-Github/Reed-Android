@@ -1,6 +1,5 @@
 package com.ninecraft.booket.core.designsystem.component.checkbox
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -14,6 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -36,10 +37,8 @@ fun SquareCheckBox(
     Box(
         modifier = modifier
             .size(24.dp)
-            .background(
-                color = bgColor,
-                shape = RoundedCornerShape(ReedTheme.radius.xs),
-            )
+            .clip(RoundedCornerShape(ReedTheme.radius.xs))
+            .drawBehind { drawRect(bgColor) }
             .border(1.dp, borderColor, RoundedCornerShape(ReedTheme.radius.xs))
             .noRippleClickable { onCheckedChange(!checked) }
             .padding(2.dp),

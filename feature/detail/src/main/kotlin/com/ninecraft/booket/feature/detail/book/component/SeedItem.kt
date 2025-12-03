@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
@@ -42,7 +43,7 @@ internal fun SeedItem(
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(ReedTheme.radius.full))
-                .background(emotion.name.bgColor)
+                .drawBehind { drawRect(emotion.name.bgColor) }
                 .padding(
                     horizontal = ReedTheme.spacing.spacing2,
                     vertical = ReedTheme.spacing.spacing1,

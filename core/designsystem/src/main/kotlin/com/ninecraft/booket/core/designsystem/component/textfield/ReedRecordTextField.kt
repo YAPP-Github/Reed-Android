@@ -2,7 +2,6 @@ package com.ninecraft.booket.core.designsystem.component.textfield
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -26,6 +25,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -80,7 +81,8 @@ fun ReedRecordTextField(
                 decorator = { innerTextField ->
                     Row(
                         modifier = modifier
-                            .background(color = backgroundColor, shape = cornerShape)
+                            .clip(cornerShape)
+                            .drawBehind { drawRect(backgroundColor) }
                             .border(
                                 border = if (isError) errorBorderStroke else borderStroke,
                                 shape = cornerShape,

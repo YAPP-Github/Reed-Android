@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.settings.component
 
-import android.R.attr.x
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.animateDp
@@ -21,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
@@ -53,7 +53,7 @@ internal fun ReedSwitch(
             .width(51.dp)
             .height(31.dp)
             .clip(RoundedCornerShape(ReedTheme.radius.full))
-            .background(trackColor)
+            .drawBehind { drawRect(trackColor) }
             .noRippleClickable { onCheckedChange(!checked) },
         contentAlignment = Alignment.CenterStart,
     ) {

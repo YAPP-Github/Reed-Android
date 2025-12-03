@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
@@ -29,10 +30,8 @@ internal fun CustomTooltipBox(
         Box(
             Modifier
                 .shadow(ReedTheme.radius.xs, RoundedCornerShape(ReedTheme.radius.xs), clip = false)
-                .background(
-                    ReedTheme.colors.contentPrimary,
-                    RoundedCornerShape(ReedTheme.radius.xs),
-                )
+                .clip(RoundedCornerShape(ReedTheme.radius.xs))
+                .background(ReedTheme.colors.contentPrimary)
                 .padding(
                     horizontal = ReedTheme.spacing.spacing3,
                     vertical = ReedTheme.spacing.spacing2,

@@ -33,10 +33,8 @@ internal fun ReviewItem(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                color = ReedTheme.colors.baseSecondary,
-                shape = RoundedCornerShape(ReedTheme.radius.md),
-            )
+            .clip(RoundedCornerShape(ReedTheme.radius.md))
+            .background(color = ReedTheme.colors.baseSecondary)
             .padding(
                 horizontal = ReedTheme.spacing.spacing4,
                 vertical = ReedTheme.spacing.spacing4,

@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.library.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -13,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
@@ -38,11 +38,8 @@ fun FilterChip(
 
     Box(
         modifier = modifier
-            .background(
-                color = chipColor,
-                shape = RoundedCornerShape(ReedTheme.radius.full),
-            )
             .clip(shape = RoundedCornerShape(ReedTheme.radius.full))
+            .drawBehind { drawRect(chipColor) }
             .noRippleClickable {
                 onChipClick(option)
             }

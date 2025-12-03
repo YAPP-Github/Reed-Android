@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.search.book.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -31,11 +31,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.ui.component.ReedBottomSheet
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.ui.component.ReedBottomSheet
 import com.ninecraft.booket.feature.search.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -128,11 +128,14 @@ fun RowScope.BookStatusItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val bgColor = if (selected) ReedTheme.colors.bgTertiary else ReedTheme.colors.bgSecondary
+    val textColor = if (selected) ReedTheme.colors.contentBrand else ReedTheme.colors.contentPrimary
+
     Box(
         modifier = modifier
             .weight(1f)
             .clip(RoundedCornerShape(ReedTheme.radius.sm))
-            .background(if (selected) ReedTheme.colors.bgTertiary else ReedTheme.colors.bgSecondary)
+            .drawBehind { drawRect(bgColor) }
             .selectable(
                 selected = selected,
                 indication = null,
@@ -145,7 +148,7 @@ fun RowScope.BookStatusItem(
     ) {
         Text(
             text = stringResource(item.getDisplayNameRes()),
-            color = if (selected) ReedTheme.colors.contentBrand else ReedTheme.colors.contentPrimary,
+            color = textColor,
             style = ReedTheme.typography.body1Medium,
         )
     }

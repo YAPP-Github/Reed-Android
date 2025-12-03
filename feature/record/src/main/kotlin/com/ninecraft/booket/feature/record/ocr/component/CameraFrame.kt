@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.record.ocr.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
@@ -25,7 +25,7 @@ fun CameraFrame(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .height(200.dp)
-            .background(Color.Transparent)
+            .drawBehind { drawRect(Color.Transparent) }
             .border(
                 width = ReedTheme.spacing.spacing5,
                 color = Neutral800.copy(alpha = 0.6f),
