@@ -42,13 +42,13 @@ import com.ninecraft.booket.feature.search.common.component.RecentSearchTitle
 import com.ninecraft.booket.feature.search.common.component.SearchItem
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @TraceRecomposition
-@CircuitInject(BookSearchScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(BookSearchScreen::class, AppScope::class)
 @Composable
 internal fun BookSearchUi(
     state: BookSearchUiState,

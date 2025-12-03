@@ -1,6 +1,6 @@
 package com.ninecraft.booket.core.datastore.impl.di
 
-import javax.inject.Qualifier
+import dev.zacsweers.metro.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)

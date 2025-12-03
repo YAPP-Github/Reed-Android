@@ -1,44 +1,37 @@
 package com.ninecraft.booket.core.ocr.di
 
+import com.ninecraft.booket.core.di.DataScope
 import com.ninecraft.booket.core.ocr.BuildConfig
 import com.ninecraft.booket.core.ocr.service.CloudVisionService
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.Provides
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
-private const val BASE_URL = "https://vision.googleapis.com/"
 private const val MaxTimeoutMillis = 15_000L
+private const val CLOUD_VISION_BASE_URL = "https://vision.googleapis.com/"
 
 private val jsonRule = Json {
-    // 기본값도 JSON에 포함하여 직렬화
     encodeDefaults = true
-    // JSON에 정의되지 않은 키는 무시 (역직렬화 시 에러 방지)
     ignoreUnknownKeys = true
-    // JSON을 보기 좋게 들여쓰기하여 포맷팅
     prettyPrint = true
-    // 엄격하지 않은 파싱 (따옴표 없는 키, 후행 쉼표 등 허용)
     isLenient = true
 }
 
 private val jsonConverterFactory = jsonRule.asConverterFactory("application/json".toMediaType())
 
-@Module
-@InstallIn(SingletonComponent::class)
-object CloudVisionNetworkModule {
+@ContributesTo(DataScope::class)
+interface OcrGraph {
 
-    @Provides
-    @Singleton
     @CloudVisionOkHttp
-    fun provideOkHttp(): OkHttpClient {
+    @Provides
+    fun provideCloudVisionOkHttpClient(): OkHttpClient {
         val log = HttpLoggingInterceptor().apply {
             redactHeader("X-Goog-Api-Key")
             level = if (BuildConfig.DEBUG) {
@@ -55,21 +48,22 @@ object CloudVisionNetworkModule {
             .build()
     }
 
-    @Provides
-    @Singleton
     @CloudVisionRetrofit
-    fun provideRetrofit(
+    @Provides
+    fun provideCloudVisionRetrofit(
         @CloudVisionOkHttp okHttpClient: OkHttpClient,
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(CLOUD_VISION_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(jsonConverterFactory)
             .build()
     }
 
     @Provides
-    @Singleton
-    fun provideVisionApi(@CloudVisionRetrofit retrofit: Retrofit): CloudVisionService =
-        retrofit.create(CloudVisionService::class.java)
+    fun provideCloudVisionService(
+        @CloudVisionRetrofit retrofit: Retrofit,
+    ): CloudVisionService {
+        return retrofit.create()
+    }
 }

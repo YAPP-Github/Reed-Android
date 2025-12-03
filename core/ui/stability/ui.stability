@@ -36,12 +36,6 @@ public fun com.ninecraft.booket.core.ui.component.InfinityLazyColumn(modifier: a
     - content: STABLE (function type)
 
 @Composable
-private fun com.ninecraft.booket.core.ui.component.InfinityLazyColumnPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.core.ui.component.LoadStateFooter(footerState: com.ninecraft.booket.core.ui.component.FooterState, onRetryClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -61,12 +55,6 @@ public fun com.ninecraft.booket.core.ui.component.ReedBackTopAppBar(modifier: an
     - onBackClick: STABLE (function type)
 
 @Composable
-private fun com.ninecraft.booket.core.ui.component.ReedBackTopAppBarPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.core.ui.component.ReedBottomSheet(onDismissRequest: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier, sheetState: androidx.compose.material3.SheetState, content: @[Composable] androidx.compose.runtime.internal.ComposableFunction0<kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
@@ -83,12 +71,6 @@ private fun com.ninecraft.booket.core.ui.component.ReedBottomSheetPreview(): kot
   params:
 
 @Composable
-private fun com.ninecraft.booket.core.ui.component.ReedChoiceDialogPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar(modifier: androidx.compose.ui.Modifier, isDark: kotlin.Boolean, title: kotlin.String, onClose: kotlin.Function0<kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
@@ -99,18 +81,6 @@ public fun com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar(modifier: a
     - onClose: STABLE (function type)
 
 @Composable
-private fun com.ninecraft.booket.core.ui.component.ReedCloseTopAppBarPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-private fun com.ninecraft.booket.core.ui.component.ReedConfirmDialogPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.core.ui.component.ReedDialog(confirmButtonText: kotlin.String, onConfirmRequest: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier, title: kotlin.String?, description: kotlin.String?, dismissButtonText: kotlin.String?, onDismissRequest: kotlin.Function0<kotlin.Unit>, headerContent: @[Composable] androidx.compose.runtime.internal.ComposableFunction0<kotlin.Unit>?): kotlin.Unit
   skippable: true
   restartable: true
@@ -118,9 +88,9 @@ public fun com.ninecraft.booket.core.ui.component.ReedDialog(confirmButtonText: 
     - confirmButtonText: STABLE (String is immutable)
     - onConfirmRequest: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
-    - title: STABLE
-    - description: STABLE
-    - dismissButtonText: STABLE
+    - title: STABLE (class with no mutable properties)
+    - description: STABLE (class with no mutable properties)
+    - dismissButtonText: STABLE (class with no mutable properties)
     - onDismissRequest: STABLE (function type)
     - headerContent: STABLE (composable function type)
 
@@ -175,18 +145,12 @@ public fun com.ninecraft.booket.core.ui.component.ReedTopAppBar(modifier: androi
     - modifier: STABLE (marked @Stable or @Immutable)
     - isDark: STABLE (primitive type)
     - title: STABLE (String is immutable)
-    - startIconRes: STABLE
+    - startIconRes: STABLE (class with no mutable properties)
     - startIconDescription: STABLE (String is immutable)
     - startIconOnClick: STABLE (function type)
-    - endIconRes: STABLE
+    - endIconRes: STABLE (class with no mutable properties)
     - endIconDescription: STABLE (String is immutable)
     - endIconOnClick: STABLE (function type)
-
-@Composable
-private fun com.ninecraft.booket.core.ui.component.ReedTopAppBarPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 private fun com.ninecraft.booket.core.ui.component.onLoadMore(limitCount: kotlin.Int, loadOnBottom: kotlin.Boolean, action: kotlin.Function0<kotlin.Unit>): kotlin.Unit

@@ -21,7 +21,7 @@ internal fun com.ninecraft.booket.feature.onboarding.OnboardingUi(state: com.nin
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable

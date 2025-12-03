@@ -27,19 +27,26 @@ import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
-class RecordRegisterPresenter @AssistedInject constructor(
+@AssistedInject
+class RecordRegisterPresenter(
     @Assisted private val screen: RecordScreen,
     @Assisted private val navigator: Navigator,
     private val repository: RecordRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<RecordRegisterUiState> {
+
+    @CircuitInject(RecordScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(screen: RecordScreen, navigator: Navigator): RecordRegisterPresenter
+    }
 
     companion object {
         private const val MAX_PAGE = 4032
@@ -308,14 +315,5 @@ class RecordRegisterPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(RecordScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: RecordScreen,
-            navigator: Navigator,
-        ): RecordRegisterPresenter
     }
 }

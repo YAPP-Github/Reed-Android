@@ -15,7 +15,7 @@ internal fun com.ninecraft.booket.feature.library.HandleLibrarySideEffects(state
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - eventSink: STABLE (function type)
 
 @Composable
@@ -23,7 +23,7 @@ internal fun com.ninecraft.booket.feature.library.LibraryContent(state: com.nine
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -43,7 +43,7 @@ internal fun com.ninecraft.booket.feature.library.LibraryUi(state: com.ninecraft
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -57,7 +57,7 @@ public fun com.ninecraft.booket.feature.library.component.FilterChip(option: com
   skippable: true
   restartable: true
   params:
-    - option: STABLE
+    - option: STABLE (class with no mutable properties)
     - count: STABLE (primitive type)
     - isSelected: STABLE (primitive type)
     - onChipClick: STABLE (function type)
@@ -69,7 +69,7 @@ public fun com.ninecraft.booket.feature.library.component.FilterChipGroup(filter
   restartable: true
   params:
     - filterList: STABLE (known stable type)
-    - selectedChipOption: STABLE
+    - selectedChipOption: STABLE (class with no mutable properties)
     - onChipClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
 

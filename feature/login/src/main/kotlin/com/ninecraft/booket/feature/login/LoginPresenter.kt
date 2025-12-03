@@ -20,19 +20,26 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.popUntil
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.launch
 
-class LoginPresenter @AssistedInject constructor(
+@AssistedInject
+class LoginPresenter(
     @Assisted private val screen: LoginScreen,
     @Assisted private val navigator: Navigator,
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<LoginUiState> {
+
+    @CircuitInject(LoginScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(screen: LoginScreen, navigator: Navigator): LoginPresenter
+    }
 
     companion object {
         private const val EVENT_ERROR_LOGIN = "error_login"
@@ -126,14 +133,5 @@ class LoginPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: LoginScreen,
-            navigator: Navigator,
-        ): LoginPresenter
     }
 }

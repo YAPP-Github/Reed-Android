@@ -9,7 +9,7 @@ internal fun com.ninecraft.booket.feature.detail.book.BookDetailContent(state: c
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - innerPadding: STABLE (marked @Stable or @Immutable)
     - modifier: STABLE (marked @Stable or @Immutable)
     - lazyListState: STABLE (marked @Stable or @Immutable)
@@ -31,7 +31,7 @@ internal fun com.ninecraft.booket.feature.detail.book.BookDetailUi(state: com.ni
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -39,7 +39,7 @@ internal fun com.ninecraft.booket.feature.detail.book.HandleBookDetailSideEffect
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - eventSink: STABLE (function type)
 
 @Composable
@@ -61,7 +61,7 @@ public fun com.ninecraft.booket.feature.detail.book.component.BookStatusItem(ite
   skippable: true
   restartable: true
   params:
-    - item: STABLE
+    - item: STABLE (class with no mutable properties)
     - selected: STABLE (primitive type)
     - onClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
@@ -75,8 +75,8 @@ internal fun com.ninecraft.booket.feature.detail.book.component.BookUpdateBottom
     - sheetState: STABLE (marked @Stable or @Immutable)
     - onCloseButtonClick: STABLE (function type)
     - bookStatuses: STABLE (known stable type)
-    - currentBookStatus: STABLE
-    - selectedBookStatus: STABLE
+    - currentBookStatus: STABLE (class with no mutable properties)
+    - selectedBookStatus: STABLE (class with no mutable properties)
     - onItemSelected: STABLE (function type)
     - onBookUpdateButtonClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
@@ -152,7 +152,7 @@ internal fun com.ninecraft.booket.feature.detail.book.component.ReadingRecordsHe
   restartable: true
   params:
     - totalCount: STABLE (primitive type)
-    - currentRecordSort: STABLE
+    - currentRecordSort: STABLE (class with no mutable properties)
     - onReadingRecordClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
 
@@ -186,7 +186,7 @@ internal fun com.ninecraft.booket.feature.detail.book.component.RecordSortBottom
     - sheetState: STABLE (marked @Stable or @Immutable)
     - onCloseButtonClick: STABLE (function type)
     - recordSortItems: STABLE (known stable type)
-    - currentRecordSort: STABLE
+    - currentRecordSort: STABLE (class with no mutable properties)
     - onItemSelected: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
 
@@ -201,7 +201,7 @@ public fun com.ninecraft.booket.feature.detail.book.component.RecordSortItem(ite
   skippable: true
   restartable: true
   params:
-    - item: STABLE
+    - item: STABLE (class with no mutable properties)
     - selected: STABLE (primitive type)
     - onClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
@@ -225,7 +225,7 @@ internal fun com.ninecraft.booket.feature.detail.card.HandleRecordCardSideEffect
   skippable: false
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - recordCardGraphicsLayer: UNSTABLE (has mutable properties or unstable members)
     - eventSink: STABLE (function type)
 
@@ -240,7 +240,7 @@ internal fun com.ninecraft.booket.feature.detail.card.RecordCardUi(state: com.ni
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -250,13 +250,13 @@ private fun com.ninecraft.booket.feature.detail.card.RecordCardUiPreview(): kotl
   params:
 
 @Composable
-internal fun com.ninecraft.booket.feature.detail.card.component.RecordCard(quote: kotlin.String, bookTitle: kotlin.String, emotionTag: kotlin.String, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+internal fun com.ninecraft.booket.feature.detail.card.component.RecordCard(quote: kotlin.String, bookTitle: kotlin.String, emotion: kotlin.String, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - quote: STABLE (String is immutable)
     - bookTitle: STABLE (String is immutable)
-    - emotionTag: STABLE (String is immutable)
+    - emotion: STABLE (String is immutable)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -270,14 +270,14 @@ internal fun com.ninecraft.booket.feature.detail.record.HandleRecordDetailSideEf
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
 
 @Composable
 private fun com.ninecraft.booket.feature.detail.record.RecordDetailContent(state: com.ninecraft.booket.feature.detail.record.RecordDetailUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -291,7 +291,7 @@ internal fun com.ninecraft.booket.feature.detail.record.RecordDetailUi(state: co
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable

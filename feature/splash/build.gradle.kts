@@ -8,10 +8,6 @@ android {
     namespace = "com.ninecraft.booket.feature.splash"
 }
 
-ksp {
-    arg("circuit.codegen.mode", "hilt")
-}
-
 dependencies {
     implementations(
         libs.compose.system.ui.controller,

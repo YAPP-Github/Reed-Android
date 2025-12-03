@@ -9,14 +9,14 @@ internal fun com.ninecraft.booket.feature.home.HandleHomeSideEffects(state: com.
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
 
 @Composable
 internal fun com.ninecraft.booket.feature.home.HomeContent(state: com.ninecraft.booket.feature.home.HomeUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -36,7 +36,7 @@ internal fun com.ninecraft.booket.feature.home.HomeUi(state: com.ninecraft.booke
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable

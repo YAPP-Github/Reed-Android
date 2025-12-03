@@ -10,33 +10,25 @@ import com.ninecraft.booket.core.data.impl.repository.DefaultBookRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultRecordRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultRemoteConfigRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultUserRepository
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.Binds
+import dev.zacsweers.metro.ContributesTo
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal abstract class RepositoryModule {
+@ContributesTo(DataScope::class)
+interface DataGraph {
 
     @Binds
-    @Singleton
-    abstract fun bindAuthRepository(defaultAuthRepository: DefaultAuthRepository): AuthRepository
+    val DefaultAuthRepository.bind: AuthRepository
 
     @Binds
-    @Singleton
-    abstract fun bindUserRepository(defaultUserRepository: DefaultUserRepository): UserRepository
+    val DefaultBookRepository.bind: BookRepository
 
     @Binds
-    @Singleton
-    abstract fun bindBookRepository(defaultBookRepository: DefaultBookRepository): BookRepository
+    val DefaultRecordRepository.bind: RecordRepository
 
     @Binds
-    @Singleton
-    abstract fun bindRecordRepository(defaultRecordRepository: DefaultRecordRepository): RecordRepository
+    val DefaultRemoteConfigRepository.bind: RemoteConfigRepository
 
     @Binds
-    @Singleton
-    abstract fun bindRemoteConfigRepository(defaultRemoteConfigRepository: DefaultRemoteConfigRepository): RemoteConfigRepository
+    val DefaultUserRepository.bind: UserRepository
 }

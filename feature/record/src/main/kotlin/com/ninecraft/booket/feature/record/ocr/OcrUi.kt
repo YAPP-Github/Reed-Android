@@ -70,13 +70,13 @@ import com.ninecraft.booket.feature.record.ocr.component.SentenceBox
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
 import java.io.File
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @TraceRecomposition
-@CircuitInject(OcrScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(OcrScreen::class, AppScope::class)
 @Composable
 internal fun OcrUi(
     state: OcrUiState,

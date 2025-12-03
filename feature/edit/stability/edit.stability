@@ -9,7 +9,7 @@ private fun com.ninecraft.booket.feature.edit.emotion.EmotionEditContent(state: 
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -23,7 +23,7 @@ internal fun com.ninecraft.booket.feature.edit.emotion.EmotionEditUi(state: com.
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -33,11 +33,11 @@ private fun com.ninecraft.booket.feature.edit.emotion.EmotionEditUiPreview(): ko
   params:
 
 @Composable
-private fun com.ninecraft.booket.feature.edit.emotion.EmotionItem(emotionTag: com.ninecraft.booket.core.designsystem.EmotionTag, onClick: kotlin.Function0<kotlin.Unit>, isSelected: kotlin.Boolean, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+private fun com.ninecraft.booket.feature.edit.emotion.EmotionItem(emotion: com.ninecraft.booket.core.model.Emotion, onClick: kotlin.Function0<kotlin.Unit>, isSelected: kotlin.Boolean, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
-    - emotionTag: STABLE
+    - emotion: STABLE (class with no mutable properties)
     - onClick: STABLE (function type)
     - isSelected: STABLE (primitive type)
     - modifier: STABLE (marked @Stable or @Immutable)
@@ -47,14 +47,14 @@ internal fun com.ninecraft.booket.feature.edit.record.HandleRecordEditSideEffect
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
 
 @Composable
 private fun com.ninecraft.booket.feature.edit.record.RecordEditContent(state: com.ninecraft.booket.feature.edit.record.RecordEditUiState): kotlin.Unit
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
 
 @Composable
 public fun com.ninecraft.booket.feature.edit.record.RecordEditPresenter.present(): com.ninecraft.booket.feature.edit.record.RecordEditUiState
@@ -67,7 +67,7 @@ internal fun com.ninecraft.booket.feature.edit.record.RecordEditUi(state: com.ni
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable

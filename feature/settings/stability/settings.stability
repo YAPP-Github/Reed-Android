@@ -9,7 +9,7 @@ internal fun com.ninecraft.booket.feature.settings.HandleSettingsSideEffects(sta
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - eventSink: STABLE (function type)
 
 @Composable
@@ -29,7 +29,7 @@ internal fun com.ninecraft.booket.feature.settings.SettingsUi(state: com.ninecra
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -105,7 +105,7 @@ internal fun com.ninecraft.booket.feature.settings.notification.HandleNotificati
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - eventSink: STABLE (function type)
 
 @Composable
@@ -127,7 +127,7 @@ internal fun com.ninecraft.booket.feature.settings.notification.NotificationUi(s
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -151,7 +151,7 @@ internal fun com.ninecraft.booket.feature.settings.osslicenses.OssLicenses(state
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable

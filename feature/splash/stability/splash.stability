@@ -9,7 +9,7 @@ internal fun com.ninecraft.booket.splash.HandleSplashSideEffects(state: com.nine
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - eventSink: STABLE (function type)
 
 @Composable
@@ -29,6 +29,6 @@ public fun com.ninecraft.booket.splash.SplashUi(state: com.ninecraft.booket.spla
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 

@@ -8,11 +8,15 @@ import com.ninecraft.booket.core.datastore.api.datasource.OnboardingDataSource
 import com.ninecraft.booket.core.model.OnboardingState
 import com.ninecraft.booket.core.datastore.impl.di.OnboardingDataStore
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
+import dev.zacsweers.metro.Inject
+import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-class DefaultOnboardingDataSource @Inject constructor(
+@SingleIn(DataScope::class)
+@Inject
+class DefaultOnboardingDataSource(
     @OnboardingDataStore private val dataStore: DataStore<Preferences>,
 ) : OnboardingDataSource {
     override val onboardingState: Flow<OnboardingState> = dataStore.data

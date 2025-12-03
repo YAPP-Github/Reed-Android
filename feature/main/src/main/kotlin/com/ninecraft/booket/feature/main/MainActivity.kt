@@ -1,5 +1,6 @@
 package com.ninecraft.booket.feature.main
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,20 +18,25 @@ import com.ninecraft.booket.core.common.event.EventHelper
 import com.ninecraft.booket.core.common.event.ReedEvent
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.component.ReedDialog
+import com.ninecraft.booket.core.di.ActivityKey
 import com.ninecraft.booket.feature.screens.SplashScreen
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
-import dagger.hilt.android.AndroidEntryPoint
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.binding
 import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
-import javax.inject.Inject
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
-    @Inject
-    lateinit var circuit: Circuit
+@ContributesIntoMap(AppScope::class, binding = binding<Activity>())
+@ActivityKey(MainActivity::class)
+@Inject
+class MainActivity(
+    private val circuit: Circuit,
+) : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
