@@ -9,18 +9,15 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 import com.ninecraft.booket.core.data.impl.BuildConfig
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.Provides
 
-@InstallIn(SingletonComponent::class)
-@Module
-internal object FirebaseModule {
-    @Singleton
+@ContributesTo(DataScope::class)
+interface FirebaseGraph {
+
     @Provides
-    fun provideRemoteConfig(): FirebaseRemoteConfig {
+    fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
         return Firebase.remoteConfig.apply {
             val configSettings by lazy {
                 remoteConfigSettings {
@@ -31,11 +28,9 @@ internal object FirebaseModule {
         }
     }
 
-    @Singleton
     @Provides
     fun provideFirebaseMessaging(): FirebaseMessaging = Firebase.messaging
 
-    @Singleton
     @Provides
-    fun provideFirebaseInstallation(): FirebaseInstallations = Firebase.installations
+    fun provideFirebaseInstallations(): FirebaseInstallations = Firebase.installations
 }

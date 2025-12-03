@@ -39,11 +39,11 @@ import com.ninecraft.booket.feature.edit.R
 import com.ninecraft.booket.feature.screens.EmotionEditScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 import kotlinx.collections.immutable.toPersistentList
 
 @TraceRecomposition
-@CircuitInject(EmotionEditScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(EmotionEditScreen::class, AppScope::class)
 @Composable
 internal fun EmotionEditUi(
     state: EmotionEditUiState,

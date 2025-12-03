@@ -5,10 +5,11 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthError
 import com.kakao.sdk.user.UserApiClient
 import com.ninecraft.booket.core.designsystem.R as designR
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
 import com.orhanobut.logger.Logger
 
-internal class KakaoLoginClient @Inject constructor() {
+@Inject
+internal class KakaoLoginClient {
     fun loginWithKakao(
         context: Context,
         onSuccess: (String) -> Unit,

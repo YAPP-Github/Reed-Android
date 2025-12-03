@@ -16,17 +16,11 @@ public fun com.ninecraft.booket.core.designsystem.component.NetworkImage(imageUr
     - contentScale: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.core.designsystem.component.NetworkImagePreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.core.designsystem.component.RecordProgressBar(currentStep: com.ninecraft.booket.core.designsystem.RecordStep, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
-    - currentStep: STABLE
+    - currentStep: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -35,12 +29,6 @@ public fun com.ninecraft.booket.core.designsystem.component.ReedDivider(modifier
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.core.designsystem.component.ReedDividerPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 public fun com.ninecraft.booket.core.designsystem.component.ResourceImage(imageRes: kotlin.Int, contentDescription: kotlin.String, modifier: androidx.compose.ui.Modifier, placeholder: androidx.compose.ui.graphics.painter.Painter?, contentScale: androidx.compose.ui.layout.ContentScale): kotlin.Unit
@@ -52,12 +40,6 @@ public fun com.ninecraft.booket.core.designsystem.component.ResourceImage(imageR
     - modifier: STABLE (marked @Stable or @Immutable)
     - placeholder: RUNTIME (requires runtime check)
     - contentScale: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.core.designsystem.component.ResourceImagePreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 public fun com.ninecraft.booket.core.designsystem.component.button.<get-largeButtonStyle>(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
@@ -102,8 +84,8 @@ public fun com.ninecraft.booket.core.designsystem.component.button.ReedButton(on
   params:
     - onClick: STABLE (function type)
     - text: STABLE (String is immutable)
-    - sizeStyle: STABLE
-    - colorStyle: STABLE
+    - sizeStyle: STABLE (class with no mutable properties)
+    - colorStyle: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
     - enabled: STABLE (primitive type)
     - leadingIcon: STABLE (composable function type)
@@ -142,47 +124,17 @@ public fun com.ninecraft.booket.core.designsystem.component.button.ReedButtonCol
   params:
 
 @Composable
-private fun com.ninecraft.booket.core.designsystem.component.button.ReedButtonDisabledPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-private fun com.ninecraft.booket.core.designsystem.component.button.ReedLargeButtonPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-private fun com.ninecraft.booket.core.designsystem.component.button.ReedMediumButtonPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-private fun com.ninecraft.booket.core.designsystem.component.button.ReedSmallButtonPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.core.designsystem.component.button.ReedTextButton(onClick: kotlin.Function0<kotlin.Unit>, text: kotlin.String, sizeStyle: com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle, colorStyle: com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle, modifier: androidx.compose.ui.Modifier, enabled: kotlin.Boolean, multipleEventsCutterEnabled: kotlin.Boolean): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - onClick: STABLE (function type)
     - text: STABLE (String is immutable)
-    - sizeStyle: STABLE
-    - colorStyle: STABLE
+    - sizeStyle: STABLE (class with no mutable properties)
+    - colorStyle: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
     - enabled: STABLE (primitive type)
     - multipleEventsCutterEnabled: STABLE (primitive type)
-
-@Composable
-private fun com.ninecraft.booket.core.designsystem.component.button.ReedTextButtonPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 public fun com.ninecraft.booket.core.designsystem.component.checkbox.CircleCheckBox(checked: kotlin.Boolean, onCheckedChange: kotlin.Function1<kotlin.Boolean, kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
@@ -194,12 +146,6 @@ public fun com.ninecraft.booket.core.designsystem.component.checkbox.CircleCheck
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.core.designsystem.component.checkbox.CircleCheckboxPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.core.designsystem.component.checkbox.SquareCheckBox(checked: kotlin.Boolean, onCheckedChange: kotlin.Function1<kotlin.Boolean, kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -209,12 +155,6 @@ public fun com.ninecraft.booket.core.designsystem.component.checkbox.SquareCheck
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.core.designsystem.component.checkbox.SquareCheckboxPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.core.designsystem.component.checkbox.TickOnlyCheckBox(checked: kotlin.Boolean, onCheckedChange: kotlin.Function1<kotlin.Boolean, kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -222,12 +162,6 @@ public fun com.ninecraft.booket.core.designsystem.component.checkbox.TickOnlyChe
     - checked: STABLE (primitive type)
     - onCheckedChange: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.core.designsystem.component.checkbox.TickOnlyCheckBoxPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 public fun com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordTextField(recordState: androidx.compose.foundation.text.input.TextFieldState, recordHintRes: kotlin.Int, modifier: androidx.compose.ui.Modifier, inputTransformation: androidx.compose.foundation.text.input.InputTransformation?, keyboardOptions: androidx.compose.foundation.text.KeyboardOptions, lineLimits: androidx.compose.foundation.text.input.TextFieldLineLimits, isError: kotlin.Boolean, errorMessage: kotlin.String, onClear: kotlin.Function0<kotlin.Unit>?, onNext: kotlin.Function0<kotlin.Unit>, backgroundColor: androidx.compose.ui.graphics.Color, textColor: androidx.compose.ui.graphics.Color, cornerShape: androidx.compose.foundation.shape.RoundedCornerShape, borderStroke: androidx.compose.foundation.BorderStroke): kotlin.Unit
@@ -250,12 +184,6 @@ public fun com.ninecraft.booket.core.designsystem.component.textfield.ReedRecord
     - borderStroke: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordTextFieldPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.core.designsystem.component.textfield.ReedTextField(queryState: androidx.compose.foundation.text.input.TextFieldState, queryHintRes: kotlin.Int, onSearch: kotlin.Function1<kotlin.String, kotlin.Unit>, onClear: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier, backgroundColor: androidx.compose.ui.graphics.Color, textColor: androidx.compose.ui.graphics.Color, cornerShape: androidx.compose.foundation.shape.RoundedCornerShape, borderStroke: androidx.compose.foundation.BorderStroke?, searchIconTint: androidx.compose.ui.graphics.Color): kotlin.Unit
   skippable: true
   restartable: true
@@ -270,12 +198,6 @@ public fun com.ninecraft.booket.core.designsystem.component.textfield.ReedTextFi
     - cornerShape: STABLE (known stable type)
     - borderStroke: STABLE (marked @Stable or @Immutable)
     - searchIconTint: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.core.designsystem.component.textfield.ReedTextFieldPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 public fun com.ninecraft.booket.core.designsystem.theme.ReedTheme(content: @[Composable] androidx.compose.runtime.internal.ComposableFunction0<kotlin.Unit>): kotlin.Unit

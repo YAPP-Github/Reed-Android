@@ -21,18 +21,25 @@ import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.launch
 
-class RecordDetailPresenter @AssistedInject constructor(
+@AssistedInject
+class RecordDetailPresenter(
     @Assisted private val screen: RecordDetailScreen,
     @Assisted private val navigator: Navigator,
     private val repository: RecordRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<RecordDetailUiState> {
+
+    @CircuitInject(RecordDetailScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(screen: RecordDetailScreen, navigator: Navigator): RecordDetailPresenter
+    }
 
     companion object {
         private const val RECORD_DELETE = "record_delete"
@@ -185,14 +192,5 @@ class RecordDetailPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(RecordDetailScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: RecordDetailScreen,
-            navigator: Navigator,
-        ): RecordDetailPresenter
     }
 }

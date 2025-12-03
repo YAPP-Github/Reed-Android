@@ -47,11 +47,11 @@ import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @TraceRecomposition
-@CircuitInject(RecordEditScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(RecordEditScreen::class, AppScope::class)
 @Composable
 internal fun RecordEditUi(
     state: RecordEditUiState,

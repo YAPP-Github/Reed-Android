@@ -8,13 +8,17 @@ import com.ninecraft.booket.core.datastore.api.datasource.LibraryRecentSearchDat
 import com.ninecraft.booket.core.datastore.impl.di.LibraryRecentSearchDataStore
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
 import com.orhanobut.logger.Logger
+import dev.zacsweers.metro.Inject
+import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
-import javax.inject.Inject
 
-class DefaultLibraryRecentSearchDataSource @Inject constructor(
+@SingleIn(DataScope::class)
+@Inject
+class DefaultLibraryRecentSearchDataSource(
     @LibraryRecentSearchDataStore private val dataStore: DataStore<Preferences>,
 ) : LibraryRecentSearchDataSource {
     override val recentSearches: Flow<List<String>> = dataStore.data

@@ -49,11 +49,11 @@ import com.ninecraft.booket.feature.screens.component.MainBottomBar
 import com.ninecraft.booket.feature.screens.component.MainTab
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 import kotlinx.collections.immutable.toImmutableList
 
 @TraceRecomposition
-@CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(HomeScreen::class, AppScope::class)
 @Composable
 internal fun HomeUi(
     state: HomeUiState,

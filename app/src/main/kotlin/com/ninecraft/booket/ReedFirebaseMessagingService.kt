@@ -3,6 +3,7 @@ package com.ninecraft.booket
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
@@ -11,20 +12,24 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.designsystem.R
+import com.ninecraft.booket.core.di.ServiceKey
 import com.ninecraft.booket.feature.main.MainActivity
-import dagger.hilt.android.AndroidEntryPoint
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.binding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@AndroidEntryPoint
-class ReedFirebaseMessagingService : FirebaseMessagingService() {
-
-    @Inject
-    lateinit var userRepository: UserRepository
+@ContributesIntoMap(AppScope::class, binding = binding<Service>())
+@ServiceKey(ReedFirebaseMessagingService::class)
+@Inject
+class ReedFirebaseMessagingService(
+    private val userRepository: UserRepository,
+) : FirebaseMessagingService() {
 
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 

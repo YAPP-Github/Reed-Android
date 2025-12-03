@@ -7,10 +7,14 @@ import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
 import com.ninecraft.booket.core.data.impl.BuildConfig
 import com.orhanobut.logger.Logger
+import dev.zacsweers.metro.Inject
+import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
 
-class DefaultRemoteConfigRepository @Inject constructor(
+@SingleIn(DataScope::class)
+@Inject
+class DefaultRemoteConfigRepository(
     private val remoteConfig: FirebaseRemoteConfig,
 ) : RemoteConfigRepository {
     override suspend fun getLatestVersion(): Result<String> = runSuspendCatching {

@@ -45,11 +45,11 @@ import com.ninecraft.booket.feature.settings.R
 import com.ninecraft.booket.feature.settings.component.ToggleItem
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @TraceRecomposition
-@CircuitInject(NotificationScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(NotificationScreen::class, AppScope::class)
 @Composable
 internal fun NotificationUi(
     state: NotificationUiState,

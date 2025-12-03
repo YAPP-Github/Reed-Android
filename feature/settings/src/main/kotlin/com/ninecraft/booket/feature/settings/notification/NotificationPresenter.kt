@@ -16,16 +16,24 @@ import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.launch
 
-class NotificationPresenter @AssistedInject constructor(
+@AssistedInject
+class NotificationPresenter(
     @Assisted val navigator: Navigator,
     private val userRepository: UserRepository,
 ) : Presenter<NotificationUiState> {
+
+    @CircuitInject(NotificationScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): NotificationPresenter
+    }
+
     @Composable
     override fun present(): NotificationUiState {
         val scope = rememberCoroutineScope()
@@ -116,11 +124,5 @@ class NotificationPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(NotificationScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): NotificationPresenter
     }
 }

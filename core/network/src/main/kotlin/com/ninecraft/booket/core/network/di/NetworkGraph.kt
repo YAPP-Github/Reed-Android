@@ -1,36 +1,30 @@
 package com.ninecraft.booket.core.network.di
 
 import android.util.Log
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.ninecraft.booket.core.di.DataScope
+import com.ninecraft.booket.core.network.BuildConfig
+import com.ninecraft.booket.core.network.TokenAuthenticator
+import com.ninecraft.booket.core.network.TokenInterceptor
+import com.ninecraft.booket.core.network.service.ReedService
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.PrettyFormatStrategy
+import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.Provides
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.ninecraft.booket.core.network.BuildConfig
-import com.ninecraft.booket.core.network.TokenInterceptor
-import com.ninecraft.booket.core.network.TokenAuthenticator
-import com.ninecraft.booket.core.network.service.ReedService
-import com.orhanobut.logger.AndroidLogAdapter
-import com.orhanobut.logger.PrettyFormatStrategy
 import retrofit2.create
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
 private const val MaxTimeoutMillis = 15_000L
 
 private val jsonRule = Json {
-    // 기본값도 JSON에 포함하여 직렬화
     encodeDefaults = true
-    // JSON에 정의되지 않은 키는 무시 (역직렬화 시 에러 방지)
     ignoreUnknownKeys = true
-    // JSON을 보기 좋게 들여쓰기하여 포맷팅
     prettyPrint = true
-    // 엄격하지 않은 파싱 (따옴표 없는 키, 후행 쉼표 등 허용)
     isLenient = true
 }
 
@@ -50,29 +44,26 @@ private val FILTERED_HEADERS = setOf(
     "content-length",
 )
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal object NetworkModule {
+@ContributesTo(DataScope::class)
+interface NetworkGraph {
 
-    @Singleton
     @Provides
-    internal fun provideNetworkLogAdapter(): AndroidLogAdapter {
+    fun provideNetworkLogAdapter(): AndroidLogAdapter {
         val networkFormatStrategy = PrettyFormatStrategy.newBuilder()
-            .showThreadInfo(false) // 스레드 정보 제거
-            .methodCount(0) // 메서드 스택 제거
-            .methodOffset(0) // 오프셋 제거
-            .tag("NETWORK") // API 호출 전용 태그
+            .showThreadInfo(false)
+            .methodCount(0)
+            .methodOffset(0)
+            .tag("NETWORK")
             .build()
 
         return AndroidLogAdapter(networkFormatStrategy)
     }
 
-    @Singleton
     @Provides
-    internal fun provideHttpLoggingInterceptor(
+    fun provideHttpLoggingInterceptor(
         networkLogAdapter: AndroidLogAdapter,
     ): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor { message ->
+        val interceptor = HttpLoggingInterceptor { message ->
             val shouldFilter = FILTERED_HEADERS.any { header ->
                 message.lowercase().contains("$header:")
             }
@@ -83,18 +74,17 @@ internal object NetworkModule {
             if (!shouldFilter && !isDuplicateContentType && message.isNotBlank()) {
                 networkLogAdapter.log(Log.DEBUG, null, message)
             }
-        }.apply {
-            level = if (BuildConfig.DEBUG) {
-                HttpLoggingInterceptor.Level.BODY
-            } else {
-                HttpLoggingInterceptor.Level.NONE
-            }
         }
+        interceptor.level = if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor.Level.BODY
+        } else {
+            HttpLoggingInterceptor.Level.NONE
+        }
+        return interceptor
     }
 
-    @Singleton
     @Provides
-    internal fun provideOkHttpClient(
+    fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         tokenInterceptor: TokenInterceptor,
         tokenAuthenticator: TokenAuthenticator,
@@ -109,9 +99,8 @@ internal object NetworkModule {
             .build()
     }
 
-    @Singleton
     @Provides
-    internal fun provideRetrofit(
+    fun provideRetrofit(
         okHttpClient: OkHttpClient,
     ): Retrofit {
         return Retrofit.Builder()
@@ -121,9 +110,8 @@ internal object NetworkModule {
             .build()
     }
 
-    @Singleton
     @Provides
-    internal fun provideReedService(
+    fun provideReedService(
         retrofit: Retrofit,
     ): ReedService {
         return retrofit.create()

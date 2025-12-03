@@ -26,19 +26,26 @@ import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.launch
 
-class SettingsPresenter @AssistedInject constructor(
+@AssistedInject
+class SettingsPresenter(
     @Assisted val navigator: Navigator,
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
     private val remoteConfigRepository: RemoteConfigRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<SettingsUiState> {
+
+    @CircuitInject(SettingsScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): SettingsPresenter
+    }
 
     companion object {
         private const val SETTINGS_LOGOUT_COMPLETE = "settings_logout_complete"
@@ -231,11 +238,5 @@ class SettingsPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(SettingsScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): SettingsPresenter
     }
 }

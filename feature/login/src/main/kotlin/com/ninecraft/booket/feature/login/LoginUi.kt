@@ -35,10 +35,10 @@ import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 
 @TraceRecomposition
-@CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(LoginScreen::class, AppScope::class)
 @Composable
 internal fun LoginUi(
     state: LoginUiState,

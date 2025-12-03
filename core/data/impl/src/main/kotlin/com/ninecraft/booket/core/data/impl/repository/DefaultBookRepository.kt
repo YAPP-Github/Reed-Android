@@ -7,9 +7,13 @@ import com.ninecraft.booket.core.datastore.api.datasource.BookRecentSearchDataSo
 import com.ninecraft.booket.core.datastore.api.datasource.LibraryRecentSearchDataSource
 import com.ninecraft.booket.core.network.request.BookUpsertRequest
 import com.ninecraft.booket.core.network.service.ReedService
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
+import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.SingleIn
 
-internal class DefaultBookRepository @Inject constructor(
+@SingleIn(DataScope::class)
+@Inject
+class DefaultBookRepository(
     private val service: ReedService,
     private val bookRecentSearchDataSource: BookRecentSearchDataSource,
     private val libraryRecentSearchDataSource: LibraryRecentSearchDataSource,

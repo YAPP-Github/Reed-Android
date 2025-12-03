@@ -9,7 +9,7 @@ internal fun com.ninecraft.booket.feature.login.HandleLoginSideEffects(state: co
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - eventSink: STABLE (function type)
 
 @Composable
@@ -29,7 +29,7 @@ internal fun com.ninecraft.booket.feature.login.LoginUi(state: com.ninecraft.boo
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -37,7 +37,7 @@ internal fun com.ninecraft.booket.feature.termsagreement.HandleTermsAgreementSid
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
 
 @Composable
 public fun com.ninecraft.booket.feature.termsagreement.TermsAgreementPresenter.present(): com.ninecraft.booket.feature.termsagreement.TermsAgreementUiState
@@ -56,7 +56,7 @@ internal fun com.ninecraft.booket.feature.termsagreement.TermsAgreementUi(state:
   skippable: true
   restartable: true
   params:
-    - state: STABLE
+    - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable

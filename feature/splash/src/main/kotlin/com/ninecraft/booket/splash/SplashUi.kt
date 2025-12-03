@@ -26,11 +26,11 @@ import com.ninecraft.booket.feature.screens.SplashScreen
 import com.ninecraft.booket.feature.splash.R
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 import tech.thdev.compose.exteions.system.ui.controller.rememberSystemUiController
 
 @TraceRecomposition
-@CircuitInject(SplashScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(SplashScreen::class, AppScope::class)
 @Composable
 fun SplashUi(
     state: SplashUiState,

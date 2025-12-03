@@ -2,6 +2,7 @@ package com.ninecraft.booket.core.data.impl.repository
 
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
+import com.ninecraft.booket.core.di.DataScope
 import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.data.impl.mapper.toModel
@@ -12,12 +13,15 @@ import com.ninecraft.booket.core.network.request.NotificationSettingsRequest
 import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import com.orhanobut.logger.Logger
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
 
-internal class DefaultUserRepository @Inject constructor(
+@SingleIn(DataScope::class)
+@Inject
+class DefaultUserRepository(
     private val service: ReedService,
     private val onboardingDataSource: OnboardingDataSource,
     private val notificationDataSource: NotificationDataSource,
