@@ -48,7 +48,6 @@
 - [Circuit 찍먹해보기(부제: Circuit 희망편)](https://speakerdeck.com/easyhooon/circuit-jjigmeoghaebogi-buje-circuit-hyimangpyeon)
 - [Circuit 찍먹해보기(부제: Circuit 절망편)](https://speakerdeck.com/easyhooon/circuit-jjigmeoghaebogi-buje-circuit-jeolmangpyeon)
 - [Circuit Navigation 사용 시 feature 모듈간의 참조는 어떻게 해결했을까?](https://velog.io/@syoon513/Circuit-Navigation-%EC%82%AC%EC%9A%A9-%EC%8B%9C-feature-%EB%AA%A8%EB%93%88%EA%B0%84-%EC%88%9C%ED%99%98-%EC%B0%B8%EC%A1%B0%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%B4%EA%B2%B0%ED%96%88%EC%9D%84%EA%B9%8C)
-- [[Android] 일회성 이벤트를 StateFlow, Compose의 State로 처리할 때 주의해야할 점](https://velog.io/@mraz3068/Handle-One-Time-Event-As-State)
 - [[Compose] M3 ModalBottomSheet 드래그(터치 이벤트) 막는 법](https://velog.io/@mraz3068/Compose-M3-ModalBottomSheet-Drag-Disabled)
 
 
