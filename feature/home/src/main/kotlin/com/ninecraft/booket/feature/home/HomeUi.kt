@@ -101,7 +101,7 @@ internal fun HomeUi(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .drawBehind { drawRect(color = HomeBg) }
+                .background(color = HomeBg)
                 .padding(innerPadding),
         ) {
             HomeHeader(
@@ -220,7 +220,7 @@ internal fun HomeContent(
                                             .size(12.dp)
                                             .padding(3.dp)
                                             .clip(CircleShape)
-                                            .drawBehind { drawRect(color) },
+                                            .background(color),
                                     )
                                 }
                             }

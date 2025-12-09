@@ -37,7 +37,7 @@ fun ImpressionGuideBox(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(ReedTheme.radius.sm))
-            .drawBehind { drawRect(bgColor) }
+            .background(bgColor)
             .border(
                 width = 1.dp,
                 color = borderColor,

@@ -135,7 +135,7 @@ fun RowScope.BookStatusItem(
         modifier = modifier
             .weight(1f)
             .clip(RoundedCornerShape(ReedTheme.radius.sm))
-            .drawBehind { drawRect(bgColor) }
+            .background(bgColor)
             .selectable(
                 selected = selected,
                 indication = null,

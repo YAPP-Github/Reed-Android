@@ -31,7 +31,7 @@ fun ReedFullScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .drawBehind { drawRect(backgroundColor) }
+            .background(backgroundColor)
             .systemBarsPadding()
             .clickable(
                 indication = null,

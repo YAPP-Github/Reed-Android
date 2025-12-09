@@ -25,7 +25,6 @@ fun CameraFrame(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .height(200.dp)
-            .drawBehind { drawRect(Color.Transparent) }
             .border(
                 width = ReedTheme.spacing.spacing5,
                 color = Neutral800.copy(alpha = 0.6f),

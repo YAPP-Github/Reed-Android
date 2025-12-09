@@ -51,7 +51,7 @@ fun BookItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .drawBehind { drawRect(bgColor) }
+            .background(bgColor)
             .then(
                 if (enabled) Modifier.clickable { onBookClick(book) } else Modifier,
             )

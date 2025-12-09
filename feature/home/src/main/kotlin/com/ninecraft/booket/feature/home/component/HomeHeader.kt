@@ -30,7 +30,7 @@ fun HomeHeader(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .drawBehind { drawRect(color = HomeBg) }
+            .background(color = HomeBg)
             .height(60.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

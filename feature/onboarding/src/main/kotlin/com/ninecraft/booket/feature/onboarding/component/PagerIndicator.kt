@@ -42,7 +42,7 @@ internal fun PagerIndicator(
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
                         .clip(CircleShape)
-                        .drawBehind { drawRect(color) }
+                        .background(color)
                         .size(8.dp),
                 )
             }

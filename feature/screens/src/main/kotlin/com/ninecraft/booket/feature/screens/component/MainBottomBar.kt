@@ -65,7 +65,7 @@ fun MainBottomBar(
                     topEnd = ReedTheme.spacing.spacing3,
                 ),
             )
-            .drawBehind { drawRect(color = White) },
+            .background(color = White),
     ) {
         Row(
             modifier = Modifier

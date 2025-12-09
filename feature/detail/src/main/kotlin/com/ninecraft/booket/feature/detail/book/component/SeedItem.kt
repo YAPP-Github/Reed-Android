@@ -43,7 +43,7 @@ internal fun SeedItem(
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(ReedTheme.radius.full))
-                .drawBehind { drawRect(emotion.name.bgColor) }
+                .background(emotion.name.bgColor)
                 .padding(
                     horizontal = ReedTheme.spacing.spacing2,
                     vertical = ReedTheme.spacing.spacing1,

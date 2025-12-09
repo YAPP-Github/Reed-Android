@@ -75,7 +75,7 @@ internal fun QuoteStep(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .drawBehind { drawRect(color = White) }
+            .background(color = White)
             .imePadding(),
     ) {
         Column(

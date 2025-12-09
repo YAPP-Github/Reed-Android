@@ -51,7 +51,7 @@ fun EmotionStep(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .drawBehind { drawRect(color = White) },
+            .background(color = White),
     ) {
         LazyColumn(
             modifier = Modifier

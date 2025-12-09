@@ -31,7 +31,7 @@ fun RecordProgressBar(
                     .weight(1f)
                     .height(6.dp)
                     .clip(RoundedCornerShape(ReedTheme.radius.full))
-                    .drawBehind { drawRect(bgColor) },
+                    .background(bgColor),
             )
         }
     }

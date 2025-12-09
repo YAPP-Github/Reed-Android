@@ -43,7 +43,7 @@ fun ReedTopAppBar(
         modifier = modifier
             .fillMaxWidth()
             .height(60.dp)
-            .drawBehind { drawRect(bgColor) }
+            .background(bgColor)
             .padding(horizontal = ReedTheme.spacing.spacing2),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,

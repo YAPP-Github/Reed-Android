@@ -38,7 +38,7 @@ fun SquareCheckBox(
         modifier = modifier
             .size(24.dp)
             .clip(RoundedCornerShape(ReedTheme.radius.xs))
-            .drawBehind { drawRect(bgColor) }
+            .background(bgColor)
             .border(1.dp, borderColor, RoundedCornerShape(ReedTheme.radius.xs))
             .noRippleClickable { onCheckedChange(!checked) }
             .padding(2.dp),

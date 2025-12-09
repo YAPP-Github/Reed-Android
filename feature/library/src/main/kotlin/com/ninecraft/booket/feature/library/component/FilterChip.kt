@@ -39,7 +39,7 @@ fun FilterChip(
     Box(
         modifier = modifier
             .clip(shape = RoundedCornerShape(ReedTheme.radius.full))
-            .drawBehind { drawRect(chipColor) }
+            .background(chipColor)
             .noRippleClickable {
                 onChipClick(option)
             }

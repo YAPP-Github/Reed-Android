@@ -82,7 +82,7 @@ fun ReedRecordTextField(
                     Row(
                         modifier = modifier
                             .clip(cornerShape)
-                            .drawBehind { drawRect(backgroundColor) }
+                            .background(backgroundColor)
                             .border(
                                 border = if (isError) errorBorderStroke else borderStroke,
                                 shape = cornerShape,

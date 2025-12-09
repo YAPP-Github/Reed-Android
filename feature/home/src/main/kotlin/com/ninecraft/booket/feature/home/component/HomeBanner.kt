@@ -49,7 +49,7 @@ fun HomeBanner(
         modifier = modifier
             .fillMaxWidth()
             .height(160.dp)
-            .drawBehind { drawRect(HomeBg) }
+            .background(HomeBg)
             .padding(end = ReedTheme.spacing.spacing5),
     ) {
         Column(

@@ -43,7 +43,7 @@ interface CircuitGraph {
                       All uiFactories: ${circuit?.newBuilder()?.uiFactories}
                       """
                         .trimIndent(),
-                    modifier = modifier.drawBehind { drawRect(Color.Red) },
+                    modifier = modifier.background(Color.Red),
                     style = TextStyle(color = Color.Yellow),
                 )
             }

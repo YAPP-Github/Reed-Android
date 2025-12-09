@@ -55,7 +55,7 @@ internal fun LoginUi(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .drawBehind { drawRect(White) }
+                .background(White)
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,

@@ -192,7 +192,7 @@ private fun CameraPreview(
         ) {
             ReedCloseTopAppBar(
                 modifier = Modifier
-                    .drawBehind { drawRect(color = Color.Black) }
+                    .background(color = Color.Black)
                     .align(Alignment.TopCenter),
                 isDark = true,
                 onClose = {
@@ -218,7 +218,7 @@ private fun CameraPreview(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .drawBehind { drawRect(color = White) }
+                        .background(color = White)
                         .height(200.dp)
                         .align(Alignment.Center),
                 ) {

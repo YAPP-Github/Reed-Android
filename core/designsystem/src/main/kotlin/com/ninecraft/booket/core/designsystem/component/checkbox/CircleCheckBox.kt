@@ -38,7 +38,7 @@ fun CircleCheckBox(
         modifier = modifier
             .size(24.dp)
             .clip(CircleShape)
-            .drawBehind { drawRect(bgColor) }
+            .background(bgColor)
             .border(1.dp, borderColor, CircleShape)
             .noRippleClickable { onCheckedChange(!checked) }
             .padding(2.dp),
