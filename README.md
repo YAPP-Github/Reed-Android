@@ -1,6 +1,6 @@
 # Reed - 문장과 감정을 함께 담는 독서 기록
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.2.0-blue.svg)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.2.21-blue.svg)](https://kotlinlang.org)
 [![Gradle](https://img.shields.io/badge/gradle-8.11.1-green.svg)](https://gradle.org/)
 [![Android Studio](https://img.shields.io/badge/Android%20Studio-2025.1.2%20%28Narwhal%29-green)](https://developer.android.com/studio)
 [![minSdkVersion](https://img.shields.io/badge/minSdkVersion-28-red)](https://developer.android.com/distribute/best-practices/develop/target-sdk)
@@ -59,7 +59,7 @@
 - JDK : Java 17을 실행할 수 있는 JDK
     - (권장) Android Studio 설치 시 Embedded 된 JDK (Open JDK)
     - Java 17을 사용하는 JDK (Open JDK, AdoptOpenJDK, GraalVM)
-- Kotlin Language : 2.2.0
+- Kotlin Language : 2.2.21
 
 ### Language
 
@@ -80,7 +80,7 @@
     - Material3
 
 - [Circuit](https://github.com/slackhq/circuit)
-- ~~Google ML Kit~~ -> Google Cloud Vision
+- ~~Google ML Kit~~ -> [Google Cloud Vision](https://cloud.google.com/vision)
 - ~~Dagger Hilt~~ -> [Metro](https://github.com/ZacSweers/metro)
 - Retrofit, OkHttp3
 - Lottie-Compose
