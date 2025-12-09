@@ -32,16 +32,17 @@ fun ImpressionGuideBox(
 ) {
     val bgColor = if (isSelected) ReedTheme.colors.bgTertiary else White
     val borderColor = if (isSelected) ReedTheme.colors.borderBrand else ReedTheme.colors.borderPrimary
+    val cornerShape = RoundedCornerShape(ReedTheme.radius.sm)
 
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(ReedTheme.radius.sm))
+            .clip(cornerShape)
             .background(bgColor)
             .border(
                 width = 1.dp,
                 color = borderColor,
-                shape = RoundedCornerShape(ReedTheme.radius.sm),
+                shape = cornerShape,
             )
             .noRippleClickable {
                 onClick()

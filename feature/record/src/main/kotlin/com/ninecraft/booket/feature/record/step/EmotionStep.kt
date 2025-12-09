@@ -127,16 +127,18 @@ private fun EmotionItem(
     isSelected: Boolean,
     modifier: Modifier = Modifier,
 ) {
+    val cornerShape = RoundedCornerShape(ReedTheme.radius.md)
+
     Box(
         modifier = modifier
             .height(214.dp)
-            .clip(RoundedCornerShape(ReedTheme.radius.md))
+            .clip(cornerShape)
             .background(color = ReedTheme.colors.bgTertiary)
             .then(
                 if (isSelected) Modifier.border(
                     width = ReedTheme.border.border15,
                     color = ReedTheme.colors.borderBrand,
-                    shape = RoundedCornerShape(ReedTheme.radius.md),
+                    shape = cornerShape,
                 )
                 else Modifier,
             )
