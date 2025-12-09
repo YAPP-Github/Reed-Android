@@ -80,8 +80,8 @@
     - Material3
 
 - [Circuit](https://github.com/slackhq/circuit)
-- ~~Google ML Kit~~ Google Cloud Vision
-- ~~Dagger Hilt~~ Metro
+- ~~Google ML Kit~~ -> Google Cloud Vision
+- ~~Dagger Hilt~~ -> [Metro](https://github.com/ZacSweers/metro)
 - Retrofit, OkHttp3
 - Lottie-Compose
 - Firebase(Analytics, Crashlytics, Remote Config)
