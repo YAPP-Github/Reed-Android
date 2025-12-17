@@ -23,10 +23,10 @@ internal class KakaoLoginClient {
             }
         }
 
-        if (UserApiClient.Companion.instance.isKakaoTalkLoginAvailable(context)) {
-            UserApiClient.Companion.instance.loginWithKakaoTalk(context, callback = kakaoCallback)
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+            UserApiClient.instance.loginWithKakaoTalk(context, callback = kakaoCallback)
         } else {
-            UserApiClient.Companion.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
+            UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
         }
     }
 
@@ -54,7 +54,7 @@ internal class KakaoLoginClient {
         onFailure: (String) -> Unit,
         context: Context,
     ) {
-        UserApiClient.Companion.instance.me { user, _ ->
+        UserApiClient.instance.me { user, _ ->
             user?.let {
                 onSuccess(token.accessToken)
             } ?: onFailure(context.getString(R.string.unknown_error_message))

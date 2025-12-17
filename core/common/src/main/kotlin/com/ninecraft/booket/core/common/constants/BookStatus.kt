@@ -16,7 +16,7 @@ enum class BookStatus(val value: String) {
         }
     }
 
-    companion object Companion {
+    companion object {
         fun fromValue(value: String): BookStatus? {
             return entries.find { it.value == value }
         }

@@ -22,7 +22,7 @@ internal class GoogleLoginClient {
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit,
     ) {
-        val credentialManager = CredentialManager.Companion.create(context)
+        val credentialManager = CredentialManager.create(context)
 
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
@@ -64,9 +64,9 @@ internal class GoogleLoginClient {
         val credential = result.credential
 
         if (credential is CustomCredential &&
-            credential.type == GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+            credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
             try {
-                val googleIdTokenCredential = GoogleIdTokenCredential.Companion.createFrom(credential.data)
+                val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
                 val idToken = googleIdTokenCredential.idToken
                 Logger.d("Google 로그인 성공: ${googleIdTokenCredential.id}")
                 onSuccess(idToken)

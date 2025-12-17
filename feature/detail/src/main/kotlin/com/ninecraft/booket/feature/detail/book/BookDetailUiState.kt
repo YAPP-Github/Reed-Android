@@ -98,7 +98,7 @@ enum class RecordSort(val value: String) {
         }
     }
 
-    companion object Companion {
+    companion object {
         fun fromValue(value: String): RecordSort? {
             return entries.find { it.value == value }
         }
