@@ -133,7 +133,7 @@ internal fun LoginUi(
                                     contentDescription = "Google Icon",
                                     tint = Color.Unspecified,
                                 )
-                            }
+                            },
                         )
                         Spacer(
                             modifier = Modifier.height(if (state.returnToScreen == null) ReedTheme.spacing.spacing3 else ReedTheme.spacing.spacing8),

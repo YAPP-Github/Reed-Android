@@ -47,7 +47,7 @@ internal fun HandleLoginSideEffects(
                                 LoginUiEvent.Login(
                                     providerType = LoginUiEvent.PROVIDER_TYPE_GOOGLE,
                                     token = idToken,
-                                )
+                                ),
                             )
                         },
                         onFailure = { errorMessage ->

@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.ninecraft.booket.core.designsystem.theme.Google
 import com.ninecraft.booket.core.designsystem.theme.Kakao
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 
