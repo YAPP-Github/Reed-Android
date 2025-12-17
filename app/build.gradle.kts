@@ -32,6 +32,7 @@ android {
         getByName("debug") {
             isDebuggable = true
             applicationIdSuffix = ".dev"
+            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getApiKey("DEBUG_GOOGLE_WEB_CLIENT_ID"))
             manifestPlaceholders += mapOf(
                 "appName" to "@string/app_name_dev",
             )
@@ -42,6 +43,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
+            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getApiKey("RELEASE_GOOGLE_WEB_CLIENT_ID"))
             manifestPlaceholders += mapOf(
                 "appName" to "@string/app_name",
             )

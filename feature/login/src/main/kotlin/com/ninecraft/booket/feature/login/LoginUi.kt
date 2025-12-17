@@ -113,6 +113,28 @@ internal fun LoginUi(
                                 )
                             },
                         )
+                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+                        ReedButton(
+                            onClick = {
+                                state.eventSink(LoginUiEvent.OnGoogleLoginButtonClick)
+                            },
+                            sizeStyle = largeButtonStyle,
+                            colorStyle = ReedButtonColorStyle.GOOGLE,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = ReedTheme.spacing.spacing5,
+                                    end = ReedTheme.spacing.spacing5,
+                                ),
+                            text = stringResource(id = R.string.google_login),
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_google),
+                                    contentDescription = "Google Icon",
+                                    tint = Color.Unspecified,
+                                )
+                            }
+                        )
                         Spacer(
                             modifier = Modifier.height(if (state.returnToScreen == null) ReedTheme.spacing.spacing2 else ReedTheme.spacing.spacing8),
                         )

@@ -51,6 +51,10 @@ logger = "2.2.0"
 ## Kakao Login
 kakao-core = "2.22.0"
 
+## Google Credential Manager
+androidx-credentials = "1.6.0-beta03"
+googleid = "1.1.1"
+
 ## Image Load
 coil-compose = "2.7.0"
 landscapist = "2.5.1"
@@ -137,6 +141,10 @@ logger = { group = "com.orhanobut", name = "logger", version.ref = "logger" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "kotlin-detekt" }
 
 kakao-auth = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-core" }
+
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "androidx-credentials" }
+androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "androidx-credentials" }
+googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
 
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
 

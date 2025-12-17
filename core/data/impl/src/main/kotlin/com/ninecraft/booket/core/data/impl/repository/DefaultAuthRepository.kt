@@ -12,19 +12,20 @@ import com.ninecraft.booket.core.di.DataScope
 import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.map
 
-private const val KAKAO_PROVIDER_TYPE = "KAKAO"
-
 @SingleIn(DataScope::class)
 @Inject
 class DefaultAuthRepository(
     private val service: ReedService,
     private val tokenDataSource: TokenDataSource,
 ) : AuthRepository {
-    override suspend fun login(accessToken: String) = runSuspendCatching {
+    override suspend fun login(
+        providerType: String,
+        token: String,
+    ) = runSuspendCatching {
         val response = service.login(
             LoginRequest(
-                providerType = KAKAO_PROVIDER_TYPE,
-                oauthToken = accessToken,
+                providerType = providerType,
+                oauthToken = token,
             ),
         )
         saveTokens(response.accessToken, response.refreshToken)
