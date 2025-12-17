@@ -1,12 +1,12 @@
-package com.ninecraft.booket.feature.login
+package com.ninecraft.booket.feature.login.client
 
 import android.content.Context
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthError
 import com.kakao.sdk.user.UserApiClient
-import com.ninecraft.booket.core.designsystem.R as designR
-import dev.zacsweers.metro.Inject
+import com.ninecraft.booket.core.designsystem.R
 import com.orhanobut.logger.Logger
+import dev.zacsweers.metro.Inject
 
 @Inject
 internal class KakaoLoginClient {
@@ -19,14 +19,14 @@ internal class KakaoLoginClient {
             when {
                 error != null -> handleLoginError(context, error, onFailure)
                 token != null -> handleLoginSuccess(token, onSuccess, onFailure, context)
-                else -> onFailure(context.getString(designR.string.unknown_error_message))
+                else -> onFailure(context.getString(R.string.unknown_error_message))
             }
         }
 
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-            UserApiClient.instance.loginWithKakaoTalk(context, callback = kakaoCallback)
+        if (UserApiClient.Companion.instance.isKakaoTalkLoginAvailable(context)) {
+            UserApiClient.Companion.instance.loginWithKakaoTalk(context, callback = kakaoCallback)
         } else {
-            UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
+            UserApiClient.Companion.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
         }
     }
 
@@ -38,12 +38,12 @@ internal class KakaoLoginClient {
         when {
             (error is AuthError && error.response.error == "ProtocolError") -> {
                 Logger.e("로그인 실패: ${error.response.error}, ${error.response.errorDescription}")
-                onFailure(context.getString(designR.string.network_error_message))
+                onFailure(context.getString(R.string.network_error_message))
             }
 
             else -> {
                 Logger.e("로그인 실패: ${error.message}")
-                onFailure(context.getString(designR.string.unknown_error_message))
+                onFailure(context.getString(R.string.unknown_error_message))
             }
         }
     }
@@ -54,10 +54,10 @@ internal class KakaoLoginClient {
         onFailure: (String) -> Unit,
         context: Context,
     ) {
-        UserApiClient.instance.me { user, _ ->
+        UserApiClient.Companion.instance.me { user, _ ->
             user?.let {
                 onSuccess(token.accessToken)
-            } ?: onFailure(context.getString(designR.string.unknown_error_message))
+            } ?: onFailure(context.getString(R.string.unknown_error_message))
         }
     }
 }
