@@ -28,7 +28,7 @@ enum class ReedButtonColorStyle {
         SECONDARY -> ReedTheme.colors.contentPrimary
         TERTIARY -> ReedTheme.colors.contentBrand
         STROKE -> ReedTheme.colors.contentBrand
-        TEXT -> ReedTheme.colors.borderBrand
+        TEXT -> ReedTheme.colors.contentTertiary
         KAKAO -> ReedTheme.colors.contentPrimary
         GOOGLE -> ReedTheme.colors.contentPrimary
     }
@@ -45,6 +45,7 @@ enum class ReedButtonColorStyle {
     @Composable
     fun borderStroke() = when (this) {
         STROKE -> BorderStroke(1.dp, ReedTheme.colors.borderBrand)
+        GOOGLE -> BorderStroke(1.dp, ReedTheme.colors.borderPrimary)
         else -> null
     }
 }

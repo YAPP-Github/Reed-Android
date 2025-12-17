@@ -136,7 +136,7 @@ internal fun LoginUi(
                             }
                         )
                         Spacer(
-                            modifier = Modifier.height(if (state.returnToScreen == null) ReedTheme.spacing.spacing2 else ReedTheme.spacing.spacing8),
+                            modifier = Modifier.height(if (state.returnToScreen == null) ReedTheme.spacing.spacing3 else ReedTheme.spacing.spacing8),
                         )
                         if (state.returnToScreen == null) {
                             ReedTextButton(
