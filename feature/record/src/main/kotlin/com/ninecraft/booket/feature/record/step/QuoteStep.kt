@@ -45,7 +45,7 @@ import com.ninecraft.booket.core.designsystem.component.textfield.digitOnlyInput
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
-import com.ninecraft.booket.feature.record.component.CustomTooltipBox
+import com.ninecraft.booket.feature.record.component.RecordTooltipBox
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
 import com.skydoves.compose.stability.runtime.TraceRecomposition
@@ -145,7 +145,7 @@ internal fun QuoteStep(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (state.isScanTooltipVisible) {
-                    CustomTooltipBox(messageResId = R.string.scan_tooltip_message)
+                    RecordTooltipBox(messageResId = R.string.scan_tooltip_message)
                 }
 
                 ReedButton(

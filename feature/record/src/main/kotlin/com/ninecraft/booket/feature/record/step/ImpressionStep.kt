@@ -51,7 +51,7 @@ import com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordText
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
-import com.ninecraft.booket.feature.record.component.CustomTooltipBox
+import com.ninecraft.booket.feature.record.component.RecordTooltipBox
 import com.ninecraft.booket.feature.record.component.ImpressionGuideBottomSheet
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
@@ -156,7 +156,7 @@ fun ImpressionStep(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (state.isImpressionGuideTooltipVisible) {
-                    CustomTooltipBox(
+                    RecordTooltipBox(
                         messageResId = R.string.impression_guide_tooltip_message,
                     )
                 }

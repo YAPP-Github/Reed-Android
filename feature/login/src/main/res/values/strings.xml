@@ -6,6 +6,7 @@
     <string name="terms_agreement_all">약관 전체 동의</string>
     <string name="terms_agreement_button_start">시작하기</string>
     <string name="guest_login">회원가입 없이 둘러보기</string>
+    <string name="recent_login">최근 로그인</string>
     <string-array name="terms_agreement_items">
         <item>(필수)서비스 이용약관</item>
         <item>(필수)개인정보처리방침</item>
