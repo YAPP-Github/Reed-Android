@@ -47,6 +47,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
@@ -202,7 +203,12 @@ private fun CameraPreview(
                 text = stringResource(R.string.ocr_guide),
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .offset(y = (-164).dp),
+                    .offset {
+                        IntOffset(
+                            x = 0,
+                            y = (-164).dp.roundToPx(),
+                        )
+                    },
                 color = ReedTheme.colors.contentInverse,
                 textAlign = TextAlign.Center,
                 style = ReedTheme.typography.headline2Medium,
@@ -212,7 +218,7 @@ private fun CameraPreview(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(White)
+                        .background(color = White)
                         .height(200.dp)
                         .align(Alignment.Center),
                 ) {

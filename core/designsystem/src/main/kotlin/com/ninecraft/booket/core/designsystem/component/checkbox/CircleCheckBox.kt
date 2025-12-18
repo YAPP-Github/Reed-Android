@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -36,10 +37,8 @@ fun CircleCheckBox(
     Box(
         modifier = modifier
             .size(24.dp)
-            .background(
-                color = bgColor,
-                shape = CircleShape,
-            )
+            .clip(CircleShape)
+            .background(bgColor)
             .border(1.dp, borderColor, CircleShape)
             .noRippleClickable { onCheckedChange(!checked) }
             .padding(2.dp),

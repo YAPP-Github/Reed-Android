@@ -24,18 +24,14 @@ fun RecordProgressBar(
         horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing1),
     ) {
         repeat(3) { index ->
+            val bgColor = if (index <= currentStep.ordinal) ReedTheme.colors.bgPrimary else ReedTheme.colors.bgDisabled
+
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .height(6.dp)
                     .clip(RoundedCornerShape(ReedTheme.radius.full))
-                    .background(
-                        color = if (index <= currentStep.ordinal) {
-                            ReedTheme.colors.bgPrimary
-                        } else {
-                            ReedTheme.colors.bgDisabled
-                        },
-                    ),
+                    .background(bgColor),
             )
         }
     }

@@ -86,7 +86,7 @@ fun ImpressionStep(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(White)
+            .background(color = White)
             .imePadding(),
     ) {
         Column(

@@ -138,10 +138,8 @@ private fun EmotionItem(
     Box(
         modifier = modifier
             .height(214.dp)
-            .background(
-                color = ReedTheme.colors.bgTertiary,
-                shape = RoundedCornerShape(ReedTheme.radius.md),
-            )
+            .clip(RoundedCornerShape(ReedTheme.radius.md))
+            .background(color = ReedTheme.colors.bgTertiary)
             .then(
                 if (isSelected) Modifier.border(
                     width = 2.dp,
@@ -150,7 +148,6 @@ private fun EmotionItem(
                 )
                 else Modifier,
             )
-            .clip(RoundedCornerShape(ReedTheme.radius.md))
             .clickableSingle {
                 onClick()
             },

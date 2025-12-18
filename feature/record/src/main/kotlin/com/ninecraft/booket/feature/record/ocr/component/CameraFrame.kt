@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.record.ocr.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,8 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
@@ -25,7 +23,6 @@ fun CameraFrame(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .height(200.dp)
-            .background(Color.Transparent)
             .border(
                 width = ReedTheme.spacing.spacing5,
                 color = Neutral800.copy(alpha = 0.6f),
@@ -47,8 +44,11 @@ fun CameraFrame(modifier: Modifier = Modifier) {
             painter = painterResource(R.drawable.img_frame_marker),
             contentDescription = "Frame Marker",
             modifier = Modifier
-                .scale(scaleX = -1f, scaleY = 1f)
                 .align(Alignment.TopEnd)
+                .graphicsLayer {
+                    scaleX = -1f
+                    scaleY = 1f
+                }
                 .padding(
                     start = ReedTheme.spacing.spacing5,
                     top = ReedTheme.spacing.spacing5,
@@ -59,8 +59,11 @@ fun CameraFrame(modifier: Modifier = Modifier) {
             painter = painterResource(R.drawable.img_frame_marker),
             contentDescription = "Frame Marker",
             modifier = Modifier
-                .scale(scaleX = 1f, scaleY = -1f)
                 .align(Alignment.BottomStart)
+                .graphicsLayer {
+                    scaleX = 1f
+                    scaleY = -1f
+                }
                 .padding(
                     start = ReedTheme.spacing.spacing5,
                     top = ReedTheme.spacing.spacing5,
@@ -71,8 +74,11 @@ fun CameraFrame(modifier: Modifier = Modifier) {
             painter = painterResource(R.drawable.img_frame_marker),
             contentDescription = "Frame Marker",
             modifier = Modifier
-                .scale(scaleX = -1f, scaleY = -1f)
                 .align(Alignment.BottomEnd)
+                .graphicsLayer {
+                    scaleX = -1f
+                    scaleY = -1f
+                }
                 .padding(
                     start = ReedTheme.spacing.spacing5,
                     top = ReedTheme.spacing.spacing5,

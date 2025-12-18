@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -110,10 +111,8 @@ private fun OssLicenseItem(
             Box(
                 modifier = Modifier
                     .size(ReedTheme.spacing.spacing1)
-                    .background(
-                        color = ReedTheme.colors.contentBrand,
-                        shape = CircleShape,
-                    ),
+                    .clip(CircleShape)
+                    .background(color = ReedTheme.colors.contentBrand),
             )
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
             Text(
@@ -129,10 +128,8 @@ private fun OssLicenseItem(
             text = url,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(
-                    color = ReedTheme.colors.bgSecondary,
-                    shape = RoundedCornerShape(ReedTheme.radius.xs),
-                )
+                .clip(RoundedCornerShape(ReedTheme.radius.xs))
+                .background(color = ReedTheme.colors.bgSecondary)
                 .padding(
                     horizontal = ReedTheme.spacing.spacing2,
                     vertical = ReedTheme.spacing.spacing4,

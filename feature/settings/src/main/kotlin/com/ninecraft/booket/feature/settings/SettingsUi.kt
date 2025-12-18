@@ -71,7 +71,7 @@ internal fun SettingsUi(
     ReedScaffold(
         modifier = modifier
             .fillMaxSize()
-            .background(White),
+            .background(color = White),
         containerColor = White,
     ) { innerPadding ->
         Column(

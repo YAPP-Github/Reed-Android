@@ -50,7 +50,7 @@ fun EmotionStep(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(White),
+            .background(color = White),
     ) {
         LazyColumn(
             modifier = Modifier
@@ -127,22 +127,21 @@ private fun EmotionItem(
     isSelected: Boolean,
     modifier: Modifier = Modifier,
 ) {
+    val cornerShape = RoundedCornerShape(ReedTheme.radius.md)
+
     Box(
         modifier = modifier
             .height(214.dp)
-            .background(
-                color = ReedTheme.colors.bgTertiary,
-                shape = RoundedCornerShape(ReedTheme.radius.md),
-            )
+            .clip(cornerShape)
+            .background(color = ReedTheme.colors.bgTertiary)
             .then(
                 if (isSelected) Modifier.border(
                     width = ReedTheme.border.border15,
                     color = ReedTheme.colors.borderBrand,
-                    shape = RoundedCornerShape(ReedTheme.radius.md),
+                    shape = cornerShape,
                 )
                 else Modifier,
             )
-            .clip(RoundedCornerShape(ReedTheme.radius.md))
             .clickableSingle {
                 onClick()
             },

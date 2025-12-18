@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import com.ninecraft.booket.core.designsystem.ComponentPreview
@@ -23,10 +24,8 @@ internal fun QuoteItem(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                color = ReedTheme.colors.baseSecondary,
-                shape = RoundedCornerShape(ReedTheme.radius.md),
-            )
+            .clip(RoundedCornerShape(ReedTheme.radius.md))
+            .background(color = ReedTheme.colors.baseSecondary)
             .padding(
                 horizontal = ReedTheme.spacing.spacing5,
                 vertical = ReedTheme.spacing.spacing4,

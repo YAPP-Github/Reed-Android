@@ -28,20 +28,18 @@ fun SentenceBox(
     val bgColor = if (isSelected) ReedTheme.colors.bgTertiary else ReedTheme.colors.bgSecondary
     val borderColor = if (isSelected) ReedTheme.colors.borderBrand else Color.Transparent
     val textStyle = if (isSelected) ReedTheme.typography.body1Medium else ReedTheme.typography.body1Regular
+    val cornerShape = RoundedCornerShape(ReedTheme.radius.sm)
 
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                color = bgColor,
-                shape = RoundedCornerShape(ReedTheme.radius.sm),
-            )
+            .clip(cornerShape)
+            .background(bgColor)
             .border(
                 width = 1.dp,
                 color = borderColor,
-                shape = RoundedCornerShape(ReedTheme.radius.sm),
+                shape = cornerShape,
             )
-            .clip(RoundedCornerShape(ReedTheme.radius.sm))
             .noRippleClickable {
                 onClick()
             }

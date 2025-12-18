@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -80,7 +81,8 @@ fun ReedRecordTextField(
                 decorator = { innerTextField ->
                     Row(
                         modifier = modifier
-                            .background(color = backgroundColor, shape = cornerShape)
+                            .clip(cornerShape)
+                            .background(backgroundColor)
                             .border(
                                 border = if (isError) errorBorderStroke else borderStroke,
                                 shape = cornerShape,

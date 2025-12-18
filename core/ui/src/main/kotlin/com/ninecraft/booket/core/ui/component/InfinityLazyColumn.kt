@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
@@ -139,10 +140,8 @@ private fun InfinityLazyColumnPreview() {
                                     modifier = Modifier
                                         .width(68.dp)
                                         .height(100.dp)
-                                        .background(
-                                            color = ReedTheme.colors.contentTertiary,
-                                            shape = RoundedCornerShape(ReedTheme.radius.sm),
-                                        ),
+                                        .clip(RoundedCornerShape(ReedTheme.radius.sm))
+                                        .background(color = ReedTheme.colors.contentTertiary),
                                 )
                                 Spacer(Modifier.width(ReedTheme.spacing.spacing4))
                                 Column {

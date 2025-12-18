@@ -31,7 +31,7 @@ fun LibraryHeader(
         modifier = modifier
             .fillMaxWidth()
             .height(60.dp)
-            .background(White),
+            .background(color = White),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing5))
