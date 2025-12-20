@@ -99,7 +99,7 @@ class RecordRegisterPresenter(
             derivedStateOf {
                 when (currentStep) {
                     RecordStep.QUOTE -> {
-                        recordPageState.text.isNotEmpty() && recordSentenceState.text.isNotEmpty() && !isPageError
+                        recordSentenceState.text.isNotEmpty() && !isPageError
                     }
 
                     RecordStep.EMOTION -> {

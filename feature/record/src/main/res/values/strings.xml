@@ -42,4 +42,5 @@
     <string name="impression_guide_tooltip_message">예시 문장을 알려드려요</string>
     <string name="scan_tooltip_message">스캔으로 빠르게 입력해요</string>
     <string name="select">선택</string>
+    <string name="quote_step_memo_hint">기록하고 싶은 메모가 있다면 작성해보세요</string>
 </resources>
