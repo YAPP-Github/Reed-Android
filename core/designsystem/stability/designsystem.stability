@@ -164,6 +164,39 @@ public fun com.ninecraft.booket.core.designsystem.component.checkbox.TickOnlyChe
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
+public fun com.ninecraft.booket.core.designsystem.component.chip.<get-mediumChipStyle>(): com.ninecraft.booket.core.designsystem.component.chip.ChipSizeStyle
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
+public fun com.ninecraft.booket.core.designsystem.component.chip.<get-smallChipStyle>(): com.ninecraft.booket.core.designsystem.component.chip.ChipSizeStyle
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
+public fun com.ninecraft.booket.core.designsystem.component.chip.ReedRemovableChip(label: kotlin.String, chipSizeStyle: com.ninecraft.booket.core.designsystem.component.chip.ChipSizeStyle, onRemove: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - label: STABLE (String is immutable)
+    - chipSizeStyle: STABLE (class with no mutable properties)
+    - onRemove: STABLE (function type)
+    - modifier: STABLE (marked @Stable or @Immutable)
+
+@Composable
+public fun com.ninecraft.booket.core.designsystem.component.chip.ReedSelectableChip(label: kotlin.String, chipSizeStyle: com.ninecraft.booket.core.designsystem.component.chip.ChipSizeStyle, selected: kotlin.Boolean, onClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - label: STABLE (String is immutable)
+    - chipSizeStyle: STABLE (class with no mutable properties)
+    - selected: STABLE (primitive type)
+    - onClick: STABLE (function type)
+    - modifier: STABLE (marked @Stable or @Immutable)
+
+@Composable
 public fun com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordTextField(recordState: androidx.compose.foundation.text.input.TextFieldState, recordHintRes: kotlin.Int, modifier: androidx.compose.ui.Modifier, inputTransformation: androidx.compose.foundation.text.input.InputTransformation?, keyboardOptions: androidx.compose.foundation.text.KeyboardOptions, lineLimits: androidx.compose.foundation.text.input.TextFieldLineLimits, isError: kotlin.Boolean, errorMessage: kotlin.String, onClear: kotlin.Function0<kotlin.Unit>?, onNext: kotlin.Function0<kotlin.Unit>, backgroundColor: androidx.compose.ui.graphics.Color, textColor: androidx.compose.ui.graphics.Color, cornerShape: androidx.compose.foundation.shape.RoundedCornerShape, borderStroke: androidx.compose.foundation.BorderStroke): kotlin.Unit
   skippable: true
   restartable: true
