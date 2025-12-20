@@ -114,13 +114,13 @@ internal fun EmotionStepV2(
             emotionDetails = state.emotionDetails,
             selectedEmotionDetail = state.selectedEmotionDetails[state.selectedEmotion] ?: persistentListOf(),
             onDismissRequest = {
-                state.eventSink(RecordRegisterUiEvent.OnEmotionDatilBottomSheetDismiss)
+                state.eventSink(RecordRegisterUiEvent.OnEmotionDetailBottomSheetDismiss)
             },
             sheetState = emotionDetailBottomSheetState,
             onCloseButtonClick = {
                 coroutineScope.launch {
                     emotionDetailBottomSheetState.hide()
-                    state.eventSink(RecordRegisterUiEvent.OnEmotionDatilBottomSheetDismiss)
+                    state.eventSink(RecordRegisterUiEvent.OnEmotionDetailBottomSheetDismiss)
                 }
             },
             onEmotionDetailToggled = { detail ->

@@ -32,7 +32,6 @@ import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toPersistentList
@@ -231,7 +230,7 @@ class RecordRegisterPresenter(
 
                 is RecordRegisterUiEvent.OnSelectEmotionV2 -> {
                     selectedEmotion = event.emotion
-                    emotionDetails = getEmotionDetails(event.emotion) as PersistentList<String>
+                    emotionDetails = getEmotionDetails(event.emotion).toPersistentList()
                     isEmotionDetailBottomSheetVisible = true
                 }
 
@@ -274,7 +273,7 @@ class RecordRegisterPresenter(
                     isEmotionDetailBottomSheetVisible = false
                 }
 
-                is RecordRegisterUiEvent.OnEmotionDatilBottomSheetDismiss -> {
+                is RecordRegisterUiEvent.OnEmotionDetailBottomSheetDismiss -> {
                     isEmotionDetailBottomSheetVisible = false
                 }
 

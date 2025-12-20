@@ -109,12 +109,12 @@ internal fun EmotionItem(
                 horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
                 verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
             ) {
-                selectedEmotionDetails.forEach { emotion ->
+                selectedEmotionDetails.forEach { detail ->
                     ReedRemovableChip(
-                        label = emotion,
+                        label = detail,
                         chipSizeStyle = smallChipStyle,
                         onRemove = {
-                            onEmotionDetailRemove(emotion)
+                            onEmotionDetailRemove(detail)
                         },
                     )
                 }

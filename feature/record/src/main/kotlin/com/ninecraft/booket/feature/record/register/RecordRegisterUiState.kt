@@ -58,7 +58,7 @@ sealed interface RecordRegisterUiEvent : CircuitUiEvent {
     data class OnEmotionDetailRemoved(val detail: String) : RecordRegisterUiEvent
     data object OnEmotionDetailSkipped : RecordRegisterUiEvent
     data object OnEmotionDetailCommitted : RecordRegisterUiEvent
-    data object OnEmotionDatilBottomSheetDismiss : RecordRegisterUiEvent
+    data object OnEmotionDetailBottomSheetDismiss : RecordRegisterUiEvent
     data object OnImpressionGuideButtonClick : RecordRegisterUiEvent
     data object OnImpressionGuideBottomSheetDismiss : RecordRegisterUiEvent
     data class OnSelectImpressionGuide(val index: Int) : RecordRegisterUiEvent

@@ -176,7 +176,7 @@ internal fun QuoteStepV2(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "메모",
+                    text = stringResource(R.string.quote_step_memo_label),
                     color = ReedTheme.colors.contentPrimary,
                     style = ReedTheme.typography.body1Medium,
                 )

@@ -24,6 +24,8 @@
     <string name="quote_step_scan_sentence">문장 스캔하기</string>
     <string name="quote_step_page_hint">기록하고 싶은 페이지를 작성해보세요</string>
     <string name="quote_step_sentence_hint">기록하고 싶은 문장을 작성해보세요</string>
+    <string name="quote_step_memo_label">메모</string>
+    <string name="quote_step_memo_hint">기록하고 싶은 메모가 있다면 작성해보세요</string>
     <string name="emotion_step_title">문장에 대해 어떤 감정이 드셨나요?</string>
     <string name="emotion_step_description">대표 감정을 한 가지 선택해주세요</string>
     <string name="impression_step_title">문장에 대한 감상을 남겨주세요</string>
@@ -42,7 +44,6 @@
     <string name="impression_guide_tooltip_message">예시 문장을 알려드려요</string>
     <string name="scan_tooltip_message">스캔으로 빠르게 입력해요</string>
     <string name="select">선택</string>
-    <string name="quote_step_memo_hint">기록하고 싶은 메모가 있다면 작성해보세요</string>
     <string name="emotion_detail_title">어떤 %1$s을 느꼈나요?</string>
     <string name="emotion_detail_description">더 자세한 감정을 선택 기록할 수 있어요.</string>
     <string name="emotion_detail_skip">건너뛰기</string>
