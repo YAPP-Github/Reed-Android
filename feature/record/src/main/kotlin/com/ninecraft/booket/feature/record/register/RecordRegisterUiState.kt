@@ -16,6 +16,7 @@ data class RecordRegisterUiState(
     val recordPageState: TextFieldState = TextFieldState(),
     val recordSentenceState: TextFieldState = TextFieldState(),
     val isPageError: Boolean = false,
+    val memoState: TextFieldState = TextFieldState(),
     val emotions: ImmutableList<Emotion> = persistentListOf(),
     val emotionDetails: ImmutableList<String> = persistentListOf(),
     val selectedEmotion: Emotion? = null,

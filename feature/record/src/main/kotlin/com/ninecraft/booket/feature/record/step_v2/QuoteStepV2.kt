@@ -198,7 +198,7 @@ internal fun QuoteStepV2(
             }
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
             ReedRecordTextField(
-                recordState = state.impressionState,
+                recordState = state.memoState,
                 recordHintRes = R.string.quote_step_memo_hint,
                 modifier = Modifier
                     .fillMaxWidth()

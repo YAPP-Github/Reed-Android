@@ -93,6 +93,7 @@ class RecordRegisterPresenter(
         var currentStep by rememberRetained { mutableStateOf(RecordStep.QUOTE) }
         val recordPageState = rememberTextFieldState()
         val recordSentenceState = rememberTextFieldState()
+        val memoState = rememberTextFieldState()
         val emotions by rememberRetained { mutableStateOf(Emotion.entries.toPersistentList()) }
         var emotionDetails by rememberRetained { mutableStateOf(persistentListOf<String>()) }
         var selectedEmotion by rememberRetained { mutableStateOf<Emotion?>(null) }
@@ -375,6 +376,7 @@ class RecordRegisterPresenter(
             currentStep = currentStep,
             recordPageState = recordPageState,
             recordSentenceState = recordSentenceState,
+            memoState = memoState,
             isPageError = isPageError,
             emotions = emotions,
             emotionDetails = emotionDetails,
