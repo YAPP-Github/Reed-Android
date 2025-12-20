@@ -118,7 +118,7 @@ class RecordRegisterPresenter(
                     }
 
                     RecordStep.EMOTION -> {
-                        selectedEmotion != null
+                        committedEmotion != null
                     }
 
                     RecordStep.IMPRESSION -> true
