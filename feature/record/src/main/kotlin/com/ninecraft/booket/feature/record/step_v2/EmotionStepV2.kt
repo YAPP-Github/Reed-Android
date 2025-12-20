@@ -85,7 +85,7 @@ internal fun EmotionStepV2(
                     isSelected = state.committedEmotion == emotion,
                     onEmotionDetailRemove = { detail ->
                         state.eventSink(RecordRegisterUiEvent.OnEmotionDetailRemoved(detail))
-                    }
+                    },
                 )
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
             }

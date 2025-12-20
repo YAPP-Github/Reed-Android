@@ -85,8 +85,8 @@ class RecordRegisterPresenter(
         var isImpressionGuideBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isScanTooltipVisible by rememberRetained { mutableStateOf(true) }
         var isImpressionGuideTooltipVisible by rememberRetained { mutableStateOf(true) }
-        /** ====================================================================================== */
 
+        /** ====================================================================================== */
         val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<RecordRegisterSideEffect?>(null) }
@@ -97,9 +97,9 @@ class RecordRegisterPresenter(
         val emotions by rememberRetained { mutableStateOf(Emotion.entries.toPersistentList()) }
         var emotionDetails by rememberRetained { mutableStateOf(persistentListOf<String>()) }
         var selectedEmotion by rememberRetained { mutableStateOf<Emotion?>(null) }
-        var selectedEmotionDetails by rememberRetained { mutableStateOf<Map<Emotion, ImmutableList<String>>>(emptyMap())}
+        var selectedEmotionDetails by rememberRetained { mutableStateOf<Map<Emotion, ImmutableList<String>>>(emptyMap()) }
         var committedEmotion by rememberRetained { mutableStateOf<Emotion?>(null) }
-        var committedEmotionDetails by rememberRetained { mutableStateOf<Map<Emotion, ImmutableList<String>>>(emptyMap())}
+        var committedEmotionDetails by rememberRetained { mutableStateOf<Map<Emotion, ImmutableList<String>>>(emptyMap()) }
         var isEmotionDetailBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var savedRecordId by rememberRetained { mutableStateOf("") }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
@@ -228,7 +228,6 @@ class RecordRegisterPresenter(
                 is RecordRegisterUiEvent.OnSelectEmotion -> {
                     selectedEmotion = event.emotion
                 }
-
 
                 is RecordRegisterUiEvent.OnSelectEmotionV2 -> {
                     selectedEmotion = event.emotion

@@ -69,7 +69,7 @@ private fun ReedRemovableChipPreview() {
         ReedRemovableChip(
             label = "text",
             chipSizeStyle = mediumChipStyle,
-            onRemove = {}
+            onRemove = {},
         )
     }
 }

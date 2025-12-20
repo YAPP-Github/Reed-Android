@@ -126,9 +126,7 @@ internal fun EmotionItem(
 @ComponentPreview
 @Composable
 private fun EmotionItemPreview() {
-    val selectedEmotionDetails = persistentListOf(
-        "위로받은", "포근한", "다정한", "고마운", "마음이 놓이는", "편안한",
-    )
+    val selectedEmotionDetails = persistentListOf("위로받은", "포근한", "다정한", "고마운", "마음이 놓이는", "편안한")
 
     ReedTheme {
         EmotionItem(

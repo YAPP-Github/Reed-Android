@@ -148,7 +148,6 @@ internal fun EmotionDetailBottomSheet(
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @ComponentPreview
 @Composable
