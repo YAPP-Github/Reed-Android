@@ -43,4 +43,8 @@
     <string name="scan_tooltip_message">스캔으로 빠르게 입력해요</string>
     <string name="select">선택</string>
     <string name="quote_step_memo_hint">기록하고 싶은 메모가 있다면 작성해보세요</string>
+    <string name="emotion_detail_title">어떤 %1$s을 느꼈나요?</string>
+    <string name="emotion_detail_description">더 자세한 감정을 선택 기록할 수 있어요.</string>
+    <string name="emotion_detail_skip">건너뛰기</string>
+    <string name="emotion_detail_confirm">선택 완료</string>
 </resources>
