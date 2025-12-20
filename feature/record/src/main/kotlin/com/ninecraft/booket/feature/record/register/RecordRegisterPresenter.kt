@@ -31,6 +31,10 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
@@ -61,12 +65,8 @@ class RecordRegisterPresenter(
 
     @Composable
     override fun present(): RecordRegisterUiState {
-        val scope = rememberCoroutineScope()
-        var isLoading by rememberRetained { mutableStateOf(false) }
-        var sideEffect by rememberRetained { mutableStateOf<RecordRegisterSideEffect?>(null) }
-        var currentStep by rememberRetained { mutableStateOf(RecordStep.QUOTE) }
-        val recordPageState = rememberTextFieldState()
-        val recordSentenceState = rememberTextFieldState()
+        /** 2차 고도화 삭제 예정 ===================================================================== */
+        val impressionState = rememberTextFieldState()
         val impressionGuideList by rememberRetained {
             mutableStateOf(
                 listOf(
@@ -80,13 +80,27 @@ class RecordRegisterPresenter(
                 ).toPersistentList(),
             )
         }
-        val emotions by rememberRetained { mutableStateOf(Emotion.entries.toPersistentList()) }
-        var selectedEmotion by rememberRetained { mutableStateOf<Emotion?>(null) }
         var selectedImpressionGuide by rememberRetained { mutableStateOf("") }
         var beforeSelectedImpressionGuide by rememberRetained { mutableStateOf(selectedImpressionGuide) }
-        val impressionState = rememberTextFieldState()
-        var savedRecordId by rememberRetained { mutableStateOf("") }
         var isImpressionGuideBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var isScanTooltipVisible by rememberRetained { mutableStateOf(true) }
+        var isImpressionGuideTooltipVisible by rememberRetained { mutableStateOf(true) }
+        /** ====================================================================================== */
+
+        val scope = rememberCoroutineScope()
+        var isLoading by rememberRetained { mutableStateOf(false) }
+        var sideEffect by rememberRetained { mutableStateOf<RecordRegisterSideEffect?>(null) }
+        var currentStep by rememberRetained { mutableStateOf(RecordStep.QUOTE) }
+        val recordPageState = rememberTextFieldState()
+        val recordSentenceState = rememberTextFieldState()
+        val emotions by rememberRetained { mutableStateOf(Emotion.entries.toPersistentList()) }
+        var emotionDetails by rememberRetained { mutableStateOf(persistentListOf<String>()) }
+        var selectedEmotion by rememberRetained { mutableStateOf<Emotion?>(null) }
+        var selectedEmotionDetails by rememberRetained { mutableStateOf<Map<Emotion, ImmutableList<String>>>(emptyMap())}
+        var committedEmotion by rememberRetained { mutableStateOf<Emotion?>(null) }
+        var committedEmotionDetails by rememberRetained { mutableStateOf<Map<Emotion, ImmutableList<String>>>(emptyMap())}
+        var isEmotionDetailBottomSheetVisible by rememberRetained { mutableStateOf(false) }
+        var savedRecordId by rememberRetained { mutableStateOf("") }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
         var isRecordSavedDialogVisible by rememberRetained { mutableStateOf(false) }
         val isPageError by remember {
@@ -110,8 +124,6 @@ class RecordRegisterPresenter(
                 }
             }
         }
-        var isScanTooltipVisible by rememberRetained { mutableStateOf(true) }
-        var isImpressionGuideTooltipVisible by rememberRetained { mutableStateOf(true) }
 
         val ocrNavigator = rememberAnsweringNavigator<OcrScreen.OcrResult>(navigator) { result ->
             recordSentenceState.edit {
@@ -161,6 +173,19 @@ class RecordRegisterPresenter(
             }
         }
 
+        fun provideEmotionDetailMap(): Map<Emotion, ImmutableList<String>> {
+            return mapOf(
+                Emotion.WARM to persistentListOf("위로받은", "포근한", "다정한", "고마운", "마음이 놓이는", "편안한"),
+                Emotion.JOY to persistentListOf("설레는", "뿌듯한", "유쾌한", "기쁜", "흥미진진한"),
+                Emotion.SAD to persistentListOf("허무함", "외로운", "아쉬운", "먹먹한", "애틋한", "안타까운", "그리운"),
+                Emotion.INSIGHT to persistentListOf("감탄한", "통찰력을 얻은", "영감을 받은", "생각이 깊어진", "새롭게 이해한"),
+            )
+        }
+
+        fun getEmotionDetails(emotion: Emotion): ImmutableList<String> {
+            return provideEmotionDetailMap()[emotion] ?: persistentListOf()
+        }
+
         fun handleEvent(event: RecordRegisterUiEvent) {
             when (event) {
                 is RecordRegisterUiEvent.OnBackButtonClick -> {
@@ -203,6 +228,57 @@ class RecordRegisterPresenter(
                     selectedEmotion = event.emotion
                 }
 
+
+                is RecordRegisterUiEvent.OnSelectEmotionV2 -> {
+                    selectedEmotion = event.emotion
+                    emotionDetails = getEmotionDetails(event.emotion) as PersistentList<String>
+                    isEmotionDetailBottomSheetVisible = true
+                }
+
+                is RecordRegisterUiEvent.OnEmotionDetailToggled -> {
+                    val emotionKey = selectedEmotion ?: return
+                    val currentDetails = selectedEmotionDetails[selectedEmotion].orEmpty()
+                    val updatedDetails = if (event.detail in currentDetails) {
+                        currentDetails - event.detail
+                    } else {
+                        currentDetails + event.detail
+                    }
+
+                    selectedEmotionDetails = selectedEmotionDetails + (emotionKey to updatedDetails.toPersistentList())
+                }
+
+                is RecordRegisterUiEvent.OnEmotionDetailRemoved -> {
+                    val emotionKey = selectedEmotion ?: return
+                    val currentDetails = committedEmotionDetails[selectedEmotion].orEmpty()
+                    val updatedDetails = currentDetails - event.detail
+
+                    committedEmotionDetails = committedEmotionDetails + (emotionKey to updatedDetails.toPersistentList())
+                    selectedEmotionDetails = selectedEmotionDetails + (emotionKey to updatedDetails.toPersistentList())
+                }
+
+                is RecordRegisterUiEvent.OnEmotionDetailSkipped -> {
+                    committedEmotion = selectedEmotion
+                    // 건너뛰기 시 세부감정 선택 초기화
+                    committedEmotionDetails = persistentMapOf()
+                    selectedEmotionDetails = persistentMapOf()
+                    isEmotionDetailBottomSheetVisible = false
+                }
+
+                is RecordRegisterUiEvent.OnEmotionDetailCommitted -> {
+                    val emotionKey = selectedEmotion ?: return
+                    val details = selectedEmotionDetails[emotionKey] ?: persistentListOf()
+
+                    committedEmotion = emotionKey
+                    committedEmotionDetails = mapOf(emotionKey to details)
+                    selectedEmotionDetails = mapOf(emotionKey to details)
+                    isEmotionDetailBottomSheetVisible = false
+                }
+
+                is RecordRegisterUiEvent.OnEmotionDatilBottomSheetDismiss -> {
+                    isEmotionDetailBottomSheetVisible = false
+                }
+
+                /** 2차 고도화 삭제 예정 ===================================================================== */
                 is RecordRegisterUiEvent.OnImpressionGuideButtonClick -> {
                     analyticsHelper.logScreenView(RECORD_INPUT_HELP)
                     isImpressionGuideTooltipVisible = false
@@ -245,6 +321,7 @@ class RecordRegisterPresenter(
                 is RecordRegisterUiEvent.OnImpressionGuideBottomSheetDismiss -> {
                     isImpressionGuideBottomSheetVisible = false
                 }
+                /** ====================================================================================== */
 
                 is RecordRegisterUiEvent.OnNextButtonClick -> {
                     when (currentStep) {
@@ -300,7 +377,12 @@ class RecordRegisterPresenter(
             recordSentenceState = recordSentenceState,
             isPageError = isPageError,
             emotions = emotions,
+            emotionDetails = emotionDetails,
             selectedEmotion = selectedEmotion,
+            selectedEmotionDetails = selectedEmotionDetails,
+            committedEmotion = committedEmotion,
+            committedEmotionDetails = committedEmotionDetails,
+            isEmotionDetailBottomSheetVisible = isEmotionDetailBottomSheetVisible,
             impressionState = impressionState,
             impressionGuideList = impressionGuideList,
             selectedImpressionGuide = selectedImpressionGuide,

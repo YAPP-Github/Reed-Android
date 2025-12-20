@@ -26,29 +26,30 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
-import com.ninecraft.booket.core.designsystem.component.chip.ReedChip
+import com.ninecraft.booket.core.designsystem.component.chip.ReedSelectableChip
 import com.ninecraft.booket.core.designsystem.component.chip.mediumChipStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.ui.component.ReedBottomSheet
 import com.ninecraft.booket.feature.record.R
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EmotionDetailBottomSheet(
     emotion: Emotion,
+    emotionDetails: ImmutableList<String>,
+    selectedEmotionDetail: ImmutableList<String>,
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
     onCloseButtonClick: () -> Unit,
+    onEmotionDetailToggled: (String) -> Unit,
     onSkipButtonClick: () -> Unit,
     onConfirmButtonClick: () -> Unit,
-    onEmotionDetailClick: () -> Unit,
 ) {
     val emotionCategoryName = "'${emotion.displayName}'"
-    val emotionDetailList = listOf(
-        "위로받은", "포근한", "다정한", "고마운", "마음이 놓이는", "편안한",
-    )
 
     ReedBottomSheet(
         onDismissRequest = {
@@ -105,13 +106,13 @@ internal fun EmotionDetailBottomSheet(
                 ),
                 verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
             ) {
-                emotionDetailList.forEach { emotion ->
-                    ReedChip(
-                        label = emotion,
+                emotionDetails.forEach { detail ->
+                    ReedSelectableChip(
+                        label = detail,
                         chipSizeStyle = mediumChipStyle,
-                        selected = false,
+                        selected = detail in selectedEmotionDetail,
                         onClick = {
-                            onEmotionDetailClick()
+                            onEmotionDetailToggled(detail)
                         },
                     )
                 }
@@ -126,20 +127,21 @@ internal fun EmotionDetailBottomSheet(
                     onClick = {
                         onSkipButtonClick()
                     },
+                    text = stringResource(R.string.emotion_detail_skip),
                     sizeStyle = largeButtonStyle,
                     colorStyle = ReedButtonColorStyle.SECONDARY,
                     modifier = Modifier.weight(1f),
-                    text = stringResource(R.string.emotion_detail_skip),
                 )
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
                 ReedButton(
                     onClick = {
                         onConfirmButtonClick()
                     },
+                    text = stringResource(R.string.emotion_detail_confirm),
                     sizeStyle = largeButtonStyle,
                     colorStyle = ReedButtonColorStyle.PRIMARY,
                     modifier = Modifier.weight(1f),
-                    text = stringResource(R.string.emotion_detail_confirm),
+                    enabled = selectedEmotionDetail.isNotEmpty(),
                 )
             }
         }
@@ -151,6 +153,8 @@ internal fun EmotionDetailBottomSheet(
 @ComponentPreview
 @Composable
 private fun EmotionDetailBottomSheetPreview() {
+    val emotionDetails = persistentListOf("위로받은", "포근한", "다정한", "고마운", "마음이 놓이는", "편안한")
+
     val sheetState = SheetState(
         skipPartiallyExpanded = true,
         initialValue = SheetValue.Expanded,
@@ -160,12 +164,14 @@ private fun EmotionDetailBottomSheetPreview() {
     ReedTheme {
         EmotionDetailBottomSheet(
             emotion = Emotion.WARM,
+            emotionDetails = emotionDetails,
+            selectedEmotionDetail = persistentListOf(),
             onDismissRequest = {},
             sheetState = sheetState,
             onCloseButtonClick = {},
             onSkipButtonClick = {},
             onConfirmButtonClick = {},
-            onEmotionDetailClick = {},
+            onEmotionDetailToggled = {},
         )
     }
 }

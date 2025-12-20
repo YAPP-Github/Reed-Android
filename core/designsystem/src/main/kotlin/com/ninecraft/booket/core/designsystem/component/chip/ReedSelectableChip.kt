@@ -22,7 +22,7 @@ fun ReedSelectableChip(
     label: String,
     chipSizeStyle: ChipSizeStyle,
     selected: Boolean,
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val cornerShape = RoundedCornerShape(ReedTheme.radius.full)
@@ -35,7 +35,7 @@ fun ReedSelectableChip(
             .clip(cornerShape)
             .background(color = backgroundColor)
             .noRippleClickable {
-                onClick(!selected)
+                onClick()
             }
             .border(
                 width = 1.dp,
