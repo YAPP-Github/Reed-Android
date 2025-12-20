@@ -78,8 +78,7 @@ internal fun EmotionItem(
                 contentDescription = "Emotion Image",
                 modifier = Modifier
                     .size(60.dp)
-                    .clip(CircleShape)
-                    .background(ReedTheme.colors.basePrimary),
+                    .clip(CircleShape),
             )
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
             Column {

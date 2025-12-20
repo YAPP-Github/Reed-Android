@@ -37,10 +37,10 @@ val Emotion.graphicRes: Int
 
 val Emotion.graphicResV2: Int
     get() = when (this) {
-        Emotion.WARM -> R.drawable.img_warm
-        Emotion.JOY -> R.drawable.img_joy
-        Emotion.SAD -> R.drawable.img_sad
-        Emotion.INSIGHT -> R.drawable.img_insight
+        Emotion.WARM -> R.drawable.img_category_warm
+        Emotion.JOY -> R.drawable.img_category_joy
+        Emotion.SAD -> R.drawable.img_category_sad
+        Emotion.INSIGHT -> R.drawable.img_category_insight
     }
 
 val Emotion.descriptionRes: Int
