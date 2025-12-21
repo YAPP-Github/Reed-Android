@@ -71,7 +71,6 @@ internal fun OnboardingUi(
                         OnboardingPage(
                             imageRes = R.drawable.img_onboarding_third,
                             titleRes = R.string.onboarding_third_page_title,
-                            highlightTextRes = R.string.onboarding_third_highlight_text,
                             descriptionRes = R.string.onboarding_third_page_description,
                         )
                     }
