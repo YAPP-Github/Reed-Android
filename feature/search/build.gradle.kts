@@ -14,10 +14,10 @@ android {
 
     buildFeatures {
         buildConfig = true
+    }
 
-        defaultConfig {
-            buildConfigField("String", "REED_KAKAOTALK_CHANNEL_URL", getLocalProperty("REED_KAKAOTALK_CHANNEL_URL"))
-        }
+    defaultConfig {
+        buildConfigField("String", "REED_KAKAOTALK_CHANNEL_URL", getLocalProperty("REED_KAKAOTALK_CHANNEL_URL"))
     }
 }
 
