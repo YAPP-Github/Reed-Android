@@ -14,15 +14,15 @@ import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 @Immutable
-sealed interface UiState {
-    data object Idle : UiState
-    data object Loading : UiState
-    data object Success : UiState
-    data class Error(val exception: Throwable) : UiState
+sealed interface SearchUiState {
+    data object Idle : SearchUiState
+    data object Loading : SearchUiState
+    data object Success : SearchUiState
+    data class Error(val exception: Throwable) : SearchUiState
 }
 
 data class BookSearchUiState(
-    val uiState: UiState = UiState.Idle,
+    val searchUiState: SearchUiState = SearchUiState.Idle,
     val footerState: FooterState = FooterState.Idle,
     val queryState: TextFieldState = TextFieldState(),
     val recentSearches: ImmutableList<String> = persistentListOf(),
@@ -37,7 +37,7 @@ data class BookSearchUiState(
     val sideEffect: BookSearchSideEffect? = null,
     val eventSink: (BookSearchUiEvent) -> Unit,
 ) : CircuitUiState {
-    val isEmptySearchResult: Boolean get() = uiState is UiState.Success && searchResult.totalResults == 0
+    val isEmptySearchResult: Boolean get() = searchUiState is SearchUiState.Success && searchResult.totalResults == 0
 }
 
 @Immutable
@@ -46,6 +46,8 @@ sealed interface BookSearchSideEffect {
         val message: UiText,
         private val key: String = UUID.randomUUID().toString(),
     ) : BookSearchSideEffect
+
+    data object NavigateToKakaoTalkChannel : BookSearchSideEffect
 }
 
 sealed interface BookSearchUiEvent : CircuitUiEvent {
@@ -64,4 +66,5 @@ sealed interface BookSearchUiEvent : CircuitUiEvent {
     data object OnBookRegisterButtonClick : BookSearchUiEvent
     data object OnBookRegisterSuccessOkButtonClick : BookSearchUiEvent
     data object OnBookRegisterSuccessCancelButtonClick : BookSearchUiEvent
+    data object OnInquireClick : BookSearchUiEvent
 }
