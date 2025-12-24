@@ -1,5 +1,8 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
+import com.ninecraft.booket.convention.getLocalProperty
+
+
 plugins {
     alias(libs.plugins.booket.android.feature)
     alias(libs.plugins.kotlin.serialization)
@@ -8,6 +11,14 @@ plugins {
 
 android {
     namespace = "com.ninecraft.booket.feature.search"
+
+    buildFeatures {
+        buildConfig = true
+
+        defaultConfig {
+            buildConfigField("String", "REED_KAKAOTALK_CHANNEL_URL", getLocalProperty("REED_KAKAOTALK_CHANNEL_URL"))
+        }
+    }
 }
 
 dependencies {
