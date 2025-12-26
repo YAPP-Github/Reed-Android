@@ -129,10 +129,9 @@ internal fun LoginUi(
                                 .offset {
                                     IntOffset(
                                         x = (-28).dp.roundToPx(),
-                                        y = (-32).dp.roundToPx()
+                                        y = (-32).dp.roundToPx(),
                                     )
                                 }
-                                .zIndex(10f)
                         )
                     }
                 }
