@@ -21,3 +21,7 @@ annotation class OnboardingDataStore
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class NotificationDataStore
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class LoginMethodDataStore

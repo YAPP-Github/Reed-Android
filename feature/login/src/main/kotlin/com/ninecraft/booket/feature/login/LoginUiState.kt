@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.login
 
 import androidx.compose.runtime.Immutable
+import com.ninecraft.booket.core.model.LoginMethod
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
@@ -10,6 +11,8 @@ data class LoginUiState(
     val isLoading: Boolean = false,
     val returnToScreen: Screen? = null,
     val sideEffect: LoginSideEffect? = null,
+    val showLoginTooltip: Boolean = false,
+    val recentLoginMethod: LoginMethod = LoginMethod.NONE,
     val eventSink: (LoginUiEvent) -> Unit,
 ) : CircuitUiState
 
@@ -28,4 +31,5 @@ sealed interface LoginUiEvent : CircuitUiEvent {
     data class LoginFailure(val message: String) : LoginUiEvent
     data object OnGuestLoginButtonClick : LoginUiEvent
     data object OnCloseButtonClick : LoginUiEvent
+    data object OnDismissLoginTooltip : LoginUiEvent
 }
