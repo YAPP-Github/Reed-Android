@@ -2,14 +2,16 @@ package com.ninecraft.booket.feature.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.zIndex
+import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +22,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
@@ -32,6 +35,7 @@ import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
+import com.ninecraft.booket.feature.login.component.LoginTooltipBox
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -52,86 +56,103 @@ internal fun LoginUi(
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
     ) { innerPadding ->
-        Column(
-            modifier = modifier
+        Box(
+            modifier = Modifier
                 .fillMaxSize()
                 .background(White)
-                .padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+                .padding(innerPadding)
+                .then(
+                    if (state.showLoginTooltip) {
+                        Modifier.noRippleClickable {
+                            state.eventSink(LoginUiEvent.OnDismissLoginTooltip)
+                        }
+                    } else {
+                        Modifier
+                    },
+                ),
         ) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                Column {
-                    if (state.returnToScreen != null) {
-                        ReedCloseTopAppBar(
-                            onClose = {
-                                state.eventSink(LoginUiEvent.OnCloseButtonClick)
-                            },
-                        )
-                    }
-                    Column(
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                if (state.returnToScreen != null) {
+                    ReedCloseTopAppBar(
+                        onClose = {
+                            state.eventSink(LoginUiEvent.OnCloseButtonClick)
+                        },
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Image(
+                    painter = painterResource(R.drawable.img_reed_logo_big),
+                    contentDescription = "Reed Logo",
+                    modifier = Modifier.height(67.14.dp),
+                )
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
+                Text(
+                    text = stringResource(R.string.login_reed_slogan),
+                    color = ReedTheme.colors.contentBrand,
+                    style = ReedTheme.typography.headline2SemiBold,
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                ) {
+                    ReedButton(
+                        onClick = {
+                            state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
+                        },
+                        sizeStyle = largeButtonStyle,
+                        colorStyle = ReedButtonColorStyle.KAKAO,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(1f),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.img_reed_logo_big),
-                            contentDescription = "Reed Logo",
-                            modifier = Modifier.height(67.14.dp),
-                        )
-                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-                        Text(
-                            text = stringResource(R.string.login_reed_slogan),
-                            color = ReedTheme.colors.contentBrand,
-                            style = ReedTheme.typography.headline2SemiBold,
-                        )
-                    }
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        ReedButton(
-                            onClick = {
-                                state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
-                            },
-                            sizeStyle = largeButtonStyle,
-                            colorStyle = ReedButtonColorStyle.KAKAO,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    start = ReedTheme.spacing.spacing5,
-                                    end = ReedTheme.spacing.spacing5,
-                                ),
-                            text = stringResource(id = R.string.kakao_login),
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
-                                    contentDescription = "Kakao Icon",
-                                    tint = Color.Unspecified,
-                                )
-                            },
-                        )
-                        Spacer(
-                            modifier = Modifier.height(if (state.returnToScreen == null) ReedTheme.spacing.spacing2 else ReedTheme.spacing.spacing8),
-                        )
-                        if (state.returnToScreen == null) {
-                            ReedTextButton(
-                                onClick = {
-                                    state.eventSink(LoginUiEvent.OnGuestLoginButtonClick)
-                                },
-                                text = stringResource(R.string.guest_login),
-                                sizeStyle = smallButtonStyle,
-                                colorStyle = ReedButtonColorStyle.TEXT,
+                            .padding(
+                                start = ReedTheme.spacing.spacing5,
+                                end = ReedTheme.spacing.spacing5,
+                            ),
+                        text = stringResource(id = R.string.kakao_login),
+                        leadingIcon = {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_kakao),
+                                contentDescription = "Kakao Icon",
+                                tint = Color.Unspecified,
                             )
-                        }
+                        },
+                    )
+
+                    if (state.showLoginTooltip) {
+                        LoginTooltipBox(
+                            messageResId = R.string.recent_login,
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .offset {
+                                    IntOffset(
+                                        x = (-28).dp.roundToPx(),
+                                        y = (-32).dp.roundToPx()
+                                    )
+                                }
+                                .zIndex(10f)
+                        )
                     }
                 }
-
-                if (state.isLoading) {
-                    ReedLoadingIndicator()
+                Spacer(
+                    modifier = Modifier.height(if (state.returnToScreen == null) ReedTheme.spacing.spacing2 else ReedTheme.spacing.spacing8),
+                )
+                if (state.returnToScreen == null) {
+                    ReedTextButton(
+                        onClick = {
+                            state.eventSink(LoginUiEvent.OnGuestLoginButtonClick)
+                        },
+                        text = stringResource(R.string.guest_login),
+                        sizeStyle = smallButtonStyle,
+                        colorStyle = ReedButtonColorStyle.TEXT,
+                    )
                 }
+            }
+
+            if (state.isLoading) {
+                ReedLoadingIndicator()
             }
         }
     }

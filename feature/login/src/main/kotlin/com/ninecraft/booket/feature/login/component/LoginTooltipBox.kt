@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -52,10 +51,11 @@ private val TriangleShape = object : Shape {
 @Composable
 internal fun LoginTooltipBox(
     @StringRes messageResId: Int,
+    modifier: Modifier = Modifier,
 ) {
-    Column(horizontalAlignment = Alignment.Start) {
+    Column(modifier = modifier) {
         Box(
-            Modifier
+            modifier = Modifier
                 .shadow(ReedTheme.radius.xs, RoundedCornerShape(ReedTheme.radius.xs), clip = false)
                 .clip(RoundedCornerShape(ReedTheme.radius.xs))
                 .background(ReedTheme.colors.contentBrand)
