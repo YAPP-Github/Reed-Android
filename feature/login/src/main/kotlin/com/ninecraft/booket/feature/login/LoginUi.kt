@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.zIndex
-import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
@@ -131,7 +130,7 @@ internal fun LoginUi(
                                         x = (-28).dp.roundToPx(),
                                         y = (-32).dp.roundToPx(),
                                     )
-                                }
+                                },
                         )
                     }
                 }
