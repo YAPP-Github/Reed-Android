@@ -5,19 +5,6 @@
 //   ./gradlew :record:stabilityDump
 
 @Composable
-internal fun com.ninecraft.booket.feature.record.component.CustomTooltipBox(messageResId: kotlin.Int): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-    - messageResId: STABLE (primitive type)
-
-@Composable
-private fun com.ninecraft.booket.feature.record.component.CustomTooltipBoxPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.feature.record.component.ImpressionGuideBottomSheet(onDismissRequest: kotlin.Function0<kotlin.Unit>, sheetState: androidx.compose.material3.SheetState, impressionState: androidx.compose.foundation.text.input.TextFieldState, impressionGuideList: kotlinx.collections.immutable.ImmutableList<kotlin.String>, beforeSelectedImpressionGuide: kotlin.String, selectedImpressionGuide: kotlin.String, onGuideClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onCloseButtonClick: kotlin.Function0<kotlin.Unit>, onSelectionConfirmButtonClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
@@ -50,6 +37,19 @@ public fun com.ninecraft.booket.feature.record.component.ImpressionGuideBox(onCl
 
 @Composable
 private fun com.ninecraft.booket.feature.record.component.ImpressionGuideBoxPreview(): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
+internal fun com.ninecraft.booket.feature.record.component.RecordTooltipBox(messageResId: kotlin.Int): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - messageResId: STABLE (primitive type)
+
+@Composable
+private fun com.ninecraft.booket.feature.record.component.RecordTooltipBoxPreview(): kotlin.Unit
   skippable: true
   restartable: true
   params:

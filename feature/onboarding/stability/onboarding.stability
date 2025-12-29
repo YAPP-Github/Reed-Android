@@ -5,6 +5,12 @@
 //   ./gradlew :onboarding:stabilityDump
 
 @Composable
+public fun com.ninecraft.booket.feature.onboarding.OnboardingPresenter.present(): com.ninecraft.booket.feature.onboarding.OnboardingUiState
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
 private fun com.ninecraft.booket.feature.onboarding.OnboardingScreenPreview(): kotlin.Unit
   skippable: true
   restartable: true
@@ -31,6 +37,21 @@ internal fun com.ninecraft.booket.feature.onboarding.component.OnboardingPage(im
 
 @Composable
 private fun com.ninecraft.booket.feature.onboarding.component.OnboardingPagePreview(): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
+internal fun com.ninecraft.booket.feature.onboarding.component.PagerIndicator(pageCount: kotlin.Int, pagerState: androidx.compose.foundation.pager.PagerState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - pageCount: STABLE (primitive type)
+    - pagerState: STABLE (marked @Stable or @Immutable)
+    - modifier: STABLE (marked @Stable or @Immutable)
+
+@Composable
+private fun com.ninecraft.booket.feature.onboarding.component.PagerIndicatorPreview(): kotlin.Unit
   skippable: true
   restartable: true
   params:

@@ -42,42 +42,6 @@ public fun com.ninecraft.booket.core.designsystem.component.ResourceImage(imageR
     - contentScale: STABLE (marked @Stable or @Immutable)
 
 @Composable
-public fun com.ninecraft.booket.core.designsystem.component.button.<get-largeButtonStyle>(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-public fun com.ninecraft.booket.core.designsystem.component.button.<get-largeRoundedButtonStyle>(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-public fun com.ninecraft.booket.core.designsystem.component.button.<get-mediumButtonStyle>(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-public fun com.ninecraft.booket.core.designsystem.component.button.<get-mediumRoundedButtonStyle>(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-public fun com.ninecraft.booket.core.designsystem.component.button.<get-smallButtonStyle>(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-public fun com.ninecraft.booket.core.designsystem.component.button.<get-smallRoundedButtonStyle>(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.core.designsystem.component.button.ReedButton(onClick: kotlin.Function0<kotlin.Unit>, text: kotlin.String, sizeStyle: com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle, colorStyle: com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle, modifier: androidx.compose.ui.Modifier, enabled: kotlin.Boolean, leadingIcon: @[Composable] androidx.compose.runtime.internal.ComposableFunction0<kotlin.Unit>?, trailingIcon: @[Composable] androidx.compose.runtime.internal.ComposableFunction0<kotlin.Unit>?, multipleEventsCutterEnabled: kotlin.Boolean): kotlin.Unit
   skippable: true
   restartable: true
@@ -135,6 +99,42 @@ public fun com.ninecraft.booket.core.designsystem.component.button.ReedTextButto
     - modifier: STABLE (marked @Stable or @Immutable)
     - enabled: STABLE (primitive type)
     - multipleEventsCutterEnabled: STABLE (primitive type)
+
+@Composable
+public fun com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
+public fun com.ninecraft.booket.core.designsystem.component.button.largeRoundedButtonStyle(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
+public fun com.ninecraft.booket.core.designsystem.component.button.mediumButtonStyle(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
+public fun com.ninecraft.booket.core.designsystem.component.button.mediumRoundedButtonStyle(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
+public fun com.ninecraft.booket.core.designsystem.component.button.smallButtonStyle(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
+public fun com.ninecraft.booket.core.designsystem.component.button.smallRoundedButtonStyle(): com.ninecraft.booket.core.designsystem.component.button.ButtonSizeStyle
+  skippable: true
+  restartable: true
+  params:
 
 @Composable
 public fun com.ninecraft.booket.core.designsystem.component.checkbox.CircleCheckBox(checked: kotlin.Boolean, onCheckedChange: kotlin.Function1<kotlin.Boolean, kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
@@ -207,31 +207,31 @@ public fun com.ninecraft.booket.core.designsystem.theme.ReedTheme(content: @[Com
     - content: STABLE (composable function type)
 
 @Composable
-public fun com.ninecraft.booket.core.designsystem.theme.ReedTheme.<get-border>(): com.ninecraft.booket.core.designsystem.theme.ReedBorder
+public fun com.ninecraft.booket.core.designsystem.theme.ReedTheme.border(): com.ninecraft.booket.core.designsystem.theme.ReedBorder
   skippable: true
   restartable: true
   params:
 
 @Composable
-public fun com.ninecraft.booket.core.designsystem.theme.ReedTheme.<get-colors>(): com.ninecraft.booket.core.designsystem.theme.ReedColorScheme
+public fun com.ninecraft.booket.core.designsystem.theme.ReedTheme.colors(): com.ninecraft.booket.core.designsystem.theme.ReedColorScheme
   skippable: true
   restartable: true
   params:
 
 @Composable
-public fun com.ninecraft.booket.core.designsystem.theme.ReedTheme.<get-radius>(): com.ninecraft.booket.core.designsystem.theme.ReedRadius
+public fun com.ninecraft.booket.core.designsystem.theme.ReedTheme.radius(): com.ninecraft.booket.core.designsystem.theme.ReedRadius
   skippable: true
   restartable: true
   params:
 
 @Composable
-public fun com.ninecraft.booket.core.designsystem.theme.ReedTheme.<get-spacing>(): com.ninecraft.booket.core.designsystem.theme.ReedSpacing
+public fun com.ninecraft.booket.core.designsystem.theme.ReedTheme.spacing(): com.ninecraft.booket.core.designsystem.theme.ReedSpacing
   skippable: true
   restartable: true
   params:
 
 @Composable
-public fun com.ninecraft.booket.core.designsystem.theme.ReedTheme.<get-typography>(): com.ninecraft.booket.core.designsystem.theme.ReedTypography
+public fun com.ninecraft.booket.core.designsystem.theme.ReedTheme.typography(): com.ninecraft.booket.core.designsystem.theme.ReedTypography
   skippable: true
   restartable: true
   params:

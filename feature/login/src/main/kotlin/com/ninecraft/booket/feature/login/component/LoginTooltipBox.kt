@@ -92,7 +92,7 @@ internal fun LoginTooltipBox(
 
 @ComponentPreview
 @Composable
-private fun RecordTooltipBoxPreview() {
+private fun LoginTooltipBoxPreview() {
     ReedTheme {
         LoginTooltipBox(messageResId = R.string.recent_login)
     }

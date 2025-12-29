@@ -33,6 +33,20 @@ internal fun com.ninecraft.booket.feature.login.LoginUi(state: com.ninecraft.boo
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
+internal fun com.ninecraft.booket.feature.login.component.LoginTooltipBox(messageResId: kotlin.Int, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - messageResId: STABLE (primitive type)
+    - modifier: STABLE (marked @Stable or @Immutable)
+
+@Composable
+private fun com.ninecraft.booket.feature.login.component.LoginTooltipBoxPreview(): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
 internal fun com.ninecraft.booket.feature.termsagreement.HandleTermsAgreementSideEffects(state: com.ninecraft.booket.feature.termsagreement.TermsAgreementUiState): kotlin.Unit
   skippable: true
   restartable: true
