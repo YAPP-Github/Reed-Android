@@ -16,8 +16,14 @@ data class RecordRegisterUiState(
     val recordPageState: TextFieldState = TextFieldState(),
     val recordSentenceState: TextFieldState = TextFieldState(),
     val isPageError: Boolean = false,
+    val memoState: TextFieldState = TextFieldState(),
     val emotions: ImmutableList<Emotion> = persistentListOf(),
+    val emotionDetails: ImmutableList<String> = persistentListOf(),
     val selectedEmotion: Emotion? = null,
+    val selectedEmotionDetails: Map<Emotion, ImmutableList<String>> = emptyMap(),
+    val committedEmotion: Emotion? = null,
+    val committedEmotionDetails: Map<Emotion, ImmutableList<String>> = emptyMap(),
+    val isEmotionDetailBottomSheetVisible: Boolean = false,
     val impressionState: TextFieldState = TextFieldState(),
     val impressionGuideList: ImmutableList<String> = persistentListOf(),
     val selectedImpressionGuide: String = "",
@@ -47,6 +53,12 @@ sealed interface RecordRegisterUiEvent : CircuitUiEvent {
     data object OnNextButtonClick : RecordRegisterUiEvent
     data object OnSentenceScanButtonClick : RecordRegisterUiEvent
     data class OnSelectEmotion(val emotion: Emotion) : RecordRegisterUiEvent
+    data class OnSelectEmotionV2(val emotion: Emotion) : RecordRegisterUiEvent
+    data class OnEmotionDetailToggled(val detail: String) : RecordRegisterUiEvent
+    data class OnEmotionDetailRemoved(val detail: String) : RecordRegisterUiEvent
+    data object OnEmotionDetailSkipped : RecordRegisterUiEvent
+    data object OnEmotionDetailCommitted : RecordRegisterUiEvent
+    data object OnEmotionDetailBottomSheetDismiss : RecordRegisterUiEvent
     data object OnImpressionGuideButtonClick : RecordRegisterUiEvent
     data object OnImpressionGuideBottomSheetDismiss : RecordRegisterUiEvent
     data class OnSelectImpressionGuide(val index: Int) : RecordRegisterUiEvent
