@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -119,7 +120,9 @@ internal fun QuoteStepV2(
                 colorStyle = ReedButtonColorStyle.TERTIARY,
                 sizeStyle = mediumButtonStyle,
                 text = stringResource(R.string.quote_step_scan_sentence),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .bringIntoViewRequester(bringIntoViewRequester),
                 leadingIcon = {
                     Icon(
                         imageVector = ImageVector.vectorResource(designR.drawable.ic_maximize),
