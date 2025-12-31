@@ -25,13 +25,13 @@ internal fun com.ninecraft.booket.feature.onboarding.OnboardingUi(state: com.nin
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-internal fun com.ninecraft.booket.feature.onboarding.component.OnboardingPage(imageRes: kotlin.Int, titleRes: kotlin.Int, highlightTextRes: kotlin.Int, descriptionRes: kotlin.Int, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+internal fun com.ninecraft.booket.feature.onboarding.component.OnboardingPage(imageRes: kotlin.Int, titleRes: kotlin.Int, highlightTextRes: kotlin.Int?, descriptionRes: kotlin.Int, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - imageRes: STABLE (primitive type)
     - titleRes: STABLE (primitive type)
-    - highlightTextRes: STABLE (primitive type)
+    - highlightTextRes: STABLE (class with no mutable properties)
     - descriptionRes: STABLE (primitive type)
     - modifier: STABLE (marked @Stable or @Immutable)
 
