@@ -8,7 +8,9 @@ import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.model.BookUpsertModel
 import com.ninecraft.booket.core.model.DetailEmotionModel
 import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.EmotionGroupModel
 import com.ninecraft.booket.core.model.EmotionModel
+import com.ninecraft.booket.core.model.EmotionGroupsModel
 import com.ninecraft.booket.core.model.HomeModel
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.model.LibraryBooksModel
@@ -29,6 +31,8 @@ import com.ninecraft.booket.core.network.response.BookSummary
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
 import com.ninecraft.booket.core.network.response.Category
 import com.ninecraft.booket.core.network.response.DetailEmotion
+import com.ninecraft.booket.core.network.response.EmotionGroup
+import com.ninecraft.booket.core.network.response.EmotionGroupsResponse
 import com.ninecraft.booket.core.network.response.GuestBookSearchResponse
 import com.ninecraft.booket.core.network.response.GuestBookSummary
 import com.ninecraft.booket.core.network.response.HomeResponse
@@ -191,6 +195,26 @@ internal fun PageInfo.toModel(): PageInfoModel {
     )
 }
 
+internal fun EmotionGroupsResponse.toModel(): EmotionGroupsModel {
+    return EmotionGroupsModel(
+        emotions = emotions.map { it.toModel() },
+    )
+}
+
+internal fun EmotionGroup.toModel(): EmotionGroupModel {
+    return EmotionGroupModel(
+        code = code,
+        detailEmotions = detailEmotions.map { it.toModel() },
+    )
+}
+
+internal fun DetailEmotion.toModel(): DetailEmotionModel {
+    return DetailEmotionModel(
+        id = id,
+        name = name,
+    )
+}
+
 internal fun RecordRegisterResponse.toModel(): RecordRegisterModel {
     return RecordRegisterModel(
         id = id,
@@ -236,13 +260,6 @@ internal fun PrimaryEmotion.toModel(): PrimaryEmotionModel {
     return PrimaryEmotionModel(
         code = code,
         displayName = displayName,
-    )
-}
-
-internal fun DetailEmotion.toModel(): DetailEmotionModel {
-    return DetailEmotionModel(
-        id = id,
-        name = name,
     )
 }
 

@@ -32,9 +32,3 @@ data class PrimaryEmotionModel(
     val code: String,
     val displayName: String,
 )
-
-@Stable
-data class DetailEmotionModel(
-    val id: String,
-    val name: String,
-)

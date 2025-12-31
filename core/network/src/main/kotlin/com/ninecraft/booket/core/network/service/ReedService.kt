@@ -10,14 +10,13 @@ import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
+import com.ninecraft.booket.core.network.response.EmotionGroupsResponse
 import com.ninecraft.booket.core.network.response.GuestBookSearchResponse
 import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
 import com.ninecraft.booket.core.network.response.ReadingRecord
 import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
-import com.ninecraft.booket.core.network.response.RecordDetailResponse
-import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.RefreshTokenResponse
 import com.ninecraft.booket.core.network.response.SeedResponse
 import com.ninecraft.booket.core.network.response.TermsAgreementResponse
@@ -106,6 +105,11 @@ interface ReedService {
     suspend fun deleteBook(
         @Path("userBookId") userBookId: String,
     )
+
+    // Emotions (auth required)
+    @GET
+    suspend fun getEmotions(): EmotionGroupsResponse
+
 
     // Reading-records endpoints (auth required)
     @POST("api/v2/reading-records/{userBookId}")

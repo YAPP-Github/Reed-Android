@@ -54,11 +54,3 @@ data class PrimaryEmotion(
     @SerialName("displayName")
     val displayName: String,
 )
-
-@Serializable
-data class DetailEmotion(
-    @SerialName("id")
-    val id: String,
-    @SerialName("name")
-    val name: String,
-)
