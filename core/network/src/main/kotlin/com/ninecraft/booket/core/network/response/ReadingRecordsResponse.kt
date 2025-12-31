@@ -29,8 +29,10 @@ data class ReadingRecord(
     val quote: String,
     @SerialName("review")
     val review: String?,
-    @SerialName("emotionTags")
-    val emotionTags: List<String> = emptyList(),
+    @SerialName("primaryEmotion")
+    val primaryEmotion: PrimaryEmotion,
+    @SerialName("detailEmotions")
+    val detailEmotions: List<DetailEmotion>,
     @SerialName("createdAt")
     val createdAt: String,
     @SerialName("updatedAt")
@@ -43,4 +45,20 @@ data class ReadingRecord(
     val bookCoverImageUrl: String,
     @SerialName("author")
     val author: String,
+)
+
+@Serializable
+data class PrimaryEmotion(
+    @SerialName("code")
+    val code: String,
+    @SerialName("displayName")
+    val displayName: String,
+)
+
+@Serializable
+data class DetailEmotion(
+    @SerialName("id")
+    val id: String,
+    @SerialName("name")
+    val name: String,
 )

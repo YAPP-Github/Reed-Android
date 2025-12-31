@@ -17,11 +17,24 @@ data class ReadingRecordModel(
     val pageNumber: Int = 0,
     val quote: String = "",
     val review: String = "",
-    val emotionTags: List<String> = emptyList(),
+    val primaryEmotion: PrimaryEmotionModel,
+    val detailEmotions: List<DetailEmotionModel> = emptyList(),
     val createdAt: String = "",
     val updatedAt: String = "",
     val bookTitle: String = "",
     val bookPublisher: String = "",
     val bookCoverImageUrl: String = "",
     val author: String = "",
+)
+
+@Stable
+data class PrimaryEmotionModel(
+    val code: String,
+    val displayName: String,
+)
+
+@Stable
+data class DetailEmotionModel(
+    val id: String,
+    val name: String,
 )

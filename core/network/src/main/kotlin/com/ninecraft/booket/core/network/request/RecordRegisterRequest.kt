@@ -13,4 +13,8 @@ data class RecordRegisterRequest(
     val emotionTags: List<String>,
     @SerialName("review")
     val review: String,
+    @SerialName("primaryEmotion")
+    val primaryEmotion: String,
+    @SerialName("detailEmotionTagIds")
+    val detailEmotionTagIds: List<String>,
 )

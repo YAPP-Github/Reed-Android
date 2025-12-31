@@ -6,6 +6,7 @@ import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.model.BookUpsertModel
+import com.ninecraft.booket.core.model.DetailEmotionModel
 import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.model.EmotionModel
 import com.ninecraft.booket.core.model.HomeModel
@@ -13,6 +14,7 @@ import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.model.LibraryBooksModel
 import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.PageInfoModel
+import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.model.ReadingRecordsModel
 import com.ninecraft.booket.core.model.RecentBookModel
@@ -26,6 +28,7 @@ import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookSummary
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
 import com.ninecraft.booket.core.network.response.Category
+import com.ninecraft.booket.core.network.response.DetailEmotion
 import com.ninecraft.booket.core.network.response.GuestBookSearchResponse
 import com.ninecraft.booket.core.network.response.GuestBookSummary
 import com.ninecraft.booket.core.network.response.HomeResponse
@@ -33,6 +36,7 @@ import com.ninecraft.booket.core.network.response.LibraryBookSummary
 import com.ninecraft.booket.core.network.response.LibraryBooks
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.PageInfo
+import com.ninecraft.booket.core.network.response.PrimaryEmotion
 import com.ninecraft.booket.core.network.response.ReadingRecord
 import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RecentBook
@@ -217,13 +221,28 @@ internal fun ReadingRecord.toModel(): ReadingRecordModel {
         pageNumber = pageNumber,
         quote = quote,
         review = review ?: "",
-        emotionTags = emotionTags,
+        primaryEmotion = primaryEmotion.toModel(),
+        detailEmotions = detailEmotions.map { it.toModel() },
         createdAt = createdAt,
         updatedAt = updatedAt,
         bookTitle = bookTitle,
         bookPublisher = bookPublisher,
         bookCoverImageUrl = bookCoverImageUrl,
         author = author,
+    )
+}
+
+internal fun PrimaryEmotion.toModel(): PrimaryEmotionModel {
+    return PrimaryEmotionModel(
+        code = code,
+        displayName = displayName,
+    )
+}
+
+internal fun DetailEmotion.toModel(): DetailEmotionModel {
+    return DetailEmotionModel(
+        id = id,
+        name = name,
     )
 }
 

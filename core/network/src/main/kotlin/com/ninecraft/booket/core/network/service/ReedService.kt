@@ -108,13 +108,13 @@ interface ReedService {
     )
 
     // Reading-records endpoints (auth required)
-    @POST("api/v1/reading-records/{userBookId}")
+    @POST("api/v2/reading-records/{userBookId}")
     suspend fun postRecord(
         @Path("userBookId") userBookId: String,
         @Body recordRegisterRequest: RecordRegisterRequest,
-    ): RecordRegisterResponse
+    ): ReadingRecord
 
-    @GET("api/v1/reading-records/{userBookId}")
+    @GET("api/v2/reading-records/{userBookId}")
     suspend fun getReadingRecords(
         @Path("userBookId") userBookId: String,
         @Query("sort") sort: String = "CREATED_DATE_DESC",
@@ -127,18 +127,18 @@ interface ReedService {
         @Path("userBookId") userBookId: String,
     ): SeedResponse
 
-    @GET("api/v1/reading-records/detail/{readingRecordId}")
+    @GET("api/v2/reading-records/detail/{readingRecordId}")
     suspend fun getRecordDetail(
         @Path("readingRecordId") readingRecordId: String,
-    ): RecordDetailResponse
+    ): ReadingRecord
 
-    @PATCH("api/v1/reading-records/{readingRecordId}")
+    @PATCH("api/v2/reading-records/{readingRecordId}")
     suspend fun editRecord(
         @Path("readingRecordId") readingRecordId: String,
         @Body recordRegisterRequest: RecordRegisterRequest,
     ): ReadingRecord
 
-    @DELETE("api/v1/reading-records/{readingRecordId}")
+    @DELETE("api/v2/reading-records/{readingRecordId}")
     suspend fun deleteRecord(
         @Path("readingRecordId") readingRecordId: String,
     )
