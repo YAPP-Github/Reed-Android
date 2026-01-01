@@ -3,11 +3,11 @@ package com.ninecraft.booket.core.data.impl.repository
 import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.data.impl.mapper.toModel
+import com.ninecraft.booket.core.di.DataScope
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.network.request.RecordRegisterRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import dev.zacsweers.metro.Inject
-import com.ninecraft.booket.core.di.DataScope
 import dev.zacsweers.metro.SingleIn
 
 @SingleIn(DataScope::class)
@@ -19,10 +19,11 @@ class DefaultRecordRepository(
         userBookId: String,
         pageNumber: Int,
         quote: String,
-        emotionTags: List<String>,
         review: String,
+        primaryEmotion: String,
+        detailEmotionTagIds: List<String>,
     ) = runSuspendCatching {
-        service.postRecord(userBookId, RecordRegisterRequest(pageNumber, quote, emotionTags, review)).toModel()
+        service.postRecord(userBookId, RecordRegisterRequest(pageNumber, quote, review, primaryEmotion, detailEmotionTagIds)).toModel()
     }
 
     override suspend fun getReadingRecords(
@@ -42,10 +43,11 @@ class DefaultRecordRepository(
         readingRecordId: String,
         pageNumber: Int,
         quote: String,
-        emotionTags: List<String>,
         review: String,
+        primaryEmotion: String,
+        detailEmotionTagIds: List<String>,
     ): Result<ReadingRecordModel> = runSuspendCatching {
-        service.editRecord(readingRecordId, RecordRegisterRequest(pageNumber, quote, emotionTags, review)).toModel()
+        service.editRecord(readingRecordId, RecordRegisterRequest(pageNumber, quote, review, primaryEmotion, detailEmotionTagIds)).toModel()
     }
 
     override suspend fun deleteRecord(readingRecordId: String): Result<Unit> = runSuspendCatching {

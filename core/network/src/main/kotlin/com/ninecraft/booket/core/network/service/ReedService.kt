@@ -107,7 +107,7 @@ interface ReedService {
     )
 
     // Emotions (auth required)
-    @GET
+    @GET("api/v2/emotions")
     suspend fun getEmotions(): EmotionGroupsResponse
 
 

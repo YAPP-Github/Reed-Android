@@ -17,7 +17,7 @@ data class ReadingRecordModel(
     val pageNumber: Int = 0,
     val quote: String = "",
     val review: String = "",
-    val primaryEmotion: PrimaryEmotionModel,
+    val primaryEmotion: PrimaryEmotionModel = PrimaryEmotionModel(),
     val detailEmotions: List<DetailEmotionModel> = emptyList(),
     val createdAt: String = "",
     val updatedAt: String = "",
@@ -29,6 +29,6 @@ data class ReadingRecordModel(
 
 @Stable
 data class PrimaryEmotionModel(
-    val code: String,
-    val displayName: String,
+    val code: String = "",
+    val displayName: String = "",
 )

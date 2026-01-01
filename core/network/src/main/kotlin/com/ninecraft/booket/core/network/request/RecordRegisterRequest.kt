@@ -9,8 +9,6 @@ data class RecordRegisterRequest(
     val pageNumber: Int,
     @SerialName("quote")
     val quote: String,
-    @SerialName("emotionTags")
-    val emotionTags: List<String>,
     @SerialName("review")
     val review: String,
     @SerialName("primaryEmotion")
