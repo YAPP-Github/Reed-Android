@@ -106,7 +106,7 @@ fun getEmotionImageResourceByDisplayName(displayName: String): Int {
         "즐거움" -> R.drawable.img_joy
         "슬픔" -> R.drawable.img_sad
         "깨달음" -> R.drawable.img_insight
-        "기타" -> R.drawable.img_warm // TODO: ETC 이미지 리소스 추가 필요
+        "기타" -> R.drawable.img_etc
         else -> R.drawable.img_warm
     }
 }

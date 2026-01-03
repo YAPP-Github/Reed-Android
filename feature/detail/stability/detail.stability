@@ -5,30 +5,6 @@
 //   ./gradlew :detail:stabilityDump
 
 @Composable
-internal fun com.ninecraft.booket.feature.detail.book.BookDetailContent(state: com.ninecraft.booket.feature.detail.book.BookDetailUiState, innerPadding: androidx.compose.foundation.layout.PaddingValues, modifier: androidx.compose.ui.Modifier, lazyListState: androidx.compose.foundation.lazy.LazyListState): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-    - state: STABLE (class with no mutable properties)
-    - innerPadding: STABLE (marked @Stable or @Immutable)
-    - modifier: STABLE (marked @Stable or @Immutable)
-    - lazyListState: STABLE (marked @Stable or @Immutable)
-
-@Composable
-public fun com.ninecraft.booket.feature.detail.book.BookDetailPresenter.present(): com.ninecraft.booket.feature.detail.book.BookDetailUiState
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-internal fun com.ninecraft.booket.feature.detail.book.BookDetailUi(state: com.ninecraft.booket.feature.detail.book.BookDetailUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-    - state: STABLE (class with no mutable properties)
-    - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
 internal fun com.ninecraft.booket.feature.detail.book.component.RecordItem(recordInfo: com.ninecraft.booket.core.model.ReadingRecordModel, onRecordClick: kotlin.Function0<kotlin.Unit>, onRecordMenuClick: kotlin.Function1<com.ninecraft.booket.core.model.ReadingRecordModel, kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
