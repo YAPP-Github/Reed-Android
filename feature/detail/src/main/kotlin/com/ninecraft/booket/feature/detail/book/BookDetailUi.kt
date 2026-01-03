@@ -374,7 +374,7 @@ internal fun BookDetailContent(
 
 @ComponentPreview
 @Composable
-private fun BookDetailPreview() {
+private fun BookDetailEmptyPreview() {
     ReedTheme {
         BookDetailUi(
             state = BookDetailUiState(
@@ -394,7 +394,7 @@ private fun BookDetailPreview() {
 
 @ComponentPreview
 @Composable
-private fun BookDetailWithSeedsPreview() {
+private fun BookDetailSeedStatsPreview() {
     ReedTheme {
         BookDetailUi(
             state = BookDetailUiState(
@@ -412,6 +412,60 @@ private fun BookDetailWithSeedsPreview() {
                     EmotionModel(name = Emotion.SAD, count = 2),
                     EmotionModel(name = Emotion.INSIGHT, count = 7),
                 ),
+                readingRecords = persistentListOf(
+                    ReadingRecordModel(
+                        id = "1",
+                        pageNumber = 42,
+                        quote = "새는 알에서 나오려고 투쟁한다. 알은 세계이다.",
+                        review = "정말 인상 깊은 구절이었다.",
+                        emotionTags = listOf("깨달음", "따뜻함"),
+                        createdAt = "2024-01-15T10:30:00.000000",
+                    ),
+                    ReadingRecordModel(
+                        id = "2",
+                        pageNumber = 78,
+                        quote = "나는 더 이상 꿈을 꾸지 않으려 했다.",
+                        review = "성장통을 느끼는 부분",
+                        emotionTags = listOf("슬픔"),
+                        createdAt = "2024-01-20T14:20:00.000000",
+                    ),
+                    ReadingRecordModel(
+                        id = "3",
+                        pageNumber = 156,
+                        quote = "운명과 성향은 같은 개념의 두 이름이다.",
+                        review = "내 삶을 돌아보게 되었다.",
+                        emotionTags = listOf("깨달음", "즐거움"),
+                        createdAt = "2024-01-25T09:15:00.000000",
+                    ),
+                ),
+                readingRecordsTotalCount = 3,
+                eventSink = {},
+            ),
+        )
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun BookDetailSeedsStatsExpandedPreview() {
+    ReedTheme {
+        BookDetailUi(
+            state = BookDetailUiState(
+                uiState = UiState.Success,
+                bookDetail = BookDetailModel(
+                    title = "데미안",
+                    author = "헤르만 헤세",
+                    publisher = "민음사",
+                    pubDate = "2023-01-01",
+                    coverImageUrl = "",
+                ),
+                seedsStats = persistentListOf(
+                    EmotionModel(name = Emotion.WARM, count = 5),
+                    EmotionModel(name = Emotion.JOY, count = 3),
+                    EmotionModel(name = Emotion.SAD, count = 2),
+                    EmotionModel(name = Emotion.INSIGHT, count = 7),
+                ),
+                isStatsExpanded = true,
                 readingRecords = persistentListOf(
                     ReadingRecordModel(
                         id = "1",
