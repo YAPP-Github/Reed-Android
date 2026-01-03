@@ -146,18 +146,6 @@ internal fun com.ninecraft.booket.feature.record.step.QuoteStep(state: com.ninec
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.record.step.QuoteStepPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-private fun com.ninecraft.booket.feature.record.step.RecordRegisterPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.record.step_v2.EmotionDetailBottomSheet(emotion: com.ninecraft.booket.core.model.Emotion, emotionDetails: kotlinx.collections.immutable.ImmutableList<kotlin.String>, selectedEmotionDetail: kotlinx.collections.immutable.ImmutableList<kotlin.String>, onDismissRequest: kotlin.Function0<kotlin.Unit>, sheetState: androidx.compose.material3.SheetState, onCloseButtonClick: kotlin.Function0<kotlin.Unit>, onEmotionDetailToggled: kotlin.Function1<kotlin.String, kotlin.Unit>, onSkipButtonClick: kotlin.Function0<kotlin.Unit>, onConfirmButtonClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
@@ -173,12 +161,6 @@ internal fun com.ninecraft.booket.feature.record.step_v2.EmotionDetailBottomShee
     - onConfirmButtonClick: STABLE (function type)
 
 @Composable
-private fun com.ninecraft.booket.feature.record.step_v2.EmotionDetailBottomSheetPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.record.step_v2.EmotionItem(emotion: com.ninecraft.booket.core.model.Emotion, selectedEmotionDetails: kotlinx.collections.immutable.ImmutableList<kotlin.String>, onClick: kotlin.Function0<kotlin.Unit>, isSelected: kotlin.Boolean, onEmotionDetailRemove: kotlin.Function1<kotlin.String, kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -191,12 +173,6 @@ internal fun com.ninecraft.booket.feature.record.step_v2.EmotionItem(emotion: co
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.record.step_v2.EmotionItemPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.record.step_v2.EmotionStepV2(state: com.ninecraft.booket.feature.record.register.RecordRegisterUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: false
   restartable: true
@@ -205,22 +181,10 @@ internal fun com.ninecraft.booket.feature.record.step_v2.EmotionStepV2(state: co
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.record.step_v2.EmotionStepV2Preview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.record.step_v2.QuoteStepV2(state: com.ninecraft.booket.feature.record.register.RecordRegisterUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: false
   restartable: true
   params:
     - state: RUNTIME (requires runtime check)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.feature.record.step_v2.QuoteStepV2Preview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
