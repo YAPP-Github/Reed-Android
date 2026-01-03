@@ -1,7 +1,7 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.google.devtools.ksp.gradle.KspExtension
+import com.ninecraft.booket.convention.getLocalProperty
 import org.gradle.kotlin.dsl.configure
 import java.util.Properties
 
@@ -32,6 +32,7 @@ android {
         getByName("debug") {
             isDebuggable = true
             applicationIdSuffix = ".dev"
+            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getLocalProperty("DEBUG_GOOGLE_WEB_CLIENT_ID"))
             manifestPlaceholders += mapOf(
                 "appName" to "@string/app_name_dev",
             )
@@ -42,6 +43,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
+            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getLocalProperty("RELEASE_GOOGLE_WEB_CLIENT_ID"))
             manifestPlaceholders += mapOf(
                 "appName" to "@string/app_name",
             )
@@ -53,8 +55,8 @@ android {
     }
 
     defaultConfig {
-        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getApiKey("KAKAO_NATIVE_APP_KEY"))
-        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getApiKey("KAKAO_NATIVE_APP_KEY").trim('"')
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getLocalProperty("KAKAO_NATIVE_APP_KEY"))
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getLocalProperty("KAKAO_NATIVE_APP_KEY").trim('"')
     }
 
     buildFeatures {
@@ -108,8 +110,4 @@ dependencies {
     )
     api(libs.circuit.codegen.annotation)
     ksp(libs.circuit.codegen.ksp)
-}
-
-fun getApiKey(propertyKey: String): String {
-    return gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
 }
