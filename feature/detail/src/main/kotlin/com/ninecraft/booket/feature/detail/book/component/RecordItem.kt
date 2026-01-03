@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.detail.book.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -11,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -21,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -55,19 +51,12 @@ internal fun RecordItem(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(
-                painter = painterResource(getEmotionImageResourceByDisplayName(recordInfo.emotionTags[0])),
-                contentDescription = "Emotion Graphic",
-                modifier = Modifier
-                    .size(ReedTheme.spacing.spacing8)
-                    .clip(CircleShape)
-                    .background(ReedTheme.colors.basePrimary),
-            )
-            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
             Text(
-                text = "#${recordInfo.emotionTags[0]}",
+                text = if (recordInfo.pageNumber != 0) "${recordInfo.pageNumber}p"
+                else "-p",
                 color = ReedTheme.colors.contentBrand,
-                style = ReedTheme.typography.body1SemiBold,
+                style = ReedTheme.typography.label1Medium,
+                fontStyle = FontStyle.Italic,
             )
             Spacer(modifier = Modifier.weight(1f))
             Icon(
@@ -81,7 +70,7 @@ internal fun RecordItem(
                 tint = ReedTheme.colors.contentTertiary,
             )
         }
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
         Text(
             text = "\"${recordInfo.quote}\"",
             color = ReedTheme.colors.contentSecondary,
@@ -89,22 +78,21 @@ internal fun RecordItem(
             maxLines = 4,
             style = ReedTheme.typography.body2Medium,
         )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = recordInfo.createdAt.toFormattedDate(),
+                text = "#${recordInfo.emotionTags[0]}",
                 color = ReedTheme.colors.contentTertiary,
                 style = ReedTheme.typography.label1Medium,
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "${recordInfo.pageNumber}p",
+                text = recordInfo.createdAt.toFormattedDate(),
                 color = ReedTheme.colors.contentTertiary,
-                style = ReedTheme.typography.body2Medium,
-                fontStyle = FontStyle.Italic,
+                style = ReedTheme.typography.label1Medium,
             )
         }
     }
@@ -129,7 +117,7 @@ private fun RecordItemPreview() {
                 quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
                 emotionTags = persistentListOf("따뜻함"),
                 pageNumber = 12,
-                createdAt = "2025.06.25",
+                createdAt = "2025-06-25T10:30:00.000000",
             ),
             onRecordMenuClick = {},
         )
