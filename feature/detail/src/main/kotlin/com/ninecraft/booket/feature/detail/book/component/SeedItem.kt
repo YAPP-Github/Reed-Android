@@ -70,6 +70,7 @@ private fun getEmotionImageResource(emotion: Emotion): Int {
         Emotion.JOY -> R.drawable.img_joy
         Emotion.SAD -> R.drawable.img_sad
         Emotion.INSIGHT -> R.drawable.img_insight
+        Emotion.ETC -> R.drawable.img_etc
     }
 }
 

@@ -32,6 +32,7 @@ import com.ninecraft.booket.core.designsystem.R as designR
 @Composable
 internal fun RecordItem(
     recordInfo: ReadingRecordModel,
+    onRecordClick: () -> Unit,
     onRecordMenuClick: (ReadingRecordModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -39,6 +40,7 @@ internal fun RecordItem(
         modifier = modifier
             .fillMaxSize()
             .clip(RoundedCornerShape(ReedTheme.radius.md))
+            .clickable { onRecordClick() }
             .background(ReedTheme.colors.baseSecondary)
             .padding(
                 start = ReedTheme.spacing.spacing5,
@@ -104,6 +106,7 @@ fun getEmotionImageResourceByDisplayName(displayName: String): Int {
         "즐거움" -> R.drawable.img_joy
         "슬픔" -> R.drawable.img_sad
         "깨달음" -> R.drawable.img_insight
+        "기타" -> R.drawable.img_warm // TODO: ETC 이미지 리소스 추가 필요
         else -> R.drawable.img_warm
     }
 }
@@ -119,6 +122,7 @@ private fun RecordItemPreview() {
                 pageNumber = 12,
                 createdAt = "2025-06-25T10:30:00.000000",
             ),
+            onRecordClick = {},
             onRecordMenuClick = {},
         )
     }

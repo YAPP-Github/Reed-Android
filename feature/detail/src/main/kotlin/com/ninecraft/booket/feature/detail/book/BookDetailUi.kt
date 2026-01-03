@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.detail.book
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -333,6 +332,9 @@ internal fun BookDetailContent(
                         val record = state.readingRecords[index]
                         RecordItem(
                             recordInfo = record,
+                            onRecordClick = {
+                                state.eventSink(BookDetailUiEvent.OnRecordItemClick(record.id))
+                            },
                             onRecordMenuClick = { recordInfo ->
                                 state.eventSink(BookDetailUiEvent.OnRecordMenuClick(recordInfo))
                             },
@@ -341,10 +343,7 @@ internal fun BookDetailContent(
                                     start = ReedTheme.spacing.spacing5,
                                     end = ReedTheme.spacing.spacing5,
                                     bottom = ReedTheme.spacing.spacing3,
-                                )
-                                .clickable {
-                                    state.eventSink(BookDetailUiEvent.OnRecordItemClick(record.id))
-                                },
+                                ),
                         )
                     }
 

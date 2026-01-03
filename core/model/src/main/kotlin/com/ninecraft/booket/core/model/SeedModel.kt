@@ -20,6 +20,7 @@ enum class Emotion(
     JOY("즐거움"),
     SAD("슬픔"),
     INSIGHT("깨달음"),
+    ETC("기타"),
     ;
 
     companion object {
