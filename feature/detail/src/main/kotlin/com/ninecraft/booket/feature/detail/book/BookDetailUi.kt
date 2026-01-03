@@ -283,7 +283,13 @@ internal fun BookDetailContent(
 
                 item {
                     if (state.hasEmotionData()) {
-                        CollectedSeeds(seedsStats = state.seedsStats)
+                        CollectedSeeds(
+                            seedsStats = state.seedsStats,
+                            isStatsExpanded = state.isStatsExpanded,
+                            onToggleClick = {
+                                state.eventSink(BookDetailUiEvent.OnStatsToggleClick(!state.isStatsExpanded))
+                            },
+                        )
                     } else {
                         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
                     }

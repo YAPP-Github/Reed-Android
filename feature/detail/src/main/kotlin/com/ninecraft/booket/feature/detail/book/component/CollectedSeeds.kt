@@ -22,10 +22,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,9 +44,10 @@ import com.ninecraft.booket.core.designsystem.R as designR
 @Composable
 internal fun CollectedSeeds(
     seedsStats: ImmutableList<EmotionModel>,
+    isStatsExpanded: Boolean,
+    onToggleClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var isExpanded by remember { mutableStateOf(false) }
     val analysisResult = remember(seedsStats) { analyzeEmotions(seedsStats) }
     val topEmotion = analysisResult.topEmotions.firstOrNull()
 
@@ -68,12 +66,12 @@ internal fun CollectedSeeds(
     ) {
         CollectedSeedsHeader(
             topEmotion = topEmotion,
-            isExpanded = isExpanded,
-            onToggleClick = { isExpanded = !isExpanded },
+            isStatsExpanded = isStatsExpanded,
+            onToggleClick = onToggleClick,
         )
 
         AnimatedVisibility(
-            visible = isExpanded,
+            visible = isStatsExpanded,
             enter = expandVertically(),
             exit = shrinkVertically(),
         ) {
@@ -110,7 +108,7 @@ internal fun CollectedSeeds(
 @Composable
 private fun CollectedSeedsHeader(
     topEmotion: EmotionModel?,
-    isExpanded: Boolean,
+    isStatsExpanded: Boolean,
     onToggleClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -153,9 +151,9 @@ private fun CollectedSeedsHeader(
 
         Icon(
             imageVector = ImageVector.vectorResource(
-                if (isExpanded) designR.drawable.ic_chevron_up else designR.drawable.ic_chevron_down,
+                if (isStatsExpanded) designR.drawable.ic_chevron_up else designR.drawable.ic_chevron_down,
             ),
-            contentDescription = if (isExpanded) "Collapse" else "Expand",
+            contentDescription = if (isStatsExpanded) "Collapse" else "Expand",
             modifier = Modifier.size(24.dp),
             tint = ReedTheme.colors.contentTertiary,
         )
@@ -241,6 +239,8 @@ private fun CollectedSeedsCollapsedPreview() {
                 EmotionModel(Emotion.INSIGHT, 2),
                 EmotionModel(Emotion.ETC, 2),
             ),
+            isStatsExpanded = false,
+            onToggleClick = {},
         )
     }
 }
@@ -249,55 +249,34 @@ private fun CollectedSeedsCollapsedPreview() {
 @Composable
 private fun CollectedSeedsExpandedPreview() {
     ReedTheme {
-        var isExpanded by remember { mutableStateOf(true) }
-        val seedsStats = persistentListOf(
-            EmotionModel(Emotion.WARM, 4),
-            EmotionModel(Emotion.JOY, 2),
-            EmotionModel(Emotion.SAD, 2),
-            EmotionModel(Emotion.INSIGHT, 2),
-            EmotionModel(Emotion.ETC, 2),
+        CollectedSeeds(
+            seedsStats = persistentListOf(
+                EmotionModel(Emotion.WARM, 4),
+                EmotionModel(Emotion.JOY, 2),
+                EmotionModel(Emotion.SAD, 2),
+                EmotionModel(Emotion.INSIGHT, 2),
+                EmotionModel(Emotion.ETC, 2),
+            ),
+            isStatsExpanded = true,
+            onToggleClick = {},
         )
-        val analysisResult = remember(seedsStats) { analyzeEmotions(seedsStats) }
-        val topEmotion = analysisResult.topEmotions.firstOrNull()
+    }
+}
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = ReedTheme.spacing.spacing5)
-                .clip(RoundedCornerShape(ReedTheme.radius.md))
-                .background(ReedTheme.colors.baseSecondary)
-                .padding(ReedTheme.spacing.spacing4),
-        ) {
-            CollectedSeedsHeader(
-                topEmotion = topEmotion,
-                isExpanded = isExpanded,
-                onToggleClick = { isExpanded = !isExpanded },
-            )
-
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
-            HorizontalDivider(
-                color = ReedTheme.colors.dividerSm,
-                thickness = 1.dp,
-            )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
-
-            EmotionRatioBar(seedsStats = seedsStats)
-
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing1),
-            ) {
-                Emotion.entries.forEach { emotion ->
-                    val emotionModel = seedsStats.find { it.name == emotion }
-                        ?: EmotionModel(emotion, 0)
-                    EmotionStatCard(
-                        emotion = emotionModel,
-                        modifier = Modifier.weight(1f),
-                    )
-                }
-            }
-        }
+@ComponentPreview
+@Composable
+private fun CollectedSeedsExpandedDuplicatedPreview() {
+    ReedTheme {
+        CollectedSeeds(
+            seedsStats = persistentListOf(
+                EmotionModel(Emotion.WARM, 4),
+                EmotionModel(Emotion.JOY, 4),
+                EmotionModel(Emotion.SAD, 2),
+                EmotionModel(Emotion.INSIGHT, 2),
+                EmotionModel(Emotion.ETC, 2),
+            ),
+            isStatsExpanded = true,
+            onToggleClick = {},
+        )
     }
 }
