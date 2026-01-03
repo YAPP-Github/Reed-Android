@@ -54,12 +54,13 @@ val Emotion.ratioBarColor: Color
         Emotion.ETC -> Neutral300
     }
 
-val Emotion.graphicResV2: Int
+val Emotion.graphicResV2: Int?
     get() = when (this) {
         Emotion.WARM -> R.drawable.img_category_warm
         Emotion.JOY -> R.drawable.img_category_joy
         Emotion.SAD -> R.drawable.img_category_sad
         Emotion.INSIGHT -> R.drawable.img_category_insight
+        Emotion.ETC -> null
     }
 
 val Emotion.descriptionRes: Int
@@ -68,4 +69,5 @@ val Emotion.descriptionRes: Int
         Emotion.JOY -> R.string.emotion_joy_description
         Emotion.SAD -> R.string.emotion_sad_description
         Emotion.INSIGHT -> R.string.emotion_insight_description
+        Emotion.ETC -> R.string.emotion_etc_description
     }

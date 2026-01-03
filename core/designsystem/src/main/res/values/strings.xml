@@ -8,4 +8,5 @@
     <string name="emotion_joy_description">흥미롭고 유쾌한 순간</string>
     <string name="emotion_sad_description">눈물이 고인 순간</string>
     <string name="emotion_insight_description">생각이 깊어지는 순간</string>
+    <string name="emotion_etc_description">네 가지 감정으로 표현하기 어려울 때</string>
 </resources>
