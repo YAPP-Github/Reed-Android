@@ -122,7 +122,7 @@ interface ReedService {
         @Query("size") size: Int = 20,
     ): ReadingRecordsResponse
 
-    @GET("api/v2/reading-records/{userBookId}/seed/stats")
+    @GET("api/v1/reading-records/{userBookId}/seed/stats")
     suspend fun getSeedsStats(
         @Path("userBookId") userBookId: String,
     ): SeedResponse
