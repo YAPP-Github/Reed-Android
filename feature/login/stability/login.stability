@@ -19,12 +19,6 @@ public fun com.ninecraft.booket.feature.login.LoginPresenter.present(): com.nine
   params:
 
 @Composable
-private fun com.ninecraft.booket.feature.login.LoginPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.login.LoginUi(state: com.ninecraft.booket.feature.login.LoginUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -41,12 +35,6 @@ internal fun com.ninecraft.booket.feature.termsagreement.HandleTermsAgreementSid
 
 @Composable
 public fun com.ninecraft.booket.feature.termsagreement.TermsAgreementPresenter.present(): com.ninecraft.booket.feature.termsagreement.TermsAgreementUiState
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-private fun com.ninecraft.booket.feature.termsagreement.TermsAgreementPreview(): kotlin.Unit
   skippable: true
   restartable: true
   params:
@@ -70,10 +58,4 @@ internal fun com.ninecraft.booket.feature.termsagreement.component.TermItem(titl
     - checked: STABLE (primitive type)
     - hasDetailAction: STABLE (primitive type)
     - onDetailClick: STABLE (function type)
-
-@Composable
-private fun com.ninecraft.booket.feature.termsagreement.component.TermItemPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 

@@ -23,9 +23,3 @@ private fun com.ninecraft.booket.feature.screens.component.MainBottomBarItem(tab
     - selected: STABLE (primitive type)
     - onClick: STABLE (function type)
 
-@Composable
-private fun com.ninecraft.booket.feature.screens.component.MainBottomBarPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-

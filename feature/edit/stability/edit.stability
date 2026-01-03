@@ -27,12 +27,6 @@ internal fun com.ninecraft.booket.feature.edit.emotion.EmotionEditUi(state: com.
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.edit.emotion.EmotionEditUiPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 private fun com.ninecraft.booket.feature.edit.emotion.EmotionItem(emotion: com.ninecraft.booket.core.model.Emotion, onClick: kotlin.Function0<kotlin.Unit>, isSelected: kotlin.Boolean, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -71,12 +65,6 @@ internal fun com.ninecraft.booket.feature.edit.record.RecordEditUi(state: com.ni
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.edit.record.RecordEditUiPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.edit.record.component.BookItem(imageUrl: kotlin.String, bookTitle: kotlin.String, author: kotlin.String, publisher: kotlin.String, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -86,10 +74,4 @@ internal fun com.ninecraft.booket.feature.edit.record.component.BookItem(imageUr
     - author: STABLE (String is immutable)
     - publisher: STABLE (String is immutable)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.feature.edit.record.component.BookItemPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 

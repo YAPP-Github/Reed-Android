@@ -85,7 +85,7 @@ sealed interface BookDetailUiEvent : CircuitUiEvent {
     data class OnRecordItemClick(val recordId: String) : BookDetailUiEvent
     data object OnLoadMore : BookDetailUiEvent
     data object OnRetryClick : BookDetailUiEvent
-    data class OnStatsToggleClick(val flag: Boolean): BookDetailUiEvent
+    data class OnStatsToggleClick(val flag: Boolean) : BookDetailUiEvent
 }
 
 enum class RecordSort(val value: String) {
