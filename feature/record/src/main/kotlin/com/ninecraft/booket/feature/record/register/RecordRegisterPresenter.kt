@@ -32,6 +32,7 @@ import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toPersistentList
@@ -96,9 +97,9 @@ class RecordRegisterPresenter(
         val emotions by rememberRetained { mutableStateOf(Emotion.entries.toPersistentList()) }
         var emotionDetails by rememberRetained { mutableStateOf(persistentListOf<String>()) }
         var selectedEmotion by rememberRetained { mutableStateOf<Emotion?>(null) }
-        var selectedEmotionDetails by rememberRetained { mutableStateOf<Map<Emotion, ImmutableList<String>>>(emptyMap()) }
+        var selectedEmotionDetails by rememberRetained { mutableStateOf<PersistentMap<Emotion, ImmutableList<String>>>(persistentMapOf()) }
         var committedEmotion by rememberRetained { mutableStateOf<Emotion?>(null) }
-        var committedEmotionDetails by rememberRetained { mutableStateOf<Map<Emotion, ImmutableList<String>>>(emptyMap()) }
+        var committedEmotionDetails by rememberRetained { mutableStateOf<PersistentMap<Emotion, ImmutableList<String>>>(persistentMapOf()) }
         var isEmotionDetailBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var savedRecordId by rememberRetained { mutableStateOf("") }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
@@ -243,7 +244,7 @@ class RecordRegisterPresenter(
                         currentDetails + event.detail
                     }
 
-                    selectedEmotionDetails = selectedEmotionDetails + (emotionKey to updatedDetails.toPersistentList())
+                    selectedEmotionDetails = selectedEmotionDetails.put(emotionKey, updatedDetails.toPersistentList())
                 }
 
                 is RecordRegisterUiEvent.OnEmotionDetailRemoved -> {
@@ -251,8 +252,8 @@ class RecordRegisterPresenter(
                     val currentDetails = committedEmotionDetails[selectedEmotion].orEmpty()
                     val updatedDetails = currentDetails - event.detail
 
-                    committedEmotionDetails = committedEmotionDetails + (emotionKey to updatedDetails.toPersistentList())
-                    selectedEmotionDetails = selectedEmotionDetails + (emotionKey to updatedDetails.toPersistentList())
+                    committedEmotionDetails = committedEmotionDetails.put(emotionKey, updatedDetails.toPersistentList())
+                    selectedEmotionDetails = selectedEmotionDetails.put(emotionKey, updatedDetails.toPersistentList())
                 }
 
                 is RecordRegisterUiEvent.OnEmotionDetailSkipped -> {
@@ -268,8 +269,8 @@ class RecordRegisterPresenter(
                     val details = selectedEmotionDetails[emotionKey] ?: persistentListOf()
 
                     committedEmotion = emotionKey
-                    committedEmotionDetails = mapOf(emotionKey to details)
-                    selectedEmotionDetails = mapOf(emotionKey to details)
+                    committedEmotionDetails = persistentMapOf(emotionKey to details)
+                    selectedEmotionDetails = persistentMapOf(emotionKey to details)
                     isEmotionDetailBottomSheetVisible = false
                 }
 
