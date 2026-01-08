@@ -22,7 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import com.ninecraft.booket.core.common.extensions.toFormattedDate
 import com.ninecraft.booket.core.designsystem.ComponentPreview
-import com.ninecraft.booket.core.designsystem.graphicResV2
+import com.ninecraft.booket.core.designsystem.graphicRes
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.DetailEmotionModel
 import com.ninecraft.booket.core.model.EmotionCode
@@ -77,7 +77,7 @@ private fun EmotionContent(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = painterResource(primaryEmotion.code.graphicResV2),
+            painter = painterResource(primaryEmotion.code.graphicRes),
             contentDescription = "Emotion Graphic",
             modifier = Modifier
                 .size(ReedTheme.spacing.spacing10)

@@ -28,15 +28,7 @@ val Emotion.textColor: Color
         Emotion.INSIGHT -> InsightTextColor
     }
 
-val Emotion.graphicRes: Int
-    get() = when (this) {
-        Emotion.WARM -> R.drawable.img_emotion_warmth
-        Emotion.JOY -> R.drawable.img_emotion_joy
-        Emotion.SAD -> R.drawable.img_emotion_sadness
-        Emotion.INSIGHT -> R.drawable.img_emotion_insight
-    }
-
-val EmotionCode.graphicResV2: Int
+val EmotionCode.graphicRes: Int
     get() = when (this) {
         EmotionCode.WARMTH -> R.drawable.img_warmth
         EmotionCode.JOY -> R.drawable.img_joy
@@ -45,11 +37,11 @@ val EmotionCode.graphicResV2: Int
         EmotionCode.OTHER -> R.drawable.img_other
     }
 
-val EmotionCode.categoryGraphicResV2: Int?
+val EmotionCode.categoryGraphicRes: Int?
     get() = when (this) {
-        EmotionCode.WARMTH -> R.drawable.img_category_warm
+        EmotionCode.WARMTH -> R.drawable.img_category_warmth
         EmotionCode.JOY -> R.drawable.img_category_joy
-        EmotionCode.SADNESS -> R.drawable.img_category_sad
+        EmotionCode.SADNESS -> R.drawable.img_category_sadness
         EmotionCode.INSIGHT -> R.drawable.img_category_insight
         EmotionCode.OTHER -> null
     }
