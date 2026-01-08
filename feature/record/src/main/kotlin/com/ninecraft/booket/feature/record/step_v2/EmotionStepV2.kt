@@ -24,13 +24,14 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorSt
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.DetailEmotionModel
+import com.ninecraft.booket.core.model.EmotionCode
+import com.ninecraft.booket.core.model.EmotionGroupModel
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,14 +76,14 @@ internal fun EmotionStepV2(
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
             }
 
-            items(state.emotions) { emotion ->
+            items(state.emotionGroups) { emotion ->
                 EmotionItem(
-                    emotion = emotion,
-                    selectedEmotionDetails = state.committedEmotionDetails[emotion] ?: persistentListOf(),
+                    emotionGroup = emotion,
+                    selectedEmotionDetailIds = state.committedEmotionMap[emotion.code] ?: persistentListOf(),
                     onClick = {
-                        state.eventSink(RecordRegisterUiEvent.OnSelectEmotionV2(emotion))
+                        state.eventSink(RecordRegisterUiEvent.OnSelectEmotionCode(emotion.code))
                     },
-                    isSelected = state.committedEmotion == emotion,
+                    isSelected = state.committedEmotion == emotion.code,
                     onEmotionDetailRemove = { detail ->
                         state.eventSink(RecordRegisterUiEvent.OnEmotionDetailRemoved(detail))
                     },
@@ -109,10 +110,10 @@ internal fun EmotionStepV2(
     }
 
     if (state.isEmotionDetailBottomSheetVisible) {
+        val selectedEmotionGroup = state.emotionGroups.firstOrNull { it.code == state.selectedEmotionCode } ?: return
         EmotionDetailBottomSheet(
-            emotion = state.selectedEmotion ?: Emotion.WARM,
-            emotionDetails = state.emotionDetails,
-            selectedEmotionDetail = state.selectedEmotionDetails[state.selectedEmotion] ?: persistentListOf(),
+            emotionGroup = selectedEmotionGroup,
+            selectedEmotionDetailIds = state.selectedEmotionMap[state.selectedEmotionCode] ?: persistentListOf(),
             onDismissRequest = {
                 state.eventSink(RecordRegisterUiEvent.OnEmotionDetailBottomSheetDismiss)
             },
@@ -145,12 +146,40 @@ internal fun EmotionStepV2(
 @ComponentPreview
 @Composable
 private fun EmotionStepV2Preview() {
-    val emotions = Emotion.entries.toPersistentList()
-
+    val warmthEmotionGroup = EmotionGroupModel(
+        code = EmotionCode.WARMTH,
+        displayName = "따뜻함",
+        detailEmotions = persistentListOf(
+            DetailEmotionModel(
+                id = "84f95d93-e54c-11f0-8545-525ae7dd628c",
+                name = "위로받은",
+            ),
+            DetailEmotionModel(
+                id = "84f95e7e-e54c-11f0-8545-525ae7dd628c",
+                name = "포근한",
+            ),
+            DetailEmotionModel(
+                id = "84f95f13-e54c-11f0-8545-525ae7dd628c",
+                name = "다정한",
+            ),
+            DetailEmotionModel(
+                id = "84f95fc0-e54c-11f0-8545-525ae7dd628c",
+                name = "고마운",
+            ),
+            DetailEmotionModel(
+                id = "84f96094-e54c-11f0-8545-525ae7dd628c",
+                name = "마음이 놓이는",
+            ),
+            DetailEmotionModel(
+                id = "84f9612c-e54c-11f0-8545-525ae7dd628c",
+                name = "편안한",
+            ),
+        ),
+    )
     ReedTheme {
         EmotionStepV2(
             state = RecordRegisterUiState(
-                emotions = emotions,
+                emotionGroups = persistentListOf(warmthEmotionGroup),
                 eventSink = {},
             ),
         )

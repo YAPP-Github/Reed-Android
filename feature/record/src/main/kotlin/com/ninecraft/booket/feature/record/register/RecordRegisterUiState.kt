@@ -3,7 +3,7 @@ package com.ninecraft.booket.feature.record.register
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.designsystem.RecordStep
-import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.model.EmotionGroupModel
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -19,12 +19,10 @@ data class RecordRegisterUiState(
     val isPageError: Boolean = false,
     val memoState: TextFieldState = TextFieldState(),
     val emotionGroups: ImmutableList<EmotionGroupModel> = persistentListOf(),
-    val emotions: ImmutableList<Emotion> = persistentListOf(),
-    val emotionDetails: ImmutableList<String> = persistentListOf(),
-    val selectedEmotion: Emotion? = null,
-    val selectedEmotionDetails: Map<Emotion, ImmutableList<String>> = emptyMap(),
-    val committedEmotion: Emotion? = null,
-    val committedEmotionDetails: Map<Emotion, ImmutableList<String>> = emptyMap(),
+    val selectedEmotionCode: EmotionCode? = null,
+    val selectedEmotionMap: Map<EmotionCode, ImmutableList<String>> = emptyMap(),
+    val committedEmotion: EmotionCode? = null,
+    val committedEmotionMap: Map<EmotionCode, ImmutableList<String>> = emptyMap(),
     val isEmotionDetailBottomSheetVisible: Boolean = false,
     val savedRecordId: String = "",
     val isNextButtonEnabled: Boolean = false,
@@ -47,8 +45,7 @@ sealed interface RecordRegisterUiEvent : CircuitUiEvent {
     data object OnClearClick : RecordRegisterUiEvent
     data object OnNextButtonClick : RecordRegisterUiEvent
     data object OnSentenceScanButtonClick : RecordRegisterUiEvent
-    data class OnSelectEmotion(val emotion: Emotion) : RecordRegisterUiEvent
-    data class OnSelectEmotionV2(val emotion: Emotion) : RecordRegisterUiEvent
+    data class OnSelectEmotionCode(val emotionCode: EmotionCode) : RecordRegisterUiEvent
     data class OnEmotionDetailToggled(val detail: String) : RecordRegisterUiEvent
     data class OnEmotionDetailRemoved(val detail: String) : RecordRegisterUiEvent
     data object OnEmotionDetailSkipped : RecordRegisterUiEvent

@@ -15,7 +15,7 @@ import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.EmotionRepository
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.designsystem.RecordStep
-import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.model.EmotionGroupModel
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OcrScreen
@@ -73,12 +73,10 @@ class RecordRegisterPresenter(
         val recordSentenceState = rememberTextFieldState()
         val memoState = rememberTextFieldState()
         var emotionGroups by rememberRetained { mutableStateOf(persistentListOf<EmotionGroupModel>()) }
-        val emotions by rememberRetained { mutableStateOf(Emotion.entries.toPersistentList()) }
-        var emotionDetails by rememberRetained { mutableStateOf(persistentListOf<String>()) }
-        var selectedEmotion by rememberRetained { mutableStateOf<Emotion?>(null) }
-        var selectedEmotionDetails by rememberRetained { mutableStateOf<Map<Emotion, ImmutableList<String>>>(emptyMap()) }
-        var committedEmotion by rememberRetained { mutableStateOf<Emotion?>(null) }
-        var committedEmotionDetails by rememberRetained { mutableStateOf<Map<Emotion, ImmutableList<String>>>(emptyMap()) }
+        var selectedEmotionCode by rememberRetained { mutableStateOf<EmotionCode?>(null) }
+        var selectedEmotionMap by rememberRetained { mutableStateOf<Map<EmotionCode, ImmutableList<String>>>(emptyMap()) }
+        var committedEmotionCode by rememberRetained { mutableStateOf<EmotionCode?>(null) }
+        var committedEmotionMap by rememberRetained { mutableStateOf<Map<EmotionCode, ImmutableList<String>>>(emptyMap()) }
         var isEmotionDetailBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var savedRecordId by rememberRetained { mutableStateOf("") }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
@@ -97,7 +95,7 @@ class RecordRegisterPresenter(
                     }
 
                     RecordStep.EMOTION -> {
-                        committedEmotion != null
+                        committedEmotionCode != null
                     }
                 }
             }
@@ -151,19 +149,6 @@ class RecordRegisterPresenter(
                     isLoading = false
                 }
             }
-        }
-
-        fun provideEmotionDetailMap(): Map<Emotion, ImmutableList<String>> {
-            return mapOf(
-                Emotion.WARM to persistentListOf("위로받은", "포근한", "다정한", "고마운", "마음이 놓이는", "편안한"),
-                Emotion.JOY to persistentListOf("설레는", "뿌듯한", "유쾌한", "기쁜", "흥미진진한"),
-                Emotion.SAD to persistentListOf("허무함", "외로운", "아쉬운", "먹먹한", "애틋한", "안타까운", "그리운"),
-                Emotion.INSIGHT to persistentListOf("감탄한", "통찰력을 얻은", "영감을 받은", "생각이 깊어진", "새롭게 이해한"),
-            )
-        }
-
-        fun getEmotionDetails(emotion: Emotion): ImmutableList<String> {
-            return provideEmotionDetailMap()[emotion] ?: persistentListOf()
         }
 
         fun getEmotionGroups() {
@@ -221,52 +206,47 @@ class RecordRegisterPresenter(
                     ocrNavigator.goTo(OcrScreen)
                 }
 
-                is RecordRegisterUiEvent.OnSelectEmotion -> {
-                    selectedEmotion = event.emotion
-                }
-
-                is RecordRegisterUiEvent.OnSelectEmotionV2 -> {
-                    selectedEmotion = event.emotion
-                    emotionDetails = getEmotionDetails(event.emotion).toPersistentList()
+                is RecordRegisterUiEvent.OnSelectEmotionCode -> {
+                    selectedEmotionCode = event.emotionCode
                     isEmotionDetailBottomSheetVisible = true
                 }
 
                 is RecordRegisterUiEvent.OnEmotionDetailToggled -> {
-                    val emotionKey = selectedEmotion ?: return
-                    val currentDetails = selectedEmotionDetails[selectedEmotion].orEmpty()
+                    val emotionKey = selectedEmotionCode ?: return
+                    val currentDetails = selectedEmotionMap[selectedEmotionCode].orEmpty()
                     val updatedDetails = if (event.detail in currentDetails) {
                         currentDetails - event.detail
                     } else {
                         currentDetails + event.detail
                     }
 
-                    selectedEmotionDetails = selectedEmotionDetails + (emotionKey to updatedDetails.toPersistentList())
+                    selectedEmotionMap = selectedEmotionMap + (emotionKey to updatedDetails.toPersistentList())
                 }
 
                 is RecordRegisterUiEvent.OnEmotionDetailRemoved -> {
-                    val emotionKey = selectedEmotion ?: return
-                    val currentDetails = committedEmotionDetails[selectedEmotion].orEmpty()
+                    val emotionKey = selectedEmotionCode ?: return
+                    val currentDetails = committedEmotionMap[selectedEmotionCode].orEmpty()
                     val updatedDetails = currentDetails - event.detail
 
-                    committedEmotionDetails = committedEmotionDetails + (emotionKey to updatedDetails.toPersistentList())
-                    selectedEmotionDetails = selectedEmotionDetails + (emotionKey to updatedDetails.toPersistentList())
+                    committedEmotionMap = committedEmotionMap + (emotionKey to updatedDetails.toPersistentList())
+                    selectedEmotionMap = selectedEmotionMap + (emotionKey to updatedDetails.toPersistentList())
                 }
 
                 is RecordRegisterUiEvent.OnEmotionDetailSkipped -> {
-                    committedEmotion = selectedEmotion
+                    committedEmotionCode = selectedEmotionCode
                     // 건너뛰기 시 세부감정 선택 초기화
-                    committedEmotionDetails = persistentMapOf()
-                    selectedEmotionDetails = persistentMapOf()
+                    committedEmotionMap = persistentMapOf()
+                    selectedEmotionMap = persistentMapOf()
                     isEmotionDetailBottomSheetVisible = false
                 }
 
                 is RecordRegisterUiEvent.OnEmotionDetailCommitted -> {
-                    val emotionKey = selectedEmotion ?: return
-                    val details = selectedEmotionDetails[emotionKey] ?: persistentListOf()
+                    val emotionKey = selectedEmotionCode ?: return
+                    val details = selectedEmotionMap[emotionKey] ?: persistentListOf()
 
-                    committedEmotion = emotionKey
-                    committedEmotionDetails = mapOf(emotionKey to details)
-                    selectedEmotionDetails = mapOf(emotionKey to details)
+                    committedEmotionCode = emotionKey
+                    committedEmotionMap = mapOf(emotionKey to details)
+                    selectedEmotionMap = mapOf(emotionKey to details)
                     isEmotionDetailBottomSheetVisible = false
                 }
 
@@ -286,8 +266,8 @@ class RecordRegisterPresenter(
                                 pageNumber = recordPageState.text.toString().toIntOrNull() ?: 0,
                                 quote = recordSentenceState.text.toString(),
                                 review = memoState.text.toString(),
-                                primaryEmotion = "",
-                                detailEmotionTagIds = emptyList(),
+                                primaryEmotion = committedEmotionCode?.name ?: "",
+                                detailEmotionTagIds = committedEmotionMap[committedEmotionCode] ?: persistentListOf(),
                             )
                         }
                     }
@@ -309,6 +289,10 @@ class RecordRegisterPresenter(
             }
         }
 
+        LaunchedEffect(Unit) {
+            getEmotionGroups()
+        }
+
         ImpressionEffect(currentStep) {
             val screenName = when (currentStep) {
                 RecordStep.QUOTE -> RECORD_INPUT_SENTENCE
@@ -325,12 +309,10 @@ class RecordRegisterPresenter(
             memoState = memoState,
             isPageError = isPageError,
             emotionGroups = emotionGroups,
-            emotions = emotions,
-            emotionDetails = emotionDetails,
-            selectedEmotion = selectedEmotion,
-            selectedEmotionDetails = selectedEmotionDetails,
-            committedEmotion = committedEmotion,
-            committedEmotionDetails = committedEmotionDetails,
+            selectedEmotionCode = selectedEmotionCode,
+            selectedEmotionMap = selectedEmotionMap,
+            committedEmotion = committedEmotionCode,
+            committedEmotionMap = committedEmotionMap,
             isEmotionDetailBottomSheetVisible = isEmotionDetailBottomSheetVisible,
             savedRecordId = savedRecordId,
             isNextButtonEnabled = isNextButtonEnabled,

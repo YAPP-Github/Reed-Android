@@ -38,13 +38,13 @@ data class ReadingRecord(
     @SerialName("updatedAt")
     val updatedAt: String,
     @SerialName("bookTitle")
-    val bookTitle: String,
+    val bookTitle: String?,
     @SerialName("bookPublisher")
-    val bookPublisher: String,
+    val bookPublisher: String?,
     @SerialName("bookCoverImageUrl")
-    val bookCoverImageUrl: String,
+    val bookCoverImageUrl: String?,
     @SerialName("author")
-    val author: String,
+    val author: String?,
 )
 
 @Serializable

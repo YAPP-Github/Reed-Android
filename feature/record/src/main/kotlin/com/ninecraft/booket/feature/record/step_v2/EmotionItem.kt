@@ -34,14 +34,16 @@ import com.ninecraft.booket.core.designsystem.component.chip.smallChipStyle
 import com.ninecraft.booket.core.designsystem.descriptionRes
 import com.ninecraft.booket.core.designsystem.graphicResV2
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.DetailEmotionModel
+import com.ninecraft.booket.core.model.EmotionCode
+import com.ninecraft.booket.core.model.EmotionGroupModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 internal fun EmotionItem(
-    emotion: Emotion,
-    selectedEmotionDetails: ImmutableList<String>,
+    emotionGroup: EmotionGroupModel,
+    selectedEmotionDetailIds: ImmutableList<String>,
     onClick: () -> Unit,
     isSelected: Boolean,
     onEmotionDetailRemove: (String) -> Unit,
@@ -74,7 +76,7 @@ internal fun EmotionItem(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
-                painter = painterResource(emotion.graphicResV2),
+                painter = painterResource(emotionGroup.code.graphicResV2),
                 contentDescription = "Emotion Image",
                 modifier = Modifier
                     .size(60.dp)
@@ -83,12 +85,12 @@ internal fun EmotionItem(
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
             Column {
                 Text(
-                    text = emotion.displayName,
+                    text = emotionGroup.displayName,
                     color = ReedTheme.colors.contentPrimary,
                     style = ReedTheme.typography.headline1SemiBold,
                 )
                 Text(
-                    text = stringResource(emotion.descriptionRes),
+                    text = stringResource(emotionGroup.code.descriptionRes),
                     color = ReedTheme.colors.contentTertiary,
                     style = ReedTheme.typography.label1Medium,
                 )
@@ -101,19 +103,20 @@ internal fun EmotionItem(
             )
         }
 
-        if (selectedEmotionDetails.isNotEmpty()) {
+        if (selectedEmotionDetailIds.isNotEmpty()) {
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
                 verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
             ) {
-                selectedEmotionDetails.forEach { detail ->
+                selectedEmotionDetailIds.forEach { detailId ->
+                    val detailName = emotionGroup.detailEmotions.firstOrNull { it.id == detailId }?.name ?: return@forEach
                     ReedRemovableChip(
-                        label = detail,
+                        label = detailName,
                         chipSizeStyle = smallChipStyle,
                         onRemove = {
-                            onEmotionDetailRemove(detail)
+                            onEmotionDetailRemove(detailId)
                         },
                     )
                 }
@@ -125,12 +128,43 @@ internal fun EmotionItem(
 @ComponentPreview
 @Composable
 private fun EmotionItemPreview() {
-    val selectedEmotionDetails = persistentListOf("위로받은", "포근한", "다정한", "고마운", "마음이 놓이는", "편안한")
+    val warmthEmotionGroup = EmotionGroupModel(
+        code = EmotionCode.WARMTH,
+        displayName = "따뜻함",
+        detailEmotions = persistentListOf(
+            DetailEmotionModel(
+                id = "84f95d93-e54c-11f0-8545-525ae7dd628c",
+                name = "위로받은",
+            ),
+            DetailEmotionModel(
+                id = "84f95e7e-e54c-11f0-8545-525ae7dd628c",
+                name = "포근한",
+            ),
+            DetailEmotionModel(
+                id = "84f95f13-e54c-11f0-8545-525ae7dd628c",
+                name = "다정한",
+            ),
+            DetailEmotionModel(
+                id = "84f95fc0-e54c-11f0-8545-525ae7dd628c",
+                name = "고마운",
+            ),
+            DetailEmotionModel(
+                id = "84f96094-e54c-11f0-8545-525ae7dd628c",
+                name = "마음이 놓이는",
+            ),
+            DetailEmotionModel(
+                id = "84f9612c-e54c-11f0-8545-525ae7dd628c",
+                name = "편안한",
+            ),
+        ),
+    )
+
+    val selectedEmotionDetailIds = persistentListOf("84f95fc0-e54c-11f0-8545-525ae7dd628c", "84f96094-e54c-11f0-8545-525ae7dd628c")
 
     ReedTheme {
         EmotionItem(
-            emotion = Emotion.WARM,
-            selectedEmotionDetails = selectedEmotionDetails,
+            emotionGroup = warmthEmotionGroup,
+            selectedEmotionDetailIds = selectedEmotionDetailIds,
             onClick = {},
             isSelected = false,
             onEmotionDetailRemove = {},

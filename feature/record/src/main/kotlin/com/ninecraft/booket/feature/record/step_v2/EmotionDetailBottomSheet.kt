@@ -29,7 +29,9 @@ import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.component.chip.ReedSelectableChip
 import com.ninecraft.booket.core.designsystem.component.chip.mediumChipStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.DetailEmotionModel
+import com.ninecraft.booket.core.model.EmotionCode
+import com.ninecraft.booket.core.model.EmotionGroupModel
 import com.ninecraft.booket.core.ui.component.ReedBottomSheet
 import com.ninecraft.booket.feature.record.R
 import kotlinx.collections.immutable.ImmutableList
@@ -39,9 +41,8 @@ import com.ninecraft.booket.core.designsystem.R as designR
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EmotionDetailBottomSheet(
-    emotion: Emotion,
-    emotionDetails: ImmutableList<String>,
-    selectedEmotionDetail: ImmutableList<String>,
+    emotionGroup: EmotionGroupModel,
+    selectedEmotionDetailIds: ImmutableList<String>,
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
     onCloseButtonClick: () -> Unit,
@@ -49,8 +50,6 @@ internal fun EmotionDetailBottomSheet(
     onSkipButtonClick: () -> Unit,
     onConfirmButtonClick: () -> Unit,
 ) {
-    val emotionCategoryName = "'${emotion.displayName}'"
-
     ReedBottomSheet(
         onDismissRequest = {
             onDismissRequest()
@@ -71,7 +70,7 @@ internal fun EmotionDetailBottomSheet(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = stringResource(R.string.emotion_detail_title, emotionCategoryName),
+                    text = stringResource(R.string.emotion_detail_title, emotionGroup.displayName),
                     color = ReedTheme.colors.contentPrimary,
                     textAlign = TextAlign.Center,
                     style = ReedTheme.typography.heading2SemiBold,
@@ -106,13 +105,13 @@ internal fun EmotionDetailBottomSheet(
                 ),
                 verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing2),
             ) {
-                emotionDetails.forEach { detail ->
+                emotionGroup.detailEmotions.forEach { detail ->
                     ReedSelectableChip(
-                        label = detail,
+                        label = detail.name,
                         chipSizeStyle = mediumChipStyle,
-                        selected = detail in selectedEmotionDetail,
+                        selected = detail.id in selectedEmotionDetailIds,
                         onClick = {
-                            onEmotionDetailToggled(detail)
+                            onEmotionDetailToggled(detail.id)
                         },
                     )
                 }
@@ -141,7 +140,7 @@ internal fun EmotionDetailBottomSheet(
                     sizeStyle = largeButtonStyle,
                     colorStyle = ReedButtonColorStyle.PRIMARY,
                     modifier = Modifier.weight(1f),
-                    enabled = selectedEmotionDetail.isNotEmpty(),
+                    enabled = selectedEmotionDetailIds.isNotEmpty(),
                 )
             }
         }
@@ -152,8 +151,36 @@ internal fun EmotionDetailBottomSheet(
 @ComponentPreview
 @Composable
 private fun EmotionDetailBottomSheetPreview() {
-    val emotionDetails = persistentListOf("위로받은", "포근한", "다정한", "고마운", "마음이 놓이는", "편안한")
-
+    val warmthEmotionGroup = EmotionGroupModel(
+        code = EmotionCode.WARMTH,
+        displayName = "따뜻함",
+        detailEmotions = persistentListOf(
+            DetailEmotionModel(
+                id = "84f95d93-e54c-11f0-8545-525ae7dd628c",
+                name = "위로받은",
+            ),
+            DetailEmotionModel(
+                id = "84f95e7e-e54c-11f0-8545-525ae7dd628c",
+                name = "포근한",
+            ),
+            DetailEmotionModel(
+                id = "84f95f13-e54c-11f0-8545-525ae7dd628c",
+                name = "다정한",
+            ),
+            DetailEmotionModel(
+                id = "84f95fc0-e54c-11f0-8545-525ae7dd628c",
+                name = "고마운",
+            ),
+            DetailEmotionModel(
+                id = "84f96094-e54c-11f0-8545-525ae7dd628c",
+                name = "마음이 놓이는",
+            ),
+            DetailEmotionModel(
+                id = "84f9612c-e54c-11f0-8545-525ae7dd628c",
+                name = "편안한",
+            ),
+        ),
+    )
     val sheetState = SheetState(
         skipPartiallyExpanded = true,
         initialValue = SheetValue.Expanded,
@@ -162,9 +189,8 @@ private fun EmotionDetailBottomSheetPreview() {
     )
     ReedTheme {
         EmotionDetailBottomSheet(
-            emotion = Emotion.WARM,
-            emotionDetails = emotionDetails,
-            selectedEmotionDetail = persistentListOf(),
+            emotionGroup = warmthEmotionGroup,
+            selectedEmotionDetailIds = persistentListOf(),
             onDismissRequest = {},
             sheetState = sheetState,
             onCloseButtonClick = {},
