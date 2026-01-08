@@ -19,7 +19,7 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.core.model.ReadingRecordModel
+import com.ninecraft.booket.core.model.ReadingRecordModelV2
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
@@ -189,7 +189,7 @@ private fun ReviewDetailPreview() {
         RecordDetailUi(
             state = RecordDetailUiState(
                 uiState = UiState.Success,
-                recordDetailInfo = ReadingRecordModel(
+                recordDetailInfo = ReadingRecordModelV2(
                     id = "",
                     userBookId = "",
                     pageNumber = 90,
@@ -215,7 +215,7 @@ private fun ReviewDetailEmptyPreview() {
         RecordDetailUi(
             state = RecordDetailUiState(
                 uiState = UiState.Success,
-                recordDetailInfo = ReadingRecordModel(
+                recordDetailInfo = ReadingRecordModelV2(
                     id = "",
                     userBookId = "",
                     pageNumber = 90,

@@ -17,6 +17,22 @@ data class ReadingRecordModel(
     val pageNumber: Int = 0,
     val quote: String = "",
     val review: String = "",
+    val emotionTags: List<String> = emptyList(),
+    val createdAt: String = "",
+    val updatedAt: String = "",
+    val bookTitle: String = "",
+    val bookPublisher: String = "",
+    val bookCoverImageUrl: String = "",
+    val author: String = "",
+)
+
+@Stable
+data class ReadingRecordModelV2(
+    val id: String = "",
+    val userBookId: String = "",
+    val pageNumber: Int = 0,
+    val quote: String = "",
+    val review: String = "",
     val primaryEmotion: PrimaryEmotionModel = PrimaryEmotionModel(),
     val detailEmotions: List<DetailEmotionModel> = emptyList(),
     val createdAt: String = "",

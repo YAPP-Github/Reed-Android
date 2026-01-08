@@ -4,7 +4,6 @@ import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.data.impl.mapper.toModel
 import com.ninecraft.booket.core.di.DataScope
-import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.network.request.RecordRegisterRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import dev.zacsweers.metro.Inject
@@ -46,7 +45,7 @@ class DefaultRecordRepository(
         review: String,
         primaryEmotion: String,
         detailEmotionTagIds: List<String>,
-    ): Result<ReadingRecordModel> = runSuspendCatching {
+    ) = runSuspendCatching {
         service.editRecord(readingRecordId, RecordRegisterRequest(pageNumber, quote, review, primaryEmotion, detailEmotionTagIds)).toModel()
     }
 

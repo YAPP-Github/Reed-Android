@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.detail.record
 
 import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.model.ReadingRecordModel
+import com.ninecraft.booket.core.model.ReadingRecordModelV2
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import java.util.UUID
@@ -16,7 +17,7 @@ sealed interface UiState {
 
 data class RecordDetailUiState(
     val uiState: UiState = UiState.Idle,
-    val recordDetailInfo: ReadingRecordModel = ReadingRecordModel(),
+    val recordDetailInfo: ReadingRecordModelV2 = ReadingRecordModelV2(),
     val isRecordMenuBottomSheetVisible: Boolean = false,
     val isRecordDeleteDialogVisible: Boolean = false,
     val sideEffect: RecordDetailSideEffect? = null,
