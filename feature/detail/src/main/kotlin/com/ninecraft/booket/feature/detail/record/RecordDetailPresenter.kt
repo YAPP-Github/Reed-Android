@@ -13,6 +13,8 @@ import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordCardScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordEditScreen
+import com.ninecraft.booket.feature.screens.arguments.DetailEmotionArg
+import com.ninecraft.booket.feature.screens.arguments.PrimaryEmotionArg
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
@@ -148,7 +150,16 @@ class RecordDetailPresenter(
                                 pageNumber = recordDetailInfo.pageNumber,
                                 quote = recordDetailInfo.quote,
                                 review = recordDetailInfo.review,
-                                emotionTags = emptyList(),
+                                primaryEmotion = PrimaryEmotionArg(
+                                    code = recordDetailInfo.primaryEmotion.code,
+                                    displayName = recordDetailInfo.primaryEmotion.displayName,
+                                ),
+                                detailEmotions = recordDetailInfo.detailEmotions.map {
+                                    DetailEmotionArg(
+                                        id = it.id,
+                                        name = it.name,
+                                    )
+                                },
                                 bookTitle = recordDetailInfo.bookTitle,
                                 bookPublisher = recordDetailInfo.bookPublisher,
                                 bookCoverImageUrl = recordDetailInfo.bookCoverImageUrl,
