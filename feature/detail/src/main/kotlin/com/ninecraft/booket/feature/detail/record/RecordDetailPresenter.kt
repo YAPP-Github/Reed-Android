@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
-import com.ninecraft.booket.core.model.RecordDetailModel
+import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordCardScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
@@ -50,7 +50,7 @@ class RecordDetailPresenter(
     override fun present(): RecordDetailUiState {
         val scope = rememberCoroutineScope()
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
-        var recordDetailInfo by rememberRetained { mutableStateOf(RecordDetailModel()) }
+        var recordDetailInfo by rememberRetained { mutableStateOf(ReadingRecordModel()) }
         var isRecordMenuBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isRecordDeleteDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<RecordDetailSideEffect?>(null) }
@@ -134,7 +134,7 @@ class RecordDetailPresenter(
                         RecordCardScreen(
                             quote = recordDetailInfo.quote,
                             bookTitle = recordDetailInfo.bookTitle,
-                            emotion = recordDetailInfo.emotionTags[0],
+                            emotion = "",
                         ),
                     )
                 }
@@ -148,7 +148,7 @@ class RecordDetailPresenter(
                                 pageNumber = recordDetailInfo.pageNumber,
                                 quote = recordDetailInfo.quote,
                                 review = recordDetailInfo.review,
-                                emotionTags = recordDetailInfo.emotionTags,
+                                emotionTags = emptyList(),
                                 bookTitle = recordDetailInfo.bookTitle,
                                 bookPublisher = recordDetailInfo.bookPublisher,
                                 bookCoverImageUrl = recordDetailInfo.bookCoverImageUrl,

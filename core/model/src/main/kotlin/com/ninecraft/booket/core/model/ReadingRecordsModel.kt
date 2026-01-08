@@ -29,6 +29,6 @@ data class ReadingRecordModel(
 
 @Stable
 data class PrimaryEmotionModel(
-    val code: String = "",
-    val displayName: String = "",
+    val code: EmotionCode = EmotionCode.OTHER,
+    val displayName: String = "기타",
 )

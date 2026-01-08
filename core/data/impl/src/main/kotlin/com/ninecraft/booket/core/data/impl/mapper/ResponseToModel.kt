@@ -260,6 +260,7 @@ internal fun ReadingRecord.toModel(): ReadingRecordModel {
 }
 
 internal fun PrimaryEmotion.toModel(): PrimaryEmotionModel {
+    val code = EmotionCode.fromCode(code) ?: EmotionCode.OTHER
     return PrimaryEmotionModel(
         code = code,
         displayName = displayName,

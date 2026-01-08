@@ -32,7 +32,7 @@ import com.ninecraft.booket.core.designsystem.R
 import com.ninecraft.booket.core.designsystem.component.chip.ReedRemovableChip
 import com.ninecraft.booket.core.designsystem.component.chip.smallChipStyle
 import com.ninecraft.booket.core.designsystem.descriptionRes
-import com.ninecraft.booket.core.designsystem.graphicResV2
+import com.ninecraft.booket.core.designsystem.categoryGraphicResV2
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.DetailEmotionModel
 import com.ninecraft.booket.core.model.EmotionCode
@@ -75,7 +75,7 @@ internal fun EmotionItem(
             ),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            val emotionGraphicRes = emotionGroup.code.graphicResV2
+            val emotionGraphicRes = emotionGroup.code.categoryGraphicResV2
             if (emotionGraphicRes != null) {
                 Image(
                     painter = painterResource(emotionGraphicRes),
