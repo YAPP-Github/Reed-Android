@@ -136,7 +136,7 @@ interface ReedService {
         @Path("readingRecordId") readingRecordId: String,
     ): ReadingRecord
 
-    @PATCH("api/v2/reading-records/{readingRecordId}")
+    @PUT("api/v2/reading-records/{readingRecordId}")
     suspend fun editRecord(
         @Path("readingRecordId") readingRecordId: String,
         @Body recordRegisterRequest: RecordRegisterRequest,

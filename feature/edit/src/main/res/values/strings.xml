@@ -13,4 +13,8 @@
     <string name="edit_emotion_title">문장에 대해 어떤 감정이 드셨나요?</string>
     <string name="edit_emotion_description">대표 감정을 한 가지 선택해주세요</string>
     <string name="edit_emotion_edit">수정하기</string>
+    <string name="edit_emotion_detail_title">어떤 %1$s을 느꼈나요?</string>
+    <string name="edit_emotion_detail_description">더 자세한 감정을 선택 기록할 수 있어요.</string>
+    <string name="edit_emotion_detail_skip">건너뛰기</string>
+    <string name="edit_emotion_detail_confirm">선택 완료</string>
 </resources>

@@ -1,9 +1,6 @@
 package com.ninecraft.booket.feature.edit.emotion
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,36 +8,34 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
-import com.ninecraft.booket.core.designsystem.graphicRes
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.feature.edit.R
+import com.ninecraft.booket.feature.edit.emotion.component.EmotionDetailBottomSheet
+import com.ninecraft.booket.feature.edit.emotion.component.EmotionItem
 import com.ninecraft.booket.feature.screens.EmotionEditScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dev.zacsweers.metro.AppScope
-import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.launch
 
 @TraceRecomposition
 @CircuitInject(EmotionEditScreen::class, AppScope::class)
@@ -68,96 +63,113 @@ internal fun EmotionEditUi(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @TraceRecomposition
 @Composable
 private fun EmotionEditContent(
     state: EmotionEditUiState,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    val emotionDetailBottomSheetState = rememberModalBottomSheetState()
+    val coroutineScope = rememberCoroutineScope()
+
+    Box(
         modifier = modifier
             .fillMaxSize()
-            .padding(
-                start = ReedTheme.spacing.spacing5,
-                top = ReedTheme.spacing.spacing4,
-                end = ReedTheme.spacing.spacing5,
-            ),
+            .background(color = White),
     ) {
-        Text(
-            text = stringResource(R.string.edit_emotion_title),
-            color = ReedTheme.colors.contentPrimary,
-            style = ReedTheme.typography.heading1Bold,
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
-        Text(
-            text = stringResource(R.string.edit_emotion_description),
-            color = ReedTheme.colors.contentTertiary,
-            style = ReedTheme.typography.label1Medium,
-        )
-        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing3),
-            horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing3),
-            content = {
-                items(state.emotions) { tag ->
-                    EmotionItem(
-                        emotion = tag,
-                        onClick = {
-                            state.eventSink(EmotionEditUiEvent.OnSelectEmotion(tag.displayName))
-                        },
-                        isSelected = state.selectedEmotion == tag.displayName,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-            },
-        )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = ReedTheme.spacing.spacing5)
+                .padding(bottom = 80.dp),
+        ) {
+            item {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+            }
+            item {
+                Text(
+                    text = stringResource(R.string.edit_emotion_title),
+                    color = ReedTheme.colors.contentPrimary,
+                    style = ReedTheme.typography.heading1Bold,
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
+            }
+            item {
+                Text(
+                    text = stringResource(R.string.edit_emotion_description),
+                    color = ReedTheme.colors.contentTertiary,
+                    style = ReedTheme.typography.label1Medium,
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
+            }
+
+            items(state.emotionGroups) { emotion ->
+                EmotionItem(
+                    emotionGroup = emotion,
+                    selectedEmotionDetailIds = state.committedEmotionMap[emotion.code] ?: persistentListOf(),
+                    onClick = {
+                        state.eventSink(EmotionEditUiEvent.OnSelectEmotionCode(emotion.code))
+                    },
+                    isSelected = state.committedEmotion == emotion.code,
+                    onEmotionDetailRemove = { detail ->
+                        state.eventSink(EmotionEditUiEvent.OnEmotionDetailRemoved(detail))
+                    },
+                )
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+            }
+        }
+
         ReedButton(
             onClick = {
-                state.eventSink(EmotionEditUiEvent.OnEditButtonClick)
+                 state.eventSink(EmotionEditUiEvent.OnEditButtonClick)
             },
             colorStyle = ReedButtonColorStyle.PRIMARY,
             sizeStyle = largeButtonStyle,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = ReedTheme.spacing.spacing4),
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = ReedTheme.spacing.spacing5)
+                .padding(bottom = ReedTheme.spacing.spacing4),
             enabled = state.isEditButtonEnabled,
             text = stringResource(R.string.edit_emotion_edit),
         )
     }
-}
 
-@Composable
-private fun EmotionItem(
-    emotion: Emotion,
-    onClick: () -> Unit,
-    isSelected: Boolean,
-    modifier: Modifier = Modifier,
-) {
-    Box(
-        modifier = modifier
-            .height(214.dp)
-            .clip(RoundedCornerShape(ReedTheme.radius.md))
-            .background(color = ReedTheme.colors.bgTertiary)
-            .then(
-                if (isSelected) Modifier.border(
-                    width = 2.dp,
-                    color = ReedTheme.colors.borderBrand,
-                    shape = RoundedCornerShape(ReedTheme.radius.md),
-                )
-                else Modifier,
-            )
-            .clickableSingle {
-                onClick()
+    if (state.isEmotionDetailBottomSheetVisible) {
+        val selectedEmotionGroup = state.emotionGroups.firstOrNull { it.code == state.selectedEmotionCode } ?: return
+        EmotionDetailBottomSheet(
+            emotionGroup = selectedEmotionGroup,
+            selectedEmotionDetailIds = state.selectedEmotionMap[state.selectedEmotionCode] ?: persistentListOf(),
+            onDismissRequest = {
+                state.eventSink(EmotionEditUiEvent.OnEmotionDetailBottomSheetDismiss)
             },
-        contentAlignment = Alignment.Center,
-    ) {
-        Image(
-            painter = painterResource(emotion.graphicRes),
-            contentDescription = "Emotion Image",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop,
+            sheetState = emotionDetailBottomSheetState,
+            onCloseButtonClick = {
+                coroutineScope.launch {
+                    emotionDetailBottomSheetState.hide()
+                    state.eventSink(EmotionEditUiEvent.OnEmotionDetailBottomSheetDismiss)
+                }
+            },
+            onEmotionDetailToggled = { detail ->
+                state.eventSink(EmotionEditUiEvent.OnEmotionDetailToggled(detail))
+            },
+            onSkipButtonClick = {
+                coroutineScope.launch {
+                    emotionDetailBottomSheetState.hide()
+                    state.eventSink(EmotionEditUiEvent.OnEmotionDetailSkipped)
+                }
+            },
+            onConfirmButtonClick = {
+                coroutineScope.launch {
+                    emotionDetailBottomSheetState.hide()
+                    state.eventSink(EmotionEditUiEvent.OnEmotionDetailCommitted)
+                }
+            },
         )
     }
 }
@@ -166,11 +178,8 @@ private fun EmotionItem(
 @Composable
 private fun EmotionEditUiPreview() {
     ReedTheme {
-        val emotions = Emotion.entries.toPersistentList()
-
         EmotionEditUi(
             state = EmotionEditUiState(
-                emotions = emotions,
                 eventSink = {},
             ),
         )

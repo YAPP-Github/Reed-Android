@@ -66,7 +66,12 @@ class RecordEditPresenter(
                 val pageChanged = recordPageState.text.toString() != recordInfo.pageNumber.toString()
                 val quoteChanged = recordQuoteState.text.toString() != recordInfo.quote
                 val impressionChanged = recordImpressionState.text.toString() != recordInfo.review
-                val emotionChanged = true
+
+                val originalPrimaryEmotionCode = screen.recordInfo.primaryEmotion.code
+                val originalDetailEmotionIds = screen.recordInfo.detailEmotions.map { it.id }.toSet()
+                val currentPrimaryEmotionCode = recordInfo.primaryEmotion.code
+                val currentDetailEmotionIds = recordInfo.detailEmotions.map { it.id }.toSet()
+                val emotionChanged = originalPrimaryEmotionCode != currentPrimaryEmotionCode || originalDetailEmotionIds != currentDetailEmotionIds
                 pageChanged || quoteChanged || impressionChanged || emotionChanged
             }
         }
@@ -81,7 +86,10 @@ class RecordEditPresenter(
         var sideEffect by rememberRetained { mutableStateOf<RecordEditSideEffect?>(null) }
 
         val emotionEditNavigator = rememberAnsweringNavigator<EmotionEditScreen.Result>(navigator) { result ->
-//            recordInfo = recordInfo.copy(detailEmotions = listOf(result.emotion.id))
+            recordInfo = recordInfo.copy(
+                primaryEmotion = result.primaryEmotion,
+                detailEmotions = result.detailEmotions,
+            )
         }
 
         fun editRecord(
@@ -99,8 +107,8 @@ class RecordEditPresenter(
                     pageNumber = pageNumber,
                     quote = quote,
                     review = impression,
-                    primaryEmotion = "",
-                    detailEmotionTagIds = emptyList(),
+                    primaryEmotion = primaryEmotion,
+                    detailEmotionTagIds = detailEmotionIds,
                 ).onSuccess {
                     analyticsHelper.logEvent(RECORD_EDIT_SAVE)
                     onSuccess()
@@ -132,9 +140,12 @@ class RecordEditPresenter(
                 }
 
                 RecordEditUiEvent.OnEmotionEditClick -> {
-                    // TODO: Primary Emotion, Detail Emotions 넘기기.
-                    val emotion = ""
-                    emotionEditNavigator.goTo(EmotionEditScreen(emotion))
+                    emotionEditNavigator.goTo(
+                        EmotionEditScreen(
+                            primaryEmotionCode = recordInfo.primaryEmotion.code,
+                            detailEmotionIds = recordInfo.detailEmotions.map { it.id },
+                        ),
+                    )
                 }
 
                 RecordEditUiEvent.OnSaveButtonClick -> {

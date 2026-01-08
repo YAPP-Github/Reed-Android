@@ -1,5 +1,8 @@
 package com.ninecraft.booket.feature.screens
 
+import com.ninecraft.booket.core.model.EmotionCode
+import com.ninecraft.booket.feature.screens.arguments.DetailEmotionArg
+import com.ninecraft.booket.feature.screens.arguments.PrimaryEmotionArg
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.slack.circuit.runtime.screen.PopResult
 import com.slack.circuit.runtime.screen.Screen
@@ -52,9 +55,15 @@ data class RecordDetailScreen(val recordId: String) : ReedScreen(name = ScreenNa
 data class RecordEditScreen(val recordInfo: RecordEditArgs) : ReedScreen(name = "RecordEdit()")
 
 @Parcelize
-data class EmotionEditScreen(val emotion: String) : ReedScreen(name = "EmotionEdit()") {
+data class EmotionEditScreen(
+    val primaryEmotionCode: EmotionCode,
+    val detailEmotionIds: List<String>,
+) : ReedScreen(name = "EmotionEdit()") {
     @Parcelize
-    data class Result(val emotion: String) : PopResult
+    data class Result(
+        val primaryEmotion: PrimaryEmotionArg,
+        val detailEmotions: List<DetailEmotionArg>,
+    ) : PopResult
 }
 
 @Parcelize
