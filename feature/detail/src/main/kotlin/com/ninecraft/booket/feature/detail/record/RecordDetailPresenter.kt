@@ -136,7 +136,7 @@ class RecordDetailPresenter(
                         RecordCardScreen(
                             quote = recordDetailInfo.quote,
                             bookTitle = recordDetailInfo.bookTitle,
-                            emotion = "",
+                            emotionCode = recordDetailInfo.primaryEmotion.code,
                         ),
                     )
                 }
