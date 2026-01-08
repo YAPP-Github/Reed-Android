@@ -4,6 +4,7 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.EmotionGroupModel
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
@@ -17,6 +18,7 @@ data class RecordRegisterUiState(
     val recordSentenceState: TextFieldState = TextFieldState(),
     val isPageError: Boolean = false,
     val memoState: TextFieldState = TextFieldState(),
+    val emotionGroups: ImmutableList<EmotionGroupModel> = persistentListOf(),
     val emotions: ImmutableList<Emotion> = persistentListOf(),
     val emotionDetails: ImmutableList<String> = persistentListOf(),
     val selectedEmotion: Emotion? = null,
@@ -24,17 +26,10 @@ data class RecordRegisterUiState(
     val committedEmotion: Emotion? = null,
     val committedEmotionDetails: Map<Emotion, ImmutableList<String>> = emptyMap(),
     val isEmotionDetailBottomSheetVisible: Boolean = false,
-    val impressionState: TextFieldState = TextFieldState(),
-    val impressionGuideList: ImmutableList<String> = persistentListOf(),
-    val selectedImpressionGuide: String = "",
-    val beforeSelectedImpressionGuide: String = "",
     val savedRecordId: String = "",
     val isNextButtonEnabled: Boolean = false,
-    val isImpressionGuideBottomSheetVisible: Boolean = false,
     val isExitDialogVisible: Boolean = false,
     val isRecordSavedDialogVisible: Boolean = false,
-    val isScanTooltipVisible: Boolean = true,
-    val isImpressionGuideTooltipVisible: Boolean = true,
     val sideEffect: RecordRegisterSideEffect? = null,
     val eventSink: (RecordRegisterUiEvent) -> Unit,
 ) : CircuitUiState
@@ -59,10 +54,6 @@ sealed interface RecordRegisterUiEvent : CircuitUiEvent {
     data object OnEmotionDetailSkipped : RecordRegisterUiEvent
     data object OnEmotionDetailCommitted : RecordRegisterUiEvent
     data object OnEmotionDetailBottomSheetDismiss : RecordRegisterUiEvent
-    data object OnImpressionGuideButtonClick : RecordRegisterUiEvent
-    data object OnImpressionGuideBottomSheetDismiss : RecordRegisterUiEvent
-    data class OnSelectImpressionGuide(val index: Int) : RecordRegisterUiEvent
-    data object OnImpressionGuideConfirmed : RecordRegisterUiEvent
     data object OnExitDialogConfirm : RecordRegisterUiEvent
     data object OnExitDialogDismiss : RecordRegisterUiEvent
     data class OnRecordSavedDialogConfirm(val recordId: String) : RecordRegisterUiEvent

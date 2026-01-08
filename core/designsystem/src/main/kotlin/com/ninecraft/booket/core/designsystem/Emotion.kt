@@ -10,6 +10,7 @@ import com.ninecraft.booket.core.designsystem.theme.SadnessTextColor
 import com.ninecraft.booket.core.designsystem.theme.WarmthBgColor
 import com.ninecraft.booket.core.designsystem.theme.WarmthTextColor
 import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.EmotionCode
 
 val Emotion.bgColor: Color
     get() = when (this) {
@@ -35,18 +36,20 @@ val Emotion.graphicRes: Int
         Emotion.INSIGHT -> R.drawable.img_emotion_insight
     }
 
-val Emotion.graphicResV2: Int
+val EmotionCode.graphicResV2: Int
     get() = when (this) {
-        Emotion.WARM -> R.drawable.img_category_warm
-        Emotion.JOY -> R.drawable.img_category_joy
-        Emotion.SAD -> R.drawable.img_category_sad
-        Emotion.INSIGHT -> R.drawable.img_category_insight
+        EmotionCode.WARMTH -> R.drawable.img_category_warm
+        EmotionCode.JOY -> R.drawable.img_category_joy
+        EmotionCode.SADNESS -> R.drawable.img_category_sad
+        EmotionCode.INSIGHT -> R.drawable.img_category_insight
+        EmotionCode.OTHER -> 0
     }
 
-val Emotion.descriptionRes: Int
+val EmotionCode.descriptionRes: Int
     get() = when (this) {
-        Emotion.WARM -> R.string.emotion_warm_description
-        Emotion.JOY -> R.string.emotion_joy_description
-        Emotion.SAD -> R.string.emotion_sad_description
-        Emotion.INSIGHT -> R.string.emotion_insight_description
+        EmotionCode.WARMTH -> R.string.emotion_warm_description
+        EmotionCode.JOY -> R.string.emotion_joy_description
+        EmotionCode.SADNESS -> R.string.emotion_sad_description
+        EmotionCode.INSIGHT -> R.string.emotion_insight_description
+        EmotionCode.OTHER -> 0
     }

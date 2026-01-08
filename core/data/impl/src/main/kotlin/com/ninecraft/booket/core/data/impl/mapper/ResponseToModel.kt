@@ -11,6 +11,7 @@ import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.model.EmotionGroupModel
 import com.ninecraft.booket.core.model.EmotionModel
 import com.ninecraft.booket.core.model.EmotionGroupsModel
+import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.model.HomeModel
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.model.LibraryBooksModel
@@ -202,8 +203,10 @@ internal fun EmotionGroupsResponse.toModel(): EmotionGroupsModel {
 }
 
 internal fun EmotionGroup.toModel(): EmotionGroupModel {
+    val code = EmotionCode.fromCode(code) ?: EmotionCode.OTHER
     return EmotionGroupModel(
         code = code,
+        displayName = displayName,
         detailEmotions = detailEmotions.map { it.toModel() },
     )
 }

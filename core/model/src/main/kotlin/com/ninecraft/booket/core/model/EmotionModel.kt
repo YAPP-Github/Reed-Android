@@ -9,7 +9,8 @@ data class EmotionGroupsModel(
 
 @Stable
 data class EmotionGroupModel(
-    val code: String,
+    val code: EmotionCode,
+    val displayName: String,
     val detailEmotions: List<DetailEmotionModel>,
 )
 
@@ -18,3 +19,13 @@ data class DetailEmotionModel(
     val id: String,
     val name: String,
 )
+
+enum class EmotionCode {
+    WARMTH, JOY, SADNESS, INSIGHT, OTHER;
+
+    companion object {
+        fun fromCode(code: String): EmotionCode? {
+            return EmotionCode.entries.find { it.name == code }
+        }
+    }
+}
