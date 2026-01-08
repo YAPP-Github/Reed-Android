@@ -119,7 +119,7 @@ private fun EmotionContent(
         Text(
             text = createdAt.toFormattedDate(),
             modifier = Modifier.align(
-                if (hasDetailEmotion) Alignment.Bottom else Alignment.CenterVertically
+                if (hasDetailEmotion) Alignment.Bottom else Alignment.CenterVertically,
             ),
             color = ReedTheme.colors.contentTertiary,
             style = ReedTheme.typography.label2Regular,

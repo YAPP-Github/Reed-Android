@@ -20,7 +20,6 @@ data class RecordEditArgs(
     val author: String,
 ) : Parcelable
 
-
 @Immutable
 @Parcelize
 data class PrimaryEmotionArg(

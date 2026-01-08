@@ -163,7 +163,10 @@ private fun EmotionItemPreview() {
         ),
     )
 
-    val selectedEmotionDetailIds = persistentListOf("84f95fc0-e54c-11f0-8545-525ae7dd628c", "84f96094-e54c-11f0-8545-525ae7dd628c")
+    val selectedEmotionDetailIds = persistentListOf(
+        "84f95fc0-e54c-11f0-8545-525ae7dd628c",
+        "84f96094-e54c-11f0-8545-525ae7dd628c",
+    )
 
     ReedTheme {
         EmotionItem(

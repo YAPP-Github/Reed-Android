@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.detail.record
 
 import androidx.compose.runtime.Immutable
-import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.model.ReadingRecordModelV2
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState

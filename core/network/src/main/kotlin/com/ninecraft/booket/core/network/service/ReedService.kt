@@ -109,7 +109,6 @@ interface ReedService {
     @GET("api/v2/emotions")
     suspend fun getEmotions(): EmotionGroupsResponse
 
-
     // Reading-records endpoints (auth required)
     @POST("api/v2/reading-records/{userBookId}")
     suspend fun postRecord(

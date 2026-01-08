@@ -126,7 +126,7 @@ private fun EmotionEditContent(
 
         ReedButton(
             onClick = {
-                 state.eventSink(EmotionEditUiEvent.OnEditButtonClick)
+                state.eventSink(EmotionEditUiEvent.OnEditButtonClick)
             },
             colorStyle = ReedButtonColorStyle.PRIMARY,
             sizeStyle = largeButtonStyle,
