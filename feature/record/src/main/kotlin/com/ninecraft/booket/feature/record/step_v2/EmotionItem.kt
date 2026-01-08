@@ -75,14 +75,18 @@ internal fun EmotionItem(
             ),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(
-                painter = painterResource(emotionGroup.code.graphicResV2),
-                contentDescription = "Emotion Image",
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(CircleShape),
-            )
-            Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
+            val emotionGraphicRes = emotionGroup.code.graphicResV2
+            if (emotionGraphicRes != null) {
+                Image(
+                    painter = painterResource(emotionGraphicRes),
+                    contentDescription = "Emotion Image",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(CircleShape),
+                )
+                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing4))
+            }
+
             Column {
                 Text(
                     text = emotionGroup.displayName,

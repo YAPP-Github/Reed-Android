@@ -36,13 +36,13 @@ val Emotion.graphicRes: Int
         Emotion.INSIGHT -> R.drawable.img_emotion_insight
     }
 
-val EmotionCode.graphicResV2: Int
+val EmotionCode.graphicResV2: Int?
     get() = when (this) {
         EmotionCode.WARMTH -> R.drawable.img_category_warm
         EmotionCode.JOY -> R.drawable.img_category_joy
         EmotionCode.SADNESS -> R.drawable.img_category_sad
         EmotionCode.INSIGHT -> R.drawable.img_category_insight
-        EmotionCode.OTHER -> 0
+        EmotionCode.OTHER -> null
     }
 
 val EmotionCode.descriptionRes: Int
@@ -51,5 +51,5 @@ val EmotionCode.descriptionRes: Int
         EmotionCode.JOY -> R.string.emotion_joy_description
         EmotionCode.SADNESS -> R.string.emotion_sad_description
         EmotionCode.INSIGHT -> R.string.emotion_insight_description
-        EmotionCode.OTHER -> 0
+        EmotionCode.OTHER -> R.string.emotion_other_description
     }

@@ -208,7 +208,12 @@ class RecordRegisterPresenter(
 
                 is RecordRegisterUiEvent.OnSelectEmotionCode -> {
                     selectedEmotionCode = event.emotionCode
-                    isEmotionDetailBottomSheetVisible = true
+
+                    if (selectedEmotionCode == EmotionCode.OTHER) {
+                        committedEmotionCode = selectedEmotionCode
+                    } else {
+                        isEmotionDetailBottomSheetVisible = true
+                    }
                 }
 
                 is RecordRegisterUiEvent.OnEmotionDetailToggled -> {

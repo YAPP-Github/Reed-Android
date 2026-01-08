@@ -252,10 +252,10 @@ internal fun ReadingRecord.toModel(): ReadingRecordModel {
         detailEmotions = detailEmotions.map { it.toModel() },
         createdAt = createdAt,
         updatedAt = updatedAt,
-        bookTitle = bookTitle,
-        bookPublisher = bookPublisher,
-        bookCoverImageUrl = bookCoverImageUrl,
-        author = author,
+        bookTitle = bookTitle ?: "",
+        bookPublisher = bookPublisher ?: "",
+        bookCoverImageUrl = bookCoverImageUrl ?: "",
+        author = author ?: "",
     )
 }
 
