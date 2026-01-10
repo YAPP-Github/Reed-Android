@@ -67,6 +67,7 @@ class RecordRegisterPresenter(
     override fun present(): RecordRegisterUiState {
         val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
+        var emotionUiState by rememberRetained { mutableStateOf<EmotionUiState>(EmotionUiState.idle) }
         var sideEffect by rememberRetained { mutableStateOf<RecordRegisterSideEffect?>(null) }
         var currentStep by rememberRetained { mutableStateOf(RecordStep.QUOTE) }
         val recordPageState = rememberTextFieldState()
@@ -153,13 +154,16 @@ class RecordRegisterPresenter(
 
         fun getEmotionGroups() {
             scope.launch {
+                emotionUiState = EmotionUiState.Loading
                 emotionRepository.getEmotions()
                     .onSuccess { result ->
+                        emotionUiState = EmotionUiState.Success
                         emotionGroups = result.emotions.toPersistentList()
                     }.onFailure { exception ->
+                        emotionUiState = EmotionUiState.Error(exception)
+
                         val handleErrorMessage = { message: String ->
                             Logger.e(message)
-                            sideEffect = RecordRegisterSideEffect.ShowToast(message)
                         }
 
                         handleException(
@@ -291,6 +295,10 @@ class RecordRegisterPresenter(
                         navigator.delayedPop()
                     }
                 }
+
+                RecordRegisterUiEvent.OnRetryGetEmotions -> {
+                    getEmotionGroups()
+                }
             }
         }
 
@@ -308,6 +316,7 @@ class RecordRegisterPresenter(
 
         return RecordRegisterUiState(
             isLoading = isLoading,
+            emotionUiState = emotionUiState,
             currentStep = currentStep,
             recordPageState = recordPageState,
             recordSentenceState = recordSentenceState,

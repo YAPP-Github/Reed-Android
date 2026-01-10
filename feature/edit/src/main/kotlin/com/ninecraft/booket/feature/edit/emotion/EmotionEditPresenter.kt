@@ -17,6 +17,7 @@ import com.ninecraft.booket.feature.screens.EmotionEditScreen.Result
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.arguments.DetailEmotionArg
 import com.ninecraft.booket.feature.screens.arguments.PrimaryEmotionArg
+import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
@@ -47,6 +48,7 @@ class EmotionEditPresenter(
     @Composable
     override fun present(): EmotionEditUiState {
         val scope = rememberCoroutineScope()
+        var emotionUiState by rememberRetained { mutableStateOf<EmotionUiState>(EmotionUiState.idle) }
         var emotionGroups by rememberRetained { mutableStateOf(persistentListOf<EmotionGroupModel>()) }
         var selectedEmotionCode by rememberRetained { mutableStateOf<EmotionCode?>(null) }
         var selectedEmotionMap by rememberRetained { mutableStateOf<Map<EmotionCode, ImmutableList<String>>>(emptyMap()) }
@@ -65,6 +67,35 @@ class EmotionEditPresenter(
                 val isDetailEmotionChanged = originalDetailIds != currentDetailIds
 
                 isPrimaryEmotionChanged || isDetailEmotionChanged
+            }
+        }
+
+        fun getEmotionGroups() {
+            scope.launch {
+                emotionUiState = EmotionUiState.Loading
+                emotionRepository.getEmotions()
+                    .onSuccess { result ->
+                        emotionUiState = EmotionUiState.Success
+                        emotionGroups = result.emotions.toPersistentList()
+                        selectedEmotionCode = screen.primaryEmotionCode
+                        selectedEmotionMap = mapOf(screen.primaryEmotionCode to screen.detailEmotionIds.toPersistentList())
+                        committedEmotionCode = screen.primaryEmotionCode
+                        committedEmotionMap = mapOf(screen.primaryEmotionCode to screen.detailEmotionIds.toPersistentList())
+                    }.onFailure { exception ->
+                        emotionUiState = EmotionUiState.Error(exception)
+
+                        val handleErrorMessage = { message: String ->
+                            Logger.e(message)
+                        }
+
+                        handleException(
+                            exception = exception,
+                            onError = handleErrorMessage,
+                            onLoginRequired = {
+                                navigator.resetRoot(LoginScreen())
+                            },
+                        )
+                    }
             }
         }
 
@@ -163,27 +194,10 @@ class EmotionEditPresenter(
                 is EmotionEditUiEvent.OnEmotionDetailBottomSheetDismiss -> {
                     isEmotionDetailBottomSheetVisible = false
                 }
-            }
-        }
 
-        fun getEmotionGroups() {
-            scope.launch {
-                emotionRepository.getEmotions()
-                    .onSuccess { result ->
-                        emotionGroups = result.emotions.toPersistentList()
-                        selectedEmotionCode = screen.primaryEmotionCode
-                        selectedEmotionMap = mapOf(screen.primaryEmotionCode to screen.detailEmotionIds.toPersistentList())
-                        committedEmotionCode = screen.primaryEmotionCode
-                        committedEmotionMap = mapOf(screen.primaryEmotionCode to screen.detailEmotionIds.toPersistentList())
-                    }.onFailure { exception ->
-                        handleException(
-                            exception = exception,
-                            onError = {},
-                            onLoginRequired = {
-                                navigator.resetRoot(LoginScreen())
-                            },
-                        )
-                    }
+                EmotionEditUiEvent.OnRetryGetEmotions -> {
+                    getEmotionGroups()
+                }
             }
         }
 
@@ -192,6 +206,7 @@ class EmotionEditPresenter(
         }
 
         return EmotionEditUiState(
+            emotionUiState = emotionUiState,
             emotionGroups = emotionGroups,
             selectedEmotionCode = selectedEmotionCode,
             selectedEmotionMap = selectedEmotionMap,

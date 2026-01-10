@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.preventMultiTouch
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.core.designsystem.component.RecordProgressBar
@@ -25,6 +26,7 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedDialog
+import com.ninecraft.booket.core.ui.component.ReedErrorUi
 import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.step_v2.EmotionStepV2
@@ -75,7 +77,23 @@ internal fun RecordRegisterUi(
                 }
 
                 RecordStep.EMOTION -> {
-                    EmotionStepV2(state = state)
+                    when (state.emotionUiState) {
+                        is EmotionUiState.idle -> {}
+                        is EmotionUiState.Loading -> {
+                            ReedLoadingIndicator()
+                        }
+
+                        is EmotionUiState.Success -> {
+                            EmotionStepV2(state = state)
+                        }
+
+                        is EmotionUiState.Error -> {
+                            ReedErrorUi(
+                                errorType = state.emotionUiState.exception.toErrorType(),
+                                onRetryClick = { state.eventSink(RecordRegisterUiEvent.OnRetryGetEmotions) },
+                            )
+                        }
+                    }
                 }
             }
         }

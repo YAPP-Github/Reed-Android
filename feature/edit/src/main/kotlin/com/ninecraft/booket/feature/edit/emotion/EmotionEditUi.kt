@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
@@ -27,6 +28,8 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
+import com.ninecraft.booket.core.ui.component.ReedErrorUi
+import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.edit.R
 import com.ninecraft.booket.feature.edit.emotion.component.EmotionDetailBottomSheet
 import com.ninecraft.booket.feature.edit.emotion.component.EmotionItem
@@ -58,7 +61,23 @@ internal fun EmotionEditUi(
                     state.eventSink(EmotionEditUiEvent.OnBackClick)
                 },
             )
-            EmotionEditContent(state = state)
+            when (state.emotionUiState) {
+                is EmotionUiState.idle -> {}
+                is EmotionUiState.Loading -> {
+                    ReedLoadingIndicator()
+                }
+
+                is EmotionUiState.Success -> {
+                    EmotionEditContent(state = state)
+                }
+
+                is EmotionUiState.Error -> {
+                    ReedErrorUi(
+                        errorType = state.emotionUiState.exception.toErrorType(),
+                        onRetryClick = { state.eventSink(EmotionEditUiEvent.OnRetryGetEmotions) },
+                    )
+                }
+            }
         }
     }
 }

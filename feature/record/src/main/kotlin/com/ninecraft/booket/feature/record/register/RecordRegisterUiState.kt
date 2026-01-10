@@ -11,8 +11,17 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
+@Immutable
+sealed interface EmotionUiState {
+    data object idle : EmotionUiState
+    data object Loading : EmotionUiState
+    data object Success : EmotionUiState
+    data class Error(val exception: Throwable) : EmotionUiState
+}
+
 data class RecordRegisterUiState(
     val isLoading: Boolean = false,
+    val emotionUiState: EmotionUiState = EmotionUiState.idle,
     val currentStep: RecordStep = RecordStep.QUOTE,
     val recordPageState: TextFieldState = TextFieldState(),
     val recordSentenceState: TextFieldState = TextFieldState(),
@@ -55,4 +64,5 @@ sealed interface RecordRegisterUiEvent : CircuitUiEvent {
     data object OnExitDialogDismiss : RecordRegisterUiEvent
     data class OnRecordSavedDialogConfirm(val recordId: String) : RecordRegisterUiEvent
     data object OnRecordSavedDialogDismiss : RecordRegisterUiEvent
+    data object OnRetryGetEmotions : RecordRegisterUiEvent
 }
