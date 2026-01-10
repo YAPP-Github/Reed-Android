@@ -52,7 +52,7 @@ data class ReadingRecordV2(
     @SerialName("userBookId")
     val userBookId: String,
     @SerialName("pageNumber")
-    val pageNumber: Int,
+    val pageNumber: Int?,
     @SerialName("quote")
     val quote: String,
     @SerialName("review")

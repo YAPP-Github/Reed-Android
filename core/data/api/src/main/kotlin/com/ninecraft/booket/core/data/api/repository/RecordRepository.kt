@@ -6,7 +6,7 @@ import com.ninecraft.booket.core.model.ReadingRecordsModel
 interface RecordRepository {
     suspend fun postRecord(
         userBookId: String,
-        pageNumber: Int,
+        pageNumber: Int?,
         quote: String,
         review: String,
         primaryEmotion: String,
@@ -26,7 +26,7 @@ interface RecordRepository {
 
     suspend fun editRecord(
         readingRecordId: String,
-        pageNumber: Int,
+        pageNumber: Int?,
         quote: String,
         review: String,
         primaryEmotion: String,

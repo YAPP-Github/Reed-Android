@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RecordRegisterRequest(
     @SerialName("pageNumber")
-    val pageNumber: Int,
+    val pageNumber: Int?,
     @SerialName("quote")
     val quote: String,
     @SerialName("review")

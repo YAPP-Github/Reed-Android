@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class RecordEditArgs(
     val id: String,
-    val pageNumber: Int,
+    val pageNumber: Int?,
     val quote: String,
     val review: String,
     val primaryEmotion: PrimaryEmotionArg,

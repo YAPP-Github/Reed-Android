@@ -16,7 +16,7 @@ class DefaultRecordRepository(
 ) : RecordRepository {
     override suspend fun postRecord(
         userBookId: String,
-        pageNumber: Int,
+        pageNumber: Int?,
         quote: String,
         review: String,
         primaryEmotion: String,
@@ -40,7 +40,7 @@ class DefaultRecordRepository(
 
     override suspend fun editRecord(
         readingRecordId: String,
-        pageNumber: Int,
+        pageNumber: Int?,
         quote: String,
         review: String,
         primaryEmotion: String,

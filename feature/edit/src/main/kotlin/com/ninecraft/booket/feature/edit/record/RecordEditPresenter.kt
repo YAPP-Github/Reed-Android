@@ -52,7 +52,7 @@ class RecordEditPresenter(
     override fun present(): RecordEditUiState {
         val scope = rememberCoroutineScope()
         var recordInfo by rememberRetained { mutableStateOf(screen.recordInfo) }
-        val recordPageState = rememberTextFieldState(recordInfo.pageNumber.toString())
+        val recordPageState = rememberTextFieldState(recordInfo.pageNumber?.toString() ?: "")
         val recordQuoteState = rememberTextFieldState(recordInfo.quote)
         val recordImpressionState = rememberTextFieldState(recordInfo.review)
         val isPageError by remember {
@@ -77,10 +77,7 @@ class RecordEditPresenter(
         }
         val isSaveButtonEnabled by remember {
             derivedStateOf {
-                recordPageState.text.isNotEmpty() &&
-                    recordQuoteState.text.isNotEmpty() &&
-                    !isPageError &&
-                    hasChanges
+                recordQuoteState.text.isNotEmpty() && !isPageError && hasChanges
             }
         }
         var sideEffect by rememberRetained { mutableStateOf<RecordEditSideEffect?>(null) }
@@ -94,7 +91,7 @@ class RecordEditPresenter(
 
         fun editRecord(
             readingRecordId: String,
-            pageNumber: Int,
+            pageNumber: Int?,
             quote: String,
             primaryEmotion: String,
             detailEmotionIds: List<String>,
@@ -151,7 +148,7 @@ class RecordEditPresenter(
                 RecordEditUiEvent.OnSaveButtonClick -> {
                     editRecord(
                         readingRecordId = recordInfo.id,
-                        pageNumber = recordPageState.text.toString().toIntOrNull() ?: 0,
+                        pageNumber = recordPageState.text.toString().toIntOrNull(),
                         quote = recordQuoteState.text.toString(),
                         primaryEmotion = recordInfo.primaryEmotion.code.name,
                         detailEmotionIds = recordInfo.detailEmotions.map { it.id },

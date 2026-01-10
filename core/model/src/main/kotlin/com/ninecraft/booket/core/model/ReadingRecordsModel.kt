@@ -30,7 +30,7 @@ data class ReadingRecordModel(
 data class ReadingRecordModelV2(
     val id: String = "",
     val userBookId: String = "",
-    val pageNumber: Int = 0,
+    val pageNumber: Int? = null,
     val quote: String = "",
     val review: String = "",
     val primaryEmotion: PrimaryEmotionModel = PrimaryEmotionModel(),

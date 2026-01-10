@@ -110,7 +110,7 @@ class RecordRegisterPresenter(
 
         fun postRecord(
             userBookId: String,
-            pageNumber: Int,
+            pageNumber: Int?,
             quote: String,
             primaryEmotion: String,
             detailEmotionTagIds: List<String>,
@@ -268,7 +268,7 @@ class RecordRegisterPresenter(
                         RecordStep.EMOTION -> {
                             postRecord(
                                 userBookId = screen.userBookId,
-                                pageNumber = recordPageState.text.toString().toIntOrNull() ?: 0,
+                                pageNumber = recordPageState.text.toString().toIntOrNull(),
                                 quote = recordSentenceState.text.toString(),
                                 review = memoState.text.toString(),
                                 primaryEmotion = committedEmotionCode?.name ?: "",
