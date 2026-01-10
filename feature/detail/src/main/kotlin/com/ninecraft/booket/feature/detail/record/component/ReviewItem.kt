@@ -85,7 +85,7 @@ private fun EmotionContent(
                 .background(ReedTheme.colors.basePrimary),
         )
         Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
-        Column {
+        Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = primaryEmotion.displayName,
                 modifier = Modifier
@@ -115,7 +115,6 @@ private fun EmotionContent(
                 }
             }
         }
-        Spacer(modifier = Modifier.weight(1f))
         Text(
             text = createdAt.toFormattedDate(),
             modifier = Modifier.align(
