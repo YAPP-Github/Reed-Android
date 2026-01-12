@@ -8,7 +8,9 @@ import com.ninecraft.booket.core.model.EmotionGroupModel
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentMapOf
 import java.util.UUID
 
 @Immutable
@@ -29,9 +31,9 @@ data class RecordRegisterUiState(
     val memoState: TextFieldState = TextFieldState(),
     val emotionGroups: ImmutableList<EmotionGroupModel> = persistentListOf(),
     val selectedEmotionCode: EmotionCode? = null,
-    val selectedEmotionMap: Map<EmotionCode, ImmutableList<String>> = emptyMap(),
+    val selectedEmotionMap: PersistentMap<EmotionCode, ImmutableList<String>> = persistentMapOf(),
     val committedEmotion: EmotionCode? = null,
-    val committedEmotionMap: Map<EmotionCode, ImmutableList<String>> = emptyMap(),
+    val committedEmotionMap: PersistentMap<EmotionCode, ImmutableList<String>> = persistentMapOf(),
     val isEmotionDetailBottomSheetVisible: Boolean = false,
     val savedRecordId: String = "",
     val isNextButtonEnabled: Boolean = false,
@@ -56,8 +58,8 @@ sealed interface RecordRegisterUiEvent : CircuitUiEvent {
     data object OnNextButtonClick : RecordRegisterUiEvent
     data object OnSentenceScanButtonClick : RecordRegisterUiEvent
     data class OnSelectEmotionCode(val emotionCode: EmotionCode) : RecordRegisterUiEvent
-    data class OnEmotionDetailToggled(val detail: String) : RecordRegisterUiEvent
-    data class OnEmotionDetailRemoved(val detail: String) : RecordRegisterUiEvent
+    data class OnEmotionDetailToggled(val detailId: String) : RecordRegisterUiEvent
+    data class OnEmotionDetailRemoved(val detailId: String) : RecordRegisterUiEvent
     data object OnEmotionDetailSkipped : RecordRegisterUiEvent
     data object OnEmotionDetailCommitted : RecordRegisterUiEvent
     data object OnEmotionDetailBottomSheetDismiss : RecordRegisterUiEvent

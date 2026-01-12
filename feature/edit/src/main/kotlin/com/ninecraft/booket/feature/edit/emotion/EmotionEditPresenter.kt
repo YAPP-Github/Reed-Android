@@ -27,6 +27,7 @@ import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toPersistentList
@@ -51,9 +52,9 @@ class EmotionEditPresenter(
         var emotionUiState by rememberRetained { mutableStateOf<EmotionUiState>(EmotionUiState.idle) }
         var emotionGroups by rememberRetained { mutableStateOf(persistentListOf<EmotionGroupModel>()) }
         var selectedEmotionCode by rememberRetained { mutableStateOf<EmotionCode?>(null) }
-        var selectedEmotionMap by rememberRetained { mutableStateOf<Map<EmotionCode, ImmutableList<String>>>(emptyMap()) }
+        var selectedEmotionMap by rememberRetained { mutableStateOf<PersistentMap<EmotionCode, ImmutableList<String>>>(persistentMapOf()) }
         var committedEmotionCode by rememberRetained { mutableStateOf<EmotionCode?>(null) }
-        var committedEmotionMap by rememberRetained { mutableStateOf<Map<EmotionCode, ImmutableList<String>>>(emptyMap()) }
+        var committedEmotionMap by rememberRetained { mutableStateOf<PersistentMap<EmotionCode, ImmutableList<String>>>(persistentMapOf()) }
         var isEmotionDetailBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         val isEditButtonEnabled by remember {
             derivedStateOf {
@@ -78,9 +79,9 @@ class EmotionEditPresenter(
                         emotionUiState = EmotionUiState.Success
                         emotionGroups = result.emotions.toPersistentList()
                         selectedEmotionCode = screen.primaryEmotionCode
-                        selectedEmotionMap = mapOf(screen.primaryEmotionCode to screen.detailEmotionIds.toPersistentList())
+                        selectedEmotionMap = persistentMapOf(screen.primaryEmotionCode to screen.detailEmotionIds.toPersistentList())
                         committedEmotionCode = screen.primaryEmotionCode
-                        committedEmotionMap = mapOf(screen.primaryEmotionCode to screen.detailEmotionIds.toPersistentList())
+                        committedEmotionMap = persistentMapOf(screen.primaryEmotionCode to screen.detailEmotionIds.toPersistentList())
                     }.onFailure { exception ->
                         emotionUiState = EmotionUiState.Error(exception)
 
@@ -163,7 +164,7 @@ class EmotionEditPresenter(
                         currentDetails + event.detailId
                     }
 
-                    selectedEmotionMap = selectedEmotionMap + (emotionKey to updatedDetails.toPersistentList())
+                    selectedEmotionMap = selectedEmotionMap.put(emotionKey, updatedDetails.toPersistentList())
                 }
 
                 is EmotionEditUiEvent.OnEmotionDetailRemoved -> {
@@ -171,8 +172,8 @@ class EmotionEditPresenter(
                     val currentDetails = committedEmotionMap[selectedEmotionCode].orEmpty()
                     val updatedDetails = currentDetails - event.detailId
 
-                    committedEmotionMap = committedEmotionMap + (emotionKey to updatedDetails.toPersistentList())
-                    selectedEmotionMap = selectedEmotionMap + (emotionKey to updatedDetails.toPersistentList())
+                    committedEmotionMap = committedEmotionMap.put(emotionKey, updatedDetails.toPersistentList())
+                    selectedEmotionMap = selectedEmotionMap.put(emotionKey, updatedDetails.toPersistentList())
                 }
 
                 is EmotionEditUiEvent.OnEmotionDetailCommitted -> {
@@ -180,8 +181,8 @@ class EmotionEditPresenter(
                     val details = selectedEmotionMap[emotionKey] ?: persistentListOf()
 
                     committedEmotionCode = emotionKey
-                    committedEmotionMap = mapOf(emotionKey to details)
-                    selectedEmotionMap = mapOf(emotionKey to details)
+                    committedEmotionMap = persistentMapOf(emotionKey to details)
+                    selectedEmotionMap = persistentMapOf(emotionKey to details)
                     isEmotionDetailBottomSheetVisible = false
                 }
 

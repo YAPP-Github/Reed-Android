@@ -34,6 +34,7 @@ import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toPersistentList
@@ -76,9 +77,9 @@ class RecordRegisterPresenter(
         var emotionGroups by rememberRetained { mutableStateOf(persistentListOf<EmotionGroupModel>()) }
         var pendingEmotionCode by rememberRetained { mutableStateOf<EmotionCode?>(null) }
         var selectedEmotionCode by rememberRetained { mutableStateOf<EmotionCode?>(null) }
-        var selectedEmotionMap by rememberRetained { mutableStateOf<Map<EmotionCode, ImmutableList<String>>>(emptyMap()) }
+        var selectedEmotionMap by rememberRetained { mutableStateOf<PersistentMap<EmotionCode, ImmutableList<String>>>(persistentMapOf()) }
         var committedEmotionCode by rememberRetained { mutableStateOf<EmotionCode?>(null) }
-        var committedEmotionMap by rememberRetained { mutableStateOf<Map<EmotionCode, ImmutableList<String>>>(emptyMap()) }
+        var committedEmotionMap by rememberRetained { mutableStateOf<PersistentMap<EmotionCode, ImmutableList<String>>>(persistentMapOf()) }
         var isEmotionDetailBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var savedRecordId by rememberRetained { mutableStateOf("") }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
@@ -232,22 +233,22 @@ class RecordRegisterPresenter(
                 is RecordRegisterUiEvent.OnEmotionDetailToggled -> {
                     val emotionKey = selectedEmotionCode ?: return
                     val currentDetails = selectedEmotionMap[selectedEmotionCode].orEmpty()
-                    val updatedDetails = if (event.detail in currentDetails) {
-                        currentDetails - event.detail
+                    val updatedDetails = if (event.detailId in currentDetails) {
+                        currentDetails - event.detailId
                     } else {
-                        currentDetails + event.detail
+                        currentDetails + event.detailId
                     }
 
-                    selectedEmotionMap = selectedEmotionMap + (emotionKey to updatedDetails.toPersistentList())
+                    selectedEmotionMap = selectedEmotionMap.put(emotionKey, updatedDetails.toPersistentList())
                 }
 
                 is RecordRegisterUiEvent.OnEmotionDetailRemoved -> {
                     val emotionKey = selectedEmotionCode ?: return
                     val currentDetails = committedEmotionMap[selectedEmotionCode].orEmpty()
-                    val updatedDetails = currentDetails - event.detail
+                    val updatedDetails = currentDetails - event.detailId
 
-                    committedEmotionMap = committedEmotionMap + (emotionKey to updatedDetails.toPersistentList())
-                    selectedEmotionMap = selectedEmotionMap + (emotionKey to updatedDetails.toPersistentList())
+                    committedEmotionMap = committedEmotionMap.put(emotionKey, updatedDetails.toPersistentList())
+                    selectedEmotionMap = selectedEmotionMap.put(emotionKey, updatedDetails.toPersistentList())
                 }
 
                 is RecordRegisterUiEvent.OnEmotionDetailSkipped -> {
@@ -263,8 +264,8 @@ class RecordRegisterPresenter(
                     val details = selectedEmotionMap[emotionKey] ?: persistentListOf()
 
                     committedEmotionCode = emotionKey
-                    committedEmotionMap = mapOf(emotionKey to details)
-                    selectedEmotionMap = mapOf(emotionKey to details)
+                    committedEmotionMap = persistentMapOf(emotionKey to details)
+                    selectedEmotionMap = persistentMapOf(emotionKey to details)
                     isEmotionDetailBottomSheetVisible = false
                 }
 

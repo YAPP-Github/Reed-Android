@@ -6,7 +6,9 @@ import com.ninecraft.booket.core.model.EmotionGroupModel
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentMapOf
 
 @Immutable
 sealed interface EmotionUiState {
@@ -21,9 +23,9 @@ data class EmotionEditUiState(
     val isEditButtonEnabled: Boolean = false,
     val emotionGroups: ImmutableList<EmotionGroupModel> = persistentListOf(),
     val selectedEmotionCode: EmotionCode? = null,
-    val selectedEmotionMap: Map<EmotionCode, ImmutableList<String>> = emptyMap(),
+    val selectedEmotionMap: PersistentMap<EmotionCode, ImmutableList<String>> = persistentMapOf(),
     val committedEmotion: EmotionCode? = null,
-    val committedEmotionMap: Map<EmotionCode, ImmutableList<String>> = emptyMap(),
+    val committedEmotionMap: PersistentMap<EmotionCode, ImmutableList<String>> = persistentMapOf(),
     val isEmotionDetailBottomSheetVisible: Boolean = false,
     val eventSink: (EmotionEditUiEvent) -> Unit,
 ) : CircuitUiState
