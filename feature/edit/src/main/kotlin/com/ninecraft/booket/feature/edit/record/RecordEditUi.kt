@@ -150,7 +150,7 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
             Text(
-                text = stringResource(R.string.edit_record_impression_label),
+                text = stringResource(R.string.edit_record_memo_label),
                 color = ReedTheme.colors.contentPrimary,
                 style = ReedTheme.typography.body1Medium,
             )
