@@ -36,6 +36,7 @@ data class RecordRegisterUiState(
     val savedRecordId: String = "",
     val isNextButtonEnabled: Boolean = false,
     val isExitDialogVisible: Boolean = false,
+    val isEmotionEditDialogVisible: Boolean = false,
     val isRecordSavedDialogVisible: Boolean = false,
     val sideEffect: RecordRegisterSideEffect? = null,
     val eventSink: (RecordRegisterUiEvent) -> Unit,
@@ -62,6 +63,9 @@ sealed interface RecordRegisterUiEvent : CircuitUiEvent {
     data object OnEmotionDetailBottomSheetDismiss : RecordRegisterUiEvent
     data object OnExitDialogConfirm : RecordRegisterUiEvent
     data object OnExitDialogDismiss : RecordRegisterUiEvent
+
+    data object OnEmotionEditDialogConfirm : RecordRegisterUiEvent
+    data object OnEmotionEditDialogDismiss : RecordRegisterUiEvent
     data class OnRecordSavedDialogConfirm(val recordId: String) : RecordRegisterUiEvent
     data object OnRecordSavedDialogDismiss : RecordRegisterUiEvent
     data object OnRetryGetEmotions : RecordRegisterUiEvent

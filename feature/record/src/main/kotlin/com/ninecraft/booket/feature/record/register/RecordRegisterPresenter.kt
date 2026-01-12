@@ -74,6 +74,7 @@ class RecordRegisterPresenter(
         val recordSentenceState = rememberTextFieldState()
         val memoState = rememberTextFieldState()
         var emotionGroups by rememberRetained { mutableStateOf(persistentListOf<EmotionGroupModel>()) }
+        var pendingEmotionCode by rememberRetained { mutableStateOf<EmotionCode?>(null) }
         var selectedEmotionCode by rememberRetained { mutableStateOf<EmotionCode?>(null) }
         var selectedEmotionMap by rememberRetained { mutableStateOf<Map<EmotionCode, ImmutableList<String>>>(emptyMap()) }
         var committedEmotionCode by rememberRetained { mutableStateOf<EmotionCode?>(null) }
@@ -81,6 +82,7 @@ class RecordRegisterPresenter(
         var isEmotionDetailBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var savedRecordId by rememberRetained { mutableStateOf("") }
         var isExitDialogVisible by rememberRetained { mutableStateOf(false) }
+        var isEmotionEditDialogVisible by rememberRetained { mutableStateOf(false) }
         var isRecordSavedDialogVisible by rememberRetained { mutableStateOf(false) }
         val isPageError by remember {
             derivedStateOf {
@@ -211,14 +213,19 @@ class RecordRegisterPresenter(
                 }
 
                 is RecordRegisterUiEvent.OnSelectEmotionCode -> {
-                    selectedEmotionCode = event.emotionCode
-
-                    if (selectedEmotionCode == EmotionCode.OTHER) {
-                        committedEmotionCode = selectedEmotionCode
-                        committedEmotionMap = persistentMapOf()
-                        selectedEmotionMap = persistentMapOf()
+                    if (selectedEmotionCode != null && selectedEmotionCode != event.emotionCode) {
+                        pendingEmotionCode = event.emotionCode
+                        isEmotionEditDialogVisible = true
                     } else {
-                        isEmotionDetailBottomSheetVisible = true
+                        selectedEmotionCode = event.emotionCode
+
+                        if (selectedEmotionCode == EmotionCode.OTHER) {
+                            committedEmotionCode = selectedEmotionCode
+                            committedEmotionMap = persistentMapOf()
+                            selectedEmotionMap = persistentMapOf()
+                        } else {
+                            isEmotionDetailBottomSheetVisible = true
+                        }
                     }
                 }
 
@@ -301,6 +308,23 @@ class RecordRegisterPresenter(
                 RecordRegisterUiEvent.OnRetryGetEmotions -> {
                     getEmotionGroups()
                 }
+
+                RecordRegisterUiEvent.OnEmotionEditDialogConfirm -> {
+                    selectedEmotionCode = pendingEmotionCode
+
+                    if (selectedEmotionCode == EmotionCode.OTHER) {
+                        committedEmotionCode = selectedEmotionCode
+                        committedEmotionMap = persistentMapOf()
+                        selectedEmotionMap = persistentMapOf()
+                    } else {
+                        isEmotionDetailBottomSheetVisible = true
+                    }
+                    isEmotionEditDialogVisible = false
+                }
+
+                RecordRegisterUiEvent.OnEmotionEditDialogDismiss -> {
+                    isEmotionEditDialogVisible = false
+                }
             }
         }
 
@@ -333,6 +357,7 @@ class RecordRegisterPresenter(
             savedRecordId = savedRecordId,
             isNextButtonEnabled = isNextButtonEnabled,
             isExitDialogVisible = isExitDialogVisible,
+            isEmotionEditDialogVisible = isEmotionEditDialogVisible,
             isRecordSavedDialogVisible = isRecordSavedDialogVisible,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,

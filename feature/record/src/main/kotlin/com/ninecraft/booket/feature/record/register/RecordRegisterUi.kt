@@ -107,13 +107,28 @@ internal fun RecordRegisterUi(
         ReedDialog(
             title = stringResource(R.string.record_exit_dialog_title),
             description = stringResource(R.string.record_exit_dialog_description),
-            confirmButtonText = stringResource(R.string.record_exit_dialog_confirm),
-            dismissButtonText = stringResource(R.string.record_exit_dialog_dismiss),
+            confirmButtonText = stringResource(R.string.record_dialog_confirm),
+            dismissButtonText = stringResource(R.string.record_dialog_dismiss),
             onConfirmRequest = {
                 state.eventSink(RecordRegisterUiEvent.OnExitDialogConfirm)
             },
             onDismissRequest = {
                 state.eventSink(RecordRegisterUiEvent.OnExitDialogDismiss)
+            },
+        )
+    }
+
+    if (state.isEmotionEditDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.emotion_edit_dialog_title),
+            description = stringResource(R.string.emotion_edit_dialog_description),
+            confirmButtonText = stringResource(R.string.record_dialog_confirm),
+            dismissButtonText = stringResource(R.string.record_dialog_dismiss),
+            onConfirmRequest = {
+                state.eventSink(RecordRegisterUiEvent.OnEmotionEditDialogConfirm)
+            },
+            onDismissRequest = {
+                state.eventSink(RecordRegisterUiEvent.OnEmotionEditDialogDismiss)
             },
         )
     }
