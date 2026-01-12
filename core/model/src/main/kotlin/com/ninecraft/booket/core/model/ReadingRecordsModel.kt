@@ -1,6 +1,7 @@
 package com.ninecraft.booket.core.model
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 
 data class ReadingRecordsModel(
     val lastPage: Boolean = true,
