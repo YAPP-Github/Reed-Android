@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.record.step_v2
+package com.ninecraft.booket.feature.record.step
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -56,7 +56,7 @@ import com.ninecraft.booket.core.designsystem.R as designR
 
 @TraceRecomposition
 @Composable
-internal fun QuoteStepV2(
+internal fun QuoteStep(
     state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -234,9 +234,9 @@ internal fun QuoteStepV2(
 
 @ComponentPreview
 @Composable
-private fun QuoteStepV2Preview() {
+private fun QuoteStepPreview() {
     ReedTheme {
-        QuoteStepV2(
+        QuoteStep(
             state = RecordRegisterUiState(
                 eventSink = {},
             ),

@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.record.step_v2
+package com.ninecraft.booket.feature.record.step
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

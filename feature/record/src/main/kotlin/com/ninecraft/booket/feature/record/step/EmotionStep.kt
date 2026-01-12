@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.record.step_v2
+package com.ninecraft.booket.feature.record.step
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @TraceRecomposition
 @Composable
-internal fun EmotionStepV2(
+internal fun EmotionStep(
     state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -145,7 +145,7 @@ internal fun EmotionStepV2(
 
 @ComponentPreview
 @Composable
-private fun EmotionStepV2Preview() {
+private fun EmotionStepPreview() {
     val warmthEmotionGroup = EmotionGroupModel(
         code = EmotionCode.WARMTH,
         displayName = "따뜻함",
@@ -177,7 +177,7 @@ private fun EmotionStepV2Preview() {
         ),
     )
     ReedTheme {
-        EmotionStepV2(
+        EmotionStep(
             state = RecordRegisterUiState(
                 emotionGroups = persistentListOf(warmthEmotionGroup),
                 eventSink = {},

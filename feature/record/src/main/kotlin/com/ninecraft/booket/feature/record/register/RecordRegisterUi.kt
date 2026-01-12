@@ -29,8 +29,8 @@ import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
 import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.record.R
-import com.ninecraft.booket.feature.record.step_v2.EmotionStepV2
-import com.ninecraft.booket.feature.record.step_v2.QuoteStepV2
+import com.ninecraft.booket.feature.record.step.EmotionStep
+import com.ninecraft.booket.feature.record.step.QuoteStep
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -73,7 +73,7 @@ internal fun RecordRegisterUi(
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
             when (state.currentStep) {
                 RecordStep.QUOTE -> {
-                    QuoteStepV2(state = state)
+                    QuoteStep(state = state)
                 }
 
                 RecordStep.EMOTION -> {
@@ -84,7 +84,7 @@ internal fun RecordRegisterUi(
                         }
 
                         is EmotionUiState.Success -> {
-                            EmotionStepV2(state = state)
+                            EmotionStep(state = state)
                         }
 
                         is EmotionUiState.Error -> {
