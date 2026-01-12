@@ -43,7 +43,7 @@ internal fun ReadingRecordsHeader(
             Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
             Text(
                 text = "$totalCount",
-                color = ReedTheme.colors.contentBrand,
+                color = ReedTheme.colors.contentTertiary,
                 style = ReedTheme.typography.headline2SemiBold,
             )
         }

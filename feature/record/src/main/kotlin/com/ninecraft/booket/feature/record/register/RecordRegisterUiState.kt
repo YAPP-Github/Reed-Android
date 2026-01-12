@@ -7,7 +7,9 @@ import com.ninecraft.booket.core.model.Emotion
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentMapOf
 import java.util.UUID
 
 data class RecordRegisterUiState(
@@ -20,9 +22,9 @@ data class RecordRegisterUiState(
     val emotions: ImmutableList<Emotion> = persistentListOf(),
     val emotionDetails: ImmutableList<String> = persistentListOf(),
     val selectedEmotion: Emotion? = null,
-    val selectedEmotionDetails: Map<Emotion, ImmutableList<String>> = emptyMap(),
+    val selectedEmotionDetails: PersistentMap<Emotion, ImmutableList<String>> = persistentMapOf(),
     val committedEmotion: Emotion? = null,
-    val committedEmotionDetails: Map<Emotion, ImmutableList<String>> = emptyMap(),
+    val committedEmotionDetails: PersistentMap<Emotion, ImmutableList<String>> = persistentMapOf(),
     val isEmotionDetailBottomSheetVisible: Boolean = false,
     val impressionState: TextFieldState = TextFieldState(),
     val impressionGuideList: ImmutableList<String> = persistentListOf(),

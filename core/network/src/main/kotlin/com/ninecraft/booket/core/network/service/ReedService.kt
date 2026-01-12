@@ -127,7 +127,7 @@ interface ReedService {
         @Path("userBookId") userBookId: String,
     ): SeedResponse
 
-    @GET("api/v1/reading-records/detail/{readingRecordId}")
+    @GET("api/v2/reading-records/detail/{readingRecordId}")
     suspend fun getRecordDetail(
         @Path("readingRecordId") readingRecordId: String,
     ): RecordDetailResponse

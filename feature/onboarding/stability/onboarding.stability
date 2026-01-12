@@ -11,12 +11,6 @@ public fun com.ninecraft.booket.feature.onboarding.OnboardingPresenter.present()
   params:
 
 @Composable
-private fun com.ninecraft.booket.feature.onboarding.OnboardingScreenPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.onboarding.OnboardingUi(state: com.ninecraft.booket.feature.onboarding.OnboardingUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -36,12 +30,6 @@ internal fun com.ninecraft.booket.feature.onboarding.component.OnboardingPage(im
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.onboarding.component.OnboardingPagePreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.onboarding.component.PagerIndicator(pageCount: kotlin.Int, pagerState: androidx.compose.foundation.pager.PagerState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -49,10 +37,4 @@ internal fun com.ninecraft.booket.feature.onboarding.component.PagerIndicator(pa
     - pageCount: STABLE (primitive type)
     - pagerState: STABLE (marked @Stable or @Immutable)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.feature.onboarding.component.PagerIndicatorPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 

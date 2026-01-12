@@ -27,9 +27,3 @@ internal fun com.ninecraft.booket.feature.webview.WebViewUi(state: com.ninecraft
     - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
-@Composable
-private fun com.ninecraft.booket.feature.webview.WebViewUiPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-

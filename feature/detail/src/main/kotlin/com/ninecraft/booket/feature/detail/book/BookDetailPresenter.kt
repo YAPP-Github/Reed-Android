@@ -79,6 +79,7 @@ class BookDetailPresenter(
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
         var bookDetail by rememberRetained { mutableStateOf(BookDetailModel()) }
         var seedsStates by rememberRetained { mutableStateOf<ImmutableList<EmotionModel>>(persistentListOf()) }
+        var isStatsExpanded by rememberRetained { mutableStateOf(false) }
         var readingRecords by rememberRetained { mutableStateOf(persistentListOf<ReadingRecordModel>()) }
         var readingRecordsTotalCount by rememberRetained { mutableIntStateOf(0) }
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
@@ -398,6 +399,10 @@ class BookDetailPresenter(
                         initialLoad()
                     }
                 }
+
+                is BookDetailUiEvent.OnStatsToggleClick -> {
+                    isStatsExpanded = event.flag
+                }
             }
         }
 
@@ -410,6 +415,7 @@ class BookDetailPresenter(
             footerState = footerState,
             bookDetail = bookDetail,
             seedsStats = seedsStates,
+            isStatsExpanded = isStatsExpanded,
             readingRecords = readingRecords,
             readingRecordsTotalCount = readingRecordsTotalCount,
             isBookUpdateBottomSheetVisible = isBookUpdateBottomSheetVisible,
