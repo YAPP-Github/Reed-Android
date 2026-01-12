@@ -62,7 +62,7 @@ internal fun EmotionEditUi(
                 },
             )
             when (state.emotionUiState) {
-                is EmotionUiState.idle -> {}
+                is EmotionUiState.Idle -> {}
                 is EmotionUiState.Loading -> {
                     ReedLoadingIndicator()
                 }

@@ -63,7 +63,7 @@ class RecordEditPresenter(
         }
         val hasChanges by remember {
             derivedStateOf {
-                val pageChanged = recordPageState.text.toString() != recordInfo.pageNumber.toString()
+                val pageChanged = recordPageState.text.toString().toIntOrNull() != recordInfo.pageNumber
                 val quoteChanged = recordQuoteState.text.toString() != recordInfo.quote
                 val impressionChanged = recordImpressionState.text.toString() != recordInfo.review
 

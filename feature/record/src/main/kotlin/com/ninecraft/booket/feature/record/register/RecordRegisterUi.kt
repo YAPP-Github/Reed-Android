@@ -78,7 +78,7 @@ internal fun RecordRegisterUi(
 
                 RecordStep.EMOTION -> {
                     when (state.emotionUiState) {
-                        is EmotionUiState.idle -> {}
+                        is EmotionUiState.Idle -> {}
                         is EmotionUiState.Loading -> {
                             ReedLoadingIndicator()
                         }

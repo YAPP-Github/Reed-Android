@@ -49,7 +49,7 @@ class EmotionEditPresenter(
     @Composable
     override fun present(): EmotionEditUiState {
         val scope = rememberCoroutineScope()
-        var emotionUiState by rememberRetained { mutableStateOf<EmotionUiState>(EmotionUiState.idle) }
+        var emotionUiState by rememberRetained { mutableStateOf<EmotionUiState>(EmotionUiState.Idle) }
         var emotionGroups by rememberRetained { mutableStateOf(persistentListOf<EmotionGroupModel>()) }
         var selectedEmotionCode by rememberRetained { mutableStateOf<EmotionCode?>(null) }
         var selectedEmotionMap by rememberRetained { mutableStateOf<PersistentMap<EmotionCode, ImmutableList<String>>>(persistentMapOf()) }

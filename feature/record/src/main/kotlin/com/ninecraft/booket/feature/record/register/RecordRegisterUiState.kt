@@ -15,7 +15,7 @@ import java.util.UUID
 
 @Immutable
 sealed interface EmotionUiState {
-    data object idle : EmotionUiState
+    data object Idle : EmotionUiState
     data object Loading : EmotionUiState
     data object Success : EmotionUiState
     data class Error(val exception: Throwable) : EmotionUiState
@@ -23,7 +23,7 @@ sealed interface EmotionUiState {
 
 data class RecordRegisterUiState(
     val isLoading: Boolean = false,
-    val emotionUiState: EmotionUiState = EmotionUiState.idle,
+    val emotionUiState: EmotionUiState = EmotionUiState.Idle,
     val currentStep: RecordStep = RecordStep.QUOTE,
     val recordPageState: TextFieldState = TextFieldState(),
     val recordSentenceState: TextFieldState = TextFieldState(),

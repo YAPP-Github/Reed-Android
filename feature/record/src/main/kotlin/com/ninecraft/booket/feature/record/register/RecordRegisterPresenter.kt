@@ -68,7 +68,7 @@ class RecordRegisterPresenter(
     override fun present(): RecordRegisterUiState {
         val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
-        var emotionUiState by rememberRetained { mutableStateOf<EmotionUiState>(EmotionUiState.idle) }
+        var emotionUiState by rememberRetained { mutableStateOf<EmotionUiState>(EmotionUiState.Idle) }
         var sideEffect by rememberRetained { mutableStateOf<RecordRegisterSideEffect?>(null) }
         var currentStep by rememberRetained { mutableStateOf(RecordStep.QUOTE) }
         val recordPageState = rememberTextFieldState()
