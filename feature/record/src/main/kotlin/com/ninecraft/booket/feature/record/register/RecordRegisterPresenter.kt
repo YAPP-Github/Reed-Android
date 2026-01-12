@@ -215,6 +215,8 @@ class RecordRegisterPresenter(
 
                     if (selectedEmotionCode == EmotionCode.OTHER) {
                         committedEmotionCode = selectedEmotionCode
+                        committedEmotionMap = persistentMapOf()
+                        selectedEmotionMap = persistentMapOf()
                     } else {
                         isEmotionDetailBottomSheetVisible = true
                     }
