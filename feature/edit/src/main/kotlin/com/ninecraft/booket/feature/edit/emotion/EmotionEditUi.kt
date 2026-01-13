@@ -134,7 +134,7 @@ private fun EmotionEditContent(
                     onClick = {
                         state.eventSink(EmotionEditUiEvent.OnSelectEmotionCode(emotion.code))
                     },
-                    isSelected = state.committedEmotion == emotion.code,
+                    isSelected = state.committedEmotionCode == emotion.code,
                     onEmotionDetailRemove = { detail ->
                         state.eventSink(EmotionEditUiEvent.OnEmotionDetailRemoved(detail))
                     },

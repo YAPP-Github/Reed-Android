@@ -213,7 +213,7 @@ class EmotionEditPresenter(
             emotionGroups = emotionGroups,
             selectedEmotionCode = selectedEmotionCode,
             selectedEmotionMap = selectedEmotionMap,
-            committedEmotion = committedEmotionCode,
+            committedEmotionCode = committedEmotionCode,
             committedEmotionMap = committedEmotionMap,
             isEmotionDetailBottomSheetVisible = isEmotionDetailBottomSheetVisible,
             isEditButtonEnabled = isEditButtonEnabled,

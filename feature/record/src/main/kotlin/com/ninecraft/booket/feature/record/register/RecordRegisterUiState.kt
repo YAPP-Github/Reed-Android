@@ -32,7 +32,7 @@ data class RecordRegisterUiState(
     val emotionGroups: ImmutableList<EmotionGroupModel> = persistentListOf(),
     val selectedEmotionCode: EmotionCode? = null,
     val selectedEmotionMap: PersistentMap<EmotionCode, ImmutableList<String>> = persistentMapOf(),
-    val committedEmotion: EmotionCode? = null,
+    val committedEmotionCode: EmotionCode? = null,
     val committedEmotionMap: PersistentMap<EmotionCode, ImmutableList<String>> = persistentMapOf(),
     val isEmotionDetailBottomSheetVisible: Boolean = false,
     val savedRecordId: String = "",

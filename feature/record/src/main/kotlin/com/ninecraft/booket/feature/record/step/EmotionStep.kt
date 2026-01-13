@@ -83,7 +83,7 @@ internal fun EmotionStep(
                     onClick = {
                         state.eventSink(RecordRegisterUiEvent.OnSelectEmotionCode(emotion.code))
                     },
-                    isSelected = state.committedEmotion == emotion.code,
+                    isSelected = state.committedEmotionCode == emotion.code,
                     onEmotionDetailRemove = { detail ->
                         state.eventSink(RecordRegisterUiEvent.OnEmotionDetailRemoved(detail))
                     },

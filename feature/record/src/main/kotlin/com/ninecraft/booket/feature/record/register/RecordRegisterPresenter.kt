@@ -352,7 +352,7 @@ class RecordRegisterPresenter(
             emotionGroups = emotionGroups,
             selectedEmotionCode = selectedEmotionCode,
             selectedEmotionMap = selectedEmotionMap,
-            committedEmotion = committedEmotionCode,
+            committedEmotionCode = committedEmotionCode,
             committedEmotionMap = committedEmotionMap,
             isEmotionDetailBottomSheetVisible = isEmotionDetailBottomSheetVisible,
             savedRecordId = savedRecordId,
