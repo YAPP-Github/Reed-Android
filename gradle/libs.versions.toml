@@ -19,7 +19,7 @@ androidx-datastore = "1.2.0"
 androidx-camera = "1.5.2"
 
 ## Compose
-androidx-compose-bom = "2025.12.01"
+androidx-compose-bom = "2025.07.00"
 androidx-compose-material3 = "1.4.0"
 compose-stable-marker = "1.0.7"
 compose-effects = "0.1.4"
