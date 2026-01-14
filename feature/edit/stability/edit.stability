@@ -27,13 +27,29 @@ internal fun com.ninecraft.booket.feature.edit.emotion.EmotionEditUi(state: com.
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.edit.emotion.EmotionItem(emotion: com.ninecraft.booket.core.model.Emotion, onClick: kotlin.Function0<kotlin.Unit>, isSelected: kotlin.Boolean, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+internal fun com.ninecraft.booket.feature.edit.emotion.component.EmotionDetailBottomSheet(emotionGroup: com.ninecraft.booket.core.model.EmotionGroupModel, selectedEmotionDetailIds: kotlinx.collections.immutable.ImmutableList<kotlin.String>, onDismissRequest: kotlin.Function0<kotlin.Unit>, sheetState: androidx.compose.material3.SheetState, onCloseButtonClick: kotlin.Function0<kotlin.Unit>, onEmotionDetailToggled: kotlin.Function1<kotlin.String, kotlin.Unit>, onSkipButtonClick: kotlin.Function0<kotlin.Unit>, onConfirmButtonClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
-    - emotion: STABLE (class with no mutable properties)
+    - emotionGroup: STABLE (marked @Stable or @Immutable)
+    - selectedEmotionDetailIds: STABLE (known stable type)
+    - onDismissRequest: STABLE (function type)
+    - sheetState: STABLE (marked @Stable or @Immutable)
+    - onCloseButtonClick: STABLE (function type)
+    - onEmotionDetailToggled: STABLE (function type)
+    - onSkipButtonClick: STABLE (function type)
+    - onConfirmButtonClick: STABLE (function type)
+
+@Composable
+internal fun com.ninecraft.booket.feature.edit.emotion.component.EmotionItem(emotionGroup: com.ninecraft.booket.core.model.EmotionGroupModel, selectedEmotionDetailIds: kotlinx.collections.immutable.ImmutableList<kotlin.String>, onClick: kotlin.Function0<kotlin.Unit>, isSelected: kotlin.Boolean, onEmotionDetailRemove: kotlin.Function1<kotlin.String, kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - emotionGroup: STABLE (marked @Stable or @Immutable)
+    - selectedEmotionDetailIds: STABLE (known stable type)
     - onClick: STABLE (function type)
     - isSelected: STABLE (primitive type)
+    - onEmotionDetailRemove: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -73,5 +89,25 @@ internal fun com.ninecraft.booket.feature.edit.record.component.BookItem(imageUr
     - bookTitle: STABLE (String is immutable)
     - author: STABLE (String is immutable)
     - publisher: STABLE (String is immutable)
+    - modifier: STABLE (marked @Stable or @Immutable)
+
+@Composable
+private fun com.ninecraft.booket.feature.edit.record.component.EmotionContent(primaryEmotionCode: com.ninecraft.booket.core.model.EmotionCode, primaryEmotionName: kotlin.String, detailEmotions: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.feature.screens.arguments.DetailEmotionArg>): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - primaryEmotionCode: STABLE (class with no mutable properties)
+    - primaryEmotionName: STABLE (String is immutable)
+    - detailEmotions: STABLE (known stable type)
+
+@Composable
+internal fun com.ninecraft.booket.feature.edit.record.component.EmotionItem(primaryEmotionCode: com.ninecraft.booket.core.model.EmotionCode, primaryEmotionName: kotlin.String, detailEmotions: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.feature.screens.arguments.DetailEmotionArg>, onClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - primaryEmotionCode: STABLE (class with no mutable properties)
+    - primaryEmotionName: STABLE (String is immutable)
+    - detailEmotions: STABLE (known stable type)
+    - onClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
 
