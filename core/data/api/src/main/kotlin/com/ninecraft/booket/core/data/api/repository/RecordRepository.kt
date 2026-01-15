@@ -1,37 +1,37 @@
 package com.ninecraft.booket.core.data.api.repository
 
-import com.ninecraft.booket.core.model.ReadingRecordModel
-import com.ninecraft.booket.core.model.RecordRegisterModel
+import com.ninecraft.booket.core.model.ReadingRecordModelV2
 import com.ninecraft.booket.core.model.ReadingRecordsModel
-import com.ninecraft.booket.core.model.RecordDetailModel
 
 interface RecordRepository {
     suspend fun postRecord(
         userBookId: String,
-        pageNumber: Int,
+        pageNumber: Int?,
         quote: String,
-        emotionTags: List<String>,
         review: String,
-    ): Result<RecordRegisterModel>
+        primaryEmotion: String,
+        detailEmotionTagIds: List<String>,
+    ): Result<ReadingRecordModelV2>
 
     suspend fun getReadingRecords(
         userBookId: String,
         sort: String,
         page: Int,
         size: Int,
-    ): Result<ReadingRecordsModel>
+    ): Result<ReadingRecordsModel> // TODO: V2로 변경 필요
 
     suspend fun getRecordDetail(
         readingRecordId: String,
-    ): Result<RecordDetailModel>
+    ): Result<ReadingRecordModelV2>
 
     suspend fun editRecord(
         readingRecordId: String,
-        pageNumber: Int,
+        pageNumber: Int?,
         quote: String,
-        emotionTags: List<String>,
         review: String,
-    ): Result<ReadingRecordModel>
+        primaryEmotion: String,
+        detailEmotionTagIds: List<String>,
+    ): Result<ReadingRecordModelV2>
 
     suspend fun deleteRecord(
         readingRecordId: String,

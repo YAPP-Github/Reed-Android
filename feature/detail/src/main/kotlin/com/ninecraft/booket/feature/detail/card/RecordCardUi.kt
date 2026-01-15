@@ -83,7 +83,7 @@ internal fun RecordCardUi(
                 RecordCard(
                     quote = state.quote,
                     bookTitle = state.bookTitle,
-                    emotion = state.emotion,
+                    emotionCode = state.emotionCode,
                     modifier = Modifier
                         .padding(top = ReedTheme.spacing.spacing5)
                         .clip(RoundedCornerShape(ReedTheme.radius.md))

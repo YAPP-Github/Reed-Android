@@ -8,11 +8,13 @@ import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
-import com.ninecraft.booket.core.model.RecordDetailModel
+import com.ninecraft.booket.core.model.ReadingRecordModelV2
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordCardScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordEditScreen
+import com.ninecraft.booket.feature.screens.arguments.DetailEmotionArg
+import com.ninecraft.booket.feature.screens.arguments.PrimaryEmotionArg
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
@@ -50,7 +52,7 @@ class RecordDetailPresenter(
     override fun present(): RecordDetailUiState {
         val scope = rememberCoroutineScope()
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
-        var recordDetailInfo by rememberRetained { mutableStateOf(RecordDetailModel()) }
+        var recordDetailInfo by rememberRetained { mutableStateOf(ReadingRecordModelV2()) }
         var isRecordMenuBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isRecordDeleteDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<RecordDetailSideEffect?>(null) }
@@ -134,7 +136,7 @@ class RecordDetailPresenter(
                         RecordCardScreen(
                             quote = recordDetailInfo.quote,
                             bookTitle = recordDetailInfo.bookTitle,
-                            emotion = recordDetailInfo.emotionTags[0],
+                            emotionCode = recordDetailInfo.primaryEmotion.code,
                         ),
                     )
                 }
@@ -148,7 +150,16 @@ class RecordDetailPresenter(
                                 pageNumber = recordDetailInfo.pageNumber,
                                 quote = recordDetailInfo.quote,
                                 review = recordDetailInfo.review,
-                                emotionTags = recordDetailInfo.emotionTags,
+                                primaryEmotion = PrimaryEmotionArg(
+                                    code = recordDetailInfo.primaryEmotion.code,
+                                    displayName = recordDetailInfo.primaryEmotion.displayName,
+                                ),
+                                detailEmotions = recordDetailInfo.detailEmotions.map {
+                                    DetailEmotionArg(
+                                        id = it.id,
+                                        name = it.name,
+                                    )
+                                },
                                 bookTitle = recordDetailInfo.bookTitle,
                                 bookPublisher = recordDetailInfo.bookPublisher,
                                 bookCoverImageUrl = recordDetailInfo.bookCoverImageUrl,
