@@ -68,7 +68,15 @@ class ReedFirebaseMessagingService(
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(System.currentTimeMillis().toInt(), builder.build())
+        
+        // 알림 타입별로 고정된 ID 사용 (같은 타입의 알림은 업데이트됨)
+        // val notificationType = message.data["type"] ?: NOTIFICATION_TYPE_DEFAULT
+        // val notificationId = notificationType.hashCode()
+        
+        // 고정된 ID 사용하여 알림이 쌓이지 않고 업데이트되도록 처리
+        val notificationId = REED_CHANNEL_ID.hashCode()
+
+        manager.notify(notificationId, builder.build())
     }
 
     override fun onDestroy() {
@@ -80,6 +88,11 @@ class ReedFirebaseMessagingService(
         private const val REED_CHANNEL_ID = "REED_PUSH_CHANNEL"
         private const val REED_CHANNEL_NAME = "리드 푸시 알림"
         private const val REED_CHANNEL_DESC = "리드 앱에서 보내는 푸시 알림을 관리합니다."
+
+        // 알림 타입
+        private const val NOTIFICATION_TYPE_DEFAULT = "DEFAULT" // 타입이 지정되지 않은 경우
+        private const val NOTIFICATION_TYPE_INACTIVE = "INACTIVE" // 미기록 알림 (7일 동안 기록 안 함)
+        private const val NOTIFICATION_TYPE_DORMANT = "DORMANT" // 휴면 알림 (30일 동안 기록 안 함)
 
         // Android 8.0 이상 필수 채널 생성
         fun createNotificationChannel(context: Context) {
