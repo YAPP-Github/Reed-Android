@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.detail.card
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.ImageBitmap
+import com.ninecraft.booket.core.model.EmotionCode
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import java.util.UUID
@@ -11,7 +12,7 @@ data class RecordCardUiState(
     val quote: String = "",
     val bookTitle: String = "",
     val author: String = "",
-    val emotion: String = "",
+    val emotionCode: EmotionCode = EmotionCode.OTHER,
     val isCapturing: Boolean = false,
     val isSharing: Boolean = false,
     val sideEffect: RecordCardSideEffect? = null,

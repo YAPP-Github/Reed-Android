@@ -2,8 +2,8 @@
 <resources>
     <string name="record_exit_dialog_title">기록을 그만하고 나가시겠어요?</string>
     <string name="record_exit_dialog_description">지금까지 기록한 내용은 저장되지 않습니다.</string>
-    <string name="record_exit_dialog_confirm">확인</string>
-    <string name="record_exit_dialog_dismiss">취소</string>
+    <string name="record_dialog_confirm">확인</string>
+    <string name="record_dialog_dismiss">취소</string>
     <string name="ocr_guide">수집할 문장이 화면에 모두 담기도록\n조정 후 하단 캡쳐 버튼을 눌러주세요</string>
     <string name="ocr_sentence_selection">기록할 문장 선택</string>
     <string name="ocr_selection_confirm">선택 완료</string>
@@ -48,4 +48,6 @@
     <string name="emotion_detail_description">더 자세한 감정을 선택 기록할 수 있어요.</string>
     <string name="emotion_detail_skip">건너뛰기</string>
     <string name="emotion_detail_confirm">선택 완료</string>
+    <string name="emotion_edit_dialog_title">감정을 수정하시겠어요?</string>
+    <string name="emotion_edit_dialog_description">기록된 감정이 삭제됩니다.</string>
 </resources>
