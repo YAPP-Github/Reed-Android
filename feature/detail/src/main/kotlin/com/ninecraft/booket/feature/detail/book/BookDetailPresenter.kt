@@ -70,7 +70,7 @@ class BookDetailPresenter(
 
     private fun getRecordComparator(sortType: RecordSort): Comparator<ReadingRecordModel> {
         return when (sortType) {
-            RecordSort.PAGE_NUMBER_ASC -> compareBy { it.pageNumber }
+            RecordSort.PAGE_NUMBER_ASC -> compareBy(nullsLast()) { it.pageNumber }
             RecordSort.CREATED_DATE_DESC -> compareByDescending { LocalDateTime.parse(it.createdAt) }
         }
     }

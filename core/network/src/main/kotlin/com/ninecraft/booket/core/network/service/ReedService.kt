@@ -15,7 +15,7 @@ import com.ninecraft.booket.core.network.response.GuestBookSearchResponse
 import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
-import com.ninecraft.booket.core.network.response.ReadingRecordV2
+import com.ninecraft.booket.core.network.response.ReadingRecord
 import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RefreshTokenResponse
 import com.ninecraft.booket.core.network.response.SeedResponse
@@ -114,9 +114,9 @@ interface ReedService {
     suspend fun postRecord(
         @Path("userBookId") userBookId: String,
         @Body recordRegisterRequest: RecordRegisterRequest,
-    ): ReadingRecordV2
+    ): ReadingRecord
 
-    @GET("api/v1/reading-records/{userBookId}")
+    @GET("api/v2/reading-records/{userBookId}")
     suspend fun getReadingRecords(
         @Path("userBookId") userBookId: String,
         @Query("sort") sort: String = "CREATED_DATE_DESC",
@@ -132,13 +132,13 @@ interface ReedService {
     @GET("api/v2/reading-records/detail/{readingRecordId}")
     suspend fun getRecordDetail(
         @Path("readingRecordId") readingRecordId: String,
-    ): ReadingRecordV2
+    ): ReadingRecord
 
     @PUT("api/v2/reading-records/{readingRecordId}")
     suspend fun editRecord(
         @Path("readingRecordId") readingRecordId: String,
         @Body recordRegisterRequest: RecordRegisterRequest,
-    ): ReadingRecordV2
+    ): ReadingRecord
 
     @DELETE("api/v2/reading-records/{readingRecordId}")
     suspend fun deleteRecord(

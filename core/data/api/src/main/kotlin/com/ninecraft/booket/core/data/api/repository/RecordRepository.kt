@@ -1,6 +1,6 @@
 package com.ninecraft.booket.core.data.api.repository
 
-import com.ninecraft.booket.core.model.ReadingRecordModelV2
+import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.model.ReadingRecordsModel
 
 interface RecordRepository {
@@ -11,7 +11,7 @@ interface RecordRepository {
         review: String,
         primaryEmotion: String,
         detailEmotionTagIds: List<String>,
-    ): Result<ReadingRecordModelV2>
+    ): Result<ReadingRecordModel>
 
     suspend fun getReadingRecords(
         userBookId: String,
@@ -22,7 +22,7 @@ interface RecordRepository {
 
     suspend fun getRecordDetail(
         readingRecordId: String,
-    ): Result<ReadingRecordModelV2>
+    ): Result<ReadingRecordModel>
 
     suspend fun editRecord(
         readingRecordId: String,
@@ -31,7 +31,7 @@ interface RecordRepository {
         review: String,
         primaryEmotion: String,
         detailEmotionTagIds: List<String>,
-    ): Result<ReadingRecordModelV2>
+    ): Result<ReadingRecordModel>
 
     suspend fun deleteRecord(
         readingRecordId: String,

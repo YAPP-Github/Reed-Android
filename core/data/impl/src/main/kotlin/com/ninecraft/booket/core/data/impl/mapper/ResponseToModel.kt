@@ -18,7 +18,6 @@ import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.PageInfoModel
 import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
-import com.ninecraft.booket.core.model.ReadingRecordModelV2
 import com.ninecraft.booket.core.model.ReadingRecordsModel
 import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.core.model.RecordRegisterModel
@@ -42,7 +41,6 @@ import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.PageInfo
 import com.ninecraft.booket.core.network.response.PrimaryEmotion
 import com.ninecraft.booket.core.network.response.ReadingRecord
-import com.ninecraft.booket.core.network.response.ReadingRecordV2
 import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RecentBook
 import com.ninecraft.booket.core.network.response.RecordRegisterResponse
@@ -242,23 +240,6 @@ internal fun ReadingRecordsResponse.toModel(): ReadingRecordsModel {
 
 internal fun ReadingRecord.toModel(): ReadingRecordModel {
     return ReadingRecordModel(
-        id = id,
-        userBookId = userBookId,
-        pageNumber = pageNumber,
-        quote = quote,
-        review = review ?: "",
-        emotionTags = emotionTags,
-        createdAt = createdAt,
-        updatedAt = updatedAt,
-        bookTitle = bookTitle ?: "",
-        bookPublisher = bookPublisher ?: "",
-        bookCoverImageUrl = bookCoverImageUrl ?: "",
-        author = author ?: "",
-    )
-}
-
-internal fun ReadingRecordV2.toModel(): ReadingRecordModelV2 {
-    return ReadingRecordModelV2(
         id = id,
         userBookId = userBookId,
         pageNumber = pageNumber,
