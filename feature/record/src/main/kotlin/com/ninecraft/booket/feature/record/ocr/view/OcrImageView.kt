@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.NetworkImage
@@ -21,6 +22,7 @@ import com.ninecraft.booket.core.designsystem.theme.Neutral950
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar
+import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.ocr.OcrUiEvent
 import com.ninecraft.booket.feature.record.ocr.OcrUiState
 import com.ninecraft.booket.feature.record.ocr.component.ImageProcessingLoader
@@ -56,6 +58,22 @@ internal fun OcrImageView(
                     contentDescription = "Selected Image",
                     modifier = Modifier.fillMaxWidth(),
                 )
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .background(Black.copy(alpha = 0.5f))
+                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        text = stringResource(R.string.ocr_image_scanning),
+                        color = ReedTheme.colors.contentInverse,
+                        style = ReedTheme.typography.headline2Medium,
+                    )
+                    Spacer(modifier = Modifier.height(42.dp))
+                    ImageProcessingLoader()
+                }
             }
         }
     }
