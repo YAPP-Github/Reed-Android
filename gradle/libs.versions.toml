@@ -43,7 +43,7 @@ okhttp = "5.3.2"
 retrofit = "3.0.0"
 
 ## Circuit
-circuit = "0.30.0"
+circuit = "0.31.0"
 
 ## Logging
 logger = "2.2.0"

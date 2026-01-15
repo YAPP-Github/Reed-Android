@@ -33,6 +33,7 @@ internal class AndroidFeatureConventionPlugin : Plugin<Project> {
                 implementation(project(path = ":core:ui"))
                 implementation(project(path = ":feature:screens"))
 
+                implementation(libs.kotlinx.collections.immutable)
                 implementation(libs.compose.effects)
 
                 implementation(libs.bundles.circuit)
