@@ -13,6 +13,7 @@ import java.util.UUID
 data class OcrUiState(
     val currentUi: OcrUi = OcrUi.CAMERA,
     val isPermissionDialogVisible: Boolean = false,
+    val selectedImage: String = "",
     val sentenceList: ImmutableList<String> = persistentListOf(),
     val selectedIndices: ImmutableSet<Int> = persistentSetOf(),
     val isTextDetectionFailed: Boolean = false,
@@ -32,11 +33,13 @@ sealed interface OcrSideEffect {
 
 sealed interface OcrUiEvent : CircuitUiEvent {
     data object OnCloseClick : OcrUiEvent
+    data object OnImageViewClosed : OcrUiEvent
     data object OnShowPermissionDialog : OcrUiEvent
     data object OnHidePermissionDialog : OcrUiEvent
     data object OnCaptureStart : OcrUiEvent
     data class OnCaptureFailed(val exception: Exception) : OcrUiEvent
     data class OnImageCaptured(val imageUri: Uri) : OcrUiEvent
+    data class OnImageSelected(val imageUri: String) : OcrUiEvent
     data object OnReCaptureButtonClick : OcrUiEvent
     data object OnSelectionConfirmed : OcrUiEvent
     data object OnRecaptureDialogConfirmed : OcrUiEvent
@@ -46,5 +49,6 @@ sealed interface OcrUiEvent : CircuitUiEvent {
 
 enum class OcrUi {
     CAMERA,
+    IMAGE,
     RESULT,
 }

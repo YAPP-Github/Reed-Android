@@ -9,7 +9,9 @@ import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.ocr.recognizer.CloudOcrRecognizer
+import com.ninecraft.booket.feature.record.ocr.OcrSideEffect.ShowToast
 import com.ninecraft.booket.feature.screens.OcrScreen
+import com.ninecraft.booket.feature.screens.OcrScreen.OcrResult
 import com.orhanobut.logger.Logger
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.rememberRetained
@@ -48,6 +50,7 @@ class OcrPresenter(
         val scope = rememberCoroutineScope()
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
         var isPermissionDialogVisible by rememberRetained { mutableStateOf(false) }
+        var selectedImage by rememberRetained { mutableStateOf("") }
         var sentenceList by rememberRetained { mutableStateOf(persistentListOf<String>()) }
         var selectedIndices by rememberRetained { mutableStateOf(persistentSetOf<Int>()) }
         var mergedSentence by rememberRetained { mutableStateOf("") }
@@ -118,7 +121,7 @@ class OcrPresenter(
 
                 is OcrUiEvent.OnCaptureFailed -> {
                     isLoading = false
-                    sideEffect = OcrSideEffect.ShowToast("이미지 캡처에 실패했어요")
+                    sideEffect = ShowToast("이미지 캡처에 실패했어요")
                     Logger.e("ImageCaptureException: ${event.exception.message}")
                 }
 
@@ -128,6 +131,11 @@ class OcrPresenter(
                     recognizeText(event.imageUri)
                 }
 
+                is OcrUiEvent.OnImageSelected -> {
+                    currentUi = OcrUi.IMAGE
+                    selectedImage = event.imageUri
+                }
+
                 is OcrUiEvent.OnReCaptureButtonClick -> {
                     isRecaptureDialogVisible = true
                 }
@@ -135,7 +143,7 @@ class OcrPresenter(
                 is OcrUiEvent.OnSelectionConfirmed -> {
                     mergedSentence = selectedIndices
                         .sorted().joinToString("") { sentenceList[it] }
-                    navigator.pop(result = OcrScreen.OcrResult(mergedSentence))
+                    navigator.pop(result = OcrResult(mergedSentence))
                 }
 
                 is OcrUiEvent.OnSentenceSelected -> {
@@ -155,6 +163,10 @@ class OcrPresenter(
                 is OcrUiEvent.OnRecaptureDialogDismissed -> {
                     isRecaptureDialogVisible = false
                 }
+
+                OcrUiEvent.OnImageViewClosed -> {
+                    currentUi = OcrUi.CAMERA
+                }
             }
         }
 
@@ -165,6 +177,7 @@ class OcrPresenter(
         return OcrUiState(
             currentUi = currentUi,
             isPermissionDialogVisible = isPermissionDialogVisible,
+            selectedImage = selectedImage,
             sentenceList = sentenceList,
             selectedIndices = selectedIndices,
             isTextDetectionFailed = isTextDetectionFailed,
