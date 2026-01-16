@@ -12,7 +12,6 @@ import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.BookDetailModel
-import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.model.EmotionModel
 import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
@@ -321,7 +320,7 @@ class BookDetailPresenter(
                         RecordCardScreen(
                             quote = selectedRecordInfo.quote,
                             bookTitle = selectedRecordInfo.bookTitle,
-                            emotionCode = EmotionCode.OTHER, // TODO: 고정값 임시 조치
+                            emotionCode = selectedRecordInfo.primaryEmotion.code,
                         ),
                     )
                 }
@@ -336,10 +335,12 @@ class BookDetailPresenter(
                                 quote = selectedRecordInfo.quote,
                                 review = selectedRecordInfo.review,
                                 primaryEmotion = PrimaryEmotionArg(
-                                    code = EmotionCode.OTHER,
-                                    displayName = "기타",
-                                ), // TODO: 고정값 임시 조치
-                                detailEmotions = listOf(DetailEmotionArg("", "")), // TODO: 고정값 임시 조치
+                                    code = selectedRecordInfo.primaryEmotion.code,
+                                    displayName = selectedRecordInfo.primaryEmotion.displayName,
+                                ),
+                                detailEmotions = selectedRecordInfo.detailEmotions.map {
+                                    DetailEmotionArg(id = it.id, name = it.name)
+                                },
                                 bookTitle = selectedRecordInfo.bookTitle,
                                 bookPublisher = selectedRecordInfo.bookPublisher,
                                 bookCoverImageUrl = selectedRecordInfo.bookCoverImageUrl,
