@@ -16,7 +16,6 @@ dependencies {
         libs.kotlinx.collections.immutable,
 
         libs.circuit.foundation,
-        libs.compose.shadow,
     )
     api(libs.circuit.runtime)
 }

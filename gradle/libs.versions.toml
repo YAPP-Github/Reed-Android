@@ -19,11 +19,10 @@ androidx-datastore = "1.2.0"
 androidx-camera = "1.5.2"
 
 ## Compose
-androidx-compose-bom = "2025.07.00"
+androidx-compose-bom = "2025.08.00"
 androidx-compose-material3 = "1.4.0"
 compose-stable-marker = "1.0.7"
 compose-effects = "0.1.4"
-compose-shadow = "2.0.4"
 compose-stability-analyzer = "0.6.6"
 
 ## Kotlin Symbol Processing
@@ -77,6 +76,7 @@ androidx-test-runner = "1.7.0"
 google-service = "4.4.4"
 firebase-bom = "34.7.0"
 firebase-crashlytics = "3.0.6"
+foundation = "1.10.1"
 
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
@@ -108,7 +108,6 @@ compose-stable-marker = { group = "com.github.skydoves", name = "compose-stable-
 compose-effects = { group = "com.github.skydoves", name = "compose-effects", version.ref = "compose-effects" }
 compose-system-ui-controller = { group = "tech.thdev", name = "extensions-compose-system-ui-controller", version.ref = "compose-extensions" }
 compose-keyboard-state = { group = "tech.thdev", name = "extensions-compose-keyboard-state", version.ref = "compose-extensions" }
-compose-shadow = { group = "com.adamglin", name = "compose-shadow", version.ref = "compose-shadow" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlinx-serialization-converter = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
@@ -148,6 +147,7 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
 firebase-remote-config = { group = "com.google.firebase", name = "firebase-config" }
+androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 [plugins]
 gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.extensions", version.ref = "gradle-dependency-handler-extensions" }
