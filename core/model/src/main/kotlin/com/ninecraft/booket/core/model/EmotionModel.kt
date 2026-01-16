@@ -1,20 +1,20 @@
 package com.ninecraft.booket.core.model
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 
-@Stable
+@Immutable
 data class EmotionGroupsModel(
     val emotions: List<EmotionGroupModel>,
 )
 
-@Stable
+@Immutable
 data class EmotionGroupModel(
     val code: EmotionCode,
     val displayName: String,
     val detailEmotions: List<DetailEmotionModel>,
 )
 
-@Stable
+@Immutable
 data class DetailEmotionModel(
     val id: String,
     val name: String,

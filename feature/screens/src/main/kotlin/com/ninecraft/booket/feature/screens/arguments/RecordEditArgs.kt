@@ -3,6 +3,8 @@ package com.ninecraft.booket.feature.screens.arguments
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import com.ninecraft.booket.core.model.EmotionCode
+import com.ninecraft.booket.core.model.PrimaryEmotionModel
+import com.ninecraft.booket.core.model.DetailEmotionModel
 import kotlinx.parcelize.Parcelize
 
 @Immutable

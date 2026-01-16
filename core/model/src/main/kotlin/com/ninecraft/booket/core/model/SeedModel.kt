@@ -1,13 +1,13 @@
 package com.ninecraft.booket.core.model
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 
-@Stable
+@Immutable
 data class SeedModel(
     val categories: List<EmotionModel> = emptyList(),
 )
 
-@Stable
+@Immutable
 data class EmotionModel(
     val code: EmotionCode,
     val count: Int,

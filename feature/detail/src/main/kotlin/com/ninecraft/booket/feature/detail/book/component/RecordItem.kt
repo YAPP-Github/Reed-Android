@@ -26,7 +26,6 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
-import com.ninecraft.booket.feature.detail.R
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
