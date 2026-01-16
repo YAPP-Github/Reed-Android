@@ -98,8 +98,8 @@ val InsightTextColor = Color(0xFF9A55E4)
 val InsightBgColor = Color(0xFFF3E8FF)
 val SadnessTextColor = Color(0xFF2872E9)
 val SadnessBgColor = Color(0xFFE1ECFF)
-val EtcTextColor = Color(0xFF737373)
-val EtcBgColor = Color(0xFFF5F5F5)
+val OtherTextColor = Color(0xFF737373)
+val OtherBgColor = Color(0xFFF5F5F5)
 
 @Immutable
 data class ReedColorScheme(

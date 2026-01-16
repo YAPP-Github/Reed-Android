@@ -100,17 +100,6 @@ internal fun RecordItem(
     }
 }
 
-fun getEmotionImageResourceByDisplayName(displayName: String): Int {
-    return when (displayName) {
-        "따뜻함" -> R.drawable.img_warm
-        "즐거움" -> R.drawable.img_joy
-        "슬픔" -> R.drawable.img_sad
-        "깨달음" -> R.drawable.img_insight
-        "기타" -> R.drawable.img_etc
-        else -> R.drawable.img_warm
-    }
-}
-
 @ComponentPreview
 @Composable
 private fun RecordItemPreview() {

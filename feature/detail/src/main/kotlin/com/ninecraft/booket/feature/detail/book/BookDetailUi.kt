@@ -36,7 +36,7 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorSt
 import com.ninecraft.booket.core.designsystem.component.button.mediumButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.BookDetailModel
-import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.model.EmotionModel
 import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
@@ -286,6 +286,7 @@ internal fun BookDetailContent(
                     if (state.hasEmotionData()) {
                         CollectedSeeds(
                             seedsStats = state.seedsStats,
+                            representativeEmotion = state.representativeEmotion,
                             isStatsExpanded = state.isStatsExpanded,
                             onToggleClick = {
                                 state.eventSink(BookDetailUiEvent.OnStatsToggleClick(!state.isStatsExpanded))
@@ -408,10 +409,10 @@ private fun BookDetailSeedStatsPreview() {
                     coverImageUrl = "",
                 ),
                 seedsStats = persistentListOf(
-                    EmotionModel(name = Emotion.WARM, count = 5),
-                    EmotionModel(name = Emotion.JOY, count = 3),
-                    EmotionModel(name = Emotion.SAD, count = 2),
-                    EmotionModel(name = Emotion.INSIGHT, count = 7),
+                    EmotionModel(code = EmotionCode.WARMTH, count = 5),
+                    EmotionModel(code = EmotionCode.JOY, count = 3),
+                    EmotionModel(code = EmotionCode.SADNESS, count = 2),
+                    EmotionModel(code = EmotionCode.INSIGHT, count = 7),
                 ),
                 readingRecords = persistentListOf(
                     ReadingRecordModel(
@@ -461,10 +462,10 @@ private fun BookDetailSeedsStatsExpandedPreview() {
                     coverImageUrl = "",
                 ),
                 seedsStats = persistentListOf(
-                    EmotionModel(name = Emotion.WARM, count = 5),
-                    EmotionModel(name = Emotion.JOY, count = 3),
-                    EmotionModel(name = Emotion.SAD, count = 2),
-                    EmotionModel(name = Emotion.INSIGHT, count = 7),
+                    EmotionModel(code = EmotionCode.WARMTH, count = 5),
+                    EmotionModel(code = EmotionCode.JOY, count = 3),
+                    EmotionModel(code = EmotionCode.SADNESS, count = 2),
+                    EmotionModel(code = EmotionCode.INSIGHT, count = 7),
                 ),
                 isStatsExpanded = true,
                 readingRecords = persistentListOf(

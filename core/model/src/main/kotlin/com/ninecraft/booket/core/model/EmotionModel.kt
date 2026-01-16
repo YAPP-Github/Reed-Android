@@ -20,12 +20,23 @@ data class DetailEmotionModel(
     val name: String,
 )
 
-enum class EmotionCode {
-    WARMTH, JOY, SADNESS, INSIGHT, OTHER;
+enum class EmotionCode(
+    val displayName: String,
+) {
+    WARMTH("따뜻함"),
+    JOY("즐거움"),
+    SADNESS("슬픔"),
+    INSIGHT("깨달음"),
+    OTHER("기타"),
+    ;
 
     companion object {
         fun fromCode(code: String): EmotionCode? {
             return EmotionCode.entries.find { it.name == code }
+        }
+
+        fun fromDisplayName(displayName: String): EmotionCode? {
+            return entries.find { it.displayName == displayName }
         }
     }
 }

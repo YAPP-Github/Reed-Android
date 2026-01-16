@@ -120,7 +120,7 @@ private fun CollectedSeedsHeader(
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            primaryEmotion?.let { emotion ->
+            primaryEmotion.let { emotion ->
                 Image(
                     painter = painterResource(id = emotion.code.graphicRes),
                     contentDescription = "Seed Image",
@@ -134,7 +134,7 @@ private fun CollectedSeedsHeader(
 
             Row {
                 Text(
-                    text = "'${primaryEmotion?.code?.displayName ?: ""}'",
+                    text = "'${primaryEmotion.code.displayName}'",
                     color = Yellow700,
                     style = ReedTheme.typography.label1SemiBold,
                 )
