@@ -17,9 +17,7 @@ import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.PageInfoModel
 import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
-import com.ninecraft.booket.core.model.ReadingRecordsModel
 import com.ninecraft.booket.core.model.RecentBookModel
-import com.ninecraft.booket.core.model.RecordRegisterModel
 import com.ninecraft.booket.core.model.SeedModel
 import com.ninecraft.booket.core.model.TermsAgreementModel
 import com.ninecraft.booket.core.model.UserProfileModel
@@ -40,9 +38,7 @@ import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.PageInfo
 import com.ninecraft.booket.core.network.response.PrimaryEmotion
 import com.ninecraft.booket.core.network.response.ReadingRecord
-import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RecentBook
-import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.SeedResponse
 import com.ninecraft.booket.core.network.response.TermsAgreementResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
@@ -211,30 +207,6 @@ internal fun DetailEmotion.toModel(): DetailEmotionModel {
     return DetailEmotionModel(
         id = id,
         name = name,
-    )
-}
-
-internal fun RecordRegisterResponse.toModel(): RecordRegisterModel {
-    return RecordRegisterModel(
-        id = id,
-        userBookId = userBookId,
-        pageNumber = pageNumber,
-        quote = quote,
-        emotionTags = emotionTags,
-        review = review ?: "",
-        createdAt = createdAt,
-        updatedAt = updatedAt,
-    )
-}
-
-internal fun ReadingRecordsResponse.toModel(): ReadingRecordsModel {
-    return ReadingRecordsModel(
-        representativeEmotion = representativeEmotion.toModel(),
-        lastPage = lastPage,
-        totalResults = totalResults,
-        startIndex = startIndex,
-        itemsPerPage = itemsPerPage,
-        readingRecords = readingRecords.map { it.toModel() },
     )
 }
 
