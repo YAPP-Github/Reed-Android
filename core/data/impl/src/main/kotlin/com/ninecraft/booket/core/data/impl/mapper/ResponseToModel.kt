@@ -6,7 +6,6 @@ import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.model.BookUpsertModel
 import com.ninecraft.booket.core.model.DetailEmotionModel
-import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.model.EmotionGroupModel
 import com.ninecraft.booket.core.model.EmotionGroupsModel
@@ -230,6 +229,7 @@ internal fun RecordRegisterResponse.toModel(): RecordRegisterModel {
 
 internal fun ReadingRecordsResponse.toModel(): ReadingRecordsModel {
     return ReadingRecordsModel(
+        representativeEmotion = representativeEmotion.toModel(),
         lastPage = lastPage,
         totalResults = totalResults,
         startIndex = startIndex,
@@ -290,9 +290,8 @@ internal fun SeedResponse.toModel(): SeedModel {
 }
 
 internal fun Category.toEmotionModel(): EmotionModel? {
-    val emotion = Emotion.fromDisplayName(name) ?: return null
     return EmotionModel(
-        name = emotion,
+        code = EmotionCode.fromDisplayName(name) ?: return null,
         count = count,
     )
 }

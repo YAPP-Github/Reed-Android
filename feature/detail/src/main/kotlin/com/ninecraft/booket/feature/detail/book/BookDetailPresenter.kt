@@ -14,6 +14,7 @@ import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.model.EmotionModel
+import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
@@ -81,6 +82,7 @@ class BookDetailPresenter(
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
         var bookDetail by rememberRetained { mutableStateOf(BookDetailModel()) }
+        var representativeEmotion by rememberRetained { mutableStateOf(PrimaryEmotionModel()) }
         var seedsStates by rememberRetained { mutableStateOf<ImmutableList<EmotionModel>>(persistentListOf()) }
         var isStatsExpanded by rememberRetained { mutableStateOf(false) }
         var readingRecords by rememberRetained { mutableStateOf(persistentListOf<ReadingRecordModel>()) }
@@ -122,6 +124,7 @@ class BookDetailPresenter(
                         bookDetail = detail
                         currentBookStatus = BookStatus.fromValue(detail.userBookStatus) ?: BookStatus.BEFORE_READING
                         selectedBookStatus = currentBookStatus
+                        representativeEmotion = records.representativeEmotion
                         seedsStates = seeds.categories.toImmutableList()
                         readingRecords = records.readingRecords.toPersistentList()
                         readingRecordsTotalCount = records.totalResults
@@ -421,6 +424,7 @@ class BookDetailPresenter(
             uiState = uiState,
             footerState = footerState,
             bookDetail = bookDetail,
+            representativeEmotion = representativeEmotion,
             seedsStats = seedsStates,
             isStatsExpanded = isStatsExpanded,
             readingRecords = readingRecords,

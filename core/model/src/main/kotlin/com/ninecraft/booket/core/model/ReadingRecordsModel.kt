@@ -3,6 +3,7 @@ package com.ninecraft.booket.core.model
 import androidx.compose.runtime.Stable
 
 data class ReadingRecordsModel(
+    val representativeEmotion: PrimaryEmotionModel = PrimaryEmotionModel(),
     val lastPage: Boolean = true,
     val totalResults: Int = 0,
     val startIndex: Int = 0,

@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ReadingRecordsResponse(
+    @SerialName("representativeEmotion")
+    val representativeEmotion: PrimaryEmotion,
     @SerialName("lastPage")
     val lastPage: Boolean,
     @SerialName("totalResults")

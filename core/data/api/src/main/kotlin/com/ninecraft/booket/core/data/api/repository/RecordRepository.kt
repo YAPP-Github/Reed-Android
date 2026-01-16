@@ -18,7 +18,7 @@ interface RecordRepository {
         sort: String,
         page: Int,
         size: Int,
-    ): Result<ReadingRecordsModel> // TODO: V2로 변경 필요
+    ): Result<ReadingRecordsModel>
 
     suspend fun getRecordDetail(
         readingRecordId: String,

@@ -5,6 +5,7 @@ import com.ninecraft.booket.core.common.R
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.EmotionModel
+import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.slack.circuit.runtime.CircuitUiEvent
@@ -26,6 +27,7 @@ data class BookDetailUiState(
     val footerState: FooterState = FooterState.Idle,
     val isLoading: Boolean = false,
     val bookDetail: BookDetailModel = BookDetailModel(),
+    val representativeEmotion: PrimaryEmotionModel = PrimaryEmotionModel(),
     val seedsStats: ImmutableList<EmotionModel> = persistentListOf(),
     val isStatsExpanded: Boolean = false,
     val readingRecords: ImmutableList<ReadingRecordModel> = persistentListOf(),
