@@ -1,13 +1,13 @@
 package com.ninecraft.booket.core.model
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 
-@Stable
+@Immutable
 data class HomeModel(
     val recentBooks: List<RecentBookModel> = emptyList(),
 )
 
-@Stable
+@Immutable
 data class RecentBookModel(
     val userBookId: String = "",
     val isbn13: String = "",

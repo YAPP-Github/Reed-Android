@@ -6,45 +6,33 @@
 
 @Composable
 internal fun com.ninecraft.booket.feature.login.HandleLoginSideEffects(state: com.ninecraft.booket.feature.login.LoginUiState, eventSink: kotlin.Function1<com.ninecraft.booket.feature.login.LoginUiEvent, kotlin.Unit>): kotlin.Unit
-  skippable: true
+  skippable: false
   restartable: true
   params:
-    - state: STABLE (class with no mutable properties)
+    - state: UNSTABLE (has mutable properties or unstable members)
     - eventSink: STABLE (function type)
 
 @Composable
-public fun com.ninecraft.booket.feature.login.LoginPresenter.present(): com.ninecraft.booket.feature.login.LoginUiState
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.login.LoginUi(state: com.ninecraft.booket.feature.login.LoginUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
-  skippable: true
+  skippable: false
   restartable: true
   params:
-    - state: STABLE (class with no mutable properties)
+    - state: UNSTABLE (has mutable properties or unstable members)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
 internal fun com.ninecraft.booket.feature.termsagreement.HandleTermsAgreementSideEffects(state: com.ninecraft.booket.feature.termsagreement.TermsAgreementUiState): kotlin.Unit
-  skippable: true
+  skippable: false
   restartable: true
   params:
-    - state: STABLE (class with no mutable properties)
-
-@Composable
-public fun com.ninecraft.booket.feature.termsagreement.TermsAgreementPresenter.present(): com.ninecraft.booket.feature.termsagreement.TermsAgreementUiState
-  skippable: true
-  restartable: true
-  params:
+    - state: UNSTABLE (has mutable properties or unstable members)
 
 @Composable
 internal fun com.ninecraft.booket.feature.termsagreement.TermsAgreementUi(state: com.ninecraft.booket.feature.termsagreement.TermsAgreementUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
-  skippable: true
+  skippable: false
   restartable: true
   params:
-    - state: STABLE (class with no mutable properties)
+    - state: UNSTABLE (has mutable properties or unstable members)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable

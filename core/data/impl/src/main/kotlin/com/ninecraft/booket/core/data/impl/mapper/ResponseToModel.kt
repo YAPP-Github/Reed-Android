@@ -17,6 +17,7 @@ import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.PageInfoModel
 import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
+import com.ninecraft.booket.core.model.ReadingRecordsModel
 import com.ninecraft.booket.core.model.RecentBookModel
 import com.ninecraft.booket.core.model.SeedModel
 import com.ninecraft.booket.core.model.TermsAgreementModel
@@ -38,6 +39,7 @@ import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.PageInfo
 import com.ninecraft.booket.core.network.response.PrimaryEmotion
 import com.ninecraft.booket.core.network.response.ReadingRecord
+import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RecentBook
 import com.ninecraft.booket.core.network.response.SeedResponse
 import com.ninecraft.booket.core.network.response.TermsAgreementResponse
@@ -207,6 +209,17 @@ internal fun DetailEmotion.toModel(): DetailEmotionModel {
     return DetailEmotionModel(
         id = id,
         name = name,
+    )
+}
+
+internal fun ReadingRecordsResponse.toModel(): ReadingRecordsModel {
+    return ReadingRecordsModel(
+        representativeEmotion = representativeEmotion.toModel(),
+        lastPage = lastPage,
+        totalResults = totalResults,
+        startIndex = startIndex,
+        itemsPerPage = itemsPerPage,
+        readingRecords = readingRecords.map { it.toModel() },
     )
 }
 

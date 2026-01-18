@@ -70,21 +70,22 @@ internal fun com.ninecraft.booket.feature.detail.book.component.BookUpdateBottom
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-internal fun com.ninecraft.booket.feature.detail.book.component.CollectedSeeds(seedsStats: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.core.model.EmotionModel>, isStatsExpanded: kotlin.Boolean, onToggleClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+internal fun com.ninecraft.booket.feature.detail.book.component.CollectedSeeds(seedsStats: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.core.model.EmotionModel>, representativeEmotion: com.ninecraft.booket.core.model.PrimaryEmotionModel, isStatsExpanded: kotlin.Boolean, onToggleClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - seedsStats: STABLE (known stable type)
+    - representativeEmotion: STABLE (marked @Stable or @Immutable)
     - isStatsExpanded: STABLE (primitive type)
     - onToggleClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.detail.book.component.CollectedSeedsHeader(topEmotion: com.ninecraft.booket.core.model.EmotionModel?, isStatsExpanded: kotlin.Boolean, onToggleClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+private fun com.ninecraft.booket.feature.detail.book.component.CollectedSeedsHeader(primaryEmotion: com.ninecraft.booket.core.model.PrimaryEmotionModel, isStatsExpanded: kotlin.Boolean, onToggleClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
-    - topEmotion: STABLE (marked @Stable or @Immutable)
+    - primaryEmotion: STABLE (marked @Stable or @Immutable)
     - isStatsExpanded: STABLE (primitive type)
     - onToggleClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
@@ -110,17 +111,6 @@ private fun com.ninecraft.booket.feature.detail.book.component.DetailMenuItem(ic
     - color: STABLE (marked @Stable or @Immutable)
     - onClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-internal fun com.ninecraft.booket.feature.detail.book.component.EmotionAnalysisResultText(emotions: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.core.model.EmotionModel>, brandColor: androidx.compose.ui.graphics.Color, secondaryColor: androidx.compose.ui.graphics.Color, emotionTextStyle: androidx.compose.ui.text.TextStyle, regularTextStyle: androidx.compose.ui.text.TextStyle): androidx.compose.ui.text.AnnotatedString?
-  skippable: true
-  restartable: true
-  params:
-    - emotions: STABLE (known stable type)
-    - brandColor: STABLE (marked @Stable or @Immutable)
-    - secondaryColor: STABLE (marked @Stable or @Immutable)
-    - emotionTextStyle: STABLE (marked @Stable or @Immutable)
-    - regularTextStyle: STABLE (marked @Stable or @Immutable)
 
 @Composable
 private fun com.ninecraft.booket.feature.detail.book.component.EmotionRatioBar(seedsStats: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.core.model.EmotionModel>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
