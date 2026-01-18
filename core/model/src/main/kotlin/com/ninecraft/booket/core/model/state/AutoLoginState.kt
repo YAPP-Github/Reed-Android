@@ -1,4 +1,4 @@
-package com.ninecraft.booket.core.model
+package com.ninecraft.booket.core.model.state
 
 import androidx.compose.runtime.Stable
 

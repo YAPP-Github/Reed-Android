@@ -4,8 +4,8 @@ import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
 import com.ninecraft.booket.core.di.DataScope
-import com.ninecraft.booket.core.model.AutoLoginState
-import com.ninecraft.booket.core.model.UserState
+import com.ninecraft.booket.core.model.state.AutoLoginState
+import com.ninecraft.booket.core.model.state.UserState
 import com.ninecraft.booket.core.network.request.LoginRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import dev.zacsweers.metro.Inject

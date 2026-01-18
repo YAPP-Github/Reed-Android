@@ -8,7 +8,7 @@ import com.ninecraft.booket.core.datastore.api.datasource.OnboardingDataSource
 import com.ninecraft.booket.core.datastore.impl.di.OnboardingDataStore
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
 import com.ninecraft.booket.core.di.DataScope
-import com.ninecraft.booket.core.model.OnboardingState
+import com.ninecraft.booket.core.model.state.OnboardingState
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.Flow
