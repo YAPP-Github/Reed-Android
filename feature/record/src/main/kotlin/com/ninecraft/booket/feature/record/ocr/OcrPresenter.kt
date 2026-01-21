@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.core.net.toUri
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.ocr.recognizer.CloudOcrRecognizer
@@ -134,6 +135,9 @@ class OcrPresenter(
                 is OcrUiEvent.OnImageSelected -> {
                     currentUi = OcrUi.IMAGE
                     selectedImage = event.imageUri
+
+                    val pareUri = selectedImage.toUri()
+                    recognizeText(pareUri)
                 }
 
                 is OcrUiEvent.OnReCaptureButtonClick -> {
