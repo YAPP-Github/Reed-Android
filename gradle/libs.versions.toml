@@ -19,11 +19,10 @@ androidx-datastore = "1.2.0"
 androidx-camera = "1.5.2"
 
 ## Compose
-androidx-compose-bom = "2025.07.00"
+androidx-compose-bom = "2025.08.00"
 androidx-compose-material3 = "1.4.0"
 compose-stable-marker = "1.0.7"
 compose-effects = "0.1.4"
-compose-shadow = "2.0.4"
 compose-stability-analyzer = "0.6.6"
 
 ## Kotlin Symbol Processing
@@ -108,7 +107,6 @@ compose-stable-marker = { group = "com.github.skydoves", name = "compose-stable-
 compose-effects = { group = "com.github.skydoves", name = "compose-effects", version.ref = "compose-effects" }
 compose-system-ui-controller = { group = "tech.thdev", name = "extensions-compose-system-ui-controller", version.ref = "compose-extensions" }
 compose-keyboard-state = { group = "tech.thdev", name = "extensions-compose-keyboard-state", version.ref = "compose-extensions" }
-compose-shadow = { group = "com.adamglin", name = "compose-shadow", version.ref = "compose-shadow" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlinx-serialization-converter = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
