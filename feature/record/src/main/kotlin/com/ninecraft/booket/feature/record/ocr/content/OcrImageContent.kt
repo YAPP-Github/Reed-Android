@@ -106,6 +106,8 @@ internal fun OcrImageContent(
                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
                 )
             },
+            dismissOnClickOutside = false,
+            dismissOnBackPress = false,
         )
     }
 }
