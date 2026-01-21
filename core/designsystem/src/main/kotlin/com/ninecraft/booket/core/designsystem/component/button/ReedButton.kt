@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.utils.MultipleEventsCutter
 import com.ninecraft.booket.core.common.utils.get
@@ -93,6 +94,8 @@ fun ReedButton(
 
         Text(
             text = text,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
             style = sizeStyle.textStyle.copy(
                 color = if (enabled) colorStyle.contentColor() else colorStyle.disabledContentColor(),
             ),

@@ -17,6 +17,8 @@ data class OcrUiState(
     val sentenceList: ImmutableList<String> = persistentListOf(),
     val selectedIndices: ImmutableSet<Int> = persistentSetOf(),
     val isTextDetectionFailed: Boolean = false,
+    val isCameraRecognitionFailedDialogVisible: Boolean = false,
+    val isGalleryRecognitionFailedDialogVisible: Boolean = false,
     val isRecaptureDialogVisible: Boolean = false,
     val isLoading: Boolean = false,
     val sideEffect: OcrSideEffect? = null,

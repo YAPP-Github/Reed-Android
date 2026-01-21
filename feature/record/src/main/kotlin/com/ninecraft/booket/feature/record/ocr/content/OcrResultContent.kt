@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.record.ocr.view
+package com.ninecraft.booket.feature.record.ocr.content
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,7 +30,7 @@ import com.skydoves.compose.stability.runtime.TraceRecomposition
 
 @TraceRecomposition
 @Composable
-internal fun OcrResultView(
+internal fun OcrResultContent(
     state: OcrUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -46,7 +46,7 @@ internal fun OcrResultView(
             ReedCloseTopAppBar(
                 title = stringResource(R.string.ocr_sentence_selection),
                 onClose = {
-                    state.eventSink(OcrUiEvent.OnCloseClick)
+                    state.eventSink(OcrUiEvent.OnReCaptureButtonClick)
                 },
             )
             LazyColumn(
@@ -119,9 +119,9 @@ internal fun OcrResultView(
 
 @ComponentPreview
 @Composable
-private fun OcrResultViewPreview() {
+private fun OcrResultContentPreview() {
     ReedTheme {
-        OcrResultView(
+        OcrResultContent(
             state = OcrUiState(
                 eventSink = {},
             ),

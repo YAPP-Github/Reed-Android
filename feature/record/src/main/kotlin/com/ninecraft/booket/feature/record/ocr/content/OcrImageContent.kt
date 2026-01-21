@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.record.ocr.view
+package com.ninecraft.booket.feature.record.ocr.content
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -22,13 +22,14 @@ import com.ninecraft.booket.core.designsystem.theme.Neutral950
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar
+import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.ocr.OcrUiEvent
 import com.ninecraft.booket.feature.record.ocr.OcrUiState
 import com.ninecraft.booket.feature.record.ocr.component.ImageProcessingLoader
 
 @Composable
-internal fun OcrImageView(
+internal fun OcrImageContent(
     state: OcrUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -77,13 +78,28 @@ internal fun OcrImageView(
             }
         }
     }
+
+    if (state.isGalleryRecognitionFailedDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.ocr_recognition_failed_dialog_title),
+            description = stringResource(R.string.ocr_recognition_failed_dialog_description),
+            confirmButtonText = stringResource(R.string.ocr_recognition_failed_dialog_direct_input),
+            onConfirmRequest = {
+                state.eventSink(OcrUiEvent.OnCloseClick)
+            },
+            dismissButtonText = stringResource(R.string.ocr_recognition_failed_dialog_image),
+            onDismissRequest = {
+                // 갤러리 열기
+            }
+        )
+    }
 }
 
 @ComponentPreview
 @Composable
-private fun OcrImageViewPreview() {
+private fun OcrImageContentPreview() {
     ReedTheme {
-        OcrImageView(
+        OcrImageContent(
             state = OcrUiState(
                 eventSink = {},
             ),

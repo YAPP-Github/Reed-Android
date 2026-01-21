@@ -1,4 +1,4 @@
-package com.ninecraft.booket.feature.record.ocr.view
+package com.ninecraft.booket.feature.record.ocr.content
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -62,7 +62,7 @@ import java.io.File
 
 @TraceRecomposition
 @Composable
-internal fun OcrCameraView(
+internal fun OcrCameraContent(
     state: OcrUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -291,13 +291,26 @@ internal fun OcrCameraView(
             },
         )
     }
+
+    if (state.isCameraRecognitionFailedDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.ocr_recognition_failed_dialog_title),
+            description = stringResource(R.string.ocr_recognition_failed_dialog_description),
+            confirmButtonText = stringResource(R.string.ocr_recognition_failed_dialog_direct_input),
+            onConfirmRequest = {
+                state.eventSink(OcrUiEvent.OnCloseClick)
+            },
+            dismissButtonText = stringResource(R.string.ocr_recognition_failed_dialog_camera),
+            onDismissRequest = {},
+        )
+    }
 }
 
 @ComponentPreview
 @Composable
-private fun OcrCameraViewPreview() {
+private fun OcrCameraContentPreview() {
     ReedTheme {
-        OcrCameraView(
+        OcrCameraContent(
             state = OcrUiState(
                 eventSink = {},
             ),
