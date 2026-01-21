@@ -249,7 +249,8 @@ internal fun OcrCameraContent(
                         val output = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
                         cameraController.takePicture(
-                            output, executor,
+                            output,
+                            executor,
                             object : ImageCapture.OnImageSavedCallback {
                                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                                     state.eventSink(OcrUiEvent.OnImageCaptured(photoFile.toUri()))

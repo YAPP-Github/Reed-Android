@@ -74,7 +74,7 @@ internal fun OcrImageContent(
                 Box(
                     modifier = Modifier
                         .matchParentSize()
-                        .background(Black.copy(alpha = 0.5f))
+                        .background(Black.copy(alpha = 0.5f)),
                 )
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,

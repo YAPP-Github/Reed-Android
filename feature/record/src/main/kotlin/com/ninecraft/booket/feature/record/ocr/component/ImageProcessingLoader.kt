@@ -39,10 +39,10 @@ internal fun ImageProcessingLoader(
             animationSpec = infiniteRepeatable(
                 animation = keyframes {
                     durationMillis = 1200
-                    0.0f at 0 using LinearOutSlowInEasing   // 시작
+                    0.0f at 0 using LinearOutSlowInEasing // 시작
                     1.0f at 300 using FastOutLinearInEasing // 최고점
                     0.0f at 600 using LinearOutSlowInEasing // 바닥 도착
-                    0.0f at 1200                            // 대기
+                    0.0f at 1200 // 대기
                 },
                 repeatMode = RepeatMode.Restart,
                 initialStartOffset = StartOffset(index * 200), // 순차적 시작 지연
@@ -53,7 +53,7 @@ internal fun ImageProcessingLoader(
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         dotAnimations.forEachIndexed { index, animValue ->
             Box(
