@@ -184,8 +184,7 @@ class LibraryPresenter(
                 is LibraryUiEvent.OnTabSelected -> {
                     navigator.resetRoot(
                         newRoot = event.tab.screen,
-                        saveState = true,
-                        restoreState = true,
+                        options = Navigator.StateOptions.SaveAndRestore,
                     )
                 }
 

@@ -115,8 +115,7 @@ class HomePresenter(
                 is HomeUiEvent.OnTabSelected -> {
                     navigator.resetRoot(
                         newRoot = event.tab.screen,
-                        saveState = true,
-                        restoreState = true,
+                        options = Navigator.StateOptions.SaveAndRestore,
                     )
                 }
 
