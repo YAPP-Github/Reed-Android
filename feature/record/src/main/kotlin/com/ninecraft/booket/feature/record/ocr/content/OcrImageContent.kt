@@ -1,5 +1,8 @@
 package com.ninecraft.booket.feature.record.ocr.content
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,6 +36,15 @@ internal fun OcrImageContent(
     state: OcrUiState,
     modifier: Modifier = Modifier,
 ) {
+    val photoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri ->
+            if (uri != null) {
+                state.eventSink(OcrUiEvent.OnImageSelected(uri.toString()))
+            }
+        },
+    )
+
     ReedScaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = Neutral950,
@@ -47,7 +59,7 @@ internal fun OcrImageContent(
                     .background(color = Color.Black),
                 isDark = true,
                 onClose = {
-                    state.eventSink(OcrUiEvent.OnImageViewClosed)
+                    state.eventSink(OcrUiEvent.OnImageContentClosed)
                 },
             )
             Box(
@@ -89,8 +101,11 @@ internal fun OcrImageContent(
             },
             dismissButtonText = stringResource(R.string.ocr_recognition_failed_dialog_image),
             onDismissRequest = {
-                // 갤러리 열기
-            }
+                state.eventSink(OcrUiEvent.OnImageRecognitionFailedDialogDismissed)
+                photoPickerLauncher.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
+                )
+            },
         )
     }
 }

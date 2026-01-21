@@ -301,7 +301,9 @@ internal fun OcrCameraContent(
                 state.eventSink(OcrUiEvent.OnCloseClick)
             },
             dismissButtonText = stringResource(R.string.ocr_recognition_failed_dialog_camera),
-            onDismissRequest = {},
+            onDismissRequest = {
+                state.eventSink(OcrUiEvent.OnCameraRecognitionFailedDialogDismissed)
+            },
         )
     }
 }

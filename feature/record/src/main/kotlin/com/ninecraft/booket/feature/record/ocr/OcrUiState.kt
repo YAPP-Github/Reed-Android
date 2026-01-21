@@ -35,7 +35,7 @@ sealed interface OcrSideEffect {
 
 sealed interface OcrUiEvent : CircuitUiEvent {
     data object OnCloseClick : OcrUiEvent
-    data object OnImageViewClosed : OcrUiEvent
+    data object OnImageContentClosed : OcrUiEvent
     data object OnShowPermissionDialog : OcrUiEvent
     data object OnHidePermissionDialog : OcrUiEvent
     data object OnCaptureStart : OcrUiEvent
@@ -46,6 +46,8 @@ sealed interface OcrUiEvent : CircuitUiEvent {
     data object OnSelectionConfirmed : OcrUiEvent
     data object OnRecaptureDialogConfirmed : OcrUiEvent
     data object OnRecaptureDialogDismissed : OcrUiEvent
+    data object OnCameraRecognitionFailedDialogDismissed : OcrUiEvent
+    data object OnImageRecognitionFailedDialogDismissed : OcrUiEvent
     data class OnSentenceSelected(val index: Int) : OcrUiEvent
 }
 
@@ -53,4 +55,9 @@ enum class OcrUi {
     CAMERA,
     IMAGE,
     RESULT,
+}
+
+enum class RecognizeSource {
+    CAMERA,
+    GALLERY,
 }

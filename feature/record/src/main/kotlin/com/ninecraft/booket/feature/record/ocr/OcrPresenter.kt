@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.record.ocr
 
 import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,6 +28,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.collections.immutable.toPersistentSet
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AssistedInject
@@ -44,6 +46,7 @@ class OcrPresenter(
 
     companion object {
         private const val RECORD_OCR_SENTENCE = "record_OCR_sentence"
+        private const val CAMERA_MAX_FAILURES = 2
     }
 
     @Composable
@@ -56,11 +59,53 @@ class OcrPresenter(
         var selectedIndices by rememberRetained { mutableStateOf(persistentSetOf<Int>()) }
         var mergedSentence by rememberRetained { mutableStateOf("") }
         var isTextDetectionFailed by rememberRetained { mutableStateOf(false) }
+        var isCameraRecognitionFailedDialogVisible by rememberRetained { mutableStateOf(false) }
+        var isGalleryRecognitionFailedDialogVisible by rememberRetained { mutableStateOf(false) }
         var isRecaptureDialogVisible by rememberRetained { mutableStateOf(false) }
         var isLoading by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<OcrSideEffect?>(null) }
 
-        fun recognizeText(imageUri: Uri) {
+        var cameraFailureCount by rememberRetained { mutableStateOf(0) }
+
+        LaunchedEffect(isTextDetectionFailed) {
+            if (isTextDetectionFailed) {
+                delay(2000)
+                isTextDetectionFailed = false
+            }
+        }
+
+        fun handleRecognitionSuccess(text: String) {
+            isTextDetectionFailed = false
+            cameraFailureCount = 0
+
+            val sentences = text
+                .split("\n")
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+
+            sentenceList = sentences.toPersistentList()
+            currentUi = OcrUi.RESULT
+            analyticsHelper.logScreenView(RECORD_OCR_SENTENCE)
+        }
+
+        fun handleRecognitionFailure(source: RecognizeSource) {
+            when (source) {
+                RecognizeSource.CAMERA -> {
+                    isTextDetectionFailed = true
+                    cameraFailureCount += 1
+
+                    if (cameraFailureCount >= CAMERA_MAX_FAILURES) {
+                        isCameraRecognitionFailedDialogVisible = true
+                    }
+                }
+
+                RecognizeSource.GALLERY -> {
+                    isGalleryRecognitionFailedDialogVisible = true
+                }
+            }
+        }
+
+        fun recognizeText(imageUri: Uri, source: RecognizeSource) {
             scope.launch {
                 try {
                     isLoading = true
@@ -69,21 +114,13 @@ class OcrPresenter(
                             val text = it.responses.firstOrNull()?.fullTextAnnotation?.text.orEmpty()
 
                             if (text.isNotBlank()) {
-                                isTextDetectionFailed = false
-                                val sentences = text
-                                    .split("\n")
-                                    .map { it.trim() }
-                                    .filter { it.isNotEmpty() }
-
-                                sentenceList = sentences.toPersistentList()
-                                currentUi = OcrUi.RESULT
-                                analyticsHelper.logScreenView(RECORD_OCR_SENTENCE)
+                                handleRecognitionSuccess(text)
                             } else {
-                                isTextDetectionFailed = true
+                                handleRecognitionFailure(source)
                             }
                         }
                         .onFailure { exception ->
-                            isTextDetectionFailed = true
+                            handleRecognitionFailure(source)
 
                             val handleErrorMessage = { message: String ->
                                 Logger.e("Cloud Vision API Error: ${exception.message}")
@@ -128,16 +165,20 @@ class OcrPresenter(
 
                 is OcrUiEvent.OnImageCaptured -> {
                     isTextDetectionFailed = false
+                    isCameraRecognitionFailedDialogVisible = false
+                    isGalleryRecognitionFailedDialogVisible = false
 
-                    recognizeText(event.imageUri)
+                    recognizeText(event.imageUri, RecognizeSource.CAMERA)
                 }
 
                 is OcrUiEvent.OnImageSelected -> {
                     currentUi = OcrUi.IMAGE
                     selectedImage = event.imageUri
+                    isTextDetectionFailed = false
+                    isGalleryRecognitionFailedDialogVisible = false
 
                     val pareUri = selectedImage.toUri()
-                    recognizeText(pareUri)
+                    recognizeText(pareUri, RecognizeSource.GALLERY)
                 }
 
                 is OcrUiEvent.OnReCaptureButtonClick -> {
@@ -168,8 +209,16 @@ class OcrPresenter(
                     isRecaptureDialogVisible = false
                 }
 
-                OcrUiEvent.OnImageViewClosed -> {
+                OcrUiEvent.OnImageContentClosed -> {
                     currentUi = OcrUi.CAMERA
+                }
+
+                OcrUiEvent.OnCameraRecognitionFailedDialogDismissed -> {
+                    isCameraRecognitionFailedDialogVisible = false
+                }
+
+                OcrUiEvent.OnImageRecognitionFailedDialogDismissed -> {
+                    isGalleryRecognitionFailedDialogVisible = false
                 }
             }
         }
@@ -185,6 +234,8 @@ class OcrPresenter(
             sentenceList = sentenceList,
             selectedIndices = selectedIndices,
             isTextDetectionFailed = isTextDetectionFailed,
+            isCameraRecognitionFailedDialogVisible = isCameraRecognitionFailedDialogVisible,
+            isGalleryRecognitionFailedDialogVisible = isGalleryRecognitionFailedDialogVisible,
             isRecaptureDialogVisible = isRecaptureDialogVisible,
             isLoading = isLoading,
             sideEffect = sideEffect,
