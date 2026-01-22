@@ -56,4 +56,5 @@
     <string name="ocr_recognition_failed_dialog_direct_input">직접 입력하기</string>
     <string name="ocr_recognition_failed_dialog_camera">다시 촬영하기</string>
     <string name="ocr_recognition_failed_dialog_image">이미지 선택하기</string>
+    <string name="ocr_capture_failed">이미지 캡처에 실패했어요</string>
 </resources>

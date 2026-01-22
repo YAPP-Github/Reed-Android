@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.record.ocr
 
 import android.net.Uri
 import androidx.compose.runtime.Immutable
+import com.ninecraft.booket.core.common.utils.UiText
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
@@ -28,7 +29,7 @@ data class OcrUiState(
 @Immutable
 sealed interface OcrSideEffect {
     data class ShowToast(
-        val message: String,
+        val message: UiText,
         private val key: String = UUID.randomUUID().toString(),
     ) : OcrSideEffect
 }

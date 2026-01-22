@@ -9,8 +9,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.core.net.toUri
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
+import com.ninecraft.booket.core.common.utils.UiText
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.ocr.recognizer.CloudOcrRecognizer
+import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.ocr.OcrSideEffect.ShowToast
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.ninecraft.booket.feature.screens.OcrScreen.OcrResult
@@ -124,7 +126,7 @@ class OcrPresenter(
 
                             val handleErrorMessage = { message: String ->
                                 Logger.e("Cloud Vision API Error: ${exception.message}")
-                                sideEffect = OcrSideEffect.ShowToast(message)
+                                sideEffect = ShowToast(UiText.DirectString(message))
                             }
 
                             handleException(
@@ -159,7 +161,7 @@ class OcrPresenter(
 
                 is OcrUiEvent.OnCaptureFailed -> {
                     isLoading = false
-                    sideEffect = ShowToast("이미지 캡처에 실패했어요")
+                    sideEffect = ShowToast(UiText.StringResource(R.string.ocr_capture_failed))
                     Logger.e("ImageCaptureException: ${event.exception.message}")
                 }
 
