@@ -4,13 +4,16 @@ import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.core.net.toUri
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
+import com.ninecraft.booket.core.common.utils.UiText
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.ocr.recognizer.CloudOcrRecognizer
+import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.ocr.OcrSideEffect.ShowToast
 import com.ninecraft.booket.feature.screens.OcrScreen
 import com.ninecraft.booket.feature.screens.OcrScreen.OcrResult
@@ -52,6 +55,7 @@ class OcrPresenter(
     @Composable
     override fun present(): OcrUiState {
         val scope = rememberCoroutineScope()
+        var isLoading by rememberRetained { mutableStateOf(false) }
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
         var isPermissionDialogVisible by rememberRetained { mutableStateOf(false) }
         var selectedImage by rememberRetained { mutableStateOf("") }
@@ -62,10 +66,8 @@ class OcrPresenter(
         var isCameraRecognitionFailedDialogVisible by rememberRetained { mutableStateOf(false) }
         var isGalleryRecognitionFailedDialogVisible by rememberRetained { mutableStateOf(false) }
         var isRecaptureDialogVisible by rememberRetained { mutableStateOf(false) }
-        var isLoading by rememberRetained { mutableStateOf(false) }
+        var cameraFailureCount by rememberRetained { mutableIntStateOf(0) }
         var sideEffect by rememberRetained { mutableStateOf<OcrSideEffect?>(null) }
-
-        var cameraFailureCount by rememberRetained { mutableStateOf(0) }
 
         LaunchedEffect(isTextDetectionFailed) {
             if (isTextDetectionFailed) {
@@ -124,7 +126,7 @@ class OcrPresenter(
 
                             val handleErrorMessage = { message: String ->
                                 Logger.e("Cloud Vision API Error: ${exception.message}")
-                                sideEffect = OcrSideEffect.ShowToast(message)
+                                sideEffect = ShowToast(UiText.DirectString(message))
                             }
 
                             handleException(
@@ -159,7 +161,7 @@ class OcrPresenter(
 
                 is OcrUiEvent.OnCaptureFailed -> {
                     isLoading = false
-                    sideEffect = ShowToast("이미지 캡처에 실패했어요")
+                    sideEffect = ShowToast(UiText.StringResource(R.string.ocr_capture_failed))
                     Logger.e("ImageCaptureException: ${event.exception.message}")
                 }
 
