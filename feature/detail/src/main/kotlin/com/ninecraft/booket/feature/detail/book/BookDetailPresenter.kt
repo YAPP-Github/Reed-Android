@@ -341,10 +341,10 @@ class BookDetailPresenter(
                                 detailEmotions = selectedRecordInfo.detailEmotions.map {
                                     DetailEmotionArg(id = it.id, name = it.name)
                                 },
-                                bookTitle = selectedRecordInfo.bookTitle,
-                                bookPublisher = selectedRecordInfo.bookPublisher,
-                                bookCoverImageUrl = selectedRecordInfo.bookCoverImageUrl,
-                                author = selectedRecordInfo.author,
+                                bookTitle = selectedRecordInfo.bookTitle.ifEmpty { bookDetail.title },
+                                bookPublisher = selectedRecordInfo.bookPublisher.ifEmpty { bookDetail.publisher },
+                                bookCoverImageUrl = selectedRecordInfo.bookCoverImageUrl.ifEmpty { bookDetail.coverImageUrl },
+                                author = selectedRecordInfo.author.ifEmpty { bookDetail.author },
                             ),
                         ),
                     )
