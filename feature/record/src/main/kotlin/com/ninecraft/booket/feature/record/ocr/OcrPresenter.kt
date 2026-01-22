@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -54,6 +55,7 @@ class OcrPresenter(
     @Composable
     override fun present(): OcrUiState {
         val scope = rememberCoroutineScope()
+        var isLoading by rememberRetained { mutableStateOf(false) }
         var currentUi by rememberRetained { mutableStateOf(OcrUi.CAMERA) }
         var isPermissionDialogVisible by rememberRetained { mutableStateOf(false) }
         var selectedImage by rememberRetained { mutableStateOf("") }
@@ -64,10 +66,8 @@ class OcrPresenter(
         var isCameraRecognitionFailedDialogVisible by rememberRetained { mutableStateOf(false) }
         var isGalleryRecognitionFailedDialogVisible by rememberRetained { mutableStateOf(false) }
         var isRecaptureDialogVisible by rememberRetained { mutableStateOf(false) }
-        var isLoading by rememberRetained { mutableStateOf(false) }
+        var cameraFailureCount by rememberRetained { mutableIntStateOf(0) }
         var sideEffect by rememberRetained { mutableStateOf<OcrSideEffect?>(null) }
-
-        var cameraFailureCount by rememberRetained { mutableStateOf(0) }
 
         LaunchedEffect(isTextDetectionFailed) {
             if (isTextDetectionFailed) {
