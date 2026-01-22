@@ -94,7 +94,7 @@ class OcrPresenter(
                     isTextDetectionFailed = true
                     cameraFailureCount += 1
 
-                    if (cameraFailureCount >= CAMERA_MAX_FAILURES) {
+                    if (cameraFailureCount > CAMERA_MAX_FAILURES) {
                         isCameraRecognitionFailedDialogVisible = true
                     }
                 }
@@ -165,8 +165,6 @@ class OcrPresenter(
 
                 is OcrUiEvent.OnImageCaptured -> {
                     isTextDetectionFailed = false
-                    isCameraRecognitionFailedDialogVisible = false
-                    isGalleryRecognitionFailedDialogVisible = false
 
                     recognizeText(event.imageUri, RecognizeSource.CAMERA)
                 }
@@ -175,7 +173,7 @@ class OcrPresenter(
                     currentUi = OcrUi.IMAGE
                     selectedImage = event.imageUri
                     isTextDetectionFailed = false
-                    isGalleryRecognitionFailedDialogVisible = false
+                    cameraFailureCount = 0
 
                     val pareUri = selectedImage.toUri()
                     recognizeText(pareUri, RecognizeSource.GALLERY)
@@ -215,6 +213,7 @@ class OcrPresenter(
 
                 OcrUiEvent.OnCameraRecognitionFailedDialogDismissed -> {
                     isCameraRecognitionFailedDialogVisible = false
+                    cameraFailureCount = 0
                 }
 
                 OcrUiEvent.OnImageRecognitionFailedDialogDismissed -> {
