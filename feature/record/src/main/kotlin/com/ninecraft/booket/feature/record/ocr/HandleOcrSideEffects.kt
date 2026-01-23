@@ -14,7 +14,7 @@ internal fun HandleOcrSideEffects(
     RememberedEffect(state.sideEffect) {
         when (state.sideEffect) {
             is OcrSideEffect.ShowToast -> {
-                Toast.makeText(context, state.sideEffect.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, state.sideEffect.message.asString(context), Toast.LENGTH_SHORT).show()
             }
 
             null -> {}

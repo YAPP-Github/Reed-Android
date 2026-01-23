@@ -9,6 +9,7 @@
     <string name="ocr_selection_confirm">선택 완료</string>
     <string name="ocr_recapture">다시 촬영하기</string>
     <string name="ocr_error_text_detection_failed">문장을 인식하지 못했어요\n다시 한 번 촬영해주세요</string>
+    <string name="ocr_image_scanning">이미지 스캔 중입니다\n잠시만 기다려 주세요</string>
     <string name="recapture_dialog_title">다시 촬영하시겠어요?</string>
     <string name="recapture_dialog_description">선택한 문장은 삭제될 예정입니다.</string>
     <string name="recapture_dialog_confirm">확인</string>
@@ -50,4 +51,10 @@
     <string name="emotion_detail_confirm">선택 완료</string>
     <string name="emotion_edit_dialog_title">감정을 수정하시겠어요?</string>
     <string name="emotion_edit_dialog_description">기록된 감정이 삭제됩니다.</string>
+    <string name="ocr_recognition_failed_dialog_title">문장을 인식하지 못했어요</string>
+    <string name="ocr_recognition_failed_dialog_description">직접 문장을 입력하시겠어요?</string>
+    <string name="ocr_recognition_failed_dialog_direct_input">직접 입력하기</string>
+    <string name="ocr_recognition_failed_dialog_camera">다시 촬영하기</string>
+    <string name="ocr_recognition_failed_dialog_image">이미지 선택하기</string>
+    <string name="ocr_capture_failed">이미지 캡처에 실패했어요</string>
 </resources>
