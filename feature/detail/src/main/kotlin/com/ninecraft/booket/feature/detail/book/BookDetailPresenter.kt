@@ -81,7 +81,7 @@ class BookDetailPresenter(
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
         var bookDetail by rememberRetained { mutableStateOf(BookDetailModel()) }
-        var representativeEmotion by rememberRetained { mutableStateOf(PrimaryEmotionModel()) }
+        var representativeEmotion by rememberRetained { mutableStateOf<PrimaryEmotionModel?>(null) }
         var seedsStates by rememberRetained { mutableStateOf<ImmutableList<EmotionModel>>(persistentListOf()) }
         var isStatsExpanded by rememberRetained { mutableStateOf(false) }
         var readingRecords by rememberRetained { mutableStateOf(persistentListOf<ReadingRecordModel>()) }

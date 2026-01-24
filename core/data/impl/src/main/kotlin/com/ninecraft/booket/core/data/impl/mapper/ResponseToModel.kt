@@ -214,7 +214,7 @@ internal fun DetailEmotion.toModel(): DetailEmotionModel {
 
 internal fun ReadingRecordsResponse.toModel(): ReadingRecordsModel {
     return ReadingRecordsModel(
-        representativeEmotion = representativeEmotion.toModel(),
+        representativeEmotion = representativeEmotion?.toModel(),
         lastPage = lastPage,
         totalResults = totalResults,
         startIndex = startIndex,

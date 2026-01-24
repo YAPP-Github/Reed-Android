@@ -286,7 +286,7 @@ internal fun BookDetailContent(
                     if (state.hasEmotionData()) {
                         CollectedSeeds(
                             seedsStats = state.seedsStats,
-                            representativeEmotion = state.representativeEmotion,
+                            representativeEmotion = state.representativeEmotion!!,
                             isStatsExpanded = state.isStatsExpanded,
                             onToggleClick = {
                                 state.eventSink(BookDetailUiEvent.OnStatsToggleClick(!state.isStatsExpanded))

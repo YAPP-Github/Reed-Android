@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class ReadingRecordsModel(
-    val representativeEmotion: PrimaryEmotionModel = PrimaryEmotionModel(),
+    val representativeEmotion: PrimaryEmotionModel? = null,
     val lastPage: Boolean = true,
     val totalResults: Int = 0,
     val startIndex: Int = 0,

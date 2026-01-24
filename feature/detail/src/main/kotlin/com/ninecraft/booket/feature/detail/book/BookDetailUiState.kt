@@ -27,7 +27,7 @@ data class BookDetailUiState(
     val footerState: FooterState = FooterState.Idle,
     val isLoading: Boolean = false,
     val bookDetail: BookDetailModel = BookDetailModel(),
-    val representativeEmotion: PrimaryEmotionModel = PrimaryEmotionModel(),
+    val representativeEmotion: PrimaryEmotionModel? = null,
     val seedsStats: ImmutableList<EmotionModel> = persistentListOf(),
     val isStatsExpanded: Boolean = false,
     val readingRecords: ImmutableList<ReadingRecordModel> = persistentListOf(),
