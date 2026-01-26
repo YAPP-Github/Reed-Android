@@ -1,7 +1,5 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 import com.ninecraft.booket.convention.getLocalProperty
 
 plugins {
