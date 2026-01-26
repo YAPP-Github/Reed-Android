@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -138,10 +139,8 @@ internal fun NotificationGuideItem(
                 horizontal = ReedTheme.spacing.spacing5,
             )
             .fillMaxWidth()
-            .background(
-                color = ReedTheme.colors.baseSecondary,
-                shape = RoundedCornerShape(ReedTheme.radius.md),
-            )
+            .clip(RoundedCornerShape(ReedTheme.radius.md))
+            .background(color = ReedTheme.colors.baseSecondary)
             .noRippleClickable { onClick() }
             .padding(
                 vertical = ReedTheme.spacing.spacing6,

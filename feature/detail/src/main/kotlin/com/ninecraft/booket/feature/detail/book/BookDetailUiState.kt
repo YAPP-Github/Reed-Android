@@ -27,6 +27,7 @@ data class BookDetailUiState(
     val isLoading: Boolean = false,
     val bookDetail: BookDetailModel = BookDetailModel(),
     val seedsStats: ImmutableList<EmotionModel> = persistentListOf(),
+    val isStatsExpanded: Boolean = false,
     val readingRecords: ImmutableList<ReadingRecordModel> = persistentListOf(),
     val readingRecordsTotalCount: Int = 0,
     val currentStartIndex: Int = 1,
@@ -84,6 +85,7 @@ sealed interface BookDetailUiEvent : CircuitUiEvent {
     data class OnRecordItemClick(val recordId: String) : BookDetailUiEvent
     data object OnLoadMore : BookDetailUiEvent
     data object OnRetryClick : BookDetailUiEvent
+    data class OnStatsToggleClick(val flag: Boolean) : BookDetailUiEvent
 }
 
 enum class RecordSort(val value: String) {

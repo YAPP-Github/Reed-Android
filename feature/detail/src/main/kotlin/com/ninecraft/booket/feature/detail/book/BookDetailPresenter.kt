@@ -12,6 +12,7 @@ import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.BookDetailModel
+import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.model.EmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.component.FooterState
@@ -21,6 +22,8 @@ import com.ninecraft.booket.feature.screens.RecordCardScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
+import com.ninecraft.booket.feature.screens.arguments.DetailEmotionArg
+import com.ninecraft.booket.feature.screens.arguments.PrimaryEmotionArg
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
@@ -79,6 +82,7 @@ class BookDetailPresenter(
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
         var bookDetail by rememberRetained { mutableStateOf(BookDetailModel()) }
         var seedsStates by rememberRetained { mutableStateOf<ImmutableList<EmotionModel>>(persistentListOf()) }
+        var isStatsExpanded by rememberRetained { mutableStateOf(false) }
         var readingRecords by rememberRetained { mutableStateOf(persistentListOf<ReadingRecordModel>()) }
         var readingRecordsTotalCount by rememberRetained { mutableIntStateOf(0) }
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
@@ -314,7 +318,7 @@ class BookDetailPresenter(
                         RecordCardScreen(
                             quote = selectedRecordInfo.quote,
                             bookTitle = selectedRecordInfo.bookTitle,
-                            emotion = selectedRecordInfo.emotionTags[0],
+                            emotionCode = EmotionCode.OTHER, // TODO: 고정값 임시 조치
                         ),
                     )
                 }
@@ -328,7 +332,11 @@ class BookDetailPresenter(
                                 pageNumber = selectedRecordInfo.pageNumber,
                                 quote = selectedRecordInfo.quote,
                                 review = selectedRecordInfo.review,
-                                emotionTags = selectedRecordInfo.emotionTags,
+                                primaryEmotion = PrimaryEmotionArg(
+                                    code = EmotionCode.OTHER,
+                                    displayName = "기타",
+                                ), // TODO: 고정값 임시 조치
+                                detailEmotions = listOf(DetailEmotionArg("", "")), // TODO: 고정값 임시 조치
                                 bookTitle = selectedRecordInfo.bookTitle,
                                 bookPublisher = selectedRecordInfo.bookPublisher,
                                 bookCoverImageUrl = selectedRecordInfo.bookCoverImageUrl,
@@ -398,6 +406,10 @@ class BookDetailPresenter(
                         initialLoad()
                     }
                 }
+
+                is BookDetailUiEvent.OnStatsToggleClick -> {
+                    isStatsExpanded = event.flag
+                }
             }
         }
 
@@ -410,6 +422,7 @@ class BookDetailPresenter(
             footerState = footerState,
             bookDetail = bookDetail,
             seedsStats = seedsStates,
+            isStatsExpanded = isStatsExpanded,
             readingRecords = readingRecords,
             readingRecordsTotalCount = readingRecordsTotalCount,
             isBookUpdateBottomSheetVisible = isBookUpdateBottomSheetVisible,

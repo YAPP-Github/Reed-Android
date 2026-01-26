@@ -131,11 +131,13 @@ fun RowScope.BookStatusItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val bgColor = if (selected) ReedTheme.colors.bgTertiary else ReedTheme.colors.bgSecondary
+
     Box(
         modifier = modifier
             .weight(1f)
             .clip(RoundedCornerShape(ReedTheme.radius.sm))
-            .background(if (selected) ReedTheme.colors.bgTertiary else ReedTheme.colors.bgSecondary)
+            .background(bgColor)
             .selectable(
                 selected = selected,
                 indication = null,

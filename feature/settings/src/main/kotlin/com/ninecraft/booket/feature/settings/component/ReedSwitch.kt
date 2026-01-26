@@ -20,8 +20,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.noRippleClickable
 import com.ninecraft.booket.core.designsystem.DevicePreview
@@ -51,13 +53,18 @@ internal fun ReedSwitch(
             .width(51.dp)
             .height(31.dp)
             .clip(RoundedCornerShape(ReedTheme.radius.full))
-            .background(trackColor)
+            .drawBehind { drawRect(trackColor) }
             .noRippleClickable { onCheckedChange(!checked) },
         contentAlignment = Alignment.CenterStart,
     ) {
         Box(
             modifier = Modifier
-                .offset(x = thumbOffset)
+                .offset {
+                    IntOffset(
+                        x = thumbOffset.roundToPx(),
+                        y = 0,
+                    )
+                }
                 .size(27.dp)
                 .shadow(elevation = 1.dp, shape = CircleShape)
                 .clip(CircleShape)

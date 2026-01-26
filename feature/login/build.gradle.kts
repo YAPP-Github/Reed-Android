@@ -2,6 +2,8 @@
 
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
+import com.ninecraft.booket.convention.getLocalProperty
+
 plugins {
     alias(libs.plugins.booket.android.feature)
     alias(libs.plugins.kotlin.serialization)
@@ -13,11 +15,11 @@ android {
 
     buildTypes {
         getByName("debug") {
-            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getApiKey("DEBUG_GOOGLE_WEB_CLIENT_ID"))
+            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getLocalProperty("DEBUG_GOOGLE_WEB_CLIENT_ID"))
         }
 
         getByName("release") {
-            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getApiKey("RELEASE_GOOGLE_WEB_CLIENT_ID"))
+            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getLocalProperty("RELEASE_GOOGLE_WEB_CLIENT_ID"))
         }
     }
 
@@ -34,8 +36,4 @@ dependencies {
         libs.androidx.credentials.play.services.auth,
         libs.googleid,
     )
-}
-
-fun getApiKey(propertyKey: String): String {
-    return gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
 }

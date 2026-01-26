@@ -1,11 +1,7 @@
 package com.ninecraft.booket.feature.record.step
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,44 +9,45 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.ninecraft.booket.core.common.extensions.clickableSingle
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
-import com.ninecraft.booket.core.designsystem.graphicRes
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.DetailEmotionModel
+import com.ninecraft.booket.core.model.EmotionCode
+import com.ninecraft.booket.core.model.EmotionGroupModel
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
 import com.skydoves.compose.stability.runtime.TraceRecomposition
-import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @TraceRecomposition
 @Composable
-fun EmotionStep(
+internal fun EmotionStep(
     state: RecordRegisterUiState,
     modifier: Modifier = Modifier,
 ) {
-    val emotionPairs = remember(state.emotions) { state.emotions.chunked(2) }
+    val emotionDetailBottomSheetState = rememberModalBottomSheetState()
+    val coroutineScope = rememberCoroutineScope()
 
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(White),
+            .background(color = White),
     ) {
         LazyColumn(
             modifier = Modifier
@@ -76,29 +73,22 @@ fun EmotionStep(
                 )
             }
             item {
-                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
             }
 
-            items(emotionPairs) { pair ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing3),
-                ) {
-                    pair.forEach { tag ->
-                        EmotionItem(
-                            emotion = tag,
-                            onClick = {
-                                state.eventSink(RecordRegisterUiEvent.OnSelectEmotion(tag))
-                            },
-                            isSelected = state.selectedEmotion == tag,
-                            modifier = Modifier.weight(1f),
-                        )
-                    }
-                    if (pair.size == 1) {
-                        Spacer(modifier = Modifier.weight(1f))
-                    }
-                }
-                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
+            items(state.emotionGroups) { emotion ->
+                EmotionItem(
+                    emotionGroup = emotion,
+                    selectedEmotionDetailIds = state.committedEmotionMap[emotion.code] ?: persistentListOf(),
+                    onClick = {
+                        state.eventSink(RecordRegisterUiEvent.OnSelectEmotionCode(emotion.code))
+                    },
+                    isSelected = state.committedEmotionCode == emotion.code,
+                    onEmotionDetailRemove = { detail ->
+                        state.eventSink(RecordRegisterUiEvent.OnEmotionDetailRemoved(detail))
+                    },
+                )
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
             }
         }
 
@@ -114,58 +104,82 @@ fun EmotionStep(
                 .padding(horizontal = ReedTheme.spacing.spacing5)
                 .padding(bottom = ReedTheme.spacing.spacing4),
             enabled = state.isNextButtonEnabled,
-            text = stringResource(R.string.record_next_button_text),
+            text = stringResource(R.string.record_finish_button_text),
             multipleEventsCutterEnabled = false,
         )
     }
-}
 
-@Composable
-private fun EmotionItem(
-    emotion: Emotion,
-    onClick: () -> Unit,
-    isSelected: Boolean,
-    modifier: Modifier = Modifier,
-) {
-    Box(
-        modifier = modifier
-            .height(214.dp)
-            .background(
-                color = ReedTheme.colors.bgTertiary,
-                shape = RoundedCornerShape(ReedTheme.radius.md),
-            )
-            .then(
-                if (isSelected) Modifier.border(
-                    width = ReedTheme.border.border15,
-                    color = ReedTheme.colors.borderBrand,
-                    shape = RoundedCornerShape(ReedTheme.radius.md),
-                )
-                else Modifier,
-            )
-            .clip(RoundedCornerShape(ReedTheme.radius.md))
-            .clickableSingle {
-                onClick()
+    if (state.isEmotionDetailBottomSheetVisible) {
+        val selectedEmotionGroup = state.emotionGroups.firstOrNull { it.code == state.selectedEmotionCode } ?: return
+        EmotionDetailBottomSheet(
+            emotionGroup = selectedEmotionGroup,
+            selectedEmotionDetailIds = state.selectedEmotionMap[state.selectedEmotionCode] ?: persistentListOf(),
+            onDismissRequest = {
+                state.eventSink(RecordRegisterUiEvent.OnEmotionDetailBottomSheetDismiss)
             },
-        contentAlignment = Alignment.Center,
-    ) {
-        Image(
-            painter = painterResource(emotion.graphicRes),
-            contentDescription = "Emotion Image",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop,
+            sheetState = emotionDetailBottomSheetState,
+            onCloseButtonClick = {
+                coroutineScope.launch {
+                    emotionDetailBottomSheetState.hide()
+                    state.eventSink(RecordRegisterUiEvent.OnEmotionDetailBottomSheetDismiss)
+                }
+            },
+            onEmotionDetailToggled = { detail ->
+                state.eventSink(RecordRegisterUiEvent.OnEmotionDetailToggled(detail))
+            },
+            onSkipButtonClick = {
+                coroutineScope.launch {
+                    emotionDetailBottomSheetState.hide()
+                    state.eventSink(RecordRegisterUiEvent.OnEmotionDetailSkipped)
+                }
+            },
+            onConfirmButtonClick = {
+                coroutineScope.launch {
+                    emotionDetailBottomSheetState.hide()
+                    state.eventSink(RecordRegisterUiEvent.OnEmotionDetailCommitted)
+                }
+            },
         )
     }
 }
 
 @ComponentPreview
 @Composable
-private fun RecordRegisterPreview() {
-    val emotions = Emotion.entries.toPersistentList()
-
+private fun EmotionStepPreview() {
+    val warmthEmotionGroup = EmotionGroupModel(
+        code = EmotionCode.WARMTH,
+        displayName = "따뜻함",
+        detailEmotions = persistentListOf(
+            DetailEmotionModel(
+                id = "84f95d93-e54c-11f0-8545-525ae7dd628c",
+                name = "위로받은",
+            ),
+            DetailEmotionModel(
+                id = "84f95e7e-e54c-11f0-8545-525ae7dd628c",
+                name = "포근한",
+            ),
+            DetailEmotionModel(
+                id = "84f95f13-e54c-11f0-8545-525ae7dd628c",
+                name = "다정한",
+            ),
+            DetailEmotionModel(
+                id = "84f95fc0-e54c-11f0-8545-525ae7dd628c",
+                name = "고마운",
+            ),
+            DetailEmotionModel(
+                id = "84f96094-e54c-11f0-8545-525ae7dd628c",
+                name = "마음이 놓이는",
+            ),
+            DetailEmotionModel(
+                id = "84f9612c-e54c-11f0-8545-525ae7dd628c",
+                name = "편안한",
+            ),
+        ),
+    )
     ReedTheme {
         EmotionStep(
             state = RecordRegisterUiState(
-                emotions = emotions,
+                emotionGroups = persistentListOf(warmthEmotionGroup),
                 eventSink = {},
             ),
         )

@@ -65,12 +65,6 @@ public fun com.ninecraft.booket.core.ui.component.ReedBottomSheet(onDismissReque
     - content: STABLE (composable function type)
 
 @Composable
-private fun com.ninecraft.booket.core.ui.component.ReedBottomSheetPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar(modifier: androidx.compose.ui.Modifier, isDark: kotlin.Boolean, title: kotlin.String, onClose: kotlin.Function0<kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
@@ -118,24 +112,6 @@ public fun com.ninecraft.booket.core.ui.component.ReedLoadingIndicator(modifier:
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
     - delayMillis: STABLE (primitive type)
-
-@Composable
-private fun com.ninecraft.booket.core.ui.component.ReedLoadingIndicatorPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-private fun com.ninecraft.booket.core.ui.component.ReedNetworkErrorUiPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-private fun com.ninecraft.booket.core.ui.component.ReedServerErrorUiPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 public fun com.ninecraft.booket.core.ui.component.ReedTopAppBar(modifier: androidx.compose.ui.Modifier, isDark: kotlin.Boolean, title: kotlin.String, startIconRes: kotlin.Int?, startIconDescription: kotlin.String, startIconOnClick: kotlin.Function0<kotlin.Unit>, endIconRes: kotlin.Int?, endIconDescription: kotlin.String, endIconOnClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit

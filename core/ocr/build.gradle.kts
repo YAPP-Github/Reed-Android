@@ -1,7 +1,6 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
+import com.ninecraft.booket.convention.getLocalProperty
 
 plugins {
     alias(libs.plugins.booket.android.library)
@@ -13,7 +12,7 @@ android {
     namespace = "com.ninecraft.booket.core.ocr"
 
     defaultConfig {
-        buildConfigField("String", "CLOUD_VISION_API_KEY", getApiKey("CLOUD_VISION_API_KEY"))
+        buildConfigField("String", "CLOUD_VISION_API_KEY", getLocalProperty("CLOUD_VISION_API_KEY"))
     }
 
     buildFeatures {
@@ -29,8 +28,4 @@ dependencies {
         libs.kotlinx.coroutines.core,
         libs.logger,
     )
-}
-
-fun getApiKey(propertyKey: String): String {
-    return gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
 }

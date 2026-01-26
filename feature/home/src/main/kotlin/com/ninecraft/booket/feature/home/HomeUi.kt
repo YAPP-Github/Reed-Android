@@ -100,7 +100,7 @@ internal fun HomeUi(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(HomeBg)
+                .background(color = HomeBg)
                 .padding(innerPadding),
         ) {
             HomeHeader(

@@ -9,7 +9,7 @@ public fun com.ninecraft.booket.di.CrossFadeNavDecorator.Decoration(targetState:
   skippable: false
   restartable: true
   params:
-    - targetState: RUNTIME (requires runtime check)
+    - targetState: UNSTABLE (has mutable properties or unstable members)
     - innerContent: STABLE (composable function type)
 
 @Composable

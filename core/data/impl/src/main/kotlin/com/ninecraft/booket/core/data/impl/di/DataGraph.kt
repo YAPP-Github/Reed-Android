@@ -2,11 +2,13 @@ package com.ninecraft.booket.core.data.impl.di
 
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
+import com.ninecraft.booket.core.data.api.repository.EmotionRepository
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultAuthRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultBookRepository
+import com.ninecraft.booket.core.data.impl.repository.DefaultEmotionRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultRecordRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultRemoteConfigRepository
 import com.ninecraft.booket.core.data.impl.repository.DefaultUserRepository
@@ -22,6 +24,9 @@ interface DataGraph {
 
     @Binds
     val DefaultBookRepository.bind: BookRepository
+
+    @Binds
+    val DefaultEmotionRepository.bind: EmotionRepository
 
     @Binds
     val DefaultRecordRepository.bind: RecordRepository

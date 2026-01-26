@@ -33,24 +33,12 @@ public fun com.ninecraft.booket.feature.library.LibraryPresenter.present(): com.
   params:
 
 @Composable
-private fun com.ninecraft.booket.feature.library.LibraryPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.library.LibraryUi(state: com.ninecraft.booket.feature.library.LibraryUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - state: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.feature.library.component.ChipPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 public fun com.ninecraft.booket.feature.library.component.FilterChip(option: com.ninecraft.booket.feature.library.LibraryFilterOption, count: kotlin.Int, isSelected: kotlin.Boolean, onChipClick: kotlin.Function1<com.ninecraft.booket.feature.library.LibraryFilterOption, kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
@@ -74,12 +62,6 @@ public fun com.ninecraft.booket.feature.library.component.FilterChipGroup(filter
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.library.component.FilterChipGroupPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.feature.library.component.LibraryBookItem(book: com.ninecraft.booket.core.model.LibraryBookSummaryModel, onBookClick: kotlin.Function1<com.ninecraft.booket.core.model.LibraryBookSummaryModel, kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -89,12 +71,6 @@ public fun com.ninecraft.booket.feature.library.component.LibraryBookItem(book: 
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.library.component.LibraryBookItemPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 public fun com.ninecraft.booket.feature.library.component.LibraryHeader(onSearchClick: kotlin.Function0<kotlin.Unit>, onSettingClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -102,10 +78,4 @@ public fun com.ninecraft.booket.feature.library.component.LibraryHeader(onSearch
     - onSearchClick: STABLE (function type)
     - onSettingClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.feature.library.component.LibraryHeaderPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 

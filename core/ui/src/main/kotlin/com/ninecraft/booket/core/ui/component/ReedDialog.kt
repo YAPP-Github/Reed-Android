@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
@@ -31,6 +32,8 @@ fun ReedDialog(
     description: String? = null,
     dismissButtonText: String? = null,
     onDismissRequest: () -> Unit = {},
+    dismissOnClickOutside: Boolean = true,
+    dismissOnBackPress: Boolean = true,
     headerContent: @Composable (() -> Unit)? = null,
 ) {
     Dialog(
@@ -38,6 +41,8 @@ fun ReedDialog(
             onDismissRequest()
         },
         properties = DialogProperties(
+            dismissOnClickOutside = dismissOnClickOutside,
+            dismissOnBackPress = dismissOnBackPress,
             usePlatformDefaultWidth = false,
         ),
     ) {
@@ -45,12 +50,8 @@ fun ReedDialog(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = ReedTheme.spacing.spacing5)
-                .background(
-                    color = ReedTheme.colors.basePrimary,
-                    shape = RoundedCornerShape(
-                        ReedTheme.radius.lg,
-                    ),
-                )
+                .clip(RoundedCornerShape(ReedTheme.radius.lg))
+                .background(color = ReedTheme.colors.basePrimary)
                 .padding(
                     start = ReedTheme.spacing.spacing5,
                     top = ReedTheme.spacing.spacing8,
