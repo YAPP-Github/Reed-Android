@@ -1,8 +1,8 @@
 package com.ninecraft.booket.core.model
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 
-@Stable
+@Immutable
 data class LibraryModel(
     val books: LibraryBooksModel = LibraryBooksModel(),
     val totalCount: Int = 0,
@@ -11,13 +11,13 @@ data class LibraryModel(
     val completedCount: Int = 0,
 )
 
-@Stable
+@Immutable
 data class LibraryBooksModel(
     val content: List<LibraryBookSummaryModel> = emptyList(),
     val page: PageInfoModel = PageInfoModel(),
 )
 
-@Stable
+@Immutable
 data class LibraryBookSummaryModel(
     val userBookId: String = "",
     val userId: String = "",
@@ -32,7 +32,7 @@ data class LibraryBookSummaryModel(
     val updatedAt: String = "",
 )
 
-@Stable
+@Immutable
 data class PageInfoModel(
     val size: Int = 0,
     val number: Int = 0,

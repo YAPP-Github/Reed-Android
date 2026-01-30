@@ -12,8 +12,8 @@ import com.ninecraft.booket.core.common.event.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
-import com.ninecraft.booket.core.model.AutoLoginState
-import com.ninecraft.booket.core.model.OnboardingState
+import com.ninecraft.booket.core.model.state.AutoLoginState
+import com.ninecraft.booket.core.model.state.OnboardingState
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen

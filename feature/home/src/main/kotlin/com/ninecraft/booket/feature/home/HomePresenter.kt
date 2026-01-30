@@ -12,7 +12,7 @@ import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
 import com.ninecraft.booket.core.model.RecentBookModel
-import com.ninecraft.booket.core.model.UserState
+import com.ninecraft.booket.core.model.state.UserState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.BookSearchScreen
 import com.ninecraft.booket.feature.screens.HomeScreen

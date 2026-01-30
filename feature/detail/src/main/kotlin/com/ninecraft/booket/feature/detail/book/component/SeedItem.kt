@@ -18,11 +18,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.bgColor
+import com.ninecraft.booket.core.designsystem.graphicRes
 import com.ninecraft.booket.core.designsystem.textColor
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.model.EmotionModel
-import com.ninecraft.booket.feature.detail.R
 
 @Composable
 internal fun SeedItem(
@@ -34,7 +34,7 @@ internal fun SeedItem(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
-            painter = painterResource(id = getEmotionImageResource(emotion.name)),
+            painter = painterResource(id = emotion.code.graphicRes),
             contentDescription = "Seed Graphic Image",
             modifier = Modifier.size(50.dp),
         )
@@ -42,7 +42,7 @@ internal fun SeedItem(
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(ReedTheme.radius.full))
-                .background(emotion.name.bgColor)
+                .background(emotion.code.bgColor)
                 .padding(
                     horizontal = ReedTheme.spacing.spacing2,
                     vertical = ReedTheme.spacing.spacing1,
@@ -50,8 +50,8 @@ internal fun SeedItem(
             contentAlignment = Alignment.Center,
         ) {
             Text(
-                text = emotion.name.displayName,
-                color = emotion.name.textColor,
+                text = emotion.code.displayName,
+                color = emotion.code.textColor,
                 style = ReedTheme.typography.label2SemiBold,
             )
         }
@@ -64,23 +64,13 @@ internal fun SeedItem(
     }
 }
 
-private fun getEmotionImageResource(emotion: Emotion): Int {
-    return when (emotion) {
-        Emotion.WARM -> R.drawable.img_warm
-        Emotion.JOY -> R.drawable.img_joy
-        Emotion.SAD -> R.drawable.img_sad
-        Emotion.INSIGHT -> R.drawable.img_insight
-        Emotion.ETC -> R.drawable.img_etc
-    }
-}
-
 @ComponentPreview
 @Composable
 private fun SeedItemPreview() {
     ReedTheme {
         SeedItem(
             emotion = EmotionModel(
-                name = Emotion.WARM,
+                code = EmotionCode.WARMTH,
                 count = 3,
             ),
         )

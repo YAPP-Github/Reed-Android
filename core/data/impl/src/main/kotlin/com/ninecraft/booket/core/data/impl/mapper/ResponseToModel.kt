@@ -6,7 +6,6 @@ import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.model.BookUpsertModel
 import com.ninecraft.booket.core.model.DetailEmotionModel
-import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.model.EmotionGroupModel
 import com.ninecraft.booket.core.model.EmotionGroupsModel
@@ -18,10 +17,8 @@ import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.PageInfoModel
 import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
-import com.ninecraft.booket.core.model.ReadingRecordModelV2
 import com.ninecraft.booket.core.model.ReadingRecordsModel
 import com.ninecraft.booket.core.model.RecentBookModel
-import com.ninecraft.booket.core.model.RecordRegisterModel
 import com.ninecraft.booket.core.model.SeedModel
 import com.ninecraft.booket.core.model.TermsAgreementModel
 import com.ninecraft.booket.core.model.UserProfileModel
@@ -42,10 +39,8 @@ import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.PageInfo
 import com.ninecraft.booket.core.network.response.PrimaryEmotion
 import com.ninecraft.booket.core.network.response.ReadingRecord
-import com.ninecraft.booket.core.network.response.ReadingRecordV2
 import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RecentBook
-import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.SeedResponse
 import com.ninecraft.booket.core.network.response.TermsAgreementResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
@@ -217,21 +212,9 @@ internal fun DetailEmotion.toModel(): DetailEmotionModel {
     )
 }
 
-internal fun RecordRegisterResponse.toModel(): RecordRegisterModel {
-    return RecordRegisterModel(
-        id = id,
-        userBookId = userBookId,
-        pageNumber = pageNumber,
-        quote = quote,
-        emotionTags = emotionTags,
-        review = review ?: "",
-        createdAt = createdAt,
-        updatedAt = updatedAt,
-    )
-}
-
 internal fun ReadingRecordsResponse.toModel(): ReadingRecordsModel {
     return ReadingRecordsModel(
+        representativeEmotion = representativeEmotion?.toModel(),
         lastPage = lastPage,
         totalResults = totalResults,
         startIndex = startIndex,
@@ -242,23 +225,6 @@ internal fun ReadingRecordsResponse.toModel(): ReadingRecordsModel {
 
 internal fun ReadingRecord.toModel(): ReadingRecordModel {
     return ReadingRecordModel(
-        id = id,
-        userBookId = userBookId,
-        pageNumber = pageNumber,
-        quote = quote,
-        review = review ?: "",
-        emotionTags = emotionTags,
-        createdAt = createdAt,
-        updatedAt = updatedAt,
-        bookTitle = bookTitle ?: "",
-        bookPublisher = bookPublisher ?: "",
-        bookCoverImageUrl = bookCoverImageUrl ?: "",
-        author = author ?: "",
-    )
-}
-
-internal fun ReadingRecordV2.toModel(): ReadingRecordModelV2 {
-    return ReadingRecordModelV2(
         id = id,
         userBookId = userBookId,
         pageNumber = pageNumber,
@@ -309,9 +275,8 @@ internal fun SeedResponse.toModel(): SeedModel {
 }
 
 internal fun Category.toEmotionModel(): EmotionModel? {
-    val emotion = Emotion.fromDisplayName(name) ?: return null
     return EmotionModel(
-        name = emotion,
+        code = EmotionCode.fromDisplayName(name) ?: return null,
         count = count,
     )
 }

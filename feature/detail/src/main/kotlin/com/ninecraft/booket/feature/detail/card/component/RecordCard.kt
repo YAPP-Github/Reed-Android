@@ -76,9 +76,9 @@ internal fun RecordCard(
 
 private fun getEmotionCardImage(emotionCode: EmotionCode): Int {
     return when (emotionCode) {
-        EmotionCode.WARMTH -> R.drawable.img_record_card_warm
+        EmotionCode.WARMTH -> R.drawable.img_record_card_warmth
         EmotionCode.JOY -> R.drawable.img_record_card_joy
-        EmotionCode.SADNESS -> R.drawable.img_record_card_sad
+        EmotionCode.SADNESS -> R.drawable.img_record_card_sadness
         EmotionCode.INSIGHT -> R.drawable.img_record_card_insight
         EmotionCode.OTHER -> R.drawable.img_record_card_other
     }

@@ -12,8 +12,8 @@ import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.BookDetailModel
-import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.model.EmotionModel
+import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
@@ -70,7 +70,7 @@ class BookDetailPresenter(
 
     private fun getRecordComparator(sortType: RecordSort): Comparator<ReadingRecordModel> {
         return when (sortType) {
-            RecordSort.PAGE_NUMBER_ASC -> compareBy { it.pageNumber }
+            RecordSort.PAGE_NUMBER_ASC -> compareBy(nullsLast()) { it.pageNumber }
             RecordSort.CREATED_DATE_DESC -> compareByDescending { LocalDateTime.parse(it.createdAt) }
         }
     }
@@ -81,6 +81,7 @@ class BookDetailPresenter(
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
         var bookDetail by rememberRetained { mutableStateOf(BookDetailModel()) }
+        var representativeEmotion by rememberRetained { mutableStateOf<PrimaryEmotionModel?>(null) }
         var seedsStates by rememberRetained { mutableStateOf<ImmutableList<EmotionModel>>(persistentListOf()) }
         var isStatsExpanded by rememberRetained { mutableStateOf(false) }
         var readingRecords by rememberRetained { mutableStateOf(persistentListOf<ReadingRecordModel>()) }
@@ -122,6 +123,7 @@ class BookDetailPresenter(
                         bookDetail = detail
                         currentBookStatus = BookStatus.fromValue(detail.userBookStatus) ?: BookStatus.BEFORE_READING
                         selectedBookStatus = currentBookStatus
+                        representativeEmotion = records.representativeEmotion
                         seedsStates = seeds.categories.toImmutableList()
                         readingRecords = records.readingRecords.toPersistentList()
                         readingRecordsTotalCount = records.totalResults
@@ -318,7 +320,7 @@ class BookDetailPresenter(
                         RecordCardScreen(
                             quote = selectedRecordInfo.quote,
                             bookTitle = selectedRecordInfo.bookTitle,
-                            emotionCode = EmotionCode.OTHER, // TODO: 고정값 임시 조치
+                            emotionCode = selectedRecordInfo.primaryEmotion.code,
                         ),
                     )
                 }
@@ -333,14 +335,16 @@ class BookDetailPresenter(
                                 quote = selectedRecordInfo.quote,
                                 review = selectedRecordInfo.review,
                                 primaryEmotion = PrimaryEmotionArg(
-                                    code = EmotionCode.OTHER,
-                                    displayName = "기타",
-                                ), // TODO: 고정값 임시 조치
-                                detailEmotions = listOf(DetailEmotionArg("", "")), // TODO: 고정값 임시 조치
-                                bookTitle = selectedRecordInfo.bookTitle,
-                                bookPublisher = selectedRecordInfo.bookPublisher,
-                                bookCoverImageUrl = selectedRecordInfo.bookCoverImageUrl,
-                                author = selectedRecordInfo.author,
+                                    code = selectedRecordInfo.primaryEmotion.code,
+                                    displayName = selectedRecordInfo.primaryEmotion.displayName,
+                                ),
+                                detailEmotions = selectedRecordInfo.detailEmotions.map {
+                                    DetailEmotionArg(id = it.id, name = it.name)
+                                },
+                                bookTitle = selectedRecordInfo.bookTitle.ifEmpty { bookDetail.title },
+                                bookPublisher = selectedRecordInfo.bookPublisher.ifEmpty { bookDetail.publisher },
+                                bookCoverImageUrl = selectedRecordInfo.bookCoverImageUrl.ifEmpty { bookDetail.coverImageUrl },
+                                author = selectedRecordInfo.author.ifEmpty { bookDetail.author },
                             ),
                         ),
                     )
@@ -421,6 +425,7 @@ class BookDetailPresenter(
             uiState = uiState,
             footerState = footerState,
             bookDetail = bookDetail,
+            representativeEmotion = representativeEmotion,
             seedsStats = seedsStates,
             isStatsExpanded = isStatsExpanded,
             readingRecords = readingRecords,

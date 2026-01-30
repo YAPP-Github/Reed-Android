@@ -1,6 +1,6 @@
 package com.ninecraft.booket.core.data.api.repository
 
-import com.ninecraft.booket.core.model.OnboardingState
+import com.ninecraft.booket.core.model.state.OnboardingState
 import com.ninecraft.booket.core.model.TermsAgreementModel
 import com.ninecraft.booket.core.model.UserProfileModel
 import kotlinx.coroutines.flow.Flow

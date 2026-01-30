@@ -5,24 +5,8 @@
 //   ./gradlew :splash:stabilityDump
 
 @Composable
-internal fun com.ninecraft.booket.splash.HandleSplashSideEffects(state: com.ninecraft.booket.splash.SplashUiState, eventSink: kotlin.Function1<com.ninecraft.booket.splash.SplashUiEvent, kotlin.Unit>): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-    - state: STABLE (class with no mutable properties)
-    - eventSink: STABLE (function type)
-
-@Composable
 public fun com.ninecraft.booket.splash.SplashPresenter.present(): com.ninecraft.booket.splash.SplashUiState
   skippable: true
   restartable: true
   params:
-
-@Composable
-public fun com.ninecraft.booket.splash.SplashUi(state: com.ninecraft.booket.splash.SplashUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-    - state: STABLE (class with no mutable properties)
-    - modifier: STABLE (marked @Stable or @Immutable)
 

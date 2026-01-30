@@ -6,39 +6,33 @@
 
 @Composable
 private fun com.ninecraft.booket.feature.record.ocr.CameraPreview(state: com.ninecraft.booket.feature.record.ocr.OcrUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
-  skippable: true
+  skippable: false
   restartable: true
   params:
-    - state: STABLE (class with no mutable properties)
+    - state: UNSTABLE (has mutable properties or unstable members)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
 internal fun com.ninecraft.booket.feature.record.ocr.HandleOcrSideEffects(state: com.ninecraft.booket.feature.record.ocr.OcrUiState): kotlin.Unit
-  skippable: true
+  skippable: false
   restartable: true
   params:
-    - state: STABLE (class with no mutable properties)
-
-@Composable
-public fun com.ninecraft.booket.feature.record.ocr.OcrPresenter.present(): com.ninecraft.booket.feature.record.ocr.OcrUiState
-  skippable: true
-  restartable: true
-  params:
+    - state: UNSTABLE (has mutable properties or unstable members)
 
 @Composable
 internal fun com.ninecraft.booket.feature.record.ocr.OcrUi(state: com.ninecraft.booket.feature.record.ocr.OcrUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
-  skippable: true
+  skippable: false
   restartable: true
   params:
-    - state: STABLE (class with no mutable properties)
+    - state: UNSTABLE (has mutable properties or unstable members)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
 private fun com.ninecraft.booket.feature.record.ocr.TextScanResult(state: com.ninecraft.booket.feature.record.ocr.OcrUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
-  skippable: true
+  skippable: false
   restartable: true
   params:
-    - state: STABLE (class with no mutable properties)
+    - state: UNSTABLE (has mutable properties or unstable members)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable

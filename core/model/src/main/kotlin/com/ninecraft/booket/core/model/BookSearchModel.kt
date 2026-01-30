@@ -1,8 +1,8 @@
 package com.ninecraft.booket.core.model
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 
-@Stable
+@Immutable
 data class BookSearchModel(
     val version: String = "",
     val title: String = "",
@@ -17,7 +17,7 @@ data class BookSearchModel(
     val books: List<BookSummaryModel> = emptyList(),
 )
 
-@Stable
+@Immutable
 data class BookSummaryModel(
     val isbn13: String = "",
     val title: String = "",

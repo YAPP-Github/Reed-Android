@@ -24,9 +24,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.ninecraft.booket.core.common.extensions.toFormattedDate
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
+import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
-import com.ninecraft.booket.feature.detail.R
-import kotlinx.collections.immutable.persistentListOf
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @Composable
@@ -54,7 +53,7 @@ internal fun RecordItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = if (recordInfo.pageNumber != 0) "${recordInfo.pageNumber}p"
+                text = if (recordInfo.pageNumber != null) "${recordInfo.pageNumber}p"
                 else "-p",
                 color = ReedTheme.colors.contentBrand,
                 style = ReedTheme.typography.label1Medium,
@@ -86,7 +85,7 @@ internal fun RecordItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "#${recordInfo.emotionTags[0]}",
+                text = "#${recordInfo.primaryEmotion.displayName}",
                 color = ReedTheme.colors.contentTertiary,
                 style = ReedTheme.typography.label1Medium,
             )
@@ -100,17 +99,6 @@ internal fun RecordItem(
     }
 }
 
-fun getEmotionImageResourceByDisplayName(displayName: String): Int {
-    return when (displayName) {
-        "따뜻함" -> R.drawable.img_warm
-        "즐거움" -> R.drawable.img_joy
-        "슬픔" -> R.drawable.img_sad
-        "깨달음" -> R.drawable.img_insight
-        "기타" -> R.drawable.img_etc
-        else -> R.drawable.img_warm
-    }
-}
-
 @ComponentPreview
 @Composable
 private fun RecordItemPreview() {
@@ -118,7 +106,7 @@ private fun RecordItemPreview() {
         RecordItem(
             recordInfo = ReadingRecordModel(
                 quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
-                emotionTags = persistentListOf("따뜻함"),
+                primaryEmotion = PrimaryEmotionModel(displayName = "따뜻함"),
                 pageNumber = 12,
                 createdAt = "2025-06-25T10:30:00.000000",
             ),

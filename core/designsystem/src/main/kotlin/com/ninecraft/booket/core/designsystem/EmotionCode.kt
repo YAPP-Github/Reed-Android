@@ -2,8 +2,8 @@ package com.ninecraft.booket.core.designsystem
 
 import androidx.compose.ui.graphics.Color
 import com.ninecraft.booket.core.designsystem.theme.Blue300
-import com.ninecraft.booket.core.designsystem.theme.EtcBgColor
-import com.ninecraft.booket.core.designsystem.theme.EtcTextColor
+import com.ninecraft.booket.core.designsystem.theme.OtherBgColor
+import com.ninecraft.booket.core.designsystem.theme.OtherTextColor
 import com.ninecraft.booket.core.designsystem.theme.InsightBgColor
 import com.ninecraft.booket.core.designsystem.theme.InsightTextColor
 import com.ninecraft.booket.core.designsystem.theme.JoyBgColor
@@ -16,34 +16,33 @@ import com.ninecraft.booket.core.designsystem.theme.Violet300
 import com.ninecraft.booket.core.designsystem.theme.WarmthBgColor
 import com.ninecraft.booket.core.designsystem.theme.WarmthTextColor
 import com.ninecraft.booket.core.designsystem.theme.Yellow300
-import com.ninecraft.booket.core.model.Emotion
 import com.ninecraft.booket.core.model.EmotionCode
 
-val Emotion.bgColor: Color
+val EmotionCode.bgColor: Color
     get() = when (this) {
-        Emotion.WARM -> WarmthBgColor
-        Emotion.JOY -> JoyBgColor
-        Emotion.SAD -> SadnessBgColor
-        Emotion.INSIGHT -> InsightBgColor
-        Emotion.ETC -> EtcBgColor
+        EmotionCode.WARMTH -> WarmthBgColor
+        EmotionCode.JOY -> JoyBgColor
+        EmotionCode.SADNESS -> SadnessBgColor
+        EmotionCode.INSIGHT -> InsightBgColor
+        EmotionCode.OTHER -> OtherBgColor
     }
 
-val Emotion.textColor: Color
+val EmotionCode.textColor: Color
     get() = when (this) {
-        Emotion.WARM -> WarmthTextColor
-        Emotion.JOY -> JoyTextColor
-        Emotion.SAD -> SadnessTextColor
-        Emotion.INSIGHT -> InsightTextColor
-        Emotion.ETC -> EtcTextColor
+        EmotionCode.WARMTH -> WarmthTextColor
+        EmotionCode.JOY -> JoyTextColor
+        EmotionCode.SADNESS -> SadnessTextColor
+        EmotionCode.INSIGHT -> InsightTextColor
+        EmotionCode.OTHER -> OtherTextColor
     }
 
-val Emotion.ratioBarColor: Color
+val EmotionCode.ratioBarColor: Color
     get() = when (this) {
-        Emotion.WARM -> Yellow300
-        Emotion.JOY -> Orange300
-        Emotion.SAD -> Blue300
-        Emotion.INSIGHT -> Violet300
-        Emotion.ETC -> Neutral300
+        EmotionCode.WARMTH -> Yellow300
+        EmotionCode.JOY -> Orange300
+        EmotionCode.SADNESS -> Blue300
+        EmotionCode.INSIGHT -> Violet300
+        EmotionCode.OTHER -> Neutral300
     }
 
 val EmotionCode.graphicRes: Int
