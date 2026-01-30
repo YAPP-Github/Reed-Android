@@ -32,7 +32,6 @@ android {
         getByName("debug") {
             isDebuggable = true
             applicationIdSuffix = ".dev"
-            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getLocalProperty("DEBUG_GOOGLE_WEB_CLIENT_ID"))
             manifestPlaceholders += mapOf(
                 "appName" to "@string/app_name_dev",
             )
@@ -43,7 +42,6 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
-            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getLocalProperty("RELEASE_GOOGLE_WEB_CLIENT_ID"))
             manifestPlaceholders += mapOf(
                 "appName" to "@string/app_name",
             )
@@ -55,6 +53,7 @@ android {
     }
 
     defaultConfig {
+        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getLocalProperty("GOOGLE_WEB_CLIENT_ID"))
         buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getLocalProperty("KAKAO_NATIVE_APP_KEY"))
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getLocalProperty("KAKAO_NATIVE_APP_KEY").trim('"')
     }

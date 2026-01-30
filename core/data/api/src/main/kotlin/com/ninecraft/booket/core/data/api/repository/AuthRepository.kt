@@ -5,7 +5,10 @@ import com.ninecraft.booket.core.model.UserState
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
-    suspend fun login(accessToken: String): Result<Unit>
+    suspend fun login(
+        providerType: String,
+        token: String,
+    ): Result<Unit>
 
     suspend fun logout(): Result<Unit>
 

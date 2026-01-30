@@ -48,7 +48,7 @@ class DefaultNotificationDataSource(
         }
     }
 
-    companion object Companion {
+    companion object {
         private val USER_NOTIFICATION_ENABLED = booleanPreferencesKey("USER_NOTIFICATION_ENABLED")
         private val LAST_SYNCED_NOTIFICATION_ENABLED = booleanPreferencesKey("LAST_SYNCED_NOTIFICATION_ENABLED")
     }

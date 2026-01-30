@@ -11,14 +11,8 @@ plugins {
 android {
     namespace = "com.ninecraft.booket.feature.login"
 
-    buildTypes {
-        getByName("debug") {
-            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getLocalProperty("DEBUG_GOOGLE_WEB_CLIENT_ID"))
-        }
-
-        getByName("release") {
-            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getLocalProperty("RELEASE_GOOGLE_WEB_CLIENT_ID"))
-        }
+    defaultConfig {
+        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getLocalProperty("GOOGLE_WEB_CLIENT_ID"))
     }
 
     buildFeatures {
@@ -30,5 +24,8 @@ dependencies {
     implementations(
         libs.logger,
         libs.kakao.auth,
+        libs.androidx.credentials,
+        libs.androidx.credentials.play.services.auth,
+        libs.googleid,
     )
 }

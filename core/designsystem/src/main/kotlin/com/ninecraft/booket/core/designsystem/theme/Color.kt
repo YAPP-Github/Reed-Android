@@ -85,7 +85,7 @@ val Violet700 = Color(0xFF652EA0)
 val Violet800 = Color(0xFF4C1E7E)
 val Violet900 = Color(0xFF36125C)
 
-val Kakao = Color(0xFFFBD300)
+val Kakao = Color(0xFFFFEB00)
 val Blank = Color(0xFFD6D6D6)
 val HomeBg = Color(0xFFF0F9E8)
 
