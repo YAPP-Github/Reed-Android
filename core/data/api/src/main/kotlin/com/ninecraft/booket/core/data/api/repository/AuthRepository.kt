@@ -1,8 +1,8 @@
 package com.ninecraft.booket.core.data.api.repository
 
+import com.ninecraft.booket.core.model.LoginMethod
 import com.ninecraft.booket.core.model.state.AutoLoginState
 import com.ninecraft.booket.core.model.state.UserState
-import com.ninecraft.booket.core.model.UserState
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {

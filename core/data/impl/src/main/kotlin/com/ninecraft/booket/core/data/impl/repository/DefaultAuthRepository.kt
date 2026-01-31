@@ -4,9 +4,10 @@ import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.datastore.api.datasource.LoginMethodDataSource
 import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
+import com.ninecraft.booket.core.di.DataScope
+import com.ninecraft.booket.core.model.LoginMethod
 import com.ninecraft.booket.core.model.state.AutoLoginState
 import com.ninecraft.booket.core.model.state.UserState
-import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.core.network.request.LoginRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import dev.zacsweers.metro.Inject
@@ -55,10 +56,6 @@ class DefaultAuthRepository(
         tokenDataSource.clearTokens()
     }
 
-    override suspend fun clearRecentLoginMethod() {
-        loginMethodDataSource.clearRecentLoginMethod()
-    }
-
     override val autoLoginState = tokenDataSource.accessToken
         .map { accessToken ->
             if (accessToken.isBlank()) AutoLoginState.NOT_LOGGED_IN else AutoLoginState.LOGGED_IN
@@ -78,5 +75,9 @@ class DefaultAuthRepository(
 
     override suspend fun setRecentLoginMethod(loginMethod: LoginMethod) {
         loginMethodDataSource.setRecentLoginMethod(loginMethod)
+    }
+
+    override suspend fun clearRecentLoginMethod() {
+        loginMethodDataSource.clearRecentLoginMethod()
     }
 }

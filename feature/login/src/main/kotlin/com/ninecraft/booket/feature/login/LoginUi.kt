@@ -158,7 +158,7 @@ internal fun LoginUi(
 
                 Spacer(
                     modifier = Modifier.height(
-                        if (state.returnToScreen == null) ReedTheme.spacing.spacing3 else ReedTheme.spacing.spacing8
+                        if (state.returnToScreen == null) ReedTheme.spacing.spacing3 else ReedTheme.spacing.spacing8,
                     ),
                 )
 
