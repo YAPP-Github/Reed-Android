@@ -31,6 +31,7 @@ import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
 import com.ninecraft.booket.core.designsystem.component.button.smallButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.model.LoginMethod
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedCloseTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
@@ -118,8 +119,7 @@ internal fun LoginUi(
                         },
                     )
 
-                    // TODO: 구글 로그인 추가 후 툴팁 위치 조정 필요
-                    if (state.showLoginTooltip) {
+                    if (state.showLoginTooltip && state.recentLoginMethod == LoginMethod.KAKAO) {
                         LoginTooltipBox(
                             messageResId = R.string.recent_login,
                             modifier = Modifier
@@ -136,25 +136,43 @@ internal fun LoginUi(
 
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
 
-                // 구글 로그인 버튼
-                ReedButton(
-                    onClick = {
-                        state.eventSink(LoginUiEvent.OnGoogleLoginButtonClick)
-                    },
-                    sizeStyle = largeButtonStyle,
-                    colorStyle = ReedButtonColorStyle.GOOGLE,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = ReedTheme.spacing.spacing5),
-                    text = stringResource(id = R.string.google_login),
-                    leadingIcon = {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_google),
-                            contentDescription = "Google Icon",
-                            tint = Color.Unspecified,
+                // 구글 로그인 버튼 + 툴팁
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    ReedButton(
+                        onClick = {
+                            state.eventSink(LoginUiEvent.OnGoogleLoginButtonClick)
+                        },
+                        sizeStyle = largeButtonStyle,
+                        colorStyle = ReedButtonColorStyle.GOOGLE,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = ReedTheme.spacing.spacing5),
+                        text = stringResource(id = R.string.google_login),
+                        leadingIcon = {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_google),
+                                contentDescription = "Google Icon",
+                                tint = Color.Unspecified,
+                            )
+                        },
+                    )
+
+                    if (state.showLoginTooltip && state.recentLoginMethod == LoginMethod.GOOGLE) {
+                        LoginTooltipBox(
+                            messageResId = R.string.recent_login,
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .offset {
+                                    IntOffset(
+                                        x = (-28).dp.roundToPx(),
+                                        y = (-32).dp.roundToPx(),
+                                    )
+                                },
                         )
-                    },
-                )
+                    }
+                }
 
                 Spacer(
                     modifier = Modifier.height(
