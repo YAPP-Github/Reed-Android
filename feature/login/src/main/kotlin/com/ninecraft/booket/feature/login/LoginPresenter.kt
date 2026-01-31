@@ -113,7 +113,13 @@ class LoginPresenter(
                             isLoading = true
                             authRepository.login(event.providerType, event.token)
                                 .onSuccess {
-                                    authRepository.setRecentLoginMethod(LoginMethod.KAKAO)
+                                    authRepository.setRecentLoginMethod(
+                                        if (event.providerType == LoginUiEvent.PROVIDER_TYPE_KAKAO) {
+                                            LoginMethod.KAKAO
+                                        } else {
+                                            LoginMethod.GOOGLE
+                                        },
+                                    )
                                     userRepository.syncFcmToken()
                                     navigateAfterLogin()
                                 }.onFailure { exception ->
