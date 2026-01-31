@@ -1,6 +1,6 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.ninecraft.booket.convention.getLocalProperty
 
 
 plugins {
@@ -18,11 +18,11 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "SERVER_BASE_URL", getServerBaseUrl("DEBUG_SERVER_BASE_URL"))
+            buildConfigField("String", "SERVER_BASE_URL", getLocalProperty("DEBUG_SERVER_BASE_URL"))
         }
 
         release {
-            buildConfigField("String", "SERVER_BASE_URL", getServerBaseUrl("RELEASE_SERVER_BASE_URL"))
+            buildConfigField("String", "SERVER_BASE_URL", getLocalProperty("RELEASE_SERVER_BASE_URL"))
         }
     }
 }
@@ -35,8 +35,4 @@ dependencies {
         libs.kotlinx.coroutines.core,
         libs.logger,
     )
-}
-
-fun getServerBaseUrl(propertyKey: String): String {
-    return gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
 }

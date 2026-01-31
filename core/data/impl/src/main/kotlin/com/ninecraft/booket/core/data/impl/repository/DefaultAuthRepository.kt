@@ -4,17 +4,14 @@ import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.datastore.api.datasource.LoginMethodDataSource
 import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
-import com.ninecraft.booket.core.model.AutoLoginState
-import com.ninecraft.booket.core.model.LoginMethod
+import com.ninecraft.booket.core.model.state.AutoLoginState
+import com.ninecraft.booket.core.model.state.UserState
 import com.ninecraft.booket.core.model.UserState
 import com.ninecraft.booket.core.network.request.LoginRequest
 import com.ninecraft.booket.core.network.service.ReedService
 import dev.zacsweers.metro.Inject
-import com.ninecraft.booket.core.di.DataScope
 import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.map
-
-private const val KAKAO_PROVIDER_TYPE = "KAKAO"
 
 @SingleIn(DataScope::class)
 @Inject
@@ -23,11 +20,14 @@ class DefaultAuthRepository(
     private val tokenDataSource: TokenDataSource,
     private val loginMethodDataSource: LoginMethodDataSource,
 ) : AuthRepository {
-    override suspend fun login(accessToken: String) = runSuspendCatching {
+    override suspend fun login(
+        providerType: String,
+        token: String,
+    ) = runSuspendCatching {
         val response = service.login(
             LoginRequest(
-                providerType = KAKAO_PROVIDER_TYPE,
-                oauthToken = accessToken,
+                providerType = providerType,
+                oauthToken = token,
             ),
         )
         saveTokens(response.accessToken, response.refreshToken)

@@ -94,9 +94,10 @@ internal fun LoginUi(
                     style = ReedTheme.typography.headline2SemiBold,
                 )
                 Spacer(modifier = Modifier.weight(1f))
+
+                // 카카오 로그인 버튼 + 툴팁
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     ReedButton(
                         onClick = {
@@ -106,10 +107,7 @@ internal fun LoginUi(
                         colorStyle = ReedButtonColorStyle.KAKAO,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(
-                                start = ReedTheme.spacing.spacing5,
-                                end = ReedTheme.spacing.spacing5,
-                            ),
+                            .padding(horizontal = ReedTheme.spacing.spacing5),
                         text = stringResource(id = R.string.kakao_login),
                         leadingIcon = {
                             Icon(
@@ -120,6 +118,7 @@ internal fun LoginUi(
                         },
                     )
 
+                    // TODO: 구글 로그인 추가 후 툴팁 위치 조정 필요
                     if (state.showLoginTooltip) {
                         LoginTooltipBox(
                             messageResId = R.string.recent_login,
@@ -134,9 +133,35 @@ internal fun LoginUi(
                         )
                     }
                 }
-                Spacer(
-                    modifier = Modifier.height(if (state.returnToScreen == null) ReedTheme.spacing.spacing2 else ReedTheme.spacing.spacing8),
+
+                Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+
+                // 구글 로그인 버튼
+                ReedButton(
+                    onClick = {
+                        state.eventSink(LoginUiEvent.OnGoogleLoginButtonClick)
+                    },
+                    sizeStyle = largeButtonStyle,
+                    colorStyle = ReedButtonColorStyle.GOOGLE,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = ReedTheme.spacing.spacing5),
+                    text = stringResource(id = R.string.google_login),
+                    leadingIcon = {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_google),
+                            contentDescription = "Google Icon",
+                            tint = Color.Unspecified,
+                        )
+                    },
                 )
+
+                Spacer(
+                    modifier = Modifier.height(
+                        if (state.returnToScreen == null) ReedTheme.spacing.spacing3 else ReedTheme.spacing.spacing8
+                    ),
+                )
+
                 if (state.returnToScreen == null) {
                     ReedTextButton(
                         onClick = {

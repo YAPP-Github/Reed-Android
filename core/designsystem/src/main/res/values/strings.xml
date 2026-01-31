@@ -4,4 +4,9 @@
     <string name="unknown_error_message">알 수 없는 오류가 발생하였습니다.</string>
     <string name="search_book_hint">도서 검색 후 내 서재에 담아보세요</string>
     <string name="login_required">로그인이 필요한 기능입니다</string>
+    <string name="emotion_warm_description">공감과 위로가 된 순간</string>
+    <string name="emotion_joy_description">흥미롭고 유쾌한 순간</string>
+    <string name="emotion_sad_description">눈물이 고인 순간</string>
+    <string name="emotion_insight_description">생각이 깊어지는 순간</string>
+    <string name="emotion_other_description">네 가지 감정으로 표현하기 어려울 때</string>
 </resources>

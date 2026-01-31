@@ -1,12 +1,15 @@
 package com.ninecraft.booket.core.data.api.repository
 
-import com.ninecraft.booket.core.model.AutoLoginState
-import com.ninecraft.booket.core.model.LoginMethod
+import com.ninecraft.booket.core.model.state.AutoLoginState
+import com.ninecraft.booket.core.model.state.UserState
 import com.ninecraft.booket.core.model.UserState
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
-    suspend fun login(accessToken: String): Result<Unit>
+    suspend fun login(
+        providerType: String,
+        token: String,
+    ): Result<Unit>
 
     suspend fun logout(): Result<Unit>
 

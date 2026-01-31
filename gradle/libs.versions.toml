@@ -1,59 +1,62 @@
 [versions]
 ## App Configuration
 minSdk = "28"
-targetSdk = "35"
-compileSdk = "35"
+targetSdk = "36"
+compileSdk = "36"
 versionName = "1.3.0"
 versionCode = "9"
 packageName = "com.ninecraft.booket"
 
 ## Android gradle plugin
-android-gradle-plugin = "8.9.3"
+android-gradle-plugin = "8.12.3"
 
 ## AndroidX
-androidx-core = "1.16.0"
-androidx-activity-compose = "1.10.1"
+androidx-core = "1.17.0"
+androidx-activity-compose = "1.12.2"
 androidx-startup = "1.2.0"
 androidx-splash = "1.2.0"
-androidx-datastore = "1.1.7"
-androidx-camera = "1.5.1"
+androidx-datastore = "1.2.0"
+androidx-camera = "1.5.2"
 
 ## Compose
-androidx-compose-bom = "2025.07.00"
+androidx-compose-bom = "2026.01.00"
 androidx-compose-material3 = "1.4.0"
 compose-stable-marker = "1.0.7"
 compose-effects = "0.1.4"
-compose-shadow = "2.0.4"
 compose-stability-analyzer = "0.6.6"
 
 ## Kotlin Symbol Processing
-ksp = "2.3.0"
+ksp = "2.3.4"
 
 ## Kotlin
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization-json = "1.9.0"
 kotlinx-collections-immutable = "0.4.0"
 
 ## Metro
-metro = "0.7.7"
+metro = "0.9.4"
 
 ## Network
-okhttp = "5.1.0"
+okhttp = "5.3.2"
 retrofit = "3.0.0"
 
 ## Circuit
-circuit = "0.30.0"
+circuit = "0.32.0"
 
 ## Logging
 logger = "2.2.0"
 
 ## Kakao Login
-kakao-core = "2.22.0"
+kakao-core = "2.23.2"
+
+## Google Credential Manager
+androidx-credentials = "1.6.0-beta03"
+googleid = "1.1.1"
 
 ## Image Load
 coil-compose = "2.7.0"
-landscapist = "2.5.1"
+landscapist = "2.8.2"
 
 ## Lottie
 lottie = "6.7.1"
@@ -70,13 +73,13 @@ kotlin-ktlint-gradle = "11.6.1"
 kotlin-ktlint-source = "0.50.0"
 
 ## Test
-androidx-test-ext-junit = "1.2.1"
-androidx-test-runner = "1.6.2"
+androidx-test-ext-junit = "1.3.0"
+androidx-test-runner = "1.7.0"
 
 ## Firebase
-google-service = "4.4.3"
-firebase-bom = "34.1.0"
-firebase-crashlytics = "3.0.4"
+google-service = "4.4.4"
+firebase-bom = "34.7.0"
+firebase-crashlytics = "3.0.6"
 
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
@@ -108,7 +111,6 @@ compose-stable-marker = { group = "com.github.skydoves", name = "compose-stable-
 compose-effects = { group = "com.github.skydoves", name = "compose-effects", version.ref = "compose-effects" }
 compose-system-ui-controller = { group = "tech.thdev", name = "extensions-compose-system-ui-controller", version.ref = "compose-extensions" }
 compose-keyboard-state = { group = "tech.thdev", name = "extensions-compose-keyboard-state", version.ref = "compose-extensions" }
-compose-shadow = { group = "com.adamglin", name = "compose-shadow", version.ref = "compose-shadow" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlinx-serialization-converter = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
@@ -137,6 +139,10 @@ logger = { group = "com.orhanobut", name = "logger", version.ref = "logger" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "kotlin-detekt" }
 
 kakao-auth = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-core" }
+
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "androidx-credentials" }
+androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "androidx-credentials" }
+googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
 
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
 

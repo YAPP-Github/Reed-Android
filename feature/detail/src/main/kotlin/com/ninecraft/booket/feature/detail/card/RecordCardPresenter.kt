@@ -81,7 +81,7 @@ class RecordCardPresenter(
             isLoading = isLoading,
             quote = screen.quote,
             bookTitle = screen.bookTitle,
-            emotion = screen.emotion,
+            emotionCode = screen.emotionCode,
             isCapturing = isCapturing,
             isSharing = isSharing,
             sideEffect = sideEffect,

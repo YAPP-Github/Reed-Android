@@ -21,12 +21,6 @@ public fun com.ninecraft.booket.feature.detail.book.BookDetailPresenter.present(
   params:
 
 @Composable
-private fun com.ninecraft.booket.feature.detail.book.BookDetailPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.detail.book.BookDetailUi(state: com.ninecraft.booket.feature.detail.book.BookDetailUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -49,12 +43,6 @@ internal fun com.ninecraft.booket.feature.detail.book.component.BookItem(bookDet
   params:
     - bookDetail: STABLE (marked @Stable or @Immutable)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.feature.detail.book.component.BookItemPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 public fun com.ninecraft.booket.feature.detail.book.component.BookStatusItem(item: com.ninecraft.booket.core.common.constants.BookStatus, selected: kotlin.Boolean, onClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
@@ -82,29 +70,24 @@ internal fun com.ninecraft.booket.feature.detail.book.component.BookUpdateBottom
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.detail.book.component.BookUpdateBottomSheetPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-private fun com.ninecraft.booket.feature.detail.book.component.ChoiceBottomSheetPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-private fun com.ninecraft.booket.feature.detail.book.component.CollectedSeedPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-internal fun com.ninecraft.booket.feature.detail.book.component.CollectedSeeds(seedsStats: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.core.model.EmotionModel>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+internal fun com.ninecraft.booket.feature.detail.book.component.CollectedSeeds(seedsStats: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.core.model.EmotionModel>, representativeEmotion: com.ninecraft.booket.core.model.PrimaryEmotionModel, isStatsExpanded: kotlin.Boolean, onToggleClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - seedsStats: STABLE (known stable type)
+    - representativeEmotion: STABLE (marked @Stable or @Immutable)
+    - isStatsExpanded: STABLE (primitive type)
+    - onToggleClick: STABLE (function type)
+    - modifier: STABLE (marked @Stable or @Immutable)
+
+@Composable
+private fun com.ninecraft.booket.feature.detail.book.component.CollectedSeedsHeader(primaryEmotion: com.ninecraft.booket.core.model.PrimaryEmotionModel, isStatsExpanded: kotlin.Boolean, onToggleClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - primaryEmotion: STABLE (marked @Stable or @Immutable)
+    - isStatsExpanded: STABLE (primitive type)
+    - onToggleClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -130,21 +113,20 @@ private fun com.ninecraft.booket.feature.detail.book.component.DetailMenuItem(ic
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-internal fun com.ninecraft.booket.feature.detail.book.component.EmotionAnalysisResultText(emotions: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.core.model.EmotionModel>, brandColor: androidx.compose.ui.graphics.Color, secondaryColor: androidx.compose.ui.graphics.Color, emotionTextStyle: androidx.compose.ui.text.TextStyle, regularTextStyle: androidx.compose.ui.text.TextStyle): androidx.compose.ui.text.AnnotatedString?
+private fun com.ninecraft.booket.feature.detail.book.component.EmotionRatioBar(seedsStats: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.core.model.EmotionModel>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
-    - emotions: STABLE (known stable type)
-    - brandColor: STABLE (marked @Stable or @Immutable)
-    - secondaryColor: STABLE (marked @Stable or @Immutable)
-    - emotionTextStyle: STABLE (marked @Stable or @Immutable)
-    - regularTextStyle: STABLE (marked @Stable or @Immutable)
+    - seedsStats: STABLE (known stable type)
+    - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.detail.book.component.EmotionTextAllCasesPreview(): kotlin.Unit
+private fun com.ninecraft.booket.feature.detail.book.component.EmotionStatCard(emotion: com.ninecraft.booket.core.model.EmotionModel, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
+    - emotion: STABLE (marked @Stable or @Immutable)
+    - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
 internal fun com.ninecraft.booket.feature.detail.book.component.ReadingRecordsHeader(totalCount: kotlin.Int, currentRecordSort: com.ninecraft.booket.feature.detail.book.RecordSort, onReadingRecordClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
@@ -157,25 +139,14 @@ internal fun com.ninecraft.booket.feature.detail.book.component.ReadingRecordsHe
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.detail.book.component.ReadingRecordsHeaderPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-internal fun com.ninecraft.booket.feature.detail.book.component.RecordItem(recordInfo: com.ninecraft.booket.core.model.ReadingRecordModel, onRecordMenuClick: kotlin.Function1<com.ninecraft.booket.core.model.ReadingRecordModel, kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+internal fun com.ninecraft.booket.feature.detail.book.component.RecordItem(recordInfo: com.ninecraft.booket.core.model.ReadingRecordModel, onRecordClick: kotlin.Function0<kotlin.Unit>, onRecordMenuClick: kotlin.Function1<com.ninecraft.booket.core.model.ReadingRecordModel, kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - recordInfo: STABLE (marked @Stable or @Immutable)
+    - onRecordClick: STABLE (function type)
     - onRecordMenuClick: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.feature.detail.book.component.RecordItemPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 internal fun com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheet(onDismissRequest: kotlin.Function0<kotlin.Unit>, sheetState: androidx.compose.material3.SheetState, onCloseButtonClick: kotlin.Function0<kotlin.Unit>, recordSortItems: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.feature.detail.book.RecordSort>, currentRecordSort: com.ninecraft.booket.feature.detail.book.RecordSort, onItemSelected: kotlin.Function1<com.ninecraft.booket.feature.detail.book.RecordSort, kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
@@ -189,12 +160,6 @@ internal fun com.ninecraft.booket.feature.detail.book.component.RecordSortBottom
     - currentRecordSort: STABLE (class with no mutable properties)
     - onItemSelected: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.feature.detail.book.component.RecordSortBottomSheetPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 public fun com.ninecraft.booket.feature.detail.book.component.RecordSortItem(item: com.ninecraft.booket.feature.detail.book.RecordSort, selected: kotlin.Boolean, onClick: kotlin.Function0<kotlin.Unit>, modifier: androidx.compose.ui.Modifier): kotlin.Unit
@@ -213,12 +178,6 @@ internal fun com.ninecraft.booket.feature.detail.book.component.SeedItem(emotion
   params:
     - emotion: STABLE (marked @Stable or @Immutable)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.feature.detail.book.component.SeedItemPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 internal fun com.ninecraft.booket.feature.detail.card.HandleRecordCardSideEffects(state: com.ninecraft.booket.feature.detail.card.RecordCardUiState, recordCardGraphicsLayer: androidx.compose.ui.graphics.layer.GraphicsLayer, eventSink: kotlin.Function1<com.ninecraft.booket.feature.detail.card.RecordCardUiEvent, kotlin.Unit>): kotlin.Unit
@@ -244,26 +203,14 @@ internal fun com.ninecraft.booket.feature.detail.card.RecordCardUi(state: com.ni
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.detail.card.RecordCardUiPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-internal fun com.ninecraft.booket.feature.detail.card.component.RecordCard(quote: kotlin.String, bookTitle: kotlin.String, emotion: kotlin.String, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+internal fun com.ninecraft.booket.feature.detail.card.component.RecordCard(quote: kotlin.String, bookTitle: kotlin.String, emotionCode: com.ninecraft.booket.core.model.EmotionCode, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - quote: STABLE (String is immutable)
     - bookTitle: STABLE (String is immutable)
-    - emotion: STABLE (String is immutable)
+    - emotionCode: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.feature.detail.card.component.RecordCardPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 
 @Composable
 internal fun com.ninecraft.booket.feature.detail.record.HandleRecordDetailSideEffects(state: com.ninecraft.booket.feature.detail.record.RecordDetailUiState): kotlin.Unit
@@ -295,18 +242,6 @@ internal fun com.ninecraft.booket.feature.detail.record.RecordDetailUi(state: co
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.detail.record.ReviewDetailEmptyPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-private fun com.ninecraft.booket.feature.detail.record.ReviewDetailPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.detail.record.component.BookItem(imageUrl: kotlin.String, bookTitle: kotlin.String, author: kotlin.String, publisher: kotlin.String, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -318,30 +253,21 @@ internal fun com.ninecraft.booket.feature.detail.record.component.BookItem(image
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.detail.record.component.BookItemPreview(): kotlin.Unit
+private fun com.ninecraft.booket.feature.detail.record.component.EmotionContent(primaryEmotion: com.ninecraft.booket.core.model.PrimaryEmotionModel, detailEmotions: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.core.model.DetailEmotionModel>, createdAt: kotlin.String): kotlin.Unit
   skippable: true
   restartable: true
   params:
+    - primaryEmotion: STABLE (marked @Stable or @Immutable)
+    - detailEmotions: STABLE (known stable type)
+    - createdAt: STABLE (String is immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.detail.record.component.ChoiceBottomSheetPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-private fun com.ninecraft.booket.feature.detail.record.component.QuoteBoxPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-internal fun com.ninecraft.booket.feature.detail.record.component.QuoteItem(quote: kotlin.String, page: kotlin.Int, modifier: androidx.compose.ui.Modifier): kotlin.Unit
+internal fun com.ninecraft.booket.feature.detail.record.component.QuoteItem(quote: kotlin.String, page: kotlin.Int?, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - quote: STABLE (String is immutable)
-    - page: STABLE (primitive type)
+    - page: STABLE (class with no mutable properties)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -369,23 +295,12 @@ private fun com.ninecraft.booket.feature.detail.record.component.RecordMenuItem(
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.ninecraft.booket.feature.detail.record.component.ReviewBoxEmptyPreview(): kotlin.Unit
+internal fun com.ninecraft.booket.feature.detail.record.component.ReviewItem(primaryEmotion: com.ninecraft.booket.core.model.PrimaryEmotionModel, detailEmotions: kotlinx.collections.immutable.ImmutableList<com.ninecraft.booket.core.model.DetailEmotionModel>, createdAt: kotlin.String, review: kotlin.String, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
   params:
-
-@Composable
-private fun com.ninecraft.booket.feature.detail.record.component.ReviewBoxPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-internal fun com.ninecraft.booket.feature.detail.record.component.ReviewItem(emotion: kotlin.String, createdAt: kotlin.String, review: kotlin.String, modifier: androidx.compose.ui.Modifier): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-    - emotion: STABLE (String is immutable)
+    - primaryEmotion: STABLE (marked @Stable or @Immutable)
+    - detailEmotions: STABLE (known stable type)
     - createdAt: STABLE (String is immutable)
     - review: STABLE (String is immutable)
     - modifier: STABLE (marked @Stable or @Immutable)

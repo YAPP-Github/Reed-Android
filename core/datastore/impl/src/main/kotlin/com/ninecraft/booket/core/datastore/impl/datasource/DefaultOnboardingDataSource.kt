@@ -5,11 +5,11 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import com.ninecraft.booket.core.datastore.api.datasource.OnboardingDataSource
-import com.ninecraft.booket.core.model.OnboardingState
 import com.ninecraft.booket.core.datastore.impl.di.OnboardingDataStore
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
-import dev.zacsweers.metro.Inject
 import com.ninecraft.booket.core.di.DataScope
+import com.ninecraft.booket.core.model.state.OnboardingState
+import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -96,6 +96,11 @@ class LoginPresenter(
                     sideEffect = LoginSideEffect.KakaoLogin()
                 }
 
+                is LoginUiEvent.OnGoogleLoginButtonClick -> {
+                    isLoading = true
+                    sideEffect = LoginSideEffect.GoogleLogin()
+                }
+
                 is LoginUiEvent.LoginFailure -> {
                     isLoading = false
                     analyticsHelper.logEvent(EVENT_ERROR_LOGIN)
@@ -106,7 +111,7 @@ class LoginPresenter(
                     scope.launch {
                         try {
                             isLoading = true
-                            authRepository.login(event.accessToken)
+                            authRepository.login(event.providerType, event.token)
                                 .onSuccess {
                                     authRepository.setRecentLoginMethod(LoginMethod.KAKAO)
                                     userRepository.syncFcmToken()

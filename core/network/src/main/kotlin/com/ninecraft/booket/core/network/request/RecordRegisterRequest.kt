@@ -6,11 +6,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RecordRegisterRequest(
     @SerialName("pageNumber")
-    val pageNumber: Int,
+    val pageNumber: Int?,
     @SerialName("quote")
     val quote: String,
-    @SerialName("emotionTags")
-    val emotionTags: List<String>,
     @SerialName("review")
     val review: String,
+    @SerialName("primaryEmotion")
+    val primaryEmotion: String,
+    @SerialName("detailEmotionTagIds")
+    val detailEmotionTagIds: List<String>,
 )

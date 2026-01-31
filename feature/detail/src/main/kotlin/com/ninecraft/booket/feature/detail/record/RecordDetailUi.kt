@@ -19,7 +19,7 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
-import com.ninecraft.booket.core.model.RecordDetailModel
+import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedDialog
 import com.ninecraft.booket.core.ui.component.ReedErrorUi
@@ -34,6 +34,7 @@ import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
 import dev.zacsweers.metro.AppScope
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
@@ -163,7 +164,8 @@ private fun RecordDetailContent(
                 )
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
                 ReviewItem(
-                    emotion = state.recordDetailInfo.emotionTags.getOrNull(0) ?: "",
+                    primaryEmotion = state.recordDetailInfo.primaryEmotion,
+                    detailEmotions = state.recordDetailInfo.detailEmotions.toPersistentList(),
                     createdAt = state.recordDetailInfo.createdAt,
                     review = state.recordDetailInfo.review,
                 )
@@ -187,13 +189,12 @@ private fun ReviewDetailPreview() {
         RecordDetailUi(
             state = RecordDetailUiState(
                 uiState = UiState.Success,
-                recordDetailInfo = RecordDetailModel(
+                recordDetailInfo = ReadingRecordModel(
                     id = "",
                     userBookId = "",
                     pageNumber = 90,
                     quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
                     review = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다",
-                    emotionTags = listOf("따뜻함"),
                     createdAt = "2023.10.10",
                     updatedAt = "",
                     bookTitle = "여름은 오래 그곳에 남아",
@@ -214,13 +215,12 @@ private fun ReviewDetailEmptyPreview() {
         RecordDetailUi(
             state = RecordDetailUiState(
                 uiState = UiState.Success,
-                recordDetailInfo = RecordDetailModel(
+                recordDetailInfo = ReadingRecordModel(
                     id = "",
                     userBookId = "",
                     pageNumber = 90,
                     quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
                     review = "",
-                    emotionTags = listOf("따뜻함"),
                     createdAt = "2023.10.10",
                     updatedAt = "",
                     bookTitle = "여름은 오래 그곳에 남아",

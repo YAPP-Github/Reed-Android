@@ -32,6 +32,8 @@ fun ReedDialog(
     description: String? = null,
     dismissButtonText: String? = null,
     onDismissRequest: () -> Unit = {},
+    dismissOnClickOutside: Boolean = true,
+    dismissOnBackPress: Boolean = true,
     headerContent: @Composable (() -> Unit)? = null,
 ) {
     Dialog(
@@ -39,6 +41,8 @@ fun ReedDialog(
             onDismissRequest()
         },
         properties = DialogProperties(
+            dismissOnClickOutside = dismissOnClickOutside,
+            dismissOnBackPress = dismissOnBackPress,
             usePlatformDefaultWidth = false,
         ),
     ) {

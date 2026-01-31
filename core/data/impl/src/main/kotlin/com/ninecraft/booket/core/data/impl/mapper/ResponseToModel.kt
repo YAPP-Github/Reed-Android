@@ -1,23 +1,24 @@
 package com.ninecraft.booket.core.data.impl.mapper
 
 import com.ninecraft.booket.core.common.extensions.decodeHtmlEntities
-import com.ninecraft.booket.core.common.extensions.toFormattedDate
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
 import com.ninecraft.booket.core.model.BookUpsertModel
-import com.ninecraft.booket.core.model.Emotion
+import com.ninecraft.booket.core.model.DetailEmotionModel
+import com.ninecraft.booket.core.model.EmotionCode
+import com.ninecraft.booket.core.model.EmotionGroupModel
+import com.ninecraft.booket.core.model.EmotionGroupsModel
 import com.ninecraft.booket.core.model.EmotionModel
 import com.ninecraft.booket.core.model.HomeModel
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.model.LibraryBooksModel
 import com.ninecraft.booket.core.model.LibraryModel
 import com.ninecraft.booket.core.model.PageInfoModel
+import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.model.ReadingRecordsModel
 import com.ninecraft.booket.core.model.RecentBookModel
-import com.ninecraft.booket.core.model.RecordDetailModel
-import com.ninecraft.booket.core.model.RecordRegisterModel
 import com.ninecraft.booket.core.model.SeedModel
 import com.ninecraft.booket.core.model.TermsAgreementModel
 import com.ninecraft.booket.core.model.UserProfileModel
@@ -26,6 +27,9 @@ import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookSummary
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
 import com.ninecraft.booket.core.network.response.Category
+import com.ninecraft.booket.core.network.response.DetailEmotion
+import com.ninecraft.booket.core.network.response.EmotionGroup
+import com.ninecraft.booket.core.network.response.EmotionGroupsResponse
 import com.ninecraft.booket.core.network.response.GuestBookSearchResponse
 import com.ninecraft.booket.core.network.response.GuestBookSummary
 import com.ninecraft.booket.core.network.response.HomeResponse
@@ -33,11 +37,10 @@ import com.ninecraft.booket.core.network.response.LibraryBookSummary
 import com.ninecraft.booket.core.network.response.LibraryBooks
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.PageInfo
+import com.ninecraft.booket.core.network.response.PrimaryEmotion
 import com.ninecraft.booket.core.network.response.ReadingRecord
 import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
 import com.ninecraft.booket.core.network.response.RecentBook
-import com.ninecraft.booket.core.network.response.RecordDetailResponse
-import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.SeedResponse
 import com.ninecraft.booket.core.network.response.TermsAgreementResponse
 import com.ninecraft.booket.core.network.response.UserProfileResponse
@@ -187,21 +190,31 @@ internal fun PageInfo.toModel(): PageInfoModel {
     )
 }
 
-internal fun RecordRegisterResponse.toModel(): RecordRegisterModel {
-    return RecordRegisterModel(
+internal fun EmotionGroupsResponse.toModel(): EmotionGroupsModel {
+    return EmotionGroupsModel(
+        emotions = emotions.map { it.toModel() },
+    )
+}
+
+internal fun EmotionGroup.toModel(): EmotionGroupModel {
+    val code = EmotionCode.fromCode(code) ?: EmotionCode.OTHER
+    return EmotionGroupModel(
+        code = code,
+        displayName = displayName,
+        detailEmotions = detailEmotions.map { it.toModel() },
+    )
+}
+
+internal fun DetailEmotion.toModel(): DetailEmotionModel {
+    return DetailEmotionModel(
         id = id,
-        userBookId = userBookId,
-        pageNumber = pageNumber,
-        quote = quote,
-        emotionTags = emotionTags,
-        review = review ?: "",
-        createdAt = createdAt,
-        updatedAt = updatedAt,
+        name = name,
     )
 }
 
 internal fun ReadingRecordsResponse.toModel(): ReadingRecordsModel {
     return ReadingRecordsModel(
+        representativeEmotion = representativeEmotion?.toModel(),
         lastPage = lastPage,
         totalResults = totalResults,
         startIndex = startIndex,
@@ -217,30 +230,22 @@ internal fun ReadingRecord.toModel(): ReadingRecordModel {
         pageNumber = pageNumber,
         quote = quote,
         review = review ?: "",
-        emotionTags = emotionTags,
+        primaryEmotion = primaryEmotion.toModel(),
+        detailEmotions = detailEmotions.map { it.toModel() },
         createdAt = createdAt,
         updatedAt = updatedAt,
-        bookTitle = bookTitle,
-        bookPublisher = bookPublisher,
-        bookCoverImageUrl = bookCoverImageUrl,
-        author = author,
+        bookTitle = bookTitle ?: "",
+        bookPublisher = bookPublisher ?: "",
+        bookCoverImageUrl = bookCoverImageUrl ?: "",
+        author = author ?: "",
     )
 }
 
-internal fun RecordDetailResponse.toModel(): RecordDetailModel {
-    return RecordDetailModel(
-        id = id,
-        userBookId = userBookId,
-        pageNumber = pageNumber,
-        quote = quote,
-        review = review ?: "",
-        emotionTags = emotionTags,
-        createdAt = createdAt.toFormattedDate(),
-        updatedAt = updatedAt.toFormattedDate(),
-        bookTitle = bookTitle,
-        bookPublisher = bookPublisher,
-        bookCoverImageUrl = bookCoverImageUrl,
-        author = author,
+internal fun PrimaryEmotion.toModel(): PrimaryEmotionModel {
+    val code = EmotionCode.fromCode(code) ?: EmotionCode.OTHER
+    return PrimaryEmotionModel(
+        code = code,
+        displayName = displayName,
     )
 }
 
@@ -270,9 +275,8 @@ internal fun SeedResponse.toModel(): SeedModel {
 }
 
 internal fun Category.toEmotionModel(): EmotionModel? {
-    val emotion = Emotion.fromDisplayName(name) ?: return null
     return EmotionModel(
-        name = emotion,
+        code = EmotionCode.fromDisplayName(name) ?: return null,
         count = count,
     )
 }

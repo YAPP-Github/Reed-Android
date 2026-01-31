@@ -18,9 +18,11 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 @Composable
 internal fun QuoteItem(
     quote: String,
-    page: Int,
+    page: Int?,
     modifier: Modifier = Modifier,
 ) {
+    val pageNumber = page?.toString() ?: "-"
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -38,7 +40,7 @@ internal fun QuoteItem(
                 style = ReedTheme.typography.label1Medium,
             )
             Text(
-                text = "${page}p",
+                text = "${pageNumber}p",
                 modifier = Modifier.fillMaxWidth(),
                 color = ReedTheme.colors.contentBrand,
                 textAlign = TextAlign.End,

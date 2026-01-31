@@ -12,7 +12,7 @@ import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
-import com.ninecraft.booket.core.model.UserState
+import com.ninecraft.booket.core.model.state.UserState
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LibraryScreen
@@ -184,8 +184,7 @@ class LibraryPresenter(
                 is LibraryUiEvent.OnTabSelected -> {
                     navigator.resetRoot(
                         newRoot = event.tab.screen,
-                        saveState = true,
-                        restoreState = true,
+                        options = Navigator.StateOptions.SaveAndRestore,
                     )
                 }
 
