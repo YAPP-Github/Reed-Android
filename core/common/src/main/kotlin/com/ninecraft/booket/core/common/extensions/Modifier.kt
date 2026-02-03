@@ -90,9 +90,8 @@ private class ClickableSingleNode(
 
     override fun SemanticsPropertyReceiver.applySemantics() {
         onClick(label = onClickLabel) {
-            if (enabled) {
-                multipleEventsCutter.processEvent { this@ClickableSingleNode.onClick() }
-            }
+            if (!enabled) return@onClick false
+            multipleEventsCutter.processEvent { this@ClickableSingleNode.onClick() }
             true
         }
         this@ClickableSingleNode.role?.let { this.role = it }
@@ -100,8 +99,6 @@ private class ClickableSingleNode(
             disabled()
         }
     }
-
-    override val shouldAutoInvalidate: Boolean = false
 
     fun update(enabled: Boolean, onClickLabel: String?, role: Role?, onClick: () -> Unit) {
         this.enabled = enabled
