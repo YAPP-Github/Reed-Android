@@ -8,7 +8,7 @@ versionCode = "9"
 packageName = "com.ninecraft.booket"
 
 ## Android gradle plugin
-android-gradle-plugin = "8.12.3"
+android-gradle-plugin = "9.0.0"
 
 ## AndroidX
 androidx-core = "1.17.0"
