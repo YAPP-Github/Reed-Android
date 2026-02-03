@@ -1,4 +1,4 @@
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.ninecraft.booket.convention.Plugins
 import com.ninecraft.booket.convention.applyPlugins
 import com.ninecraft.booket.convention.configureCompose

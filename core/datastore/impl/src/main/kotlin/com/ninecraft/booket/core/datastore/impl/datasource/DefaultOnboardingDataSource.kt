@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.map
 @SingleIn(DataScope::class)
 @Inject
 class DefaultOnboardingDataSource(
-    @OnboardingDataStore private val dataStore: DataStore<Preferences>,
+    @param: OnboardingDataStore private val dataStore: DataStore<Preferences>,
 ) : OnboardingDataSource {
     override val onboardingState: Flow<OnboardingState> = dataStore.data
         .handleIOException()

@@ -1,5 +1,3 @@
-@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
-
 import com.ninecraft.booket.convention.getLocalProperty
 
 
