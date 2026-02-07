@@ -11,6 +11,7 @@ import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
+import com.ninecraft.booket.core.model.LoginMethod
 import com.ninecraft.booket.core.model.state.UserState
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.NotificationScreen
@@ -102,6 +103,7 @@ class SettingsPresenter(
                     authRepository.withdraw()
                         .onSuccess {
                             userRepository.resetNotificationData()
+                            authRepository.setRecentLoginMethod(LoginMethod.NONE)
                             analyticsHelper.logEvent(SETTINGS_WITHDRAWAL_COMPLETE)
                             navigator.resetRoot(LoginScreen())
                         }

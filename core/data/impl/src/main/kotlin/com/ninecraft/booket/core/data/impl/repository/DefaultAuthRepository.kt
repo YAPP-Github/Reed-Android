@@ -2,8 +2,10 @@ package com.ninecraft.booket.core.data.impl.repository
 
 import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
+import com.ninecraft.booket.core.datastore.api.datasource.LoginMethodDataSource
 import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
 import com.ninecraft.booket.core.di.DataScope
+import com.ninecraft.booket.core.model.LoginMethod
 import com.ninecraft.booket.core.model.state.AutoLoginState
 import com.ninecraft.booket.core.model.state.UserState
 import com.ninecraft.booket.core.network.request.LoginRequest
@@ -17,6 +19,7 @@ import kotlinx.coroutines.flow.map
 class DefaultAuthRepository(
     private val service: ReedService,
     private val tokenDataSource: TokenDataSource,
+    private val loginMethodDataSource: LoginMethodDataSource,
 ) : AuthRepository {
     override suspend fun login(
         providerType: String,
@@ -39,6 +42,7 @@ class DefaultAuthRepository(
     override suspend fun withdraw() = runSuspendCatching {
         service.withdraw()
         clearTokens()
+        clearRecentLoginMethod()
     }
 
     private suspend fun saveTokens(accessToken: String, refreshToken: String) {
@@ -65,5 +69,15 @@ class DefaultAuthRepository(
     override suspend fun getCurrentUserState(): UserState {
         val accessToken = tokenDataSource.getAccessToken()
         return if (accessToken.isBlank()) UserState.Guest else UserState.LoggedIn
+    }
+
+    override val recentLoginMethod = loginMethodDataSource.recentLoginMethod
+
+    override suspend fun setRecentLoginMethod(loginMethod: LoginMethod) {
+        loginMethodDataSource.setRecentLoginMethod(loginMethod)
+    }
+
+    override suspend fun clearRecentLoginMethod() {
+        loginMethodDataSource.clearRecentLoginMethod()
     }
 }
