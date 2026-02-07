@@ -1,5 +1,3 @@
-@Suppress("DSL_SCOPE_VIOLATION", "INLINE_FROM_HIGHER_PLATFORM")
-
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.gradle.dependency.handler.extensions)
@@ -7,7 +5,6 @@ plugins {
 
 dependencies {
     compileOnly(libs.android.gradle.plugin)
-    compileOnly(libs.kotlin.gradle.plugin)
     compileOnly(libs.compose.compiler.gradle.plugin)
     compileOnly(libs.ksp.gradle.plugin)
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))

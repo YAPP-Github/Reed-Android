@@ -1,5 +1,3 @@
-@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
-
 import com.google.devtools.ksp.gradle.KspExtension
 import com.ninecraft.booket.convention.getLocalProperty
 import org.gradle.kotlin.dsl.configure

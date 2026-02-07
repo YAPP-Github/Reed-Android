@@ -3,7 +3,7 @@ package com.ninecraft.booket.core.common.extensions
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import androidx.core.net.toUri
+import android.net.Uri
 import com.ninecraft.booket.core.common.BuildConfig
 import android.graphics.Bitmap
 import android.os.Build
@@ -62,6 +62,6 @@ fun Context.saveImageToGallery(bitmap: ImageBitmap) {
 
 fun Context.openPlayStore() {
     val intent =
-        Intent(Intent.ACTION_VIEW, "market://details?id=${BuildConfig.PACKAGE_NAME}".toUri())
+        Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${BuildConfig.PACKAGE_NAME}"))
     startActivity(intent)
 }

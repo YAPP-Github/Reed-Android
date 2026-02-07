@@ -8,18 +8,18 @@ versionCode = "9"
 packageName = "com.ninecraft.booket"
 
 ## Android gradle plugin
-android-gradle-plugin = "8.12.3"
+android-gradle-plugin = "9.0.0"
 
 ## AndroidX
 androidx-core = "1.17.0"
-androidx-activity-compose = "1.12.2"
+androidx-activity-compose = "1.12.3"
 androidx-startup = "1.2.0"
 androidx-splash = "1.2.0"
 androidx-datastore = "1.2.0"
-androidx-camera = "1.5.2"
+androidx-camera = "1.5.3"
 
 ## Compose
-androidx-compose-bom = "2026.01.00"
+androidx-compose-bom = "2026.01.01"
 androidx-compose-material3 = "1.4.0"
 compose-stable-marker = "1.0.7"
 compose-effects = "0.1.4"
@@ -31,11 +31,11 @@ ksp = "2.3.4"
 ## Kotlin
 kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
-kotlinx-serialization-json = "1.9.0"
+kotlinx-serialization-json = "1.10.0"
 kotlinx-collections-immutable = "0.4.0"
 
 ## Metro
-metro = "0.9.4"
+metro = "0.10.2"
 
 ## Network
 okhttp = "5.3.2"
@@ -51,12 +51,12 @@ logger = "2.2.0"
 kakao-core = "2.23.2"
 
 ## Google Credential Manager
-androidx-credentials = "1.6.0-beta03"
-googleid = "1.1.1"
+androidx-credentials = "1.6.0-rc01"
+googleid = "1.2.0"
 
 ## Image Load
 coil-compose = "2.7.0"
-landscapist = "2.8.2"
+landscapist = "2.9.0"
 
 ## Lottie
 lottie = "6.7.1"
@@ -78,12 +78,11 @@ androidx-test-runner = "1.7.0"
 
 ## Firebase
 google-service = "4.4.4"
-firebase-bom = "34.7.0"
+firebase-bom = "34.8.0"
 firebase-crashlytics = "3.0.6"
 
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
-kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
 ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
@@ -162,7 +161,6 @@ android-application = { id = "com.android.application", version.ref = "android-g
 android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
 android-test = { id = "com.android.test", version.ref = "android-gradle-plugin" }
 
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
