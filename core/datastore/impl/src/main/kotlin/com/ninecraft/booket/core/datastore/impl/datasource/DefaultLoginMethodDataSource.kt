@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.map
 @SingleIn(DataScope::class)
 @Inject
 class DefaultLoginMethodDataSource(
-    @LoginMethodDataStore private val dataStore: DataStore<Preferences>,
+    @param:LoginMethodDataStore private val dataStore: DataStore<Preferences>,
 ) : LoginMethodDataSource {
     override val recentLoginMethod: Flow<LoginMethod> = dataStore.data
         .handleIOException()
