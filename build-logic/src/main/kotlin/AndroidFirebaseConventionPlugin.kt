@@ -1,4 +1,3 @@
-
 import com.ninecraft.booket.convention.Plugins
 import com.ninecraft.booket.convention.applyPlugins
 import com.ninecraft.booket.convention.implementation
