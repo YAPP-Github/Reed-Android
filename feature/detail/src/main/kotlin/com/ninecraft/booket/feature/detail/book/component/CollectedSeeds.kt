@@ -87,17 +87,27 @@ internal fun CollectedSeeds(
 
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing1),
-                ) {
-                    EmotionCode.entries.forEach { emotionCode ->
-                        val emotionModel = seedsStats.find { it.code == emotionCode }
-                            ?: EmotionModel(emotionCode, 0)
-                        EmotionStatCard(
-                            emotion = emotionModel,
-                            modifier = Modifier.weight(1f),
-                        )
+                val displayEmotions = listOf(
+                    EmotionCode.WARMTH,
+                    EmotionCode.JOY,
+                    EmotionCode.SADNESS,
+                    EmotionCode.INSIGHT,
+                    EmotionCode.OTHER,
+                ).mapNotNull { emotionCode ->
+                    seedsStats.find { it.code == emotionCode && it.count > 0 }
+                }
+
+                if (displayEmotions.isNotEmpty()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing1),
+                    ) {
+                        displayEmotions.forEach { emotionModel ->
+                            EmotionStatCard(
+                                emotion = emotionModel,
+                                modifier = Modifier.weight(1f),
+                            )
+                        }
                     }
                 }
             }
@@ -144,7 +154,13 @@ private fun CollectedSeedsHeader(
                 )
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
                 Text(
-                    text = stringResource(R.string.collected_seed_emotion_description),
+                    text = stringResource(
+                        if (primaryEmotion.code == EmotionCode.OTHER) {
+                            R.string.collected_seed_other_emotion_description
+                        } else {
+                            R.string.collected_seed_emotion_description
+                        },
+                    ),
                     color = ReedTheme.colors.contentSecondary,
                     style = ReedTheme.typography.label1Medium,
                 )
