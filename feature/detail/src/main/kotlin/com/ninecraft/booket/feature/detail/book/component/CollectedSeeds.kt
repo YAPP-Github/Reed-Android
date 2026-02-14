@@ -22,6 +22,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +43,14 @@ import com.ninecraft.booket.feature.detail.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import com.ninecraft.booket.core.designsystem.R as designR
+
+private val EMOTION_DISPLAY_ORDER = listOf(
+    EmotionCode.WARMTH,
+    EmotionCode.JOY,
+    EmotionCode.SADNESS,
+    EmotionCode.INSIGHT,
+    EmotionCode.OTHER,
+)
 
 @Composable
 internal fun CollectedSeeds(
@@ -87,14 +96,10 @@ internal fun CollectedSeeds(
 
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
 
-                val displayEmotions = listOf(
-                    EmotionCode.WARMTH,
-                    EmotionCode.JOY,
-                    EmotionCode.SADNESS,
-                    EmotionCode.INSIGHT,
-                    EmotionCode.OTHER,
-                ).mapNotNull { emotionCode ->
-                    seedsStats.find { it.code == emotionCode && it.count > 0 }
+                val displayEmotions = remember(seedsStats) {
+                    EMOTION_DISPLAY_ORDER.mapNotNull { emotionCode ->
+                        seedsStats.find { it.code == emotionCode && it.count > 0 }
+                    }
                 }
 
                 if (displayEmotions.isNotEmpty()) {
@@ -188,7 +193,9 @@ private fun EmotionRatioBar(
     seedsStats: ImmutableList<EmotionModel>,
     modifier: Modifier = Modifier,
 ) {
-    val totalCount = seedsStats.sumOf { it.count }.coerceAtLeast(1)
+    val totalCount = remember(seedsStats) {
+        seedsStats.sumOf { it.count }.coerceAtLeast(1)
+    }
 
     Row(
         modifier = modifier
