@@ -147,8 +147,13 @@ private fun CollectedSeedsHeader(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
+                val emotionDisplayName = if (primaryEmotion.code == EmotionCode.OTHER) {
+                    stringResource(R.string.collected_seed_other_emotion_name)
+                } else {
+                    primaryEmotion.code.displayName
+                }
                 Text(
-                    text = "'${primaryEmotion.code.displayName}'",
+                    text = "'$emotionDisplayName'",
                     color = primaryEmotion.code.primaryEmotionColor,
                     style = ReedTheme.typography.label1SemiBold,
                 )
@@ -251,13 +256,13 @@ private fun CollectedSeedsCollapsedPreview() {
     ReedTheme {
         CollectedSeeds(
             seedsStats = persistentListOf(
-                EmotionModel(EmotionCode.WARMTH, 4),
+                EmotionModel(EmotionCode.WARMTH, 2),
                 EmotionModel(EmotionCode.JOY, 2),
-                EmotionModel(EmotionCode.SADNESS, 2),
+                EmotionModel(EmotionCode.SADNESS, 4),
                 EmotionModel(EmotionCode.INSIGHT, 2),
                 EmotionModel(EmotionCode.OTHER, 2),
             ),
-            representativeEmotion = PrimaryEmotionModel(EmotionCode.WARMTH, "따뜻함"),
+            representativeEmotion = PrimaryEmotionModel(EmotionCode.SADNESS, "슬픔"),
             isStatsExpanded = false,
             onToggleClick = {},
         )
@@ -271,12 +276,12 @@ private fun CollectedSeedsExpandedPreview() {
         CollectedSeeds(
             seedsStats = persistentListOf(
                 EmotionModel(EmotionCode.WARMTH, 2),
-                EmotionModel(EmotionCode.JOY, 4),
+                EmotionModel(EmotionCode.JOY, 2),
                 EmotionModel(EmotionCode.SADNESS, 2),
                 EmotionModel(EmotionCode.INSIGHT, 2),
-                EmotionModel(EmotionCode.OTHER, 2),
+                EmotionModel(EmotionCode.OTHER, 4),
             ),
-            representativeEmotion = PrimaryEmotionModel(EmotionCode.JOY, "즐거움"),
+            representativeEmotion = PrimaryEmotionModel(EmotionCode.OTHER, "기타"),
             isStatsExpanded = true,
             onToggleClick = {},
         )
