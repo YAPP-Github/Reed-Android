@@ -22,24 +22,35 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.graphicRes
+import com.ninecraft.booket.core.designsystem.primaryEmotionColor
 import com.ninecraft.booket.core.designsystem.ratioBarColor
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
-import com.ninecraft.booket.core.designsystem.theme.Yellow700
 import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.model.EmotionModel
 import com.ninecraft.booket.core.model.PrimaryEmotionModel
+import com.ninecraft.booket.feature.detail.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import com.ninecraft.booket.core.designsystem.R as designR
+
+private val EMOTION_DISPLAY_ORDER = listOf(
+    EmotionCode.WARMTH,
+    EmotionCode.JOY,
+    EmotionCode.SADNESS,
+    EmotionCode.INSIGHT,
+    EmotionCode.OTHER,
+)
 
 @Composable
 internal fun CollectedSeeds(
@@ -85,17 +96,23 @@ internal fun CollectedSeeds(
 
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing1),
-                ) {
-                    EmotionCode.entries.forEach { emotionCode ->
-                        val emotionModel = seedsStats.find { it.code == emotionCode }
-                            ?: EmotionModel(emotionCode, 0)
-                        EmotionStatCard(
-                            emotion = emotionModel,
-                            modifier = Modifier.weight(1f),
-                        )
+                val displayEmotions = remember(seedsStats) {
+                    EMOTION_DISPLAY_ORDER.mapNotNull { emotionCode ->
+                        seedsStats.find { it.code == emotionCode && it.count > 0 }
+                    }
+                }
+
+                if (displayEmotions.isNotEmpty()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(ReedTheme.spacing.spacing1),
+                    ) {
+                        displayEmotions.forEach { emotionModel ->
+                            EmotionStatCard(
+                                emotion = emotionModel,
+                                modifier = Modifier.weight(1f),
+                            )
+                        }
                     }
                 }
             }
@@ -132,15 +149,28 @@ private fun CollectedSeedsHeader(
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
             }
 
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                val emotionDisplayName = if (primaryEmotion.code == EmotionCode.OTHER) {
+                    stringResource(R.string.collected_seed_other_emotion_name)
+                } else {
+                    primaryEmotion.code.displayName
+                }
                 Text(
-                    text = "'${primaryEmotion.code.displayName}'",
-                    color = Yellow700,
+                    text = "'$emotionDisplayName'",
+                    color = primaryEmotion.code.primaryEmotionColor,
                     style = ReedTheme.typography.label1SemiBold,
                 )
                 Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
                 Text(
-                    text = "감정을 많이 느꼈어요",
+                    text = stringResource(
+                        if (primaryEmotion.code == EmotionCode.OTHER) {
+                            R.string.collected_seed_other_emotion_description
+                        } else {
+                            R.string.collected_seed_emotion_description
+                        },
+                    ),
                     color = ReedTheme.colors.contentSecondary,
                     style = ReedTheme.typography.label1Medium,
                 )
@@ -163,7 +193,9 @@ private fun EmotionRatioBar(
     seedsStats: ImmutableList<EmotionModel>,
     modifier: Modifier = Modifier,
 ) {
-    val totalCount = seedsStats.sumOf { it.count }.coerceAtLeast(1)
+    val totalCount = remember(seedsStats) {
+        seedsStats.sumOf { it.count }.coerceAtLeast(1)
+    }
 
     Row(
         modifier = modifier
@@ -231,13 +263,13 @@ private fun CollectedSeedsCollapsedPreview() {
     ReedTheme {
         CollectedSeeds(
             seedsStats = persistentListOf(
-                EmotionModel(EmotionCode.WARMTH, 4),
+                EmotionModel(EmotionCode.WARMTH, 2),
                 EmotionModel(EmotionCode.JOY, 2),
-                EmotionModel(EmotionCode.SADNESS, 2),
+                EmotionModel(EmotionCode.SADNESS, 4),
                 EmotionModel(EmotionCode.INSIGHT, 2),
                 EmotionModel(EmotionCode.OTHER, 2),
             ),
-            representativeEmotion = PrimaryEmotionModel(EmotionCode.WARMTH, "기쁨"),
+            representativeEmotion = PrimaryEmotionModel(EmotionCode.SADNESS, "슬픔"),
             isStatsExpanded = false,
             onToggleClick = {},
         )
@@ -250,13 +282,13 @@ private fun CollectedSeedsExpandedPreview() {
     ReedTheme {
         CollectedSeeds(
             seedsStats = persistentListOf(
-                EmotionModel(EmotionCode.WARMTH, 4),
+                EmotionModel(EmotionCode.WARMTH, 2),
                 EmotionModel(EmotionCode.JOY, 2),
                 EmotionModel(EmotionCode.SADNESS, 2),
                 EmotionModel(EmotionCode.INSIGHT, 2),
-                EmotionModel(EmotionCode.OTHER, 2),
+                EmotionModel(EmotionCode.OTHER, 4),
             ),
-            representativeEmotion = PrimaryEmotionModel(EmotionCode.WARMTH, "기쁨"),
+            representativeEmotion = PrimaryEmotionModel(EmotionCode.OTHER, "기타"),
             isStatsExpanded = true,
             onToggleClick = {},
         )
@@ -275,7 +307,7 @@ private fun CollectedSeedsExpandedDuplicatedPreview() {
                 EmotionModel(EmotionCode.INSIGHT, 2),
                 EmotionModel(EmotionCode.OTHER, 2),
             ),
-            representativeEmotion = PrimaryEmotionModel(EmotionCode.WARMTH, "기쁨"),
+            representativeEmotion = PrimaryEmotionModel(EmotionCode.WARMTH, "따뜻함"),
             isStatsExpanded = true,
             onToggleClick = {},
         )
