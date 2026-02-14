@@ -1,4 +1,3 @@
-
 import com.google.devtools.ksp.gradle.KspExtension
 import com.ninecraft.booket.convention.api
 import com.ninecraft.booket.convention.applyPlugins
