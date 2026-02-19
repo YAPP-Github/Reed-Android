@@ -60,14 +60,14 @@ internal fun LoginTooltipBox(
                 .clip(RoundedCornerShape(ReedTheme.radius.xs))
                 .background(ReedTheme.colors.contentBrand)
                 .padding(
-                    horizontal = ReedTheme.spacing.spacing3,
-                    vertical = ReedTheme.spacing.spacing2,
+                    horizontal = ReedTheme.spacing.spacing2,
+                    vertical = ReedTheme.spacing.spacing15,
                 ),
         ) {
             Text(
                 text = stringResource(messageResId),
                 color = ReedTheme.colors.contentInverse,
-                style = ReedTheme.typography.label2Regular,
+                style = ReedTheme.typography.caption1Medium,
             )
         }
         Box(
@@ -76,7 +76,7 @@ internal fun LoginTooltipBox(
                 .height(ReedTheme.spacing.spacing3 / 2)
                 .offset {
                     IntOffset(
-                        x = 14.dp.roundToPx(),
+                        x = 8.dp.roundToPx(),
                         y = 0,
                     )
                 }

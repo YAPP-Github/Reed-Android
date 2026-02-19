@@ -210,3 +210,31 @@ private fun LoginPreview() {
         )
     }
 }
+
+@DevicePreview
+@Composable
+private fun LoginKakaoTooltipPreview() {
+    ReedTheme {
+        LoginUi(
+            state = LoginUiState(
+                showLoginTooltip = true,
+                recentLoginMethod = LoginMethod.KAKAO,
+                eventSink = {},
+            ),
+        )
+    }
+}
+
+@DevicePreview
+@Composable
+private fun LoginGoogleTooltipPreview() {
+    ReedTheme {
+        LoginUi(
+            state = LoginUiState(
+                showLoginTooltip = true,
+                recentLoginMethod = LoginMethod.GOOGLE,
+                eventSink = {},
+            ),
+        )
+    }
+}
