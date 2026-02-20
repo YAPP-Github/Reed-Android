@@ -9,4 +9,5 @@
     <string name="onboarding_third_page_description">감정 캐릭터와 함께\n이미지로 저장하고 공유할 수 있어요</string>
     <string name="onboarding_first_highlight_text">기록</string>
     <string name="onboarding_second_highlight_text">감정</string>
+    <string name="onboarding_third_highlight_text">공유</string>
 </resources>
