@@ -15,7 +15,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.utils.HighlightedText
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.Black
@@ -50,9 +49,7 @@ internal fun OnboardingPage(
             painter = painterResource(imageRes),
             contentDescription = "Onboarding Graphic",
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(274.dp),
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
         Text(
