@@ -270,6 +270,10 @@ class RecordRegisterPresenter(
                 }
 
                 is RecordRegisterUiEvent.OnEmotionDetailBottomSheetDismiss -> {
+                    if (committedEmotionCode == null) {
+                        selectedEmotionCode = null
+                        selectedEmotionMap = persistentMapOf()
+                    }
                     isEmotionDetailBottomSheetVisible = false
                 }
 
