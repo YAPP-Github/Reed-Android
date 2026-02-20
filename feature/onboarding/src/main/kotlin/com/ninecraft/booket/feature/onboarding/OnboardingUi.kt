@@ -86,7 +86,7 @@ internal fun OnboardingUi(
                 onClick = {
                     state.eventSink(OnboardingUiEvent.OnNextButtonClick(state.pagerState.currentPage))
                 },
-                text = stringResource(R.string.next),
+                text = stringResource(R.string.start),
                 sizeStyle = largeButtonStyle,
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 modifier = Modifier

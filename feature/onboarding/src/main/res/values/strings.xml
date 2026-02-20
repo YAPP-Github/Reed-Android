@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="next">다음</string>
+    <string name="start">시작하기</string>
     <string name="onboarding_first_page_title">읽고 있는 책을 등록하고\n바로 기록해보세요</string>
     <string name="onboarding_first_page_description">책을 덮기 전, 마음에 남은 문장과\n감정을 간편하게 남길 수 있어요</string>
     <string name="onboarding_second_page_title">독서 중 느낀 감정을\n자세히 남겨 보세요</string>
