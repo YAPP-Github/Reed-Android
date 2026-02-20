@@ -52,7 +52,7 @@ internal fun ReviewItem(
             if (review.isNotBlank()) {
                 Text(
                     text = review,
-                    color = ReedTheme.colors.contentSecondary,
+                    color = ReedTheme.colors.contentPrimary,
                     style = ReedTheme.typography.label1Medium,
                 )
                 Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing5))
