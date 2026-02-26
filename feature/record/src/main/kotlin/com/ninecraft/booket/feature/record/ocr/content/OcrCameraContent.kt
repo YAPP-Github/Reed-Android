@@ -2,8 +2,8 @@ package com.ninecraft.booket.feature.record.ocr.content
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.net.Uri
+import android.util.Rational
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -14,6 +14,8 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.core.SurfaceRequest
+import androidx.camera.core.UseCaseGroup
+import androidx.camera.core.ViewPort
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.lifecycle.awaitInstance
 import androidx.compose.foundation.background
@@ -140,11 +142,24 @@ internal fun OcrCameraContent(
         if (!isGranted) return@LaunchedEffect
         ProcessCameraProvider.awaitInstance(context).apply {
             unbindAll()
+
+            // Preview 영역(fillMaxWidth x 200dp) 비율로 ViewPort를 설정하여
+            // ImageCapture 출력을 해당 영역으로 제한
+            val viewPort = ViewPort.Builder(
+                Rational(screenWidthPx, previewHeightPx),
+                preview.targetRotation,
+            ).build()
+
+            val useCaseGroup = UseCaseGroup.Builder()
+                .setViewPort(viewPort)
+                .addUseCase(preview)
+                .addUseCase(imageCapture)
+                .build()
+
             bindToLifecycle(
                 lifecycleOwner,
                 CameraSelector.DEFAULT_BACK_CAMERA,
-                preview,
-                imageCapture,
+                useCaseGroup,
             )
         }
     }
@@ -264,8 +279,7 @@ internal fun OcrCameraContent(
                             executor,
                             object : ImageCapture.OnImageSavedCallback {
                                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                                    val croppedFile = cropToPreviewArea(photoFile, screenWidthPx, previewHeightPx)
-                                    state.eventSink(OcrUiEvent.OnImageCaptured(croppedFile.toUri()))
+                                    state.eventSink(OcrUiEvent.OnImageCaptured(photoFile.toUri()))
                                 }
 
                                 override fun onError(exception: ImageCaptureException) {
@@ -319,47 +333,6 @@ internal fun OcrCameraContent(
             },
         )
     }
-}
-
-/**
- * 캡처된 전체 이미지를 Preview 영역(화면 중앙, fillMaxWidth x 200dp) 기준으로 center crop합니다.
- *
- * CameraXViewfinder는 center-crop(FILL) 방식으로 렌더링하므로,
- * 캡처 이미지에서 실제 화면에 보이는 영역만 잘라내어 OCR 분석 범위를 제한합니다.
- *
- * center-crop scale = max(viewWidth / imgWidth, viewHeight / imgHeight)
- * 이 scale로 나눈 viewport 크기가 원본 이미지에서의 crop 영역입니다.
- */
-private fun cropToPreviewArea(photoFile: File, screenWidthPx: Int, previewHeightPx: Int): File {
-    val original = BitmapFactory.decodeFile(photoFile.absolutePath) ?: return photoFile
-
-    val imgW = original.width
-    val imgH = original.height
-
-    // center-crop fill: 이미지가 Preview 영역을 완전히 채우도록 스케일링
-    val scale = maxOf(
-        screenWidthPx.toFloat() / imgW,
-        previewHeightPx.toFloat() / imgH,
-    )
-
-    // 원본 이미지에서 실제 보이는 영역 크기
-    val cropW = (screenWidthPx / scale).toInt().coerceAtMost(imgW)
-    val cropH = (previewHeightPx / scale).toInt().coerceAtMost(imgH)
-
-    // 중앙 정렬
-    val cropX = (imgW - cropW) / 2
-    val cropY = (imgH - cropH) / 2
-
-    val cropped = android.graphics.Bitmap.createBitmap(original, cropX, cropY, cropW, cropH)
-
-    photoFile.outputStream().use { out ->
-        cropped.compress(android.graphics.Bitmap.CompressFormat.JPEG, 90, out)
-    }
-
-    if (cropped !== original) cropped.recycle()
-    original.recycle()
-
-    return photoFile
 }
 
 @ComponentPreview
