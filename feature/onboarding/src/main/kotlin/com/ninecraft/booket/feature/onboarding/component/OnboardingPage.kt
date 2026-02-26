@@ -49,7 +49,7 @@ internal fun OnboardingPage(
             painter = painterResource(imageRes),
             contentDescription = "Onboarding Graphic",
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
         Text(
