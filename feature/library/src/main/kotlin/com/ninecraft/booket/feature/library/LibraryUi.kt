@@ -20,7 +20,7 @@ import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
-import com.ninecraft.booket.core.designsystem.component.button.mediumButtonStyle
+import com.ninecraft.booket.core.designsystem.component.button.smallButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
 import com.ninecraft.booket.core.ui.ReedScaffold
@@ -131,7 +131,7 @@ internal fun LibraryContent(
                         },
                         text = stringResource(R.string.login),
                         colorStyle = ReedButtonColorStyle.SECONDARY,
-                        sizeStyle = mediumButtonStyle,
+                        sizeStyle = smallButtonStyle,
                     )
                 }
             }
@@ -232,6 +232,19 @@ private fun LibraryPreview() {
                         publisher = "한빛아카데미",
                     ),
                 ),
+                eventSink = {},
+            ),
+        )
+    }
+}
+
+@DevicePreview
+@Composable
+private fun LibraryGuestModePreview() {
+    ReedTheme {
+        LibraryUi(
+            state = LibraryUiState(
+                isGuestMode = true,
                 eventSink = {},
             ),
         )

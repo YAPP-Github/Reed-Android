@@ -2,20 +2,25 @@ package com.ninecraft.booket.core.designsystem
 
 import androidx.compose.ui.graphics.Color
 import com.ninecraft.booket.core.designsystem.theme.Blue300
-import com.ninecraft.booket.core.designsystem.theme.OtherBgColor
-import com.ninecraft.booket.core.designsystem.theme.OtherTextColor
+import com.ninecraft.booket.core.designsystem.theme.Blue500
 import com.ninecraft.booket.core.designsystem.theme.InsightBgColor
 import com.ninecraft.booket.core.designsystem.theme.InsightTextColor
 import com.ninecraft.booket.core.designsystem.theme.JoyBgColor
 import com.ninecraft.booket.core.designsystem.theme.JoyTextColor
 import com.ninecraft.booket.core.designsystem.theme.Neutral300
+import com.ninecraft.booket.core.designsystem.theme.Neutral500
 import com.ninecraft.booket.core.designsystem.theme.Orange300
+import com.ninecraft.booket.core.designsystem.theme.Orange400
+import com.ninecraft.booket.core.designsystem.theme.OtherBgColor
+import com.ninecraft.booket.core.designsystem.theme.OtherTextColor
 import com.ninecraft.booket.core.designsystem.theme.SadnessBgColor
 import com.ninecraft.booket.core.designsystem.theme.SadnessTextColor
 import com.ninecraft.booket.core.designsystem.theme.Violet300
+import com.ninecraft.booket.core.designsystem.theme.Violet500
 import com.ninecraft.booket.core.designsystem.theme.WarmthBgColor
 import com.ninecraft.booket.core.designsystem.theme.WarmthTextColor
 import com.ninecraft.booket.core.designsystem.theme.Yellow300
+import com.ninecraft.booket.core.designsystem.theme.Yellow700
 import com.ninecraft.booket.core.model.EmotionCode
 
 val EmotionCode.bgColor: Color
@@ -34,6 +39,15 @@ val EmotionCode.textColor: Color
         EmotionCode.SADNESS -> SadnessTextColor
         EmotionCode.INSIGHT -> InsightTextColor
         EmotionCode.OTHER -> OtherTextColor
+    }
+
+val EmotionCode.primaryEmotionColor: Color
+    get() = when (this) {
+        EmotionCode.WARMTH -> Yellow700
+        EmotionCode.JOY -> Orange400
+        EmotionCode.SADNESS -> Blue500
+        EmotionCode.INSIGHT -> Violet500
+        EmotionCode.OTHER -> Neutral500
     }
 
 val EmotionCode.ratioBarColor: Color

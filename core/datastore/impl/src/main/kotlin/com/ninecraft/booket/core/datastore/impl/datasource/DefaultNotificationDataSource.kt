@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.map
 @SingleIn(DataScope::class)
 @Inject
 class DefaultNotificationDataSource(
-    @NotificationDataStore private val dataStore: DataStore<Preferences>,
+    @param: NotificationDataStore private val dataStore: DataStore<Preferences>,
 ) : NotificationDataSource {
     override val isUserNotificationEnabled: Flow<Boolean> = dataStore.data
         .handleIOException()

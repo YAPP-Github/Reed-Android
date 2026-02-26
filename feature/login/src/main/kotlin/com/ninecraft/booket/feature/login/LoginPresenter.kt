@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.login
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -10,6 +11,7 @@ import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.event.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
+import com.ninecraft.booket.core.model.LoginMethod
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
@@ -50,6 +52,15 @@ class LoginPresenter(
         val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<LoginSideEffect?>(null) }
+        var showLoginTooltip by rememberRetained { mutableStateOf(false) }
+        var recentLoginMethod by rememberRetained { mutableStateOf(LoginMethod.NONE) }
+
+        LaunchedEffect(Unit) {
+            authRepository.recentLoginMethod.collect { method ->
+                recentLoginMethod = method
+                showLoginTooltip = method != LoginMethod.NONE
+            }
+        }
 
         fun navigateAfterLogin() {
             scope.launch {
@@ -102,6 +113,13 @@ class LoginPresenter(
                             isLoading = true
                             authRepository.login(event.providerType, event.token)
                                 .onSuccess {
+                                    authRepository.setRecentLoginMethod(
+                                        if (event.providerType == LoginUiEvent.PROVIDER_TYPE_KAKAO) {
+                                            LoginMethod.KAKAO
+                                        } else {
+                                            LoginMethod.GOOGLE
+                                        },
+                                    )
                                     userRepository.syncFcmToken()
                                     navigateAfterLogin()
                                 }.onFailure { exception ->
@@ -125,6 +143,10 @@ class LoginPresenter(
                 is LoginUiEvent.OnCloseButtonClick -> {
                     navigator.pop()
                 }
+
+                is LoginUiEvent.OnDismissLoginTooltip -> {
+                    showLoginTooltip = false
+                }
             }
         }
 
@@ -136,6 +158,8 @@ class LoginPresenter(
             isLoading = isLoading,
             returnToScreen = screen.returnToScreen,
             sideEffect = sideEffect,
+            showLoginTooltip = showLoginTooltip,
+            recentLoginMethod = recentLoginMethod,
             eventSink = ::handleEvent,
         )
     }

@@ -23,7 +23,7 @@ import com.ninecraft.booket.core.di.DataScope
 @SingleIn(DataScope::class)
 @Inject
 class CloudOcrRecognizer(
-    @ApplicationContext private val context: Context,
+    @param: ApplicationContext private val context: Context,
     private val service: CloudVisionService,
 ) {
     suspend fun recognizeText(imageUri: Uri): Result<CloudVisionResponse> = runSuspendCatching {

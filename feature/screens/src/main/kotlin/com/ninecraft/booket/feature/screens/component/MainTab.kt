@@ -8,9 +8,9 @@ import com.ninecraft.booket.feature.screens.R
 import com.slack.circuit.runtime.screen.Screen
 
 enum class MainTab(
-    @DrawableRes val iconResId: Int,
-    @DrawableRes val selectedIconResId: Int,
-    @StringRes val labelResId: Int,
+    @param: DrawableRes val iconResId: Int,
+    @param: DrawableRes val selectedIconResId: Int,
+    @param: StringRes val labelResId: Int,
     internal val contentDescription: String,
     val screen: Screen,
 ) {

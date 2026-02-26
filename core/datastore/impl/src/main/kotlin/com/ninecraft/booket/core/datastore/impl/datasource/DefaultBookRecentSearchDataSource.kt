@@ -19,7 +19,7 @@ import kotlinx.serialization.json.Json
 @SingleIn(DataScope::class)
 @Inject
 class DefaultBookRecentSearchDataSource(
-    @BookRecentSearchDataStore private val dataStore: DataStore<Preferences>,
+    @param: BookRecentSearchDataStore private val dataStore: DataStore<Preferences>,
 ) : BookRecentSearchDataSource {
     override val recentSearches: Flow<List<String>> = dataStore.data
         .handleIOException()

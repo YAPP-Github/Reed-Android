@@ -10,7 +10,7 @@ sealed class UiText {
     data class DirectString(val value: String) : UiText()
 
     class StringResource(
-        @StringRes val resId: Int,
+        @param: StringRes val resId: Int,
         vararg val args: Any,
     ) : UiText()
 
