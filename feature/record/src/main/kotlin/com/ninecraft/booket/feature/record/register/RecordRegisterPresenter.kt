@@ -273,7 +273,11 @@ class RecordRegisterPresenter(
                     if (committedEmotionCode == null) {
                         selectedEmotionCode = null
                         selectedEmotionMap = persistentMapOf()
+                    } else {
+                        selectedEmotionCode = committedEmotionCode
+                        selectedEmotionMap = committedEmotionMap
                     }
+
                     isEmotionDetailBottomSheetVisible = false
                 }
 
