@@ -36,8 +36,8 @@ jobs:
             -   name: Setup Gradle
                 uses: gradle/actions/setup-gradle@v4
                 with:
-                    # 빌드 성공 시 미사용 캐시 엔트리 자동 정리 (default: never)
-                    cache-cleanup: on-success
+                    # 빌드 성공 시 미사용 캐시 엔트리 자동 정리 (default: on-success)
+                    # cache-cleanup: on-success
                     # PR에서는 캐시 읽기만 허용, push(develop/main)에서만 캐시 갱신하여 용량 절약
                     cache-read-only: ${{ github.event_name == 'pull_request' }}
 
@@ -80,8 +80,8 @@ jobs:
             -   name: Setup Gradle
                 uses: gradle/actions/setup-gradle@v4
                 with:
-                    # 빌드 성공 시 미사용 캐시 엔트리 자동 정리 (default: never)
-                    cache-cleanup: on-success
+                    # 빌드 성공 시 미사용 캐시 엔트리 자동 정리 (default: on-success)
+                    # cache-cleanup: on-success
                     # PR에서는 캐시 읽기만 허용, push(develop/main)에서만 캐시 갱신하여 용량 절약
                     cache-read-only: ${{ github.event_name == 'pull_request' }}
 
