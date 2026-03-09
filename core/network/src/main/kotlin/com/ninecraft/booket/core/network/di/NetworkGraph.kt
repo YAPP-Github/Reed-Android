@@ -1,6 +1,9 @@
 package com.ninecraft.booket.core.network.di
 
+import android.content.Context
 import android.util.Log
+import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.ninecraft.booket.core.di.ApplicationContext
 import com.ninecraft.booket.core.di.DataScope
 import com.ninecraft.booket.core.network.BuildConfig
 import com.ninecraft.booket.core.network.TokenAuthenticator
@@ -84,10 +87,18 @@ interface NetworkGraph {
     }
 
     @Provides
+    fun provideChuckerInterceptor(
+        @ApplicationContext context: Context,
+    ): ChuckerInterceptor {
+        return ChuckerInterceptor(context)
+    }
+
+    @Provides
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         tokenInterceptor: TokenInterceptor,
         tokenAuthenticator: TokenAuthenticator,
+        chuckerInterceptor: ChuckerInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(MaxTimeoutMillis, TimeUnit.MILLISECONDS)
@@ -95,6 +106,7 @@ interface NetworkGraph {
             .writeTimeout(MaxTimeoutMillis, TimeUnit.MILLISECONDS)
             .addInterceptor(tokenInterceptor)
             .authenticator(tokenAuthenticator)
+            .addInterceptor(chuckerInterceptor)
             .addInterceptor(httpLoggingInterceptor)
             .build()
     }

@@ -33,4 +33,7 @@ dependencies {
         libs.kotlinx.coroutines.core,
         libs.logger,
     )
+
+    debugImplementation(libs.chucker)
+    releaseImplementation(libs.chucker.no.op)
 }

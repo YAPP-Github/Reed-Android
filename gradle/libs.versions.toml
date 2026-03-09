@@ -40,6 +40,7 @@ metro = "0.10.2"
 ## Network
 okhttp = "5.3.2"
 retrofit = "3.0.0"
+chucker = "4.3.1"
 
 ## Circuit
 circuit = "0.32.0"
@@ -114,6 +115,8 @@ compose-keyboard-state = { group = "tech.thdev", name = "extensions-compose-keyb
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlinx-serialization-converter = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+chucker = { group = "com.github.chuckerteam.chucker", name = "library", version.ref = "chucker" }
+chucker-no-op = { group = "com.github.chuckerteam.chucker", name = "library-no-op", version.ref = "chucker" }
 
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose" }
 landscapist-bom = { group = "com.github.skydoves", name = "landscapist-bom", version.ref = "landscapist" }
