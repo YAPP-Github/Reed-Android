@@ -1,8 +1,10 @@
 package com.ninecraft.booket.core.model
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 
+@Immutable
 data class ReadingRecordsModel(
+    val representativeEmotion: PrimaryEmotionModel? = null,
     val lastPage: Boolean = true,
     val totalResults: Int = 0,
     val startIndex: Int = 0,
@@ -10,18 +12,25 @@ data class ReadingRecordsModel(
     val readingRecords: List<ReadingRecordModel> = emptyList(),
 )
 
-@Stable
+@Immutable
 data class ReadingRecordModel(
     val id: String = "",
     val userBookId: String = "",
-    val pageNumber: Int = 0,
+    val pageNumber: Int? = null,
     val quote: String = "",
     val review: String = "",
-    val emotionTags: List<String> = emptyList(),
+    val primaryEmotion: PrimaryEmotionModel = PrimaryEmotionModel(),
+    val detailEmotions: List<DetailEmotionModel> = emptyList(),
     val createdAt: String = "",
     val updatedAt: String = "",
     val bookTitle: String = "",
     val bookPublisher: String = "",
     val bookCoverImageUrl: String = "",
     val author: String = "",
+)
+
+@Immutable
+data class PrimaryEmotionModel(
+    val code: EmotionCode = EmotionCode.OTHER,
+    val displayName: String = "기타",
 )

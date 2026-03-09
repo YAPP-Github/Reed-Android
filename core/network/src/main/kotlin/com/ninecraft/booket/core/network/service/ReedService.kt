@@ -10,14 +10,13 @@ import com.ninecraft.booket.core.network.request.TermsAgreementRequest
 import com.ninecraft.booket.core.network.response.BookDetailResponse
 import com.ninecraft.booket.core.network.response.BookSearchResponse
 import com.ninecraft.booket.core.network.response.BookUpsertResponse
+import com.ninecraft.booket.core.network.response.EmotionGroupsResponse
 import com.ninecraft.booket.core.network.response.GuestBookSearchResponse
 import com.ninecraft.booket.core.network.response.HomeResponse
 import com.ninecraft.booket.core.network.response.LibraryResponse
 import com.ninecraft.booket.core.network.response.LoginResponse
 import com.ninecraft.booket.core.network.response.ReadingRecord
 import com.ninecraft.booket.core.network.response.ReadingRecordsResponse
-import com.ninecraft.booket.core.network.response.RecordDetailResponse
-import com.ninecraft.booket.core.network.response.RecordRegisterResponse
 import com.ninecraft.booket.core.network.response.RefreshTokenResponse
 import com.ninecraft.booket.core.network.response.SeedResponse
 import com.ninecraft.booket.core.network.response.TermsAgreementResponse
@@ -25,7 +24,6 @@ import com.ninecraft.booket.core.network.response.UserProfileResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -107,14 +105,18 @@ interface ReedService {
         @Path("userBookId") userBookId: String,
     )
 
+    // Emotions (auth required)
+    @GET("api/v2/emotions")
+    suspend fun getEmotions(): EmotionGroupsResponse
+
     // Reading-records endpoints (auth required)
-    @POST("api/v1/reading-records/{userBookId}")
+    @POST("api/v2/reading-records/{userBookId}")
     suspend fun postRecord(
         @Path("userBookId") userBookId: String,
         @Body recordRegisterRequest: RecordRegisterRequest,
-    ): RecordRegisterResponse
+    ): ReadingRecord
 
-    @GET("api/v1/reading-records/{userBookId}")
+    @GET("api/v2/reading-records/{userBookId}")
     suspend fun getReadingRecords(
         @Path("userBookId") userBookId: String,
         @Query("sort") sort: String = "CREATED_DATE_DESC",
@@ -122,23 +124,23 @@ interface ReedService {
         @Query("size") size: Int = 20,
     ): ReadingRecordsResponse
 
-    @GET("api/v1/reading-records/{userBookId}/seed/stats")
+    @GET("api/v2/reading-records/{userBookId}/seed/stats")
     suspend fun getSeedsStats(
         @Path("userBookId") userBookId: String,
     ): SeedResponse
 
-    @GET("api/v1/reading-records/detail/{readingRecordId}")
+    @GET("api/v2/reading-records/detail/{readingRecordId}")
     suspend fun getRecordDetail(
         @Path("readingRecordId") readingRecordId: String,
-    ): RecordDetailResponse
+    ): ReadingRecord
 
-    @PATCH("api/v1/reading-records/{readingRecordId}")
+    @PUT("api/v2/reading-records/{readingRecordId}")
     suspend fun editRecord(
         @Path("readingRecordId") readingRecordId: String,
         @Body recordRegisterRequest: RecordRegisterRequest,
     ): ReadingRecord
 
-    @DELETE("api/v1/reading-records/{readingRecordId}")
+    @DELETE("api/v2/reading-records/{readingRecordId}")
     suspend fun deleteRecord(
         @Path("readingRecordId") readingRecordId: String,
     )

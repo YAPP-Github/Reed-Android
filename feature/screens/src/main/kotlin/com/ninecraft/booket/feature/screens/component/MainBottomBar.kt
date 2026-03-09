@@ -21,12 +21,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import com.adamglin.composeshadow.dropShadow
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
@@ -47,9 +49,12 @@ fun MainBottomBar(
                     topStart = ReedTheme.spacing.spacing3,
                     topEnd = ReedTheme.spacing.spacing3,
                 ),
-                color = ReedTheme.colors.borderPrimary.copy(alpha = 0.05f),
-                offsetY = (-4).dp,
-                blur = 20.dp,
+                shadow = Shadow(
+                    radius = 20.dp,
+                    spread = 0.dp,
+                    offset = DpOffset(x = 0.dp, (-4).dp),
+                    color = ReedTheme.colors.borderPrimary.copy(alpha = 0.05f),
+                ),
             )
             .clip(
                 RoundedCornerShape(
@@ -65,7 +70,7 @@ fun MainBottomBar(
                     topEnd = ReedTheme.spacing.spacing3,
                 ),
             )
-            .background(White),
+            .background(color = White),
     ) {
         Row(
             modifier = Modifier

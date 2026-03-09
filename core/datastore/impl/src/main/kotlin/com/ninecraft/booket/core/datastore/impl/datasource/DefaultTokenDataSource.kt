@@ -8,15 +8,19 @@ import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
 import com.ninecraft.booket.core.datastore.impl.di.TokenDataStore
 import com.ninecraft.booket.core.datastore.impl.security.CryptoManager
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
+import com.ninecraft.booket.core.di.DataScope
 import com.orhanobut.logger.Logger
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.security.GeneralSecurityException
-import javax.inject.Inject
 
-class DefaultTokenDataSource @Inject constructor(
-    @TokenDataStore private val dataStore: DataStore<Preferences>,
+@SingleIn(DataScope::class)
+@Inject
+class DefaultTokenDataSource(
+    @param:TokenDataStore private val dataStore: DataStore<Preferences>,
     private val cryptoManager: CryptoManager,
 ) : TokenDataSource {
     override val accessToken: Flow<String> = decryptStringFlow(ACCESS_TOKEN)
@@ -60,7 +64,7 @@ class DefaultTokenDataSource @Inject constructor(
             }.orEmpty()
         }
 
-    companion object Companion {
+    companion object {
         private val ACCESS_TOKEN = stringPreferencesKey("ACCESS_TOKEN")
         private val REFRESH_TOKEN = stringPreferencesKey("REFRESH_TOKEN")
     }

@@ -1,6 +1,5 @@
 package com.ninecraft.booket.feature.detail.book
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -37,6 +36,10 @@ import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorSt
 import com.ninecraft.booket.core.designsystem.component.button.mediumButtonStyle
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.model.BookDetailModel
+import com.ninecraft.booket.core.model.EmotionCode
+import com.ninecraft.booket.core.model.EmotionModel
+import com.ninecraft.booket.core.model.PrimaryEmotionModel
+import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.InfinityLazyColumn
 import com.ninecraft.booket.core.ui.component.LoadStateFooter
@@ -56,14 +59,15 @@ import com.ninecraft.booket.feature.detail.record.component.RecordMenuBottomShee
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @TraceRecomposition
 @OptIn(ExperimentalMaterial3Api::class)
-@CircuitInject(BookDetailScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(BookDetailScreen::class, AppScope::class)
 @Composable
 internal fun BookDetailUi(
     state: BookDetailUiState,
@@ -238,7 +242,7 @@ internal fun BookDetailContent(
                 item {
                     Column {
                         BookItem(bookDetail = state.bookDetail)
-                        Spacer(Modifier.height(ReedTheme.spacing.spacing7))
+                        Spacer(Modifier.height(ReedTheme.spacing.spacing5))
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -280,7 +284,14 @@ internal fun BookDetailContent(
 
                 item {
                     if (state.hasEmotionData()) {
-                        CollectedSeeds(seedsStats = state.seedsStats)
+                        CollectedSeeds(
+                            seedsStats = state.seedsStats,
+                            representativeEmotion = state.representativeEmotion!!,
+                            isStatsExpanded = state.isStatsExpanded,
+                            onToggleClick = {
+                                state.eventSink(BookDetailUiEvent.OnStatsToggleClick(!state.isStatsExpanded))
+                            },
+                        )
                     } else {
                         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
                     }
@@ -292,7 +303,7 @@ internal fun BookDetailContent(
                     Column(
                         modifier = Modifier.padding(horizontal = ReedTheme.spacing.spacing5),
                     ) {
-                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing6))
+                        Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
                         ReadingRecordsHeader(
                             totalCount = state.readingRecordsTotalCount,
                             currentRecordSort = state.currentRecordSort,
@@ -329,6 +340,9 @@ internal fun BookDetailContent(
                         val record = state.readingRecords[index]
                         RecordItem(
                             recordInfo = record,
+                            onRecordClick = {
+                                state.eventSink(BookDetailUiEvent.OnRecordItemClick(record.id))
+                            },
                             onRecordMenuClick = { recordInfo ->
                                 state.eventSink(BookDetailUiEvent.OnRecordMenuClick(recordInfo))
                             },
@@ -337,10 +351,7 @@ internal fun BookDetailContent(
                                     start = ReedTheme.spacing.spacing5,
                                     end = ReedTheme.spacing.spacing5,
                                     bottom = ReedTheme.spacing.spacing3,
-                                )
-                                .clickable {
-                                    state.eventSink(BookDetailUiEvent.OnRecordItemClick(record.id))
-                                },
+                                ),
                         )
                     }
 
@@ -365,7 +376,7 @@ internal fun BookDetailContent(
 
 @ComponentPreview
 @Composable
-private fun BookDetailPreview() {
+private fun BookDetailEmptyPreview() {
     ReedTheme {
         BookDetailUi(
             state = BookDetailUiState(
@@ -377,6 +388,113 @@ private fun BookDetailPreview() {
                     pubDate = "2023-01-01",
                     coverImageUrl = "",
                 ),
+                eventSink = {},
+            ),
+        )
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun BookDetailSeedStatsPreview() {
+    ReedTheme {
+        BookDetailUi(
+            state = BookDetailUiState(
+                uiState = UiState.Success,
+                bookDetail = BookDetailModel(
+                    title = "데미안",
+                    author = "헤르만 헤세",
+                    publisher = "민음사",
+                    pubDate = "2023-01-01",
+                    coverImageUrl = "",
+                ),
+                seedsStats = persistentListOf(
+                    EmotionModel(code = EmotionCode.WARMTH, count = 5),
+                    EmotionModel(code = EmotionCode.JOY, count = 3),
+                    EmotionModel(code = EmotionCode.SADNESS, count = 2),
+                    EmotionModel(code = EmotionCode.INSIGHT, count = 7),
+                ),
+                readingRecords = persistentListOf(
+                    ReadingRecordModel(
+                        id = "1",
+                        pageNumber = 42,
+                        quote = "새는 알에서 나오려고 투쟁한다. 알은 세계이다.",
+                        review = "정말 인상 깊은 구절이었다.",
+                        primaryEmotion = PrimaryEmotionModel(displayName = "깨달음"),
+                        createdAt = "2024-01-15T10:30:00.000000",
+                    ),
+                    ReadingRecordModel(
+                        id = "2",
+                        pageNumber = 78,
+                        quote = "나는 더 이상 꿈을 꾸지 않으려 했다.",
+                        review = "성장통을 느끼는 부분",
+                        primaryEmotion = PrimaryEmotionModel(displayName = "슬픔"),
+                        createdAt = "2024-01-20T14:20:00.000000",
+                    ),
+                    ReadingRecordModel(
+                        id = "3",
+                        pageNumber = 156,
+                        quote = "운명과 성향은 같은 개념의 두 이름이다.",
+                        review = "내 삶을 돌아보게 되었다.",
+                        primaryEmotion = PrimaryEmotionModel(displayName = "깨달음"),
+                        createdAt = "2024-01-25T09:15:00.000000",
+                    ),
+                ),
+                readingRecordsTotalCount = 3,
+                eventSink = {},
+            ),
+        )
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun BookDetailSeedsStatsExpandedPreview() {
+    ReedTheme {
+        BookDetailUi(
+            state = BookDetailUiState(
+                uiState = UiState.Success,
+                bookDetail = BookDetailModel(
+                    title = "데미안",
+                    author = "헤르만 헤세",
+                    publisher = "민음사",
+                    pubDate = "2023-01-01",
+                    coverImageUrl = "",
+                ),
+                seedsStats = persistentListOf(
+                    EmotionModel(code = EmotionCode.WARMTH, count = 5),
+                    EmotionModel(code = EmotionCode.JOY, count = 3),
+                    EmotionModel(code = EmotionCode.SADNESS, count = 2),
+                    EmotionModel(code = EmotionCode.INSIGHT, count = 7),
+                ),
+                isStatsExpanded = true,
+                readingRecords = persistentListOf(
+                    ReadingRecordModel(
+                        id = "1",
+                        pageNumber = 42,
+                        quote = "새는 알에서 나오려고 투쟁한다. 알은 세계이다.",
+                        review = "정말 인상 깊은 구절이었다.",
+                        primaryEmotion = PrimaryEmotionModel(displayName = "깨달음"),
+                        createdAt = "2024-01-15T10:30:00.000000",
+                    ),
+                    ReadingRecordModel(
+                        id = "2",
+                        pageNumber = 78,
+                        quote = "나는 더 이상 꿈을 꾸지 않으려 했다.",
+                        review = "성장통을 느끼는 부분",
+                        primaryEmotion = PrimaryEmotionModel(displayName = "슬픔"),
+                        createdAt = "2024-01-20T14:20:00.000000",
+                    ),
+                    ReadingRecordModel(
+                        id = "3",
+                        pageNumber = 156,
+                        quote = "운명과 성향은 같은 개념의 두 이름이다.",
+                        review = "내 삶을 돌아보게 되었다.",
+                        primaryEmotion = PrimaryEmotionModel(displayName = "깨달음"),
+                        createdAt = "2024-01-25T09:15:00.000000",
+                    ),
+                ),
+                readingRecordsTotalCount = 3,
                 eventSink = {},
             ),
         )

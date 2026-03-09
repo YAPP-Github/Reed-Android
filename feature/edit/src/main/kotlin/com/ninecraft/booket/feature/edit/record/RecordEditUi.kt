@@ -1,9 +1,7 @@
 package com.ninecraft.booket.feature.edit.record
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.exclude
@@ -13,21 +11,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -39,19 +32,24 @@ import com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordText
 import com.ninecraft.booket.core.designsystem.component.textfield.digitOnlyInputTransformation
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
+import com.ninecraft.booket.core.model.EmotionCode
 import com.ninecraft.booket.core.ui.ReedScaffold
 import com.ninecraft.booket.core.ui.component.ReedTopAppBar
 import com.ninecraft.booket.feature.edit.R
 import com.ninecraft.booket.feature.edit.record.component.BookItem
+import com.ninecraft.booket.feature.edit.record.component.EmotionItem
 import com.ninecraft.booket.feature.screens.RecordEditScreen
+import com.ninecraft.booket.feature.screens.arguments.DetailEmotionArg
+import com.ninecraft.booket.feature.screens.arguments.PrimaryEmotionArg
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import kotlinx.collections.immutable.toPersistentList
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @TraceRecomposition
-@CircuitInject(RecordEditScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(RecordEditScreen::class, AppScope::class)
 @Composable
 internal fun RecordEditUi(
     state: RecordEditUiState,
@@ -152,7 +150,7 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
             Text(
-                text = stringResource(R.string.edit_record_impression_label),
+                text = stringResource(R.string.edit_record_memo_label),
                 color = ReedTheme.colors.contentPrimary,
                 style = ReedTheme.typography.body1Medium,
             )
@@ -169,36 +167,20 @@ private fun ColumnScope.RecordEditContent(state: RecordEditUiState) {
                 ),
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(R.string.edit_record_emotion_label),
-                    color = ReedTheme.colors.contentPrimary,
-                    style = ReedTheme.typography.body1Medium,
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Row(
-                    modifier = Modifier.clickable {
-                        state.eventSink(RecordEditUiEvent.OnEmotionEditClick)
-                    },
-                ) {
-                    val emotion = state.recordInfo.emotionTags.firstOrNull() ?: ""
-
-                    Text(
-                        text = emotion,
-                        color = ReedTheme.colors.contentSecondary,
-                        style = ReedTheme.typography.body1Medium,
-                    )
-                    Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing1))
-                    Icon(
-                        imageVector = ImageVector.vectorResource(designR.drawable.ic_chevron_right),
-                        contentDescription = "Chevron Right Icon",
-                        tint = ReedTheme.colors.contentSecondary,
-                    )
-                }
-            }
+            Text(
+                text = stringResource(R.string.edit_record_emotion_label),
+                color = ReedTheme.colors.contentPrimary,
+                style = ReedTheme.typography.body1Medium,
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing1))
+            EmotionItem(
+                primaryEmotionCode = state.recordInfo.primaryEmotion.code,
+                primaryEmotionName = state.recordInfo.primaryEmotion.displayName,
+                detailEmotions = state.recordInfo.detailEmotions.toPersistentList(),
+                onClick = {
+                    state.eventSink(RecordEditUiEvent.OnEmotionEditClick)
+                },
+            )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing16))
         }
     }
@@ -230,7 +212,20 @@ private fun RecordEditUiPreview() {
                     pageNumber = 33,
                     quote = "소설가들은 늘 소재를 찾아 떠도는 존재 같지만, 실은 그 반대인 경우가 더 잦다.",
                     review = "감동적이었다.",
-                    emotionTags = listOf("따뜻함"),
+                    primaryEmotion = PrimaryEmotionArg(
+                        code = EmotionCode.WARMTH,
+                        displayName = "따뜻함",
+                    ),
+                    detailEmotions = listOf(
+                        DetailEmotionArg(
+                            id = "84f95d93-e54c-11f0-8545-525ae7dd628c",
+                            name = "위로받은",
+                        ),
+                        DetailEmotionArg(
+                            id = "84f95e7e-e54c-11f0-8545-525ae7dd628c",
+                            name = "포근한",
+                        ),
+                    ),
                     bookTitle = "여름은 오래 그곳에 남아",
                     bookPublisher = "비채",
                     bookCoverImageUrl = "",

@@ -1,4 +1,4 @@
-
+import com.google.devtools.ksp.gradle.KspExtension
 import com.ninecraft.booket.convention.api
 import com.ninecraft.booket.convention.applyPlugins
 import com.ninecraft.booket.convention.implementation
@@ -7,6 +7,7 @@ import com.ninecraft.booket.convention.libs
 import com.ninecraft.booket.convention.project
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
 internal class AndroidFeatureConventionPlugin : Plugin<Project> {
@@ -15,8 +16,13 @@ internal class AndroidFeatureConventionPlugin : Plugin<Project> {
             applyPlugins(
                 "booket.android.library",
                 "booket.android.library.compose",
-                "booket.android.hilt",
+                "dev.zacsweers.metro",
+                "com.google.devtools.ksp",
             )
+
+            extensions.configure<KspExtension> {
+                arg("circuit.codegen.mode", "metro")
+            }
 
             dependencies {
                 implementation(project(path = ":core:common"))
@@ -26,6 +32,7 @@ internal class AndroidFeatureConventionPlugin : Plugin<Project> {
                 implementation(project(path = ":core:ui"))
                 implementation(project(path = ":feature:screens"))
 
+                implementation(libs.kotlinx.collections.immutable)
                 implementation(libs.compose.effects)
 
                 implementation(libs.bundles.circuit)

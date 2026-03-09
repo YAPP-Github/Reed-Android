@@ -6,30 +6,18 @@
 
 @Composable
 internal fun com.ninecraft.booket.feature.webview.WebViewContent(state: com.ninecraft.booket.feature.webview.WebViewUiState, innerPadding: androidx.compose.foundation.layout.PaddingValues, modifier: androidx.compose.ui.Modifier): kotlin.Unit
-  skippable: true
+  skippable: false
   restartable: true
   params:
-    - state: STABLE
+    - state: UNSTABLE (has mutable properties or unstable members)
     - innerPadding: STABLE (marked @Stable or @Immutable)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-public fun com.ninecraft.booket.feature.webview.WebViewPresenter.present(): com.ninecraft.booket.feature.webview.WebViewUiState
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
 internal fun com.ninecraft.booket.feature.webview.WebViewUi(state: com.ninecraft.booket.feature.webview.WebViewUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
-  skippable: true
+  skippable: false
   restartable: true
   params:
-    - state: STABLE
+    - state: UNSTABLE (has mutable properties or unstable members)
     - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.ninecraft.booket.feature.webview.WebViewUiPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 

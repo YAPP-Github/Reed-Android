@@ -2,6 +2,7 @@ package com.ninecraft.booket.feature.record.ocr
 
 import android.net.Uri
 import androidx.compose.runtime.Immutable
+import com.ninecraft.booket.core.common.utils.UiText
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import kotlinx.collections.immutable.ImmutableList
@@ -13,9 +14,12 @@ import java.util.UUID
 data class OcrUiState(
     val currentUi: OcrUi = OcrUi.CAMERA,
     val isPermissionDialogVisible: Boolean = false,
+    val selectedImage: String = "",
     val sentenceList: ImmutableList<String> = persistentListOf(),
     val selectedIndices: ImmutableSet<Int> = persistentSetOf(),
     val isTextDetectionFailed: Boolean = false,
+    val isCameraRecognitionFailedDialogVisible: Boolean = false,
+    val isGalleryRecognitionFailedDialogVisible: Boolean = false,
     val isRecaptureDialogVisible: Boolean = false,
     val isLoading: Boolean = false,
     val sideEffect: OcrSideEffect? = null,
@@ -25,26 +29,36 @@ data class OcrUiState(
 @Immutable
 sealed interface OcrSideEffect {
     data class ShowToast(
-        val message: String,
+        val message: UiText,
         private val key: String = UUID.randomUUID().toString(),
     ) : OcrSideEffect
 }
 
 sealed interface OcrUiEvent : CircuitUiEvent {
     data object OnCloseClick : OcrUiEvent
+    data object OnImageContentClosed : OcrUiEvent
     data object OnShowPermissionDialog : OcrUiEvent
     data object OnHidePermissionDialog : OcrUiEvent
     data object OnCaptureStart : OcrUiEvent
     data class OnCaptureFailed(val exception: Exception) : OcrUiEvent
     data class OnImageCaptured(val imageUri: Uri) : OcrUiEvent
+    data class OnImageSelected(val imageUri: String) : OcrUiEvent
     data object OnReCaptureButtonClick : OcrUiEvent
     data object OnSelectionConfirmed : OcrUiEvent
     data object OnRecaptureDialogConfirmed : OcrUiEvent
     data object OnRecaptureDialogDismissed : OcrUiEvent
+    data object OnCameraRecognitionFailedDialogDismissed : OcrUiEvent
+    data object OnImageRecognitionFailedDialogDismissed : OcrUiEvent
     data class OnSentenceSelected(val index: Int) : OcrUiEvent
 }
 
 enum class OcrUi {
     CAMERA,
+    IMAGE,
     RESULT,
+}
+
+enum class RecognizeSource {
+    CAMERA,
+    GALLERY,
 }

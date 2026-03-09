@@ -3,11 +3,13 @@ package com.ninecraft.booket.core.common.analytics
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.logEvent
 import com.orhanobut.logger.Logger
-import javax.inject.Inject
-import javax.inject.Singleton
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 
-@Singleton
-class AnalyticsHelper @Inject constructor(
+@SingleIn(AppScope::class)
+@Inject
+class AnalyticsHelper(
     private val firebaseAnalytics: FirebaseAnalytics,
 ) {
 

@@ -2,10 +2,12 @@
 <resources>
     <string name="login_reed_slogan">책 덮기 전 한 문장을 기록해보세요</string>
     <string name="kakao_login">카카오로 시작하기</string>
+    <string name="google_login">Google로 시작하기</string>
     <string name="terms_agreement_title">약관 동의 후\n독서 기록을 남겨보세요</string>
     <string name="terms_agreement_all">약관 전체 동의</string>
     <string name="terms_agreement_button_start">시작하기</string>
     <string name="guest_login">회원가입 없이 둘러보기</string>
+    <string name="recent_login">최근 로그인</string>
     <string-array name="terms_agreement_items">
         <item>(필수)서비스 이용약관</item>
         <item>(필수)개인정보처리방침</item>

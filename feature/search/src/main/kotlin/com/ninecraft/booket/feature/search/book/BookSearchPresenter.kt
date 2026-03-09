@@ -17,7 +17,7 @@ import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.BookSearchModel
 import com.ninecraft.booket.core.model.BookSummaryModel
-import com.ninecraft.booket.core.model.UserState
+import com.ninecraft.booket.core.model.state.UserState
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookSearchScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
@@ -31,21 +31,29 @@ import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
-class BookSearchPresenter @AssistedInject constructor(
+@AssistedInject
+class BookSearchPresenter(
     @Assisted private val navigator: Navigator,
     private val repository: BookRepository,
     private val authRepository: AuthRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<BookSearchUiState> {
+
+    @CircuitInject(BookSearchScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): BookSearchPresenter
+    }
+
     companion object {
         private const val START_INDEX = 1
         private const val SEARCH_BOOK_RESULT = "search_book_result"
@@ -59,7 +67,7 @@ class BookSearchPresenter @AssistedInject constructor(
     override fun present(): BookSearchUiState {
         val scope = rememberCoroutineScope()
         val userState by authRepository.userState.collectAsRetainedState(initial = UserState.Guest)
-        var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
+        var searchUiState by rememberRetained { mutableStateOf<SearchUiState>(SearchUiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
         val queryState = rememberTextFieldState()
         val recentSearches by repository.bookRecentSearches.collectAsRetainedState(initial = emptyList())
@@ -78,7 +86,7 @@ class BookSearchPresenter @AssistedInject constructor(
         fun searchBooks(query: String, startIndex: Int = START_INDEX) {
             scope.launch {
                 if (startIndex == START_INDEX) {
-                    uiState = UiState.Loading
+                    searchUiState = SearchUiState.Loading
                 } else {
                     footerState = FooterState.Loading
                 }
@@ -100,7 +108,7 @@ class BookSearchPresenter @AssistedInject constructor(
                         isLastPage = result.lastPage
 
                         if (startIndex == START_INDEX) {
-                            uiState = UiState.Success
+                            searchUiState = SearchUiState.Success
                             analyticsHelper.logEvent(SEARCH_BOOK_RESULT)
                         } else {
                             footerState = if (isLastPage) FooterState.End else FooterState.Idle
@@ -111,7 +119,7 @@ class BookSearchPresenter @AssistedInject constructor(
                         analyticsHelper.logEvent(ERROR_SEARCH_LOADING)
                         val errorMessage = exception.message ?: "알 수 없는 오류가 발생했습니다."
                         if (startIndex == START_INDEX) {
-                            uiState = UiState.Error(exception)
+                            searchUiState = SearchUiState.Error(exception)
                         } else {
                             footerState = FooterState.Error(errorMessage)
                         }
@@ -252,6 +260,10 @@ class BookSearchPresenter @AssistedInject constructor(
                 is BookSearchUiEvent.OnBookRegisterSuccessCancelButtonClick -> {
                     isBookRegisterSuccessBottomSheetVisible = false
                 }
+
+                is BookSearchUiEvent.OnInquireClick -> {
+                    sideEffect = BookSearchSideEffect.NavigateToKakaoTalkChannel
+                }
             }
         }
 
@@ -260,7 +272,7 @@ class BookSearchPresenter @AssistedInject constructor(
         }
 
         return BookSearchUiState(
-            uiState = uiState,
+            searchUiState = searchUiState,
             footerState = footerState,
             queryState = queryState,
             recentSearches = recentSearches.toImmutableList(),
@@ -275,11 +287,5 @@ class BookSearchPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(BookSearchScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): BookSearchPresenter
     }
 }

@@ -1,4 +1,4 @@
-@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
+import com.ninecraft.booket.convention.getLocalProperty
 
 plugins {
     alias(libs.plugins.booket.android.feature)
@@ -8,15 +8,22 @@ plugins {
 
 android {
     namespace = "com.ninecraft.booket.feature.login"
-}
 
-ksp {
-    arg("circuit.codegen.mode", "hilt")
+    defaultConfig {
+        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getLocalProperty("GOOGLE_WEB_CLIENT_ID"))
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
     implementations(
         libs.logger,
         libs.kakao.auth,
+        libs.androidx.credentials,
+        libs.androidx.credentials.play.services.auth,
+        libs.googleid,
     )
 }

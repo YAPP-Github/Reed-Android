@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.utils.HighlightedText
 import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.theme.Black
@@ -25,10 +25,21 @@ import com.ninecraft.booket.feature.onboarding.R
 internal fun OnboardingPage(
     imageRes: Int,
     titleRes: Int,
-    highlightTextRes: Int,
+    highlightTextRes: Int? = null,
     descriptionRes: Int,
     modifier: Modifier = Modifier,
 ) {
+    val titleText =
+        if (highlightTextRes != null) {
+            HighlightedText(
+                fullText = stringResource(titleRes),
+                highlightText = stringResource(highlightTextRes),
+                highlightColor = ReedTheme.colors.bgPrimary,
+            )
+        } else {
+            AnnotatedString(stringResource(titleRes))
+        }
+
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -38,17 +49,11 @@ internal fun OnboardingPage(
             painter = painterResource(imageRes),
             contentDescription = "Onboarding Graphic",
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(274.dp),
+            modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
         Text(
-            text = HighlightedText(
-                fullText = stringResource(titleRes),
-                highlightText = stringResource(highlightTextRes),
-                highlightColor = ReedTheme.colors.bgPrimary,
-            ),
+            text = titleText,
             color = Black,
             textAlign = TextAlign.Center,
             style = ReedTheme.typography.heading1Bold,

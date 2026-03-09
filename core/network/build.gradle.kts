@@ -1,12 +1,10 @@
-@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
-
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.ninecraft.booket.convention.getLocalProperty
 
 
 plugins {
     alias(libs.plugins.booket.android.library)
     alias(libs.plugins.booket.android.retrofit)
-    alias(libs.plugins.booket.android.hilt)
+    alias(libs.plugins.metro)
 }
 
 android {
@@ -18,11 +16,11 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "SERVER_BASE_URL", getServerBaseUrl("DEBUG_SERVER_BASE_URL"))
+            buildConfigField("String", "SERVER_BASE_URL", getLocalProperty("DEBUG_SERVER_BASE_URL"))
         }
 
         release {
-            buildConfigField("String", "SERVER_BASE_URL", getServerBaseUrl("RELEASE_SERVER_BASE_URL"))
+            buildConfigField("String", "SERVER_BASE_URL", getLocalProperty("RELEASE_SERVER_BASE_URL"))
         }
     }
 }
@@ -30,11 +28,12 @@ android {
 dependencies {
     implementations(
         projects.core.datastore.api,
+        projects.core.di,
 
+        libs.kotlinx.coroutines.core,
         libs.logger,
     )
-}
 
-fun getServerBaseUrl(propertyKey: String): String {
-    return gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
+    debugImplementation(libs.chucker)
+    releaseImplementation(libs.chucker.no.op)
 }

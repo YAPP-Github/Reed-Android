@@ -8,11 +8,13 @@ import androidx.compose.runtime.setValue
 import com.ninecraft.booket.core.common.analytics.AnalyticsHelper
 import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
-import com.ninecraft.booket.core.model.RecordDetailModel
+import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.RecordCardScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordEditScreen
+import com.ninecraft.booket.feature.screens.arguments.DetailEmotionArg
+import com.ninecraft.booket.feature.screens.arguments.PrimaryEmotionArg
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
@@ -21,18 +23,25 @@ import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.launch
 
-class RecordDetailPresenter @AssistedInject constructor(
+@AssistedInject
+class RecordDetailPresenter(
     @Assisted private val screen: RecordDetailScreen,
     @Assisted private val navigator: Navigator,
     private val repository: RecordRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<RecordDetailUiState> {
+
+    @CircuitInject(RecordDetailScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(screen: RecordDetailScreen, navigator: Navigator): RecordDetailPresenter
+    }
 
     companion object {
         private const val RECORD_DELETE = "record_delete"
@@ -43,7 +52,7 @@ class RecordDetailPresenter @AssistedInject constructor(
     override fun present(): RecordDetailUiState {
         val scope = rememberCoroutineScope()
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
-        var recordDetailInfo by rememberRetained { mutableStateOf(RecordDetailModel()) }
+        var recordDetailInfo by rememberRetained { mutableStateOf(ReadingRecordModel()) }
         var isRecordMenuBottomSheetVisible by rememberRetained { mutableStateOf(false) }
         var isRecordDeleteDialogVisible by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<RecordDetailSideEffect?>(null) }
@@ -127,7 +136,7 @@ class RecordDetailPresenter @AssistedInject constructor(
                         RecordCardScreen(
                             quote = recordDetailInfo.quote,
                             bookTitle = recordDetailInfo.bookTitle,
-                            emotion = recordDetailInfo.emotionTags[0],
+                            emotionCode = recordDetailInfo.primaryEmotion.code,
                         ),
                     )
                 }
@@ -141,7 +150,16 @@ class RecordDetailPresenter @AssistedInject constructor(
                                 pageNumber = recordDetailInfo.pageNumber,
                                 quote = recordDetailInfo.quote,
                                 review = recordDetailInfo.review,
-                                emotionTags = recordDetailInfo.emotionTags,
+                                primaryEmotion = PrimaryEmotionArg(
+                                    code = recordDetailInfo.primaryEmotion.code,
+                                    displayName = recordDetailInfo.primaryEmotion.displayName,
+                                ),
+                                detailEmotions = recordDetailInfo.detailEmotions.map {
+                                    DetailEmotionArg(
+                                        id = it.id,
+                                        name = it.name,
+                                    )
+                                },
                                 bookTitle = recordDetailInfo.bookTitle,
                                 bookPublisher = recordDetailInfo.bookPublisher,
                                 bookCoverImageUrl = recordDetailInfo.bookCoverImageUrl,
@@ -185,14 +203,5 @@ class RecordDetailPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(RecordDetailScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: RecordDetailScreen,
-            navigator: Navigator,
-        ): RecordDetailPresenter
     }
 }

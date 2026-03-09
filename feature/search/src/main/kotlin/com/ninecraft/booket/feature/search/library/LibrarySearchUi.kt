@@ -35,10 +35,10 @@ import com.ninecraft.booket.feature.search.common.component.SearchItem
 import com.ninecraft.booket.feature.search.library.component.LibraryBookItem
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 
 @TraceRecomposition
-@CircuitInject(LibrarySearchScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(LibrarySearchScreen::class, AppScope::class)
 @Composable
 internal fun LibrarySearchUi(
     state: LibrarySearchUiState,

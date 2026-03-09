@@ -10,7 +10,7 @@ public fun com.ninecraft.booket.feature.screens.component.MainBottomBar(tabs: ko
   restartable: true
   params:
     - tabs: STABLE (known stable type)
-    - currentTab: STABLE
+    - currentTab: STABLE (class with no mutable properties)
     - onTabSelected: STABLE (function type)
     - modifier: STABLE (marked @Stable or @Immutable)
 
@@ -19,13 +19,7 @@ private fun com.ninecraft.booket.feature.screens.component.MainBottomBarItem(tab
   skippable: true
   restartable: true
   params:
-    - tab: STABLE
+    - tab: STABLE (class with no mutable properties)
     - selected: STABLE (primitive type)
     - onClick: STABLE (function type)
-
-@Composable
-private fun com.ninecraft.booket.feature.screens.component.MainBottomBarPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
 

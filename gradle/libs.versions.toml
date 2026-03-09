@@ -1,63 +1,66 @@
 [versions]
 ## App Configuration
 minSdk = "28"
-targetSdk = "35"
-compileSdk = "35"
-versionName = "1.3.0"
-versionCode = "9"
+targetSdk = "36"
+compileSdk = "36"
+versionName = "1.4.0"
+versionCode = "11"
 packageName = "com.ninecraft.booket"
 
 ## Android gradle plugin
-android-gradle-plugin = "8.9.3"
+android-gradle-plugin = "9.0.0"
 
 ## AndroidX
-androidx-core = "1.16.0"
-androidx-activity-compose = "1.10.1"
+androidx-core = "1.17.0"
+androidx-activity-compose = "1.12.3"
 androidx-startup = "1.2.0"
-androidx-splash = "1.0.1"
-androidx-datastore = "1.1.7"
-androidx-camera = "1.4.2"
+androidx-splash = "1.2.0"
+androidx-datastore = "1.2.0"
+androidx-camera = "1.5.3"
 
 ## Compose
-androidx-compose-bom = "2025.07.00"
-androidx-compose-material3 = "1.4.0-alpha18"
-compose-stable-marker = "1.0.6"
-compose-effects = "0.1.1"
-compose-shadow = "2.0.4"
-compose-stability-analyzer = "0.4.2"
+androidx-compose-bom = "2026.01.01"
+androidx-compose-material3 = "1.4.0"
+compose-stable-marker = "1.0.7"
+compose-effects = "0.1.4"
+compose-stability-analyzer = "0.6.6"
 
 ## Kotlin Symbol Processing
-ksp = "2.3.0"
+ksp = "2.3.4"
 
 ## Kotlin
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
-kotlinx-serialization-json = "1.9.0"
+kotlinx-serialization-json = "1.10.0"
 kotlinx-collections-immutable = "0.4.0"
 
-## Hilt
-hilt = "2.57"
-hilt-navigation-compose = "1.2.0"
+## Metro
+metro = "0.10.2"
 
 ## Network
-okhttp = "5.1.0"
+okhttp = "5.3.2"
 retrofit = "3.0.0"
+chucker = "4.3.1"
 
 ## Circuit
-circuit = "0.30.0"
+circuit = "0.32.0"
 
 ## Logging
 logger = "2.2.0"
 
 ## Kakao Login
-kakao-core = "2.21.4"
+kakao-core = "2.23.2"
+
+## Google Credential Manager
+androidx-credentials = "1.6.0-rc01"
+googleid = "1.2.0"
 
 ## Image Load
 coil-compose = "2.7.0"
-landscapist = "2.5.1"
+landscapist = "2.9.0"
 
 ## Lottie
-lottie = "6.6.6"
+lottie = "6.7.1"
 
 ## Extension
 # https://github.com/jisungbin/dependency-handler-extensions
@@ -71,18 +74,18 @@ kotlin-ktlint-gradle = "11.6.1"
 kotlin-ktlint-source = "0.50.0"
 
 ## Test
-androidx-test-ext-junit = "1.2.1"
-androidx-test-runner = "1.6.2"
+androidx-test-ext-junit = "1.3.0"
+androidx-test-runner = "1.7.0"
 
 ## Firebase
-google-service = "4.4.3"
-firebase-bom = "34.1.0"
-firebase-crashlytics = "3.0.4"
+google-service = "4.4.4"
+firebase-bom = "34.8.0"
+firebase-crashlytics = "3.0.6"
 
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
-kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
@@ -108,15 +111,12 @@ compose-stable-marker = { group = "com.github.skydoves", name = "compose-stable-
 compose-effects = { group = "com.github.skydoves", name = "compose-effects", version.ref = "compose-effects" }
 compose-system-ui-controller = { group = "tech.thdev", name = "extensions-compose-system-ui-controller", version.ref = "compose-extensions" }
 compose-keyboard-state = { group = "tech.thdev", name = "extensions-compose-keyboard-state", version.ref = "compose-extensions" }
-compose-shadow = { group = "com.adamglin", name = "compose-shadow", version.ref = "compose-shadow" }
-
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlinx-serialization-converter = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+chucker = { group = "com.github.chuckerteam.chucker", name = "library", version.ref = "chucker" }
+chucker-no-op = { group = "com.github.chuckerteam.chucker", name = "library-no-op", version.ref = "chucker" }
 
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose" }
 landscapist-bom = { group = "com.github.skydoves", name = "landscapist-bom", version.ref = "landscapist" }
@@ -142,6 +142,10 @@ detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-form
 
 kakao-auth = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-core" }
 
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "androidx-credentials" }
+androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "androidx-credentials" }
+googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
+
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
 
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
@@ -160,7 +164,6 @@ android-application = { id = "com.android.application", version.ref = "android-g
 android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
 android-test = { id = "com.android.test", version.ref = "android-gradle-plugin" }
 
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
@@ -168,13 +171,13 @@ kotlin-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "kotlin-dete
 kotlin-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kotlin-ktlint-gradle" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 
+metro = { id = "dev.zacsweers.metro", version.ref = "metro" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 google-service = { id = "com.google.gms.google-services", version.ref = "google-service" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
 
-compose-stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version.ref = "compose-stability-analyzer"}
+compose-stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version.ref = "compose-stability-analyzer" }
 
 # Plugins defined by this project
 booket-android-application = { id = "booket.android.application", version = "unspecified" }
@@ -184,7 +187,6 @@ booket-android-library-compose = { id = "booket.android.library.compose", versio
 booket-android-retrofit = { id = "booket.android.retrofit", version = "unspecified" }
 booket-android-feature = { id = "booket.android.feature", version = "unspecified" }
 booket-android-firebase = { id = "booket.android.firebase", version = "unspecified" }
-booket-android-hilt = { id = "booket.android.hilt", version = "unspecified" }
 booket-jvm-library = { id = "booket.jvm.library", version = "unspecified" }
 booket-kotlin-library-serialization = { id = "booket.kotlin.library.serialization", version = "unspecified" }
 

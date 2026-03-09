@@ -3,22 +3,26 @@ package com.ninecraft.booket.core.data.impl.repository
 import com.ninecraft.booket.core.common.utils.runSuspendCatching
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.data.impl.mapper.toModel
-import com.ninecraft.booket.core.model.ReadingRecordModel
+import com.ninecraft.booket.core.di.DataScope
 import com.ninecraft.booket.core.network.request.RecordRegisterRequest
 import com.ninecraft.booket.core.network.service.ReedService
-import javax.inject.Inject
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 
-class DefaultRecordRepository @Inject constructor(
+@SingleIn(DataScope::class)
+@Inject
+class DefaultRecordRepository(
     private val service: ReedService,
 ) : RecordRepository {
     override suspend fun postRecord(
         userBookId: String,
-        pageNumber: Int,
+        pageNumber: Int?,
         quote: String,
-        emotionTags: List<String>,
         review: String,
+        primaryEmotion: String,
+        detailEmotionTagIds: List<String>,
     ) = runSuspendCatching {
-        service.postRecord(userBookId, RecordRegisterRequest(pageNumber, quote, emotionTags, review)).toModel()
+        service.postRecord(userBookId, RecordRegisterRequest(pageNumber, quote, review, primaryEmotion, detailEmotionTagIds)).toModel()
     }
 
     override suspend fun getReadingRecords(
@@ -36,12 +40,13 @@ class DefaultRecordRepository @Inject constructor(
 
     override suspend fun editRecord(
         readingRecordId: String,
-        pageNumber: Int,
+        pageNumber: Int?,
         quote: String,
-        emotionTags: List<String>,
         review: String,
-    ): Result<ReadingRecordModel> = runSuspendCatching {
-        service.editRecord(readingRecordId, RecordRegisterRequest(pageNumber, quote, emotionTags, review)).toModel()
+        primaryEmotion: String,
+        detailEmotionTagIds: List<String>,
+    ) = runSuspendCatching {
+        service.editRecord(readingRecordId, RecordRegisterRequest(pageNumber, quote, review, primaryEmotion, detailEmotionTagIds)).toModel()
     }
 
     override suspend fun deleteRecord(readingRecordId: String): Result<Unit> = runSuspendCatching {

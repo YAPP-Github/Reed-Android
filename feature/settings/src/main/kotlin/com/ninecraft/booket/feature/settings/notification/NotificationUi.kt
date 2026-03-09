@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -45,11 +46,11 @@ import com.ninecraft.booket.feature.settings.R
 import com.ninecraft.booket.feature.settings.component.ToggleItem
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @TraceRecomposition
-@CircuitInject(NotificationScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(NotificationScreen::class, AppScope::class)
 @Composable
 internal fun NotificationUi(
     state: NotificationUiState,
@@ -138,10 +139,8 @@ internal fun NotificationGuideItem(
                 horizontal = ReedTheme.spacing.spacing5,
             )
             .fillMaxWidth()
-            .background(
-                color = ReedTheme.colors.baseSecondary,
-                shape = RoundedCornerShape(ReedTheme.radius.md),
-            )
+            .clip(RoundedCornerShape(ReedTheme.radius.md))
+            .background(color = ReedTheme.colors.baseSecondary)
             .noRippleClickable { onClick() }
             .padding(
                 vertical = ReedTheme.spacing.spacing6,

@@ -1,7 +1,6 @@
 package com.ninecraft.booket.feature.record.step
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.verticalScroll
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -39,13 +41,12 @@ import com.ninecraft.booket.core.designsystem.ComponentPreview
 import com.ninecraft.booket.core.designsystem.component.button.ReedButton
 import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
 import com.ninecraft.booket.core.designsystem.component.button.largeButtonStyle
-import com.ninecraft.booket.core.designsystem.component.button.smallRoundedButtonStyle
+import com.ninecraft.booket.core.designsystem.component.button.mediumButtonStyle
 import com.ninecraft.booket.core.designsystem.component.textfield.ReedRecordTextField
 import com.ninecraft.booket.core.designsystem.component.textfield.digitOnlyInputTransformation
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.feature.record.R
-import com.ninecraft.booket.feature.record.component.CustomTooltipBox
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiEvent
 import com.ninecraft.booket.feature.record.register.RecordRegisterUiState
 import com.skydoves.compose.stability.runtime.TraceRecomposition
@@ -75,7 +76,7 @@ internal fun QuoteStep(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(White)
+            .background(color = White)
             .imePadding(),
     ) {
         Column(
@@ -91,31 +92,6 @@ internal fun QuoteStep(
                 style = ReedTheme.typography.heading1Bold,
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing10))
-            Text(
-                text = stringResource(R.string.quote_step_page_label),
-                color = ReedTheme.colors.contentPrimary,
-                style = ReedTheme.typography.body1Medium,
-            )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
-            ReedRecordTextField(
-                recordState = state.recordPageState,
-                recordHintRes = R.string.quote_step_page_hint,
-                inputTransformation = digitOnlyInputTransformation,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                lineLimits = TextFieldLineLimits.SingleLine,
-                isError = state.isPageError,
-                errorMessage = stringResource(R.string.quote_step_page_input_error),
-                onClear = {
-                    state.eventSink(RecordRegisterUiEvent.OnClearClick)
-                },
-                onNext = {
-                    focusManager.moveFocus(FocusDirection.Down)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-            )
-            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing8))
             Text(
                 text = stringResource(R.string.quote_step_sentence_label),
                 color = ReedTheme.colors.contentPrimary,
@@ -137,32 +113,104 @@ internal fun QuoteStep(
                 ),
             )
             Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing3))
-            Row(
+            ReedButton(
+                onClick = {
+                    state.eventSink(RecordRegisterUiEvent.OnSentenceScanButtonClick)
+                },
+                colorStyle = ReedButtonColorStyle.TERTIARY,
+                sizeStyle = mediumButtonStyle,
+                text = stringResource(R.string.quote_step_scan_sentence),
                 modifier = Modifier
                     .fillMaxWidth()
                     .bringIntoViewRequester(bringIntoViewRequester),
-                horizontalArrangement = Arrangement.End,
+                leadingIcon = {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(designR.drawable.ic_maximize),
+                        contentDescription = "Scan Icon",
+                    )
+                },
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing12))
+            Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                if (state.isScanTooltipVisible) {
-                    CustomTooltipBox(messageResId = R.string.scan_tooltip_message)
-                }
-
-                ReedButton(
-                    onClick = {
-                        state.eventSink(RecordRegisterUiEvent.OnSentenceScanButtonClick)
-                    },
-                    colorStyle = ReedButtonColorStyle.STROKE,
-                    sizeStyle = smallRoundedButtonStyle,
-                    text = stringResource(R.string.quote_step_scan_sentence),
-                    leadingIcon = {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(designR.drawable.ic_maximize),
-                            contentDescription = "Scan Icon",
-                        )
-                    },
+                Text(
+                    text = stringResource(R.string.quote_step_page_label),
+                    color = ReedTheme.colors.contentPrimary,
+                    style = ReedTheme.typography.body1Medium,
+                )
+                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
+                Text(
+                    text = stringResource(R.string.select),
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(ReedTheme.radius.xs))
+                        .background(color = ReedTheme.colors.bgSecondary)
+                        .padding(
+                            start = ReedTheme.spacing.spacing2,
+                            top = ReedTheme.spacing.spacing05,
+                            end = ReedTheme.spacing.spacing2,
+                            bottom = ReedTheme.spacing.spacing05,
+                        ),
+                    color = ReedTheme.colors.contentTertiary,
+                    style = ReedTheme.typography.caption1Medium,
                 )
             }
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+            ReedRecordTextField(
+                recordState = state.recordPageState,
+                recordHintRes = R.string.quote_step_page_hint,
+                inputTransformation = digitOnlyInputTransformation,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                lineLimits = TextFieldLineLimits.SingleLine,
+                isError = state.isPageError,
+                errorMessage = stringResource(R.string.quote_step_page_input_error),
+                onClear = {
+                    state.eventSink(RecordRegisterUiEvent.OnClearClick)
+                },
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Down)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+            )
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing12))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(R.string.quote_step_memo_label),
+                    color = ReedTheme.colors.contentPrimary,
+                    style = ReedTheme.typography.body1Medium,
+                )
+                Spacer(modifier = Modifier.width(ReedTheme.spacing.spacing2))
+                Text(
+                    text = stringResource(R.string.select),
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(ReedTheme.radius.xs))
+                        .background(color = ReedTheme.colors.bgSecondary)
+                        .padding(
+                            start = ReedTheme.spacing.spacing2,
+                            top = ReedTheme.spacing.spacing05,
+                            end = ReedTheme.spacing.spacing2,
+                            bottom = ReedTheme.spacing.spacing05,
+                        ),
+                    color = ReedTheme.colors.contentTertiary,
+                    style = ReedTheme.typography.caption1Medium,
+                )
+            }
+            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
+            ReedRecordTextField(
+                recordState = state.memoState,
+                recordHintRes = R.string.quote_step_memo_hint,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(140.dp),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Default,
+                ),
+            )
         }
 
         ReedButton(

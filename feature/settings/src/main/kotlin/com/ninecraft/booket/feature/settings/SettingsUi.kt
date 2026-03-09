@@ -37,13 +37,13 @@ import com.ninecraft.booket.feature.settings.component.SettingItem
 import com.ninecraft.booket.feature.settings.component.WithdrawConfirmationBottomSheet
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @TraceRecomposition
 @OptIn(ExperimentalMaterial3Api::class)
-@CircuitInject(SettingsScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(SettingsScreen::class, AppScope::class)
 @Composable
 internal fun SettingsUi(
     state: SettingsUiState,
@@ -71,7 +71,7 @@ internal fun SettingsUi(
     ReedScaffold(
         modifier = modifier
             .fillMaxSize()
-            .background(White),
+            .background(color = White),
         containerColor = White,
     ) { innerPadding ->
         Column(

@@ -1,6 +1,6 @@
 package com.ninecraft.booket.core.datastore.api.datasource
 
-import com.ninecraft.booket.core.model.OnboardingState
+import com.ninecraft.booket.core.model.state.OnboardingState
 import kotlinx.coroutines.flow.Flow
 
 interface OnboardingDataSource {

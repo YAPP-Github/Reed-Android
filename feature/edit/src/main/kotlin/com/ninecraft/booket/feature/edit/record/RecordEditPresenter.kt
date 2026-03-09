@@ -22,18 +22,25 @@ import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.launch
 
-class RecordEditPresenter @AssistedInject constructor(
+@AssistedInject
+class RecordEditPresenter(
     @Assisted private val screen: RecordEditScreen,
     @Assisted private val navigator: Navigator,
     private val repository: RecordRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<RecordEditUiState> {
+
+    @CircuitInject(RecordEditScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(screen: RecordEditScreen, navigator: Navigator): RecordEditPresenter
+    }
 
     companion object {
         private const val MAX_PAGE = 4032
@@ -45,7 +52,7 @@ class RecordEditPresenter @AssistedInject constructor(
     override fun present(): RecordEditUiState {
         val scope = rememberCoroutineScope()
         var recordInfo by rememberRetained { mutableStateOf(screen.recordInfo) }
-        val recordPageState = rememberTextFieldState(recordInfo.pageNumber.toString())
+        val recordPageState = rememberTextFieldState(recordInfo.pageNumber?.toString() ?: "")
         val recordQuoteState = rememberTextFieldState(recordInfo.quote)
         val recordImpressionState = rememberTextFieldState(recordInfo.review)
         val isPageError by remember {
@@ -56,32 +63,38 @@ class RecordEditPresenter @AssistedInject constructor(
         }
         val hasChanges by remember {
             derivedStateOf {
-                val pageChanged = recordPageState.text.toString() != recordInfo.pageNumber.toString()
+                val pageChanged = recordPageState.text.toString().toIntOrNull() != recordInfo.pageNumber
                 val quoteChanged = recordQuoteState.text.toString() != recordInfo.quote
                 val impressionChanged = recordImpressionState.text.toString() != recordInfo.review
-                val emotionChanged = recordInfo.emotionTags != screen.recordInfo.emotionTags
+
+                val originalPrimaryEmotionCode = screen.recordInfo.primaryEmotion.code
+                val originalDetailEmotionIds = screen.recordInfo.detailEmotions.map { it.id }.toSet()
+                val currentPrimaryEmotionCode = recordInfo.primaryEmotion.code
+                val currentDetailEmotionIds = recordInfo.detailEmotions.map { it.id }.toSet()
+                val emotionChanged = originalPrimaryEmotionCode != currentPrimaryEmotionCode || originalDetailEmotionIds != currentDetailEmotionIds
                 pageChanged || quoteChanged || impressionChanged || emotionChanged
             }
         }
         val isSaveButtonEnabled by remember {
             derivedStateOf {
-                recordPageState.text.isNotEmpty() &&
-                    recordQuoteState.text.isNotEmpty() &&
-                    !isPageError &&
-                    hasChanges
+                recordQuoteState.text.isNotEmpty() && !isPageError && hasChanges
             }
         }
         var sideEffect by rememberRetained { mutableStateOf<RecordEditSideEffect?>(null) }
 
         val emotionEditNavigator = rememberAnsweringNavigator<EmotionEditScreen.Result>(navigator) { result ->
-            recordInfo = recordInfo.copy(emotionTags = listOf(result.emotion))
+            recordInfo = recordInfo.copy(
+                primaryEmotion = result.primaryEmotion,
+                detailEmotions = result.detailEmotions,
+            )
         }
 
         fun editRecord(
             readingRecordId: String,
-            pageNumber: Int,
+            pageNumber: Int?,
             quote: String,
-            emotionTags: List<String>,
+            primaryEmotion: String,
+            detailEmotionIds: List<String>,
             impression: String,
             onSuccess: () -> Unit = {},
         ) {
@@ -90,8 +103,9 @@ class RecordEditPresenter @AssistedInject constructor(
                     readingRecordId = readingRecordId,
                     pageNumber = pageNumber,
                     quote = quote,
-                    emotionTags = emotionTags,
                     review = impression,
+                    primaryEmotion = primaryEmotion,
+                    detailEmotionTagIds = detailEmotionIds,
                 ).onSuccess {
                     analyticsHelper.logEvent(RECORD_EDIT_SAVE)
                     onSuccess()
@@ -123,16 +137,21 @@ class RecordEditPresenter @AssistedInject constructor(
                 }
 
                 RecordEditUiEvent.OnEmotionEditClick -> {
-                    val emotion = recordInfo.emotionTags.firstOrNull() ?: ""
-                    emotionEditNavigator.goTo(EmotionEditScreen(emotion))
+                    emotionEditNavigator.goTo(
+                        EmotionEditScreen(
+                            primaryEmotionCode = recordInfo.primaryEmotion.code,
+                            detailEmotionIds = recordInfo.detailEmotions.map { it.id },
+                        ),
+                    )
                 }
 
                 RecordEditUiEvent.OnSaveButtonClick -> {
                     editRecord(
                         readingRecordId = recordInfo.id,
-                        pageNumber = recordPageState.text.toString().toIntOrNull() ?: 0,
+                        pageNumber = recordPageState.text.toString().toIntOrNull(),
                         quote = recordQuoteState.text.toString(),
-                        emotionTags = recordInfo.emotionTags,
+                        primaryEmotion = recordInfo.primaryEmotion.code.name,
+                        detailEmotionIds = recordInfo.detailEmotions.map { it.id },
                         impression = recordImpressionState.text.toString(),
                         onSuccess = {
                             navigator.pop()
@@ -156,14 +175,5 @@ class RecordEditPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(RecordEditScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: RecordEditScreen,
-            navigator: Navigator,
-        ): RecordEditPresenter
     }
 }

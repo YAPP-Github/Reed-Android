@@ -5,10 +5,13 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.util.DebugLogger
-import dagger.hilt.android.HiltAndroidApp
+import com.ninecraft.booket.di.AppGraph
+import dev.zacsweers.metro.createGraphFactory
 
-@HiltAndroidApp
 class BooketApplication : Application(), ImageLoaderFactory {
+
+    val appGraph by lazy { createGraphFactory<AppGraph.Factory>().create(this) }
+
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(this)
             .diskCache {

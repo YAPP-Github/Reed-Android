@@ -30,6 +30,7 @@ include(
     ":core:datastore:api",
     ":core:datastore:impl",
     ":core:designsystem",
+    ":core:di",
     ":core:model",
     ":core:network",
     ":core:ui",

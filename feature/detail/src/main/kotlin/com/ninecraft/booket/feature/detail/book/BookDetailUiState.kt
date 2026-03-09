@@ -5,6 +5,7 @@ import com.ninecraft.booket.core.common.R
 import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.EmotionModel
+import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.slack.circuit.runtime.CircuitUiEvent
@@ -26,7 +27,9 @@ data class BookDetailUiState(
     val footerState: FooterState = FooterState.Idle,
     val isLoading: Boolean = false,
     val bookDetail: BookDetailModel = BookDetailModel(),
+    val representativeEmotion: PrimaryEmotionModel? = null,
     val seedsStats: ImmutableList<EmotionModel> = persistentListOf(),
+    val isStatsExpanded: Boolean = false,
     val readingRecords: ImmutableList<ReadingRecordModel> = persistentListOf(),
     val readingRecordsTotalCount: Int = 0,
     val currentStartIndex: Int = 1,
@@ -84,6 +87,7 @@ sealed interface BookDetailUiEvent : CircuitUiEvent {
     data class OnRecordItemClick(val recordId: String) : BookDetailUiEvent
     data object OnLoadMore : BookDetailUiEvent
     data object OnRetryClick : BookDetailUiEvent
+    data class OnStatsToggleClick(val flag: Boolean) : BookDetailUiEvent
 }
 
 enum class RecordSort(val value: String) {
@@ -98,7 +102,7 @@ enum class RecordSort(val value: String) {
         }
     }
 
-    companion object Companion {
+    companion object {
         fun fromValue(value: String): RecordSort? {
             return entries.find { it.value == value }
         }

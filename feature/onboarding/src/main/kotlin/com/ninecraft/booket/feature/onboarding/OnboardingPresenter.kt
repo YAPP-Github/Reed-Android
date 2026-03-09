@@ -12,19 +12,26 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.launch
 
 const val ONBOARDING_STEPS_COUNT = 3
 
-class OnboardingPresenter @AssistedInject constructor(
+@AssistedInject
+class OnboardingPresenter(
     @Assisted private val navigator: Navigator,
     private val repository: UserRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<OnboardingUiState> {
+
+    @CircuitInject(OnboardingScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): OnboardingPresenter
+    }
 
     @Composable
     override fun present(): OnboardingUiState {
@@ -58,11 +65,5 @@ class OnboardingPresenter @AssistedInject constructor(
             pagerState = pagerState,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(OnboardingScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): OnboardingPresenter
     }
 }

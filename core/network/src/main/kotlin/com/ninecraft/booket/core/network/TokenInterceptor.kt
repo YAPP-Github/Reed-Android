@@ -1,12 +1,16 @@
 package com.ninecraft.booket.core.network
 
 import com.ninecraft.booket.core.datastore.api.datasource.TokenDataSource
+import dev.zacsweers.metro.Inject
+import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
-import javax.inject.Inject
 
-internal class TokenInterceptor @Inject constructor(
+@SingleIn(DataScope::class)
+@Inject
+class TokenInterceptor(
     private val tokenDataSource: TokenDataSource,
 ) : Interceptor {
 

@@ -24,6 +24,9 @@ import com.ninecraft.booket.core.common.constants.BookStatus
 import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.component.ReedDivider
+import com.ninecraft.booket.core.designsystem.component.button.ReedButton
+import com.ninecraft.booket.core.designsystem.component.button.ReedButtonColorStyle
+import com.ninecraft.booket.core.designsystem.component.button.smallButtonStyle
 import com.ninecraft.booket.core.designsystem.component.textfield.ReedTextField
 import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
@@ -42,13 +45,13 @@ import com.ninecraft.booket.feature.search.common.component.RecentSearchTitle
 import com.ninecraft.booket.feature.search.common.component.SearchItem
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @TraceRecomposition
-@CircuitInject(BookSearchScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(BookSearchScreen::class, AppScope::class)
 @Composable
 internal fun BookSearchUi(
     state: BookSearchUiState,
@@ -114,19 +117,19 @@ internal fun BookSearchContent(
         ReedDivider()
         Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing2))
 
-        when (state.uiState) {
-            is UiState.Loading -> {
+        when (state.searchUiState) {
+            is SearchUiState.Loading -> {
                 ReedLoadingIndicator()
             }
 
-            is UiState.Error -> {
+            is SearchUiState.Error -> {
                 ReedErrorUi(
-                    errorType = state.uiState.exception.toErrorType(),
+                    errorType = state.searchUiState.exception.toErrorType(),
                     onRetryClick = { state.eventSink(BookSearchUiEvent.OnRetryClick) },
                 )
             }
 
-            is UiState.Idle -> {
+            is SearchUiState.Idle -> {
                 if (state.recentSearches.isEmpty()) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -173,17 +176,33 @@ internal fun BookSearchContent(
                 }
             }
 
-            is UiState.Success -> {
+            is SearchUiState.Success -> {
                 if (state.isEmptySearchResult) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
                     ) {
-                        Text(
-                            text = stringResource(R.string.empty_results),
-                            color = ReedTheme.colors.contentSecondary,
-                            style = ReedTheme.typography.body1Medium,
-                        )
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.empty_results_title),
+                                color = ReedTheme.colors.contentPrimary,
+                                style = ReedTheme.typography.headline1SemiBold,
+                            )
+                            Text(
+                                text = stringResource(R.string.empty_results_description),
+                                color = ReedTheme.colors.contentSecondary,
+                                style = ReedTheme.typography.body1Medium,
+                            )
+                            Spacer(modifier = Modifier.height(ReedTheme.spacing.spacing4))
+                            ReedButton(
+                                onClick = { state.eventSink(BookSearchUiEvent.OnInquireClick) },
+                                text = stringResource(R.string.inquire),
+                                sizeStyle = smallButtonStyle,
+                                colorStyle = ReedButtonColorStyle.SECONDARY,
+                            )
+                        }
                     }
                 } else {
                     Row(
@@ -294,10 +313,23 @@ internal fun BookSearchContent(
 
 @DevicePreview
 @Composable
-private fun BookSearchPreview() {
+private fun BookRecentSearchPreview() {
     ReedTheme {
         BookSearchUi(
             state = BookSearchUiState(
+                eventSink = {},
+            ),
+        )
+    }
+}
+
+@DevicePreview
+@Composable
+private fun BookSearchEmptyResultPreview() {
+    ReedTheme {
+        BookSearchContent(
+            state = BookSearchUiState(
+                searchUiState = SearchUiState.Success,
                 eventSink = {},
             ),
         )

@@ -38,11 +38,11 @@ import com.ninecraft.booket.feature.detail.card.component.RecordCard
 import com.ninecraft.booket.feature.screens.RecordCardScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 import com.ninecraft.booket.core.designsystem.R as designR
 
 @TraceRecomposition
-@CircuitInject(RecordCardScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(RecordCardScreen::class, AppScope::class)
 @Composable
 internal fun RecordCardUi(
     state: RecordCardUiState,
@@ -83,7 +83,7 @@ internal fun RecordCardUi(
                 RecordCard(
                     quote = state.quote,
                     bookTitle = state.bookTitle,
-                    emotion = state.emotion,
+                    emotionCode = state.emotionCode,
                     modifier = Modifier
                         .padding(top = ReedTheme.spacing.spacing5)
                         .clip(RoundedCornerShape(ReedTheme.radius.md))

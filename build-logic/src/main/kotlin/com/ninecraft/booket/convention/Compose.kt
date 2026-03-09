@@ -5,36 +5,34 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-internal fun Project.configureCompose(
-    extension: CommonExtension<*, *, *, *, *, *>,
-) {
+internal fun Project.configureCompose(extension: CommonExtension) {
     extension.apply {
         dependencies {
             implementation(platform(libs.androidx.compose.bom))
             implementation(libs.bundles.androidx.compose)
             debugImplementation(libs.androidx.compose.ui.tooling)
         }
+    }
 
-        configure<ComposeCompilerGradlePluginExtension> {
-            includeSourceInformation.set(true)
+    extensions.configure<ComposeCompilerGradlePluginExtension> {
+        includeSourceInformation.set(true)
 
-            metricsDestination.file("build/composeMetrics")
-            reportsDestination.file("build/composeReports")
+        metricsDestination.file("build/composeMetrics")
+        reportsDestination.file("build/composeReports")
 
-            stabilityConfigurationFiles.addAll(
-                project.layout.projectDirectory.file("stability.config.conf"),
+        stabilityConfigurationFiles.addAll(
+            project.rootProject.layout.projectDirectory.file("stability.config.conf"),
+        )
+    }
+
+    tasks.withType<KotlinCompile>().configureEach {
+        compilerOptions {
+            freeCompilerArgs.addAll(
+                buildComposeMetricsParameters(),
             )
-        }
-
-        tasks.withType<KotlinCompile>().configureEach {
-            compilerOptions {
-                freeCompilerArgs.addAll(
-                    buildComposeMetricsParameters(),
-                )
-            }
         }
     }
 }

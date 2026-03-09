@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ReadingRecordsResponse(
+    @SerialName("representativeEmotion")
+    val representativeEmotion: PrimaryEmotion?,
     @SerialName("lastPage")
     val lastPage: Boolean,
     @SerialName("totalResults")
@@ -24,23 +26,33 @@ data class ReadingRecord(
     @SerialName("userBookId")
     val userBookId: String,
     @SerialName("pageNumber")
-    val pageNumber: Int,
+    val pageNumber: Int?,
     @SerialName("quote")
     val quote: String,
     @SerialName("review")
     val review: String?,
-    @SerialName("emotionTags")
-    val emotionTags: List<String> = emptyList(),
+    @SerialName("primaryEmotion")
+    val primaryEmotion: PrimaryEmotion,
+    @SerialName("detailEmotions")
+    val detailEmotions: List<DetailEmotion>,
     @SerialName("createdAt")
     val createdAt: String,
     @SerialName("updatedAt")
     val updatedAt: String,
     @SerialName("bookTitle")
-    val bookTitle: String,
+    val bookTitle: String?,
     @SerialName("bookPublisher")
-    val bookPublisher: String,
+    val bookPublisher: String?,
     @SerialName("bookCoverImageUrl")
-    val bookCoverImageUrl: String,
+    val bookCoverImageUrl: String?,
     @SerialName("author")
-    val author: String,
+    val author: String?,
+)
+
+@Serializable
+data class PrimaryEmotion(
+    @SerialName("code")
+    val code: String,
+    @SerialName("displayName")
+    val displayName: String,
 )

@@ -12,8 +12,8 @@ import com.ninecraft.booket.core.common.event.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.RemoteConfigRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
-import com.ninecraft.booket.core.model.AutoLoginState
-import com.ninecraft.booket.core.model.OnboardingState
+import com.ninecraft.booket.core.model.state.AutoLoginState
+import com.ninecraft.booket.core.model.state.OnboardingState
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.OnboardingScreen
@@ -25,20 +25,27 @@ import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SplashPresenter @AssistedInject constructor(
+@AssistedInject
+class SplashPresenter(
     @Assisted private val navigator: Navigator,
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository,
     private val remoteConfigRepository: RemoteConfigRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<SplashUiState> {
+
+    @CircuitInject(SplashScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): SplashPresenter
+    }
 
     @Composable
     override fun present(): SplashUiState {
@@ -146,11 +153,5 @@ class SplashPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(SplashScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): SplashPresenter
     }
 }

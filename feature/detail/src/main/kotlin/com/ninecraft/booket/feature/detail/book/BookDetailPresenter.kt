@@ -13,6 +13,7 @@ import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.data.api.repository.RecordRepository
 import com.ninecraft.booket.core.model.BookDetailModel
 import com.ninecraft.booket.core.model.EmotionModel
+import com.ninecraft.booket.core.model.PrimaryEmotionModel
 import com.ninecraft.booket.core.model.ReadingRecordModel
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
@@ -21,6 +22,8 @@ import com.ninecraft.booket.feature.screens.RecordCardScreen
 import com.ninecraft.booket.feature.screens.RecordDetailScreen
 import com.ninecraft.booket.feature.screens.RecordEditScreen
 import com.ninecraft.booket.feature.screens.RecordScreen
+import com.ninecraft.booket.feature.screens.arguments.DetailEmotionArg
+import com.ninecraft.booket.feature.screens.arguments.PrimaryEmotionArg
 import com.ninecraft.booket.feature.screens.arguments.RecordEditArgs
 import com.orhanobut.logger.Logger
 import com.skydoves.compose.effects.RememberedEffect
@@ -29,10 +32,10 @@ import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -43,13 +46,21 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
-class BookDetailPresenter @AssistedInject constructor(
+@AssistedInject
+class BookDetailPresenter(
     @Assisted private val screen: BookDetailScreen,
     @Assisted private val navigator: Navigator,
     private val bookRepository: BookRepository,
     private val recordRepository: RecordRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<BookDetailUiState> {
+
+    @CircuitInject(BookDetailScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(screen: BookDetailScreen, navigator: Navigator): BookDetailPresenter
+    }
+
     companion object {
         private const val PAGE_SIZE = 20
         private const val START_INDEX = 0
@@ -59,7 +70,7 @@ class BookDetailPresenter @AssistedInject constructor(
 
     private fun getRecordComparator(sortType: RecordSort): Comparator<ReadingRecordModel> {
         return when (sortType) {
-            RecordSort.PAGE_NUMBER_ASC -> compareBy { it.pageNumber }
+            RecordSort.PAGE_NUMBER_ASC -> compareBy(nullsLast()) { it.pageNumber }
             RecordSort.CREATED_DATE_DESC -> compareByDescending { LocalDateTime.parse(it.createdAt) }
         }
     }
@@ -70,7 +81,9 @@ class BookDetailPresenter @AssistedInject constructor(
         var uiState by rememberRetained { mutableStateOf<UiState>(UiState.Idle) }
         var footerState by rememberRetained { mutableStateOf<FooterState>(FooterState.Idle) }
         var bookDetail by rememberRetained { mutableStateOf(BookDetailModel()) }
+        var representativeEmotion by rememberRetained { mutableStateOf<PrimaryEmotionModel?>(null) }
         var seedsStates by rememberRetained { mutableStateOf<ImmutableList<EmotionModel>>(persistentListOf()) }
+        var isStatsExpanded by rememberRetained { mutableStateOf(false) }
         var readingRecords by rememberRetained { mutableStateOf(persistentListOf<ReadingRecordModel>()) }
         var readingRecordsTotalCount by rememberRetained { mutableIntStateOf(0) }
         var currentStartIndex by rememberRetained { mutableIntStateOf(START_INDEX) }
@@ -110,6 +123,7 @@ class BookDetailPresenter @AssistedInject constructor(
                         bookDetail = detail
                         currentBookStatus = BookStatus.fromValue(detail.userBookStatus) ?: BookStatus.BEFORE_READING
                         selectedBookStatus = currentBookStatus
+                        representativeEmotion = records.representativeEmotion
                         seedsStates = seeds.categories.toImmutableList()
                         readingRecords = records.readingRecords.toPersistentList()
                         readingRecordsTotalCount = records.totalResults
@@ -306,7 +320,7 @@ class BookDetailPresenter @AssistedInject constructor(
                         RecordCardScreen(
                             quote = selectedRecordInfo.quote,
                             bookTitle = selectedRecordInfo.bookTitle,
-                            emotion = selectedRecordInfo.emotionTags[0],
+                            emotionCode = selectedRecordInfo.primaryEmotion.code,
                         ),
                     )
                 }
@@ -320,11 +334,17 @@ class BookDetailPresenter @AssistedInject constructor(
                                 pageNumber = selectedRecordInfo.pageNumber,
                                 quote = selectedRecordInfo.quote,
                                 review = selectedRecordInfo.review,
-                                emotionTags = selectedRecordInfo.emotionTags,
-                                bookTitle = selectedRecordInfo.bookTitle,
-                                bookPublisher = selectedRecordInfo.bookPublisher,
-                                bookCoverImageUrl = selectedRecordInfo.bookCoverImageUrl,
-                                author = selectedRecordInfo.author,
+                                primaryEmotion = PrimaryEmotionArg(
+                                    code = selectedRecordInfo.primaryEmotion.code,
+                                    displayName = selectedRecordInfo.primaryEmotion.displayName,
+                                ),
+                                detailEmotions = selectedRecordInfo.detailEmotions.map {
+                                    DetailEmotionArg(id = it.id, name = it.name)
+                                },
+                                bookTitle = selectedRecordInfo.bookTitle.ifEmpty { bookDetail.title },
+                                bookPublisher = selectedRecordInfo.bookPublisher.ifEmpty { bookDetail.publisher },
+                                bookCoverImageUrl = selectedRecordInfo.bookCoverImageUrl.ifEmpty { bookDetail.coverImageUrl },
+                                author = selectedRecordInfo.author.ifEmpty { bookDetail.author },
                             ),
                         ),
                     )
@@ -390,6 +410,10 @@ class BookDetailPresenter @AssistedInject constructor(
                         initialLoad()
                     }
                 }
+
+                is BookDetailUiEvent.OnStatsToggleClick -> {
+                    isStatsExpanded = event.flag
+                }
             }
         }
 
@@ -401,7 +425,9 @@ class BookDetailPresenter @AssistedInject constructor(
             uiState = uiState,
             footerState = footerState,
             bookDetail = bookDetail,
+            representativeEmotion = representativeEmotion,
             seedsStats = seedsStates,
+            isStatsExpanded = isStatsExpanded,
             readingRecords = readingRecords,
             readingRecordsTotalCount = readingRecordsTotalCount,
             isBookUpdateBottomSheetVisible = isBookUpdateBottomSheetVisible,
@@ -417,14 +443,5 @@ class BookDetailPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(BookDetailScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: BookDetailScreen,
-            navigator: Navigator,
-        ): BookDetailPresenter
     }
 }

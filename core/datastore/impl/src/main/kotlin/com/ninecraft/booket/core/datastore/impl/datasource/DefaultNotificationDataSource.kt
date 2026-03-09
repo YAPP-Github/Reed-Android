@@ -7,12 +7,16 @@ import androidx.datastore.preferences.core.edit
 import com.ninecraft.booket.core.datastore.api.datasource.NotificationDataSource
 import com.ninecraft.booket.core.datastore.impl.di.NotificationDataStore
 import com.ninecraft.booket.core.datastore.impl.util.handleIOException
+import dev.zacsweers.metro.Inject
+import com.ninecraft.booket.core.di.DataScope
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-class DefaultNotificationDataSource @Inject constructor(
-    @NotificationDataStore private val dataStore: DataStore<Preferences>,
+@SingleIn(DataScope::class)
+@Inject
+class DefaultNotificationDataSource(
+    @param: NotificationDataStore private val dataStore: DataStore<Preferences>,
 ) : NotificationDataSource {
     override val isUserNotificationEnabled: Flow<Boolean> = dataStore.data
         .handleIOException()
@@ -44,7 +48,7 @@ class DefaultNotificationDataSource @Inject constructor(
         }
     }
 
-    companion object Companion {
+    companion object {
         private val USER_NOTIFICATION_ENABLED = booleanPreferencesKey("USER_NOTIFICATION_ENABLED")
         private val LAST_SYNCED_NOTIFICATION_ENABLED = booleanPreferencesKey("LAST_SYNCED_NOTIFICATION_ENABLED")
     }

@@ -3,7 +3,7 @@
     <string name="edit_record_title">독서 기록 수정</string>
     <string name="edit_record_page_label">책 페이지</string>
     <string name="edit_record_quote_label">문장 기록</string>
-    <string name="edit_record_impression_label">감상평</string>
+    <string name="edit_record_memo_label">메모</string>
     <string name="edit_record_emotion_label">감정</string>
     <string name="edit_record_page_hint">기록하고 싶은 페이지를 작성해보세요</string>
     <string name="edit_record_page_input_error">해당 책의 마지막 페이지 수를 초과했습니다</string>
@@ -13,4 +13,8 @@
     <string name="edit_emotion_title">문장에 대해 어떤 감정이 드셨나요?</string>
     <string name="edit_emotion_description">대표 감정을 한 가지 선택해주세요</string>
     <string name="edit_emotion_edit">수정하기</string>
+    <string name="edit_emotion_detail_title">어떤 %1$s을 느꼈나요?</string>
+    <string name="edit_emotion_detail_description">더 자세한 감정을 선택 기록할 수 있어요.</string>
+    <string name="edit_emotion_detail_skip">건너뛰기</string>
+    <string name="edit_emotion_detail_confirm">선택 완료</string>
 </resources>

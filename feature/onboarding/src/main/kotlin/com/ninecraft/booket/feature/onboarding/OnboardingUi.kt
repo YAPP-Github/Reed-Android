@@ -25,10 +25,10 @@ import com.ninecraft.booket.feature.onboarding.component.PagerIndicator
 import com.ninecraft.booket.feature.screens.OnboardingScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 
 @TraceRecomposition
-@CircuitInject(OnboardingScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(OnboardingScreen::class, AppScope::class)
 @Composable
 internal fun OnboardingUi(
     state: OnboardingUiState,
@@ -86,7 +86,7 @@ internal fun OnboardingUi(
                 onClick = {
                     state.eventSink(OnboardingUiEvent.OnNextButtonClick(state.pagerState.currentPage))
                 },
-                text = stringResource(R.string.next),
+                text = stringResource(R.string.start),
                 sizeStyle = largeButtonStyle,
                 colorStyle = ReedButtonColorStyle.PRIMARY,
                 modifier = Modifier

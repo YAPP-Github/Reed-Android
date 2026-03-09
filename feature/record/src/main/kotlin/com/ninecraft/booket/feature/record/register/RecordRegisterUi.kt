@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ninecraft.booket.core.common.extensions.preventMultiTouch
+import com.ninecraft.booket.core.common.extensions.toErrorType
 import com.ninecraft.booket.core.designsystem.DevicePreview
 import com.ninecraft.booket.core.designsystem.RecordStep
 import com.ninecraft.booket.core.designsystem.component.RecordProgressBar
@@ -25,18 +26,18 @@ import com.ninecraft.booket.core.designsystem.theme.ReedTheme
 import com.ninecraft.booket.core.designsystem.theme.White
 import com.ninecraft.booket.core.ui.component.ReedBackTopAppBar
 import com.ninecraft.booket.core.ui.component.ReedDialog
+import com.ninecraft.booket.core.ui.component.ReedErrorUi
 import com.ninecraft.booket.core.ui.component.ReedLoadingIndicator
 import com.ninecraft.booket.feature.record.R
 import com.ninecraft.booket.feature.record.step.EmotionStep
-import com.ninecraft.booket.feature.record.step.ImpressionStep
 import com.ninecraft.booket.feature.record.step.QuoteStep
 import com.ninecraft.booket.feature.screens.RecordScreen
 import com.skydoves.compose.stability.runtime.TraceRecomposition
 import com.slack.circuit.codegen.annotations.CircuitInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
 
 @TraceRecomposition
-@CircuitInject(RecordScreen::class, ActivityRetainedComponent::class)
+@CircuitInject(RecordScreen::class, AppScope::class)
 @Composable
 internal fun RecordRegisterUi(
     state: RecordRegisterUiState,
@@ -76,11 +77,23 @@ internal fun RecordRegisterUi(
                 }
 
                 RecordStep.EMOTION -> {
-                    EmotionStep(state = state)
-                }
+                    when (state.emotionUiState) {
+                        is EmotionUiState.Idle -> {}
+                        is EmotionUiState.Loading -> {
+                            ReedLoadingIndicator()
+                        }
 
-                RecordStep.IMPRESSION -> {
-                    ImpressionStep(state = state)
+                        is EmotionUiState.Success -> {
+                            EmotionStep(state = state)
+                        }
+
+                        is EmotionUiState.Error -> {
+                            ReedErrorUi(
+                                errorType = state.emotionUiState.exception.toErrorType(),
+                                onRetryClick = { state.eventSink(RecordRegisterUiEvent.OnRetryGetEmotions) },
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -94,13 +107,28 @@ internal fun RecordRegisterUi(
         ReedDialog(
             title = stringResource(R.string.record_exit_dialog_title),
             description = stringResource(R.string.record_exit_dialog_description),
-            confirmButtonText = stringResource(R.string.record_exit_dialog_confirm),
-            dismissButtonText = stringResource(R.string.record_exit_dialog_dismiss),
+            confirmButtonText = stringResource(R.string.record_dialog_confirm),
+            dismissButtonText = stringResource(R.string.record_dialog_dismiss),
             onConfirmRequest = {
                 state.eventSink(RecordRegisterUiEvent.OnExitDialogConfirm)
             },
             onDismissRequest = {
                 state.eventSink(RecordRegisterUiEvent.OnExitDialogDismiss)
+            },
+        )
+    }
+
+    if (state.isEmotionEditDialogVisible) {
+        ReedDialog(
+            title = stringResource(R.string.emotion_edit_dialog_title),
+            description = stringResource(R.string.emotion_edit_dialog_description),
+            confirmButtonText = stringResource(R.string.record_dialog_confirm),
+            dismissButtonText = stringResource(R.string.record_dialog_dismiss),
+            onConfirmRequest = {
+                state.eventSink(RecordRegisterUiEvent.OnEmotionEditDialogConfirm)
+            },
+            onDismissRequest = {
+                state.eventSink(RecordRegisterUiEvent.OnEmotionEditDialogDismiss)
             },
         )
     }

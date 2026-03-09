@@ -12,7 +12,7 @@ import com.ninecraft.booket.core.common.utils.handleException
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.BookRepository
 import com.ninecraft.booket.core.model.LibraryBookSummaryModel
-import com.ninecraft.booket.core.model.UserState
+import com.ninecraft.booket.core.model.state.UserState
 import com.ninecraft.booket.core.ui.component.FooterState
 import com.ninecraft.booket.feature.screens.BookDetailScreen
 import com.ninecraft.booket.feature.screens.LibraryScreen
@@ -28,20 +28,28 @@ import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
-class LibraryPresenter @AssistedInject constructor(
+@AssistedInject
+class LibraryPresenter(
     @Assisted private val navigator: Navigator,
     private val bookRepository: BookRepository,
     private val authRepository: AuthRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<LibraryUiState> {
+
+    @CircuitInject(LibraryScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): LibraryPresenter
+    }
+
     companion object {
         private const val PAGE_SIZE = 20
         private const val START_INDEX = 0
@@ -176,8 +184,7 @@ class LibraryPresenter @AssistedInject constructor(
                 is LibraryUiEvent.OnTabSelected -> {
                     navigator.resetRoot(
                         newRoot = event.tab.screen,
-                        saveState = true,
-                        restoreState = true,
+                        options = Navigator.StateOptions.SaveAndRestore,
                     )
                 }
 
@@ -213,11 +220,5 @@ class LibraryPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(LibraryScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): LibraryPresenter
     }
 }

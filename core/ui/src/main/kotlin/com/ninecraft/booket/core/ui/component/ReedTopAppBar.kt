@@ -37,11 +37,13 @@ fun ReedTopAppBar(
     endIconDescription: String = "",
     endIconOnClick: () -> Unit = {},
 ) {
+    val bgColor = if (isDark) Neutral950 else White
+
     Row(
         modifier = modifier
             .fillMaxWidth()
             .height(60.dp)
-            .background(color = if (isDark) Neutral950 else White)
+            .background(bgColor)
             .padding(horizontal = ReedTheme.spacing.spacing2),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,

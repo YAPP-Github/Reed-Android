@@ -1,13 +1,14 @@
-@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
-
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.google.devtools.ksp.gradle.KspExtension
+import com.ninecraft.booket.convention.getLocalProperty
+import org.gradle.kotlin.dsl.configure
 import java.util.Properties
 
 plugins {
     alias(libs.plugins.booket.android.application)
     alias(libs.plugins.booket.android.application.compose)
-    alias(libs.plugins.booket.android.hilt)
     alias(libs.plugins.booket.android.firebase)
+    alias(libs.plugins.metro)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -50,8 +51,9 @@ android {
     }
 
     defaultConfig {
-        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getApiKey("KAKAO_NATIVE_APP_KEY"))
-        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getApiKey("KAKAO_NATIVE_APP_KEY").trim('"')
+        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", getLocalProperty("GOOGLE_WEB_CLIENT_ID"))
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getLocalProperty("KAKAO_NATIVE_APP_KEY"))
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getLocalProperty("KAKAO_NATIVE_APP_KEY").trim('"')
     }
 
     buildFeatures {
@@ -63,8 +65,8 @@ composeStabilityAnalyzer {
     enabled.set(true)
 }
 
-ksp {
-    arg("circuit.codegen.mode", "hilt")
+extensions.configure<KspExtension> {
+    arg("circuit.codegen.mode", "metro")
 }
 
 dependencies {
@@ -75,6 +77,7 @@ dependencies {
         projects.core.datastore.api,
         projects.core.datastore.impl,
         projects.core.designsystem,
+        projects.core.di,
         projects.core.model,
         projects.core.network,
         projects.core.ui,
@@ -104,8 +107,4 @@ dependencies {
     )
     api(libs.circuit.codegen.annotation)
     ksp(libs.circuit.codegen.ksp)
-}
-
-fun getApiKey(propertyKey: String): String {
-    return gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
 }

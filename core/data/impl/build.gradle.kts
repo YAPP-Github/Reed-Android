@@ -1,8 +1,6 @@
-@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
-
 plugins {
     alias(libs.plugins.booket.android.library)
-    alias(libs.plugins.booket.android.hilt)
+    alias(libs.plugins.metro)
     alias(libs.plugins.booket.kotlin.library.serialization)
 }
 
@@ -23,6 +21,7 @@ dependencies {
         projects.core.common,
         projects.core.data.api,
         projects.core.datastore.api,
+        projects.core.di,
         projects.core.model,
         projects.core.network,
 

@@ -1,6 +1,7 @@
 package com.ninecraft.booket.feature.login
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -10,6 +11,7 @@ import com.ninecraft.booket.core.common.constants.ErrorScope
 import com.ninecraft.booket.core.common.event.postErrorDialog
 import com.ninecraft.booket.core.data.api.repository.AuthRepository
 import com.ninecraft.booket.core.data.api.repository.UserRepository
+import com.ninecraft.booket.core.model.LoginMethod
 import com.ninecraft.booket.feature.screens.HomeScreen
 import com.ninecraft.booket.feature.screens.LoginScreen
 import com.ninecraft.booket.feature.screens.TermsAgreementScreen
@@ -20,19 +22,26 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.popUntil
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuitx.effects.ImpressionEffect
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.launch
 
-class LoginPresenter @AssistedInject constructor(
+@AssistedInject
+class LoginPresenter(
     @Assisted private val screen: LoginScreen,
     @Assisted private val navigator: Navigator,
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : Presenter<LoginUiState> {
+
+    @CircuitInject(LoginScreen::class, AppScope::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(screen: LoginScreen, navigator: Navigator): LoginPresenter
+    }
 
     companion object {
         private const val EVENT_ERROR_LOGIN = "error_login"
@@ -43,6 +52,15 @@ class LoginPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         var isLoading by rememberRetained { mutableStateOf(false) }
         var sideEffect by rememberRetained { mutableStateOf<LoginSideEffect?>(null) }
+        var showLoginTooltip by rememberRetained { mutableStateOf(false) }
+        var recentLoginMethod by rememberRetained { mutableStateOf(LoginMethod.NONE) }
+
+        LaunchedEffect(Unit) {
+            authRepository.recentLoginMethod.collect { method ->
+                recentLoginMethod = method
+                showLoginTooltip = method != LoginMethod.NONE
+            }
+        }
 
         fun navigateAfterLogin() {
             scope.launch {
@@ -78,6 +96,11 @@ class LoginPresenter @AssistedInject constructor(
                     sideEffect = LoginSideEffect.KakaoLogin()
                 }
 
+                is LoginUiEvent.OnGoogleLoginButtonClick -> {
+                    isLoading = true
+                    sideEffect = LoginSideEffect.GoogleLogin()
+                }
+
                 is LoginUiEvent.LoginFailure -> {
                     isLoading = false
                     analyticsHelper.logEvent(EVENT_ERROR_LOGIN)
@@ -88,8 +111,15 @@ class LoginPresenter @AssistedInject constructor(
                     scope.launch {
                         try {
                             isLoading = true
-                            authRepository.login(event.accessToken)
+                            authRepository.login(event.providerType, event.token)
                                 .onSuccess {
+                                    authRepository.setRecentLoginMethod(
+                                        if (event.providerType == LoginUiEvent.PROVIDER_TYPE_KAKAO) {
+                                            LoginMethod.KAKAO
+                                        } else {
+                                            LoginMethod.GOOGLE
+                                        },
+                                    )
                                     userRepository.syncFcmToken()
                                     navigateAfterLogin()
                                 }.onFailure { exception ->
@@ -113,6 +143,10 @@ class LoginPresenter @AssistedInject constructor(
                 is LoginUiEvent.OnCloseButtonClick -> {
                     navigator.pop()
                 }
+
+                is LoginUiEvent.OnDismissLoginTooltip -> {
+                    showLoginTooltip = false
+                }
             }
         }
 
@@ -124,16 +158,9 @@ class LoginPresenter @AssistedInject constructor(
             isLoading = isLoading,
             returnToScreen = screen.returnToScreen,
             sideEffect = sideEffect,
+            showLoginTooltip = showLoginTooltip,
+            recentLoginMethod = recentLoginMethod,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: LoginScreen,
-            navigator: Navigator,
-        ): LoginPresenter
     }
 }
