@@ -17,7 +17,7 @@ dependencies {
         libs.androidx.activity.compose,
         libs.androidx.camera.camera2,
         libs.androidx.camera.lifecycle,
-        libs.androidx.camera.view,
+        libs.androidx.camera.compose,
 
         libs.compose.keyboard.state,
         libs.logger,

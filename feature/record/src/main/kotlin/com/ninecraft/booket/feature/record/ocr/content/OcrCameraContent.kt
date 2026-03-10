@@ -3,16 +3,21 @@ package com.ninecraft.booket.feature.record.ocr.content
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.util.Rational
 import android.provider.Settings
-import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.compose.CameraXViewfinder
+import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
-import androidx.camera.view.LifecycleCameraController
-import androidx.camera.view.PreviewView
+import androidx.camera.core.Preview
+import androidx.camera.core.SurfaceRequest
+import androidx.camera.core.UseCaseGroup
+import androidx.camera.core.ViewPort
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.lifecycle.awaitInstance
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,17 +33,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
@@ -115,17 +123,44 @@ internal fun OcrCameraContent(
     }
 
     /**
-     * Camera Controller
+     * Camera Setup (ProcessCameraProvider + Preview + ImageCapture)
      */
-    val cameraController = remember { LifecycleCameraController(context) }
-
-    DisposableEffect(isGranted, lifecycleOwner, cameraController) {
-        if (isGranted) {
-            cameraController.bindToLifecycle(lifecycleOwner)
+    var surfaceRequest by remember { mutableStateOf<SurfaceRequest?>(null) }
+    val preview = remember {
+        Preview.Builder().build().also {
+            it.setSurfaceProvider { request ->
+                surfaceRequest = request
+            }
         }
+    }
+    val imageCapture = remember { ImageCapture.Builder().build() }
+    val density = LocalDensity.current
+    val screenWidthPx = with(density) { LocalConfiguration.current.screenWidthDp.dp.roundToPx() }
+    val previewHeightPx = with(density) { 200.dp.roundToPx() }
 
-        onDispose {
-            cameraController.unbind()
+    LaunchedEffect(isGranted) {
+        if (!isGranted) return@LaunchedEffect
+        ProcessCameraProvider.awaitInstance(context).apply {
+            unbindAll()
+
+            // Preview 영역(fillMaxWidth x 200dp) 비율로 ViewPort를 설정하여
+            // ImageCapture 출력을 해당 영역으로 제한
+            val viewPort = ViewPort.Builder(
+                Rational(screenWidthPx, previewHeightPx),
+                preview.targetRotation,
+            ).build()
+
+            val useCaseGroup = UseCaseGroup.Builder()
+                .setViewPort(viewPort)
+                .addUseCase(preview)
+                .addUseCase(imageCapture)
+                .build()
+
+            bindToLifecycle(
+                lifecycleOwner,
+                CameraSelector.DEFAULT_BACK_CAMERA,
+                useCaseGroup,
+            )
         }
     }
 
@@ -203,21 +238,12 @@ internal fun OcrCameraContent(
                         .height(200.dp)
                         .align(Alignment.Center),
                 ) {
-                    AndroidView(
-                        modifier = Modifier.fillMaxSize(),
-                        factory = { context ->
-                            PreviewView(context).apply {
-                                layoutParams = LinearLayout.LayoutParams(
-                                    ViewGroup.LayoutParams.MATCH_PARENT,
-                                    ViewGroup.LayoutParams.MATCH_PARENT,
-                                )
-                                clipToOutline = true
-                                implementationMode = PreviewView.ImplementationMode.COMPATIBLE
-                                scaleType = PreviewView.ScaleType.FILL_CENTER
-                                controller = cameraController
-                            }
-                        },
-                    )
+                    surfaceRequest?.let { request ->
+                        CameraXViewfinder(
+                            surfaceRequest = request,
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
                 }
                 CameraFrame(modifier = Modifier.align(Alignment.Center))
             }
@@ -248,7 +274,7 @@ internal fun OcrCameraContent(
                         val photoFile = File.createTempFile("ocr_", ".jpg", context.cacheDir)
                         val output = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
-                        cameraController.takePicture(
+                        imageCapture.takePicture(
                             output,
                             executor,
                             object : ImageCapture.OnImageSavedCallback {
